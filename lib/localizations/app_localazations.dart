@@ -98,6 +98,11 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Heroes of Computer Science'**
   String get appTitle;
+  String get home;
+  String get routes;
+  String get climb;
+  String get reservations;
+  String get profile;
 
 }
 
@@ -121,7 +126,7 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
 
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
-    case 'ar': return AppLocalizationPl();
+    case 'ar': return AppLocalizationEn();
     case 'en': return AppLocalizationEn();
   }
 
