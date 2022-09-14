@@ -25,4 +25,12 @@ class AppLocalizationEn extends AppLocalizations {
   @override
   // TODO: implement routes
   String get routes => 'Profile';
+
+  @override
+  // TODO: implement appName
+  String get appName => 'Climb';
+
+  @override
+  // TODO: implement nextClimb
+  String get nextClimb => 'Next Climb';
 }
