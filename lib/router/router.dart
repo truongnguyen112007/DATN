@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:base_bloc/router/router_handle.dart';
 import 'package:base_bloc/utils/log_utils.dart';
 import 'package:fluro/fluro.dart';
@@ -18,28 +20,57 @@ class Routers {
   }
 }
 
-class MainRouters {
+class HomeRouters {
   static String root = '/';
-  static String test = "/test";
-  static String test2 = "/test2";
 
   static configureMainRoutes(FluroRouter router) {
     router.notFoundHandler = Handler(handlerFunc: (c, p) {
       logE("ROUTE WAS NOT FOUND !!!");
     });
-    // router.define(root, handler: routeTabMain);
+    router.define(root, handler: routeTabHome);
   }
 }
 
-class SecondRouters {
+class RoutesRouters {
   static String root = '/';
-  static String test = "/test";
-  static String test2 = "/test2";
 
-  static configureSecondRouters(FluroRouter router) {
-    router.notFoundHandler = Handler(handlerFunc: (c, p) {
+  static configureRouter(FluroRouter router) {
+    router.notFoundHandler = Handler(handlerFunc: (c, x) {
       logE("ROUTE WAS NOT FOUND !!!");
     });
-    // router.define(root, handler: routeTabSecond);
+    router.define(root, handler: routeTabRoutes);
+  }
+}
+
+class ClimbRouters {
+  static String root = '/';
+
+  static configureRouter(FluroRouter router) {
+    router.notFoundHandler = Handler(handlerFunc: (c, x) {
+      logE("ROUTE WAS NOT FOUND !!!");
+    });
+    router.define(root, handler: routeTabClimb);
+  }
+}
+
+class ReservationRouters {
+  static String root = '/';
+
+  static configureRouter(FluroRouter router) {
+    router.notFoundHandler = Handler(handlerFunc: (c, x) {
+      logE("ROUTE WAS NOT FOUND !!!");
+    });
+    router.define(root, handler: routeTabReservation);
+  }
+}
+
+class ProfileRouters {
+  static String root = '/';
+
+  static configureProfileRouter(FluroRouter router) {
+    router.notFoundHandler = Handler(handlerFunc: (c, x) {
+      logE('ROUTE WAS NOT FOUND !!!');
+    });
+    router.define(root, handler: routeTabProfile);
   }
 }

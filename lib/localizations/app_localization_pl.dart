@@ -1,3 +1,4 @@
+/*
 import 'package:base_bloc/localizations/app_localazations.dart';
 
 class AppLocalizationPl extends AppLocalizations {
@@ -5,7 +6,8 @@ class AppLocalizationPl extends AppLocalizations {
 
   @override
   // TODO: implement appTitle
-  String get appTitle => 'Viet nam';
+  String get appTitle => 'Reclimp';
 
 
 }
+*/

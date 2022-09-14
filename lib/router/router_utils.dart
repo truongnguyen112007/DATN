@@ -16,24 +16,48 @@ class RouterUtils {
     return result;
   }
 
-  static pushMain<T>(
+  static pushHome<T>(
       {required BuildContext context,
       required String route,
       dynamic argument,
       bool isRemove = false}) async {
-    T result = await Application.routerTabMain.navigateTo(context, route,
+    T result = await Application.homeRouter.navigateTo(context, route,
         transition: TransitionType.inFromRight,
         clearStack: isRemove,
         routeSettings: RouteSettings(arguments: argument));
     return result;
   }
 
-  static pushSecond<T>(
+  static pushClimb<T>(
       {required BuildContext context,
       required String route,
       dynamic argument,
       bool isRemove = false}) async {
-    T result = await Application.routerTabSecond.navigateTo(context, route,
+    T result = await Application.climbRouter.navigateTo(context, route,
+        transition: TransitionType.inFromRight,
+        clearStack: isRemove,
+        routeSettings: RouteSettings(arguments: argument));
+    return result;
+  }
+
+  static pushReservations<T>(
+      {required BuildContext context,
+      required String route,
+      dynamic argument,
+      bool isRemove = false}) async {
+    T result = await Application.reservationsRouter.navigateTo(context, route,
+        transition: TransitionType.inFromRight,
+        clearStack: isRemove,
+        routeSettings: RouteSettings(arguments: argument));
+    return result;
+  }
+
+  static pushProfile<T>(
+      {required BuildContext context,
+      required String route,
+      dynamic argument,
+      bool isRemove = false}) async {
+    T result = await Application.profileRouter.navigateTo(context, route,
         transition: TransitionType.inFromRight,
         clearStack: isRemove,
         routeSettings: RouteSettings(arguments: argument));

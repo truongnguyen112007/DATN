@@ -19,7 +19,6 @@ class _SplashPageState extends State<SplashPage> {
 
   @override
   void initState() {
-    _bloc.openHomePage();
     super.initState();
   }
 
@@ -28,13 +27,13 @@ class _SplashPageState extends State<SplashPage> {
     return BlocListener(
       bloc: _bloc,
       listener: (c, s) {
-        logE("TAG NEW STATE");
+        _bloc.openHomePage(context);
       },
       child: AppScaffold(
           body: Center(
         child: TextButton(
           child: AppText(AppLocalizations.of(context)!.appTitle),
-          onPressed: (){},
+          onPressed: () {},
         ),
       )),
     );
