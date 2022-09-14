@@ -104,6 +104,9 @@ abstract class AppLocalizations {
   String get reservations;
   String get profile;
 
+  String get appName;
+
+  String get nextClimb;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
