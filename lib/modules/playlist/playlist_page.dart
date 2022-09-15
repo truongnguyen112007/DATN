@@ -45,19 +45,41 @@ class _PlayListPageState extends State<PlayListPage>
 
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
-        child: BlocBuilder<PlayListCubit, PlaylistState>(
-            bloc: _bloc,
-            builder: (c, state) {
-              if (state.status == FeedStatus.initial ||
-                  state.status == FeedStatus.refresh) {
-                return const Center(
-                  child: AppCircleLoading(),
-                );
-              }
-              return playlistWidget(context, state);
-            }),
-        onRefresh: () async => _bloc.onRefresh());
+    return Stack(
+      children: [
+        RefreshIndicator(
+            child: BlocBuilder<PlayListCubit, PlaylistState>(
+                bloc: _bloc,
+                builder: (c, state) {
+                  if (state.status == FeedStatus.initial ||
+                      state.status == FeedStatus.refresh) {
+                    return const Center(
+                      child: AppCircleLoading(),
+                    );
+                  }
+                  return playlistWidget(context, state);
+                }),
+            onRefresh: () async => _bloc.onRefresh()),
+        Positioned.fill(
+            child: Padding(
+                padding: EdgeInsets.all(5),
+                child: Align(
+                    alignment: Alignment.bottomRight,
+                    child: InkWell(
+                      child: Container(
+                          width: 45.w,
+                          height: 45.w,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(100),
+                              gradient: const LinearGradient(
+                                  colors: [colorOrange110, colorOrange100])),
+                          child: const Icon(
+                            Icons.add,
+                            color: colorWhite,
+                          )),
+                    ))))
+      ],
+    );
   }
 
   Widget playlistWidget(BuildContext context, PlaylistState state) =>
