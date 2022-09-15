@@ -43,6 +43,7 @@ class _HomePageState extends State<HomePage> {
             body: Stack(
               children: [
                 PageView(
+                  physics: const NeverScrollableScrollPhysics(),
                   controller: _pageController,
                   children: tabs,
                 )
@@ -82,7 +83,7 @@ class _HomePageState extends State<HomePage> {
             ),
             child: MaterialButton(
               highlightColor: Colors.transparent,
-              onPressed: () =>_jumpToPage(BottomNavigationConstant.TAB_CLIMB),
+              onPressed: () => _jumpToPage(BottomNavigationConstant.TAB_CLIMB),
               splashColor: Colors.transparent,
               child: GradientIcon(
                 gradient: LinearGradient(

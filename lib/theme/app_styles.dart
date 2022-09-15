@@ -344,21 +344,28 @@ final typoNormalTextThinRegular = GoogleFonts.roboto(
 final typoSmallTextBold = GoogleFonts.roboto(
   fontStyle: FontStyle.normal,
   fontWeight: FontWeight.w600,
-  fontSize:  13.5.sp,
+  fontSize: 13.5.sp,
   letterSpacing: 0.3,
   color: colorBlack,
 );
 final typoSmallTextW700 = GoogleFonts.roboto(
   fontStyle: FontStyle.normal,
   fontWeight: FontWeight.w700,
-  fontSize:  13.5.sp,
+  fontSize: 13.5.sp,
+  letterSpacing: 0.3,
+  color: colorBlack,
+);
+final typoSmallText300 = GoogleFonts.roboto(
+  fontStyle: FontStyle.normal,
+  fontWeight: FontWeight.w300,
+  fontSize: 13.5.sp,
   letterSpacing: 0.3,
   color: colorBlack,
 );
 final typoSmallTextRegular = GoogleFonts.roboto(
   fontStyle: FontStyle.normal,
   fontWeight: FontWeight.w400,
-  fontSize:  13.5.sp,
+  fontSize: 13.5.sp,
   letterSpacing: 0.3,
   color: colorBlack,
 );
@@ -385,18 +392,24 @@ final typoExtraSmallTextRegular = GoogleFonts.roboto(
   letterSpacing: 0.3,
   color: colorBlack,
 );
-
+final typoSuperSmallText300 = GoogleFonts.roboto(
+  fontStyle: FontStyle.normal,
+  fontWeight: FontWeight.w300,
+  fontSize: 11.sp,
+  letterSpacing: 0.3,
+  color: colorBlack,
+);
 final typoSuperSmallTextBold = GoogleFonts.roboto(
   fontStyle: FontStyle.normal,
   fontWeight: FontWeight.w500,
-  fontSize: 13.sp,
+  fontSize: 11.sp,
   letterSpacing: 0.3,
   color: colorBlack,
 );
 final typoSuperSmallTextRegular = GoogleFonts.roboto(
   fontStyle: FontStyle.normal,
   fontWeight: FontWeight.w400,
-  fontSize: 13.sp,
+  fontSize: 11.sp,
   letterSpacing: 0.3,
   color: colorBlack,
 );

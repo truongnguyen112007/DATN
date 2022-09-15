@@ -20,7 +20,7 @@ class TabHomeState extends Equatable {
 
   @override
   List<Object?> get props =>
-      [lFeed, readEnd, currentPage, DateTime.now().millisecondsSinceEpoch];
+      [lFeed, readEnd, currentPage];
 
   @override
   String toString() {
