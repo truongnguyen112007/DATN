@@ -105,6 +105,11 @@ abstract class AppLocalizations {
 
   String get appName;
   String get nextClimb;
+  String get playlist;
+  String get history;
+  String get favourite;
+  String get designed;
+  String get route;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

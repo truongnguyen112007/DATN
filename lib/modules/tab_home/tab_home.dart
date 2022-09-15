@@ -7,6 +7,7 @@ import 'package:base_bloc/theme/colors.dart';
 import 'package:base_bloc/utils/log_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:badges/badges.dart';
@@ -23,7 +24,7 @@ class TabHome extends StatefulWidget {
   State<TabHome> createState() => _TabHomeState();
 }
 
-class _TabHomeState extends BaseState<TabHome> {
+class _TabHomeState extends BaseState<TabHome> with AutomaticKeepAliveClientMixin{
   final _scrollController = ScrollController();
   late final TabHomeCubit _bloc;
 
@@ -207,4 +208,7 @@ class _TabHomeState extends BaseState<TabHome> {
                 ),
         ),
       );
+
+  @override
+  bool get wantKeepAlive =>true;
 }

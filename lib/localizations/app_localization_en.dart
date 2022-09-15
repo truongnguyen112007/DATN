@@ -26,4 +26,19 @@ class AppLocalizationEn extends AppLocalizations {
 
   @override
   String get nextClimb => 'Next Climb';
+
+  @override
+  String get designed => 'Designed';
+
+  @override
+  String get favourite => 'Favourite';
+
+  @override
+  String get history => 'History';
+
+  @override
+  String get playlist => 'Playlist';
+
+  @override
+  String get route => 'route';
 }
