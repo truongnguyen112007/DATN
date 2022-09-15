@@ -7,30 +7,23 @@ class AppLocalizationEn extends AppLocalizations {
   String get appTitle => 'Reclimp';
 
   @override
-  // TODO: implement climb
   String get climb => 'Climb';
 
   @override
-  // TODO: implement home
   String get home => 'Home';
 
   @override
-  // TODO: implement profile
   String get profile => 'Profile';
 
   @override
-  // TODO: implement reservations
   String get reservations => 'Reservations';
 
   @override
-  // TODO: implement routes
-  String get routes => 'Profile';
+  String get routes => 'Routes';
 
   @override
-  // TODO: implement appName
   String get appName => 'Climb';
 
   @override
-  // TODO: implement nextClimb
   String get nextClimb => 'Next Climb';
 }
