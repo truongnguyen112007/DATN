@@ -41,4 +41,43 @@ class AppLocalizationEn extends AppLocalizations {
 
   @override
   String get route => 'route';
+
+  @override
+  // TODO: implement filter
+  String get filter => 'Filter';
+
+  @override
+  // TODO: implement sort
+  String get sort => 'Sort';
+
+  @override
+  // TODO: implement addToPlaylist
+  String get addToPlaylist => 'Add to playlist';
+
+  @override
+  // TODO: implement copy
+  String get copy => 'Copy';
+
+  @override
+
+  String get delete => 'Delete';
+
+  @override
+  String get edit => 'Edit';
+
+  @override
+  String get moveToPlaylist => 'Move to playlist top';
+
+  @override
+  String get removeFromFavorite => 'Remove from favourite';
+
+  @override
+  String get removeFromPlaylist => 'Remove from playlist';
+
+  @override
+  String get share => 'Share';
+
+  @override
+  // TODO: implement addToFavourite
+  String get addToFavourite =>'Add to favourite';
 }

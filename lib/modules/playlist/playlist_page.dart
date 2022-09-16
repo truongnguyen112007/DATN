@@ -83,112 +83,120 @@ class _PlayListPageState extends State<PlayListPage>
   }
 
   Widget playlistWidget(BuildContext context, PlaylistState state) =>
-      ListView.separated(
-          controller: scrollController,
+      ReorderableListView.builder(
+          onReorder: (int oldIndex, int newIndex) {
+            if (oldIndex < newIndex) newIndex -= 1;
+            _bloc.setIndex(newIndex, oldIndex);
+          },
+          scrollController: scrollController,
           physics: const AlwaysScrollableScrollPhysics(),
           padding: EdgeInsets.all(contentPadding),
           itemBuilder: (c, i) => i == state.lPlayList.length
               ? const Center(
+                  key: Key('9182098089509'),
                   child: AppCircleLoading(),
                 )
-              : itemPlayList(context, state.lPlayList[i], (model) {}),
-          separatorBuilder: (x, i) => const SizedBox(
-                height: 10,
-              ),
+              : itemPlayList(context, state.lPlayList[i], (model) {}, i),
           itemCount:
               !state.isReadEnd && state.lPlayList.isNotEmpty && state.isLoading
                   ? state.lPlayList.length + 1
                   : state.lPlayList.length);
 
   Widget itemPlayList(BuildContext context, PlayListModel model,
-          Function(PlayListModel model) callBack) =>
+          Function(PlayListModel model) callBack, int index) =>
       Container(
-        padding: EdgeInsets.only(
-            left: contentPadding + 10, right: contentPadding + 10),
-        height: 75.h,
-        width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15),
-            gradient: LinearGradient(colors: getBackgroundColor(model.grade))),
-        child: InkWell(
-            onTap: () => callBack.call(model),
-            splashColor: Colors.amber,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                model.status == null
-                    ? AppText(
-                        model.grade,
+        color: colorBlack20,
+        key: Key('$index'),
+        padding: const EdgeInsets.only(bottom: 10),
+        child: Container(
+          padding: EdgeInsets.only(
+              left: contentPadding + 10, right: contentPadding + 10),
+          height: 75.h,
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+              gradient:
+                  LinearGradient(colors: getBackgroundColor(model.grade))),
+          child: InkWell(
+              onTap: () => showActionDialog(model),
+              splashColor: Colors.amber,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  model.status == null
+                      ? AppText(
+                          model.grade,
+                          style: typoLargeTextRegular.copyWith(
+                              color: colorText0, fontSize: 33.sp),
+                          textAlign: TextAlign.end,
+                        )
+                      : Stack(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(bottom: 5.h),
+                              child: AppText(
+                                model.grade,
+                                style: typoLargeTextRegular.copyWith(
+                                    color: colorText0, fontSize: 33.sp),
+                                textAlign: TextAlign.end,
+                              ),
+                            ),
+                            Positioned.fill(
+                                child: Container(
+                              alignment: Alignment.bottomCenter,
+                              child: AppText(
+                                model.status ?? '',
+                                textAlign: TextAlign.center,
+                                style: typoSuperSmallText300.copyWith(
+                                    color: colorText0),
+                              ),
+                            ))
+                          ],
+                        ),
+                  SizedBox(
+                    width: 22.w,
+                  ),
+                  Expanded(
+                      child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      AppText(
+                        model.name,
                         style: typoLargeTextRegular.copyWith(
-                            color: colorText0, fontSize: 33.sp),
-                        textAlign: TextAlign.end,
-                      )
-                    : Stack(
+                            color: colorText0, fontSize: 23.sp),
+                        maxLine: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      SizedBox(
+                        height: 5.h,
+                      ),
+                      Row(
                         children: [
-                          Padding(
-                            padding: EdgeInsets.only(bottom: 5.h),
-                            child: AppText(
-                              model.grade,
-                              style: typoLargeTextRegular.copyWith(
-                                  color: colorText0, fontSize: 33.sp),
-                              textAlign: TextAlign.end,
-                            ),
+                          AppText(
+                            '${AppLocalizations.of(context)!.routes} ${model.height}m ',
+                            style: typoSmallText300.copyWith(color: colorText0),
                           ),
-                          Positioned.fill(
-                              child: Container(
-                            alignment: Alignment.bottomCenter,
-                            child: AppText(
-                              model.status ?? '',
-                              textAlign: TextAlign.center,
-                              style: typoSuperSmallText300.copyWith(
-                                  color: colorText0),
-                            ),
+                          const Icon(
+                            Icons.ac_unit_rounded,
+                            size: 6,
+                            color: colorWhite,
+                          ),
+                          Expanded(
+                              child: AppText(
+                            " ${model.author} jdsh klsjhd lsjd lskdj sldkj",
+                            overflow: TextOverflow.ellipsis,
+                            maxLine: 1,
+                            style: typoSmallText300.copyWith(color: colorText0),
                           ))
                         ],
-                      ),
-                SizedBox(
-                  width: 22.w,
-                ),
-                Expanded(
-                    child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    AppText(
-                      model.name,
-                      style: typoLargeTextRegular.copyWith(
-                          color: colorText0, fontSize: 23.sp),
-                      maxLine: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    SizedBox(
-                      height: 5.h,
-                    ),
-                    Row(
-                      children: [
-                        AppText(
-                          '${AppLocalizations.of(context)!.routes} ${model.height}m ',
-                          style: typoSmallText300.copyWith(color: colorText0),
-                        ),
-                        const Icon(
-                          Icons.ac_unit_rounded,
-                          size: 6,
-                          color: colorWhite,
-                        ),
-                        Expanded(
-                            child: AppText(
-                          " ${model.author} jdsh klsjhd lsjd lskdj sldkj",
-                          overflow: TextOverflow.ellipsis,
-                          maxLine: 1,
-                          style: typoSmallText300.copyWith(color: colorText0),
-                        ))
-                      ],
-                    )
-                  ],
-                ))
-              ],
-            )),
+                      )
+                    ],
+                  ))
+                ],
+              )),
+        ),
       );
 
   List<Color> getBackgroundColor(String value) {
@@ -219,6 +227,97 @@ class _PlayListPageState extends State<PlayListPage>
           colorRed100,
         ];
     }
+  }
+
+  void showActionDialog(PlayListModel model) {
+    showModalBottomSheet(
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        context: context,
+        builder: (x) => Wrap(
+              children: [
+                Container(
+                  decoration: const BoxDecoration(
+                    color: Color(0xFF212121),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20),
+                    ),
+                  ),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: contentPadding,
+                      ),
+                      itemAction(
+                          Icons.thumb_up_alt,
+                          AppLocalizations.of(context)!.moveToPlaylist,
+                          model,
+                          ItemAction.MOVE_TO_TOP),
+                      itemAction(
+                          Icons.account_balance_rounded,
+                          AppLocalizations.of(context)!.addToPlaylist,
+                          model,
+                          ItemAction.ADD_TO_PLAYLIST),
+                      itemAction(
+                          Icons.add,
+                          AppLocalizations.of(context)!.removeFromPlaylist,
+                          model,
+                          ItemAction.REMOVE_FROM_PLAYLIST),
+                      itemAction(
+                          Icons.favorite,
+                          AppLocalizations.of(context)!.addToFavourite,
+                          model,
+                          ItemAction.ADD_TO_FAVOURITE),
+                      itemAction(
+                          Icons.remove_circle_outline,
+                          AppLocalizations.of(context)!.removeFromFavorite,
+                          model,
+                          ItemAction.REMOVE_FROM_PLAYLIST),
+                      itemAction(
+                          Icons.share,
+                          AppLocalizations.of(context)!.share,
+                          model,
+                          ItemAction.SHARE),
+                      itemAction(Icons.copy, AppLocalizations.of(context)!.copy,
+                          model, ItemAction.COPY),
+                      itemAction(Icons.edit, AppLocalizations.of(context)!.edit,
+                          model, ItemAction.EDIT),
+                      itemAction(
+                          Icons.delete,
+                          AppLocalizations.of(context)!.delete,
+                          model,
+                          ItemAction.DELETE),
+                    ],
+                  ),
+                )
+              ],
+            ));
+  }
+
+  Widget itemAction(
+      IconData icon, String text, PlayListModel model, ItemAction action) {
+    return InkWell(
+      child: Padding(
+        padding: EdgeInsets.all(contentPadding),
+        child: Row(
+          children: [
+            Icon(
+              icon,
+              color: Colors.white,
+            ),
+            SizedBox(
+              width: 40.w,
+            ),
+            AppText(
+              text,
+              style: typoSuperSmallTextRegular.copyWith(color: colorText0),
+            )
+          ],
+        ),
+      ),
+      onTap: () => _bloc.handleAction(action, model),
+    );
   }
 
   @override
