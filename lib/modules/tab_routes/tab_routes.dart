@@ -21,7 +21,7 @@ class TabRoutes extends StatefulWidget {
 }
 
 class _TabRoutesState extends State<TabRoutes>
-    with SingleTickerProviderStateMixin,AutomaticKeepAliveClientMixin {
+    with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   late TabController _tabController;
 
   @override
@@ -37,41 +37,60 @@ class _TabRoutesState extends State<TabRoutes>
         child: AppScaffold(
           appbar: appBar(context),
           backgroundColor: colorGrey90,
-          body: const TabBarView(
+          body: Column(
             children: [
-              PlayListPage(),
-              HistoryPage(),
-              FavouritePage(),
-              DesignedPage()
+              tabBar(context),
+              const Expanded(
+                  child: TabBarView(
+                children: [
+                  PlayListPage(),
+                  HistoryPage(),
+                  FavouritePage(),
+                  DesignedPage()
+                ],
+              ))
             ],
           ),
         ));
   }
 
-  PreferredSizeWidget tabBar(BuildContext context) => TabBar(
-        indicatorColor: colorOrange100,
-        labelColor: colorOrange100,
-        unselectedLabelColor: colorText20,
-        tabs: [
-          Tab(
-            text: AppLocalizations.of(context)!.playlist,
-          ),
-          Tab(
-            text: AppLocalizations.of(context)!.history,
-          ),
-          Tab(
-            text: AppLocalizations.of(context)!.favourite,
-          ),
-          Tab(
-            text: AppLocalizations.of(context)!.designed,
-          ),
+  Widget tabBar(BuildContext context) => Stack(
+        children: [
+        Container(color: colorBlack,child:   TabBar(
+          indicatorColor: colorOrange100,
+          labelColor: colorOrange100,
+          unselectedLabelColor: colorText20,
+          tabs: [
+            Tab(
+              text: AppLocalizations.of(context)!.playlist,
+            ),
+            Tab(
+              text: AppLocalizations.of(context)!.history,
+            ),
+            Tab(
+              text: AppLocalizations.of(context)!.favourite,
+            ),
+            Tab(
+              text: AppLocalizations.of(context)!.designed,
+            ),
+          ],
+          labelStyle: typoSmallTextRegular.copyWith(color: colorText20),
+        ),),
+          Positioned.fill(
+              child: Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              height: 0.5,
+              color: colorGrey50,
+            ),
+          ))
         ],
-        labelStyle: typoSmallTextRegular.copyWith(color: colorText20),
       );
 
   PreferredSizeWidget appBar(BuildContext context) => AppBar(
         backgroundColor: colorBlack,
-        bottom: tabBar(context),
+        // bottom: tabBar(context),
         title: Text(AppLocalizations.of(context)!.routes),
         actions: [
           IconButton(

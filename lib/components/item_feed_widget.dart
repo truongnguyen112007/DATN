@@ -1,10 +1,13 @@
 import 'package:base_bloc/components/thumbnail_app.dart';
+import 'package:base_bloc/utils/log_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../data/model/feed_model.dart';
 import 'app_like_button.dart';
 import 'app_text.dart';
+
+enum FeedAction { ADD_PLAYLIST, LIKE, MORE, SHOW_MORE }
 
 class ItemFeed extends StatefulWidget {
   final FeedModel model;
@@ -22,7 +25,7 @@ class _ItemFeedState extends State<ItemFeed> {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     return Padding(
-      padding: EdgeInsets.all(5),
+      padding: const EdgeInsets.all(5),
       child: Container(
         decoration: BoxDecoration(
           color: Colors.black,
@@ -100,8 +103,8 @@ class _ItemFeedState extends State<ItemFeed> {
                     ),
                   ),
                   InkWell(
-                    onTap: () {},
-                    child: Icon(
+                    onTap: () => handleAction(FeedAction.MORE),
+                    child: const Icon(
                       Icons.more_vert,
                       color: Colors.white,
                     ),
@@ -237,13 +240,14 @@ class _ItemFeedState extends State<ItemFeed> {
                             Column(
                               children: [
                                 InkWell(
-                                  onTap: () {},
-                                  child: Icon(
+                                  onTap: () =>
+                                      handleAction(FeedAction.ADD_PLAYLIST),
+                                  child: const Icon(
                                     Icons.playlist_add,
                                     color: Colors.white,
                                   ),
                                 ),
-                                Text(
+                                const Text(
                                   'Playlist',
                                   style: TextStyle(color: Colors.white),
                                 ),
@@ -293,8 +297,9 @@ class _ItemFeedState extends State<ItemFeed> {
                         Column(
                           children: [
                             InkWell(
-                              onTap: () {},
-                              child: Icon(
+                              onTap: () =>
+                                  handleAction(FeedAction.ADD_PLAYLIST),
+                              child: const Icon(
                                 Icons.playlist_add,
                                 color: Colors.white,
                               ),
@@ -384,7 +389,7 @@ class _ItemFeedState extends State<ItemFeed> {
                           ],
                         ),
                         InkWell(
-                          onTap: () {},
+                          onTap: () => handleAction(FeedAction.SHOW_MORE),
                           child: Text(
                             'Show more',
                             style: TextStyle(color: Colors.white70),
@@ -401,4 +406,6 @@ class _ItemFeedState extends State<ItemFeed> {
       ),
     );
   }
+
+  void handleAction(FeedAction action) => logE("TAG ACTION: $action");
 }

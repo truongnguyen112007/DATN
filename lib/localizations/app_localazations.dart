@@ -110,6 +110,17 @@ abstract class AppLocalizations {
   String get favourite;
   String get designed;
   String get route;
+  String get sort;
+  String get filter;
+  String get moveToPlaylist;
+  String get addToPlaylist;
+  String get addToFavourite;
+  String get removeFromPlaylist;
+  String get removeFromFavorite;
+  String get share;
+  String get copy;
+  String get edit;
+  String get delete;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
