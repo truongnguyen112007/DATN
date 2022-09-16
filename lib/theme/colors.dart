@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 const colorTransparent = Color(0x00000000);
 const colorWhite = Color(0xffffffff);
 const colorBlack = Color(0xff000000);
+const colorBlack20 = Color(0xFF3B4244);
 
 const colorPrimaryGreen100 = Color(0xff203E8E);
 const colorPrimaryBlue100 = Color(0xff4654FF);
@@ -67,6 +68,11 @@ const colorPrimaryOrange20 = Color(0xffFFE2CC);
 const colorPrimaryOrange10 = Color(0xffFFF1E6);
 const colorPrimaryOrange5 = Color(0xffFFF7F2);
 const colorPrimaryOrange2 = Color(0xffFFFCFA);
+
+const colorOrange110 =Color(0xFFD15701);
+const colorOrange100 = Color(0xffd56c1f);
+const colorOrange80 = Color(0xFFd07802);
+const colorOrange60 = Color(0xFFCD8E15);
 
 const colorPrimary100 = Color(0xff409EFF);
 const colorOrangeButton = Color(0xffff6e00);
@@ -135,6 +141,7 @@ const colorGrey30 = Color(0xFFE9EAEC);
 const colorGrey40 = Color(0xFFC8CBD0);
 const colorGrey50 = Color(0xFFA0A4AB);
 const colorGrey80 = Color(0xFF636973);
+const colorGrey90 = Color(0xFF37393A);
 
 const colorBlue100 = Color(0xFF003CA4);
 const colorBlue90 = Color(0xFF012B73);
@@ -149,32 +156,18 @@ const colorBlue5 = Color(0xFFB1C8F1);
 const colorBlue85 = Color(0xFF003186);
 const colorBlue1 = Color(0xFFC7D4EB);
 
+const colorRed100 =Color(0xffd10000);
+const colorRed90 =Color(0xFFD32500);
+const colorRed80 =Color(0xffd12500);
+
+
 const colorPink100 = Color(0xFFFC2C52);
 const colorPink40 = Color(0xFFFCC0CB);
 
+const colorGreen70 = Color(0xFF015927);
 const colorGreen60 = Color(0xFF00892A);
+const colorGreen50 = Color(0xFF279656);
+const colorGreen55 = Color(0xFF1E8C4B);
 
-const colorOrange60 = Color(0xFFCD8E15);
-const colorGreenGradient = [
-  Color(0xff20b860),
-  Color(0xff08b04f),
-];
 
-const colorBlueGradient = [
-  Color(0xff3562DA),
-  Color(0xff203E8E),
-];
 
-const colorRedGradient = [
-  Color(0xff9E0E0A),
-  Color(0xff9E0E0A),
-];
-const colorYellowGradient = [
-  Color(0xffFCB248),
-  Color(0xffFFC244),
-];
-
-const colorOrangeGradient = [
-  Color(0xffFF8B33),
-  Color(0xffFFA866),
-];
