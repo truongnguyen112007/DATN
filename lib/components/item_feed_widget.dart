@@ -1,4 +1,6 @@
+import 'package:base_bloc/components/app_video.dart';
 import 'package:base_bloc/components/thumbnail_app.dart';
+import 'package:base_bloc/router/router_utils.dart';
 import 'package:base_bloc/utils/log_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,8 +13,9 @@ enum FeedAction { ADD_PLAYLIST, LIKE, MORE, SHOW_MORE }
 
 class ItemFeed extends StatefulWidget {
   final FeedModel model;
+  final int index;
 
-  const ItemFeed({Key? key, required this.model}) : super(key: key);
+  const ItemFeed({Key? key, required this.model, required this.index}) : super(key: key);
 
   @override
   State<ItemFeed> createState() => _ItemFeedState();
@@ -117,14 +120,17 @@ class _ItemFeedState extends State<ItemFeed> {
             ),
             widget.model.videoURL.isNotEmpty
                 ? ThumbnailApp(
-                    callbackOpenVideo: () {
-                      /*  NavigatorUtils.moveBottomToTop(
-                    VideoApp(
-                      model: widget.model,
-                    ),
-                    context);*/
-                    },
-                  )
+                    callbackOpenVideo: () => RouterUtils.openNewPage(
+                        AppVideo(
+                          model: widget.model,
+                          index: widget.index,
+                        ),
+                        context)
+                    /* RouterUtils.push(
+                                context: context,
+                                route: Routers.video,
+                                argument: widget.model)*/
+                    )
                 : widget.model.photoURL != null &&
                         widget.model.photoURL!.isNotEmpty
                     ? Image.asset(widget.model.photoURL ?? '')
@@ -199,7 +205,7 @@ class _ItemFeedState extends State<ItemFeed> {
                             ],
                           ),
                         )
-                      ],
+                      ], //191019
                     )
                   ],
                 ),

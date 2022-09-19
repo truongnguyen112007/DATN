@@ -1,5 +1,6 @@
 import 'package:badges/badges.dart';
 import 'package:base_bloc/components/app_text.dart';
+import 'package:base_bloc/config/constant.dart';
 import 'package:base_bloc/data/globals.dart';
 import 'package:base_bloc/modules/history/history_cubit.dart';
 import 'package:base_bloc/modules/history/history_state.dart';
@@ -88,7 +89,10 @@ class _HistoryPageState extends State<HistoryPage>
                           child: CircularProgressIndicator(
                           color: Colors.amber,
                         ))
-                      : ItemFeed(model: state.lFeed[index]),
+                      : ItemFeed(
+                          model: state.lFeed[index],
+                          index: BottomNavigationConstant.TAB_ROUTES,
+                        ),
               itemCount:
                   !state.readEnd ? state.lFeed.length + 1 : state.lFeed.length,
               shrinkWrap: true,

@@ -8,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 class Routers {
   static String root = "/";
   static String home = "/home";
+  static String video = '/video';
 
   static void configureRoutes(FluroRouter router) {
     router.notFoundHandler = Handler(handlerFunc:

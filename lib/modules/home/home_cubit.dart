@@ -5,4 +5,6 @@ class HomeCubit extends Cubit<HomeState> {
   HomeCubit() : super(InitState());
 
   void jumpToPage(int index) => emit(IndexChangeState(index));
+
+  void hideBottomBar(bool isHide) => emit(HideBottomNavigationBarState(isHide));
 }

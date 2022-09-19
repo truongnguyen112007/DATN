@@ -1,3 +1,5 @@
+import 'package:base_bloc/components/app_video.dart';
+import 'package:base_bloc/data/model/feed_model.dart';
 import 'package:base_bloc/modules/home/home_page.dart';
 import 'package:base_bloc/modules/splash/splash_page.dart';
 import 'package:base_bloc/modules/tab_climb/tab_climp.dart';
