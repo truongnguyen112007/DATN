@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:base_bloc/data/eventbus/hide_bottom_bar_event.dart';
 import 'package:base_bloc/utils/log_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,6 +35,7 @@ abstract class BasePopState<T extends StatefulWidget> extends BaseState<T> {
 
   bool get isWeb => false;
 
+  bool get isNewPage => false;
   final BasePopBloc _basePopBloc = BasePopBloc();
 
   // Handle visibility of this page
@@ -67,6 +69,7 @@ abstract class BasePopState<T extends StatefulWidget> extends BaseState<T> {
         child: buildWidget(context),
         listener: (context, state) {
           if (state is BackBasePopState) {
+            if(isNewPage) Utils.fireEvent(HideBottomBarEvent(false));
             Navigator.pop(context);
           }
         },

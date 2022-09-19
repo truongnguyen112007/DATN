@@ -1,5 +1,6 @@
 import 'package:base_bloc/base/base_state.dart';
 import 'package:base_bloc/components/app_circle_loading.dart';
+import 'package:base_bloc/components/app_text_field.dart';
 import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/modules/tab_home/tab_home_cubit.dart';
 import 'package:base_bloc/modules/tab_home/tab_home_state.dart';
@@ -15,6 +16,7 @@ import 'package:badges/badges.dart';
 import '../../components/app_scalford.dart';
 import '../../components/app_text.dart';
 import '../../components/item_feed_widget.dart';
+import '../../config/constant.dart';
 import '../../data/model/feed_model.dart';
 
 class TabHome extends StatefulWidget {
@@ -24,7 +26,8 @@ class TabHome extends StatefulWidget {
   State<TabHome> createState() => _TabHomeState();
 }
 
-class _TabHomeState extends BaseState<TabHome> with AutomaticKeepAliveClientMixin{
+class _TabHomeState extends BaseState<TabHome>
+    with AutomaticKeepAliveClientMixin {
   final _scrollController = ScrollController();
   late final TabHomeCubit _bloc;
 
@@ -92,7 +95,10 @@ class _TabHomeState extends BaseState<TabHome> with AutomaticKeepAliveClientMixi
                           child: CircularProgressIndicator(
                           color: Colors.amber,
                         ))
-                      : ItemFeed(model: state.lFeed[index]),
+                      : ItemFeed(
+                          model: state.lFeed[index],
+                          index: BottomNavigationConstant.TAB_HOME,
+                        ),
               itemCount:
                   !state.readEnd ? state.lFeed.length + 1 : state.lFeed.length,
               shrinkWrap: true,
@@ -210,5 +216,5 @@ class _TabHomeState extends BaseState<TabHome> with AutomaticKeepAliveClientMixi
       );
 
   @override
-  bool get wantKeepAlive =>true;
+  bool get wantKeepAlive => true;
 }

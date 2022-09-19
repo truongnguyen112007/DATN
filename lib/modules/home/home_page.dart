@@ -1,10 +1,14 @@
+import 'dart:async';
+
 import 'package:base_bloc/components/app_scalford.dart';
 import 'package:base_bloc/config/constant.dart';
+import 'package:base_bloc/modules/home/home_state.dart';
 import 'package:base_bloc/modules/root/root_climb_page.dart';
 import 'package:base_bloc/modules/root/root_home_page.dart';
 import 'package:base_bloc/modules/root/root_profile_page.dart';
 import 'package:base_bloc/modules/root/root_reservation_page.dart';
 import 'package:base_bloc/theme/app_styles.dart';
+import 'package:base_bloc/utils/app_utils.dart';
 import 'package:base_bloc/utils/log_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +16,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../components/gradient_icon.dart';
+import '../../data/eventbus/hide_bottom_bar_event.dart';
 import '../../localizations/app_localazations.dart';
 import '../root/root_routes_page.dart';
 import 'home_cubit.dart';
@@ -24,9 +29,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  var _currentIndex = 0;
-  final _pageController = PageController();
-  final _bloc = HomeCubit();
   var tabs = [
     const RootHomePage(),
     const RootRoutesPage(),
@@ -34,6 +36,27 @@ class _HomePageState extends State<HomePage> {
     const RootReservationPage(),
     const RootProfilePage()
   ];
+
+  var _currentIndex = 0;
+  final _pageController = PageController();
+  final _bloc = HomeCubit();
+  bool isShowBottomBar = false;
+
+  StreamSubscription<HideBottomBarEvent>? _hideBottomBarStream;
+
+  @override
+  void initState() {
+    _hideBottomBarStream = Utils.eventBus
+        .on<HideBottomBarEvent>()
+        .listen((event) => _bloc.hideBottomBar(event.isHide));
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _hideBottomBarStream?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,18 +73,37 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
             bottomNavigationBar: BlocBuilder(
-              builder: (c, x) => bottomNavigationBarWidget(),
+              builder: (c, state) => Visibility(
+                visible: state is InitState
+                    ? true
+                    : (state is HideBottomNavigationBarState && state.isHide
+                        ? false
+                        : true),
+                child: bottomNavigationBarWidget(),
+              ),
               bloc: _bloc,
             )),
         BlocBuilder(
-          bloc: _bloc,
-          builder: (c, x) => climbIconWidget(),
-        )
+            bloc: _bloc,
+            builder: (c, state) => Visibility(
+                  visible: state is InitState
+                      ? true
+                      : (state is HideBottomNavigationBarState && state.isHide
+                          ? false
+                          : true),
+                  child: climbIconWidget(),
+                ))
       ],
     );
   }
 
   void _jumpToPage(int index) {
+    isShowBottomBar = false;
+    setState(() {});
+    if (index == BottomNavigationConstant.TAB_CLIMB) {
+      isShowBottomBar = true;
+      setState(() {});
+    }
     _currentIndex = index;
     _pageController.jumpToPage(index);
     _bloc.jumpToPage(_currentIndex);
