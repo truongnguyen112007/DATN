@@ -1,18 +1,15 @@
 import 'package:base_bloc/components/app_circle_loading.dart';
-import 'package:base_bloc/components/app_text.dart';
 import 'package:base_bloc/data/globals.dart';
-import 'package:base_bloc/data/model/playlist_model.dart';
-import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/modules/playlist/playlist_cubit.dart';
 import 'package:base_bloc/modules/playlist/playlist_state.dart';
 import 'package:base_bloc/modules/tab_home/tab_home_state.dart';
-import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/theme/colors.dart';
-import 'package:base_bloc/utils/log_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../components/item_info_routes.dart';
 
 class PlayListPage extends StatefulWidget {
   const PlayListPage({Key? key}) : super(key: key);
@@ -96,229 +93,17 @@ class _PlayListPageState extends State<PlayListPage>
                   key: Key('9182098089509'),
                   child: AppCircleLoading(),
                 )
-              : itemPlayList(context, state.lPlayList[i], (model) {}, i),
+              : ItemInfoRoutes(
+                  key: Key('$i'),
+                  context: context,
+                  model: state.lPlayList[i],
+                  callBack: (model) {},
+                  index: i,
+                  actionCallBack: (action) {}),
           itemCount:
               !state.isReadEnd && state.lPlayList.isNotEmpty && state.isLoading
                   ? state.lPlayList.length + 1
                   : state.lPlayList.length);
-
-  Widget itemPlayList(BuildContext context, PlayListModel model,
-          Function(PlayListModel model) callBack, int index) =>
-      Container(
-        color: colorBlack20,
-        key: Key('$index'),
-        padding: const EdgeInsets.only(bottom: 10),
-        child: Container(
-          padding: EdgeInsets.only(
-              left: contentPadding + 10, right: contentPadding + 10),
-          height: 75.h,
-          width: MediaQuery.of(context).size.width,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-              gradient:
-                  LinearGradient(colors: getBackgroundColor(model.grade))),
-          child: InkWell(
-              onTap: () => showActionDialog(model),
-              splashColor: Colors.amber,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  model.status == null
-                      ? AppText(
-                          model.grade,
-                          style: typoLargeTextRegular.copyWith(
-                              color: colorText0, fontSize: 33.sp),
-                          textAlign: TextAlign.end,
-                        )
-                      : Stack(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(bottom: 5.h),
-                              child: AppText(
-                                model.grade,
-                                style: typoLargeTextRegular.copyWith(
-                                    color: colorText0, fontSize: 33.sp),
-                                textAlign: TextAlign.end,
-                              ),
-                            ),
-                            Positioned.fill(
-                                child: Container(
-                              alignment: Alignment.bottomCenter,
-                              child: AppText(
-                                model.status ?? '',
-                                textAlign: TextAlign.center,
-                                style: typoSuperSmallText300.copyWith(
-                                    color: colorText0),
-                              ),
-                            ))
-                          ],
-                        ),
-                  SizedBox(
-                    width: 22.w,
-                  ),
-                  Expanded(
-                      child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      AppText(
-                        model.name,
-                        style: typoLargeTextRegular.copyWith(
-                            color: colorText0, fontSize: 23.sp),
-                        maxLine: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      SizedBox(
-                        height: 5.h,
-                      ),
-                      Row(
-                        children: [
-                          AppText(
-                            '${AppLocalizations.of(context)!.routes} ${model.height}m ',
-                            style: typoSmallText300.copyWith(color: colorText0),
-                          ),
-                          const Icon(
-                            Icons.ac_unit_rounded,
-                            size: 6,
-                            color: colorWhite,
-                          ),
-                          Expanded(
-                              child: AppText(
-                            " ${model.author} jdsh klsjhd lsjd lskdj sldkj",
-                            overflow: TextOverflow.ellipsis,
-                            maxLine: 1,
-                            style: typoSmallText300.copyWith(color: colorText0),
-                          ))
-                        ],
-                      )
-                    ],
-                  ))
-                ],
-              )),
-        ),
-      );
-
-  List<Color> getBackgroundColor(String value) {
-    switch (value) {
-      case '4':
-        return [colorGreen70, colorGreen70];
-      case '5A':
-        return [
-          colorOrange80,
-          colorGreen70,
-          colorGreen70,
-          colorGreen70,
-          colorGreen70
-        ];
-      case '5C':
-        return [colorOrange80, colorGreen70, colorGreen70];
-      case '6A':
-        return [colorOrange80, colorGreen70, colorGreen70];
-      case '7B':
-        return [colorRed80, colorOrange80, colorOrange80];
-      case '8A':
-        return [colorRed100, colorRed90, colorOrange110];
-      case '5B':
-        return [colorOrange110, colorGreen50, colorGreen55];
-      default:
-        return [
-          colorRed100,
-          colorRed100,
-        ];
-    }
-  }
-
-  void showActionDialog(PlayListModel model) {
-    showModalBottomSheet(
-        isScrollControlled: true,
-        backgroundColor: Colors.transparent,
-        context: context,
-        builder: (x) => Wrap(
-              children: [
-                Container(
-                  decoration: const BoxDecoration(
-                    color: Color(0xFF212121),
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20),
-                    ),
-                  ),
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: contentPadding,
-                      ),
-                      itemAction(
-                          Icons.thumb_up_alt,
-                          AppLocalizations.of(context)!.moveToPlaylist,
-                          model,
-                          ItemAction.MOVE_TO_TOP),
-                      itemAction(
-                          Icons.account_balance_rounded,
-                          AppLocalizations.of(context)!.addToPlaylist,
-                          model,
-                          ItemAction.ADD_TO_PLAYLIST),
-                      itemAction(
-                          Icons.add,
-                          AppLocalizations.of(context)!.removeFromPlaylist,
-                          model,
-                          ItemAction.REMOVE_FROM_PLAYLIST),
-                      itemAction(
-                          Icons.favorite,
-                          AppLocalizations.of(context)!.addToFavourite,
-                          model,
-                          ItemAction.ADD_TO_FAVOURITE),
-                      itemAction(
-                          Icons.remove_circle_outline,
-                          AppLocalizations.of(context)!.removeFromFavorite,
-                          model,
-                          ItemAction.REMOVE_FROM_PLAYLIST),
-                      itemAction(
-                          Icons.share,
-                          AppLocalizations.of(context)!.share,
-                          model,
-                          ItemAction.SHARE),
-                      itemAction(Icons.copy, AppLocalizations.of(context)!.copy,
-                          model, ItemAction.COPY),
-                      itemAction(Icons.edit, AppLocalizations.of(context)!.edit,
-                          model, ItemAction.EDIT),
-                      itemAction(
-                          Icons.delete,
-                          AppLocalizations.of(context)!.delete,
-                          model,
-                          ItemAction.DELETE),
-                    ],
-                  ),
-                )
-              ],
-            ));
-  }
-
-  Widget itemAction(
-      IconData icon, String text, PlayListModel model, ItemAction action) {
-    return InkWell(
-      child: Padding(
-        padding: EdgeInsets.all(contentPadding),
-        child: Row(
-          children: [
-            Icon(
-              icon,
-              color: Colors.white,
-            ),
-            SizedBox(
-              width: 40.w,
-            ),
-            AppText(
-              text,
-              style: typoSuperSmallTextRegular.copyWith(color: colorText0),
-            )
-          ],
-        ),
-      ),
-      onTap: () => _bloc.handleAction(action, model),
-    );
-  }
 
   @override
   bool get wantKeepAlive => true;

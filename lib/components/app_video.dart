@@ -84,7 +84,6 @@ class _AppVideoState extends BasePopState<AppVideo> {
   }
 
   void goBack(BuildContext context) {
-    Utils.fireEvent(HideBottomBarEvent(false));
     RouterUtils.pop(context);
   }
 

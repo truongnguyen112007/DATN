@@ -1,36 +1,30 @@
 import 'dart:async';
 
-import 'package:base_bloc/modules/playlist/playlist_state.dart';
-import 'package:base_bloc/modules/tab_home/tab_home_state.dart';
-import 'package:base_bloc/utils/log_utils.dart';
+import 'package:base_bloc/config/constant.dart';
+import 'package:base_bloc/modules/favourite/favourite_state.dart';
+import 'package:base_bloc/router/router_utils.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../data/model/routes_model.dart';
+import '../../utils/log_utils.dart';
+import '../filter_routes/filter_routes_page.dart';
+import '../playlist/playlist_cubit.dart';
+import '../tab_home/tab_home_state.dart';
 
-enum ItemAction {
-  MOVE_TO_TOP,
-  ADD_TO_PLAYLIST,
-  REMOVE_FROM_PLAYLIST,
-  ADD_TO_FAVOURITE,
-  SHARE,
-  COPY,
-  EDIT,
-  DELETE
-}
-
-class PlayListCubit extends Cubit<PlaylistState> {
-  PlayListCubit() : super(const PlaylistState()) {
+class FavouriteCubit extends Cubit<FavouriteState> {
+  FavouriteCubit() : super(const FavouriteState()) {
     if (state.status == FeedStatus.initial) {
-      getPlaylist();
+      getFavourite();
     }
   }
 
   onRefresh() {
-    emit(const PlaylistState(status: FeedStatus.refresh));
-    getPlaylist();
+    emit(const FavouriteState(status: FeedStatus.refresh));
+    getFavourite();
   }
 
-  getPlaylist({bool isPaging = false}) {
+  getFavourite({bool isPaging = false}) {
     if (state.isReadEnd) return;
     if (isPaging) {
       if (state.isLoading) return;
@@ -61,6 +55,11 @@ class PlayListCubit extends Cubit<PlaylistState> {
 
   void handleAction(ItemAction action, RoutesModel model) =>
       logE("TAG ACTION: $action");
+
+  void refresh() {
+    emit(const FavouriteState(status: FeedStatus.refresh, lPlayList: []));
+    getFavourite();
+  }
 
   List<RoutesModel> fakeData() => [
         RoutesModel(
@@ -106,4 +105,10 @@ class PlayListCubit extends Cubit<PlaylistState> {
             grade: '6A',
             status: 'corner')
       ];
+
+  void filterOnclick(BuildContext context) => RouterUtils.openNewPage(
+      const FilterRoutesPage(
+        index: BottomNavigationConstant.TAB_ROUTES,
+      ),
+      context);
 }

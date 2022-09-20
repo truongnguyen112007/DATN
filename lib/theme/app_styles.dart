@@ -159,7 +159,7 @@ final decorTextField = InputDecoration(
     borderSide: BorderSide(color: colorGreyBorder, width: 1.0),
     borderRadius: BorderRadius.all(Radius.circular(7)),
   ),
-  contentPadding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 16),
+  contentPadding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 16),
   hintStyle: typoNormalTextRegular.copyWith(
       color: colorNeutralDark40.withOpacity(0.4)),
   errorStyle: typoSmallTextRegular.copyWith(color: colorSemanticRed100),
@@ -315,6 +315,14 @@ final typoNormalTextBEBold = GoogleFonts.roboto(
 final typoNormalTextRegular = GoogleFonts.roboto(
   fontStyle: FontStyle.normal,
   fontWeight: FontWeight.w400,
+  fontSize: 16.sp,
+  letterSpacing: 0.3,
+  color: colorBlack,
+);
+
+final typoNormalText600 = GoogleFonts.roboto(
+  fontStyle: FontStyle.normal,
+  fontWeight: FontWeight.w600,
   fontSize: 16.sp,
   letterSpacing: 0.3,
   color: colorBlack,
