@@ -66,8 +66,11 @@ class RouterUtils {
         routeSettings: RouteSettings(arguments: argument));
     return result;
   }
-  static void pop(BuildContext context, {dynamic result}) =>
-      Navigator.pop(context, result);
+
+  static void pop(BuildContext context, {dynamic result}) {
+    Utils.fireEvent(HideBottomBarEvent(false));
+    Navigator.pop(context, result);
+  }
 
   static dynamic openNewPage(Widget newPage, BuildContext context) async {
     Utils.fireEvent(HideBottomBarEvent(true));

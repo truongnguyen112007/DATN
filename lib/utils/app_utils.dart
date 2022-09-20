@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:diacritic/diacritic.dart';
 import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -172,8 +171,6 @@ class Utils {
   static String convertDateToMMYYYY(DateTime date) =>
       DateFormat('MM/yyyy').format(date);
 
-  static bool checkDiacriticsForEmail(String email) =>
-      removeDiacritics(email) == email ? false : true;
 
   static String formatMoney(int? money) =>
       NumberFormat('#,###,###,#,###,###,###', 'vi').format(money ?? 0);

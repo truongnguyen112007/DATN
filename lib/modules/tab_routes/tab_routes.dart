@@ -35,6 +35,7 @@ class _TabRoutesState extends State<TabRoutes>
     return DefaultTabController(
         length: 4,
         child: AppScaffold(
+          resizeToAvoidBottomInset: false,
           appbar: appBar(context),
           backgroundColor: colorGrey90,
           body: Column(
@@ -56,26 +57,29 @@ class _TabRoutesState extends State<TabRoutes>
 
   Widget tabBar(BuildContext context) => Stack(
         children: [
-        Container(color: colorBlack,child:   TabBar(
-          indicatorColor: colorOrange100,
-          labelColor: colorOrange100,
-          unselectedLabelColor: colorText20,
-          tabs: [
-            Tab(
-              text: AppLocalizations.of(context)!.playlist,
+          Container(
+            color: colorBlack,
+            child: TabBar(
+              indicatorColor: colorOrange100,
+              labelColor: colorOrange100,
+              unselectedLabelColor: colorText20,
+              tabs: [
+                Tab(
+                  text: AppLocalizations.of(context)!.playlist,
+                ),
+                Tab(
+                  text: AppLocalizations.of(context)!.history,
+                ),
+                Tab(
+                  text: AppLocalizations.of(context)!.favourite,
+                ),
+                Tab(
+                  text: AppLocalizations.of(context)!.designed,
+                ),
+              ],
+              labelStyle: typoSmallTextRegular.copyWith(color: colorText20),
             ),
-            Tab(
-              text: AppLocalizations.of(context)!.history,
-            ),
-            Tab(
-              text: AppLocalizations.of(context)!.favourite,
-            ),
-            Tab(
-              text: AppLocalizations.of(context)!.designed,
-            ),
-          ],
-          labelStyle: typoSmallTextRegular.copyWith(color: colorText20),
-        ),),
+          ),
           Positioned.fill(
               child: Align(
             alignment: Alignment.bottomCenter,

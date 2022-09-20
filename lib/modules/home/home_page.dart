@@ -63,6 +63,7 @@ class _HomePageState extends State<HomePage> {
     return Stack(
       children: [
         AppScaffold(
+            resizeToAvoidBottomInset: false,
             body: Stack(
               children: [
                 PageView(

@@ -1,4 +1,3 @@
-
 import 'dart:async';
 
 import 'package:base_bloc/localizations/app_localization_en.dart';
@@ -60,7 +59,8 @@ import 'package:intl/intl.dart' as intl;
 /// be consistent with the languages listed in the AppLocalizations.supportedLocales
 /// property.
 abstract class AppLocalizations {
-  AppLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+  AppLocalizations(String locale)
+      : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
@@ -68,7 +68,8 @@ abstract class AppLocalizations {
     return Localizations.of<AppLocalizations>(context, AppLocalizations);
   }
 
-  static const LocalizationsDelegate<AppLocalizations> delegate = _AppLocalizationsDelegate();
+  static const LocalizationsDelegate<AppLocalizations> delegate =
+      _AppLocalizationsDelegate();
 
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
@@ -80,7 +81,8 @@ abstract class AppLocalizations {
   /// Additional delegates can be added by appending to this list in
   /// MaterialApp. This list does not have to be used at all if a custom list
   /// of delegates is preferred or required.
-  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates = <LocalizationsDelegate<dynamic>>[
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
+      <LocalizationsDelegate<dynamic>>[
     delegate,
     GlobalMaterialLocalizations.delegate,
     GlobalWidgetsLocalizations.delegate,
@@ -97,33 +99,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Heroes of Computer Science'**
   String get appTitle;
+
   String get home;
+
   String get routes;
+
   String get climb;
+
   String get reservations;
+
   String get profile;
 
   String get appName;
+
   String get nextClimb;
+
   String get playlist;
+
   String get history;
+
   String get favourite;
+
   String get designed;
+
   String get route;
+
   String get sort;
+
   String get filter;
+
   String get moveToPlaylist;
+
   String get addToPlaylist;
+
   String get addToFavourite;
+
   String get removeFromPlaylist;
+
   String get removeFromFavorite;
+
   String get share;
+
   String get copy;
+
   String get edit;
+
   String get delete;
+
+  String get select;
+
+  String get removeFilter;
+
+  String get author;
+
+  String get status;
+
+  String get corners;
+
+  String get withCorner;
+
+  String get withoutCorners;
+
+  String get authorGrade;
+
+  String get notTried;
+
+  String get ufUnfinished;
+
+  String get suSupported;
+
+  String get trTopRope;
+
+  String get rpRedPoint;
+
+  String get osOnSight;
+
+  String get authorsGrade;
+
+  String get userGrade;
+
+  String get designedBy;
+
+  String get routeSetter;
+
+  String get friends;
+
+  String get showResult;
 }
 
-class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
+class _AppLocalizationsDelegate
+    extends LocalizationsDelegate<AppLocalizations> {
   const _AppLocalizationsDelegate();
 
   @override
@@ -132,25 +197,25 @@ class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> 
   }
 
   @override
-  bool isSupported(Locale locale) => <String>['en', 'pl'].contains(locale.languageCode);
+  bool isSupported(Locale locale) =>
+      <String>['en', 'pl'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
 }
 
 AppLocalizations lookupAppLocalizations(Locale locale) {
-
-
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
-    case 'en': return AppLocalizationEn();
-    case 'pl': return AppLocalizationEn();
+    case 'en':
+      return AppLocalizationEn();
+    case 'pl':
+      return AppLocalizationEn();
   }
 
   throw FlutterError(
       'AppLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
-          'an issue with the localizations generation tool. Please file an issue '
-          'on GitHub with a reproducible sample app and the gen-l10n configuration '
-          'that was used.'
-  );
+      'an issue with the localizations generation tool. Please file an issue '
+      'on GitHub with a reproducible sample app and the gen-l10n configuration '
+      'that was used.');
 }
