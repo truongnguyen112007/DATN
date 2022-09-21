@@ -1,3 +1,4 @@
+import 'package:base_bloc/utils/log_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -14,7 +15,9 @@ class ItemInfoRoutes extends StatelessWidget {
   final BuildContext context;
   final RoutesModel model;
   final Function(RoutesModel model) callBack;
-  final Function(ItemAction action) actionCallBack;
+  final Function(RoutesModel action) detailCallBack;
+  final Function(RoutesModel model)? onLongPress;
+  final Function(RoutesModel model)? removeSelectCallBack;
   final int index;
 
   const ItemInfoRoutes(
@@ -23,104 +26,143 @@ class ItemInfoRoutes extends StatelessWidget {
       required this.model,
       required this.callBack,
       required this.index,
-      required this.actionCallBack})
+      required this.detailCallBack,
+      this.onLongPress,
+      this.removeSelectCallBack})
       : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Container(
-        color: colorBlack20,
-        key: Key('$index'),
-        padding: const EdgeInsets.only(bottom: 10),
-        child: Container(
-          padding: EdgeInsets.only(
-              left: contentPadding + 10, right: contentPadding + 10),
-          height: 75.h,
-          width: MediaQuery.of(context).size.width,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-              gradient:
-                  LinearGradient(colors: getBackgroundColor(model.grade))),
-          child: InkWell(
-              onTap: () => showActionDialog(
-                  model, (action) => actionCallBack.call(action)),
-              splashColor: Colors.amber,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  model.status == null
-                      ? AppText(
-                          model.grade,
+  Widget build(BuildContext context) => Stack(
+        children: [
+          Container(
+            height: 88.h,
+            color: colorBlack20,
+            key: Key('$index'),
+            padding: const EdgeInsets.only(bottom: 10),
+            child: GestureDetector(
+              onLongPress: () => onLongPress?.call(model),
+              onTap: () => detailCallBack.call(model)/*showActionDialog(
+                  model, (action) => actionCallBack.call(action))*/,
+              child: Container(
+                padding: EdgeInsets.only(
+                    left: contentPadding + 10, right: contentPadding + 10),
+                height: 75.h,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    gradient: LinearGradient(
+                        colors: getBackgroundColor(model.grade))),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    model.status == null
+                        ? AppText(
+                            model.grade,
+                            style: typoLargeTextRegular.copyWith(
+                                color: colorText0, fontSize: 33.sp),
+                            textAlign: TextAlign.end,
+                          )
+                        : Stack(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(bottom: 5.h),
+                                child: AppText(
+                                  model.grade,
+                                  style: typoLargeTextRegular.copyWith(
+                                      color: colorText0, fontSize: 33.sp),
+                                  textAlign: TextAlign.end,
+                                ),
+                              ),
+                              Positioned.fill(
+                                  child: Container(
+                                alignment: Alignment.bottomCenter,
+                                child: AppText(
+                                  model.status ?? '',
+                                  textAlign: TextAlign.center,
+                                  style: typoSuperSmallText300.copyWith(
+                                      color: colorText0),
+                                ),
+                              ))
+                            ],
+                          ),
+                    SizedBox(
+                      width: 22.w,
+                    ),
+                    Expanded(
+                        child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        AppText(
+                          model.name,
                           style: typoLargeTextRegular.copyWith(
-                              color: colorText0, fontSize: 33.sp),
-                          textAlign: TextAlign.end,
-                        )
-                      : Stack(
+                              color: colorText0, fontSize: 23.sp),
+                          maxLine: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        SizedBox(
+                          height: 5.h,
+                        ),
+                        Row(
                           children: [
-                            Padding(
-                              padding: EdgeInsets.only(bottom: 5.h),
-                              child: AppText(
-                                model.grade,
-                                style: typoLargeTextRegular.copyWith(
-                                    color: colorText0, fontSize: 33.sp),
-                                textAlign: TextAlign.end,
-                              ),
+                            AppText(
+                              '${AppLocalizations.of(context)!.routes} ${model.height}m ',
+                              style:
+                                  typoSmallText300.copyWith(color: colorText0),
                             ),
-                            Positioned.fill(
-                                child: Container(
-                              alignment: Alignment.bottomCenter,
-                              child: AppText(
-                                model.status ?? '',
-                                textAlign: TextAlign.center,
-                                style: typoSuperSmallText300.copyWith(
-                                    color: colorText0),
-                              ),
+                            const Icon(
+                              Icons.ac_unit_rounded,
+                              size: 6,
+                              color: colorWhite,
+                            ),
+                            Expanded(
+                                child: AppText(
+                              " ${model.author}",
+                              overflow: TextOverflow.ellipsis,
+                              maxLine: 1,
+                              style:
+                                  typoSmallText300.copyWith(color: colorText0),
                             ))
                           ],
+                        )
+                      ],
+                    ))
+                  ],
+                ),
+              ),
+            ),
+          ),
+          model.isSelect
+              ? Container(
+                  height: 88.h,
+                  padding: const EdgeInsets.only(bottom: 10),
+                  width: MediaQuery.of(context).size.width,
+                  child: InkWell(
+                    onTap: () => removeSelectCallBack?.call(model),
+                    child: Container(
+                      alignment: Alignment.bottomRight,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          color: Colors.grey.withOpacity(0.8)),
+                      child: Container(
+                        margin: EdgeInsets.only(
+                            right: contentPadding, bottom: contentPadding),
+                        padding: const EdgeInsets.all(2),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(100),
+                            border: Border.all(color: colorWhite)),
+                        child: const Icon(
+                          Icons.check,
+                          size: 17,
+                          color: colorWhite,
                         ),
-                  SizedBox(
-                    width: 22.w,
+                      ),
+                    ),
                   ),
-                  Expanded(
-                      child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      AppText(
-                        model.name,
-                        style: typoLargeTextRegular.copyWith(
-                            color: colorText0, fontSize: 23.sp),
-                        maxLine: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      SizedBox(
-                        height: 5.h,
-                      ),
-                      Row(
-                        children: [
-                          AppText(
-                            '${AppLocalizations.of(context)!.routes} ${model.height}m ',
-                            style: typoSmallText300.copyWith(color: colorText0),
-                          ),
-                          const Icon(
-                            Icons.ac_unit_rounded,
-                            size: 6,
-                            color: colorWhite,
-                          ),
-                          Expanded(
-                              child: AppText(
-                            " ${model.author}",
-                            overflow: TextOverflow.ellipsis,
-                            maxLine: 1,
-                            style: typoSmallText300.copyWith(color: colorText0),
-                          ))
-                        ],
-                      )
-                    ],
-                  ))
-                ],
-              )),
-        ),
+                )
+              : const SizedBox()
+        ],
       );
 
   List<Color> getBackgroundColor(String value) {

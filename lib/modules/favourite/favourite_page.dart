@@ -10,6 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../components/filter_widget.dart';
 import '../../components/item_info_routes.dart';
+import '../../data/model/routes_model.dart';
 import '../../theme/colors.dart';
 
 class FavouritePage extends StatefulWidget {
@@ -107,7 +108,7 @@ class _FavouritePageState extends State<FavouritePage>
                   model: state.lPlayList[i],
                   callBack: (model) {},
                   index: i,
-                  actionCallBack: (action) {}),
+                  detailCallBack: (RoutesModel action) {  },),
           itemCount:
               !state.isReadEnd && state.lPlayList.isNotEmpty && state.isLoading
                   ? state.lPlayList.length + 1

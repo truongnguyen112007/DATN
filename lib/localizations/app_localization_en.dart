@@ -159,4 +159,8 @@ class AppLocalizationEn extends AppLocalizations {
   @override
   // TODO: implement withoutCorners
   String get withoutCorners => "Without Corners";
+
+  @override
+  // TODO: implement notItemSelect
+  String get notItemSelect => 'Not item select, please try again.';
 }

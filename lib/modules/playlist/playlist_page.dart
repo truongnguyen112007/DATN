@@ -10,6 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../components/item_info_routes.dart';
+import '../../data/model/routes_model.dart';
 
 class PlayListPage extends StatefulWidget {
   const PlayListPage({Key? key}) : super(key: key);
@@ -99,7 +100,7 @@ class _PlayListPageState extends State<PlayListPage>
                   model: state.lPlayList[i],
                   callBack: (model) {},
                   index: i,
-                  actionCallBack: (action) {}),
+                  detailCallBack: (RoutesModel action) {  },),
           itemCount:
               !state.isReadEnd && state.lPlayList.isNotEmpty && state.isLoading
                   ? state.lPlayList.length + 1
