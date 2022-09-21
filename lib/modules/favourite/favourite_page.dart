@@ -33,13 +33,15 @@ class _FavouritePageState extends State<FavouritePage>
   }
 
   void paging() {
-    scrollController.addListener(() {
-      var maxScroll = scrollController.position.maxScrollExtent;
-      var currentScroll = scrollController.position.pixels;
-      if (maxScroll - currentScroll <= 200) {
-        _bloc.getFavourite(isPaging: true);
-      }
-    });
+    if (scrollController.hasClients) {
+      scrollController.addListener(() {
+        var maxScroll = scrollController.position.maxScrollExtent;
+        var currentScroll = scrollController.position.pixels;
+        if (maxScroll - currentScroll <= 200) {
+          _bloc.getFavourite(isPaging: true);
+        }
+      });
+    }
   }
 
   @override
