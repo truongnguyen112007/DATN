@@ -33,13 +33,15 @@ class _PlayListPageState extends State<PlayListPage>
   }
 
   void paging() {
-    scrollController.addListener(() {
-      var maxScroll = scrollController.position.maxScrollExtent;
-      var currentScroll = scrollController.position.pixels;
-      if (maxScroll - currentScroll <= 200) {
-        _bloc.getPlaylist(isPaging: true);
-      }
-    });
+    if (scrollController.hasClients) {
+      scrollController.addListener(() {
+        var maxScroll = scrollController.position.maxScrollExtent;
+        var currentScroll = scrollController.position.pixels;
+        if (maxScroll - currentScroll <= 200) {
+          _bloc.getPlaylist(isPaging: true);
+        }
+      });
+    }
   }
 
   @override
@@ -100,8 +102,10 @@ class _PlayListPageState extends State<PlayListPage>
                   context: context,
                   model: state.lPlayList[i],
                   callBack: (model) {},
-                  index: i,onLongPress: (model)=>_bloc.itemOnClick(context),
-                  detailCallBack: (RoutesModel action) {  },),
+                  index: i,
+                  onLongPress: (model) => _bloc.itemOnClick(context),
+                  detailCallBack: (RoutesModel action) {},
+                ),
           itemCount:
               !state.isReadEnd && state.lPlayList.isNotEmpty && state.isLoading
                   ? state.lPlayList.length + 1
