@@ -2,7 +2,8 @@ import 'dart:async';
 
 import 'package:base_bloc/modules/playlist/playlist_state.dart';
 import 'package:base_bloc/modules/tab_home/tab_home_state.dart';
-import 'package:base_bloc/utils/log_utils.dart';
+import 'package:base_bloc/utils/app_utils.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../data/model/routes_model.dart';
@@ -59,8 +60,8 @@ class PlayListCubit extends Cubit<PlaylistState> {
     emit(state.copyWith(lPlayList: lResponse));
   }
 
-  void handleAction(ItemAction action, RoutesModel model) =>
-      logE("TAG ACTION: $action");
+  void itemOnClick(BuildContext context) =>
+      Utils.showActionDialog(context, (p0) {});
 
   List<RoutesModel> fakeData() => [
         RoutesModel(

@@ -27,6 +27,7 @@ class _PlayListPageState extends State<PlayListPage>
   @override
   void initState() {
     _bloc = PlayListCubit();
+    scrollController.dispose();
     paging();
     super.initState();
   }
@@ -99,7 +100,7 @@ class _PlayListPageState extends State<PlayListPage>
                   context: context,
                   model: state.lPlayList[i],
                   callBack: (model) {},
-                  index: i,
+                  index: i,onLongPress: (model)=>_bloc.itemOnClick(context),
                   detailCallBack: (RoutesModel action) {  },),
           itemCount:
               !state.isReadEnd && state.lPlayList.isNotEmpty && state.isLoading

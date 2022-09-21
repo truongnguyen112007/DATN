@@ -38,6 +38,13 @@ class _HistoryPageState extends State<HistoryPage>
     super.initState();
   }
 
+  @override
+  void dispose() {
+    _bloc.close();
+    _scrollController.dispose();
+    super.dispose();
+  }
+
   void paging() {
     _scrollController.addListener(() {
       if (!_scrollController.hasClients) return;
