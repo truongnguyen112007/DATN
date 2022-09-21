@@ -2,8 +2,15 @@ import 'dart:math';
 
 import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import '../components/app_text.dart';
+import '../data/globals.dart';
+import '../data/model/routes_model.dart';
+import '../localizations/app_localazations.dart';
+import '../modules/playlist/playlist_cubit.dart';
+import '../theme/app_styles.dart';
 import '../theme/colors.dart';
 
 class Utils {
@@ -43,7 +50,7 @@ class Utils {
     final firstDayOfWeek = now.subtract(Duration(days: now.weekday - 1));
     return List.generate(7, (index) => index)
         .map((value) => DateFormat('yyyy-MM-dd ${DateFormat.WEEKDAY}')
-        .format(firstDayOfWeek.add(Duration(days: value))))
+            .format(firstDayOfWeek.add(Duration(days: value))))
         .toList();
   }
 
@@ -60,7 +67,7 @@ class Utils {
 
   static String convertTimeStampToYYMMDD(int timeStamp) {
     var dateTime =
-    DateTime.fromMicrosecondsSinceEpoch(timeStamp, isUtc: true).toLocal();
+        DateTime.fromMicrosecondsSinceEpoch(timeStamp, isUtc: true).toLocal();
     return '${dateTime.year}-${dateTime.month.toString().length == 1 ? '0' + dateTime.month.toString() : dateTime.month}-${dateTime.day.toString().length == 1 ? '0' + dateTime.day.toString() : dateTime.day}';
   }
 
@@ -74,11 +81,6 @@ class Utils {
     }
     return true;
   }
-
-/*String stringTimeFormatYearDuration(int month, String? stringTime) {
-  final date = DateTime.tryParse(stringTime ?? '');
-  return date != null ? Jiffy(date).add(months: month).format('dd/MM/yyyy') : '';
-}*/
 
   static void snackBarMessage(String message,
       {Color? backgroundColor, SnackPosition? position, Color? colorText}) {
@@ -171,10 +173,106 @@ class Utils {
   static String convertDateToMMYYYY(DateTime date) =>
       DateFormat('MM/yyyy').format(date);
 
-
   static String formatMoney(int? money) =>
       NumberFormat('#,###,###,#,###,###,###', 'vi').format(money ?? 0);
 
   static String randomTag() => Random().nextInt(100).toString();
 
+  static void showActionDialog(
+      BuildContext context, Function(ItemAction) callBack) {
+    showModalBottomSheet(
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        context: context,
+        builder: (x) => Wrap(
+              children: [
+                Container(
+                  decoration: const BoxDecoration(
+                    color: Color(0xFF212121),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20),
+                    ),
+                  ),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: contentPadding,
+                      ),
+                      itemAction(
+                          Icons.thumb_up_alt,
+                          AppLocalizations.of(context)!.moveToPlaylist,
+                          ItemAction.MOVE_TO_TOP,
+                          () => callBack.call(ItemAction.MOVE_TO_TOP)),
+                      itemAction(
+                          Icons.account_balance_rounded,
+                          AppLocalizations.of(context)!.addToPlaylist,
+                          ItemAction.ADD_TO_PLAYLIST,
+                          () => callBack.call(ItemAction.ADD_TO_PLAYLIST)),
+                      itemAction(
+                          Icons.add,
+                          AppLocalizations.of(context)!.removeFromPlaylist,
+                          ItemAction.REMOVE_FROM_PLAYLIST,
+                          () => callBack.call(ItemAction.REMOVE_FROM_PLAYLIST)),
+                      itemAction(
+                          Icons.favorite,
+                          AppLocalizations.of(context)!.addToFavourite,
+                          ItemAction.ADD_TO_FAVOURITE,
+                          () => callBack.call(ItemAction.ADD_TO_FAVOURITE)),
+                      itemAction(
+                          Icons.remove_circle_outline,
+                          AppLocalizations.of(context)!.removeFromFavorite,
+                          ItemAction.REMOVE_FROM_PLAYLIST,
+                          () => callBack.call(ItemAction.REMOVE_FROM_PLAYLIST)),
+                      itemAction(
+                          Icons.share,
+                          AppLocalizations.of(context)!.share,
+                          ItemAction.SHARE,
+                          () => callBack.call(ItemAction.SHARE)),
+                      itemAction(
+                          Icons.copy,
+                          AppLocalizations.of(context)!.copy,
+                          ItemAction.COPY,
+                          () => callBack.call(ItemAction.COPY)),
+                      itemAction(
+                          Icons.edit,
+                          AppLocalizations.of(context)!.edit,
+                          ItemAction.EDIT,
+                          () => callBack.call(ItemAction.EDIT)),
+                      itemAction(
+                          Icons.delete,
+                          AppLocalizations.of(context)!.delete,
+                          ItemAction.DELETE,
+                          () => callBack.call(ItemAction.DELETE)),
+                    ],
+                  ),
+                )
+              ],
+            ));
+  }
+
+  static Widget itemAction(IconData icon, String text, ItemAction action,
+      VoidCallback filterCallBack) {
+    return InkWell(
+      child: Padding(
+        padding: EdgeInsets.all(contentPadding),
+        child: Row(
+          children: [
+            Icon(
+              icon,
+              color: Colors.white,
+            ),
+            SizedBox(
+              width: 40.w,
+            ),
+            AppText(
+              text,
+              style: typoSuperSmallTextRegular.copyWith(color: colorText0),
+            )
+          ],
+        ),
+      ),
+      onTap: () => filterCallBack.call(),
+    );
+  }
 }

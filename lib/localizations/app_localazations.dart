@@ -185,6 +185,8 @@ abstract class AppLocalizations {
   String get friends;
 
   String get showResult;
+
+  String get notItemSelect;
 }
 
 class _AppLocalizationsDelegate
