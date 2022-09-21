@@ -38,6 +38,13 @@ class _TabHomeState extends BaseState<TabHome>
     super.initState();
   }
 
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    _bloc.close();
+    super.dispose();
+  }
+
   void paging() {
     _scrollController.addListener(() {
       if (!_scrollController.hasClients) return;

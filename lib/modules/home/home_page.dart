@@ -54,6 +54,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void dispose() {
+    _pageController.dispose();
+    _bloc.close();
     _hideBottomBarStream?.cancel();
     super.dispose();
   }

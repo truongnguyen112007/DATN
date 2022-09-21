@@ -32,6 +32,13 @@ class _DesignedPageState extends State<DesignedPage>
     super.initState();
   }
 
+  @override
+  void dispose() {
+    _bloc.close();
+    scrollController.dispose();
+    super.dispose();
+  }
+
   void paging() {
     scrollController.addListener(() {
       var maxScroll = scrollController.position.maxScrollExtent;
@@ -54,7 +61,7 @@ class _DesignedPageState extends State<DesignedPage>
               children: [
                 FilterWidget(
                   isSelect: true,
-                  selectCallBack: () =>_bloc.selectOnClick(context),
+                  selectCallBack: () => _bloc.selectOnClick(context),
                   filterCallBack: () => _bloc.filterOnclick(context),
                   sortCallBack: () {},
                 ),
@@ -106,7 +113,8 @@ class _DesignedPageState extends State<DesignedPage>
                   index: i,
                   removeSelectCallBack: (model) => _bloc.selectRoutes(i, false),
                   onLongPress: (model) => _bloc.selectRoutes(i, true),
-                  detailCallBack: (RoutesModel action) {  },),
+                  detailCallBack: (RoutesModel action) {},
+                ),
           itemCount:
               !state.isReadEnd && state.lRoutes.isNotEmpty && state.isLoading
                   ? state.lRoutes.length + 1
