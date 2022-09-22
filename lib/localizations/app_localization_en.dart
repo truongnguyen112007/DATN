@@ -163,4 +163,10 @@ class AppLocalizationEn extends AppLocalizations {
   @override
   // TODO: implement notItemSelect
   String get notItemSelect => 'Not item select, please try again.';
+
+  @override
+  // TODO: implement user
+  String get user => 'User';
+
+  String get popularity => 'Popularity';
 }

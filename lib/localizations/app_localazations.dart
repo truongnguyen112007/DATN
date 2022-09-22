@@ -187,6 +187,9 @@ abstract class AppLocalizations {
   String get showResult;
 
   String get notItemSelect;
+
+  String get user;
+  String get popularity;
 }
 
 class _AppLocalizationsDelegate
