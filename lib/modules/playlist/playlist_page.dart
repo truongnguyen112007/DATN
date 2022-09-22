@@ -103,8 +103,9 @@ class _PlayListPageState extends State<PlayListPage>
                   model: state.lPlayList[i],
                   callBack: (model) {},
                   index: i,
-                  onLongPress: (model) => _bloc.itemOnClick(context),
-                  detailCallBack: (RoutesModel action) {},
+                  onLongPress: (model) => _bloc.itemOnLongClick(context),
+                  detailCallBack: (RoutesModel action) =>
+                      _bloc.itemOnclick(context,state.lPlayList[i]),
                 ),
           itemCount:
               !state.isReadEnd && state.lPlayList.isNotEmpty && state.isLoading

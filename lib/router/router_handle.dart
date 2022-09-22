@@ -1,5 +1,4 @@
-import 'package:base_bloc/components/app_video.dart';
-import 'package:base_bloc/data/model/feed_model.dart';
+import 'package:base_bloc/data/model/routes_model.dart';
 import 'package:base_bloc/modules/home/home_page.dart';
 import 'package:base_bloc/modules/splash/splash_page.dart';
 import 'package:base_bloc/modules/tab_climb/tab_climp.dart';
@@ -9,6 +8,13 @@ import 'package:base_bloc/modules/tab_reservation/tab_reservation.dart';
 import 'package:base_bloc/modules/tab_routes/tab_routes.dart';
 import 'package:fluro/fluro.dart';
 
+import '../modules/routers_detail/routes_detail_page.dart';
+
+var routeRoutesDetail = Handler(
+    handlerFunc: (c, p) => RouterDetailPage(
+          index: (c!.settings!.arguments as List)[0] as int,
+          model: (c.settings!.arguments as List)[1] as RoutesModel,
+        ));
 var routeSplash = Handler(handlerFunc: (c, p) => const SplashPage());
 var routeHome = Handler(handlerFunc: (c, p) => const HomePage());
 var routeTabHome = Handler(handlerFunc: (c, p) => const TabHome());

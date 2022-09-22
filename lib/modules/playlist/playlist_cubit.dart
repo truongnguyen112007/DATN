@@ -1,12 +1,16 @@
 import 'dart:async';
 
+import 'package:base_bloc/config/constant.dart';
 import 'package:base_bloc/modules/playlist/playlist_state.dart';
 import 'package:base_bloc/modules/tab_home/tab_home_state.dart';
+import 'package:base_bloc/router/router.dart';
+import 'package:base_bloc/router/router_utils.dart';
 import 'package:base_bloc/utils/app_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../data/model/routes_model.dart';
+import '../routers_detail/routes_detail_page.dart';
 
 enum ItemAction {
   MOVE_TO_TOP,
@@ -37,7 +41,7 @@ class PlayListCubit extends Cubit<PlaylistState> {
       if (state.isLoading) return;
       emit(state.copyWith(isLoading: true));
       Timer(
-          const Duration(seconds: 1),
+          const Duration(milliseconds: 200),
           () => emit(state.copyWith(
               isReadEnd: false,
               status: FeedStatus.success,
@@ -45,7 +49,7 @@ class PlayListCubit extends Cubit<PlaylistState> {
               isLoading: false)));
     } else {
       Timer(
-          const Duration(seconds: 1),
+          const Duration(milliseconds: 200),
           () => emit(state.copyWith(
               status: FeedStatus.success,
               lPlayList: fakeData(),
@@ -60,8 +64,16 @@ class PlayListCubit extends Cubit<PlaylistState> {
     emit(state.copyWith(lPlayList: lResponse));
   }
 
-  void itemOnClick(BuildContext context) =>
+  void itemOnLongClick(BuildContext context) =>
       Utils.showActionDialog(context, (p0) {});
+
+  void itemOnclick(BuildContext context, RoutesModel model) =>
+      RouterUtils.openNewPage(
+          RouterDetailPage(
+            index: BottomNavigationConstant.TAB_ROUTES,
+            model: model,
+          ),
+          context);
 
   List<RoutesModel> fakeData() => [
         RoutesModel(
