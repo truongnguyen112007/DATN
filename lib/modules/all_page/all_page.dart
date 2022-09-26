@@ -74,15 +74,16 @@ class _AllPageState extends State<AllPage> {
                     child: ListView.separated(
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (BuildContext context, int index) {
-                          return ItemTopRoute(
+                          return Container();
+                        /*  return ItemTopRoute(
                             lRouteSearch[index],
-                          );
+                          );*/
                         },
                         separatorBuilder: (BuildContext context, int index) =>
                             SizedBox(
                               width: 10.h,
                             ),
-                        itemCount: lRouteSearch.length),
+                        itemCount: 10),
                   ),
                 ),
                 AppText(
@@ -152,7 +153,7 @@ Widget ItemTopRoute(RoutesModel model) {
     width: 60.w,
     decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: getBackgroundColor(model.grade),
+          colors:[colorGrey50,colorGrey50]/* getBackgroundColor(model.grade)*/,
         ),
         borderRadius: BorderRadius.circular(100)),
     child: Center(

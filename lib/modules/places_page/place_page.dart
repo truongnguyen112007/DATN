@@ -12,7 +12,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../components/app_text.dart';
 import '../../data/eventbus/hide_map_event.dart';
 import '../../data/eventbus/search_home_event.dart';
-import '../../theme/colors.dart';
 import '../../utils/app_utils.dart';
 
 class PlacesPage extends StatefulWidget {

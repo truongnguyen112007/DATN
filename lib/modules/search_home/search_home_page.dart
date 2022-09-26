@@ -95,6 +95,7 @@ class _SearchHomePageState extends BasePopState<SearchHomePage>
             const Divider(thickness: 1, color: colorGrey80, height: 2),
             Expanded(
               child: PageView(
+                physics: NeverScrollableScrollPhysics(),
                 controller: pageController,
                 children:  [
                   AllPage(),
