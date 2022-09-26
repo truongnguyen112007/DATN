@@ -1,32 +1,39 @@
 import 'dart:math';
 
 import 'package:base_bloc/base/base_state.dart';
+import 'package:base_bloc/components/app_circle_loading.dart';
 import 'package:base_bloc/components/app_scalford.dart';
 import 'package:base_bloc/components/app_text.dart';
 import 'package:base_bloc/data/globals.dart';
 import 'package:base_bloc/data/model/routes_model.dart';
 import 'package:base_bloc/gen/assets.gen.dart';
 import 'package:base_bloc/localizations/app_localazations.dart';
-import 'package:base_bloc/router/router_utils.dart';
+import 'package:base_bloc/modules/routers_detail/routes_detail_cubit.dart';
+import 'package:base_bloc/modules/routers_detail/routes_detail_state.dart';
 import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/theme/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class RouterDetailPage extends StatefulWidget {
+import '../../components/appbar_widget.dart';
+
+enum RoutesAction { INFO, SHARE, COPY, ADD_FAVOURITE, ADD_TO_PLAY_LIST }
+
+class RoutesDetailPage extends StatefulWidget {
   final int index;
   final RoutesModel model;
 
-  const RouterDetailPage({Key? key, required this.index, required this.model})
+  const RoutesDetailPage({Key? key, required this.index, required this.model})
       : super(key: key);
 
   @override
-  State<RouterDetailPage> createState() => _RouterDetailPageState();
+  State<RoutesDetailPage> createState() => _RoutesDetailPageState();
 }
 
-class _RouterDetailPageState extends BasePopState<RouterDetailPage> {
-  bool _turnOfO = true;
-  final List<String> _xOrOList = [];
+class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
+  late RoutesDetailCubit _bloc;
+  final List<String> _lRoutes = [];
   final List<String> lClimbing = [
     Assets.png.climbing1.path,
     Assets.png.climbing2.path,
@@ -38,21 +45,34 @@ class _RouterDetailPageState extends BasePopState<RouterDetailPage> {
 
   @override
   void initState() {
+    _bloc = RoutesDetailCubit();
+    fakeData();
+    super.initState();
+  }
+
+  void fakeData() {
     var random = Random();
     for (int i = 0; i < 600; i++) {
       if (i % 19 == 0 || i % 15 == 0) {
-        _xOrOList.add(lClimbing[random.nextInt(4)]);
+        _lRoutes.add(lClimbing[random.nextInt(4)]);
       } else {
-        _xOrOList.add('');
+        _lRoutes.add('');
       }
     }
-    super.initState();
   }
 
   @override
   Widget buildWidget(BuildContext context) {
     return AppScaffold(
-        appbar: appbar(context),
+        appbar: appBarWidget(
+            context: context,
+            action: const [
+              Icon(
+                Icons.more_vert,
+                color: colorText65,
+              )
+            ],
+            titleStr: widget.model.name),
         backgroundColor: colorBlack,
         body: Stack(
           children: [
@@ -69,70 +89,59 @@ class _RouterDetailPageState extends BasePopState<RouterDetailPage> {
                     boxShadow: [BoxShadow(color: colorWhite, blurRadius: 100)]),
               ),
             )),
-            Column(
-              children: [
-                infoRoutesWidget(context),
-                Expanded(
-                    child: Container(
-                  alignment: Alignment.bottomCenter,
-                  height: MediaQuery.of(context).size.height,
-                  // margin: const EdgeInsets.only(bottom: 30),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Expanded(child: infoHeightWidget(context)),
-                      Expanded(
-                        child: routesWidget(context),
-                      ),
-                      const Expanded(
-                        child: SizedBox(),
-                      )
-                    ],
-                  ),
-                ))
-              ],
+            BlocBuilder<RoutesDetailCubit, RoutesDetailState>(
+              builder: (c, state) => state.status == RoutesStatus.initial
+                  ? const Center(
+                      child: AppCircleLoading(),
+                    )
+                  : Column(
+                      children: [
+                        infoRoutesWidget(context),
+                        Expanded(
+                            child: Container(
+                          alignment: Alignment.bottomCenter,
+                          height: MediaQuery.of(context).size.height,
+                          // margin: const EdgeInsets.only(bottom: 30),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Expanded(child: infoHeightWidget(context)),
+                              Expanded(
+                                child: routesWidget(context),
+                              ),
+                              const Expanded(
+                                child: SizedBox(),
+                              )
+                            ],
+                          ),
+                        )),
+                        actionWidget()
+                      ],
+                    ),
+              bloc: _bloc,
             )
           ],
         ));
   }
 
-  PreferredSizeWidget appbar(BuildContext context) => AppBar(
-        centerTitle: true,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back,
-            color: colorText65,
-          ),
-          onPressed: () => RouterUtils.pop(context),
+  Widget infoRoutesWidget(BuildContext context) => Container(
+        padding: const EdgeInsets.only(bottom: 15),
+        color: colorBlack,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            itemRoutesWidget(context, AppLocalizations.of(context)!.author,
+                widget.model.grade, widget.model.status ?? '',
+                padding: EdgeInsets.only(left: contentPadding, bottom: 10)),
+            itemRoutesWidget(context, AppLocalizations.of(context)!.user,
+                widget.model.grade, '',
+                padding: const EdgeInsets.only(bottom: 10)),
+            itemRoutesWidget(context, AppLocalizations.of(context)!.popularity,
+                '100k', widget.model.author,
+                padding: EdgeInsets.only(right: contentPadding, bottom: 10))
+          ],
         ),
-        title: AppText(
-          widget.model.name,
-          style: typoLargeTextRegular.copyWith(color: colorText65),
-        ),
-        backgroundColor: colorBlack,
-        actions: const [
-          Icon(
-            Icons.more_vert,
-            color: colorText65,
-          )
-        ],
-      );
-
-  Widget infoRoutesWidget(BuildContext context) => Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          itemRoutesWidget(context, AppLocalizations.of(context)!.author,
-              widget.model.grade, widget.model.status ?? '',
-              padding: EdgeInsets.only(left: contentPadding, bottom: 10)),
-          itemRoutesWidget(context, AppLocalizations.of(context)!.user,
-              widget.model.grade, '',
-              padding: const EdgeInsets.only(bottom: 10)),
-          itemRoutesWidget(context, AppLocalizations.of(context)!.popularity,
-              '100k', widget.model.author,
-              padding: EdgeInsets.only(right: contentPadding, bottom: 10))
-        ],
       );
 
   Widget itemRoutesWidget(
@@ -164,7 +173,7 @@ class _RouterDetailPageState extends BasePopState<RouterDetailPage> {
         width: MediaQuery.of(context).size.width / 3,
         child: GridView.builder(
             shrinkWrap: true,
-            itemCount: _xOrOList.length,
+            itemCount: _lRoutes.length,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 12,
             ),
@@ -178,9 +187,9 @@ class _RouterDetailPageState extends BasePopState<RouterDetailPage> {
                       color: colorGrey70,
                       border: Border.all(color: colorGrey60, width: 1)),
                   child: Center(
-                      child: _xOrOList[index].isNotEmpty
+                      child: _lRoutes[index].isNotEmpty
                           ? Image.asset(
-                              _xOrOList[index],
+                              _lRoutes[index],
                               width: 10,
                             )
                           : const SizedBox()),
@@ -227,15 +236,63 @@ class _RouterDetailPageState extends BasePopState<RouterDetailPage> {
       );
 
   void _tapped(int index) {
-    setState(() {
-      if (_turnOfO && _xOrOList[index] == '') {
-        _xOrOList[index] = 'o';
-      } else if (!_turnOfO && _xOrOList[index] == '') {
-        _xOrOList[index] = 'o';
+/*    setState(() {
+      if (_turnOfO && _lRoutes[index] == '') {
+        _lRoutes[index] = 'o';
+      } else if (!_turnOfO && _lRoutes[index] == '') {
+        _lRoutes[index] = 'o';
       }
       _turnOfO = !_turnOfO;
-    });
+    });*/
   }
+
+  Widget actionWidget() => Container(
+        padding: const EdgeInsets.only(bottom: 5),
+        color: colorBlack,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Expanded(
+                child: itemActionWidget(AppLocalizations.of(context)!.info,
+                    Icons.info, RoutesAction.INFO)),
+            Expanded(
+                child: itemActionWidget(AppLocalizations.of(context)!.share,
+                    Icons.share, RoutesAction.INFO)),
+            Expanded(
+                child: itemActionWidget(AppLocalizations.of(context)!.copy,
+                    Icons.copy, RoutesAction.INFO)),
+            Expanded(
+                child: itemActionWidget(
+                    AppLocalizations.of(context)!.addToFavourite,
+                    Icons.heart_broken_outlined,
+                    RoutesAction.INFO)),
+            Expanded(
+                child: itemActionWidget(
+                    AppLocalizations.of(context)!.addToPlaylist,
+                    Icons.add_business_outlined,
+                    RoutesAction.INFO))
+          ],
+        ),
+      );
+
+  Widget itemActionWidget(String title, IconData icon, RoutesAction action) =>
+      InkWell(
+        child: Column(
+          children: [
+            Icon(
+              icon,
+              color: colorText65,
+            ),
+            AppText(
+              title,
+              style: typoSmallTextRegular.copyWith(color: colorText65),
+              maxLine: 1,
+              overflow: TextOverflow.ellipsis,
+            )
+          ],
+        ),
+        onTap: () => _bloc.handleAction(action),
+      );
 
   @override
   int get tabIndex => widget.index;

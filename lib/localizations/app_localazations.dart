@@ -190,6 +190,7 @@ abstract class AppLocalizations {
 
   String get user;
   String get popularity;
+  String get info;
 }
 
 class _AppLocalizationsDelegate
