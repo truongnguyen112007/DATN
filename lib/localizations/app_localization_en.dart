@@ -171,4 +171,40 @@ class AppLocalizationEn extends AppLocalizations {
   String get popularity => 'Popularity';
 
   String get info => 'info';
+
+  @override
+  String get countDesigned => 'DESIGNED';
+
+  @override
+  String get countFriends => 'FRIENDS';
+
+  @override
+  String get countPassed => 'PASSED';
+
+  @override
+  String get editSettings => 'Edit Settings';
+
+  @override
+  String get tabDesigned => 'Designed';
+
+  @override
+  String get tabHistory => 'History';
+
+  @override
+  String get tabPosts => 'Posts';
+
+  @override
+  String get settingsAccount => 'Account';
+
+  @override
+  String get settings => 'Settings';
+
+  @override
+  String get settingsNotifications => 'Notifications';
+
+  @override
+  String get settingsPrivacy => 'Privacy';
+
+  @override
+  String get settingsGeneral => 'General';
 }
