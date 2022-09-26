@@ -69,7 +69,7 @@ class PlayListCubit extends Cubit<PlaylistState> {
 
   void itemOnclick(BuildContext context, RoutesModel model) =>
       RouterUtils.openNewPage(
-          RouterDetailPage(
+          RoutesDetailPage(
             index: BottomNavigationConstant.TAB_ROUTES,
             model: model,
           ),

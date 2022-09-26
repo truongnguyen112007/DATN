@@ -169,4 +169,6 @@ class AppLocalizationEn extends AppLocalizations {
   String get user => 'User';
 
   String get popularity => 'Popularity';
+
+  String get info => 'info';
 }

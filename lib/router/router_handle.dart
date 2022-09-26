@@ -11,7 +11,7 @@ import 'package:fluro/fluro.dart';
 import '../modules/routers_detail/routes_detail_page.dart';
 
 var routeRoutesDetail = Handler(
-    handlerFunc: (c, p) => RouterDetailPage(
+    handlerFunc: (c, p) => RoutesDetailPage(
           index: (c!.settings!.arguments as List)[0] as int,
           model: (c.settings!.arguments as List)[1] as RoutesModel,
         ));
