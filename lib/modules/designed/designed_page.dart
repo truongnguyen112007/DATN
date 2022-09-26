@@ -3,12 +3,8 @@ import 'package:base_bloc/data/globals.dart';
 import 'package:base_bloc/modules/designed/designed_cubit.dart';
 import 'package:base_bloc/modules/designed/designed_state.dart';
 import 'package:base_bloc/modules/tab_home/tab_home_state.dart';
-import 'package:base_bloc/utils/app_utils.dart';
-import 'package:base_bloc/utils/log_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../components/app_text_field.dart';
 import '../../components/filter_widget.dart';
 import '../../components/item_info_routes.dart';
 import '../../data/model/routes_model.dart';

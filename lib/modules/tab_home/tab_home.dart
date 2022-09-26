@@ -4,8 +4,9 @@ import 'package:base_bloc/components/app_text_field.dart';
 import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/modules/tab_home/tab_home_cubit.dart';
 import 'package:base_bloc/modules/tab_home/tab_home_state.dart';
+import 'package:base_bloc/router/router.dart';
+import 'package:base_bloc/router/router_utils.dart';
 import 'package:base_bloc/theme/colors.dart';
-import 'package:base_bloc/utils/log_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -17,7 +18,6 @@ import '../../components/app_scalford.dart';
 import '../../components/app_text.dart';
 import '../../components/item_feed_widget.dart';
 import '../../config/constant.dart';
-import '../../data/model/feed_model.dart';
 
 class TabHome extends StatefulWidget {
   const TabHome({Key? key}) : super(key: key);
@@ -26,7 +26,7 @@ class TabHome extends StatefulWidget {
   State<TabHome> createState() => _TabHomeState();
 }
 
-class _TabHomeState extends BaseState<TabHome>
+class _TabHomeState extends State<TabHome>
     with AutomaticKeepAliveClientMixin {
   final _scrollController = ScrollController();
   late final TabHomeCubit _bloc;
@@ -117,7 +117,13 @@ class _TabHomeState extends BaseState<TabHome>
         title: Text(AppLocalizations.of(context)!.climb),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              RouterUtils.pushHome(
+                context: context,
+                route: HomeRouters.search,
+                argument:BottomNavigationConstant.TAB_HOME
+              );
+            },
             icon: const Icon(Icons.search),
           ),
           SizedBox(

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:base_bloc/components/app_scalford.dart';
 import 'package:base_bloc/config/constant.dart';
+import 'package:base_bloc/data/eventbus/switch_tab_event.dart';
 import 'package:base_bloc/modules/home/home_state.dart';
 import 'package:base_bloc/modules/root/root_climb_page.dart';
 import 'package:base_bloc/modules/root/root_home_page.dart';
@@ -63,6 +64,7 @@ class _HomePageState extends State<HomePage> {
     return Stack(
       children: [
         AppScaffold(
+          fullStatusBar: true,
             resizeToAvoidBottomInset: false,
             body: Stack(
               children: [
@@ -99,6 +101,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _jumpToPage(int index) {
+    if (index == _currentIndex) Utils.fireEvent(SwitchTabEvent(index));
     isShowBottomBar = false;
     setState(() {});
     if (index == BottomNavigationConstant.TAB_CLIMB) {

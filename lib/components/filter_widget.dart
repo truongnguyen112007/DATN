@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../data/globals.dart';
 import '../localizations/app_localazations.dart';
@@ -13,17 +14,18 @@ class FilterWidget extends StatelessWidget {
   final VoidCallback filterCallBack;
   final VoidCallback selectCallBack;
 
-  const FilterWidget(
-      {Key? key,
-      this.isSelect = false,
-      required this.sortCallBack,
-      required this.filterCallBack,
-      required this.selectCallBack})
-      : super(key: key);
+  const FilterWidget({
+    Key? key,
+    this.isSelect = false,
+    required this.sortCallBack,
+    required this.filterCallBack,
+    required this.selectCallBack,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 40.h,
       color: colorBlack,
       padding: EdgeInsets.only(
           left: contentPadding, right: contentPadding, top: 5, bottom: 5),
@@ -33,14 +35,14 @@ class FilterWidget extends StatelessWidget {
           itemFilterWidget(Icons.swap_vert, AppLocalizations.of(context)!.sort,
               colorWhite, () => sortCallBack.call()),
           itemFilterWidget(
-                Icons.filter_alt_outlined,
+              Icons.filter_alt_outlined,
               AppLocalizations.of(context)!.filter,
               colorWhite,
               () => filterCallBack.call()),
           itemFilterWidget(
               Icons.filter_alt_outlined,
               AppLocalizations.of(context)!.select,
-              Colors.transparent,
+              colorWhite,
               isShow: isSelect,
               () => selectCallBack.call())
         ],
@@ -67,8 +69,8 @@ class FilterWidget extends StatelessWidget {
             AppText(
               title,
               style: typoSmallText300.copyWith(
-                  color: !isShow ? color : colorText0),
-            )
+                  color: isShow ? color : colorText0),
+            ),
           ],
         ),
       );

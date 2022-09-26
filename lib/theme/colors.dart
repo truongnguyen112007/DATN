@@ -98,6 +98,7 @@ const colorGrey20 = Color(0xFFE9EAEC);
 const colorGrey30 = Color(0xFFE9EAEC);
 const colorGrey40 = Color(0xFFC8CBD0);
 const colorGrey50 = Color(0xFFA0A4AB);
+const colorGrey60 = Colors.white24;
 const colorGrey80 = Color(0xFF636973);
 const colorGrey90 = Color(0xFF37393A);
 
@@ -117,6 +118,8 @@ const colorBlue1 = Color(0xFFC7D4EB);
 const colorRed100 = Color(0xffd10000);
 const colorRed90 = Color(0xFFD32500);
 const colorRed80 = Color(0xffd12500);
+const colorRed70 = Color(0xfffc5454);
+
 
 const colorPink100 = Color(0xFFFC2C52);
 const colorPink40 = Color(0xFFFCC0CB);

@@ -187,6 +187,14 @@ abstract class AppLocalizations {
   String get showResult;
 
   String get notItemSelect;
+
+  String get hinTextSearchHome;
+
+  String get all;
+
+  String get places;
+
+  String get persons;
 }
 
 class _AppLocalizationsDelegate
