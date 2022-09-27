@@ -34,12 +34,14 @@ class HomeRouters {
 
 class RoutesRouters {
   static String root = '/';
+  static String routesDetail = '/routesDetail';
 
   static configureRouter(FluroRouter router) {
     router.notFoundHandler = Handler(handlerFunc: (c, x) {
       logE("ROUTE WAS NOT FOUND !!!");
     });
     router.define(root, handler: routeTabRoutes);
+    router.define(routesDetail, handler: routeRoutesDetail);
   }
 }
 
@@ -56,12 +58,13 @@ class ClimbRouters {
 
 class ReservationRouters {
   static String root = '/';
-
+  static String routesReservationDetail = '/reservationDetail';
   static configureRouter(FluroRouter router) {
     router.notFoundHandler = Handler(handlerFunc: (c, x) {
       logE("ROUTE WAS NOT FOUND !!!");
     });
     router.define(root, handler: routeTabReservation);
+    router.define(routesReservationDetail, handler: routeReservationDetail);
   }
 }
 

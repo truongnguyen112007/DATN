@@ -188,6 +188,39 @@ abstract class AppLocalizations {
 
   String get notItemSelect;
 
+  String get user;
+  String get popularity;
+  String get info;
+  String get today;
+  String get nextWeek;
+  String get tomorrow;
+
+  /* Profiles */
+  String get tabPosts;
+  String get tabHistory;
+  String get tabDesigned;
+  String get countPassed;
+  String get countDesigned;
+  String get countFriends;
+  String get editSettings;
+
+  String get settings;
+  String get settingsAccount;
+  String get settingsNotifications;
+  String get settingsPrivacy;
+  String get settingsGeneral;
+  String get cancelYourReservation;
+
+  String get account_change_photo;
+  String get account_nickname;
+  String get account_name;
+  String get account_surname;
+  String get account_type;
+  String get account_height;
+  String get account_favorite_route_grade;
+  String get account_email;
+
+
   String get hinTextSearchHome;
 
   String get all;

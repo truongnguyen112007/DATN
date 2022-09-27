@@ -32,13 +32,15 @@ class _FavouritePageState extends State<FavouritePage>
   }
 
   void paging() {
-    scrollController.addListener(() {
-      var maxScroll = scrollController.position.maxScrollExtent;
-      var currentScroll = scrollController.position.pixels;
-      if (maxScroll - currentScroll <= 200) {
-        _bloc.getFavourite(isPaging: true);
-      }
-    });
+    if (scrollController.hasClients) {
+      scrollController.addListener(() {
+        var maxScroll = scrollController.position.maxScrollExtent;
+        var currentScroll = scrollController.position.pixels;
+        if (maxScroll - currentScroll <= 200) {
+          _bloc.getFavourite(isPaging: true);
+        }
+      });
+    }
   }
 
   @override
@@ -54,7 +56,7 @@ class _FavouritePageState extends State<FavouritePage>
                 FilterWidget(
                   isSelect: true,
                   selectCallBack: () {},
-                  filterCallBack: () =>_bloc.filterOnclick(context),
+                  filterCallBack: () => _bloc.filterOnclick(context),
                   sortCallBack: () {},
                 ),
                 BlocBuilder<FavouriteCubit, FavouriteState>(
@@ -107,7 +109,9 @@ class _FavouritePageState extends State<FavouritePage>
                   model: state.lPlayList[i],
                   callBack: (model) {},
                   index: i,
-                  detailCallBack: (RoutesModel action) {  },),
+                  onLongPress: (model) => _bloc.itemOnClick(context),
+                  detailCallBack: (RoutesModel action) {},
+                ),
           itemCount:
               !state.isReadEnd && state.lPlayList.isNotEmpty && state.isLoading
                   ? state.lPlayList.length + 1

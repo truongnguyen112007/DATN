@@ -35,7 +35,7 @@ class ItemInfoRoutes extends StatelessWidget {
   Widget build(BuildContext context) => Stack(
         children: [
           Container(
-            height: 88.h,
+            height: 77.h,
             color: colorBlack20,
             key: Key('$index'),
             padding: const EdgeInsets.only(bottom: 10),

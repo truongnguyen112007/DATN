@@ -6,6 +6,9 @@ const colorBlack = Color(0xff000000);
 const colorBlack20 = Color(0xFF3B4244);
 const colorBlack10 = Color(0xFF2E2E2E);
 const colorBlack5 = Color(0xFF3B3B3B);
+const colorBlack50 = Color(0xFF272727);
+const colorBlack90 = Color(0xFF121212);
+const colorBlack30 = Color(0xFF393939);
 
 
 const colorPrimaryGreen100 = Color(0xff203E8E);
@@ -59,6 +62,7 @@ const colorOrange100 = Color(0xffd56c1f);
 const colorOrange80 = Color(0xFFd07802);
 const colorOrange90 = Color(0xffff5a00);
 const colorOrange60 = Color(0xFFCD8E15);
+const colorOrange50 = Color(0xFFFF8C00);
 
 const colorInfo10 = Color(0xffF4F4F5);
 const colorInfo20 = Color(0xffE9E9EB);
@@ -73,11 +77,17 @@ const colorText100 = Color(0xff303133);
 const colorText80 = Color(0xff060e1e);
 const colorText75 = Color(0xff5a5a5a);
 const colorText70 = Color(0xff646464);
+const colorText67 = Color(0xFF7D7D7D);
+const colorText65 = Color(0xFF858585);
 const colorText60 = Color(0xff909399);
+const colorText55 = Color(0xffa4a4a4);
 const colorText50 = Color(0xffa3a3a3);
 const colorText45 = Color(0xffb7b7b7);
 const colorText40 = Color(0xffC0C4CC);
+const colorText30 = Color(0xffc8c8c8);
 const colorText20 = Color(0xffDCDFE6);
+const colorText10 = Color(0xfffff5ec);
+const colorText7 = Color(0xfffff6f1);
 const colorText5 = Color(0xffEBEEF5);
 const colorText0 = Color(0xffffffff);
 
@@ -96,9 +106,14 @@ const colorGrey5 = Color(0xFFCDCDCD);
 const colorGrey10 = Color(0xFFF2F4F7);
 const colorGrey20 = Color(0xFFE9EAEC);
 const colorGrey30 = Color(0xFFE9EAEC);
+const colorGrey35 = Color(0xFF9D9D9D);
+const colorGrey37 = Color(0xFFA0A0A0);
 const colorGrey40 = Color(0xFFC8CBD0);
+const colorGrey45 = Color(0xFFAFAFAF);
 const colorGrey50 = Color(0xFFA0A4AB);
 const colorGrey60 = Colors.white24;
+const colorGrey60 = Color(0xFF828282);
+const colorGrey70 = Color(0xFFA9A9A9);
 const colorGrey80 = Color(0xFF636973);
 const colorGrey90 = Color(0xFF37393A);
 

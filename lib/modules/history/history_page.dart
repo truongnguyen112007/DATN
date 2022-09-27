@@ -38,13 +38,22 @@ class _HistoryPageState extends State<HistoryPage>
     super.initState();
   }
 
+  @override
+  void dispose() {
+    _bloc.close();
+    _scrollController.dispose();
+    super.dispose();
+  }
+
   void paging() {
-    _scrollController.addListener(() {
+    if(_scrollController.hasClients) {
+      _scrollController.addListener(() {
       if (!_scrollController.hasClients) return;
       final maxScroll = _scrollController.position.maxScrollExtent;
       final currentScroll = _scrollController.offset;
       if (currentScroll >= (maxScroll * 0.9)) _bloc.getFeed(isPaging: true);
     });
+    }
   }
 
   @override

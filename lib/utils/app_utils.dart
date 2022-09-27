@@ -275,4 +275,13 @@ class Utils {
       onTap: () => filterCallBack.call(),
     );
   }
+
+  static String convertDateTimeToEEE(DateTime dateTime) =>
+      DateFormat('EEE').format(dateTime);
+
+  static String convertDateTimeToEEEDDMMM(DateTime dateTime) =>
+      DateFormat('EEE, d MMMM').format(dateTime);
+
+  static String convertDateTimeToDD(DateTime dateTime) =>
+      DateFormat('dd').format(dateTime);
 }

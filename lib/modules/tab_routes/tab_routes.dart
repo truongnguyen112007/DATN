@@ -1,4 +1,5 @@
 import 'package:badges/badges.dart';
+import 'package:base_bloc/components/appbar_widget.dart';
 import 'package:base_bloc/modules/designed/designed_page.dart';
 import 'package:base_bloc/modules/favourite/favourite_page.dart';
 import 'package:base_bloc/modules/history/history_page.dart';
@@ -92,14 +93,16 @@ class _TabRoutesState extends State<TabRoutes>
         ],
       );
 
-  PreferredSizeWidget appBar(BuildContext context) => AppBar(
-        backgroundColor: colorBlack,
-        // bottom: tabBar(context),
-        title: Text(AppLocalizations.of(context)!.routes),
-        actions: [
+  PreferredSizeWidget appBar(BuildContext context) => appBarWidget(
+        leading: SizedBox(),
+        titleStr: AppLocalizations.of(context)!.routes,
+        action: [
           IconButton(
             onPressed: () {},
-            icon: const Icon(Icons.search),
+            icon: const Icon(
+              Icons.search,
+              color: colorGrey45,
+            ),
           ),
           SizedBox(
             width: 15.w,
@@ -110,13 +113,17 @@ class _TabRoutesState extends State<TabRoutes>
               position: BadgePosition.topEnd(top: 13.h, end: -2.h),
               toAnimate: false,
               badgeContent: const Text('1'),
-              child: const Icon(Icons.notifications_none_sharp),
+              child: const Icon(
+                Icons.notifications_none_sharp,
+                color: colorGrey45,
+              ),
             ),
           ),
           SizedBox(
             width: 20.w,
           ),
         ],
+        context: context,
       );
 
   @override

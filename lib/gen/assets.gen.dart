@@ -12,8 +12,58 @@ import 'package:flutter/widgets.dart';
 class $AssetsPngGen {
   const $AssetsPngGen();
 
+  /// File path: assets/png/climbing1.png
+  AssetGenImage get climbing1 =>
+      const AssetGenImage('assets/png/climbing1.png');
+
+  /// File path: assets/png/climbing2.png
+  AssetGenImage get climbing2 =>
+      const AssetGenImage('assets/png/climbing2.png');
+
+  /// File path: assets/png/climbing3.png
+  AssetGenImage get climbing3 =>
+      const AssetGenImage('assets/png/climbing3.png');
+
+  /// File path: assets/png/climbing4.png
+  AssetGenImage get climbing4 =>
+      const AssetGenImage('assets/png/climbing4.png');
+
+  /// File path: assets/png/climbing5.png
+  AssetGenImage get climbing5 =>
+      const AssetGenImage('assets/png/climbing5.png');
+
   /// File path: assets/png/doctor.png
   AssetGenImage get doctor => const AssetGenImage('assets/png/doctor.png');
+
+  /// File path: assets/png/ic_account.png
+  AssetGenImage get icAccount =>
+      const AssetGenImage('assets/png/ic_account.png');
+
+  /// File path: assets/png/ic_friends.png
+  AssetGenImage get icFriends =>
+      const AssetGenImage('assets/png/ic_friends.png');
+
+  /// File path: assets/png/ic_notification.png
+  AssetGenImage get icNotification =>
+      const AssetGenImage('assets/png/ic_notification.png');
+
+  /// File path: assets/png/ic_privacy.png
+  AssetGenImage get icPrivacy =>
+      const AssetGenImage('assets/png/ic_privacy.png');
+
+  /// File path: assets/png/ic_private.png
+  AssetGenImage get icPrivate =>
+      const AssetGenImage('assets/png/ic_private.png');
+
+  /// File path: assets/png/ic_public.png
+  AssetGenImage get icPublic => const AssetGenImage('assets/png/ic_public.png');
+
+  /// File path: assets/png/ic_setting.png
+  AssetGenImage get icSetting =>
+      const AssetGenImage('assets/png/ic_setting.png');
+
+  /// File path: assets/png/person.png
+  AssetGenImage get person => const AssetGenImage('assets/png/person.png');
 
   /// File path: assets/png/test.png
   AssetGenImage get test => const AssetGenImage('assets/png/test.png');

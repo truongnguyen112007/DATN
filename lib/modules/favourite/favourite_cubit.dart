@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../data/model/routes_model.dart';
+import '../../utils/app_utils.dart';
 import '../../utils/log_utils.dart';
 import '../filter_routes/filter_routes_page.dart';
 import '../playlist/playlist_cubit.dart';
@@ -105,6 +106,7 @@ class FavouriteCubit extends Cubit<FavouriteState> {
             grade: '6A',
             status: 'corner')
       ];
+  void itemOnClick(BuildContext context) =>Utils.showActionDialog(context, (p0){});
 
   void filterOnclick(BuildContext context) => RouterUtils.openNewPage(
       const FilterRoutesPage(

@@ -31,6 +31,18 @@ class RouterUtils {
     return result;
   }
 
+  static pushRoutes<T>(
+      {required BuildContext context,
+        required String route,
+        dynamic argument,
+        bool isRemove = false}) async {
+    T result = await Application.routesRouter.navigateTo(context, route,
+        transition: TransitionType.inFromRight,
+        clearStack: isRemove,
+        routeSettings: RouteSettings(arguments: argument));
+    return result;
+  }
+
   static pushClimb<T>(
       {required BuildContext context,
       required String route,

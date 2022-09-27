@@ -55,6 +55,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void dispose() {
+    _pageController.dispose();
+    _bloc.close();
     _hideBottomBarStream?.cancel();
     super.dispose();
   }
@@ -64,7 +66,7 @@ class _HomePageState extends State<HomePage> {
     return Stack(
       children: [
         AppScaffold(
-          fullStatusBar: true,
+            fullStatusBar: true,
             resizeToAvoidBottomInset: false,
             body: Stack(
               children: [
@@ -101,9 +103,9 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _jumpToPage(int index) {
-    if (index == _currentIndex) Utils.fireEvent(SwitchTabEvent(index));
     isShowBottomBar = false;
     setState(() {});
+    if (index == _currentIndex) Utils.fireEvent(SwitchTabEvent(index));
     if (index == BottomNavigationConstant.TAB_CLIMB) {
       isShowBottomBar = true;
       setState(() {});
