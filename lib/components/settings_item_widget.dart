@@ -26,13 +26,14 @@ class SettingsItemWidget extends StatelessWidget {
           child: Row(
             children: [
               setting.type.icon.image(
-                  height: 30.h,
-                  width: 30.w
+                  height: 24.h,
+                  width: 24.w,
+                color: Colors.white70
               ),
               SizedBox(width: 20.w),
               AppText(
-                setting.title,
-                style: TextStyle(color: Colors.white, fontSize: 20.0),
+                setting.type.title(context),
+                style: TextStyle(color: Colors.white70, fontSize: 20.0),
               )
             ],
           ),

@@ -40,7 +40,7 @@ class ProfileInfoWidget extends StatelessWidget {
                     children: [
                       AppText(userModel.name ?? '',
                           style: TextStyle(
-                              color: Colors.white,
+                              color: Colors.white70,
                               fontSize: 25,
                               fontWeight: FontWeight.w600)),
                       AppText(userModel.type ?? '',
@@ -64,12 +64,12 @@ class ProfileInfoWidget extends StatelessWidget {
                     children: [
                       AppText(AppLocalizations.of(context)!.countPassed,
                           style: TextStyle(
-                              color: Colors.white,
+                              color: Colors.white70,
                               fontSize: 13,
                               fontWeight: FontWeight.w400)),
                       AppText(userModel.passed.toString(),
                           style: TextStyle(
-                              color: Colors.white,
+                              color: Colors.white70,
                               fontSize: 26,
                               fontWeight: FontWeight.w600))
                     ],
@@ -80,12 +80,12 @@ class ProfileInfoWidget extends StatelessWidget {
                     children: [
                       AppText(AppLocalizations.of(context)!.countDesigned,
                           style: TextStyle(
-                              color: Colors.white,
+                              color: Colors.white70,
                               fontSize: 13,
                               fontWeight: FontWeight.w400)),
                       AppText(userModel.designed.toString(),
                           style: TextStyle(
-                              color: Colors.white,
+                              color: Colors.white70,
                               fontSize: 26,
                               fontWeight: FontWeight.w600))
                     ],
@@ -96,12 +96,12 @@ class ProfileInfoWidget extends StatelessWidget {
                     children: [
                       AppText(AppLocalizations.of(context)!.countFriends,
                           style: TextStyle(
-                              color: Colors.white,
+                              color: Colors.white70,
                               fontSize: 13,
                               fontWeight: FontWeight.w400)),
                       AppText(userModel.friends.toString(),
                           style: TextStyle(
-                              color: Colors.white,
+                              color: Colors.white70,
                               fontSize: 26,
                               fontWeight: FontWeight.w600))
                     ],
@@ -115,14 +115,14 @@ class ProfileInfoWidget extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 10.0, right: 10.0),
                   child: Text(AppLocalizations.of(context)!.editSettings,
                       style: TextStyle(
-                          color: Colors.white,
+                          color: Colors.white70,
                           fontSize: 14,
                           fontWeight: FontWeight.w500)),
                 ),
                 style: TextButton.styleFrom(
-                  primary: Colors.white,
+                  primary: Colors.white70,
                   onSurface: Colors.black,
-                  side: BorderSide(color: Colors.white, width: 1.5),
+                  side: BorderSide(color: Colors.white70, width: 1.5),
                   shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(25))),
                 ),
