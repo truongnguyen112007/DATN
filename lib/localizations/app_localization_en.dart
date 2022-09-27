@@ -218,5 +218,29 @@ class AppLocalizationEn extends AppLocalizations {
   String get settingsGeneral => 'General';
 
   @override
+  String get account_change_photo => 'Change photo';
+
+  @override
+  String get account_email => 'E-MAIL ADDRESS';
+
+  @override
+  String get account_favorite_route_grade => 'FAVORITE ROUTE GRADE';
+
+  @override
+  String get account_height => 'HEIGHT';
+
+  @override
+  String get account_name => 'NAME';
+
+  @override
+  String get account_nickname => 'NICKNAME';
+
+  @override
+  String get account_surname => 'SURNAME';
+
+  @override
+  String get account_type => 'TYPE';
+
+  @override
   String get cancelYourReservation =>'Cancel your reservation';
 }

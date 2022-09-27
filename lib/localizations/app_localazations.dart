@@ -203,12 +203,22 @@ abstract class AppLocalizations {
   String get countDesigned;
   String get countFriends;
   String get editSettings;
+
   String get settings;
   String get settingsAccount;
   String get settingsNotifications;
   String get settingsPrivacy;
   String get settingsGeneral;
   String get cancelYourReservation;
+
+  String get account_change_photo;
+  String get account_nickname;
+  String get account_name;
+  String get account_surname;
+  String get account_type;
+  String get account_height;
+  String get account_favorite_route_grade;
+  String get account_email;
 
 }
 

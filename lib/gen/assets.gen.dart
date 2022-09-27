@@ -35,6 +35,33 @@ class $AssetsPngGen {
   /// File path: assets/png/doctor.png
   AssetGenImage get doctor => const AssetGenImage('assets/png/doctor.png');
 
+  /// File path: assets/png/ic_account.png
+  AssetGenImage get icAccount =>
+      const AssetGenImage('assets/png/ic_account.png');
+
+  /// File path: assets/png/ic_friends.png
+  AssetGenImage get icFriends =>
+      const AssetGenImage('assets/png/ic_friends.png');
+
+  /// File path: assets/png/ic_notification.png
+  AssetGenImage get icNotification =>
+      const AssetGenImage('assets/png/ic_notification.png');
+
+  /// File path: assets/png/ic_privacy.png
+  AssetGenImage get icPrivacy =>
+      const AssetGenImage('assets/png/ic_privacy.png');
+
+  /// File path: assets/png/ic_private.png
+  AssetGenImage get icPrivate =>
+      const AssetGenImage('assets/png/ic_private.png');
+
+  /// File path: assets/png/ic_public.png
+  AssetGenImage get icPublic => const AssetGenImage('assets/png/ic_public.png');
+
+  /// File path: assets/png/ic_setting.png
+  AssetGenImage get icSetting =>
+      const AssetGenImage('assets/png/ic_setting.png');
+
   /// File path: assets/png/person.png
   AssetGenImage get person => const AssetGenImage('assets/png/person.png');
 
