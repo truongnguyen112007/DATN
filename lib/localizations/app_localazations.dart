@@ -209,6 +209,7 @@ abstract class AppLocalizations {
   String get settingsNotifications;
   String get settingsPrivacy;
   String get settingsGeneral;
+  String get cancelYourReservation;
 
   String get account_change_photo;
   String get account_nickname;

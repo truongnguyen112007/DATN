@@ -1,5 +1,8 @@
+import 'package:base_bloc/config/constant.dart';
+import 'package:base_bloc/data/model/reservation_model.dart';
 import 'package:base_bloc/data/model/routes_model.dart';
 import 'package:base_bloc/modules/home/home_page.dart';
+import 'package:base_bloc/modules/reservation_detail/reservation_detail_page.dart';
 import 'package:base_bloc/modules/splash/splash_page.dart';
 import 'package:base_bloc/modules/tab_climb/tab_climp.dart';
 import 'package:base_bloc/modules/tab_home/tab_home.dart';
@@ -23,3 +26,8 @@ var routeTabProfile = Handler(handlerFunc: (c, p) => const TabProfile());
 var routeTabReservation =
     Handler(handlerFunc: (c, p) => const TabReservation());
 var routeTabRoutes = Handler(handlerFunc: (c, p) => const TabRoutes());
+var routeReservationDetail = Handler(
+    handlerFunc: (c, p) => ReservationDetailPage(
+          index: BottomNavigationConstant.TAB_RESERVATIONS,
+          model: c!.settings!.arguments as ReservationModel,
+        ));

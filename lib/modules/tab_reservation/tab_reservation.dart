@@ -97,7 +97,10 @@ class _TabReservationState extends State<TabReservation>
           action: [
             IconButton(
               onPressed: () {},
-              icon: const Icon(Icons.search),
+              icon: const Icon(
+                Icons.search,
+                color: colorGrey45,
+              ),
             ),
             SizedBox(
               width: 15.w,
@@ -108,7 +111,10 @@ class _TabReservationState extends State<TabReservation>
                 position: BadgePosition.topEnd(top: 13.h, end: -2.h),
                 toAnimate: false,
                 badgeContent: const Text('1'),
-                child: const Icon(Icons.notifications_none_sharp),
+                child: const Icon(
+                  Icons.notifications_none_sharp,
+                  color: colorGrey45,
+                ),
               ),
             ),
             SizedBox(
@@ -247,7 +253,7 @@ class _TabReservationState extends State<TabReservation>
               ))
             ],
           ),
-          onTap: () => _bloc.itemOnclick(model),
+          onTap: () => _bloc.itemOnclick(context, model),
         ),
       );
 
