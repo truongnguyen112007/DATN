@@ -171,4 +171,13 @@ class AppLocalizationEn extends AppLocalizations {
   String get popularity => 'Popularity';
 
   String get info => 'info';
+
+  @override
+  String get nextWeek => 'Next week';
+
+  @override
+  String get today => 'Today';
+
+  @override
+  String get tomorrow => 'Tomorrow';
 }

@@ -9,8 +9,8 @@ PreferredSizeWidget appBarWidget(
         Widget? leading,
         Widget? title,
         String? titleStr,
-        List<Widget>? action}) =>
-    AppBar(
+        List<Widget>? action, bool automaticallyImplyLeading = true}) =>
+    AppBar(automaticallyImplyLeading: automaticallyImplyLeading,
       centerTitle: false,
       elevation: 0,
       leading: leading ??
@@ -24,7 +24,7 @@ PreferredSizeWidget appBarWidget(
       title: title ??
           AppText(
             titleStr ?? '',
-            style: typoLargeTextRegular.copyWith(color: colorText65),
+            style: typoLargeTextRegular.copyWith(color: colorText40),
           ),
       backgroundColor: colorBlack,
       actions: action,
