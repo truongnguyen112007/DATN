@@ -216,4 +216,7 @@ class AppLocalizationEn extends AppLocalizations {
 
   @override
   String get settingsGeneral => 'General';
+
+  @override
+  String get cancelYourReservation =>'Cancel your reservation';
 }

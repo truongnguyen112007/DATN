@@ -373,7 +373,7 @@ final typoSmallText300 = GoogleFonts.roboto(
 final typoSmallTextRegular = GoogleFonts.roboto(
   fontStyle: FontStyle.normal,
   fontWeight: FontWeight.w400,
-  fontSize: 13.5.sp,
+  fontSize: 14.sp,
   letterSpacing: 0.3,
   color: colorBlack,
 );
