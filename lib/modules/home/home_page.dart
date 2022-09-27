@@ -66,6 +66,7 @@ class _HomePageState extends State<HomePage> {
     return Stack(
       children: [
         AppScaffold(
+            fullStatusBar: true,
             resizeToAvoidBottomInset: false,
             body: Stack(
               children: [

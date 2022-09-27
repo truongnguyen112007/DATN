@@ -194,6 +194,21 @@ abstract class AppLocalizations {
   String get today;
   String get nextWeek;
   String get tomorrow;
+
+  /* Profiles */
+  String get tabPosts;
+  String get tabHistory;
+  String get tabDesigned;
+  String get countPassed;
+  String get countDesigned;
+  String get countFriends;
+  String get editSettings;
+  String get settings;
+  String get settingsAccount;
+  String get settingsNotifications;
+  String get settingsPrivacy;
+  String get settingsGeneral;
+
 }
 
 class _AppLocalizationsDelegate
