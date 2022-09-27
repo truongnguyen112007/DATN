@@ -151,7 +151,6 @@ class AppLocalizationEn extends AppLocalizations {
   String get places => 'Places';
 
   @override
-  // TODO: implement user
   String get user => 'User';
 
   String get popularity => 'Popularity';
@@ -229,4 +228,13 @@ class AppLocalizationEn extends AppLocalizations {
 
   @override
   String get cancelYourReservation =>'Cancel your reservation';
+
+  @override
+  String get seeAll => 'See all';
+
+  @override
+  String get friend => 'FRIENDS';
+
+  @override
+  String get topRouteSetter => "TOP ROUTE SETTER";
 }

@@ -228,6 +228,9 @@ abstract class AppLocalizations {
   String get places;
 
   String get persons;
+  String get seeAll;
+  String get friend;
+  String get topRouteSetter;
 }
 
 class _AppLocalizationsDelegate

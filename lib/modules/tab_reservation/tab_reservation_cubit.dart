@@ -1,12 +1,9 @@
 import 'dart:async';
-
 import 'package:base_bloc/data/model/reservation_model.dart';
 import 'package:base_bloc/modules/tab_reservation/tab_reservation_state.dart';
 import 'package:base_bloc/router/router_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../data/model/feed_model.dart';
-import '../../gen/assets.gen.dart';
 import '../../router/router.dart';
 
 class TabReservationCubit extends Cubit<TabReservationState> {

@@ -3,5 +3,5 @@ class PersonModel {
   final String nickName;
   final String typeUser;
 
-  PersonModel (this.image, this.nickName, this.typeUser);
+  PersonModel ({required this.image, required this.nickName, required this.typeUser});
 }
