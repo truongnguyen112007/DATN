@@ -191,6 +191,9 @@ abstract class AppLocalizations {
   String get user;
   String get popularity;
   String get info;
+  String get today;
+  String get nextWeek;
+  String get tomorrow;
 
   /* Profiles */
   String get tabPosts;

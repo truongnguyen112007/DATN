@@ -173,6 +173,15 @@ class AppLocalizationEn extends AppLocalizations {
   String get info => 'info';
 
   @override
+  String get nextWeek => 'Next week';
+
+  @override
+  String get today => 'Today';
+
+  @override
+  String get tomorrow => 'Tomorrow';
+
+  @override
   String get countDesigned => 'DESIGNED';
 
   @override
