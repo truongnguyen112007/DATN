@@ -24,7 +24,7 @@ PreferredSizeWidget appBarWidget(
       title: title ??
           AppText(
             titleStr ?? '',
-            style: typoLargeTextRegular.copyWith(color: colorText40),
+            style: typoSuperLargeTextBold.copyWith(color: Colors.white70),
           ),
       backgroundColor: colorBlack,
       actions: action,

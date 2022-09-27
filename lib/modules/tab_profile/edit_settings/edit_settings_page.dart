@@ -61,10 +61,10 @@ class _EditSettingsState extends BaseState<EditSettingsPage>
                   SettingsModel item = _bloc.settingsList(context)[index];
                   switch (item.type) {
                     case SettingsItemType.ACCOUNT:
-                      _bloc.openAccountPage();
+                      _bloc.openAccountPage(context);
                       break;
                     default:
-                      print(item.title);
+                      print(item.type.title(context));
                   }
                 });
           },
