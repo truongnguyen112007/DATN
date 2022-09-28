@@ -220,6 +220,13 @@ abstract class AppLocalizations {
   String get account_favorite_route_grade;
   String get account_email;
 
+  String get notif_push_notifications;
+  String get notif_reservations;
+  String get notif_invitation_to_friends;
+  String get notif_comments;
+  String get notif_likes;
+  String get notif_sharing;
+
 }
 
 class _AppLocalizationsDelegate
