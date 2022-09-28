@@ -949,7 +949,7 @@ packages:
       name: video_player_avfoundation
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.3.5"
+    version: "2.3.6"
   video_player_platform_interface:
     dependency: transitive
     description:
@@ -1027,6 +1027,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.2.0"
+  week_of_year:
+    dependency: transitive
+    description:
+      name: week_of_year
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0"
+  weekly_date_picker:
+    dependency: "direct main"
+    description:
+      name: weekly_date_picker
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.3.0"
   win32:
     dependency: transitive
     description:

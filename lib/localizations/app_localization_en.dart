@@ -242,5 +242,14 @@ class AppLocalizationEn extends AppLocalizations {
   String get account_type => 'TYPE';
 
   @override
-  String get cancelYourReservation =>'Cancel your reservation';
+  String get cancelYourReservation => 'Cancel your reservation';
+
+  String get newReservation => 'New reservation';
+
+  String get city => 'City';
+
+  String get place => 'Place';
+
+  @override
+  String get hours => 'Hours';
 }

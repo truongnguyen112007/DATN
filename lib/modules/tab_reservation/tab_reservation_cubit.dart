@@ -47,6 +47,8 @@ class TabReservationCubit extends Cubit<TabReservationState> {
           route: ReservationRouters.routesReservationDetail,
           argument: model);
 
+  void addOnclick(BuildContext context) =>
+      RouterUtils.pushReservations(route: ReservationRouters.routesCreateReservationPage, context: context);
   List<ReservationModel> fakeData() => [
         ReservationModel(
             calendar: DateTime.now(),

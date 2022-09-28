@@ -59,12 +59,14 @@ class ClimbRouters {
 class ReservationRouters {
   static String root = '/';
   static String routesReservationDetail = '/reservationDetail';
+  static String routesCreateReservationPage = '/createReservationPage';
   static configureRouter(FluroRouter router) {
     router.notFoundHandler = Handler(handlerFunc: (c, x) {
       logE("ROUTE WAS NOT FOUND !!!");
     });
     router.define(root, handler: routeTabReservation);
     router.define(routesReservationDetail, handler: routeReservationDetail);
+    router.define(routesCreateReservationPage, handler: routeCreateReservationPage);
   }
 }
 

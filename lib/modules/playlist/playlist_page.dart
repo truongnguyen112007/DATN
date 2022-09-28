@@ -11,6 +11,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../components/item_info_routes.dart';
 import '../../data/model/routes_model.dart';
+import '../../localizations/app_localazations.dart';
+import '../../utils/log_utils.dart';
 
 class PlayListPage extends StatefulWidget {
   const PlayListPage({Key? key}) : super(key: key);
@@ -26,8 +28,8 @@ class _PlayListPageState extends State<PlayListPage>
 
   @override
   void initState() {
+    logE("TAG LocaleKeys: ${LocaleKeys.author}");
     _bloc = PlayListCubit();
-    scrollController.dispose();
     paging();
     super.initState();
   }
