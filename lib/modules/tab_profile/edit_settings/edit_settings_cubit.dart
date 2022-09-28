@@ -6,6 +6,7 @@ import 'package:base_bloc/router/router_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'edit_settings_state.dart';
+import 'notifications_settings/notifications_settings_page.dart';
 
 enum SettingsItemType {
   ACCOUNT,
@@ -57,6 +58,10 @@ class EditSettingsCubit extends Cubit<EditSettingsState> {
 
   void openAccountPage(BuildContext context) {
     RouterUtils.openNewPage(EditAccountPage(), context);
+  }
+
+  void openNotificationsSettingsPage(BuildContext context) {
+    RouterUtils.openNewPage(NotificationsSettingsPage(), context);
   }
 
 }
