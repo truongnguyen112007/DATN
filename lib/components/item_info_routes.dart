@@ -36,7 +36,7 @@ class ItemInfoRoutes extends StatelessWidget {
         children: [
           Container(
             height: 77.h,
-            color: colorBlack20,
+            color: colorGrey90,
             key: Key('$index'),
             padding: const EdgeInsets.only(bottom: 10),
             child: GestureDetector(
@@ -141,6 +141,7 @@ class ItemInfoRoutes extends StatelessWidget {
                   child: InkWell(
                     onTap: () => removeSelectCallBack?.call(model),
                     child: Container(
+                      margin: EdgeInsets.only(bottom: 10.h),
                       alignment: Alignment.bottomRight,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(15),

@@ -58,6 +58,10 @@ import 'package:intl/intl.dart' as intl;
 /// you wish to add from the pop-up menu in the Value field. This list should
 /// be consistent with the languages listed in the AppLocalizations.supportedLocales
 /// property.
+///
+AppLocalizations get LocaleKeys => _tr!;
+AppLocalizations? _tr;
+
 abstract class AppLocalizations {
   AppLocalizations(String locale)
       : localeName = intl.Intl.canonicalizedLocale(locale.toString());
@@ -66,6 +70,11 @@ abstract class AppLocalizations {
 
   static AppLocalizations? of(BuildContext context) {
     return Localizations.of<AppLocalizations>(context, AppLocalizations);
+  }
+
+  static init(BuildContext context) {
+    _tr = AppLocalizations.of(context);
+    return _tr;
   }
 
   static const LocalizationsDelegate<AppLocalizations> delegate =
@@ -219,6 +228,11 @@ abstract class AppLocalizations {
   String get account_height;
   String get account_favorite_route_grade;
   String get account_email;
+  String get newReservation;
+  String get city;
+  String get place;
+  String get hours;
+  String get friday;
 
   String get notif_push_notifications;
   String get notif_reservations;

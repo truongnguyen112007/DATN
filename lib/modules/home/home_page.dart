@@ -63,6 +63,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations.init(context);
     return Stack(
       children: [
         AppScaffold(
