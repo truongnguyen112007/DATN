@@ -8,10 +8,19 @@ PreferredSizeWidget appBarWidget(
         {required BuildContext context,
         Widget? leading,
         Widget? title,
+        double? titleSpacing = 0,
+        double? landingWidth = 56,
+        double? toolbarHeight,
         String? titleStr,
-        List<Widget>? action, bool automaticallyImplyLeading = true}) =>
-    AppBar(automaticallyImplyLeading: automaticallyImplyLeading,
+        Color? backgroundColor,
+        List<Widget>? action,
+        bool automaticallyImplyLeading = true}) =>
+    AppBar(
+      toolbarHeight: toolbarHeight,
+      automaticallyImplyLeading: automaticallyImplyLeading,
+      leadingWidth: landingWidth,
       centerTitle: false,
+      titleSpacing: titleSpacing,
       elevation: 0,
       leading: leading ??
           IconButton(
@@ -26,6 +35,6 @@ PreferredSizeWidget appBarWidget(
             titleStr ?? '',
             style: typoSuperLargeTextBold.copyWith(color: Colors.white70),
           ),
-      backgroundColor: colorBlack,
+      backgroundColor: backgroundColor ?? colorBlack,
       actions: action,
     );

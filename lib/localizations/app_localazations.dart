@@ -256,6 +256,8 @@ abstract class AppLocalizations {
   String get seeAll;
   String get friend;
   String get topRouteSetter;
+  String get reclimb_available_in;
+
 }
 
 class _AppLocalizationsDelegate
