@@ -66,6 +66,9 @@ class _EditSettingsState extends BaseState<EditSettingsPage>
                     case SettingsItemType.NOTIFICATIONS:
                       _bloc.openNotificationsSettingsPage(context);
                       break;
+                    case SettingsItemType.PRIVACY:
+                      _bloc.openPrivacySettingsPage(context);
+                      break;
                     default:
                       print(item.type.title(context));
                   }
