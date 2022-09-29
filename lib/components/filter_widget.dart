@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import '../data/globals.dart';
 import '../localizations/app_localazations.dart';
 import '../theme/app_styles.dart';
@@ -15,10 +14,10 @@ class FilterWidget extends StatelessWidget {
 
   const FilterWidget(
       {Key? key,
-      this.isSelect = false,
-      required this.sortCallBack,
-      required this.filterCallBack,
-      required this.selectCallBack})
+        this.isSelect = false,
+        required this.sortCallBack,
+        required this.filterCallBack,
+        required this.selectCallBack})
       : super(key: key);
 
   @override
@@ -33,24 +32,24 @@ class FilterWidget extends StatelessWidget {
           itemFilterWidget(Icons.swap_vert, AppLocalizations.of(context)!.sort,
               colorWhite, () => sortCallBack.call()),
           itemFilterWidget(
-                Icons.filter_alt_outlined,
+              Icons.filter_alt_outlined,
               AppLocalizations.of(context)!.filter,
               colorWhite,
-              () => filterCallBack.call()),
+                  () => filterCallBack.call()),
           itemFilterWidget(
               Icons.filter_alt_outlined,
               AppLocalizations.of(context)!.select,
               Colors.transparent,
               isShow: isSelect,
-              () => selectCallBack.call())
+                  () => selectCallBack.call())
         ],
       ),
     );
   }
 
   Widget itemFilterWidget(
-          IconData icon, String title, Color color, VoidCallback callback,
-          {bool isShow = false}) =>
+      IconData icon, String title, Color color, VoidCallback callback,
+      {bool isShow = false}) =>
       InkWell(
         onTap: () => callback.call(),
         child: Row(

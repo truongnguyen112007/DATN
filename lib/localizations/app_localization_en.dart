@@ -165,7 +165,18 @@ class AppLocalizationEn extends AppLocalizations {
   String get notItemSelect => 'Not item select, please try again.';
 
   @override
-  // TODO: implement user
+  String get hinTextSearchHome => 'Find places, route, climbs';
+
+  @override
+  String get all => 'All';
+
+  @override
+  String get persons => 'Persons';
+
+  @override
+  String get places => 'Places';
+
+  @override
   String get user => 'User';
 
   String get popularity => 'Popularity';
@@ -253,6 +264,27 @@ class AppLocalizationEn extends AppLocalizations {
   @override
   String get hours => 'Hours';
   String get friday => 'Friday';
+
+  @override
+  String get seeAll => 'See all';
+
+  @override
+  String get friend => 'FRIENDS';
+
+  @override
+  String get topRouteSetter => "TOP ROUTE SETTER";
+
+  @override
+  String get holdSet => "Holds set";
+
+  @override
+  String get list => "List";
+
+  @override
+  String get map => "Map";
+
+  @override
+  String get wallHeight => "Wall Height";
 
   @override
   String get notif_comments => 'Comments';

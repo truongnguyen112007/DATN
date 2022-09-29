@@ -11,7 +11,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../components/filter_widget.dart';
 import '../../components/item_info_routes.dart';
 import '../../data/model/routes_model.dart';
-import '../../theme/colors.dart';
 
 class FavouritePage extends StatefulWidget {
   const FavouritePage({Key? key}) : super(key: key);
