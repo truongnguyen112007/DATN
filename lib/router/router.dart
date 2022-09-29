@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:base_bloc/router/router_handle.dart';
 import 'package:base_bloc/utils/log_utils.dart';
 import 'package:fluro/fluro.dart';
@@ -23,12 +21,14 @@ class Routers {
 
 class HomeRouters {
   static String root = '/';
+  static String search = '/search_home';
 
   static configureMainRoutes(FluroRouter router) {
     router.notFoundHandler = Handler(handlerFunc: (c, p) {
       logE("ROUTE WAS NOT FOUND !!!");
     });
     router.define(root, handler: routeTabHome);
+    router.define(search, handler: routeSearchHome);
   }
 }
 

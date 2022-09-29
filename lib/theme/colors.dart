@@ -137,6 +137,8 @@ const colorBlue1 = Color(0xFFC7D4EB);
 const colorRed100 = Color(0xffd10000);
 const colorRed90 = Color(0xFFD32500);
 const colorRed80 = Color(0xffd12500);
+const colorRed70 = Color(0xfffc5454);
+
 
 const colorPink100 = Color(0xFFFC2C52);
 const colorPink40 = Color(0xFFFCC0CB);

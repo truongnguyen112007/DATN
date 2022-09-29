@@ -241,6 +241,21 @@ abstract class AppLocalizations {
   String get notif_likes;
   String get notif_sharing;
 
+
+  String get hinTextSearchHome;
+
+  String get all;
+
+  String get places;
+  String get list;
+  String get map;
+  String get wallHeight;
+  String get holdSet;
+
+  String get persons;
+  String get seeAll;
+  String get friend;
+  String get topRouteSetter;
 }
 
 class _AppLocalizationsDelegate

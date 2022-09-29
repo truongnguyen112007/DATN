@@ -9,6 +9,7 @@ import '../localizations/app_localazations.dart';
 import '../modules/playlist/playlist_cubit.dart';
 import '../theme/app_styles.dart';
 import '../theme/colors.dart';
+import '../utils/app_utils.dart';
 import 'app_text.dart';
 
 class ItemInfoRoutes extends StatelessWidget {
@@ -43,92 +44,95 @@ class ItemInfoRoutes extends StatelessWidget {
               onLongPress: () => onLongPress?.call(model),
               onTap: () => detailCallBack.call(model)/*showActionDialog(
                   model, (action) => actionCallBack.call(action))*/,
-              child: Container(
-                padding: EdgeInsets.only(
-                    left: contentPadding + 10, right: contentPadding + 10),
-                height: 75.h,
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    gradient: LinearGradient(
-                        colors: getBackgroundColor(model.grade))),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    model.status == null
-                        ? AppText(
-                            model.grade,
+              child: Padding(
+                padding: EdgeInsets.only(left: 13.w,right: 13.w,),
+                child: Container(
+                  padding: EdgeInsets.only(
+                      left: contentPadding + 10, right: contentPadding + 10),
+                  height: 75.h,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      gradient: LinearGradient(
+                          colors: Utils.getBackgroundColor(model.grade))),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      model.status == null
+                          ? AppText(
+                              model.grade,
+                              style: typoLargeTextRegular.copyWith(
+                                  color: colorText0, fontSize: 33.sp),
+                              textAlign: TextAlign.end,
+                            )
+                          : Stack(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(bottom: 5.h),
+                                  child: AppText(
+                                    model.grade,
+                                    style: typoLargeTextRegular.copyWith(
+                                        color: colorText0, fontSize: 33.sp),
+                                    textAlign: TextAlign.end,
+                                  ),
+                                ),
+                                Positioned.fill(
+                                    child: Container(
+                                  alignment: Alignment.bottomCenter,
+                                  child: AppText(
+                                    model.status ?? '',
+                                    textAlign: TextAlign.center,
+                                    style: typoSuperSmallText300.copyWith(
+                                        color: colorText0),
+                                  ),
+                                ))
+                              ],
+                            ),
+                      SizedBox(
+                        width: 22.w,
+                      ),
+                      Expanded(
+                          child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          AppText(
+                            model.name,
                             style: typoLargeTextRegular.copyWith(
-                                color: colorText0, fontSize: 33.sp),
-                            textAlign: TextAlign.end,
-                          )
-                        : Stack(
+                                color: colorText0, fontSize: 23.sp),
+                            maxLine: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          SizedBox(
+                            height: 5.h,
+                          ),
+                          Row(
                             children: [
-                              Padding(
-                                padding: EdgeInsets.only(bottom: 5.h),
-                                child: AppText(
-                                  model.grade,
-                                  style: typoLargeTextRegular.copyWith(
-                                      color: colorText0, fontSize: 33.sp),
-                                  textAlign: TextAlign.end,
-                                ),
+                              AppText(
+                                '${AppLocalizations.of(context)!.routes} ${model.height}m ',
+                                style:
+                                    typoSmallText300.copyWith(color: colorText0),
                               ),
-                              Positioned.fill(
-                                  child: Container(
-                                alignment: Alignment.bottomCenter,
-                                child: AppText(
-                                  model.status ?? '',
-                                  textAlign: TextAlign.center,
-                                  style: typoSuperSmallText300.copyWith(
-                                      color: colorText0),
-                                ),
+                              const Icon(
+                                Icons.ac_unit_rounded,
+                                size: 6,
+                                color: colorWhite,
+                              ),
+                              Expanded(
+                                  child: AppText(
+                                " ${model.author}",
+                                overflow: TextOverflow.ellipsis,
+                                maxLine: 1,
+                                style:
+                                    typoSmallText300.copyWith(color: colorText0),
                               ))
                             ],
-                          ),
-                    SizedBox(
-                      width: 22.w,
-                    ),
-                    Expanded(
-                        child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        AppText(
-                          model.name,
-                          style: typoLargeTextRegular.copyWith(
-                              color: colorText0, fontSize: 23.sp),
-                          maxLine: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        SizedBox(
-                          height: 5.h,
-                        ),
-                        Row(
-                          children: [
-                            AppText(
-                              '${AppLocalizations.of(context)!.routes} ${model.height}m ',
-                              style:
-                                  typoSmallText300.copyWith(color: colorText0),
-                            ),
-                            const Icon(
-                              Icons.ac_unit_rounded,
-                              size: 6,
-                              color: colorWhite,
-                            ),
-                            Expanded(
-                                child: AppText(
-                              " ${model.author}",
-                              overflow: TextOverflow.ellipsis,
-                              maxLine: 1,
-                              style:
-                                  typoSmallText300.copyWith(color: colorText0),
-                            ))
-                          ],
-                        )
-                      ],
-                    ))
-                  ],
+                          )
+                        ],
+                      ))
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -165,36 +169,6 @@ class ItemInfoRoutes extends StatelessWidget {
               : const SizedBox()
         ],
       );
-
-  List<Color> getBackgroundColor(String value) {
-    switch (value) {
-      case '4':
-        return [colorGreen70, colorGreen70];
-      case '5A':
-        return [
-          colorOrange80,
-          colorGreen70,
-          colorGreen70,
-          colorGreen70,
-          colorGreen70
-        ];
-      case '5C':
-        return [colorOrange80, colorGreen70, colorGreen70];
-      case '6A':
-        return [colorOrange80, colorGreen70, colorGreen70];
-      case '7B':
-        return [colorRed80, colorOrange80, colorOrange80];
-      case '8A':
-        return [colorRed100, colorRed90, colorOrange110];
-      case '5B':
-        return [colorOrange110, colorGreen50, colorGreen55];
-      default:
-        return [
-          colorRed100,
-          colorRed100,
-        ];
-    }
-  }
 
   void showActionDialog(RoutesModel model, Function(ItemAction) callBack) {
     showModalBottomSheet(
