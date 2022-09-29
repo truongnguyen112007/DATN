@@ -306,4 +306,24 @@ class AppLocalizationEn extends AppLocalizations {
 
   @override
   String get reclimb_available_in => 'Reclimb available in';
+
+  String get privacy_friends => 'Friends';
+
+  @override
+  String get privacy_friends_list => 'MY FRIENDS LIST';
+
+  @override
+  String get privacy_post => 'DEFAULT POST VISIBILITY';
+
+  @override
+  String get privacy_private => 'Private';
+
+  @override
+  String get privacy_public => 'Public';
+
+  @override
+  String get privacy_routes => 'DEFAULT ROUTES VISIBILITY';
+
+  @override
+  String get privacy_video => 'DEFAULT VIDEO VISIBILITY';
 }

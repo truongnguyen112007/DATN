@@ -110,7 +110,7 @@ class _NotificationsSettingsState extends BaseState<NotificationsSettingsPage>
                         onChanged: (val) {
                           item.isEnable = !item.isEnable;
                           state.notificationsSettingsList[state.notificationsSettingsList.indexWhere((element) => element.type == item.type)] = item;
-                          _bloc.updateNotificationsSettingState();
+                          _bloc.updateNotificationsSettingsState();
                         })
                   ],
                 )),

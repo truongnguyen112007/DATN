@@ -241,7 +241,6 @@ abstract class AppLocalizations {
   String get notif_likes;
   String get notif_sharing;
 
-
   String get hinTextSearchHome;
 
   String get all;
@@ -258,6 +257,13 @@ abstract class AppLocalizations {
   String get topRouteSetter;
   String get reclimb_available_in;
 
+  String get privacy_post;
+  String get privacy_routes;
+  String get privacy_video;
+  String get privacy_friends_list;
+  String get privacy_public;
+  String get privacy_friends;
+  String get privacy_private;
 }
 
 class _AppLocalizationsDelegate
