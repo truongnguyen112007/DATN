@@ -232,6 +232,7 @@ abstract class AppLocalizations {
   String get city;
   String get place;
   String get hours;
+  String get friday;
 
 }
 

@@ -252,4 +252,5 @@ class AppLocalizationEn extends AppLocalizations {
 
   @override
   String get hours => 'Hours';
+  String get friday => 'Friday';
 }

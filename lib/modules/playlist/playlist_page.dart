@@ -28,7 +28,6 @@ class _PlayListPageState extends State<PlayListPage>
 
   @override
   void initState() {
-    logE("TAG LocaleKeys: ${LocaleKeys.author}");
     _bloc = PlayListCubit();
     paging();
     super.initState();

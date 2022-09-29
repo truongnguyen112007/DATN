@@ -1,4 +1,5 @@
 library weekly_date_picker;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
@@ -27,9 +28,10 @@ class WeeklyDatePicker extends StatefulWidget {
     this.daysInWeek = 7,
     required this.pageController,
     required this.callbackIndex,
-    required this.callBackJumpToNextPage, this.monthCallBack,
+    required this.callBackJumpToNextPage,
+    this.monthCallBack,
   })  : assert(weekdays.length == daysInWeek,
-  "weekdays must be of length $daysInWeek"),
+            "weekdays must be of length $daysInWeek"),
         super(key: key);
 
   final VoidCallback? monthCallBack;
@@ -93,6 +95,7 @@ class _WeeklyDatePickerState extends State<WeeklyDatePicker> {
   int currentIndex = 0;
   int currentWeek = 0;
   bool isHidePreviousButton = true;
+
   @override
   void initState() {
     super.initState();
@@ -117,27 +120,15 @@ class _WeeklyDatePickerState extends State<WeeklyDatePicker> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        widget.enableWeeknumberText
-            ? InkWell(child:  Container(
-          padding: const EdgeInsets.all(6.0),
-          color: widget.weeknumberColor,
-          child: Text(
-            _weeknumberInSwipe,
-            style: typoMediumTextRegular.copyWith(fontSize: 16.sp),
-          ),
-        ),
-          onTap: () => widget.monthCallBack?.call(),
-        )
-            : Container(),
         SizedBox(
           height: 70,
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               InkWell(
-                splashColor:
-                isHidePreviousButton ? Colors.transparent : Colors.grey[100
-                ],
+                splashColor: isHidePreviousButton
+                    ? Colors.transparent
+                    : Colors.grey[100],
                 onTap: () {
                   if (!isHidePreviousButton) {
                     _controller.animateToPage(currentIndex - 1,
@@ -160,8 +151,8 @@ class _WeeklyDatePickerState extends State<WeeklyDatePicker> {
                   physics: currentIndex > _weekIndexOffset
                       ? const AlwaysScrollableScrollPhysics()
                       : CustomLockScrollPhysics(
-                      parent:const AlwaysScrollableScrollPhysics(),
-                      lockLeft: true),
+                          parent: const AlwaysScrollableScrollPhysics(),
+                          lockLeft: true),
                   controller: _controller,
                   onPageChanged: (int index) {
                     if (index == _weekIndexOffset) {
@@ -177,9 +168,9 @@ class _WeeklyDatePickerState extends State<WeeklyDatePicker> {
                       _weeknumberInSwipe = convertDateToMMYYYY(
                           _initialSelectedDay.add(
                               Duration(days: 7 * (index - _weekIndexOffset))));
-                      var currentDate =
-                      DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
-                      var newDate =_initialSelectedDay
+                      var currentDate = DateTime(DateTime.now().year,
+                          DateTime.now().month, DateTime.now().day);
+                      var newDate = _initialSelectedDay
                           .add(Duration(days: 7 * (index - _weekIndexOffset)));
                       if (currentDate.isAfter(newDate) ||
                           currentDate.isSameDateAs(newDate)) {
@@ -226,7 +217,7 @@ class _WeeklyDatePickerState extends State<WeeklyDatePicker> {
       final int offset = i + 1 - _initialSelectedDay.weekday;
       final int daysToAdd = weekIndex * 7 + offset;
       final DateTime dateTime =
-      _initialSelectedDay.add(Duration(days: daysToAdd));
+          _initialSelectedDay.add(Duration(days: daysToAdd));
       weekdays.add(_dateButton(dateTime));
     }
     return weekdays;
@@ -237,15 +228,16 @@ class _WeeklyDatePickerState extends State<WeeklyDatePicker> {
     final String weekday = widget.weekdays[dateTime.weekday - 1];
     final bool isSelected = dateTime.isSameDateAs(widget.selectedDay);
 
-    var currentTime =DateTime(DateTime.now().year,DateTime.now().month,DateTime.now().day);
-    if(dateTime.isAfter(currentTime) || dateTime.isSameDateAs(currentTime)){
-
-    }
+    var currentTime =
+        DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+    if (dateTime.isAfter(currentTime) || dateTime.isSameDateAs(currentTime)) {}
     return Expanded(
       child: GestureDetector(
         onTap: () {
-          var currentTime =DateTime(DateTime.now().year,DateTime.now().month,DateTime.now().day);
-          if(dateTime.isAfter(currentTime) || dateTime.isSameDateAs(currentTime)){
+          var currentTime = DateTime(
+              DateTime.now().year, DateTime.now().month, DateTime.now().day);
+          if (dateTime.isAfter(currentTime) ||
+              dateTime.isSameDateAs(currentTime)) {
             _weeknumberInSwipe = convertDateToMMYYYY(dateTime);
             widget.changeDay(dateTime);
             setState(() {});
@@ -259,17 +251,18 @@ class _WeeklyDatePickerState extends State<WeeklyDatePicker> {
               Padding(
                 padding: EdgeInsets.only(bottom: 4.0),
                 child: Text(
-                  '$weekday',
+                  weekday,
                   style: typoSmallTextBold.copyWith(
-                      color:dateTime.isBefore(currentTime) ? colorGrey50 : isSelected
-                          ? widget.selectedDigitColor
-                          : widget.digitsColor),
+                      color: dateTime.isBefore(currentTime)
+                          ? colorGrey50
+                          : isSelected
+                              ? widget.selectedDigitColor
+                              : widget.digitsColor),
                 ),
               ),
               Container(
                 padding: const EdgeInsets.all(1.0),
                 decoration: BoxDecoration(
-                  // Border around today's date
                     color: dateTime.isSameDateAs(_todaysDateTime)
                         ? Colors.transparent
                         : Colors.transparent,
@@ -280,8 +273,8 @@ class _WeeklyDatePickerState extends State<WeeklyDatePicker> {
                       color: dateTime.isBefore(currentTime)
                           ? colorGrey50
                           : isSelected
-                          ? widget.selectedDigitColor
-                          : widget.digitsColor),
+                              ? widget.selectedDigitColor
+                              : widget.digitsColor),
                 ),
               ),
             ],
