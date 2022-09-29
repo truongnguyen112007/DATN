@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import '../../data/model/routes_model.dart';
 
-enum DesignStatus { initial, success, failure, refresh }
+enum DesignStatus { initial, success, failure, refresh,search }
 
 class RoutesPageState extends Equatable {
   final DesignStatus status;

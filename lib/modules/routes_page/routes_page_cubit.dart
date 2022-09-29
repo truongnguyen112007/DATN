@@ -11,7 +11,7 @@ import '../../utils/log_utils.dart';
 import '../../utils/toast_utils.dart';
 import '../filter_routes/filter_routes_page.dart';
 import '../playlist/playlist_cubit.dart';
-import '../tab_home/tab_home_state.dart';
+
 
 class RoutesPageCubit extends Cubit<RoutesPageState> {
   RoutesPageCubit() : super(const RoutesPageState()) {
@@ -130,4 +130,12 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
         index: BottomNavigationConstant.TAB_HOME,
       ),
       context);
+
+  void search(String keySearch) {
+    if (keySearch.isEmpty) {
+      emit(state.copyWith(status: DesignStatus.success));
+    } else {
+      emit(state.copyWith(status: DesignStatus.search));
+    }
+  }
 }

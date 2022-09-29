@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:base_bloc/modules/persons_page/persons_page_cubit.dart';
 import 'package:base_bloc/modules/persons_page/persons_page_state.dart';
+import 'package:base_bloc/utils/log_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,6 +12,7 @@ import '../../data/eventbus/search_home_event.dart';
 import '../../data/globals.dart';
 import '../../data/model/person_model.dart';
 import '../../localizations/app_localazations.dart';
+import '../../router/router_utils.dart';
 import '../../theme/app_styles.dart';
 import '../../theme/colors.dart';
 import '../../utils/app_utils.dart';
@@ -24,9 +26,15 @@ class PersonsPage extends StatefulWidget {
   State<PersonsPage> createState() => _PersonsPageState();
 }
 
+final List<String> type = ["Climber", "Trainer", "Route setter", "Pro"];
+
+final List<String> profile = ["Official", "Standard"];
+
 class _PersonsPageState extends State<PersonsPage>
     with AutomaticKeepAliveClientMixin {
   String? keySearch = '';
+  int selectedType = 0;
+  int selectedProfile = 0;
   final _scrollController = ScrollController();
   late final PersonsPageCubit _bloc;
   StreamSubscription<SearchHomeEvent>? _searchEvent;
@@ -37,7 +45,7 @@ class _PersonsPageState extends State<PersonsPage>
       (event) {
         if (event.index == widget.index) {
           keySearch = event.key;
-          if (mounted) setState(() {});
+          _bloc.search(keySearch!);
           print("TAG person");
         }
       },
@@ -66,28 +74,17 @@ class _PersonsPageState extends State<PersonsPage>
         children: [
           FilterWidget(
               sortCallBack: () {},
-              filterCallBack: () {},
+              filterCallBack: () {
+                showActionDialog();
+              },
               selectCallBack: () {}),
           Expanded(
             child: Container(
               color: const Color(0xFF3B4244),
-              child:
-                  // keySearch!.isNotEmpty
-                  //     ? ListView.separated(
-                  //         padding: const EdgeInsets.all(12),
-                  //         itemBuilder: (BuildContext context, int index) {
-                  //           return itemPerson(lPerson[index]);
-                  //         },
-                  //         separatorBuilder: (BuildContext context, int index) =>
-                  //             SizedBox(
-                  //               height: 10.h,
-                  //             ),
-                  //         itemCount: lPerson.length)
-                  //     :
-                  RefreshIndicator(
-                    onRefresh: () async => _bloc.refresh(),
-                    child: Stack(
-                children: [
+              child: RefreshIndicator(
+                onRefresh: () async => _bloc.refresh(),
+                child: Stack(
+                  children: [
                     BlocBuilder<PersonsPageCubit, PersonsPageState>(
                         bloc: _bloc,
                         builder: (BuildContext context, state) {
@@ -100,9 +97,11 @@ class _PersonsPageState extends State<PersonsPage>
                               child: Container(
                                 color: const Color(0xFF3B4244),
                                 child: Padding(
-                                  padding: EdgeInsets.only(top: 10.h, left: 5.w),
+                                  padding:
+                                      EdgeInsets.only(top: 10.h, left: 5.w),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       heading(
                                         AppLocalizations.of(context)!.friend,
@@ -124,24 +123,28 @@ class _PersonsPageState extends State<PersonsPage>
                                 ),
                               ),
                             );
+                          } else if (state.status == StatusType.search) {
+                            widget = Padding(
+                                padding: EdgeInsets.only(top: 10.h),
+                                child: lPersonsWidget(state.lTopRouteSetter));
                           }
                           return widget!;
                         }),
-                  BlocBuilder<PersonsPageCubit, PersonsPageState>(
-                    bloc: _bloc,
-                    builder: (BuildContext context, state) =>
-                    (state.status == StatusType.initial ||
-                        state.status == StatusType.refresh)
-                        ? const Center(
-                      child: AppCircleLoading(),
+                    BlocBuilder<PersonsPageCubit, PersonsPageState>(
+                      bloc: _bloc,
+                      builder: (BuildContext context, state) =>
+                          (state.status == StatusType.initial ||
+                                  state.status == StatusType.refresh)
+                              ? const Center(
+                                  child: AppCircleLoading(),
+                                )
+                              : const SizedBox(),
                     )
-                        : const SizedBox(),
-                  )
-                ],
+                  ],
+                ),
               ),
-                  ),
             ),
-          )
+          ),
         ],
       ),
     );
@@ -245,6 +248,182 @@ class _PersonsPageState extends State<PersonsPage>
       shrinkWrap: true,
       separatorBuilder: (BuildContext context, int index) => const SizedBox(
         height: 10,
+      ),
+    );
+  }
+
+  void showActionDialog() {
+    showModalBottomSheet(
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      context: context,
+      builder: (x) => Wrap(
+        children: [
+          StatefulBuilder(
+              builder: (BuildContext context, StateSetter setState) {
+            return Container(
+              decoration: const BoxDecoration(
+                color: Color(0xFF212121),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20),
+                  topRight: Radius.circular(20),
+                ),
+              ),
+              child: Container(
+                decoration: const BoxDecoration(
+                  color: Color(0xFF212121),
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20)),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(
+                          left: 10.w, right: 20.w, top: 10.h, bottom: 7.h),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              RouterUtils.pop(context);
+                            },
+                            child: const Icon(
+                              Icons.arrow_back,
+                              color: Colors.white,
+                            ),
+                          ),
+                          const AppText(
+                            'Removes Filter',
+                            style: TextStyle(
+                                color: Colors.deepOrange,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 15),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const Divider(
+                      thickness: 1,
+                      color: Colors.white24,
+                    ),
+                    titleFilter('Type', selectedType, type, (index) {
+                      selectedType = index;
+                      setState(() {});
+                    }),
+                    titleFilter('Profile', selectedProfile, profile, (index) {
+                      selectedProfile = index;
+                      setState(() {});
+                    }),
+                    const Divider(
+                      thickness: 1,
+                      color: Colors.white24,
+                    ),
+                    Padding(
+                      padding:
+                          EdgeInsets.only(left: 10.w, right: 10.w, top: 5.h),
+                      child: MaterialButton(
+                        color: Colors.deepOrange,
+                        height: 40.h,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(30),
+                          ),
+                        ),
+                        onPressed: () {},
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const AppText(
+                              'Show results:',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            SizedBox(
+                              width: 5.w,
+                            ),
+                            const AppText(
+                              '25',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 15.h,
+                    )
+                  ],
+                ),
+              ),
+            );
+          }),
+        ],
+      ),
+    );
+  }
+
+  Widget titleFilter(String title, int select, List<String> list,
+      Function(int) selectOnClick) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: EdgeInsets.only(top: 10.h, left: 15.w, bottom: 10.h),
+          child: AppText(
+            title,
+            style: TextStyle(color: Colors.white70, fontSize: 15),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(left: 5.w),
+          child: listFilterDialog(type, select, (index) {
+            select = index;
+            setState(() {});
+          }),
+        ),
+      ],
+    );
+  }
+
+  Widget listFilterDialog(
+      List nameList, int select, Function(int) onCallBackSelect) {
+    final Size size = MediaQuery.of(context).size;
+    return Container(
+      height: size.height / 20.h,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: nameList.length,
+        itemBuilder: (context, index) {
+          return GestureDetector(
+            onTap: () {
+              setState(() {
+                onCallBackSelect(index);
+              });
+            },
+            child: Container(
+              padding: EdgeInsets.only(left: 15.w, right: 15.w),
+              margin: EdgeInsets.only(left: 5.w),
+              alignment: Alignment.center,
+              decoration: select == index
+                  ? BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      gradient: const LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [Colors.orange, Colors.red],
+                      ),
+                    )
+                  : BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.white24),
+              child: Text(
+                nameList[index],
+                style: const TextStyle(color: Colors.white),
+              ),
+            ),
+          );
+        },
       ),
     );
   }

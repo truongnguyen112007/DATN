@@ -4,7 +4,7 @@ import 'package:base_bloc/data/model/routes_model.dart';
 import 'package:base_bloc/modules/home/home_page.dart';
 import 'package:base_bloc/modules/reservation_detail/reservation_detail_page.dart';
 import 'package:base_bloc/modules/splash/splash_page.dart';
-import 'package:base_bloc/modules/tab_climb/tab_climp.dart';
+import 'package:base_bloc/modules/tab_climb/tab_climb.dart';
 import 'package:base_bloc/modules/tab_home/tab_home.dart';
 import 'package:base_bloc/modules/tab_profile/tab_profile.dart';
 import 'package:base_bloc/modules/tab_reservation/tab_reservation.dart';

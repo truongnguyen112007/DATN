@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import '../../data/model/person_model.dart';
 
-enum StatusType { initial, success, failure, refresh }
+enum StatusType { initial, success, failure, refresh, search}
 
 class PersonsPageState extends Equatable {
   final StatusType status;
@@ -34,3 +34,5 @@ class PersonsPageState extends Equatable {
           currentPage: currentPage ?? this.currentPage,
           status: status ?? this.status);
 }
+
+

@@ -1,18 +1,26 @@
+import 'dart:async';
+
 import 'package:base_bloc/modules/routes_page/routes_page_cubit.dart';
 import 'package:base_bloc/modules/routes_page/routes_page_state.dart';
+import 'package:base_bloc/router/router_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../components/app_circle_loading.dart';
+import '../../components/app_text.dart';
 import '../../components/filter_widget.dart';
 import '../../components/item_info_routes.dart';
-import '../../data/globals.dart';
+import '../../data/eventbus/search_home_event.dart';
 import '../../data/model/routes_model.dart';
 import '../../theme/colors.dart';
+import '../../utils/app_utils.dart';
 import '../tab_home/tab_home_state.dart';
 
 class RoutesPage extends StatefulWidget {
-  const RoutesPage({Key? key}) : super(key: key);
+  final int index;
+
+  const RoutesPage({Key? key, required this.index}) : super(key: key);
 
   @override
   State<RoutesPage> createState() => _RoutesPageState();
@@ -20,11 +28,21 @@ class RoutesPage extends StatefulWidget {
 
 class _RoutesPageState extends State<RoutesPage>
     with AutomaticKeepAliveClientMixin {
+  String? keySearch = '';
   late RoutesPageCubit _bloc;
   var scrollController = ScrollController();
+  StreamSubscription<SearchHomeEvent>? _searchEvent;
 
   @override
   void initState() {
+    _searchEvent = Utils.eventBus.on<SearchHomeEvent>().listen(
+      (event) {
+        if (event.index == widget.index) {
+          keySearch = event.key;
+          _bloc.search(keySearch!);
+        }
+      },
+    );
     _bloc = RoutesPageCubit();
     paging();
     super.initState();
@@ -42,7 +60,9 @@ class _RoutesPageState extends State<RoutesPage>
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Container(
+      color: colorBlack20,
+      child: Column(
         children: [
           FilterWidget(
             isSelect: true,
@@ -56,7 +76,7 @@ class _RoutesPageState extends State<RoutesPage>
                 children: [
                   SingleChildScrollView(
                     controller: scrollController,
-                    physics: AlwaysScrollableScrollPhysics(),
+                    physics: const AlwaysScrollableScrollPhysics(),
                     child: Column(
                       children: [
                         BlocBuilder<RoutesPageCubit, RoutesPageState>(
@@ -65,9 +85,9 @@ class _RoutesPageState extends State<RoutesPage>
                               if (state.status == FeedStatus.initial ||
                                   state.status == FeedStatus.refresh) {
                                 return const SizedBox();
-                              }
+                              } else if (state.status == DesignStatus.search) {}
                               return routesWidget(context, state);
-                            })
+                            }),
                       ],
                     ),
                   ),
@@ -87,6 +107,7 @@ class _RoutesPageState extends State<RoutesPage>
             ),
           ),
         ],
+      ),
     );
   }
 
@@ -94,16 +115,14 @@ class _RoutesPageState extends State<RoutesPage>
 
   Widget routesWidget(BuildContext context, RoutesPageState state) =>
       ListView.builder(
-        physics: const NeverScrollableScrollPhysics(),
-          // padding: EdgeInsets.all(contentPadding),
+          padding: EdgeInsets.only(top: 10.h),
+          physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           itemBuilder: (c, i) => i == state.lRoutes.length
               ? const Center(
-                  key: Key('9182098089509'),
                   child: AppCircleLoading(),
                 )
               : ItemInfoRoutes(
-                  key: Key('$i'),
                   context: context,
                   model: state.lRoutes[i],
                   callBack: (model) {},

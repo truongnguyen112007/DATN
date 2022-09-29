@@ -226,6 +226,11 @@ abstract class AppLocalizations {
   String get all;
 
   String get places;
+  String get list;
+  String get map;
+  String get city;
+  String get wallHeight;
+  String get holdSet;
 
   String get persons;
   String get seeAll;

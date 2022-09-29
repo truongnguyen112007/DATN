@@ -9,6 +9,7 @@ import '../localizations/app_localazations.dart';
 import '../modules/playlist/playlist_cubit.dart';
 import '../theme/app_styles.dart';
 import '../theme/colors.dart';
+import '../utils/app_utils.dart';
 import 'app_text.dart';
 
 class ItemInfoRoutes extends StatelessWidget {
@@ -53,7 +54,7 @@ class ItemInfoRoutes extends StatelessWidget {
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15),
                       gradient: LinearGradient(
-                          colors: getBackgroundColor(model.grade))),
+                          colors: Utils.getBackgroundColor(model.grade))),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -167,36 +168,6 @@ class ItemInfoRoutes extends StatelessWidget {
               : const SizedBox()
         ],
       );
-
-  List<Color> getBackgroundColor(String value) {
-    switch (value) {
-      case '4':
-        return [colorGreen70, colorGreen70];
-      case '5A':
-        return [
-          colorOrange80,
-          colorGreen70,
-          colorGreen70,
-          colorGreen70,
-          colorGreen70
-        ];
-      case '5C':
-        return [colorOrange80, colorGreen70, colorGreen70];
-      case '6A':
-        return [colorOrange80, colorGreen70, colorGreen70];
-      case '7B':
-        return [colorRed80, colorOrange80, colorOrange80];
-      case '8A':
-        return [colorRed100, colorRed90, colorOrange110];
-      case '5B':
-        return [colorOrange110, colorGreen50, colorGreen55];
-      default:
-        return [
-          colorRed100,
-          colorRed100,
-        ];
-    }
-  }
 
   void showActionDialog(RoutesModel model, Function(ItemAction) callBack) {
     showModalBottomSheet(

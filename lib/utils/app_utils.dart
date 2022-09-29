@@ -82,6 +82,36 @@ class Utils {
     return true;
   }
 
+  static List<Color> getBackgroundColor(String value) {
+    switch (value) {
+      case '4':
+        return [colorGreen70, colorGreen70];
+      case '5A':
+        return [
+          colorOrange80,
+          colorGreen70,
+          colorGreen70,
+          colorGreen70,
+          colorGreen70
+        ];
+      case '5C':
+        return [colorOrange80, colorGreen70, colorGreen70];
+      case '6A':
+        return [colorOrange80, colorGreen70, colorGreen70];
+      case '7B':
+        return [colorRed80, colorOrange80, colorOrange80];
+      case '8A':
+        return [colorRed100, colorRed90, colorOrange110];
+      case '5B':
+        return [colorOrange110, colorGreen50, colorGreen55];
+      default:
+        return [
+          colorRed100,
+          colorRed100,
+        ];
+    }
+  }
+
   static void snackBarMessage(String message,
       {Color? backgroundColor, SnackPosition? position, Color? colorText}) {
     Get.snackbar("LocaleKeys.notify.tr", message,

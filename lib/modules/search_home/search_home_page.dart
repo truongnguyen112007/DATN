@@ -100,7 +100,7 @@ class _SearchHomePageState extends BasePopState<SearchHomePage>
                 children:  [
                   AllPage(),
                   PlacesPage(index: 1, onCallBackShowMap: (i) {},),
-                  RoutesPage(),
+                  RoutesPage(index:2,),
                   PersonsPage(index: 3,)
                 ],
               ),

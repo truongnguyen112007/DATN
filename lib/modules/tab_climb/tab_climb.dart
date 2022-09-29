@@ -1,11 +1,7 @@
 import 'package:base_bloc/components/app_scalford.dart';
-import 'package:base_bloc/components/app_text.dart';
 import 'package:base_bloc/theme/app_styles.dart';
-import 'package:base_bloc/utils/log_utils.dart';
 import 'package:flutter/cupertino.dart';
-
 import '../../theme/colors.dart';
-import '../../utils/app_utils.dart';
 
 class TabClimb extends StatefulWidget {
   const TabClimb({Key? key}) : super(key: key);

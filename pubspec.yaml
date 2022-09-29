@@ -45,6 +45,7 @@ dependencies:
   rxdart: ^0.27.5
   google_maps_flutter: ^2.1.12
   zoom_widget: ^2.0.0
+  dropdown_button2: ^1.8.2
 
 
 

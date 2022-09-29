@@ -237,4 +237,19 @@ class AppLocalizationEn extends AppLocalizations {
 
   @override
   String get topRouteSetter => "TOP ROUTE SETTER";
+
+  @override
+  String get city => "City";
+
+  @override
+  String get holdSet => "Holds set";
+
+  @override
+  String get list => "List";
+
+  @override
+  String get map => "Map";
+
+  @override
+  String get wallHeight => "Wall Height";
 }

@@ -36,10 +36,20 @@ class PersonsPageCubit extends Cubit<PersonsPageState> {
     getFeed();
   }
 
-  List<PersonModel> fakeData() =>
-      [
-        PersonModel(image: '', nickName: 'Adam Kowalski', typeUser: 'Route setter'),
-        PersonModel(image: '', nickName: 'Adam Kowalski', typeUser: 'Route setter'),
-        PersonModel(image: '', nickName: 'Adam Kowalski', typeUser: 'Route setter'),
+  void search(String keySearch) {
+    if (keySearch.isEmpty) {
+      emit(state.copyOf(status: StatusType.success));
+    } else {
+      emit(state.copyOf(status: StatusType.search));
+    }
+  }
+
+  List<PersonModel> fakeData() => [
+        PersonModel(
+            image: '', nickName: 'Adam Kowalski', typeUser: 'Route setter'),
+        PersonModel(
+            image: '', nickName: 'Adam Kowalski', typeUser: 'Route setter'),
+        PersonModel(
+            image: '', nickName: 'Adam Kowalski', typeUser: 'Route setter'),
       ];
 }

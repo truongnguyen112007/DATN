@@ -1,4 +1,3 @@
-
 import 'package:base_bloc/data/model/user_model.dart';
 import 'package:base_bloc/modules/tab_profile/edit_settings/edit_settings_page.dart';
 import 'package:base_bloc/modules/tab_profile/tab_profile_state.dart';
