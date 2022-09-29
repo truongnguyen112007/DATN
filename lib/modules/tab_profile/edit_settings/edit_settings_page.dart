@@ -63,6 +63,9 @@ class _EditSettingsState extends BaseState<EditSettingsPage>
                     case SettingsItemType.ACCOUNT:
                       _bloc.openAccountPage(context);
                       break;
+                    case SettingsItemType.NOTIFICATIONS:
+                      _bloc.openNotificationsSettingsPage(context);
+                      break;
                     default:
                       print(item.type.title(context));
                   }

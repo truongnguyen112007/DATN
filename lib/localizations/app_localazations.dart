@@ -234,6 +234,13 @@ abstract class AppLocalizations {
   String get hours;
   String get friday;
 
+  String get notif_push_notifications;
+  String get notif_reservations;
+  String get notif_invitation_to_friends;
+  String get notif_comments;
+  String get notif_likes;
+  String get notif_sharing;
+
 }
 
 class _AppLocalizationsDelegate

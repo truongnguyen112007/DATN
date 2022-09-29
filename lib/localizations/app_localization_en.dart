@@ -253,4 +253,23 @@ class AppLocalizationEn extends AppLocalizations {
   @override
   String get hours => 'Hours';
   String get friday => 'Friday';
+  String get cancelYourReservation =>'Cancel your reservation';
+
+  @override
+  String get notif_comments => 'Comments';
+
+  @override
+  String get notif_invitation_to_friends => 'Invitation to friends';
+
+  @override
+  String get notif_likes => 'Likes';
+
+  @override
+  String get notif_push_notifications => 'Push Notification';
+
+  @override
+  String get notif_reservations => 'Reservations';
+
+  @override
+  String get notif_sharing => 'Sharing';
 }
