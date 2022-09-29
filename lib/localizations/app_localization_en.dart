@@ -264,7 +264,6 @@ class AppLocalizationEn extends AppLocalizations {
   @override
   String get hours => 'Hours';
   String get friday => 'Friday';
-  String get cancelYourReservation =>'Cancel your reservation';
 
   @override
   String get seeAll => 'See all';
@@ -274,9 +273,6 @@ class AppLocalizationEn extends AppLocalizations {
 
   @override
   String get topRouteSetter => "TOP ROUTE SETTER";
-
-  @override
-  String get city => "City";
 
   @override
   String get holdSet => "Holds set";

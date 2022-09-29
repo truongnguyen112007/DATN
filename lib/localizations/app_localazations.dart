@@ -249,7 +249,6 @@ abstract class AppLocalizations {
   String get places;
   String get list;
   String get map;
-  String get city;
   String get wallHeight;
   String get holdSet;
 
