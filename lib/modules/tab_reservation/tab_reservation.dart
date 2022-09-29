@@ -60,7 +60,8 @@ class _TabReservationState extends State<TabReservation>
 
   @override
   Widget build(BuildContext context) {
-    return AppScaffold(
+    return AppScaffold(floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+        floatingActionButton: addWidget(context),
         appbar: appbar(context),
         backgroundColor: colorBlack30,
         body: RefreshIndicator(
@@ -89,6 +90,36 @@ class _TabReservationState extends State<TabReservation>
         ));
   }
 
+  Widget addWidget(BuildContext context) => Padding(
+        padding:const EdgeInsets.only(bottom: 7),
+        child: InkWell(child: Container(
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(40),
+              gradient: const LinearGradient(
+                  colors: [colorOrange40, colorOrange70, colorOrange40],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter)),
+          width: MediaQuery.of(context).size.width / 2.8,
+          height: 40.h,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(
+                Icons.add,
+                color: colorWhite,
+                size: 18,
+              ),
+                AppText(
+                  " ${AppLocalizations.of(context)!.reservations}",
+                  style: typoSmallTextRegular.copyWith(color: colorText0),
+                )
+              ],
+            ),
+          ),
+          onTap: () => _bloc.addOnclick(context),
+        ),
+      );
   PreferredSizeWidget appbar(BuildContext context) => appBarWidget(
           leading: const SizedBox(),
           automaticallyImplyLeading: false,

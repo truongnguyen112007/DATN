@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ReservationDetailCubit extends Cubit<ReservationState> {
-  ReservationDetailCubit() : super(const ReservationState()) {}
+  ReservationDetailCubit() : super(const ReservationState()) {
+
+  }
 
   void cancelOnClick(BuildContext context) =>
       logE("TAG cancelOnClickcancelOnClick");
