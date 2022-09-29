@@ -253,7 +253,6 @@ class AppLocalizationEn extends AppLocalizations {
   @override
   String get hours => 'Hours';
   String get friday => 'Friday';
-  String get cancelYourReservation =>'Cancel your reservation';
 
   @override
   String get notif_comments => 'Comments';
@@ -272,4 +271,7 @@ class AppLocalizationEn extends AppLocalizations {
 
   @override
   String get notif_sharing => 'Sharing';
+
+  @override
+  String get reclimb_available_in => 'Reclimb available in';
 }

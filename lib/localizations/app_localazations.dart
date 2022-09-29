@@ -241,6 +241,8 @@ abstract class AppLocalizations {
   String get notif_likes;
   String get notif_sharing;
 
+  String get reclimb_available_in;
+
 }
 
 class _AppLocalizationsDelegate

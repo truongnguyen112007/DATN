@@ -2,6 +2,7 @@ import 'package:base_bloc/config/constant.dart';
 import 'package:base_bloc/data/model/reservation_model.dart';
 import 'package:base_bloc/data/model/routes_model.dart';
 import 'package:base_bloc/modules/create_reservation/create_reservation_page.dart';
+import 'package:base_bloc/modules/filter_address/filter_address_page.dart';
 import 'package:base_bloc/modules/home/home_page.dart';
 import 'package:base_bloc/modules/reservation_detail/reservation_detail_page.dart';
 import 'package:base_bloc/modules/splash/splash_page.dart';
@@ -34,3 +35,4 @@ var routeReservationDetail = Handler(
         ));
 var routeCreateReservationPage =
     Handler(handlerFunc: (c, p) => const CreateReservationPage());
+var routeFilterAddress = Handler(handlerFunc: (c, p) => const FilterAddressPage());

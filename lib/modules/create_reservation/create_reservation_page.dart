@@ -31,9 +31,12 @@ class _CreateReservationPageState extends BasePopState<CreateReservationPage> {
   var lowerAuthorGradeValue = 6.0;
   var upperAuthorGradeValue = 24.0;
   late CreateReservationCubit _bloc;
+  late TextEditingController _cityController, _placeController;
 
   @override
   void initState() {
+    _cityController = TextEditingController();
+    _placeController = TextEditingController();
     _bloc = CreateReservationCubit();
     super.initState();
   }
@@ -50,9 +53,21 @@ class _CreateReservationPageState extends BasePopState<CreateReservationPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              textFieldWidget(context, LocaleKeys.city),
+              BlocBuilder<CreateReservationCubit, CreateReservationState>(
+                  bloc: _bloc,
+                  builder: (c, state) {
+                    _cityController.text = state.addressModel?.city ?? '';
+                    return textFieldWidget(_cityController, context,
+                        LocaleKeys.city, () => _bloc.addressOnclick(context));
+                  }),
               itemSpace(),
-              textFieldWidget(context, LocaleKeys.place),
+              BlocBuilder(
+                  bloc: _bloc,
+                  builder: (c, state) {
+                    // _placeController = state.
+                    return textFieldWidget(
+                        _placeController, context, LocaleKeys.place, () {});
+                  }),
               itemSpace(),
               itemSpace(),
               AppText(
@@ -143,26 +158,32 @@ class _CreateReservationPageState extends BasePopState<CreateReservationPage> {
         decoration: BoxDecoration(
             color: index % 2 == 0 ? colorBlack10 : Colors.transparent,
             borderRadius: BorderRadius.circular(30)),
-        child:InkWell(child:  AppText(
-          '${Random().nextInt(24)}:${Random().nextInt(60)}',
-          style: typoSmallTextRegular.copyWith(
-              color: colorText45,
-              decoration: index % 2 == 0
-                  ? TextDecoration.none
-                  : TextDecoration.lineThrough),
-        ),onTap: (){
-        },),
+        child: InkWell(
+          child: AppText(
+            '${Random().nextInt(24)}:${Random().nextInt(60)}',
+            style: typoSmallTextRegular.copyWith(
+                color: colorText45,
+                decoration: index % 2 == 0
+                    ? TextDecoration.none
+                    : TextDecoration.lineThrough),
+          ),
+          onTap: () {},
+        ),
       );
 
   Widget itemSpace() => const SizedBox(
         height: 16,
       );
 
-  Widget textFieldWidget(BuildContext context, String title) => Stack(
+  Widget textFieldWidget(TextEditingController controller, BuildContext context,
+          String title, VoidCallback onTap) =>
+      Stack(
         children: [
           Padding(
             padding: EdgeInsets.only(top: 9.h),
             child: AppTextField(
+              controller: controller,
+              onTap: () => onTap.call(),
               isShowErrorText: false,
               textStyle: typoSmallTextRegular.copyWith(
                 color: colorText0,
@@ -181,11 +202,12 @@ class _CreateReservationPageState extends BasePopState<CreateReservationPage> {
                       vertical: 20.0, horizontal: 16)),
             ),
           ),
-          Container(color: colorBlack30,
+          Container(
+            color: colorBlack30,
             margin: EdgeInsets.only(left: contentPadding),
             padding: const EdgeInsets.only(left: 3, right: 7),
             child: AppText(
-              "$title",
+              title,
               style: typoSmallTextRegular.copyWith(
                   color: colorText62, backgroundColor: colorBlack30),
             ),
