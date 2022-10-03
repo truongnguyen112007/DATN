@@ -47,7 +47,7 @@ class UserModel {
         surname: 'Kowalski',
         nickname: 'Kowal',
         avatar:
-            'http://samkyvuong.vn/wp-content/uploads/2022/04/girl-tik-tok.jpg',
+            'https://thegioidienanh.vn/stores/news_dataimages/anhvu/092022/05/07/4955_300520026_497051069095370_6964118069725518096_n.jpg?rt=20220905075129',
         type: 'Climb, Route setter',
         height: '170',
         favoriteRouteGrade: '5A+',

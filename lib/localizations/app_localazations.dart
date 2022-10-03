@@ -241,7 +241,6 @@ abstract class AppLocalizations {
   String get notif_likes;
   String get notif_sharing;
 
-
   String get hinTextSearchHome;
 
   String get all;
@@ -259,6 +258,29 @@ abstract class AppLocalizations {
   String get reclimb_available_in;
   String get find_place;
   String get find_city;
+
+  String get privacy_post;
+  String get privacy_routes;
+  String get privacy_video;
+  String get privacy_friends_list;
+  String get privacy_public;
+  String get privacy_friends;
+  String get privacy_private;
+
+  String get general_settings_language;
+  String get general_settings_system_measurement;
+  String get general_settings_grade_scale;
+
+  String get general_settings_language_english;
+  String get general_settings_language_poland;
+
+  String get general_settings_system_measurement_meters;
+  String get general_settings_system_measurement_imperial_units;
+
+  String get general_settings_grade_scale_french;
+  String get general_settings_grade_scale_nordic;
+  String get general_settings_grade_scale_usa;
+  String get general_settings_grade_scale_british;
 
 }
 

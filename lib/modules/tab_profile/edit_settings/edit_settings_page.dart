@@ -40,7 +40,7 @@ class _EditSettingsState extends BaseState<EditSettingsPage>
   Widget build(BuildContext context) {
     return AppScaffold(
         backgroundColor: colorBlack20,
-        appbar: appBarWidget(context: context, titleStr: AppLocalizations.of(context)!.settings),
+        appbar: appBarWidget(context: context, titleStr: LocaleKeys.settings),
         body: settingsListView());
   }
 
@@ -66,8 +66,14 @@ class _EditSettingsState extends BaseState<EditSettingsPage>
                     case SettingsItemType.NOTIFICATIONS:
                       _bloc.openNotificationsSettingsPage(context);
                       break;
+                    case SettingsItemType.PRIVACY:
+                      _bloc.openPrivacySettingsPage(context);
+                      break;
+                    case SettingsItemType.GENERAL:
+                      _bloc.openGeneralSettingsPage(context);
+                      break;
                     default:
-                      print(item.type.title(context));
+                      print(item.type.title);
                   }
                 });
           },

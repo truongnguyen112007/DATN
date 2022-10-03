@@ -32,7 +32,7 @@ class SettingsItemWidget extends StatelessWidget {
               ),
               SizedBox(width: 20.w),
               AppText(
-                setting.type.title(context),
+                setting.type.title,
                 style: TextStyle(color: Colors.white70, fontSize: 20.0),
               )
             ],
