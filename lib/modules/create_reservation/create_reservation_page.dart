@@ -61,12 +61,12 @@ class _CreateReservationPageState extends BasePopState<CreateReservationPage> {
                         LocaleKeys.city, () => _bloc.addressOnclick(context));
                   }),
               itemSpace(),
-              BlocBuilder(
+              BlocBuilder<CreateReservationCubit, CreateReservationState>(
                   bloc: _bloc,
                   builder: (c, state) {
-                    // _placeController = state.
-                    return textFieldWidget(
-                        _placeController, context, LocaleKeys.place, () {});
+                    _placeController.text = state.placesModel?.namePlace ?? '';
+                    return textFieldWidget(_placeController, context,
+                        LocaleKeys.place, () => _bloc.placeOnclick(context));
                   }),
               itemSpace(),
               itemSpace(),

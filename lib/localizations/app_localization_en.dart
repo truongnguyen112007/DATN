@@ -306,4 +306,9 @@ class AppLocalizationEn extends AppLocalizations {
 
   @override
   String get reclimb_available_in => 'Reclimb available in';
+  @override
+  String get find_place => 'Find place';
+
+  @override
+  String get find_city =>'Find City';
 }

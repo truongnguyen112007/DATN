@@ -59,12 +59,16 @@ class _PlayListPageState extends State<PlayListPage>
                       child: AppCircleLoading(),
                     );
                   }
-                  return playlistWidget(context, state);
+                  return Column(
+                    children: [
+                      playlistWidget(context, state)
+                    ],
+                  );
                 }),
             onRefresh: () async => _bloc.onRefresh()),
         Positioned.fill(
             child: Padding(
-                padding: EdgeInsets.all(5),
+                padding:const EdgeInsets.all(5),
                 child: Align(
                     alignment: Alignment.bottomRight,
                     child: InkWell(

@@ -1,4 +1,5 @@
 import 'package:base_bloc/modules/create_reservation/create_reservation_state.dart';
+import 'package:base_bloc/modules/find_place/find_place_page.dart';
 import 'package:base_bloc/router/router.dart';
 import 'package:base_bloc/router/router_utils.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,12 @@ class CreateReservationCubit extends Cubit<CreateReservationState> {
 
   void setTime(double startTime, double endTime) =>
       emit(state.copyOf(startTime: startTime, endTime: endTime));
+
+  void placeOnclick(BuildContext context) async {
+    Utils.hideKeyboard(context);
+    var model = await RouterUtils.openNewPage(const FindPlacePage(), context);
+    emit(state.copyOf(placesModel: model));
+  }
 
   void addressOnclick(BuildContext context) async {
     Utils.hideKeyboard(context);
