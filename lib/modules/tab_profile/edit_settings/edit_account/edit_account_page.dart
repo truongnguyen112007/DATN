@@ -44,7 +44,7 @@ class _EditAccountState extends BaseState<EditAccountPage>
         backgroundColor: colorBlack20,
         appbar: appBarWidget(
             context: context,
-            titleStr: AppLocalizations.of(context)!.settingsAccount),
+            titleStr: LocaleKeys.settingsAccount),
         body: editAccountListView());
   }
 
@@ -85,7 +85,7 @@ class _EditAccountState extends BaseState<EditAccountPage>
           TextButton(
               child: Padding(
                 padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                child: Text(AppLocalizations.of(context)!.account_change_photo,
+                child: Text(LocaleKeys.account_change_photo,
                     style: TextStyle(
                         color: Colors.white70,
                         fontSize: 14,
@@ -114,7 +114,7 @@ class _EditAccountState extends BaseState<EditAccountPage>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          AppText(fieldType.title(context),
+          AppText(fieldType.title,
               style: TextStyle(color: Colors.white60, fontSize: 12.0)),
           Row(
             children: [

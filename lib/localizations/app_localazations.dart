@@ -264,6 +264,22 @@ abstract class AppLocalizations {
   String get privacy_public;
   String get privacy_friends;
   String get privacy_private;
+
+  String get general_settings_language;
+  String get general_settings_system_measurement;
+  String get general_settings_grade_scale;
+
+  String get general_settings_language_english;
+  String get general_settings_language_poland;
+
+  String get general_settings_system_measurement_meters;
+  String get general_settings_system_measurement_imperial_units;
+
+  String get general_settings_grade_scale_french;
+  String get general_settings_grade_scale_nordic;
+  String get general_settings_grade_scale_usa;
+  String get general_settings_grade_scale_british;
+
 }
 
 class _AppLocalizationsDelegate

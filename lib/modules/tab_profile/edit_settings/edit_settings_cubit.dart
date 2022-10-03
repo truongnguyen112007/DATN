@@ -7,6 +7,7 @@ import 'package:base_bloc/router/router_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'edit_settings_state.dart';
+import 'general_settings/general_settings_page.dart';
 import 'notifications_settings/notifications_settings_page.dart';
 
 enum SettingsItemType {
@@ -30,16 +31,16 @@ extension SettingsItemTypeExtension on SettingsItemType {
     }
   }
 
-  String title(BuildContext context) {
+  String get title {
     switch (this) {
       case SettingsItemType.ACCOUNT:
-        return AppLocalizations.of(context)!.settingsAccount;
+        return LocaleKeys.settingsAccount;
       case SettingsItemType.NOTIFICATIONS:
-        return AppLocalizations.of(context)!.settingsNotifications;
+        return LocaleKeys.settingsNotifications;
       case SettingsItemType.PRIVACY:
-        return AppLocalizations.of(context)!.settingsPrivacy;
+        return LocaleKeys.settingsPrivacy;
       case SettingsItemType.GENERAL:
-        return AppLocalizations.of(context)!.settingsGeneral;
+        return LocaleKeys.settingsGeneral;
     }
   }
 }
@@ -67,6 +68,10 @@ class EditSettingsCubit extends Cubit<EditSettingsState> {
 
   void openPrivacySettingsPage(BuildContext context) {
     RouterUtils.openNewPage(PrivacySettingsPage(), context);
+  }
+
+  void openGeneralSettingsPage(BuildContext context) {
+    RouterUtils.openNewPage(GeneralSettingsPage(), context);
   }
 
 }

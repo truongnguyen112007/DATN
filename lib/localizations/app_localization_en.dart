@@ -326,4 +326,37 @@ class AppLocalizationEn extends AppLocalizations {
 
   @override
   String get privacy_video => 'DEFAULT VIDEO VISIBILITY';
+
+  @override
+  String get general_settings_grade_scale => 'GRADE SCALE';
+
+  @override
+  String get general_settings_grade_scale_british => 'British';
+
+  @override
+  String get general_settings_grade_scale_french => 'French';
+
+  @override
+  String get general_settings_grade_scale_nordic => 'Nordic';
+
+  @override
+  String get general_settings_grade_scale_usa => 'USA';
+
+  @override
+  String get general_settings_language => 'LANGUAGE';
+
+  @override
+  String get general_settings_language_english => 'English';
+
+  @override
+  String get general_settings_language_poland => 'Poland';
+
+  @override
+  String get general_settings_system_measurement => 'SYSTEM OF MEASUREMENT';
+
+  @override
+  String get general_settings_system_measurement_imperial_units => 'Imperial Units';
+
+  @override
+  String get general_settings_system_measurement_meters => 'Metric - meters';
 }
