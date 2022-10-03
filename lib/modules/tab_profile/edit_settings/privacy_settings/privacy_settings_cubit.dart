@@ -1,6 +1,10 @@
 import 'package:base_bloc/modules/tab_profile/edit_settings/privacy_settings/privacy_setting_state.dart';
+import 'package:base_bloc/utils/app_utils.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../data/model/general_action_sheet_model.dart';
 import '../../../../data/model/privacy_settings_model.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../localizations/app_localazations.dart';
@@ -12,14 +16,14 @@ enum PrivacySettingsItemValue {
 }
 
 extension PrivacySettingsItemValueExtension on PrivacySettingsItemValue {
-  String title(BuildContext context) {
+  String get title {
     switch (this) {
       case PrivacySettingsItemValue.PUBLIC:
-        return AppLocalizations.of(context)!.privacy_public;
+        return LocaleKeys.privacy_public;
       case PrivacySettingsItemValue.FRIENDS:
-        return AppLocalizations.of(context)!.privacy_friends;
+        return LocaleKeys.privacy_friends;
       case PrivacySettingsItemValue.PRIVATE:
-        return AppLocalizations.of(context)!.privacy_private;
+        return LocaleKeys.privacy_private;
     }
   }
 
@@ -33,6 +37,7 @@ extension PrivacySettingsItemValueExtension on PrivacySettingsItemValue {
         return Assets.png.icPrivate;
     }
   }
+  
 }
 
 enum PrivacySettingsItemType {
@@ -43,16 +48,16 @@ enum PrivacySettingsItemType {
 }
 
 extension PrivacySettingsItemTypeExtension on PrivacySettingsItemType {
-  String title(BuildContext context) {
+  String get title {
     switch (this) {
       case PrivacySettingsItemType.POST:
-        return AppLocalizations.of(context)!.privacy_post;
+        return LocaleKeys.privacy_post;
       case PrivacySettingsItemType.ROUTES:
-        return AppLocalizations.of(context)!.privacy_routes;
+        return LocaleKeys.privacy_routes;
       case PrivacySettingsItemType.VIDEO:
-        return AppLocalizations.of(context)!.privacy_video;
+        return LocaleKeys.privacy_video;
       case PrivacySettingsItemType.MY_FRIENDS_LIST:
-        return AppLocalizations.of(context)!.privacy_friends_list;
+        return LocaleKeys.privacy_friends_list;
     }
   }
 }
@@ -77,6 +82,16 @@ class PrivacySettingsCubit extends Cubit<PrivacySettingsState> {
       PrivacySettingsModel(PrivacySettingsItemType.VIDEO, PrivacySettingsItemValue.FRIENDS),
       PrivacySettingsModel(PrivacySettingsItemType.MY_FRIENDS_LIST, PrivacySettingsItemValue.PRIVATE)
     ];
+  }
+
+  void showPrivacyOption(BuildContext context, PrivacySettingsModel item) {
+    List<GeneralActionSheetModel> privacyActionSheetModels = PrivacySettingsItemValue.values.map((e) => GeneralActionSheetModel(e.title, icon: e.icon.image(height: 24.h, width: 24.w, color: Colors.white70))).toList();
+    UtilsExtension.showGeneralOptionActionDialog(context, privacyActionSheetModels, (p0) {
+      PrivacySettingsItemValue? selectedValue = PrivacySettingsItemValue.values.firstWhere((element) => element.title == p0.value);
+      PrivacySettingsModel newItem = PrivacySettingsModel(item.type, selectedValue);
+      state.privacySettingsList[state.privacySettingsList.indexWhere((element) => element.type == item.type)] = newItem;
+      updatePrivacySettingsState();
+    });
   }
 
 }

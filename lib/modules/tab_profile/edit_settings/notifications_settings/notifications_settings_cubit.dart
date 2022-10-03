@@ -13,18 +13,18 @@ enum NotificationSettingItemType {
 }
 
 extension NotificationSettingItemTypeExtension on NotificationSettingItemType {
-  String title(BuildContext context) {
+  String get title {
     switch (this) {
       case NotificationSettingItemType.RESERVATIONS:
-        return AppLocalizations.of(context)!.notif_reservations;
+        return LocaleKeys.notif_reservations;
       case NotificationSettingItemType.INVITATION_TO_FRIENDS:
-        return AppLocalizations.of(context)!.notif_invitation_to_friends;
+        return LocaleKeys.notif_invitation_to_friends;
       case NotificationSettingItemType.COMMENTS:
-        return AppLocalizations.of(context)!.notif_comments;
+        return LocaleKeys.notif_comments;
       case NotificationSettingItemType.LIKES:
-        return AppLocalizations.of(context)!.notif_likes;
+        return LocaleKeys.notif_likes;
       case NotificationSettingItemType.SHARING:
-        return AppLocalizations.of(context)!.notif_sharing;
+        return LocaleKeys.notif_sharing;
     }
   }
 }

@@ -49,7 +49,7 @@ class _NotificationsSettingsState extends BaseState<NotificationsSettingsPage>
         backgroundColor: colorBlack20,
         appbar: appBarWidget(
             context: context,
-            titleStr: AppLocalizations.of(context)!.settingsNotifications),
+            titleStr: LocaleKeys.settingsNotifications),
         body: notificationsSettingsListView(context));
   }
 
@@ -68,7 +68,7 @@ class _NotificationsSettingsState extends BaseState<NotificationsSettingsPage>
               return Container(
                 padding: EdgeInsets.only(bottom: 15.w),
                 child: AppText(
-                    AppLocalizations.of(context)!.notif_push_notifications,
+                    LocaleKeys.notif_push_notifications,
                     style: TextStyle(
                         color: Colors.white70,
                         fontWeight: FontWeight.w800,
@@ -97,7 +97,7 @@ class _NotificationsSettingsState extends BaseState<NotificationsSettingsPage>
                     child: Row(
                   children: [
                     Expanded(
-                        child: AppText(item.type.title(context),
+                        child: AppText(item.type.title,
                             style: TextStyle(
                                 color: Colors.white70,
                                 fontSize: 17.0,

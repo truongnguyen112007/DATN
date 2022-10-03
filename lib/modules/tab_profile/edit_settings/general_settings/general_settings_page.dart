@@ -11,24 +11,27 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_storage/get_storage.dart';
 import '../../../../components/app_scalford.dart';
 import '../../../../components/appbar_widget.dart';
+import '../../../../data/model/general_settings_model.dart';
 import '../../../../data/model/privacy_settings_model.dart';
 import '../../../../gen/assets.gen.dart';
+import 'general_settings_cubit.dart';
+import 'general_settings_state.dart';
 
-class PrivacySettingsPage extends StatefulWidget {
-  const PrivacySettingsPage({Key? key}) : super(key: key);
+class GeneralSettingsPage extends StatefulWidget {
+  const GeneralSettingsPage({Key? key}) : super(key: key);
 
   @override
-  State<PrivacySettingsPage> createState() => _PrivacySettingsState();
+  State<GeneralSettingsPage> createState() => _GeneralSettingsState();
 }
 
-class _PrivacySettingsState extends BaseState<PrivacySettingsPage>
+class _GeneralSettingsState extends BaseState<GeneralSettingsPage>
     with AutomaticKeepAliveClientMixin {
   final _scrollController = ScrollController();
-  late final PrivacySettingsCubit _bloc;
+  late final GeneralSettingsCubit _bloc;
 
   @override
   void initState() {
-    _bloc = PrivacySettingsCubit();
+    _bloc = GeneralSettingsCubit();
     super.initState();
   }
 
@@ -45,32 +48,32 @@ class _PrivacySettingsState extends BaseState<PrivacySettingsPage>
         backgroundColor: colorBlack20,
         appbar: appBarWidget(
             context: context,
-            titleStr: LocaleKeys.settingsPrivacy),
-        body: privacySettingsListView(context));
+            titleStr: AppLocalizations.of(context)!.settingsGeneral),
+        body: generalSettingsListView(context));
   }
 
   @override
   bool get wantKeepAlive => true;
 
-  Widget privacySettingsListView(BuildContext context) {
-    return BlocBuilder<PrivacySettingsCubit, PrivacySettingsState>(
+  Widget generalSettingsListView(BuildContext context) {
+    return BlocBuilder<GeneralSettingsCubit, GeneralSettingsState>(
       bloc: _bloc,
       builder: (BuildContext context, state) {
         return ListView.builder(
           padding: EdgeInsets.only(top: 10.0),
-          itemCount: state.privacySettingsList.length,
+          itemCount: state.generalSettingsList.length,
           itemBuilder: (context, index) {
-            return privacySettingsItemView(
-                context, state.privacySettingsList.elementAt(index));
+            return generalSettingsItemView(
+                context, state.generalSettingsList.elementAt(index));
           },
         );
       },
     );
   }
 
-  Widget privacySettingsItemView(
-      BuildContext context, PrivacySettingsModel item) {
-    return BlocBuilder<PrivacySettingsCubit, PrivacySettingsState>(
+  Widget generalSettingsItemView(
+      BuildContext context, GeneralSettingsModel item) {
+    return BlocBuilder<GeneralSettingsCubit, GeneralSettingsState>(
         bloc: _bloc,
         builder: (BuildContext context, state) {
           return InkWell(
@@ -91,18 +94,11 @@ class _PrivacySettingsState extends BaseState<PrivacySettingsPage>
                                 fontSize: 13.0,
                                 fontWeight: FontWeight.w600)),
                         SizedBox(height: 10.h),
-                        Row(
-                          children: [
-                            item.value.icon.image(
-                                width: 20.w, height: 20.h, color: Colors.white70),
-                            SizedBox(width: 10.0),
-                            AppText(item.value.title,
-                                style: TextStyle(
-                                    color: Colors.white70,
-                                    fontSize: 24.0,
-                                    fontWeight: FontWeight.w600))
-                          ],
-                        )
+                        AppText(item.value,
+                            style: TextStyle(
+                                color: Colors.white70,
+                                fontSize: 24.0,
+                                fontWeight: FontWeight.w600))
                       ],
                     ),
                   ),
@@ -114,7 +110,7 @@ class _PrivacySettingsState extends BaseState<PrivacySettingsPage>
               ),
             ),
             onTap: () {
-              _bloc.showPrivacyOption(context, item);
+              _bloc.showGeneralSettingsOption(context, item);
             },
           );
         });
