@@ -256,6 +256,8 @@ abstract class AppLocalizations {
   String get friend;
   String get topRouteSetter;
   String get reclimb_available_in;
+  String get find_place;
+  String get find_city;
 
   String get privacy_post;
   String get privacy_routes;

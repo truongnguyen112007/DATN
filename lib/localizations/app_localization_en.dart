@@ -359,4 +359,9 @@ class AppLocalizationEn extends AppLocalizations {
 
   @override
   String get general_settings_system_measurement_meters => 'Metric - meters';
+  @override
+  String get find_place => 'Find place';
+
+  @override
+  String get find_city =>'Find City';
 }

@@ -56,6 +56,7 @@ class _FilterAddressPageState extends BasePopState<FilterAddressPage> {
   @override
   Widget buildWidget(BuildContext context) {
     return AppScaffold(
+      resizeToAvoidBottomInset: false,
       padding: EdgeInsets.all(contentPadding),
       backgroundColor: colorBackgroundColor,
       body: RefreshIndicator(
@@ -173,6 +174,11 @@ class _FilterAddressPageState extends BasePopState<FilterAddressPage> {
           ),
           cursorColor: Colors.white60,
           decoration: decorTextField.copyWith(
+              prefixIcon: const Icon(
+                Icons.search,
+                color: colorText45,
+              ),
+              hintText: LocaleKeys.find_city,
               contentPadding: EdgeInsets.all(15.h),
               fillColor: colorBlack10,
               border: border,
