@@ -282,6 +282,9 @@ abstract class AppLocalizations {
   String get general_settings_grade_scale_usa;
   String get general_settings_grade_scale_british;
 
+  String get please_input_information;
+  String get confirm_information;
+  String get wall;
 }
 
 class _AppLocalizationsDelegate

@@ -9,6 +9,7 @@ import 'package:base_bloc/data/globals.dart';
 import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/modules/create_reservation/create_reservation_cubit.dart';
 import 'package:base_bloc/modules/create_reservation/create_reservation_state.dart';
+import 'package:base_bloc/utils/app_utils.dart';
 import 'package:base_bloc/utils/log_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -151,25 +152,34 @@ class _CreateReservationPageState extends BasePopState<CreateReservationPage> {
         ),
       );
 
-  Widget itemCalendar(BuildContext context, int index) => Container(
-        margin: EdgeInsets.only(left: 10.w, right: 10.w),
-        height: 30.h,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-            color: index % 2 == 0 ? colorBlack10 : Colors.transparent,
-            borderRadius: BorderRadius.circular(30)),
-        child: InkWell(
-          child: AppText(
-            '${Random().nextInt(24)}:${Random().nextInt(60)}',
-            style: typoSmallTextRegular.copyWith(
-                color: colorText45,
-                decoration: index % 2 == 0
-                    ? TextDecoration.none
-                    : TextDecoration.lineThrough),
-          ),
-          onTap: () {},
+  Widget itemCalendar(BuildContext context, int index){
+    var dateTime = DateTime(DateTime
+        .now()
+        .year, DateTime
+        .now()
+        .month, DateTime
+        .now()
+        .day, Random().nextInt(24), Random().nextInt(60));
+    return Container(
+      margin: EdgeInsets.only(left: 10.w, right: 10.w),
+      height: 30.h,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+          color: index % 2 == 0 ? colorBlack10 : Colors.transparent,
+          borderRadius: BorderRadius.circular(30)),
+      child: InkWell(
+        child: AppText(
+          Utils.convertTimeToYYHHFromDateTime(dateTime),
+          style: typoSmallTextRegular.copyWith(
+              color: colorText45,
+              decoration: index % 2 == 0
+                  ? TextDecoration.none
+                  : TextDecoration.lineThrough),
         ),
-      );
+        onTap: () => _bloc.timeOnclick(context, dateTime),
+      ),
+    );
+  }
 
   Widget itemSpace() => const SizedBox(
         height: 16,

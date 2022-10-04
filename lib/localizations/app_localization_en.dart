@@ -364,4 +364,13 @@ class AppLocalizationEn extends AppLocalizations {
 
   @override
   String get find_city =>'Find City';
+
+  @override
+  String get please_input_information => 'Please input infomation';
+
+  @override
+  String get confirm_information =>'Confirm information';
+
+  @override
+  String get wall => 'Wall';
 }
