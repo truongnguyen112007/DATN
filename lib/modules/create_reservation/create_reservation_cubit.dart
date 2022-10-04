@@ -1,7 +1,9 @@
+import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/modules/create_reservation/create_reservation_state.dart';
 import 'package:base_bloc/modules/find_place/find_place_page.dart';
 import 'package:base_bloc/router/router.dart';
 import 'package:base_bloc/router/router_utils.dart';
+import 'package:base_bloc/utils/toast_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -24,5 +26,16 @@ class CreateReservationCubit extends Cubit<CreateReservationState> {
     var model = await RouterUtils.pushReservations(
         context: context, route: ReservationRouters.routesFilterAddress);
     emit(state.copyOf(addressModel: model));
+  }
+
+  void timeOnclick(BuildContext context,DateTime dateTime) {
+    if (state.placesModel == null || state.addressModel == null) {
+      toast(LocaleKeys.please_input_information);
+      return;
+    }
+    RouterUtils.pushReservations(
+        context: context,
+        route: ReservationRouters.routesConfirmCreateReservation,
+        argument: [state.addressModel, state.placesModel, dateTime]);
   }
 }

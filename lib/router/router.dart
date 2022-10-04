@@ -62,6 +62,7 @@ class ReservationRouters {
   static String routesCreateReservationPage = '/createReservationPage';
   static String routesFilterAddress = '/routesFilterCity';
   static String routesFindPlace = '/routeFindPlace';
+  static String routesConfirmCreateReservation = '/routesConfirmCreateReservation';
   static configureRouter(FluroRouter router) {
     router.notFoundHandler = Handler(handlerFunc: (c, x) {
       logE("ROUTE WAS NOT FOUND !!!");
@@ -71,6 +72,7 @@ class ReservationRouters {
     router.define(routesCreateReservationPage, handler: routeCreateReservationPage);
     router.define(routesFilterAddress, handler: routeFilterAddress);
     router.define(routesFindPlace, handler: routeFindPlace);
+    router.define(routesConfirmCreateReservation, handler: routeConfirmCreateReservation);
   }
 }
 
