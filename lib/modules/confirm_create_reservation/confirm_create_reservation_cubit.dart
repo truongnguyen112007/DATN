@@ -34,4 +34,8 @@ class ConfirmCreateReservationCubit
           addressModel: addressModel,
           placesModel: placesModel,
           dateTime: time));
+
+  void confirmOnclick(BuildContext context) => RouterUtils.pushReservations(
+      context: context,
+      route: ReservationRouters.routesCreateReservationSuccess);
 }

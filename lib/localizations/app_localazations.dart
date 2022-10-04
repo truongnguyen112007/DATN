@@ -285,6 +285,9 @@ abstract class AppLocalizations {
   String get please_input_information;
   String get confirm_information;
   String get wall;
+  String get check_your_email;
+  String get please_check_mail;
+  String get it_is_not_reservation;
 }
 
 class _AppLocalizationsDelegate

@@ -131,7 +131,7 @@ class _ConfirmCreateReservationPageState
                     style: typoNormalTextRegular.copyWith(color: colorText0),
                   ),
                 ),
-                onTap: () {},
+                onTap: () => _bloc.confirmOnclick(context),
               )
             ],
           ),
