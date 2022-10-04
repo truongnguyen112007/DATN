@@ -5,6 +5,7 @@ import 'package:base_bloc/data/model/reservation_model.dart';
 import 'package:base_bloc/data/model/routes_model.dart';
 import 'package:base_bloc/modules/confirm_create_reservation/confirm_create_reservation_page.dart';
 import 'package:base_bloc/modules/create_reservation/create_reservation_page.dart';
+import 'package:base_bloc/modules/create_reservation_success/create_reservation_success_page.dart';
 import 'package:base_bloc/modules/filter_address/filter_address_page.dart';
 import 'package:base_bloc/modules/find_place/find_place_page.dart';
 import 'package:base_bloc/modules/home/home_page.dart';
@@ -51,3 +52,5 @@ var routeConfirmCreateReservation = Handler(
           placesModel: (c.settings!.arguments as List)[1] as PlacesModel,
           dateTime: (c.settings!.arguments as List)[2] as DateTime,
         ));
+var routeCreateReservationSuccess =
+    Handler(handlerFunc: (c, p) => const CreateReservationSuccessPage());

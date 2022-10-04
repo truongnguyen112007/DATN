@@ -263,6 +263,7 @@ class AppLocalizationEn extends AppLocalizations {
 
   @override
   String get hours => 'Hours';
+
   String get friday => 'Friday';
 
   @override
@@ -355,22 +356,34 @@ class AppLocalizationEn extends AppLocalizations {
   String get general_settings_system_measurement => 'SYSTEM OF MEASUREMENT';
 
   @override
-  String get general_settings_system_measurement_imperial_units => 'Imperial Units';
+  String get general_settings_system_measurement_imperial_units =>
+      'Imperial Units';
 
   @override
   String get general_settings_system_measurement_meters => 'Metric - meters';
+
   @override
   String get find_place => 'Find place';
 
   @override
-  String get find_city =>'Find City';
+  String get find_city => 'Find City';
 
   @override
   String get please_input_information => 'Please input infomation';
 
   @override
-  String get confirm_information =>'Confirm information';
+  String get confirm_information => 'Confirm information';
 
   @override
   String get wall => 'Wall';
+
+  @override
+  String get check_your_email => 'Check your e-mail';
+
+  @override
+  String get it_is_not_reservation =>
+      "Please check your e-mail to confirm your\nreservation. If you can't find our message\ncheck spam or offers folder.";
+
+  @override
+  String get please_check_mail => "It isn't reservation confirmation";
 }

@@ -152,22 +152,17 @@ class _CreateReservationPageState extends BasePopState<CreateReservationPage> {
         ),
       );
 
-  Widget itemCalendar(BuildContext context, int index){
-    var dateTime = DateTime(DateTime
-        .now()
-        .year, DateTime
-        .now()
-        .month, DateTime
-        .now()
-        .day, Random().nextInt(24), Random().nextInt(60));
-    return Container(
-      margin: EdgeInsets.only(left: 10.w, right: 10.w),
-      height: 30.h,
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-          color: index % 2 == 0 ? colorBlack10 : Colors.transparent,
-          borderRadius: BorderRadius.circular(30)),
-      child: InkWell(
+  Widget itemCalendar(BuildContext context, int index) {
+    var dateTime = DateTime(DateTime.now().year, DateTime.now().month,
+        DateTime.now().day, Random().nextInt(24), Random().nextInt(60));
+    return InkWell(
+      child: Container(
+        margin: EdgeInsets.only(left: 10.w, right: 10.w),
+        height: 30.h,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+            color: index % 2 == 0 ? colorBlack10 : Colors.transparent,
+            borderRadius: BorderRadius.circular(30)),
         child: AppText(
           Utils.convertTimeToYYHHFromDateTime(dateTime),
           style: typoSmallTextRegular.copyWith(
@@ -176,8 +171,8 @@ class _CreateReservationPageState extends BasePopState<CreateReservationPage> {
                   ? TextDecoration.none
                   : TextDecoration.lineThrough),
         ),
-        onTap: () => _bloc.timeOnclick(context, dateTime),
       ),
+      onTap: () => _bloc.timeOnclick(context, dateTime),
     );
   }
 
