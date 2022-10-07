@@ -142,6 +142,7 @@ const colorRed70 = Color(0xfffc5454);
 
 const colorPink100 = Color(0xFFFC2C52);
 const colorPink40 = Color(0xFFFCC0CB);
+const colorPink30 = Color(0xFFF6D6DC);
 
 const colorGreen70 = Color(0xFF015927);
 const colorGreen60 = Color(0xFF00892A);

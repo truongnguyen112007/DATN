@@ -8,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 import '../../components/item_info_routes.dart';
 import '../../data/model/routes_model.dart';
@@ -62,27 +63,53 @@ class _PlayListPageState extends State<PlayListPage>
                   return playlistWidget(context, state);
                 }),
             onRefresh: () async => _bloc.onRefresh()),
-        Positioned.fill(
-            child: Padding(
-                padding:const EdgeInsets.all(5),
-                child: Align(
-                    alignment: Alignment.bottomRight,
-                    child: InkWell(
-                      child: Container(
-                          width: 45.w,
-                          height: 45.w,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(100),
-                              gradient: const LinearGradient(
-                                  colors: [colorOrange110, colorOrange100])),
-                          child: const Icon(
-                            Icons.add,
-                            color: colorWhite,
-                          )),
-                    ))))
+        addWidget(context)
       ],
     );
   }
+
+  Widget addWidget(BuildContext context) => Positioned.fill(
+      child: Padding(
+          padding: const EdgeInsets.all(5),
+          child: Align(
+              alignment: Alignment.bottomRight,
+              child: SpeedDial(
+                gradientBoxShape: BoxShape.circle,
+                gradient: const LinearGradient(
+                    colors: [colorOrange110, colorOrange40]),
+                icon: Icons.add,
+              backgroundColor: colorOrange100,
+                activeBackgroundColor: colorWhite,
+                activeIcon: Icons.close,
+                activeChild: Icon(Icons.close,color: colorBlack,),
+                spacing: 3,
+                childPadding: const EdgeInsets.all(5),
+                spaceBetweenChildren: 4,
+                dialRoot: null,
+                buttonSize: const Size(56.0, 56.0),
+                childrenButtonSize: const Size(56.0, 56.0),
+                direction: SpeedDialDirection.up,
+                renderOverlay: false,
+                useRotationAnimation: true,
+                animationCurve: Curves.elasticInOut,
+                isOpenOnStart: false,
+                animationDuration: const Duration(milliseconds: 300),
+                children: [
+                  SpeedDialChild(
+                    child:  const Icon(Icons.add,color: colorBlack,),
+                    backgroundColor: Colors.white,
+                    foregroundColor: Colors.white,
+                    onTap: () => _bloc.createRoutesOnClick(context),
+                  ),
+                  SpeedDialChild(
+                    child:  const Icon(Icons.search,color: colorBlack,),
+                    backgroundColor: Colors.white,
+                    foregroundColor: Colors.white,
+                    onTap: (){},
+                  ),
+                ],
+              )
+              )));
 
   Widget playlistWidget(BuildContext context, PlaylistState state) =>
       ReorderableListView.builder(
@@ -106,7 +133,7 @@ class _PlayListPageState extends State<PlayListPage>
                   index: i,
                   onLongPress: (model) => _bloc.itemOnLongClick(context),
                   detailCallBack: (RoutesModel action) =>
-                      _bloc.itemOnclick(context,state.lPlayList[i]),
+                      _bloc.itemOnclick(context, state.lPlayList[i]),
                 ),
           itemCount:
               !state.isReadEnd && state.lPlayList.isNotEmpty && state.isLoading
