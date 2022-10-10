@@ -293,6 +293,7 @@ abstract class AppLocalizations {
   String get select_hold;
   String get double_tab_to_see_3d_preview;
   String get type;
+  String get td;
 }
 
 class _AppLocalizationsDelegate

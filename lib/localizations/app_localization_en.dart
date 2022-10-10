@@ -400,4 +400,6 @@ class AppLocalizationEn extends AppLocalizations {
   String get double_tab_to_see_3d_preview => 'Double tab to see 3D preview';
   @override
   String get type => 'Type';
+  @override
+  String get td => '3D';
 }

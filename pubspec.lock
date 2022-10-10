@@ -29,6 +29,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.8.2"
+  babylonjs_viewer:
+    dependency: "direct main"
+    description:
+      name: babylonjs_viewer
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.4"
   back_button_interceptor:
     dependency: "direct main"
     description:
@@ -189,7 +196,7 @@ packages:
       name: connectivity_plus
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.3.8"
+    version: "2.3.9"
   connectivity_plus_linux:
     dependency: transitive
     description:
@@ -217,7 +224,7 @@ packages:
       name: connectivity_plus_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.4"
+    version: "1.2.5"
   connectivity_plus_windows:
     dependency: transitive
     description:
@@ -298,10 +305,12 @@ packages:
   dropdown_button2:
     dependency: "direct main"
     description:
-      name: dropdown_button2
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.8.2"
+      path: "."
+      ref: master
+      resolved-ref: "13406e18a1e6144442e8dcc31aa24ddc772c2d1d"
+      url: "git@github.com:NguyenXuanLoc/dropdown_button2.git"
+    source: git
+    version: "1.8.4"
   equatable:
     dependency: "direct main"
     description:
@@ -1076,6 +1085,34 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.2.0"
+  webview_flutter:
+    dependency: transitive
+    description:
+      name: webview_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.8.0"
+  webview_flutter_android:
+    dependency: transitive
+    description:
+      name: webview_flutter_android
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.10.4"
+  webview_flutter_platform_interface:
+    dependency: transitive
+    description:
+      name: webview_flutter_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.9.5"
+  webview_flutter_wkwebview:
+    dependency: transitive
+    description:
+      name: webview_flutter_wkwebview
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.9.5"
   week_of_year:
     dependency: transitive
     description:

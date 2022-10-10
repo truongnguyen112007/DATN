@@ -79,8 +79,9 @@ class RouterUtils {
     return result;
   }
 
-  static void pop(BuildContext context, {dynamic result}) {
-    Utils.fireEvent(HideBottomBarEvent(false));
+  static void pop(BuildContext context,
+      {dynamic result, bool isHideBottomBar = false}) {
+    Utils.fireEvent(HideBottomBarEvent(isHideBottomBar));
     Navigator.pop(context, result);
   }
 

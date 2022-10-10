@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:base_bloc/base/base_state.dart';
 import 'package:base_bloc/components/app_button.dart';
 import 'package:base_bloc/components/app_scalford.dart';
@@ -12,7 +10,6 @@ import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/modules/create_routes/create_routes_cubit.dart';
 import 'package:base_bloc/modules/create_routes/create_routes_state.dart';
 import 'package:base_bloc/modules/persons_page/persons_page_state.dart';
-import 'package:base_bloc/router/router_utils.dart';
 import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/theme/colors.dart';
 import 'package:flutter/cupertino.dart';
@@ -22,7 +19,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../components/app_circle_loading.dart';
 import '../../gen/assets.gen.dart';
-import '../hold_set/hold_set_page.dart';
+import '../../router/router_utils.dart';
 
 class CreateRoutesPage extends StatefulWidget {
   const CreateRoutesPage({Key? key}) : super(key: key);
@@ -33,36 +30,13 @@ class CreateRoutesPage extends StatefulWidget {
 
 class _CreateRoutesPageState extends BasePopState<CreateRoutesPage> {
   late CreateRoutesCubit _bloc;
-  final List<String> _lRoutes = [];
-  final List<String> lClimbing = [
-    Assets.png.climbing1.path,
-    Assets.png.climbing2.path,
-    Assets.png.climbing3.path,
-    Assets.png.climbing4.path,
-    Assets.png.climbing5.path
-  ];
-  final lHeight = [2, 4, 6, 8, 10, 12];
   final ZoomerController _zoomController = ZoomerController(initialScale: 1.0);
-  var currentIndex = 0;
-  int size = 20;
-  int width = 300;
-  int height = 1300;
-  int column = 0;
-  int row = 0;
 
   @override
   void initState() {
-    row = width ~/ size;
-    column = height ~/ size;
     _bloc = CreateRoutesCubit();
-    fakeData();
+    _bloc.setData(width: 300, height: 1300, size: 20);
     super.initState();
-  }
-
-  void fakeData() {
-    for (int i = 0; i < row * column; i++) {
-      _lRoutes.add('');
-    }
   }
 
   @override
@@ -99,8 +73,8 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage> {
               crossAxisAlignment: CrossAxisAlignment.end,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                for (int i = lHeight.length - 1; i >= 0; i--)
-                  heightWidget(lHeight[i])
+                /* for (int i = lHeight.length - 1; i >= 0; i--)
+                  heightWidget(lHeight[i])*/
               ],
             )),
             Image.asset(
@@ -138,7 +112,7 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage> {
               title: LocaleKeys.cancel,
               height: 32.h,
               textStyle: typoSmallTextRegular.copyWith(color: colorText0),
-              onPress: () {},
+              onPress: () => RouterUtils.pop(context),
             ),
             const Spacer(),
             Container(
@@ -178,52 +152,51 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage> {
         child: Column(
           children: [
             const Expanded(child: SizedBox()),
-            GridView.builder(
-                padding: EdgeInsets.only(
-                    left: MediaQuery.of(context).size.width / 3,
-                    right: MediaQuery.of(context).size.width / 3),
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                primary: false,
-                itemCount: _lRoutes.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: row,
-                ),
-                itemBuilder: (BuildContext context, int index) {
-                  return GestureDetector(
-                    onLongPress: () {
-                      currentIndex = index;
-                      setState(() {});
-                      RouterUtils.openNewPage(HoldSetPage(), context);
-                    },
-                    onTap: () => _tapped(index),
-                    child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height,
-                      decoration: BoxDecoration(
-                          color: colorGrey70,
-                          border: Border.all(
-                              color: currentIndex == index
-                                  ? colorOrange100
-                                  : colorGrey60,
-                              width: 1)),
-                      child: Center(
-                          child: _lRoutes[index].isNotEmpty
-                              ? Image.asset(
-                                  _lRoutes[index],
-                                  width: 10,
-                                )
-                              : const SizedBox()),
+            BlocBuilder<CreateRoutesCubit, CreateRoutesState>(
+                bloc: _bloc,
+                builder: (c, state) => GridView.builder(
+                    padding: EdgeInsets.only(
+                        left: MediaQuery.of(context).size.width / 3,
+                        right: MediaQuery.of(context).size.width / 3),
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    primary: false,
+                    itemCount: state.lBox.length,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: state.row,
                     ),
-                  );
-                })
+                    itemBuilder: (BuildContext context, int index) {
+                      return GestureDetector(
+                        onLongPress: () =>
+                            _bloc.itemOnLongPress(index, context),
+                        onTap: () => _bloc.itemOnClick(index),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height,
+                          decoration: BoxDecoration(
+                              color: colorGrey70,
+                              border: Border.all(
+                                  color: state.selectIndex == index
+                                      ? colorOrange100
+                                      : colorGrey60,
+                                  width: 1)),
+                          child: Center(
+                              child: state.lBox[index].isNotEmpty
+                                  ? Image.asset(
+                                      state.lBox[index],
+                                      width: 10,
+                                    )
+                                  : const SizedBox()),
+                        ),
+                      );
+                    }))
           ],
         ),
       );
 
   void _tapped(int index) {
     setState(() {
-      _lRoutes[index] = lClimbing[Random().nextInt(5)];
+      // _lRoutes[index] = lClimbing[Random().nextInt(5)];
     });
   }
 

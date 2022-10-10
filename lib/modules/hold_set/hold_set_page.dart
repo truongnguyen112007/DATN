@@ -1,5 +1,4 @@
 import 'package:base_bloc/base/base_state.dart';
-import 'package:base_bloc/components/app_button.dart';
 import 'package:base_bloc/components/app_scalford.dart';
 import 'package:base_bloc/components/app_text.dart';
 import 'package:base_bloc/components/appbar_widget.dart';
@@ -7,6 +6,7 @@ import 'package:base_bloc/config/constant.dart';
 import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/modules/hold_set/hold_set_cubit.dart';
 import 'package:base_bloc/modules/hold_set/hold_set_state.dart';
+import 'package:base_bloc/router/router_utils.dart';
 import 'package:base_bloc/theme/colors.dart';
 import 'package:base_bloc/utils/app_utils.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +15,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../components/app_text_field.dart';
 import '../../data/globals.dart';
-import '../../gen/assets.gen.dart';
 import '../../theme/app_styles.dart';
 
 class HoldSetPage extends StatefulWidget {
@@ -84,20 +83,26 @@ class _HoldSetPageState extends BasePopState<HoldSetPage> {
                       Utils.hideKeyboard(context);
                     })),
             itemSpace(height: 20),
-            AppText(
-              LocaleKeys.double_tab_to_see_3d_preview,
-              style: typoSmallTextRegular.copyWith(color: colorText45),
+            InkWell(
+              child: AppText(
+                LocaleKeys.double_tab_to_see_3d_preview,
+                style: typoSmallTextRegular.copyWith(color: colorText45),
+              ),
+              onTap: () => _bloc.detailOnclick(context),
             ),
             itemSpace(),
             holdSetWidget(context),
             itemSpace(height: 20),
-            button(
-                onTab: () {},
-                padding: EdgeInsets.only(
-                    top: contentPadding, bottom: contentPadding),
-                lColor: [colorOrange100, colorOrange40],
-                title: LocaleKeys.favourite,
-                width: MediaQuery.of(context).size.width),
+            BlocBuilder<HoldSetCubit, HoldSetState>(
+                bloc: _bloc,
+                builder: (c, state) => button(
+                    onTab: () => _bloc.selectOnClick(
+                        state.lHoldSet[state.currentIndex], context),
+                    padding: EdgeInsets.only(
+                        top: contentPadding, bottom: contentPadding),
+                    lColor: [colorOrange100, colorOrange40],
+                    title: LocaleKeys.select,
+                    width: MediaQuery.of(context).size.width)),
           ],
         ),
       ),
@@ -196,12 +201,11 @@ class _HoldSetPageState extends BasePopState<HoldSetPage> {
         ),
       );
 
-  PreferredSizeWidget appbar(BuildContext context) =>
-      appBarWidget(context: context, titleStr: LocaleKeys.select_hold);
+  PreferredSizeWidget appbar(BuildContext context) => appBarWidget(
+      context: context,
+      titleStr: LocaleKeys.select_hold,
+      isHideBottomBar: true);
 
   @override
   int get tabIndex => BottomNavigationConstant.TAB_ROUTES;
-
-  @override
-  bool get isNewPage => true;
 }
