@@ -288,6 +288,12 @@ abstract class AppLocalizations {
   String get check_your_email;
   String get please_check_mail;
   String get it_is_not_reservation;
+  String get cancel;
+  String get save_daft;
+  String get select_hold;
+  String get double_tab_to_see_3d_preview;
+  String get type;
+  String get td;
 }
 
 class _AppLocalizationsDelegate

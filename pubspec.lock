@@ -7,14 +7,14 @@ packages:
       name: _fe_analyzer_shared
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "47.0.0"
+    version: "49.0.0"
   analyzer:
     dependency: transitive
     description:
       name: analyzer
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.7.0"
+    version: "5.1.0"
   args:
     dependency: transitive
     description:
@@ -29,6 +29,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.8.2"
+  babylonjs_viewer:
+    dependency: "direct main"
+    description:
+      name: babylonjs_viewer
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.4"
   back_button_interceptor:
     dependency: "direct main"
     description:
@@ -189,7 +196,7 @@ packages:
       name: connectivity_plus
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.3.7"
+    version: "2.3.9"
   connectivity_plus_linux:
     dependency: transitive
     description:
@@ -203,7 +210,7 @@ packages:
       name: connectivity_plus_macos
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.4"
+    version: "1.2.6"
   connectivity_plus_platform_interface:
     dependency: transitive
     description:
@@ -217,7 +224,7 @@ packages:
       name: connectivity_plus_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.4"
+    version: "1.2.5"
   connectivity_plus_windows:
     dependency: transitive
     description:
@@ -298,10 +305,12 @@ packages:
   dropdown_button2:
     dependency: "direct main"
     description:
-      name: dropdown_button2
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.8.2"
+      path: "."
+      ref: master
+      resolved-ref: "13406e18a1e6144442e8dcc31aa24ddc772c2d1d"
+      url: "git@github.com:NguyenXuanLoc/dropdown_button2.git"
+    source: git
+    version: "1.8.4"
   equatable:
     dependency: "direct main"
     description:
@@ -350,7 +359,7 @@ packages:
       name: firebase_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.23.0"
+    version: "1.24.0"
   firebase_core_platform_interface:
     dependency: transitive
     description:
@@ -364,7 +373,7 @@ packages:
       name: firebase_core_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.7.2"
+    version: "1.7.3"
   fixnum:
     dependency: transitive
     description:
@@ -418,14 +427,14 @@ packages:
       name: flutter_gen_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.0.0"
+    version: "5.0.1"
   flutter_gen_runner:
     dependency: "direct dev"
     description:
       name: flutter_gen_runner
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.0.0"
+    version: "5.0.1"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -452,6 +461,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "5.5.4"
+  flutter_speed_dial:
+    dependency: "direct main"
+    description:
+      name: flutter_speed_dial
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "6.1.0+1"
   flutter_svg:
     dependency: "direct main"
     description:
@@ -531,28 +547,28 @@ packages:
       name: google_maps_flutter
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.2.0"
+    version: "2.2.1"
   google_maps_flutter_android:
     dependency: transitive
     description:
       name: google_maps_flutter_android
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.3.0"
+    version: "2.3.2"
   google_maps_flutter_ios:
     dependency: transitive
     description:
       name: google_maps_flutter_ios
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.11"
+    version: "2.1.12"
   google_maps_flutter_platform_interface:
     dependency: transitive
     description:
       name: google_maps_flutter_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.2.2"
+    version: "2.2.4"
   graphs:
     dependency: transitive
     description:
@@ -622,7 +638,7 @@ packages:
       name: like_button
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.4"
+    version: "2.0.5"
   lints:
     dependency: transitive
     description:
@@ -643,7 +659,7 @@ packages:
       name: logging
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.2"
+    version: "1.1.0"
   matcher:
     dependency: transitive
     description:
@@ -907,7 +923,7 @@ packages:
       name: stream_transform
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0"
+    version: "2.0.1"
   string_scanner:
     dependency: transitive
     description:
@@ -991,7 +1007,7 @@ packages:
       name: video_player_avfoundation
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.3.6"
+    version: "2.3.7"
   video_player_platform_interface:
     dependency: transitive
     description:
@@ -1069,6 +1085,34 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.2.0"
+  webview_flutter:
+    dependency: transitive
+    description:
+      name: webview_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.8.0"
+  webview_flutter_android:
+    dependency: transitive
+    description:
+      name: webview_flutter_android
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.10.4"
+  webview_flutter_platform_interface:
+    dependency: transitive
+    description:
+      name: webview_flutter_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.9.5"
+  webview_flutter_wkwebview:
+    dependency: transitive
+    description:
+      name: webview_flutter_wkwebview
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.9.5"
   week_of_year:
     dependency: transitive
     description:

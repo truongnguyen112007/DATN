@@ -386,4 +386,20 @@ class AppLocalizationEn extends AppLocalizations {
 
   @override
   String get please_check_mail => "It isn't reservation confirmation";
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get save_daft => 'Save daft';
+
+  @override
+  String get select_hold =>'Select hold';
+
+  @override
+  String get double_tab_to_see_3d_preview => 'Double tab to see 3D preview';
+  @override
+  String get type => 'Type';
+  @override
+  String get td => '3D';
 }

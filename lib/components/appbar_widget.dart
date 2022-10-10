@@ -14,6 +14,7 @@ PreferredSizeWidget appBarWidget(
         String? titleStr,
         Color? backgroundColor,
         List<Widget>? action,
+        bool isHideBottomBar = false,
         bool automaticallyImplyLeading = true}) =>
     AppBar(
       toolbarHeight: toolbarHeight,
@@ -28,7 +29,8 @@ PreferredSizeWidget appBarWidget(
               Icons.arrow_back,
               color: colorText65,
             ),
-            onPressed: () => RouterUtils.pop(context),
+            onPressed: () =>
+                RouterUtils.pop(context, isHideBottomBar: isHideBottomBar),
           ),
       title: title ??
           AppText(
