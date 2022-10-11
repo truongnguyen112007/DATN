@@ -303,4 +303,28 @@ class AppLocalizationEn extends AppLocalizations {
 
   @override
   String get notif_sharing => 'Sharing';
+
+  @override
+  String get bluetooth => "Bluetooth";
+
+  @override
+  String get pleaseTurnOnBl => "Please turn on Bluetooth to connect to the \n nearest ReClimb wall";
+
+  @override
+  String get turnOnBluetooth => "Turn on Bluetooth";
+
+  @override
+  String get cantFind => "I can't find any ReClimb wall near you.\n Please turn on location to get more precise\n result ";
+
+  @override
+  String get connectToTheReClimb => 'To connect to the ReClimb wall, move closer \n than 10 meters.';
+
+  @override
+  String get getCloser => 'Get closer';
+
+  @override
+  String get turnOnLocation => 'Turn on location';
+
+  @override
+  String get theNearest => "THE NEAREST PLACES";
 }

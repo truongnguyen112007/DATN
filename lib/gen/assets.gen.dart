@@ -5,7 +5,7 @@
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
-// ignore_for_file: directives_ordering,unnecessary_import
+// ignore_for_file: directives_ordering,unnecessary_import,implicit_dynamic_list_literal
 
 import 'package:flutter/widgets.dart';
 
@@ -67,6 +67,25 @@ class $AssetsPngGen {
 
   /// File path: assets/png/test.png
   AssetGenImage get test => const AssetGenImage('assets/png/test.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [
+        climbing1,
+        climbing2,
+        climbing3,
+        climbing4,
+        climbing5,
+        doctor,
+        icAccount,
+        icFriends,
+        icNotification,
+        icPrivacy,
+        icPrivate,
+        icPublic,
+        icSetting,
+        person,
+        test
+      ];
 }
 
 class $AssetsSvgGen {
@@ -79,11 +98,31 @@ class $AssetsSvgGen {
   /// File path: assets/svg/back_circle.svg
   String get backCircle => 'assets/svg/back_circle.svg';
 
+  /// File path: assets/svg/bluetooth.svg
+  String get bluetooth => 'assets/svg/bluetooth.svg';
+
   /// File path: assets/svg/doctor.png
   AssetGenImage get doctor => const AssetGenImage('assets/svg/doctor.png');
 
   /// File path: assets/svg/doctor_background.svg
   String get doctorBackground => 'assets/svg/doctor_background.svg';
+
+  /// File path: assets/svg/notlocation.svg
+  String get notlocation => 'assets/svg/notlocation.svg';
+
+  /// File path: assets/svg/shape.svg
+  String get shape => 'assets/svg/shape.svg';
+
+  /// List of all assets
+  List<dynamic> get values => [
+        avatarTest,
+        backCircle,
+        bluetooth,
+        doctor,
+        doctorBackground,
+        notlocation,
+        shape
+      ];
 }
 
 class Assets {
@@ -150,6 +189,8 @@ class AssetGenImage {
       cacheHeight: cacheHeight,
     );
   }
+
+  ImageProvider provider() => AssetImage(_assetName);
 
   String get path => _assetName;
 

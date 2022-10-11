@@ -171,7 +171,7 @@ class _PersonsPageState extends State<PersonsPage>
               color: colorBlack, borderRadius: BorderRadius.circular(20)),
           child: Center(
               child: AppText(
-            AppLocalizations.of(context)!.seeAll,
+            LocaleKeys.seeAll,
             style:
                 typoLargeTextRegular.copyWith(color: colorRed70, fontSize: 15),
           )),
@@ -310,9 +310,11 @@ class _PersonsPageState extends State<PersonsPage>
                     ),
                     titleFilter('Type', selectedType, type, (index) {
                       selectedType = index;
+                      logE("TAG dfffdsfedd");
                       setState(() {});
                     }),
                     titleFilter('Profile', selectedProfile, profile, (index) {
+                      logE("TAG dffd");
                       selectedProfile = index;
                       setState(() {});
                     }),
@@ -377,9 +379,10 @@ class _PersonsPageState extends State<PersonsPage>
         ),
         Padding(
           padding: EdgeInsets.only(left: 5.w),
-          child: listFilterDialog(type, select, (index) {
+          child: listFilterDialog(list, select, (index) {
             select = index;
             setState(() {});
+            selectOnClick(index);
           }),
         ),
       ],

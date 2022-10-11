@@ -1,4 +1,6 @@
+import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/modules/all_page/all_page_cubit.dart';
+import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/theme/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -42,10 +44,9 @@ class _AllPageState extends State<AllPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const AppText(
-                  'THE NEAREST PLACES',
-                  style: TextStyle(
-                      color: Colors.white70, fontWeight: FontWeight.w500),
+                 AppText(
+                  LocaleKeys.theNearest,
+                  style: typoLargeTextBold.copyWith(color: colorGrey60,fontSize: 12.sp)
                 ),
                 SizedBox(
                   height: 10.h,

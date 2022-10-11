@@ -256,6 +256,17 @@ abstract class AppLocalizations {
   String get seeAll;
   String get friend;
   String get topRouteSetter;
+
+  String get bluetooth;
+  String get pleaseTurnOnBl;
+  String get turnOnBluetooth;
+  String get getCloser;
+  String get connectToTheReClimb;
+  String get turnOnLocation;
+  String get cantFind;
+
+  String get theNearest;
+
 }
 
 class _AppLocalizationsDelegate
