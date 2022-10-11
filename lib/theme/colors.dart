@@ -10,7 +10,6 @@ const colorBlack50 = Color(0xFF272727);
 const colorBlack90 = Color(0xFF121212);
 const colorBlack30 = Color(0xFF393939);
 
-
 const colorPrimaryGreen100 = Color(0xff203E8E);
 const colorPrimaryBlue100 = Color(0xff4654FF);
 const colorPrimaryBlue80 = Color(0xff6B76FF);
@@ -74,6 +73,13 @@ const colorInfo100 = Color(0xff909399);
 
 const colorWarning10 = Color(0xffFDF6EC);
 const colorWarning100 = Color(0xffE6A23C);
+
+
+var colorMainText =const Color(0xffffffff).withOpacity(0.75);
+var colorSubText =const Color(0xffffffff).withOpacity(0.75);
+
+var colorMainBackground = const Color(0xff000000);
+var colorGreyBackground = const Color(0xff363636);
 
 const colorText100 = Color(0xff303133);
 const colorText80 = Color(0xff060e1e);
@@ -139,7 +145,6 @@ const colorRed90 = Color(0xFFD32500);
 const colorRed80 = Color(0xffd12500);
 const colorRed70 = Color(0xfffc5454);
 
-
 const colorPink100 = Color(0xFFFC2C52);
 const colorPink40 = Color(0xFFFCC0CB);
 const colorPink30 = Color(0xFFF6D6DC);
@@ -148,3 +153,50 @@ const colorGreen70 = Color(0xFF015927);
 const colorGreen60 = Color(0xFF00892A);
 const colorGreen50 = Color(0xFF279656);
 const colorGreen55 = Color(0xFF1E8C4B);
+
+var colorSurfaceMediumEmphasis = const Color(0xFFFFFFFF).withOpacity(0.6);
+var colorSurfaceHighEmphasis = const Color(0xFFFFFFFF).withOpacity(0.87);
+var colorSurfaceDisable = const Color(0xFFFFFFFF).withOpacity(0.38);
+
+var colorPrimaryHighEmphasis = const Color(0xFF000000);
+var colorPrimaryMediumEmphasis = const Color(0xFF421700);
+var colorPrimaryDisable = const Color(0xFF9E3800);
+
+var colorOutlineBorder = const Color(0x0fffffff).withOpacity(0.12);
+
+var colorSecondary = const Color(0xff03dac5);
+var colorSecondary90 = const Color(0xff005457);
+var colorSecondary80 = const Color(0xff017374);
+var colorSecondary70 = const Color(0xff018786);
+var colorSecondary60 = const Color(0xff017374);
+var colorSecondary50 = const Color(0xff01a299);
+var colorSecondary40 = const Color(0xff00b3a6);
+var colorSecondary30 = const Color(0xff00c4b4);
+var colorSecondary20 = const Color(0xff03dac5);
+var colorSecondary10 = const Color(0xff70efde);
+var colorSecondary5 = const Color(0xffc8fff4);
+
+var colorPrimary  = const Color(0xffff5a00);
+var colorPrimary90  = const Color(0xffff2e00);
+var colorPrimary80  = const Color(0xffff4800);
+var colorPrimary70  = const Color(0xffff4800);
+var colorPrimary60  = const Color(0xffff5200);
+var colorPrimary50  = const Color(0xffff5a00);
+var colorPrimary40  = const Color(0xffff7326);
+var colorPrimary30  = const Color(0xffff8c4d);
+var colorPrimary20  = const Color(0xffffad80);
+var colorPrimary10  = const Color(0xffffceb3);
+var colorPrimary5  = const Color(0xffffebe0);
+
+var colorSchemePrimary = const Color(0xffff5a00);
+var colorSchemePrimaryVariant = const Color(0xffff4800);
+var colorSchemeSecondary = const Color(0xff03dac5);
+var colorSchemeBackground = const Color(0xff393939);
+var colorSchemeError = const Color(0xffb00020);
+var colorSchemeOnPrimary = const Color(0xff000000);
+var colorSchemeOnBackground = const Color(0xffe5e5e5);
+var colorSchemeOnSurface = const Color(0xffe5e5e5);
+var colorSchemeOnError = const Color(0xffe5e5e5);
+
+var colorYellow70 = const Color(0xFFFF9300);
+
