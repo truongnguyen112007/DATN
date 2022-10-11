@@ -394,12 +394,26 @@ class AppLocalizationEn extends AppLocalizations {
   String get save_daft => 'Save daft';
 
   @override
-  String get select_hold =>'Select hold';
+  String get select_hold => 'Select hold';
 
   @override
   String get double_tab_to_see_3d_preview => 'Double tab to see 3D preview';
+
   @override
   String get type => 'Type';
+
   @override
   String get td => '3D';
+
+  @override
+  String get next_climp => 'Next climp';
+
+  @override
+  String get likes => 'likes';
+
+  @override
+  String get comment => 'comment';
+
+  @override
+  String get show_more => "Show more";
 }

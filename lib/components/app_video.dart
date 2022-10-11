@@ -1,12 +1,13 @@
 import 'package:base_bloc/base/base_state.dart';
+import 'package:base_bloc/components/app_circle_loading.dart';
 import 'package:base_bloc/components/app_scalford.dart';
-import 'package:base_bloc/data/eventbus/hide_bottom_bar_event.dart';
+import 'package:base_bloc/components/chwie/src/chewie_progress_colors.dart';
 import 'package:base_bloc/data/globals.dart';
 import 'package:base_bloc/router/router_utils.dart';
 import 'package:base_bloc/theme/colors.dart';
-import 'package:base_bloc/utils/app_utils.dart';
-import 'package:video_player/video_player.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:video_player/video_player.dart';
 
 import '../data/model/feed_model.dart';
 import 'chwie/src/chewie_player.dart';
@@ -33,9 +34,7 @@ class _AppVideoState extends BasePopState<AppVideo> {
         VideoPlayerController.network(widget.model.videoURL);
     _videoPlayerController!.initialize().then((_) {
       _chewieController = ChewieController(
-        videoPlayerController: _videoPlayerController!,
-        looping: true,
-      );
+          videoPlayerController: _videoPlayerController!, looping: true);
       setState(() {});
     });
   }
@@ -47,13 +46,11 @@ class _AppVideoState extends BasePopState<AppVideo> {
     super.dispose();
   }
 
-  Widget _chewieVideoPlayer() {
+  Widget videoPlayer() {
     return _chewieController != null && _videoPlayerController != null
-        ? Container(
-            child: Chewie(controller: _chewieController!),
-          )
-        : Center(
-            child: Text("Please wait"),
+        ? Chewie(controller: _chewieController!)
+        : const Center(
+            child: AppCircleLoading(),
           );
   }
 
@@ -62,29 +59,26 @@ class _AppVideoState extends BasePopState<AppVideo> {
     return AppScaffold(
       body: Stack(
         children: [
-          _chewieVideoPlayer(),
+          videoPlayer(),
           Padding(
-              padding: EdgeInsets.only(
-                  left: contentPadding,
-                  top: MediaQuery.of(context).padding.top + contentPadding),
+              padding: EdgeInsets.only(left: contentPadding, top: 3),
               child: InkWell(
                   child: Container(
-                    height: 30,
-                    width: 30,
-                    decoration:
-                        BoxDecoration(borderRadius: BorderRadius.circular(100),
-                          color: colorGrey5,
-                        ),
-                    child: const Icon(Icons.arrow_back_outlined),
+                    height: 26.w,
+                    width: 26.w,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(100),
+                      color: colorGrey5,
+                    ),
+                    child: const Icon(
+                      Icons.arrow_back_outlined,
+                      size: 20,
+                    ),
                   ),
-                  onTap: () => goBack(context)))
+                  onTap: () => RouterUtils.pop(context)))
         ],
       ),
     );
-  }
-
-  void goBack(BuildContext context) {
-    RouterUtils.pop(context);
   }
 
   @override

@@ -68,7 +68,7 @@ class _FilterAddressPageState extends BasePopState<FilterAddressPage> {
             children: [
               AppText(
                 LocaleKeys.reclimb_available_in.toUpperCase(),
-                style: typoSmallTextRegular.copyWith(color: colorText45),
+                style: typoSmallTextRegular.copyWith(color: colorText45,),
               ),
               itemSpace(),
               BlocBuilder<FilterAddressCubit, FilterAddressState>(

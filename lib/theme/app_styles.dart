@@ -273,6 +273,15 @@ final typoLargeTextBold = googleFont.copyWith(
   color: colorBlack,
 );
 
+final typoLargeText700 = googleFont.copyWith(
+  fontStyle: FontStyle.normal,
+  fontWeight: FontWeight.w700,
+  fontSize: 20.sp,
+  letterSpacing: 0.3,
+  color: colorBlack,
+);
+
+
 final typoLargeTextRegular = googleFont.copyWith(
   fontStyle: FontStyle.normal,
   fontWeight: FontWeight.w400,
@@ -404,21 +413,28 @@ final typoExtraSmallTextRegular = googleFont.copyWith(
 final typoSuperSmallText300 = googleFont.copyWith(
   fontStyle: FontStyle.normal,
   fontWeight: FontWeight.w300,
-  fontSize: 11.sp,
+  fontSize: 11.5.sp,
   letterSpacing: 0.3,
   color: colorBlack,
 );
 final typoSuperSmallTextBold = googleFont.copyWith(
   fontStyle: FontStyle.normal,
   fontWeight: FontWeight.w500,
-  fontSize: 11.sp,
+  fontSize: 11.5.sp,
+  letterSpacing: 0.3,
+  color: colorBlack,
+);
+final typoSuperSmallText700 = googleFont.copyWith(
+  fontStyle: FontStyle.normal,
+  fontWeight: FontWeight.w700,
+  fontSize: 11.5.sp,
   letterSpacing: 0.3,
   color: colorBlack,
 );
 final typoSuperSmallTextRegular = googleFont.copyWith(
   fontStyle: FontStyle.normal,
   fontWeight: FontWeight.w400,
-  fontSize: 11.sp,
+  fontSize: 11.5.sp,
   letterSpacing: 0.3,
   color: colorBlack,
 );

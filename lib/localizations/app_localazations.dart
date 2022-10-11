@@ -294,6 +294,12 @@ abstract class AppLocalizations {
   String get double_tab_to_see_3d_preview;
   String get type;
   String get td;
+  String get next_climp;
+
+  String get likes;
+
+  String get comment;
+  String get show_more;
 }
 
 class _AppLocalizationsDelegate

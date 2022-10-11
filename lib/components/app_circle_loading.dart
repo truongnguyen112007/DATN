@@ -14,8 +14,8 @@ class AppCircleLoading extends StatelessWidget {
       width: 24.w,
       height: 24.h,
       child: const CircularProgressIndicator(
-        color: colorBlue80,
-        strokeWidth: 2.0,
+        color: colorOrange110,
+        strokeWidth: 4.0,
       ),
     );
   }

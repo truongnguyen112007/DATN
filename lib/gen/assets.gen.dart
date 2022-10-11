@@ -66,6 +66,9 @@ class $AssetsPngGen {
   AssetGenImage get icSetting =>
       const AssetGenImage('assets/png/ic_setting.png');
 
+  /// File path: assets/png/liked.png
+  AssetGenImage get liked => const AssetGenImage('assets/png/liked.png');
+
   /// File path: assets/png/person.png
   AssetGenImage get person => const AssetGenImage('assets/png/person.png');
 
@@ -88,6 +91,7 @@ class $AssetsPngGen {
         icPrivate,
         icPublic,
         icSetting,
+        liked,
         person,
         test
       ];
@@ -96,6 +100,9 @@ class $AssetsPngGen {
 class $AssetsSvgGen {
   const $AssetsSvgGen();
 
+  /// File path: assets/svg/add_play_list.svg
+  String get addPlayList => 'assets/svg/add_play_list.svg';
+
   /// File path: assets/svg/avatar_test.png
   AssetGenImage get avatarTest =>
       const AssetGenImage('assets/svg/avatar_test.png');
@@ -103,15 +110,60 @@ class $AssetsSvgGen {
   /// File path: assets/svg/back_circle.svg
   String get backCircle => 'assets/svg/back_circle.svg';
 
+  /// File path: assets/svg/comment.svg
+  String get comment => 'assets/svg/comment.svg';
+
   /// File path: assets/svg/doctor.png
   AssetGenImage get doctor => const AssetGenImage('assets/svg/doctor.png');
 
   /// File path: assets/svg/doctor_background.svg
   String get doctorBackground => 'assets/svg/doctor_background.svg';
 
+  /// File path: assets/svg/like.svg
+  String get like => 'assets/svg/like.svg';
+
+  /// File path: assets/svg/liked.svg
+  String get liked => 'assets/svg/liked.svg';
+
+  /// File path: assets/svg/more_vertical.svg
+  String get moreVertical => 'assets/svg/more_vertical.svg';
+
+  /// File path: assets/svg/notification.svg
+  String get notification => 'assets/svg/notification.svg';
+
+  /// File path: assets/svg/os.svg
+  String get os => 'assets/svg/os.svg';
+
+  /// File path: assets/svg/play.svg
+  String get play => 'assets/svg/play.svg';
+
+  /// File path: assets/svg/playlistadd.svg
+  String get playlistadd => 'assets/svg/playlistadd.svg';
+
+  /// File path: assets/svg/relimb-dark.svg
+  String get relimbDark => 'assets/svg/relimb-dark.svg';
+
+  /// File path: assets/svg/search.svg
+  String get search => 'assets/svg/search.svg';
+
   /// List of all assets
-  List<dynamic> get values =>
-      [avatarTest, backCircle, doctor, doctorBackground];
+  List<dynamic> get values => [
+        addPlayList,
+        avatarTest,
+        backCircle,
+        comment,
+        doctor,
+        doctorBackground,
+        like,
+        liked,
+        moreVertical,
+        notification,
+        os,
+        play,
+        playlistadd,
+        relimbDark,
+        search
+      ];
 }
 
 class $AssetsTdGen {

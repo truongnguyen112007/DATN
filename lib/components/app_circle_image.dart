@@ -23,7 +23,8 @@ class AppCircleImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (filePath != null && filePath!.isNotEmpty) {
-      return ClipOval(
+      return ClipRRect(
+        borderRadius: BorderRadius.circular(200),
         child: SizedBox(
           width: height ?? 46.w,
           height: width ?? 46.w,
@@ -34,11 +35,16 @@ class AppCircleImage extends StatelessWidget {
         ),
       );
     } else if (url != null && url!.isNotEmpty) {
-      return ClipOval(
+      return ClipRRect(
+        borderRadius: BorderRadius.circular(200),
         child: SizedBox(
           width: height ?? 46.w,
           height: width ?? 46.w,
-          child: AppNetworkImage(source: url, errorSource: urlError,fit:BoxFit.cover,),
+          child: AppNetworkImage(
+            source: url,
+            errorSource: urlError,
+            fit: BoxFit.cover,
+          ),
         ),
       );
     }
