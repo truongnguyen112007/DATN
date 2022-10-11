@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:base_bloc/components/app_circle_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
@@ -70,7 +71,7 @@ class _ThumbnailAppState extends State<ThumbnailApp> {
               ],
             )
           : const Center(
-              child: CircularProgressIndicator(),
+              child: AppCircleLoading(),
             ),
     );
   }

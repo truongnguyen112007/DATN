@@ -14,8 +14,8 @@ class ItemLoading extends StatelessWidget {
         height: 24,
         width: 24,
         child: CircularProgressIndicator(
-          strokeWidth: 2,
-          color: colorBlue80,
+          color: colorOrange110,
+          strokeWidth: 4.0,
         ),
       ),
     );
