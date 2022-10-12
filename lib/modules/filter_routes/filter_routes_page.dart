@@ -55,96 +55,101 @@ class _FilterRoutesPageState extends BasePopState<FilterRoutesPage> {
         padding: EdgeInsets.only(left: contentPadding, right: contentPadding),
         appbar: appbar(context),
         backgroundColor: colorBackgroundColor,
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            itemSpace(),
-            Stack(
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(top: 9.h),
-                  child: TextField(
-                    style: typoSmallTextRegular.copyWith(
-                      color: colorText0,
-                    ),
-                    cursorColor: Colors.white60,
-                    decoration: decorTextField.copyWith(
-                        fillColor: Colors.transparent,
-                        contentPadding: const EdgeInsets.symmetric(
-                            vertical: 20.0, horizontal: 16)),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 10),
-                  child: AppText(
-                    "  ${AppLocalizations.of(context)!.author} ",
-                    style: typoSmallTextRegular.copyWith(
-                        color: colorText70,
-                        backgroundColor: colorBackgroundColor),
-                  ),
-                )
-              ],
-            ),
-            itemSpace(),
-            itemTitle(AppLocalizations.of(context)!.status),
-            itemSpace(height: 9),
-            statusWidget(),
-            itemSpace(),
-            itemTitle(AppLocalizations.of(context)!.corners),
-            itemSpace(height: 9),
-            listFilterDialog(corners, selectedCorner, (index) {
-              selectedCorner = index;
-              setState(() {});
-            }),
-            itemSpace(),
-            itemTitle(AppLocalizations.of(context)!.authorsGrade),
-            rangeWidget(lowerAuthorGradeValue, upperAuthorGradeValue, (values) {
-              lowerAuthorGradeValue = values[0];
-              upperAuthorGradeValue = values[1];
-              setState(() {});
-            }),
-            itemTitle(AppLocalizations.of(context)!.userGrade),
-            rangeWidget(lowerUserGradeValue, upperUserGradeValue, (values) {
-              lowerUserGradeValue = values[0];
-              upperUserGradeValue = values[1];
-              setState(() {});
-            }),
-            itemTitle(AppLocalizations.of(context)!.designedBy),
-            itemSpace(height: 9),
-            listFilterDialog(designs, selectedDesign, (index) {
-              selectedDesign = index;
-              setState(() {});
-            }),
-            const Spacer(),
-            line(),
-            AppButton(
-              backgroundColor: Colors.deepOrange,
-              height: 40.h,
-              shapeBorder: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(30),
-                ),
-              ),
-              onPress: () => RouterUtils.pop(context),
-              titleWidget: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              itemSpace(),
+              Stack(
                 children: [
-                  AppText(
-                    '${AppLocalizations.of(context)!.showResult}:',
-                    style: typoSmallTextRegular.copyWith(color: colorText0),
+                  Padding(
+                    padding: EdgeInsets.only(top: 9.h),
+                    child: TextField(
+                      style: typoSmallTextRegular.copyWith(
+                        color: colorText0,
+                      ),
+                      cursorColor: Colors.white60,
+                      decoration: decorTextField.copyWith(
+                          fillColor: Colors.transparent,
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 20.0, horizontal: 16)),
+                    ),
                   ),
-                  SizedBox(
-                    width: 5.w,
-                  ),
-                  AppText(
-                    '25',
-                    style: typoSmallTextRegular.copyWith(color: colorText0),
-                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10),
+                    child: AppText(
+                      "  ${AppLocalizations.of(context)!.author} ",
+                      style: typoSmallTextRegular.copyWith(
+                          color: colorText70,
+                          backgroundColor: colorBackgroundColor),
+                    ),
+                  )
                 ],
               ),
-            ),
-            itemSpace()
-          ],
+              itemSpace(),
+              itemTitle(AppLocalizations.of(context)!.status),
+              itemSpace(height: 9),
+              statusWidget(),
+              itemSpace(),
+              itemTitle(AppLocalizations.of(context)!.corners),
+              itemSpace(height: 9),
+              listFilterDialog(corners, selectedCorner, (index) {
+                selectedCorner = index;
+                setState(() {});
+              }),
+              itemSpace(),
+              itemTitle(AppLocalizations.of(context)!.authorsGrade),
+              rangeWidget(lowerAuthorGradeValue, upperAuthorGradeValue,
+                  (values) {
+                lowerAuthorGradeValue = values[0];
+                upperAuthorGradeValue = values[1];
+                setState(() {});
+              }),
+              itemTitle(AppLocalizations.of(context)!.userGrade),
+              rangeWidget(lowerUserGradeValue, upperUserGradeValue, (values) {
+                lowerUserGradeValue = values[0];
+                upperUserGradeValue = values[1];
+                setState(() {});
+              }),
+              itemTitle(AppLocalizations.of(context)!.designedBy),
+              itemSpace(height: 9),
+              listFilterDialog(designs, selectedDesign, (index) {
+                selectedDesign = index;
+                setState(() {});
+              }),
+              SizedBox(
+                height: 50,
+              ),
+              line(),
+              AppButton(
+                backgroundColor: Colors.deepOrange,
+                height: 40.h,
+                shapeBorder: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(30),
+                  ),
+                ),
+                onPress: () => RouterUtils.pop(context),
+                titleWidget: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    AppText(
+                      '${AppLocalizations.of(context)!.showResult}:',
+                      style: typoSmallTextRegular.copyWith(color: colorText0),
+                    ),
+                    SizedBox(
+                      width: 5.w,
+                    ),
+                    AppText(
+                      '25',
+                      style: typoSmallTextRegular.copyWith(color: colorText0),
+                    ),
+                  ],
+                ),
+              ),
+              itemSpace()
+            ],
+          ),
         ));
   }
 

@@ -241,7 +241,6 @@ abstract class AppLocalizations {
   String get notif_likes;
   String get notif_sharing;
 
-
   String get hinTextSearchHome;
 
   String get all;
@@ -267,6 +266,51 @@ abstract class AppLocalizations {
 
   String get theNearest;
 
+  String get reclimb_available_in;
+  String get find_place;
+  String get find_city;
+
+  String get privacy_post;
+  String get privacy_routes;
+  String get privacy_video;
+  String get privacy_friends_list;
+  String get privacy_public;
+  String get privacy_friends;
+  String get privacy_private;
+
+  String get general_settings_language;
+  String get general_settings_system_measurement;
+  String get general_settings_grade_scale;
+
+  String get general_settings_language_english;
+  String get general_settings_language_poland;
+
+  String get general_settings_system_measurement_meters;
+  String get general_settings_system_measurement_imperial_units;
+
+  String get general_settings_grade_scale_french;
+  String get general_settings_grade_scale_nordic;
+  String get general_settings_grade_scale_usa;
+  String get general_settings_grade_scale_british;
+
+  String get please_input_information;
+  String get confirm_information;
+  String get wall;
+  String get check_your_email;
+  String get please_check_mail;
+  String get it_is_not_reservation;
+  String get cancel;
+  String get save_daft;
+  String get select_hold;
+  String get double_tab_to_see_3d_preview;
+  String get type;
+  String get td;
+  String get next_climp;
+
+  String get likes;
+
+  String get comment;
+  String get show_more;
 }
 
 class _AppLocalizationsDelegate

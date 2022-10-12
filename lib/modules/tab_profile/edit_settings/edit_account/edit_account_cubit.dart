@@ -15,22 +15,22 @@ enum AccountFieldType {
 }
 
 extension AccountFieldTypeExtension on AccountFieldType {
-  String title(BuildContext context) {
+  String get title {
     switch (this) {
       case AccountFieldType.NICKNAME:
-        return AppLocalizations.of(context)!.account_nickname;
+        return LocaleKeys.account_nickname;
       case AccountFieldType.NAME:
-        return AppLocalizations.of(context)!.account_name;
+        return LocaleKeys.account_name;
       case AccountFieldType.SURNAME:
-        return AppLocalizations.of(context)!.account_surname;
+        return LocaleKeys.account_surname;
       case AccountFieldType.TYPE:
-        return AppLocalizations.of(context)!.account_type;
+        return LocaleKeys.account_type;
       case AccountFieldType.HEIGHT:
-        return AppLocalizations.of(context)!.account_height;
+        return LocaleKeys.account_height;
       case AccountFieldType.FAVORITE_ROUTE_GRADE:
-        return AppLocalizations.of(context)!.account_favorite_route_grade;
+        return LocaleKeys.account_favorite_route_grade;
       case AccountFieldType.EMAIL:
-        return AppLocalizations.of(context)!.account_email;
+        return LocaleKeys.account_email;
     }
   }
 }

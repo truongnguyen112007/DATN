@@ -1,7 +1,14 @@
 import 'package:base_bloc/config/constant.dart';
+import 'package:base_bloc/data/model/address_model.dart';
+import 'package:base_bloc/data/model/list_places_model.dart';
 import 'package:base_bloc/data/model/reservation_model.dart';
 import 'package:base_bloc/data/model/routes_model.dart';
+import 'package:base_bloc/modules/confirm_create_reservation/confirm_create_reservation_page.dart';
 import 'package:base_bloc/modules/create_reservation/create_reservation_page.dart';
+import 'package:base_bloc/modules/create_reservation_success/create_reservation_success_page.dart';
+import 'package:base_bloc/modules/create_routes/create_routes_page.dart';
+import 'package:base_bloc/modules/filter_address/filter_address_page.dart';
+import 'package:base_bloc/modules/find_place/find_place_page.dart';
 import 'package:base_bloc/modules/home/home_page.dart';
 import 'package:base_bloc/modules/reservation_detail/reservation_detail_page.dart';
 import 'package:base_bloc/modules/splash/splash_page.dart';
@@ -37,3 +44,16 @@ var routeReservationDetail = Handler(
         ));
 var routeCreateReservationPage =
     Handler(handlerFunc: (c, p) => const CreateReservationPage());
+var routeFilterAddress =
+    Handler(handlerFunc: (c, p) => const FilterAddressPage());
+var routeFindPlace = Handler(handlerFunc: (c, p) => const FindPlacePage());
+var routeConfirmCreateReservation = Handler(
+    handlerFunc: (c, p) => ConfirmCreateReservationPage(
+          addressModel: (c!.settings!.arguments as List)[0] as AddressModel,
+          placesModel: (c.settings!.arguments as List)[1] as PlacesModel,
+          dateTime: (c.settings!.arguments as List)[2] as DateTime,
+        ));
+var routeCreateReservationSuccess =
+    Handler(handlerFunc: (c, p) => const CreateReservationSuccessPage());
+var routeCreateRoutes =
+    Handler(handlerFunc: (c, p) => const CreateRoutesPage());

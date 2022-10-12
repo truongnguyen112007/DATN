@@ -1,12 +1,16 @@
 import 'dart:math';
 
+import 'package:base_bloc/data/model/general_action_sheet_model.dart';
+import 'package:base_bloc/modules/tab_profile/edit_settings/privacy_settings/privacy_settings_cubit.dart';
 import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 import '../components/app_text.dart';
 import '../data/globals.dart';
+import '../data/model/privacy_settings_model.dart';
 import '../data/model/routes_model.dart';
 import '../localizations/app_localazations.dart';
 import '../modules/playlist/playlist_cubit.dart';
@@ -314,4 +318,69 @@ class Utils {
 
   static String convertDateTimeToDD(DateTime dateTime) =>
       DateFormat('dd').format(dateTime);
+}
+
+// Custom dialog action sheet for Settings screen
+class UtilsExtension extends Utils {
+  static void showGeneralOptionActionDialog(
+      BuildContext context, List<GeneralActionSheetModel> actionSheetModels, Function(GeneralActionSheetModel) callBack) {
+    showModalBottomSheet(
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        context: context,
+        builder: (x) => Wrap(
+              children: [
+                Container(
+                  decoration: const BoxDecoration(
+                    color: Color(0xFF212121),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20),
+                    ),
+                  ),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: contentPadding,
+                      ),
+                      ...actionSheetModels.map((item) => generalItemAction(
+                              item.icon,
+                              item.value, () {
+                            callBack.call(item);
+                            Navigator.pop(context);
+                          })),
+                      SizedBox(
+                        height: 40.h,
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ));
+  }
+
+  static Widget generalItemAction(
+      Image? icon, String text, VoidCallback callback) {
+    return InkWell(
+      child: Padding(
+        padding: EdgeInsets.all(contentPadding),
+        child: Row(
+          children: [
+            SizedBox(
+              width: 7.h,
+            ),
+            if (icon != null) icon,
+            SizedBox(
+              width: 20.h,
+            ),
+            AppText(
+              text,
+              style: typoNormalTextRegular.copyWith(color: Colors.white70),
+            )
+          ],
+        ),
+      ),
+      onTap: () => callback.call(),
+    );
+  }
 }

@@ -35,13 +35,14 @@ class HomeRouters {
 class RoutesRouters {
   static String root = '/';
   static String routesDetail = '/routesDetail';
-
+  static String createRoutes ='/createRoutes';
   static configureRouter(FluroRouter router) {
     router.notFoundHandler = Handler(handlerFunc: (c, x) {
       logE("ROUTE WAS NOT FOUND !!!");
     });
     router.define(root, handler: routeTabRoutes);
     router.define(routesDetail, handler: routeRoutesDetail);
+    router.define(createRoutes, handler: routeCreateRoutes);
   }
 }
 
@@ -60,6 +61,11 @@ class ReservationRouters {
   static String root = '/';
   static String routesReservationDetail = '/reservationDetail';
   static String routesCreateReservationPage = '/createReservationPage';
+  static String routesFilterAddress = '/routesFilterCity';
+  static String routesFindPlace = '/routeFindPlace';
+  static String routesConfirmCreateReservation = '/routesConfirmCreateReservation';
+  static String routesCreateReservationSuccess =
+      'routesCreateReservationSuccess';
   static configureRouter(FluroRouter router) {
     router.notFoundHandler = Handler(handlerFunc: (c, x) {
       logE("ROUTE WAS NOT FOUND !!!");
@@ -67,6 +73,12 @@ class ReservationRouters {
     router.define(root, handler: routeTabReservation);
     router.define(routesReservationDetail, handler: routeReservationDetail);
     router.define(routesCreateReservationPage, handler: routeCreateReservationPage);
+    router.define(routesFilterAddress, handler: routeFilterAddress);
+    router.define(routesFindPlace, handler: routeFindPlace);
+    router.define(routesConfirmCreateReservation,
+        handler: routeConfirmCreateReservation);
+    router.define(routesCreateReservationSuccess,
+        handler: routeCreateReservationSuccess);
   }
 }
 

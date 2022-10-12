@@ -223,8 +223,9 @@ final boxShadowSelectBox = [
     offset: const Offset(0, 4),
   ),
 ];
+final googleFont = GoogleFonts.nunito();
 
-final typoHeading2 = GoogleFonts.roboto(
+final typoHeading2 = googleFont.copyWith(
   fontStyle: FontStyle.normal,
   fontWeight: FontWeight.w800,
   fontSize: 48.sp,
@@ -232,7 +233,7 @@ final typoHeading2 = GoogleFonts.roboto(
   color: colorBlack,
 );
 
-final typoHeading4 = GoogleFonts.roboto(
+final typoHeading4 = googleFont.copyWith(
   fontStyle: FontStyle.normal,
   fontWeight: FontWeight.w500,
   fontSize: 32.sp,
@@ -240,7 +241,7 @@ final typoHeading4 = GoogleFonts.roboto(
   color: colorBlack,
 );
 
-final typoHeading5 = GoogleFonts.roboto(
+final typoHeading5 = googleFont.copyWith(
   fontStyle: FontStyle.normal,
   fontWeight: FontWeight.w500,
   fontSize: 24.sp,
@@ -248,7 +249,7 @@ final typoHeading5 = GoogleFonts.roboto(
   color: colorBlack,
 );
 
-final typoHeading6 = GoogleFonts.roboto(
+final typoHeading6 = googleFont.copyWith(
   fontStyle: FontStyle.normal,
   fontWeight: FontWeight.w500,
   fontSize: 20.sp,
@@ -256,7 +257,7 @@ final typoHeading6 = GoogleFonts.roboto(
   color: colorBlack,
 );
 
-final typoSuperLargeTextBold = GoogleFonts.roboto(
+final typoSuperLargeTextBold = googleFont.copyWith(
   fontStyle: FontStyle.normal,
   fontWeight: FontWeight.w500,
   fontSize: 24.sp,
@@ -264,7 +265,7 @@ final typoSuperLargeTextBold = GoogleFonts.roboto(
   color: colorBlack,
 );
 
-final typoLargeTextBold = GoogleFonts.roboto(
+final typoLargeTextBold = googleFont.copyWith(
   fontStyle: FontStyle.normal,
   fontWeight: FontWeight.w500,
   fontSize: 20.sp,
@@ -272,7 +273,16 @@ final typoLargeTextBold = GoogleFonts.roboto(
   color: colorBlack,
 );
 
-final typoLargeTextRegular = GoogleFonts.roboto(
+final typoLargeText700 = googleFont.copyWith(
+  fontStyle: FontStyle.normal,
+  fontWeight: FontWeight.w700,
+  fontSize: 20.sp,
+  letterSpacing: 0.3,
+  color: colorBlack,
+);
+
+
+final typoLargeTextRegular = googleFont.copyWith(
   fontStyle: FontStyle.normal,
   fontWeight: FontWeight.w400,
   fontSize: 20.sp,
@@ -280,7 +290,7 @@ final typoLargeTextRegular = GoogleFonts.roboto(
   color: colorBlack,
 );
 
-final typoMediumTextBold = GoogleFonts.roboto(
+final typoMediumTextBold = googleFont.copyWith(
   fontStyle: FontStyle.normal,
   fontWeight: FontWeight.w600,
   fontSize: 18.sp,
@@ -288,7 +298,7 @@ final typoMediumTextBold = GoogleFonts.roboto(
   color: colorBlack,
 );
 
-final typoMediumTextRegular = GoogleFonts.roboto(
+final typoMediumTextRegular = googleFont.copyWith(
   fontStyle: FontStyle.normal,
   fontWeight: FontWeight.w400,
   fontSize: 18.sp,
@@ -296,7 +306,7 @@ final typoMediumTextRegular = GoogleFonts.roboto(
   color: colorBlack,
 );
 
-final typoNormalTextBold = GoogleFonts.roboto(
+final typoNormalTextBold = googleFont.copyWith(
   fontStyle: FontStyle.normal,
   fontWeight: FontWeight.w600,
   fontSize: 16.sp,
@@ -304,7 +314,7 @@ final typoNormalTextBold = GoogleFonts.roboto(
   color: colorBlack,
 );
 
-final typoNormalTextBEBold = GoogleFonts.roboto(
+final typoNormalTextBEBold = googleFont.copyWith(
   fontStyle: FontStyle.normal,
   fontWeight: FontWeight.w500,
   fontSize: 16.sp,
@@ -312,7 +322,7 @@ final typoNormalTextBEBold = GoogleFonts.roboto(
   color: colorBlack,
 );
 
-final typoNormalTextRegular = GoogleFonts.roboto(
+final typoNormalTextRegular = googleFont.copyWith(
   fontStyle: FontStyle.normal,
   fontWeight: FontWeight.w400,
   fontSize: 16.sp,
@@ -320,7 +330,7 @@ final typoNormalTextRegular = GoogleFonts.roboto(
   color: colorBlack,
 );
 
-final typoNormalText600 = GoogleFonts.roboto(
+final typoNormalText600 = googleFont.copyWith(
   fontStyle: FontStyle.normal,
   fontWeight: FontWeight.w600,
   fontSize: 16.sp,
@@ -328,49 +338,49 @@ final typoNormalText600 = GoogleFonts.roboto(
   color: colorBlack,
 );
 
-final typoNormalTextRegularNoSpacing = GoogleFonts.roboto(
+final typoNormalTextRegularNoSpacing = googleFont.copyWith(
   fontStyle: FontStyle.normal,
   fontWeight: FontWeight.w400,
   fontSize: 16.sp,
   color: colorBlack,
 );
 
-final typoNormalBETextRegularNoSpacing = GoogleFonts.roboto(
+final typoNormalBETextRegularNoSpacing = googleFont.copyWith(
   fontStyle: FontStyle.normal,
   fontWeight: FontWeight.w100,
   fontSize: 16.sp,
   color: colorBlack,
 );
 
-final typoNormalTextThinRegular = GoogleFonts.roboto(
+final typoNormalTextThinRegular = googleFont.copyWith(
   fontStyle: FontStyle.normal,
   fontWeight: FontWeight.w200,
   fontSize: 16.sp,
   color: colorBlack,
 );
 
-final typoSmallTextBold = GoogleFonts.roboto(
+final typoSmallTextBold = googleFont.copyWith(
   fontStyle: FontStyle.normal,
   fontWeight: FontWeight.w600,
   fontSize: 13.5.sp,
   letterSpacing: 0.3,
   color: colorBlack,
 );
-final typoSmallTextW700 = GoogleFonts.roboto(
+final typoSmallTextW700 = googleFont.copyWith(
   fontStyle: FontStyle.normal,
   fontWeight: FontWeight.w700,
   fontSize: 13.5.sp,
   letterSpacing: 0.3,
   color: colorBlack,
 );
-final typoSmallText300 = GoogleFonts.roboto(
+final typoSmallText300 = googleFont.copyWith(
   fontStyle: FontStyle.normal,
   fontWeight: FontWeight.w300,
   fontSize: 13.5.sp,
   letterSpacing: 0.3,
   color: colorBlack,
 );
-final typoSmallTextRegular = GoogleFonts.roboto(
+final typoSmallTextRegular = googleFont.copyWith(
   fontStyle: FontStyle.normal,
   fontWeight: FontWeight.w400,
   fontSize: 14.sp,
@@ -378,14 +388,14 @@ final typoSmallTextRegular = GoogleFonts.roboto(
   color: colorBlack,
 );
 
-final typoSmallTextRegularNoSpacing = GoogleFonts.roboto(
+final typoSmallTextRegularNoSpacing = googleFont.copyWith(
   fontStyle: FontStyle.normal,
   fontWeight: FontWeight.w400,
   fontSize: 14.sp,
   color: colorBlack,
 );
 
-final typoExtraSmallTextBold = GoogleFonts.roboto(
+final typoExtraSmallTextBold = googleFont.copyWith(
   fontStyle: FontStyle.normal,
   fontWeight: FontWeight.w600,
   fontSize: 14.sp,
@@ -393,36 +403,43 @@ final typoExtraSmallTextBold = GoogleFonts.roboto(
   color: colorBlack,
 );
 
-final typoExtraSmallTextRegular = GoogleFonts.roboto(
+final typoExtraSmallTextRegular = googleFont.copyWith(
   fontStyle: FontStyle.normal,
   fontWeight: FontWeight.w400,
   fontSize: 12.sp,
   letterSpacing: 0.3,
   color: colorBlack,
 );
-final typoSuperSmallText300 = GoogleFonts.roboto(
+final typoSuperSmallText300 = googleFont.copyWith(
   fontStyle: FontStyle.normal,
   fontWeight: FontWeight.w300,
-  fontSize: 11.sp,
+  fontSize: 11.5.sp,
   letterSpacing: 0.3,
   color: colorBlack,
 );
-final typoSuperSmallTextBold = GoogleFonts.roboto(
+final typoSuperSmallTextBold = googleFont.copyWith(
   fontStyle: FontStyle.normal,
   fontWeight: FontWeight.w500,
-  fontSize: 11.sp,
+  fontSize: 11.5.sp,
   letterSpacing: 0.3,
   color: colorBlack,
 );
-final typoSuperSmallTextRegular = GoogleFonts.roboto(
+final typoSuperSmallText700 = googleFont.copyWith(
+  fontStyle: FontStyle.normal,
+  fontWeight: FontWeight.w700,
+  fontSize: 11.5.sp,
+  letterSpacing: 0.3,
+  color: colorBlack,
+);
+final typoSuperSmallTextRegular = googleFont.copyWith(
   fontStyle: FontStyle.normal,
   fontWeight: FontWeight.w400,
-  fontSize: 11.sp,
+  fontSize: 11.5.sp,
   letterSpacing: 0.3,
   color: colorBlack,
 );
 
-final typoTitleHeader = GoogleFonts.roboto(
+final typoTitleHeader = googleFont.copyWith(
   fontStyle: FontStyle.normal,
   fontWeight: FontWeight.w800,
   fontSize: 16.sp,
@@ -430,7 +447,7 @@ final typoTitleHeader = GoogleFonts.roboto(
   color: colorBlack,
 );
 
-final typoHintEditTextSuperSmallTextRegular = GoogleFonts.roboto(
+final typoHintEditTextSuperSmallTextRegular = googleFont.copyWith(
   fontStyle: FontStyle.normal,
   fontWeight: FontWeight.w400,
   fontSize: 12.sp,

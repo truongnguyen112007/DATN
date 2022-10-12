@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:base_bloc/config/constant.dart';
+import 'package:base_bloc/modules/create_routes/create_routes_page.dart';
 import 'package:base_bloc/modules/playlist/playlist_state.dart';
 import 'package:base_bloc/modules/tab_home/tab_home_state.dart';
 import 'package:base_bloc/router/router.dart';
@@ -74,6 +75,9 @@ class PlayListCubit extends Cubit<PlaylistState> {
             model: model,
           ),
           context);
+
+  void createRoutesOnClick(BuildContext context) =>
+      RouterUtils.openNewPage(CreateRoutesPage(), context);
 
   List<RoutesModel> fakeData() => [
         RoutesModel(

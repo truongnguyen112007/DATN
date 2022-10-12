@@ -263,6 +263,7 @@ class AppLocalizationEn extends AppLocalizations {
 
   @override
   String get hours => 'Hours';
+
   String get friday => 'Friday';
 
   @override
@@ -303,6 +304,118 @@ class AppLocalizationEn extends AppLocalizations {
 
   @override
   String get notif_sharing => 'Sharing';
+
+  @override
+  String get reclimb_available_in => 'Reclimb available in';
+
+  String get privacy_friends => 'Friends';
+
+  @override
+  String get privacy_friends_list => 'MY FRIENDS LIST';
+
+  @override
+  String get privacy_post => 'DEFAULT POST VISIBILITY';
+
+  @override
+  String get privacy_private => 'Private';
+
+  @override
+  String get privacy_public => 'Public';
+
+  @override
+  String get privacy_routes => 'DEFAULT ROUTES VISIBILITY';
+
+  @override
+  String get privacy_video => 'DEFAULT VIDEO VISIBILITY';
+
+  @override
+  String get general_settings_grade_scale => 'GRADE SCALE';
+
+  @override
+  String get general_settings_grade_scale_british => 'British';
+
+  @override
+  String get general_settings_grade_scale_french => 'French';
+
+  @override
+  String get general_settings_grade_scale_nordic => 'Nordic';
+
+  @override
+  String get general_settings_grade_scale_usa => 'USA';
+
+  @override
+  String get general_settings_language => 'LANGUAGE';
+
+  @override
+  String get general_settings_language_english => 'English';
+
+  @override
+  String get general_settings_language_poland => 'Poland';
+
+  @override
+  String get general_settings_system_measurement => 'SYSTEM OF MEASUREMENT';
+
+  @override
+  String get general_settings_system_measurement_imperial_units =>
+      'Imperial Units';
+
+  @override
+  String get general_settings_system_measurement_meters => 'Metric - meters';
+
+  @override
+  String get find_place => 'Find place';
+
+  @override
+  String get find_city => 'Find City';
+
+  @override
+  String get please_input_information => 'Please input infomation';
+
+  @override
+  String get confirm_information => 'Confirm information';
+
+  @override
+  String get wall => 'Wall';
+
+  @override
+  String get check_your_email => 'Check your e-mail';
+
+  @override
+  String get it_is_not_reservation =>
+      "Please check your e-mail to confirm your\nreservation. If you can't find our message\ncheck spam or offers folder.";
+
+  @override
+  String get please_check_mail => "It isn't reservation confirmation";
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get save_daft => 'Save daft';
+
+  @override
+  String get select_hold => 'Select hold';
+
+  @override
+  String get double_tab_to_see_3d_preview => 'Double tab to see 3D preview';
+
+  @override
+  String get type => 'Type';
+
+  @override
+  String get td => '3D';
+
+  @override
+  String get next_climp => 'Next climp';
+
+  @override
+  String get likes => 'likes';
+
+  @override
+  String get comment => 'comment';
+
+  @override
+  String get show_more => "Show more";
 
   @override
   String get bluetooth => "Bluetooth";
