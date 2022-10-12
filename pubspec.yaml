@@ -58,6 +58,7 @@ dependencies:
 
 
 dev_dependencies:
+  flutter_launcher_icons: ^0.10.0
   build_runner:
   flutter_gen_runner:
   flutter_test:
@@ -73,6 +74,11 @@ flutter:
     - assets/svg/
     - assets/png/
     - assets/td/
+flutter_icons:
+  android: "launcher"
+  ios: true
+  image_path: "assets/png/logoapp.png"
+  min_sdk_android: 21
   # fonts:
   #   - family: Schyler
   #     fonts:
