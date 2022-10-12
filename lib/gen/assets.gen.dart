@@ -95,6 +95,7 @@ class $AssetsPngGen {
         person,
         test
       ];
+
 }
 
 class $AssetsSvgGen {
@@ -110,6 +111,9 @@ class $AssetsSvgGen {
   /// File path: assets/svg/back_circle.svg
   String get backCircle => 'assets/svg/back_circle.svg';
 
+  /// File path: assets/svg/bluetooth.svg
+  String get bluetooth => 'assets/svg/bluetooth.svg';
+
   /// File path: assets/svg/comment.svg
   String get comment => 'assets/svg/comment.svg';
 
@@ -118,6 +122,12 @@ class $AssetsSvgGen {
 
   /// File path: assets/svg/doctor_background.svg
   String get doctorBackground => 'assets/svg/doctor_background.svg';
+
+  /// File path: assets/svg/notlocation.svg
+  String get notlocation => 'assets/svg/notlocation.svg';
+
+  /// File path: assets/svg/shape.svg
+  String get shape => 'assets/svg/shape.svg';
 
   /// File path: assets/svg/like.svg
   String get like => 'assets/svg/like.svg';

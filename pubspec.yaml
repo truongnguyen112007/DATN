@@ -46,12 +46,15 @@ dependencies:
   google_maps_flutter: ^2.1.12
   zoom_widget: ^2.0.0
   flutter_speed_dial: ^6.0.0
+  permission_handler: ^10.1.0
   weekly_date_picker: ^1.3.0
   babylonjs_viewer: ^1.1.0
   dropdown_button2:
     git:
       url: git@github.com:NguyenXuanLoc/dropdown_button2.git
       ref: master
+  flutter_blue_elves: ^0.1.9
+  geolocator: ^9.0.2
 
 
 dev_dependencies:
