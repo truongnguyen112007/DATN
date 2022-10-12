@@ -96,24 +96,6 @@ class $AssetsPngGen {
         test
       ];
 
-  /// List of all assets
-  List<AssetGenImage> get values => [
-        climbing1,
-        climbing2,
-        climbing3,
-        climbing4,
-        climbing5,
-        doctor,
-        icAccount,
-        icFriends,
-        icNotification,
-        icPrivacy,
-        icPrivate,
-        icPublic,
-        icSetting,
-        person,
-        test
-      ];
 }
 
 class $AssetsSvgGen {
@@ -146,17 +128,6 @@ class $AssetsSvgGen {
 
   /// File path: assets/svg/shape.svg
   String get shape => 'assets/svg/shape.svg';
-
-  /// List of all assets
-  List<dynamic> get values => [
-        avatarTest,
-        backCircle,
-        bluetooth,
-        doctor,
-        doctorBackground,
-        notlocation,
-        shape
-      ];
 
   /// File path: assets/svg/like.svg
   String get like => 'assets/svg/like.svg';
