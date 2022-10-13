@@ -107,12 +107,12 @@ class _SearchHomePageState extends BasePopState<SearchHomePage>
                     index: 1,
                     onCallBackShowMap: (i) {},
                   ),
-                  RoutesPage(
+                  const RoutesPage(
                     index: 2,
                   ),
-                  PersonsPage(
+                  const PersonsPage(
                     index: 3,
-                  )
+                  ),
                 ],
               ),
             ),
@@ -155,6 +155,7 @@ class _SearchHomePageState extends BasePopState<SearchHomePage>
           ),
           Expanded(
             child: TextField(
+              style: const TextStyle(color: colorWhite),
               onChanged: (str) => itemOnChange.add(str),
               controller: textEditingController,
               autofocus: true,
@@ -173,8 +174,8 @@ class _SearchHomePageState extends BasePopState<SearchHomePage>
                   borderRadius: BorderRadius.circular(30),
                 ),
                 filled: true,
-                contentPadding: const EdgeInsets.only(left: 20),
-                fillColor: colorGrey60,
+                contentPadding: EdgeInsets.only(left: 20.w),
+                fillColor: colorGrey85,
                 prefixIconConstraints: BoxConstraints(maxWidth: 60.w),
                 prefixIcon: Padding(
                   padding: EdgeInsets.only(left: 14.w,right: contentPadding),
@@ -228,19 +229,12 @@ class _SearchHomePageState extends BasePopState<SearchHomePage>
                         (state is ChangeTabState && state.index == index)
                     ? BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
-                        gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            HexColor('FF9300'),
-                            HexColor('FF5A00'),
-                            HexColor('FF5A00'),
-                          ],
-                        ),
+                        gradient:
+                        Utils.backgroundGradientOrangeButton()
                       )
                     : BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
-                        color: colorGrey60),
+                        color: colorGreyBackground),
                 child: Text(
                   search[index],
                   style: const TextStyle(color: colorWhite),

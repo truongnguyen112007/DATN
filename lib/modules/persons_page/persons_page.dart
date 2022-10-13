@@ -80,7 +80,7 @@ class _PersonsPageState extends State<PersonsPage>
               selectCallBack: () {}),
           Expanded(
             child: Container(
-              color: const Color(0xFF3B4244),
+              color: colorGreyBackground,
               child: RefreshIndicator(
                 onRefresh: () async => _bloc.refresh(),
                 child: Stack(
@@ -94,32 +94,29 @@ class _PersonsPageState extends State<PersonsPage>
                             widget = const SizedBox();
                           } else if (state.status == StatusType.success) {
                             widget = SingleChildScrollView(
-                              child: Container(
-                                color: const Color(0xFF3B4244),
-                                child: Padding(
-                                  padding:
-                                      EdgeInsets.only(top: 10.h, left: 5.w),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      heading(
-                                        AppLocalizations.of(context)!.friend,
-                                      ),
-                                      lPersonsWidget(state.lFriend),
-                                      SizedBox(
-                                        height: 10.h,
-                                      ),
-                                      buttonSeeAll(),
-                                      heading(AppLocalizations.of(context)!
-                                          .topRouteSetter),
-                                      lPersonsWidget(state.lTopRouteSetter),
-                                      SizedBox(
-                                        height: 10.h,
-                                      ),
-                                      buttonSeeAll(),
-                                    ],
-                                  ),
+                              child: Padding(
+                                padding: EdgeInsets.only(left: 8.w, right: 8.w),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    heading(
+                                      LocaleKeys.friend,
+                                    ),
+                                    lPersonsWidget(state.lFriend),
+                                    SizedBox(
+                                      height: 10.h,
+                                    ),
+                                    buttonSeeAll(),
+                                    heading(LocaleKeys.topRouteSetter),
+                                    lPersonsWidget(state.lTopRouteSetter),
+                                    SizedBox(
+                                      height: 10.h,
+                                    ),
+                                    buttonSeeAll(),
+                                    SizedBox(
+                                      height: 20.h,
+                                    )
+                                  ],
                                 ),
                               ),
                             );
@@ -152,64 +149,68 @@ class _PersonsPageState extends State<PersonsPage>
 
   Widget heading(String title) {
     return Padding(
-      padding: EdgeInsets.only(bottom: 10.h),
+      padding: EdgeInsets.only(bottom: 10.h, top: 8.h),
       child: AppText(title,
-          style: typoExtraSmallTextRegular.copyWith(
-              fontSize: 15, fontWeight: FontWeight.w500, color: colorGrey50)),
+          style: googleFont.copyWith(
+              fontSize: 10.sp,
+              fontWeight: FontWeight.w600,
+              color: colorSubText)),
     );
   }
 
   Widget buttonSeeAll() {
-    final Size size = MediaQuery.of(context).size;
-    return InkWell(
-      onTap: () {},
-      child: Padding(
-        padding: EdgeInsets.only(left: 10.w, right: 10.w, bottom: 10.h),
-        child: Container(
-          height: size.height / 17,
-          decoration: BoxDecoration(
-              color: colorBlack, borderRadius: BorderRadius.circular(20)),
+    return Padding(
+      padding: EdgeInsets.only(bottom: 10.h),
+      child: InkWell(
+        onTap: () {},
+        child: MaterialButton(
+          color: colorBlack,
+          height: 36.h,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(18),
+          ),
+          onPressed: () {},
           child: Center(
-              child: AppText(
-            LocaleKeys.seeAll,
-            style:
-                typoLargeTextRegular.copyWith(color: colorRed70, fontSize: 15),
-          )),
+            child: AppText(
+              LocaleKeys.seeAll,
+              style: typoLargeTextRegular.copyWith(
+                  color: colorOrange90, fontSize: 15.sp),
+            ),
+          ),
         ),
       ),
     );
   }
 
   Widget itemPerson(PersonModel model) {
-    final Size size = MediaQuery.of(context).size;
     return Container(
-      height: size.height / 8,
+      height: 72.h,
       decoration: BoxDecoration(
-        color: Colors.black,
+        color: colorBlack,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Row(
         children: [
           Padding(
-            padding: EdgeInsets.only(left: 20.w, right: 30.w),
+            padding: EdgeInsets.only(left: 20.w, right: 20.w),
             child: Container(
-              width: 60.w,
-              height: 60.h,
+              width: 52.w,
+              height: 50.h,
               decoration: BoxDecoration(
-                  color: Colors.blue, borderRadius: BorderRadius.circular(100)),
+                color: Colors.blue,
+                borderRadius: BorderRadius.circular(100),
+              ),
             ),
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              AppText(
-                model.nickName,
-                style: const TextStyle(
-                    color: Colors.white70,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 25),
-              ),
+              AppText(model.nickName,
+                  style: googleFont.copyWith(
+                      color: colorMainText,
+                      fontSize: 22.sp,
+                      fontWeight: FontWeight.w600)),
               SizedBox(
                 height: 5.h,
               ),
@@ -217,16 +218,19 @@ class _PersonsPageState extends State<PersonsPage>
                 children: [
                   AppText(
                     model.typeUser,
-                    style: const TextStyle(color: Colors.white70, fontSize: 15),
+                    style: googleFont.copyWith(
+                        color: colorSubText,
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w400),
                   ),
                   SizedBox(
-                    width: 5.w,
+                    width: contentPadding,
                   ),
-                  const Icon(
+                  Icon(
                     Icons.circle_sharp,
-                    color: Colors.white70,
-                    size: 7,
-                  )
+                    color: colorSubText,
+                    size: 5,
+                  ),
                 ],
               ),
             ],
@@ -238,7 +242,6 @@ class _PersonsPageState extends State<PersonsPage>
 
   Widget lPersonsWidget(List<PersonModel> list) {
     return ListView.separated(
-      padding: EdgeInsets.only(left: contentPadding, right: contentPadding),
       physics: const NeverScrollableScrollPhysics(),
       primary: false,
       itemBuilder: (BuildContext context, int index) => (index == list.length)
