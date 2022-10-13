@@ -73,6 +73,9 @@ class $AssetsPngGen {
   /// File path: assets/png/liked.png
   AssetGenImage get liked => const AssetGenImage('assets/png/liked.png');
 
+  /// File path: assets/png/logoapp.png
+  AssetGenImage get logoapp => const AssetGenImage('assets/png/logoapp.png');
+
   /// File path: assets/png/person.png
   AssetGenImage get person => const AssetGenImage('assets/png/person.png');
 
@@ -97,10 +100,10 @@ class $AssetsPngGen {
         icPublic,
         icSetting,
         liked,
+        logoapp,
         person,
         test
       ];
-
 }
 
 class $AssetsSvgGen {
@@ -113,11 +116,17 @@ class $AssetsSvgGen {
   AssetGenImage get avatarTest =>
       const AssetGenImage('assets/svg/avatar_test.png');
 
+  /// File path: assets/svg/back_button.svg
+  String get backButton => 'assets/svg/back_button.svg';
+
   /// File path: assets/svg/back_circle.svg
   String get backCircle => 'assets/svg/back_circle.svg';
 
   /// File path: assets/svg/bluetooth.svg
   String get bluetooth => 'assets/svg/bluetooth.svg';
+
+  /// File path: assets/svg/close_icon.svg
+  String get closeIcon => 'assets/svg/close_icon.svg';
 
   /// File path: assets/svg/comment.svg
   String get comment => 'assets/svg/comment.svg';
@@ -173,11 +182,18 @@ class $AssetsSvgGen {
   /// File path: assets/svg/search.svg
   String get search => 'assets/svg/search.svg';
 
+  /// File path: assets/svg/search_icon.svg
+  String get searchIcon => 'assets/svg/search_icon.svg';
+
+
   /// List of all assets
   List<dynamic> get values => [
         addPlayList,
         avatarTest,
+        backButton,
         backCircle,
+        bluetooth,
+        closeIcon,
         comment,
         doctor,
         doctorBackground,
@@ -189,11 +205,14 @@ class $AssetsSvgGen {
         liked,
         moreVertical,
         notification,
+        notlocation,
         os,
         play,
         playlistadd,
         relimbDark,
-        search
+        search,
+        searchIcon,
+        shape
       ];
 }
 
