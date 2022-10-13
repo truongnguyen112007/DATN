@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../router/router_utils.dart';
 import '../theme/app_styles.dart';
 import '../theme/colors.dart';
@@ -35,7 +36,10 @@ PreferredSizeWidget appBarWidget(
       title: title ??
           AppText(
             titleStr ?? '',
-            style: typoSuperLargeTextBold.copyWith(color: Colors.white70),
+            style: googleFont.copyWith(
+                fontWeight: FontWeight.w600,
+                fontSize: 20.sp,
+                color: colorText0.withOpacity(0.87)),
           ),
       backgroundColor: backgroundColor ?? colorBlack,
       actions: action,

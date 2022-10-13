@@ -110,6 +110,12 @@ class $AssetsSvgGen {
   /// File path: assets/svg/back_circle.svg
   String get backCircle => 'assets/svg/back_circle.svg';
 
+  /// File path: assets/svg/calendar.svg
+  String get calendar => 'assets/svg/calendar.svg';
+
+  /// File path: assets/svg/climp_orange.svg
+  String get climpOrange => 'assets/svg/climp_orange.svg';
+
   /// File path: assets/svg/comment.svg
   String get comment => 'assets/svg/comment.svg';
 
@@ -118,6 +124,9 @@ class $AssetsSvgGen {
 
   /// File path: assets/svg/doctor_background.svg
   String get doctorBackground => 'assets/svg/doctor_background.svg';
+
+  /// File path: assets/svg/home.svg
+  String get home => 'assets/svg/home.svg';
 
   /// File path: assets/svg/like.svg
   String get like => 'assets/svg/like.svg';
@@ -134,6 +143,9 @@ class $AssetsSvgGen {
   /// File path: assets/svg/os.svg
   String get os => 'assets/svg/os.svg';
 
+  /// File path: assets/svg/person.svg
+  String get person => 'assets/svg/person.svg';
+
   /// File path: assets/svg/play.svg
   String get play => 'assets/svg/play.svg';
 
@@ -143,6 +155,9 @@ class $AssetsSvgGen {
   /// File path: assets/svg/relimb-dark.svg
   String get relimbDark => 'assets/svg/relimb-dark.svg';
 
+  /// File path: assets/svg/routes.svg
+  String get routes => 'assets/svg/routes.svg';
+
   /// File path: assets/svg/search.svg
   String get search => 'assets/svg/search.svg';
 
@@ -151,17 +166,22 @@ class $AssetsSvgGen {
         addPlayList,
         avatarTest,
         backCircle,
+        calendar,
+        climpOrange,
         comment,
         doctor,
         doctorBackground,
+        home,
         like,
         liked,
         moreVertical,
         notification,
         os,
+        person,
         play,
         playlistadd,
         relimbDark,
+        routes,
         search
       ];
 }

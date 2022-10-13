@@ -95,19 +95,25 @@ class _ItemFeedState extends State<ItemFeed> {
                       ),
                     ),
                     itemSpaceVertical(),
-                    AppText(
-                      'Belay: Toprope',
-                      style: typoSmallTextRegular.copyWith(
-                          fontSize: 13.5.sp,
-                          color: colorText0.withOpacity(0.87)),
+                    Padding(
+                      padding: EdgeInsets.only(left: 10.w),
+                      child: AppText(
+                        'Belay: Toprope',
+                        style: typoSmallTextRegular.copyWith(
+                            fontSize: 13.5.sp,
+                            color: colorText0.withOpacity(0.87)),
+                      ),
                     ),
                     itemSpaceVertical(height: 5),
-                    AppText(
-                      'Support: Yes',
-                      style: typoSmallTextRegular.copyWith(
-                          fontSize: 13.5.sp,
-                          color: colorText0.withOpacity(0.87)),
-                    )
+                    Padding(
+                      padding: EdgeInsets.only(left: 10.w),
+                      child: AppText(
+                        'Support: Yes',
+                        style: typoSmallTextRegular.copyWith(
+                            fontSize: 13.5.sp,
+                            color: colorText0.withOpacity(0.87)),
+                      ),
+                    ),
                   ],
                 )
               : Padding(
@@ -151,7 +157,7 @@ class _ItemFeedState extends State<ItemFeed> {
             child: Row(
               children: [
                 AppCircleImage(
-                  width: 29 .w,
+                  width: 29.w,
                   height: 29.w,
                   urlError: '',
                   url: avatar,
@@ -210,8 +216,8 @@ class _ItemFeedState extends State<ItemFeed> {
         child: Row(
           children: [
             AppCircleImage(
-              width: 38.w,
-              height: 38.w,
+              width: 40.w,
+              height: 40.w,
               urlError: '',
               url: avatar,
             ),

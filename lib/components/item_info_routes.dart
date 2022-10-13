@@ -42,104 +42,107 @@ class ItemInfoRoutes extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: 10),
             child: GestureDetector(
               onLongPress: () => onLongPress?.call(model),
-              onTap: () => detailCallBack.call(model)/*showActionDialog(
-                  model, (action) => actionCallBack.call(action))*/,
-              child: Padding(
-                padding: EdgeInsets.only(left: 13.w,right: 13.w,),
-                child: Container(
-                  padding: EdgeInsets.only(
-                      left: contentPadding + 10, right: contentPadding + 10),
-                  height: 75.h,
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      gradient: LinearGradient(
-                          colors: Utils.getBackgroundColor(model.grade))),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      model.status == null
-                          ? AppText(
-                              model.grade,
-                              style: typoLargeTextRegular.copyWith(
-                                  color: colorText0, fontSize: 33.sp),
-                              textAlign: TextAlign.end,
-                            )
-                          : Stack(
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.only(bottom: 5.h),
-                                  child: AppText(
-                                    model.grade,
-                                    style: typoLargeTextRegular.copyWith(
-                                        color: colorText0, fontSize: 33.sp),
-                                    textAlign: TextAlign.end,
-                                  ),
-                                ),
-                                Positioned.fill(
-                                    child: Container(
-                                  alignment: Alignment.bottomCenter,
-                                  child: AppText(
-                                    model.status ?? '',
-                                    textAlign: TextAlign.center,
-                                    style: typoSuperSmallText300.copyWith(
-                                        color: colorText0),
-                                  ),
-                                ))
-                              ],
-                            ),
-                      SizedBox(
-                        width: 22.w,
-                      ),
-                      Expanded(
-                          child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          AppText(
-                            model.name,
-                            style: typoLargeTextRegular.copyWith(
-                                color: colorText0, fontSize: 23.sp),
-                            maxLine: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          SizedBox(
-                            height: 5.h,
-                          ),
-                          Row(
+              onTap: () => detailCallBack.call(
+                  model) /*showActionDialog(
+                  model, (action) => actionCallBack.call(action))*/
+              ,
+              child: Container(
+                padding: EdgeInsets.only(
+                    left: contentPadding + 10, right: contentPadding + 10),
+                height: 75.h,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    gradient: LinearGradient(
+                        colors: Utils.getBackgroundColor(model.grade))),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    model.status == null
+                        ? AppText(model.grade,
+                            style: googleFont.copyWith(
+                                fontWeight: FontWeight.w700,
+                                color: colorText0,
+                                fontSize: 31.sp))
+                        : Stack(
                             children: [
-                              AppText(
-                                '${AppLocalizations.of(context)!.routes} ${model.height}m ',
-                                style:
-                                    typoSmallText300.copyWith(color: colorText0),
+                              Padding(
+                                padding: EdgeInsets.only(bottom: 5.h),
+                                child: AppText(
+                                  model.grade,
+                                  style: googleFont.copyWith(
+                                      fontWeight: FontWeight.w700,
+                                      color: colorText0,
+                                      fontSize: 31.sp),
+                                  textAlign: TextAlign.end,
+                                ),
                               ),
-                              const Icon(
-                                Icons.ac_unit_rounded,
-                                size: 6,
-                                color: colorWhite,
-                              ),
-                              Expanded(
-                                  child: AppText(
-                                " ${model.author}",
-                                overflow: TextOverflow.ellipsis,
-                                maxLine: 1,
-                                style:
-                                    typoSmallText300.copyWith(color: colorText0),
+                              Positioned.fill(
+                                  child: Container(
+                                alignment: Alignment.bottomCenter,
+                                child: AppText(
+                                  model.status ?? '',
+                                  textAlign: TextAlign.center,
+                                  style: googleFont.copyWith(
+                                      color: colorWhite.withOpacity(0.87)),
+                                ),
                               ))
                             ],
-                          )
-                        ],
-                      ))
-                    ],
-                  ),
+                          ),
+                    SizedBox(
+                      width: 22.w,
+                    ),
+                    Expanded(
+                        child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        AppText(
+                          model.name,
+                          style: googleFont.copyWith(
+                              color: colorText0.withOpacity(0.87),
+                              fontWeight: FontWeight.w600,
+                              fontSize: 20.5.sp),
+                          maxLine: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        SizedBox(
+                          height: 5.h,
+                        ),
+                        Row(
+                          children: [
+                            AppText(
+                              '${AppLocalizations.of(context)!.routes} ${model.height}m ',
+                              style: googleFont.copyWith(
+                                  color: colorText0.withOpacity(0.6),
+                                  fontSize: 13.sp),
+                            ),
+                            const Icon(
+                              Icons.ac_unit_rounded,
+                              size: 6,
+                              color: colorWhite,
+                            ),
+                            SizedBox(width: contentPadding,),
+                            Expanded(
+                                child: AppText(" ${model.author}",
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLine: 1,
+                                    style: googleFont.copyWith(
+                                        color: colorText0.withOpacity(0.6),
+                                        fontSize: 13.sp)))
+                          ],
+                        )
+                      ],
+                    ))
+                  ],
                 ),
               ),
             ),
           ),
           model.isSelect
               ? Container(
-                  height: 88.h,
+                  height: 77.h,
                   padding: const EdgeInsets.only(bottom: 10),
                   width: MediaQuery.of(context).size.width,
                   child: InkWell(

@@ -46,13 +46,13 @@ class _HistoryPageState extends State<HistoryPage>
   }
 
   void paging() {
-    if(_scrollController.hasClients) {
+    if (_scrollController.hasClients) {
       _scrollController.addListener(() {
-      if (!_scrollController.hasClients) return;
-      final maxScroll = _scrollController.position.maxScrollExtent;
-      final currentScroll = _scrollController.offset;
-      if (currentScroll >= (maxScroll * 0.9)) _bloc.getFeed(isPaging: true);
-    });
+        if (!_scrollController.hasClients) return;
+        final maxScroll = _scrollController.position.maxScrollExtent;
+        final currentScroll = _scrollController.offset;
+        if (currentScroll >= (maxScroll * 0.9)) _bloc.getFeed(isPaging: true);
+      });
     }
   }
 
@@ -97,9 +97,13 @@ class _HistoryPageState extends State<HistoryPage>
           Widget? widget;
           if (state.status == FeedStatus.initial ||
               state.status == FeedStatus.refresh) {
-            widget = SizedBox();
+            widget = const SizedBox();
           } else if (state.status == FeedStatus.success) {
             widget = ListView.separated(
+              padding: EdgeInsets.only(
+                  top: contentPadding * 2,
+                  left: contentPadding,
+                  right: contentPadding),
               physics: const NeverScrollableScrollPhysics(),
               primary: false,
               itemBuilder: (BuildContext context, int index) =>

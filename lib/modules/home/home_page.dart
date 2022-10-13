@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:math' as math;
 
+import 'package:base_bloc/base/hex_color.dart';
 import 'package:base_bloc/components/app_scalford.dart';
 import 'package:base_bloc/config/constant.dart';
 import 'package:base_bloc/data/eventbus/switch_tab_event.dart';
@@ -9,15 +11,17 @@ import 'package:base_bloc/modules/root/root_home_page.dart';
 import 'package:base_bloc/modules/root/root_profile_page.dart';
 import 'package:base_bloc/modules/root/root_reservation_page.dart';
 import 'package:base_bloc/theme/app_styles.dart';
+import 'package:base_bloc/theme/colors.dart';
 import 'package:base_bloc/utils/app_utils.dart';
-import 'package:base_bloc/utils/log_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../components/gradient_icon.dart';
 import '../../data/eventbus/hide_bottom_bar_event.dart';
+import '../../gen/assets.gen.dart';
 import '../../localizations/app_localazations.dart';
 import '../root/root_routes_page.dart';
 import 'home_cubit.dart';
@@ -64,42 +68,62 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     AppLocalizations.init(context);
-    return Stack(
-      children: [
-        AppScaffold(
-            fullStatusBar: true,
-            resizeToAvoidBottomInset: false,
-            body: Stack(
-              children: [
-                PageView(
-                  physics: const NeverScrollableScrollPhysics(),
-                  controller: _pageController,
-                  children: tabs,
-                )
-              ],
-            ),
-            bottomNavigationBar: BlocBuilder(
-              builder: (c, state) => Visibility(
+    return AppScaffold(
+      fullStatusBar: true,
+      resizeToAvoidBottomInset: false,
+      body: PageView(
+        physics: const NeverScrollableScrollPhysics(),
+        controller: _pageController,
+        children: tabs,
+      ),
+      floatingActionButton: BlocBuilder(
+          bloc: _bloc,
+          builder: (c, state) => Visibility(
+                visible: state is InitState
+                    ? true
+                    : (state is HideBottomNavigationBarState && state.isHide
+                        ? false
+                        : true),
+                child: Padding(
+                  padding: EdgeInsets.only(top: 20.h),
+                  child: Container(
+                    alignment: Alignment.bottomCenter,
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(100),
+                          topLeft: Radius.circular(100)),
+                      color: colorBlack,
+                    ),
+                    width: MediaQuery.of(context).size.width / 5,
+                    height: 40.h,
+                    child: InkWell(
+                      child: GradientIcon(
+                        icon: Assets.svg.climpOrange,
+                        size: 36,
+                        gradient: LinearGradient(
+                          colors: _currentIndex ==
+                                  BottomNavigationConstant.TAB_CLIMB
+                              ? gradientBottomNavigationBar()
+                              : [Colors.grey, Colors.grey],
+                        ),
+                      ),
+                      onTap: () =>
+                          _jumpToPage(BottomNavigationConstant.TAB_CLIMB),
+                    ),
+                  ),
+                ),
+              )),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: BlocBuilder(
+          bloc: _bloc,
+          builder: (c, state) => Visibility(
                 visible: state is InitState
                     ? true
                     : (state is HideBottomNavigationBarState && state.isHide
                         ? false
                         : true),
                 child: bottomNavigationBarWidget(),
-              ),
-              bloc: _bloc,
-            )),
-        BlocBuilder(
-            bloc: _bloc,
-            builder: (c, state) => Visibility(
-                  visible: state is InitState
-                      ? true
-                      : (state is HideBottomNavigationBarState && state.isHide
-                          ? false
-                          : true),
-                  child: climbIconWidget(),
-                ))
-      ],
+              )),
     );
   }
 
@@ -120,11 +144,11 @@ class _HomePageState extends State<HomePage> {
         child: Align(
           alignment: Alignment.bottomCenter,
           child: Container(
-            height: 45.h,
-            width: 80.w,
-            margin: EdgeInsets.only(bottom: 22.h),
+            padding: EdgeInsets.only(top: 17.h),
+            height: 50.h,
+            margin: EdgeInsets.only(bottom: 20.h),
             decoration: const BoxDecoration(
-              color: Colors.black,
+              color: colorBlack,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(100),
                 topRight: Radius.circular(100),
@@ -140,8 +164,8 @@ class _HomePageState extends State<HomePage> {
                       ? [Colors.red, Colors.orange]
                       : [Colors.grey, Colors.grey],
                 ),
-                size: 22,
-                icon: Icons.rocket_launch_outlined,
+                size: 40,
+                icon: Assets.svg.climpOrange,
               ),
             ),
           ),
@@ -149,65 +173,81 @@ class _HomePageState extends State<HomePage> {
       );
 
   Widget bottomNavigationBarWidget() {
-    return BottomNavigationBar(
-      unselectedItemColor: Colors.grey,
-      backgroundColor: Colors.black,
-      iconSize: 11,
-      type: BottomNavigationBarType.fixed,
-      selectedItemColor: Colors.orange,
-      selectedFontSize: 12.sp,
-      unselectedFontSize: 12.sp,
-      selectedLabelStyle: typoSuperSmallTextRegular.copyWith(fontSize: 12.sp),
-      items: [
-        itemBottomNavigationBarWidget(
-            index: BottomNavigationConstant.TAB_HOME,
-            label: AppLocalizations.of(context)!.home,
-            icon: Icons.home_filled),
-        itemBottomNavigationBarWidget(
-            index: BottomNavigationConstant.TAB_ROUTES,
-            label: AppLocalizations.of(context)!.routes,
-            icon: Icons.map),
-        itemBottomNavigationBarWidget(
-            isTransparent: true,
-            index: BottomNavigationConstant.TAB_ROUTES,
-            label: AppLocalizations.of(context)!.climb,
-            icon: Icons.map),
-        itemBottomNavigationBarWidget(
-            index: BottomNavigationConstant.TAB_RESERVATIONS,
-            label: AppLocalizations.of(context)!.reservations,
-            icon: Icons.date_range_outlined),
-        itemBottomNavigationBarWidget(
-            index: BottomNavigationConstant.TAB_PROFILE,
-            label: AppLocalizations.of(context)!.profile,
-            icon: Icons.person_outline_outlined),
-      ],
-      currentIndex: _currentIndex,
-      onTap: (index) {
-        _jumpToPage(index);
-      },
+    return Theme(
+      data: Theme.of(context).copyWith(
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+      ),
+      child: SizedBox(
+        height: 50.h,
+        child: BottomNavigationBar(
+          showSelectedLabels: true,
+          unselectedItemColor: Colors.grey,
+          backgroundColor: Colors.black,
+          iconSize: 11,
+          type: BottomNavigationBarType.fixed,
+          selectedItemColor: HexColor('FF9300'),
+          selectedFontSize: 12.sp,
+          unselectedFontSize: 12.sp,
+          enableFeedback: false,
+          selectedLabelStyle:
+              typoSuperSmallTextRegular.copyWith(fontSize: 12.sp),
+          items: [
+            itemBottomNavigationBarWidget(
+                index: BottomNavigationConstant.TAB_HOME,
+                label: AppLocalizations.of(context)!.home,
+                icon: Assets.svg.home),
+            itemBottomNavigationBarWidget(
+                index: BottomNavigationConstant.TAB_ROUTES,
+                label: AppLocalizations.of(context)!.routes,
+                icon: Assets.svg.routes),
+            itemBottomNavigationBarWidget(
+                isTransparent: true,
+                index: BottomNavigationConstant.TAB_ROUTES,
+                label: AppLocalizations.of(context)!.climb,
+                icon: Assets.svg.climpOrange),
+            itemBottomNavigationBarWidget(
+                index: BottomNavigationConstant.TAB_RESERVATIONS,
+                label: AppLocalizations.of(context)!.reservations,
+                icon: Assets.svg.calendar),
+            itemBottomNavigationBarWidget(
+                index: BottomNavigationConstant.TAB_PROFILE,
+                label: AppLocalizations.of(context)!.profile,
+                icon: Assets.svg.person),
+          ],
+          currentIndex: _currentIndex,
+          onTap: (index) {
+            _jumpToPage(index);
+          },
+        ),
+      ),
     );
   }
 
   BottomNavigationBarItem itemBottomNavigationBarWidget(
           {required index,
-          required IconData icon,
+          double? size,
+          required String icon,
           required String label,
           bool isTransparent = false}) =>
       BottomNavigationBarItem(
         icon: Padding(
-          padding: EdgeInsets.only(bottom: 5.h),
+          padding: EdgeInsets.only(bottom: 6.h),
           child: GradientIcon(
             gradient: LinearGradient(
               colors: isTransparent
                   ? [Colors.transparent, Colors.transparent]
                   : _currentIndex == index
-                      ? [Colors.red, Colors.orange]
+                      ? gradientBottomNavigationBar()
                       : [Colors.grey, Colors.grey],
             ),
-            size: 22,
+            size: size ?? 20,
             icon: icon,
           ),
         ),
         label: label,
       );
+
+  List<Color> gradientBottomNavigationBar() =>
+      [HexColor('FF9300'), HexColor('FF5A00'), HexColor('FF5A00')];
 }

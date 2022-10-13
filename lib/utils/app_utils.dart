@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:base_bloc/base/hex_color.dart';
 import 'package:base_bloc/data/model/general_action_sheet_model.dart';
 import 'package:base_bloc/modules/tab_profile/edit_settings/privacy_settings/privacy_settings_cubit.dart';
 import 'package:event_bus/event_bus.dart';
@@ -89,25 +90,38 @@ class Utils {
   static List<Color> getBackgroundColor(String value) {
     switch (value) {
       case '4':
-        return [colorGreen70, colorGreen70];
+        return [HexColor('005926'), HexColor('005926')];
       case '5A':
         return [
-          colorOrange80,
-          colorGreen70,
-          colorGreen70,
-          colorGreen70,
-          colorGreen70
+          HexColor('D17800'),
+          HexColor('D17800'),
+          HexColor('005926'),
+          HexColor('005926'),
         ];
       case '5C':
         return [colorOrange80, colorGreen70, colorGreen70];
       case '6A':
-        return [colorOrange80, colorGreen70, colorGreen70];
+        return [
+          HexColor('D17800'),
+          HexColor('D17800').withOpacity(0.6  ),
+          HexColor('005926'),
+          HexColor('005926')
+        ];
       case '7B':
-        return [colorRed80, colorOrange80, colorOrange80];
+        return [HexColor('D11D00'), HexColor('D17800'), HexColor('D17800')];
       case '8A':
-        return [colorRed100, colorRed90, colorOrange110];
+        return [
+          HexColor('D17800'),
+          HexColor('D17800'),
+          HexColor('005926'),
+          HexColor('005926')
+        ];
       case '5B':
-        return [colorOrange110, colorGreen50, colorGreen55];
+        return [
+          HexColor('A77208'),
+          HexColor('005926'),
+          HexColor('005926'),
+        ];
       default:
         return [
           colorRed100,
@@ -323,7 +337,9 @@ class Utils {
 // Custom dialog action sheet for Settings screen
 class UtilsExtension extends Utils {
   static void showGeneralOptionActionDialog(
-      BuildContext context, List<GeneralActionSheetModel> actionSheetModels, Function(GeneralActionSheetModel) callBack) {
+      BuildContext context,
+      List<GeneralActionSheetModel> actionSheetModels,
+      Function(GeneralActionSheetModel) callBack) {
     showModalBottomSheet(
         isScrollControlled: true,
         backgroundColor: Colors.transparent,
@@ -343,9 +359,8 @@ class UtilsExtension extends Utils {
                       SizedBox(
                         height: contentPadding,
                       ),
-                      ...actionSheetModels.map((item) => generalItemAction(
-                              item.icon,
-                              item.value, () {
+                      ...actionSheetModels.map((item) =>
+                          generalItemAction(item.icon, item.value, () {
                             callBack.call(item);
                             Navigator.pop(context);
                           })),
