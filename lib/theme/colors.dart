@@ -74,11 +74,13 @@ const colorInfo100 = Color(0xff909399);
 const colorWarning10 = Color(0xffFDF6EC);
 const colorWarning100 = Color(0xffE6A23C);
 
-var colorMainText = const Color(0xffd8d8d8);
-var colorSubText = const Color(0xff7c7c7c);
+var colorMainText = const Color(0xffffffff).withOpacity(0.87);
+var colorSubText = const Color(0xffffffff).withOpacity(0.6);
 
-var colorMainBackground = const Color(0xff121212);
-var colorGreyBackground = const Color(0xff363636);
+var colorMainBackground = const Color(0xff000000);
+var colorGreyBackground = const Color(0xff323232);
+
+var colorDivider = const Color(0xffffffff).withOpacity(0.12);
 
 const colorText100 = Color(0xff303133);
 const colorText90 = Color(0xff000000);
@@ -200,4 +202,5 @@ var colorSchemeOnSurface = const Color(0xffe5e5e5);
 var colorSchemeOnError = const Color(0xffe5e5e5);
 
 var colorYellow70 = const Color(0xFFFF9300);
+
 

@@ -9,6 +9,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
+import '../base/hex_color.dart';
 import '../components/app_text.dart';
 import '../data/globals.dart';
 import '../data/model/privacy_settings_model.dart';
@@ -332,6 +333,16 @@ class Utils {
 
   static String convertDateTimeToDD(DateTime dateTime) =>
       DateFormat('dd').format(dateTime);
+
+  static LinearGradient backgroundGradientOrangeButton() =>
+      LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            HexColor('FF9300'),
+            HexColor('FF5A00'),
+            HexColor('FF5A00'),
+          ]);
 }
 
 // Custom dialog action sheet for Settings screen
@@ -398,4 +409,5 @@ class UtilsExtension extends Utils {
       onTap: () => callback.call(),
     );
   }
+
 }

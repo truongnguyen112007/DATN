@@ -1,8 +1,10 @@
 import 'package:base_bloc/base/base_state.dart';
 import 'package:base_bloc/components/app_text.dart';
+import 'package:base_bloc/data/globals.dart';
 import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/modules/tab_profile/edit_settings/privacy_settings/privacy_setting_state.dart';
 import 'package:base_bloc/modules/tab_profile/edit_settings/privacy_settings/privacy_settings_cubit.dart';
+import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/theme/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +44,7 @@ class _PrivacySettingsState extends BaseState<PrivacySettingsPage>
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-        backgroundColor: colorBlack20,
+        backgroundColor: colorGreyBackground,
         appbar: appBarWidget(
             context: context,
             titleStr: LocaleKeys.settingsPrivacy),
@@ -57,7 +59,7 @@ class _PrivacySettingsState extends BaseState<PrivacySettingsPage>
       bloc: _bloc,
       builder: (BuildContext context, state) {
         return ListView.builder(
-          padding: EdgeInsets.only(top: 10.0),
+          padding: EdgeInsets.only(top: contentPadding),
           itemCount: state.privacySettingsList.length,
           itemBuilder: (context, index) {
             return privacySettingsItemView(
@@ -75,7 +77,7 @@ class _PrivacySettingsState extends BaseState<PrivacySettingsPage>
         builder: (BuildContext context, state) {
           return InkWell(
             child: Container(
-              padding: EdgeInsets.only(left: 15.0),
+              padding: EdgeInsets.only(left: 2.0*contentPadding),
               height: 100.0,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -86,29 +88,23 @@ class _PrivacySettingsState extends BaseState<PrivacySettingsPage>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         AppText(item.type.title,
-                            style: TextStyle(
-                                color: Colors.white70,
-                                fontSize: 13.0,
-                                fontWeight: FontWeight.w600)),
-                        SizedBox(height: 10.h),
+                            style: googleFont.copyWith(fontSize: 10.w, fontWeight: FontWeight.w500, color: colorSubText)),
+                        SizedBox(height: contentPadding),
                         Row(
                           children: [
                             item.value.icon.image(
-                                width: 20.w, height: 20.h, color: Colors.white70),
-                            SizedBox(width: 10.0),
+                                width: 20.w, height: 20.h, color: colorMainText),
+                            SizedBox(width: contentPadding),
                             AppText(item.value.title,
-                                style: TextStyle(
-                                    color: Colors.white70,
-                                    fontSize: 24.0,
-                                    fontWeight: FontWeight.w600))
+                                style: googleFont.copyWith(fontSize: 22.w, fontWeight: FontWeight.w600, color: colorMainText))
                           ],
                         )
                       ],
                     ),
                   ),
                   Divider(
-                    height: 0.7,
-                    color: Colors.white38,
+                    thickness: 1.w,
+                    color: colorDivider,
                   )
                 ],
               ),
