@@ -43,6 +43,10 @@ class $AssetsPngGen {
   AssetGenImage get icAccount =>
       const AssetGenImage('assets/png/ic_account.png');
 
+  /// File path: assets/png/ic_arrow_back.png
+  AssetGenImage get icArrowBack =>
+      const AssetGenImage('assets/png/ic_arrow_back.png');
+
   /// File path: assets/png/ic_friends.png
   AssetGenImage get icFriends =>
       const AssetGenImage('assets/png/ic_friends.png');
@@ -88,6 +92,7 @@ class $AssetsPngGen {
         climbing6,
         doctor,
         icAccount,
+        icArrowBack,
         icFriends,
         icNotification,
         icPrivacy,
@@ -132,6 +137,24 @@ class $AssetsSvgGen {
   /// File path: assets/svg/doctor_background.svg
   String get doctorBackground => 'assets/svg/doctor_background.svg';
 
+  /// File path: assets/svg/notlocation.svg
+  String get notlocation => 'assets/svg/notlocation.svg';
+
+  /// File path: assets/svg/shape.svg
+  String get shape => 'assets/svg/shape.svg';
+
+  /// File path: assets/svg/ic_account.svg
+  String get icAccount => 'assets/svg/ic_account.svg';
+
+  /// File path: assets/svg/ic_notification.svg
+  String get icNotification => 'assets/svg/ic_notification.svg';
+
+  /// File path: assets/svg/ic_privacy.svg
+  String get icPrivacy => 'assets/svg/ic_privacy.svg';
+
+  /// File path: assets/svg/ic_setting.svg
+  String get icSetting => 'assets/svg/ic_setting.svg';
+
   /// File path: assets/svg/like.svg
   String get like => 'assets/svg/like.svg';
 
@@ -143,9 +166,6 @@ class $AssetsSvgGen {
 
   /// File path: assets/svg/notification.svg
   String get notification => 'assets/svg/notification.svg';
-
-  /// File path: assets/svg/notlocation.svg
-  String get notlocation => 'assets/svg/notlocation.svg';
 
   /// File path: assets/svg/os.svg
   String get os => 'assets/svg/os.svg';
@@ -165,8 +185,6 @@ class $AssetsSvgGen {
   /// File path: assets/svg/search_icon.svg
   String get searchIcon => 'assets/svg/search_icon.svg';
 
-  /// File path: assets/svg/shape.svg
-  String get shape => 'assets/svg/shape.svg';
 
   /// List of all assets
   List<dynamic> get values => [
@@ -179,6 +197,10 @@ class $AssetsSvgGen {
         comment,
         doctor,
         doctorBackground,
+        icAccount,
+        icNotification,
+        icPrivacy,
+        icSetting,
         like,
         liked,
         moreVertical,

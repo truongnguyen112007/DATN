@@ -1,5 +1,6 @@
 import 'package:base_bloc/base/base_state.dart';
 import 'package:base_bloc/components/app_text.dart';
+import 'package:base_bloc/data/globals.dart';
 import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/modules/tab_profile/edit_settings/privacy_settings/privacy_setting_state.dart';
 import 'package:base_bloc/modules/tab_profile/edit_settings/privacy_settings/privacy_settings_cubit.dart';
@@ -14,6 +15,7 @@ import '../../../../components/appbar_widget.dart';
 import '../../../../data/model/general_settings_model.dart';
 import '../../../../data/model/privacy_settings_model.dart';
 import '../../../../gen/assets.gen.dart';
+import '../../../../theme/app_styles.dart';
 import 'general_settings_cubit.dart';
 import 'general_settings_state.dart';
 
@@ -45,7 +47,7 @@ class _GeneralSettingsState extends BaseState<GeneralSettingsPage>
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-        backgroundColor: colorBlack20,
+        backgroundColor: colorGreyBackground,
         appbar: appBarWidget(
             context: context,
             titleStr: AppLocalizations.of(context)!.settingsGeneral),
@@ -60,7 +62,7 @@ class _GeneralSettingsState extends BaseState<GeneralSettingsPage>
       bloc: _bloc,
       builder: (BuildContext context, state) {
         return ListView.builder(
-          padding: EdgeInsets.only(top: 10.0),
+          padding: EdgeInsets.only(top: contentPadding),
           itemCount: state.generalSettingsList.length,
           itemBuilder: (context, index) {
             return generalSettingsItemView(
@@ -78,7 +80,7 @@ class _GeneralSettingsState extends BaseState<GeneralSettingsPage>
         builder: (BuildContext context, state) {
           return InkWell(
             child: Container(
-              padding: EdgeInsets.only(left: 15.0),
+              padding: EdgeInsets.only(left: 2.0*contentPadding),
               height: 100.0,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -89,22 +91,16 @@ class _GeneralSettingsState extends BaseState<GeneralSettingsPage>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         AppText(item.type.title,
-                            style: TextStyle(
-                                color: Colors.white70,
-                                fontSize: 13.0,
-                                fontWeight: FontWeight.w600)),
+                            style: googleFont.copyWith(fontSize: 10.w, fontWeight: FontWeight.w500, color: colorSubText)),
                         SizedBox(height: 10.h),
                         AppText(item.value,
-                            style: TextStyle(
-                                color: Colors.white70,
-                                fontSize: 24.0,
-                                fontWeight: FontWeight.w600))
+                            style: googleFont.copyWith(fontSize: 22.w, fontWeight: FontWeight.w600, color: colorMainText))
                       ],
                     ),
                   ),
                   Divider(
-                    height: 0.7,
-                    color: Colors.white38,
+                    thickness: 1.0,
+                    color: colorDivider,
                   )
                 ],
               ),

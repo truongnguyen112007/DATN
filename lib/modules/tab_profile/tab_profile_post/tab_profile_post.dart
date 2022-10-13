@@ -1,4 +1,5 @@
 import 'package:base_bloc/base/base_state.dart';
+import 'package:base_bloc/data/globals.dart';
 import 'package:base_bloc/modules/tab_profile/tab_profile_post/tab_profile_post_cubit.dart';
 import 'package:base_bloc/modules/tab_profile/tab_profile_post/tab_profile_post_state.dart';
 import 'package:base_bloc/theme/colors.dart';
@@ -36,7 +37,7 @@ class _TabProfilePostState extends BaseState<TabProfilePost>
   }
 
   void paging() {
-    if(_scrollController.hasClients) {
+    if (_scrollController.hasClients) {
       _scrollController.addListener(() {
         if (!_scrollController.hasClients) return;
         final maxScroll = _scrollController.position.maxScrollExtent;
@@ -49,7 +50,9 @@ class _TabProfilePostState extends BaseState<TabProfilePost>
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-        backgroundColor: colorBlack20,
+        padding: EdgeInsets.only(
+            top: contentPadding, left: contentPadding, right: contentPadding),
+        backgroundColor: colorGreyBackground,
         body: RefreshIndicator(
           child: feedWidget(),
           onRefresh: () async => _bloc.refresh(),
@@ -57,39 +60,37 @@ class _TabProfilePostState extends BaseState<TabProfilePost>
   }
 
   Widget feedWidget() => BlocBuilder<TabProfilePostCubit, TabProfilePostState>(
-    bloc: _bloc,
-    builder: (BuildContext context, state) {
-      Widget? widget;
-      if (state.status == ProfilePostStatus.initial ||
-          state.status == ProfilePostStatus.refresh) {
-        widget = const SizedBox();
-      } else if (state.status == ProfilePostStatus.success) {
-        widget = ListView.separated(
-          primary: true,
-          itemBuilder: (BuildContext context, int index) =>
-          (index == state.lFeed.length)
-              ? const Center(
-              child: CircularProgressIndicator(
-                color: Colors.amber,
-              ))
-              : ItemFeed(
-            model: state.lFeed[index],
-            index: BottomNavigationConstant.TAB_HOME,
-          ),
-          itemCount:
-          !state.readEnd ? state.lFeed.length + 1 : state.lFeed.length,
-          shrinkWrap: true,
-          separatorBuilder: (BuildContext context, int index) =>
-          const SizedBox(
-            height: 1,
-          ),
-        );
-      }
-      return widget ?? const Text('TRUG');
-    },
-  );
+        bloc: _bloc,
+        builder: (BuildContext context, state) {
+          Widget? widget;
+          if (state.status == ProfilePostStatus.initial ||
+              state.status == ProfilePostStatus.refresh) {
+            widget = const SizedBox();
+          } else if (state.status == ProfilePostStatus.success) {
+            widget = ListView.separated(
+              primary: true,
+              itemBuilder: (BuildContext context, int index) =>
+                  (index == state.lFeed.length)
+                      ? const Center(
+                          child: CircularProgressIndicator(
+                          color: Colors.amber,
+                        ))
+                      : ItemFeed(
+                          model: state.lFeed[index],
+                          index: BottomNavigationConstant.TAB_HOME,
+                        ),
+              itemCount:
+                  !state.readEnd ? state.lFeed.length + 1 : state.lFeed.length,
+              shrinkWrap: true,
+              separatorBuilder: (BuildContext context, int index) => SizedBox(
+                height: contentPadding,
+              ),
+            );
+          }
+          return widget ?? const Text('TRUG');
+        },
+      );
 
   @override
   bool get wantKeepAlive => true;
-
 }

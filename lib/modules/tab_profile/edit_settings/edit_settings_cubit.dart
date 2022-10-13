@@ -18,16 +18,16 @@ enum SettingsItemType {
 }
 
 extension SettingsItemTypeExtension on SettingsItemType {
-  AssetGenImage get icon {
+  String get icon {
     switch (this) {
       case SettingsItemType.ACCOUNT:
-        return Assets.png.icAccount;
+        return Assets.svg.icAccount;
       case SettingsItemType.NOTIFICATIONS:
-        return Assets.png.icNotification;
+        return Assets.svg.icNotification;
       case SettingsItemType.PRIVACY:
-        return Assets.png.icPrivacy;
+        return Assets.svg.icPrivacy;
       case SettingsItemType.GENERAL:
-        return Assets.png.icSetting;
+        return Assets.svg.icSetting;
     }
   }
 

@@ -1,4 +1,6 @@
+import 'package:base_bloc/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../router/router_utils.dart';
 import '../theme/app_styles.dart';
 import '../theme/colors.dart';
@@ -8,7 +10,7 @@ PreferredSizeWidget appBarWidget(
         {required BuildContext context,
         Widget? leading,
         Widget? title,
-        double? titleSpacing = 0,
+        double? titleSpacing = 16,
         double? landingWidth = 56,
         double? toolbarHeight,
         String? titleStr,
@@ -25,17 +27,14 @@ PreferredSizeWidget appBarWidget(
       elevation: 0,
       leading: leading ??
           IconButton(
-            icon: const Icon(
-              Icons.arrow_back,
-              color: colorText65,
-            ),
+            icon: Assets.png.icArrowBack.image(width: 16.w, height: 16.w),
             onPressed: () =>
                 RouterUtils.pop(context, isHideBottomBar: isHideBottomBar),
           ),
       title: title ??
           AppText(
             titleStr ?? '',
-            style: typoSuperLargeTextBold.copyWith(color: Colors.white70),
+            style: googleFont.copyWith(fontSize: 22.w, fontWeight: FontWeight.w600, color: colorMainText),
           ),
       backgroundColor: backgroundColor ?? colorBlack,
       actions: action,
