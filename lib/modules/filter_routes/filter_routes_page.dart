@@ -1,4 +1,5 @@
 import 'package:base_bloc/base/base_state.dart';
+import 'package:base_bloc/base/hex_color.dart';
 import 'package:base_bloc/components/app_button.dart';
 import 'package:base_bloc/components/app_scalford.dart';
 import 'package:base_bloc/components/app_slider.dart';
@@ -6,6 +7,8 @@ import 'package:base_bloc/data/globals.dart';
 import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/router/router_utils.dart';
 import 'package:base_bloc/theme/app_styles.dart';
+import 'package:base_bloc/utils/app_utils.dart';
+import 'package:base_bloc/utils/log_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_tags/flutter_tags.dart';
@@ -46,6 +49,7 @@ class _FilterRoutesPageState extends BasePopState<FilterRoutesPage> {
   var upperAuthorGradeValue = 5.0;
   var lowerUserGradeValue = 2.0;
   var upperUserGradeValue = 5.0;
+  var backgroundColor = HexColor('212121');
 
   @override
   Widget buildWidget(BuildContext context) {
@@ -54,7 +58,7 @@ class _FilterRoutesPageState extends BasePopState<FilterRoutesPage> {
         isTabToHideKeyBoard: false,
         padding: EdgeInsets.only(left: contentPadding, right: contentPadding),
         appbar: appbar(context),
-        backgroundColor: colorBackgroundColor,
+        backgroundColor: backgroundColor,
         body: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -72,16 +76,17 @@ class _FilterRoutesPageState extends BasePopState<FilterRoutesPage> {
                       decoration: decorTextField.copyWith(
                           fillColor: Colors.transparent,
                           contentPadding: const EdgeInsets.symmetric(
-                              vertical: 20.0, horizontal: 16)),
+                              vertical: 17.0, horizontal: 16)),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 10),
                     child: AppText(
                       "  ${AppLocalizations.of(context)!.author} ",
-                      style: typoSmallTextRegular.copyWith(
-                          color: colorText70,
-                          backgroundColor: colorBackgroundColor),
+                      style: typoW400.copyWith(
+                          color: colorText0.withOpacity(0.6),
+                          fontSize: 12,
+                          backgroundColor: colorGreyBackground),
                     ),
                   )
                 ],
@@ -93,10 +98,8 @@ class _FilterRoutesPageState extends BasePopState<FilterRoutesPage> {
               itemSpace(),
               itemTitle(AppLocalizations.of(context)!.corners),
               itemSpace(height: 9),
-              listFilterDialog(corners, selectedCorner, (index) {
-                selectedCorner = index;
-                setState(() {});
-              }),
+              filterWidget(corners, selectedCorner,
+                  (index) => setState(() => selectedCorner = index)),
               itemSpace(),
               itemTitle(AppLocalizations.of(context)!.authorsGrade),
               rangeWidget(lowerAuthorGradeValue, upperAuthorGradeValue,
@@ -113,39 +116,28 @@ class _FilterRoutesPageState extends BasePopState<FilterRoutesPage> {
               }),
               itemTitle(AppLocalizations.of(context)!.designedBy),
               itemSpace(height: 9),
-              listFilterDialog(designs, selectedDesign, (index) {
-                selectedDesign = index;
-                setState(() {});
-              }),
-              SizedBox(
-                height: 50,
-              ),
+              filterWidget(designs, selectedDesign,
+                  (index) => setState(() => selectedDesign = index)),
+              const SizedBox(height: 50),
               line(),
-              AppButton(
-                backgroundColor: Colors.deepOrange,
-                height: 40.h,
-                shapeBorder: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(30),
+              InkWell(
+                child: Container(
+                  height: 40.h,
+                  alignment: Alignment.center,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [HexColor('FF9300'), HexColor('FF5A00')])),
+                  child: AppText(
+                    '${AppLocalizations.of(context)!.showResult}:  25',
+                    style:
+                        typoW600.copyWith(color: colorText0, fontSize: 13.sp),
                   ),
                 ),
-                onPress: () => RouterUtils.pop(context),
-                titleWidget: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    AppText(
-                      '${AppLocalizations.of(context)!.showResult}:',
-                      style: typoSmallTextRegular.copyWith(color: colorText0),
-                    ),
-                    SizedBox(
-                      width: 5.w,
-                    ),
-                    AppText(
-                      '25',
-                      style: typoSmallTextRegular.copyWith(color: colorText0),
-                    ),
-                  ],
-                ),
+                onTap: () => RouterUtils.pop(context),
               ),
               itemSpace()
             ],
@@ -160,7 +152,8 @@ class _FilterRoutesPageState extends BasePopState<FilterRoutesPage> {
         children: [
           AppText(
             '4 - 8C+',
-            style: typoSmallTextRegular.copyWith(color: colorText45),
+            style: typoW400.copyWith(
+                fontSize: 13.sp, color: colorText0.withOpacity(0.87)),
           ),
           AppSlider(
               rightHandler: AppSliderHandler(
@@ -202,7 +195,7 @@ class _FilterRoutesPageState extends BasePopState<FilterRoutesPage> {
             color: colorText45,
           ),
         ),
-        backgroundColor: colorBackgroundColor,
+        backgroundColor: backgroundColor,
         flexibleSpace: Align(
           alignment: Alignment.bottomCenter,
           child: line(),
@@ -216,7 +209,8 @@ class _FilterRoutesPageState extends BasePopState<FilterRoutesPage> {
               onTap: () {},
               child: AppText(
                 AppLocalizations.of(context)!.removeFilter,
-                style: typoSmallTextRegular.copyWith(color: colorOrange100),
+                style: typoW600.copyWith(
+                    color: HexColor('FF5A00'), fontSize: 13.sp),
               ),
             ),
           ),
@@ -226,36 +220,25 @@ class _FilterRoutesPageState extends BasePopState<FilterRoutesPage> {
         ],
       );
 
-  Widget textFilter(String text) {
-    return Padding(
-      padding: EdgeInsets.only(left: contentPadding),
-      child: AppText(
-        text,
-        style: TextStyle(color: Colors.white60, fontSize: 20),
-      ),
-    );
-  }
-
   Widget itemTitle(String text) => AppText(
         text,
-        style: typoNormalTextRegular.copyWith(color: colorText50),
+        style: typoW400.copyWith(
+            color: colorText0.withOpacity(0.87), fontSize: 14.5.sp),
       );
 
-  Widget listFilterDialog(
+  Widget filterWidget(
       List nameList, int selectIndex, Function(int) onCallBackSelect) {
     return SizedBox(
-      height: 30.h,
+      height: 27.h,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemCount: nameList.length,
         itemBuilder: (context, index) {
-          return itemCorners(
-              onCallBackSelect: (index) {
-                selectIndex = index;
-                setState(() {});
-              },
-              content: nameList[index],
+          return itemListView(
+              alignment: Alignment.center,
+              itemOnclick: () => onCallBackSelect(index),
               index: index,
+              text: nameList[index],
               selectIndex: selectIndex);
         },
         separatorBuilder: (BuildContext context, int index) => const SizedBox(
@@ -265,37 +248,44 @@ class _FilterRoutesPageState extends BasePopState<FilterRoutesPage> {
     );
   }
 
-  Widget statusWidget() => Tags(
-        columns: 2,
-        itemCount: status.length,
-        alignment: WrapAlignment.start,
-        itemBuilder: (int index) => InkWell(
-          child: Container(
-            margin: const EdgeInsets.only(right: 8),
-            decoration: selectedStatus == index
-                ? BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    gradient: const LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [Colors.orange, Colors.red],
-                    ),
-                  )
-                : BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: colorBlack10),
-            padding: const EdgeInsets.all(10),
-            child: AppText(
-              status[index],
-              style: typoSmallTextRegular.copyWith(color: colorText45),
-            ),
+  Widget itemListView(
+          {required String text,
+          required int selectIndex,
+          required int index,
+          required VoidCallback itemOnclick,
+          AlignmentGeometry? alignment}) =>
+      InkWell(
+        child: Container(
+          alignment: alignment,
+          margin: const EdgeInsets.only(right: 8),
+          decoration: selectIndex == index
+              ? BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  gradient: Utils.backgroundGradientOrangeButton(
+                      begin: Alignment.centerLeft, end: Alignment.centerRight),
+                )
+              : BoxDecoration(
+                  borderRadius: BorderRadius.circular(20), color: colorBlack10),
+          padding:
+              EdgeInsets.only(left: 11.w, right: 11.w, top: 5.h, bottom: 5.h),
+          child: AppText(
+            text,
+            style: typoW600.copyWith(
+                color: colorText0.withOpacity(0.87), fontSize: 12.sp),
           ),
-          onTap: () {
-            selectedStatus = index;
-            setState(() {});
-          },
         ),
+        onTap: () => itemOnclick.call(),
       );
+
+  Widget statusWidget() => Tags(
+      columns: 2,
+      itemCount: status.length,
+      alignment: WrapAlignment.start,
+      itemBuilder: (int index) => itemListView(
+          itemOnclick: () => setState(() => selectedStatus = index),
+          index: index,
+          text: status[index],
+          selectIndex: selectedStatus));
 
   Widget itemCorners(
           {required Function(int) onCallBackSelect,

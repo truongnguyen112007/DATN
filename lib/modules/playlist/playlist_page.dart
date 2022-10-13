@@ -1,8 +1,10 @@
 import 'package:base_bloc/components/app_circle_loading.dart';
+import 'package:base_bloc/components/app_text.dart';
 import 'package:base_bloc/data/globals.dart';
 import 'package:base_bloc/modules/playlist/playlist_cubit.dart';
 import 'package:base_bloc/modules/playlist/playlist_state.dart';
 import 'package:base_bloc/modules/tab_home/tab_home_state.dart';
+import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/theme/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -96,16 +98,29 @@ class _PlayListPageState extends State<PlayListPage>
                 animationDuration: const Duration(milliseconds: 300),
                 children: [
                   SpeedDialChild(
+                    labelWidget: AppText(
+                      LocaleKeys.find_routes,
+                      style: typoW400.copyWith(
+                          fontSize: 16, color: colorText0.withOpacity(0.87)),
+                    ),
+                    child: const Icon(
+                      Icons.search,
+                      color: colorBlack,
+                    ),
+                    backgroundColor: Colors.white,
+                    foregroundColor: Colors.white,
+                    onTap: (){},
+                  ),
+                  SpeedDialChild(
+                    labelWidget: AppText(
+                      LocaleKeys.create_routes,
+                      style: typoW400.copyWith(
+                          fontSize: 16, color: colorText0.withOpacity(0.87)),
+                    ),
                     child:  const Icon(Icons.add,color: colorBlack,),
                     backgroundColor: Colors.white,
                     foregroundColor: Colors.white,
                     onTap: () => _bloc.createRoutesOnClick(context),
-                  ),
-                  SpeedDialChild(
-                    child:  const Icon(Icons.search,color: colorBlack,),
-                    backgroundColor: Colors.white,
-                    foregroundColor: Colors.white,
-                    onTap: (){},
                   ),
                 ],
               )

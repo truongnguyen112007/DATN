@@ -6,6 +6,7 @@ import 'package:base_bloc/modules/tab_profile/edit_settings/privacy_settings/pri
 import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
@@ -14,6 +15,7 @@ import '../components/app_text.dart';
 import '../data/globals.dart';
 import '../data/model/privacy_settings_model.dart';
 import '../data/model/routes_model.dart';
+import '../gen/assets.gen.dart';
 import '../localizations/app_localazations.dart';
 import '../modules/playlist/playlist_cubit.dart';
 import '../theme/app_styles.dart';
@@ -236,9 +238,10 @@ class Utils {
         builder: (x) => Wrap(
               children: [
                 Container(
-                  decoration: const BoxDecoration(
-                    color: Color(0xFF212121),
-                    borderRadius: BorderRadius.only(
+                  padding: EdgeInsets.all(contentPadding),
+                  decoration:  BoxDecoration(
+                    color: colorBlack.withOpacity(0.75),
+                    borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20),
                     ),
@@ -249,47 +252,47 @@ class Utils {
                         height: contentPadding,
                       ),
                       itemAction(
-                          Icons.thumb_up_alt,
+                          Assets.svg.moveToTop,
                           AppLocalizations.of(context)!.moveToPlaylist,
                           ItemAction.MOVE_TO_TOP,
                           () => callBack.call(ItemAction.MOVE_TO_TOP)),
                       itemAction(
-                          Icons.account_balance_rounded,
+                          Assets.svg.addToPlayList,
                           AppLocalizations.of(context)!.addToPlaylist,
                           ItemAction.ADD_TO_PLAYLIST,
                           () => callBack.call(ItemAction.ADD_TO_PLAYLIST)),
                       itemAction(
-                          Icons.add,
+                          Assets.svg.removeFromPlaylist,
                           AppLocalizations.of(context)!.removeFromPlaylist,
                           ItemAction.REMOVE_FROM_PLAYLIST,
                           () => callBack.call(ItemAction.REMOVE_FROM_PLAYLIST)),
                       itemAction(
-                          Icons.favorite,
+                          Assets.svg.liked,
                           AppLocalizations.of(context)!.addToFavourite,
                           ItemAction.ADD_TO_FAVOURITE,
                           () => callBack.call(ItemAction.ADD_TO_FAVOURITE)),
                       itemAction(
-                          Icons.remove_circle_outline,
+                          Assets.svg.like,
                           AppLocalizations.of(context)!.removeFromFavorite,
                           ItemAction.REMOVE_FROM_PLAYLIST,
                           () => callBack.call(ItemAction.REMOVE_FROM_PLAYLIST)),
                       itemAction(
-                          Icons.share,
+                          Assets.svg.share,
                           AppLocalizations.of(context)!.share,
                           ItemAction.SHARE,
                           () => callBack.call(ItemAction.SHARE)),
                       itemAction(
-                          Icons.copy,
+                          Assets.svg.copy,
                           AppLocalizations.of(context)!.copy,
                           ItemAction.COPY,
                           () => callBack.call(ItemAction.COPY)),
                       itemAction(
-                          Icons.edit,
+                          Assets.svg.edit,
                           AppLocalizations.of(context)!.edit,
                           ItemAction.EDIT,
                           () => callBack.call(ItemAction.EDIT)),
                       itemAction(
-                          Icons.delete,
+                          Assets.svg.delete,
                           AppLocalizations.of(context)!.delete,
                           ItemAction.DELETE,
                           () => callBack.call(ItemAction.DELETE)),
@@ -300,23 +303,20 @@ class Utils {
             ));
   }
 
-  static Widget itemAction(IconData icon, String text, ItemAction action,
+  static Widget itemAction(String icon, String text, ItemAction action,
       VoidCallback filterCallBack) {
     return InkWell(
       child: Padding(
         padding: EdgeInsets.all(contentPadding),
         child: Row(
           children: [
-            Icon(
-              icon,
-              color: Colors.white,
-            ),
+           SizedBox(width: 22.w,height: 22.w,child: SvgPicture.asset(icon),),
             SizedBox(
               width: 40.w,
             ),
             AppText(
               text,
-              style: typoSuperSmallTextRegular.copyWith(color: colorText0),
+              style: typoW400.copyWith(fontSize: 16,color: colorText0.withOpacity(0.87))/*typoSuperSmallTextRegular.copyWith(color: colorText0)*/,
             )
           ],
         ),
@@ -334,10 +334,11 @@ class Utils {
   static String convertDateTimeToDD(DateTime dateTime) =>
       DateFormat('dd').format(dateTime);
 
-  static LinearGradient backgroundGradientOrangeButton() =>
+  static LinearGradient backgroundGradientOrangeButton(
+          {AlignmentGeometry? begin, AlignmentGeometry? end}) =>
       LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
+          begin: begin ?? Alignment.topCenter,
+          end: end ?? Alignment.bottomCenter,
           colors: [
             HexColor('FF9300'),
             HexColor('FF5A00'),
