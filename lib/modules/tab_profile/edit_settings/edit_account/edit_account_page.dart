@@ -1,8 +1,9 @@
 import 'package:base_bloc/base/base_state.dart';
 import 'package:base_bloc/components/app_text.dart';
+import 'package:base_bloc/data/globals.dart';
 import 'package:base_bloc/data/model/user_model.dart';
-import 'package:base_bloc/extenstion/string_extension.dart';
 import 'package:base_bloc/localizations/app_localazations.dart';
+import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/theme/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +25,7 @@ class _EditAccountState extends BaseState<EditAccountPage>
     with AutomaticKeepAliveClientMixin {
   final _scrollController = ScrollController();
   late final EditAccountCubit _bloc;
+  static double _avatarSize = 56.w;
 
   @override
   void initState() {
@@ -41,7 +43,7 @@ class _EditAccountState extends BaseState<EditAccountPage>
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-        backgroundColor: colorBlack20,
+        backgroundColor: colorGreyBackground,
         appbar: appBarWidget(
             context: context,
             titleStr: LocaleKeys.settingsAccount),
@@ -53,7 +55,7 @@ class _EditAccountState extends BaseState<EditAccountPage>
       bloc: _bloc,
       builder: (BuildContext context, state) {
         return ListView.builder(
-          padding: EdgeInsets.only(top: 10.0, bottom: 50.h),
+          padding: EdgeInsets.only(top: 2.0*contentPadding, left: 2.0*contentPadding, bottom: 50.w),
           itemCount: _bloc.commonFieldList(context).length + 1,
           itemBuilder: (context, index) {
             return index == 0
@@ -67,36 +69,32 @@ class _EditAccountState extends BaseState<EditAccountPage>
 
   Widget changeAvatarView(UserModel userModel) {
     return Container(
-      padding: EdgeInsets.only(top: 15.h, left: 20.h, bottom: 15.h),
       child: Row(
         children: [
           CircleAvatar(
-            radius: 40.0,
+            radius: _avatarSize/2.0,
             backgroundColor: Colors.transparent,
             child: ClipOval(
                 child: Image.network(
               userModel.avatar ?? '',
               fit: BoxFit.cover,
-              width: 80.0,
-              height: 80.0,
+              width: _avatarSize,
+              height: _avatarSize,
             )),
           ),
-          const SizedBox(width: 20.0),
+          SizedBox(width: 2.0*contentPadding),
           TextButton(
               child: Padding(
                 padding: const EdgeInsets.only(left: 10.0, right: 10.0),
                 child: Text(LocaleKeys.account_change_photo,
-                    style: TextStyle(
-                        color: Colors.white70,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500)),
+                    style: googleFont.copyWith(fontSize: 14.w, fontWeight: FontWeight.w400, color: colorMainText)),
               ),
               style: TextButton.styleFrom(
-                primary: Colors.white70,
+                primary: colorMainText,
                 onSurface: Colors.black,
-                side: BorderSide(color: Colors.white70, width: 1.5),
+                side: BorderSide(color: colorMainText, width: 1.w),
                 shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(25))),
+                    borderRadius: BorderRadius.all(Radius.circular(25.0))),
               ),
               onPressed: () => {print('CHANGE PHOTO')})
         ],
@@ -110,19 +108,19 @@ class _EditAccountState extends BaseState<EditAccountPage>
     final textEditingController = TextEditingController(text: value);
 
     return Container(
-      padding: EdgeInsets.only(top: 15.h, left: 20.w),
+      padding: EdgeInsets.only(top: contentPadding),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AppText(fieldType.title,
-              style: TextStyle(color: Colors.white60, fontSize: 12.0)),
+              style: googleFont.copyWith(fontSize: 10.w, fontWeight: FontWeight.w500, color: colorSubText)),
           Row(
             children: [
               Expanded(
                   child: TextField(
                     controller: textEditingController,
-                style: TextStyle(color: Colors.white70, fontSize: 24.0, fontWeight: FontWeight.w600),
-                cursorColor: Colors.grey,
+                style: googleFont.copyWith(fontSize: 22.w, fontWeight: FontWeight.w600, color: colorMainText),
+                cursorColor: colorMainText,
                 decoration: InputDecoration(
                   hintText: '',
                   border: InputBorder.none,
@@ -139,10 +137,9 @@ class _EditAccountState extends BaseState<EditAccountPage>
               SizedBox(width: 8.w)
             ],
           ),
-          SizedBox(height: 0.h),
           Divider(
-            color: Colors.white30,
-            height: 0.5.h,
+            color: colorDivider,
+            thickness: 1.0.w,
           )
         ],
       ),

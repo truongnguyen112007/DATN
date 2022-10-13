@@ -7,6 +7,7 @@ import 'package:base_bloc/data/model/notifications_settings_model.dart';
 import 'package:base_bloc/data/model/settings_model.dart';
 import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/modules/tab_profile/edit_settings/notifications_settings/notifications_settings_state.dart';
+import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/theme/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_storage/get_storage.dart';
 import '../../../../components/app_scalford.dart';
 import '../../../../components/appbar_widget.dart';
+import '../../../../data/globals.dart';
 import 'notifications_settings_cubit.dart';
 
 class NotificationsSettingsPage extends StatefulWidget {
@@ -46,7 +48,7 @@ class _NotificationsSettingsState extends BaseState<NotificationsSettingsPage>
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-        backgroundColor: colorBlack20,
+        backgroundColor: colorGreyBackground,
         appbar: appBarWidget(
             context: context,
             titleStr: LocaleKeys.settingsNotifications),
@@ -61,18 +63,15 @@ class _NotificationsSettingsState extends BaseState<NotificationsSettingsPage>
       bloc: _bloc,
       builder: (BuildContext context, state) {
         return ListView.builder(
-          padding: EdgeInsets.only(top: 15.0, left: 15.0),
+          padding: EdgeInsets.only(top: 2.0*contentPadding, left: 2.0*contentPadding),
           itemCount: state.notificationsSettingsList.length + 1,
           itemBuilder: (context, index) {
             if (index == 0) {
               return Container(
-                padding: EdgeInsets.only(bottom: 15.w),
+                padding: EdgeInsets.only(bottom: 2.0*contentPadding),
                 child: AppText(
                     LocaleKeys.notif_push_notifications,
-                    style: TextStyle(
-                        color: Colors.white70,
-                        fontWeight: FontWeight.w800,
-                        fontSize: 24.0)),
+                    style: googleFont.copyWith(fontSize: 22.w, fontWeight: FontWeight.w600, color: colorMainText)),
               );
             }
             return notificationsSettingsItemView(
@@ -98,14 +97,11 @@ class _NotificationsSettingsState extends BaseState<NotificationsSettingsPage>
                   children: [
                     Expanded(
                         child: AppText(item.type.title,
-                            style: TextStyle(
-                                color: Colors.white70,
-                                fontSize: 17.0,
-                                fontWeight: FontWeight.w600))),
+                            style: googleFont.copyWith(fontSize: 16.w, fontWeight: FontWeight.w400, color: colorMainText))),
                     Switch(
-                        activeColor: colorPrimaryOrange100,
+                        activeColor: colorPrimary,
                         activeTrackColor: colorPrimaryOrange40,
-                        inactiveTrackColor: colorGrey70,
+                        inactiveTrackColor: colorSubText,
                         value: item.isEnable,
                         onChanged: (val) {
                           item.isEnable = !item.isEnable;
@@ -115,8 +111,8 @@ class _NotificationsSettingsState extends BaseState<NotificationsSettingsPage>
                   ],
                 )),
                 Divider(
-                  height: 0.7,
-                  color: Colors.white38,
+                  thickness: 1.w,
+                  color: colorDivider,
                 )
               ],
             ),

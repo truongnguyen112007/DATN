@@ -1,15 +1,17 @@
-
 import 'package:badges/badges.dart';
 import 'package:base_bloc/components/profile_info_widget.dart';
 import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/modules/tab_profile/tab_profile_cubit.dart';
 import 'package:base_bloc/modules/tab_profile/tab_profile_post/tab_profile_post.dart';
 import 'package:base_bloc/modules/tab_profile/tab_profile_state.dart';
+import 'package:base_bloc/theme/app_styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../components/app_scalford.dart';
 import '../../components/dynamic_sliver_appbar.dart';
+import '../../data/globals.dart';
 import '../../localizations/app_localazations.dart';
 import '../../theme/colors.dart';
 import '../designed/designed_page.dart';
@@ -36,15 +38,15 @@ class _TabProfileState extends State<TabProfile> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return AppScaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: const Color(0xFF3B4244),
-      appBar: appBar(context),
+      backgroundColor: colorMainBackground,
+      appbar: appBar(context),
       body: SafeArea(
         child: DefaultTabController(
           length: 3,
           child: Scaffold(
-            backgroundColor: colorGrey90,
+            backgroundColor: colorMainBackground,
             appBar: PreferredSize(
                 preferredSize:
                     Size.fromHeight(MediaQuery.of(context).size.height),
@@ -55,15 +57,15 @@ class _TabProfileState extends State<TabProfile> {
                       SliverPersistentHeader(
                         pinned: true,
                         delegate: SliverAppBarDelegate(
-                          minHeight: 44,
-                          maxHeight: 44,
+                          minHeight: 44.w,
+                          maxHeight: 44.w,
                           child: TabBar(
-                            labelColor: Colors.orange,
-                            labelStyle: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.w600),
-                            unselectedLabelColor: Colors.grey,
-                            indicatorColor: Colors.orange,
-                            indicatorWeight: 3.0,
+                            labelColor: colorPrimary,
+                            labelStyle: googleFont.copyWith(
+                                fontSize: 14.w, fontWeight: FontWeight.w600),
+                            unselectedLabelColor: colorSubText,
+                            indicatorColor: colorPrimary,
+                            indicatorWeight: 2.w,
                             tabs: [
                               Tab(text: AppLocalizations.of(context)!.tabPosts),
                               Tab(
@@ -102,7 +104,7 @@ class _TabProfileState extends State<TabProfile> {
         actions: [
           SizedBox(
             child: Badge(
-              padding: const EdgeInsets.all(2),
+              padding: EdgeInsets.all(2.w),
               position: BadgePosition.topEnd(top: 13.h, end: -2.h),
               toAnimate: false,
               badgeContent: const Text('1'),
@@ -110,7 +112,7 @@ class _TabProfileState extends State<TabProfile> {
             ),
           ),
           SizedBox(
-            width: 20.w,
+            width: 2.0 * contentPadding,
           ),
         ],
       );
