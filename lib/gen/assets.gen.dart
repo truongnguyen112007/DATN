@@ -230,7 +230,7 @@ class $AssetsSvgGen {
         playlistadd,
         relimbDark,
         routes,
-        search
+        search,
         searchIcon,
         shape
       ];
