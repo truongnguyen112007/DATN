@@ -3,6 +3,7 @@ import 'package:base_bloc/components/app_circle_loading.dart';
 import 'package:base_bloc/components/appbar_widget.dart';
 import 'package:base_bloc/components/item_loading.dart';
 import 'package:base_bloc/data/globals.dart';
+import 'package:base_bloc/data/model/reservation_model.dart';
 import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/modules/tab_home/tab_home_cubit.dart';
 import 'package:base_bloc/modules/tab_home/tab_home_state.dart';
@@ -10,6 +11,7 @@ import 'package:base_bloc/router/router.dart';
 import 'package:base_bloc/router/router_utils.dart';
 import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/theme/colors.dart';
+import 'package:base_bloc/utils/app_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -133,7 +135,7 @@ class _TabHomeState extends State<TabHome> with AutomaticKeepAliveClientMixin {
           landingWidth: contentPadding,
           context: context,
           title: InkWell(
-            onTap: (){
+            onTap: () {
               jumToTop();
             },
             child: SvgPicture.asset(
@@ -185,23 +187,26 @@ class _TabHomeState extends State<TabHome> with AutomaticKeepAliveClientMixin {
                 state.status == FeedStatus.initial)
             ? const SizedBox()
             : InkWell(
-                onTap: () {},
+                onTap: () {
+                  RouterUtils.pushHome(
+                      route: HomeRouters.reservation,
+                      context: context,
+                      argument: [BottomNavigationConstant.TAB_HOME,ReservationModel(
+                          calendar: DateTime.now(),
+                          startTime: '12:00',
+                          endTime: '13:00',
+                          address:
+                          'Wall no. 3 - Next to window Centurn Murall al.Kwasaaki 61 02-183 warsawa',
+                          status: 'Murall Krakowska',
+                          isCheck: false)]);
+                },
                 child: Container(
                   padding: const EdgeInsets.all(10),
                   height: 84.h,
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        HexColor('FF9300'),
-                        HexColor('FF5A00'),
-                        HexColor('FF5A00')
-                      ],
-                    ),
-                  ),
+                      borderRadius: BorderRadius.circular(10),
+                      gradient: Utils.backgroundGradientOrangeButton()),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     mainAxisSize: MainAxisSize.min,

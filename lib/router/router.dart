@@ -22,6 +22,7 @@ class Routers {
 class HomeRouters {
   static String root = '/';
   static String search = '/search_home';
+  static String reservation = '/reservation';
 
   static configureMainRoutes(FluroRouter router) {
     router.notFoundHandler = Handler(handlerFunc: (c, p) {
@@ -29,6 +30,7 @@ class HomeRouters {
     });
     router.define(root, handler: routeTabHome);
     router.define(search, handler: routeSearchHome);
+    router.define(reservation, handler: routeReservationDetail);
   }
 }
 

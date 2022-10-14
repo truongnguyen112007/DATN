@@ -4,6 +4,7 @@ import 'package:base_bloc/modules/tab_reservation/tab_reservation_state.dart';
 import 'package:base_bloc/router/router_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../config/constant.dart';
 import '../../router/router.dart';
 
 class TabReservationCubit extends Cubit<TabReservationState> {
@@ -42,7 +43,7 @@ class TabReservationCubit extends Cubit<TabReservationState> {
       RouterUtils.pushReservations(
           context: context,
           route: ReservationRouters.routesReservationDetail,
-          argument: model);
+          argument: [BottomNavigationConstant.TAB_RESERVATIONS,model]);
 
   void addOnclick(BuildContext context) =>
       RouterUtils.pushReservations(route: ReservationRouters.routesCreateReservationPage, context: context);

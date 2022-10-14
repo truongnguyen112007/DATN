@@ -7,6 +7,7 @@ import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/router/router_utils.dart';
 import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/utils/log_utils.dart';
+import 'package:base_bloc/utils/toast_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -16,6 +17,7 @@ import '../gen/assets.gen.dart';
 import '../theme/colors.dart';
 import 'app_like_button.dart';
 import 'app_text.dart';
+import 'button_playlist_home.dart';
 
 enum FeedAction { ADD_PLAYLIST, LIKE, MORE, SHOW_MORE }
 
@@ -31,15 +33,10 @@ class ItemFeed extends StatefulWidget {
 }
 
 class _ItemFeedState extends State<ItemFeed> {
-  // bool isLike = false;
   var avatar =
       'https://thegioidienanh.vn/stores/news_dataimages/anhvu/092022/05/07/4955_300520026_497051069095370_6964118069725518096_n.jpg?rt=20220905075129';
-  bool isAddToPlayList = false;
-  String assetName = '';
-
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
     return Container(
       decoration: BoxDecoration(
         color: colorMainBackground,
@@ -88,22 +85,7 @@ class _ItemFeedState extends State<ItemFeed> {
                                     color: colorText0.withOpacity(0.87)),
                               ),
                               'Grade'),
-                          InkWell(
-                            onTap: () {
-                                isAddToPlayList = !isAddToPlayList;
-                                assetName = isAddToPlayList ? Assets.svg.addPlayList : Assets.svg.moreVertical;
-                                setState(() {
-                                });
-                            },
-                            child: actionWidget(
-                                isAddToPlayList
-                                    ? SvgPicture.asset(
-                                       assetName,
-                                        width: 30.w,
-                                      )
-                                    : SvgPicture.asset(assetName,color: colorWhite,),
-                                LocaleKeys.playlist),
-                          ),
+                           ButtonPlayListHome(model: widget.model,)
                         ],
                       ),
                     ),
@@ -130,7 +112,7 @@ class _ItemFeedState extends State<ItemFeed> {
                   ],
                 )
               : Padding(
-                  padding: EdgeInsets.only(left: 10.w, bottom: 10.h, top: 10.h),
+                  padding: EdgeInsets.only(left: 10.w, bottom: 10.h, top: 10.h,right: 10.w),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -140,12 +122,7 @@ class _ItemFeedState extends State<ItemFeed> {
                             fit: BoxFit.cover,
                           ),
                           'On sight'),
-                      actionWidget(
-                          SvgPicture.asset(
-                            Assets.svg.addPlayList,
-                            width: 30.w,
-                          ),
-                          LocaleKeys.playlist),
+                       ButtonPlayListHome(model: widget.model,)
                     ],
                   ),
                 ),
