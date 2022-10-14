@@ -56,10 +56,14 @@ class _TabHomeState extends State<TabHome> with AutomaticKeepAliveClientMixin {
     });
   }
 
+  void jumToTop() => _scrollController.animateTo(0,
+      duration: const Duration(seconds: 2),
+      curve: Curves.fastLinearToSlowEaseIn);
+
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-        padding: EdgeInsets.only(left: contentPadding, right: contentPadding),
+        padding: EdgeInsets.only(left: 7.w, right: 7.w),
         appbar: appbar(context),
         backgroundColor: colorGreyBackground,
         body: RefreshIndicator(
@@ -127,9 +131,14 @@ class _TabHomeState extends State<TabHome> with AutomaticKeepAliveClientMixin {
           backgroundColor: colorMainBackground,
           landingWidth: contentPadding,
           context: context,
-          title: SvgPicture.asset(
-            Assets.svg.relimbDark,
-            height: 24,
+          title: InkWell(
+            onTap: (){
+              jumToTop();
+            },
+            child: SvgPicture.asset(
+              Assets.svg.relimbDark,
+              height: 24,
+            ),
           ),
           action: [
             IconButton(
@@ -140,7 +149,7 @@ class _TabHomeState extends State<TabHome> with AutomaticKeepAliveClientMixin {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(left: 10,right: contentPadding),
+              margin: EdgeInsets.only(left: 10, right: contentPadding),
               child: Badge(
                 gradient: LinearGradient(colors: [
                   colorYellow70,
@@ -198,16 +207,17 @@ class _TabHomeState extends State<TabHome> with AutomaticKeepAliveClientMixin {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Expanded(
-                          flex: 4,
-                          child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: AppText(
-                              LocaleKeys.next_climp.toUpperCase(),
-                              style: typoSuperSmallTextRegular.copyWith(
-                                  fontSize: 9.sp,
-                                  color: colorText0.withOpacity(0.87)),
-                            ),
-                          )),
+                        flex: 4,
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: AppText(
+                            LocaleKeys.nextClimb.toUpperCase(),
+                            style: typoSuperSmallTextRegular.copyWith(
+                                fontSize: 9.sp,
+                                color: colorText0.withOpacity(0.87)),
+                          ),
+                        ),
+                      ),
                       Expanded(
                           flex: 6,
                           child: Row(

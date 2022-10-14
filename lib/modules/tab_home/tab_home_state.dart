@@ -13,11 +13,10 @@ class TabHomeState extends Equatable {
       {this.readEnd = false,
       this.currentPage = 1,
       this.lFeed = const <FeedModel>[],
-      this.status = FeedStatus.initial});
+      this.status = FeedStatus.initial,});
 
   @override
-  List<Object?> get props =>
-      [lFeed, readEnd, currentPage];
+  List<Object?> get props => [lFeed, readEnd, currentPage,];
 
   @override
   String toString() {
@@ -28,10 +27,12 @@ class TabHomeState extends Equatable {
           {List<FeedModel>? lFeed,
           bool? readEnd,
           int? currentPage,
-          FeedStatus? status}) =>
+          FeedStatus? status,
+          bool? isAddToPlayList}) =>
       TabHomeState(
           lFeed: lFeed ?? this.lFeed,
           readEnd: readEnd ?? this.readEnd,
           currentPage: currentPage ?? this.currentPage,
-          status: status ?? this.status);
+          status: status ?? this.status,
+         );
 }
