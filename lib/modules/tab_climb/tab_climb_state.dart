@@ -1,30 +1,15 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_blue_elves/flutter_blue_elves.dart';
 
-abstract class TabClimbState extends Equatable {}
+ class TabClimbState extends Equatable {
+  final bool isBluetooth;
+  final bool isGps;
 
-class TabClimbInitState extends TabClimbState {
-  @override
-  List<Object?> get props => [];
-}
+ const TabClimbState({this.isBluetooth = false, this.isGps = false});
 
-class BluetoothState extends TabClimbState {
-  final bool? isOnBluetooth;
-  // final bool? isOnLocation;
-
-  BluetoothState(this.isOnBluetooth,
-    // this.isOnLocation
-);
-
-  // BluetoothState copyOf({bool? isOnBluetooth, bool? isOnLocation}) =>
-  //     BluetoothState(
-  //         isOnBluetooth: isOnBluetooth ?? this.isOnBluetooth
-  //         // isOnLocation: isOnLocation ?? this.isOnLocation
-  // );
+  TabClimbState copyOf({bool? isBluetooth, bool? isGps}) =>
+      TabClimbState(isBluetooth: isBluetooth ?? this.isBluetooth, isGps: isGps?? this.isGps);
 
   @override
-  List<Object?> get props => [isOnBluetooth,
-    // isOnLocation
-  ];
+  List<Object?> get props => [isBluetooth, isGps];
 }
-
