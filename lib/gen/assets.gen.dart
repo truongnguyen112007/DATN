@@ -218,6 +218,9 @@ class $AssetsSvgGen {
   /// File path: assets/svg/remove_from_playlist.svg
   String get removeFromPlaylist => 'assets/svg/remove_from_playlist.svg';
 
+  /// File path: assets/svg/removepl.svg
+  String get removepl => 'assets/svg/removepl.svg';
+
   /// File path: assets/svg/routes.svg
   String get routes => 'assets/svg/routes.svg';
 
@@ -271,6 +274,7 @@ class $AssetsSvgGen {
         playlistadd,
         relimbDark,
         removeFromPlaylist,
+        removepl,
         routes,
         search,
         searchIcon,

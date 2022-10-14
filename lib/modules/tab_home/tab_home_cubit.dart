@@ -47,6 +47,10 @@ class TabHomeCubit extends Cubit<TabHomeState> {
       route: HomeRouters.search,
       argument: BottomNavigationConstant.TAB_HOME);
 
+  void onClickPlaylist () {
+
+  }
+
   List<FeedModel> fakeData() => [
         FeedModel(true,
             'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4'),

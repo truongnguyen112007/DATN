@@ -39,8 +39,8 @@ var routeTabReservation =
 var routeTabRoutes = Handler(handlerFunc: (c, p) => const TabRoutes());
 var routeReservationDetail = Handler(
     handlerFunc: (c, p) => ReservationDetailPage(
-          index: BottomNavigationConstant.TAB_RESERVATIONS,
-          model: c!.settings!.arguments as ReservationModel,
+          index: (c!.settings!.arguments as List)[0] as int,
+          model: (c.settings!.arguments as List)[1]as ReservationModel,
         ));
 var routeCreateReservationPage =
     Handler(handlerFunc: (c, p) => const CreateReservationPage());
