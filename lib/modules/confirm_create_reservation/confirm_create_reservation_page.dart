@@ -1,4 +1,5 @@
 import 'package:base_bloc/base/base_state.dart';
+import 'package:base_bloc/base/hex_color.dart';
 import 'package:base_bloc/components/app_scalford.dart';
 import 'package:base_bloc/components/app_text_field.dart';
 import 'package:base_bloc/components/appbar_widget.dart';
@@ -54,7 +55,7 @@ class _ConfirmCreateReservationPageState
   Widget buildWidget(BuildContext context) {
     return AppScaffold(
         isTabToHideKeyBoard: true,
-        backgroundColor: colorBlack30,
+        backgroundColor: colorGreyBackground,
         padding: EdgeInsets.all(contentPadding),
         appbar: appbar(context),
         body: SizedBox(
@@ -121,14 +122,15 @@ class _ConfirmCreateReservationPageState
                   height: 37.h,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(40),
-                      gradient: const LinearGradient(
+                      gradient: LinearGradient(
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
-                        colors: [colorOrange50, colorOrange90],
+                        colors: [HexColor('FF9300'), HexColor('FF5A00')],
                       )),
                   child: AppText(
                     LocaleKeys.confirm_information,
-                    style: typoNormalTextRegular.copyWith(color: colorText0),
+                    style:
+                        typoW600.copyWith(fontSize: 14.sp, color: colorText0),
                   ),
                 ),
                 onTap: () => _bloc.confirmOnclick(context),
@@ -155,14 +157,16 @@ class _ConfirmCreateReservationPageState
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              AppText(
                 'Thues day,9 june',
-                style: typoNormalTextRegular.copyWith(color: colorText45),
+                style: typoW400.copyWith(
+                    color: colorText0.withOpacity(0.87), fontSize: 14.5.sp),
               ),
               itemSpace(height: 7),
-              Text(
+              AppText(
                 '9:30 - 10:00',
-                style: typoNormalTextRegular.copyWith(color: colorText45),
+                style: typoW400.copyWith(
+                    color: colorText0.withOpacity(0.87), fontSize: 14.5.sp),
               )
             ],
           ),
@@ -184,9 +188,8 @@ class _ConfirmCreateReservationPageState
               controller: controller,
               onTap: () => onTap.call(),
               isShowErrorText: false,
-              textStyle: typoSmallTextRegular.copyWith(
-                color: colorText0,
-              ),
+              textStyle: typoW400.copyWith(
+                  fontSize: 14.5.sp, color: colorText0.withOpacity(0.87)),
               cursorColor: Colors.white60,
               decoration: decorTextField.copyWith(
                   suffixIcon: Padding(
@@ -202,13 +205,15 @@ class _ConfirmCreateReservationPageState
             ),
           ),
           Container(
-            color: colorBlack30,
+            color: colorGreyBackground,
             margin: EdgeInsets.only(left: contentPadding),
             padding: const EdgeInsets.only(left: 3, right: 7),
             child: AppText(
               title,
-              style: typoSmallTextRegular.copyWith(
-                  color: colorText62, backgroundColor: colorBlack30),
+              style: typoW400.copyWith(
+                  fontSize: 13.sp,
+                  backgroundColor: colorGreyBackground,
+                  color: colorText0.withOpacity(0.6)),
             ),
           ),
         ],

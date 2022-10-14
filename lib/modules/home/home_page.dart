@@ -179,7 +179,7 @@ class _HomePageState extends State<HomePage> {
         highlightColor: Colors.transparent,
       ),
       child: SizedBox(
-        height: 50.h,
+        // height: 50.h,
         child: BottomNavigationBar(
           showSelectedLabels: true,
           unselectedItemColor: Colors.grey,
@@ -187,11 +187,9 @@ class _HomePageState extends State<HomePage> {
           iconSize: 11,
           type: BottomNavigationBarType.fixed,
           selectedItemColor: HexColor('FF9300'),
-          selectedFontSize: 12.sp,
-          unselectedFontSize: 12.sp,
+          selectedFontSize: 11.sp,
+          unselectedFontSize: 11.sp,
           enableFeedback: false,
-          selectedLabelStyle:
-              typoSuperSmallTextRegular.copyWith(fontSize: 12.sp),
           items: [
             itemBottomNavigationBarWidget(
                 index: BottomNavigationConstant.TAB_HOME,

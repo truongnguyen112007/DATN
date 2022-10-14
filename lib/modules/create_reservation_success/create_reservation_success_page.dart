@@ -9,8 +9,10 @@ import 'package:base_bloc/theme/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../components/appbar_widget.dart';
+import '../../gen/assets.gen.dart';
 
 class CreateReservationSuccessPage extends StatefulWidget {
   const CreateReservationSuccessPage({Key? key}) : super(key: key);
@@ -34,27 +36,25 @@ class _CreateReservationSuccessPageState
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             itemPlace(height: 20),
-            const Icon(
-              Icons.mail_outline,
-              color: colorText45,
-              size: 40,
+            SvgPicture.asset(
+              Assets.svg.message,
+              width: 36.w,
             ),
             itemPlace(height: 20),
             AppText(
               LocaleKeys.check_your_email,
-              style: typoLargeTextBold.copyWith(
-                  color: colorText0, fontSize: 28.sp),
+              style: typoW700.copyWith(fontSize: 29.sp),
             ),
             itemPlace(),
             AppText(
               LocaleKeys.it_is_not_reservation,
-              style: typoSmallTextRegular.copyWith(color: colorText45),
+              style: typoW400.copyWith(fontSize: 14.sp),
               textAlign: TextAlign.center,
             ),
             itemPlace(height: 20),
             AppText(
               LocaleKeys.please_check_mail,
-              style: typoSmallTextRegular.copyWith(color: colorText45),
+              style: typoW400.copyWith(fontSize: 14.sp),
             )
           ],
         ),

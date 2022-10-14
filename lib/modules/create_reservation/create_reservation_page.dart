@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:base_bloc/base/base_state.dart';
+import 'package:base_bloc/base/hex_color.dart';
 import 'package:base_bloc/components/app_scalford.dart';
 import 'package:base_bloc/components/app_text_field.dart';
 import 'package:base_bloc/components/appbar_widget.dart';
@@ -47,7 +48,7 @@ class _CreateReservationPageState extends BasePopState<CreateReservationPage> {
     return AppScaffold(
         isTabToHideKeyBoard: true,
         padding: EdgeInsets.all(contentPadding),
-        backgroundColor: colorBlack30,
+        backgroundColor: colorGreyBackground,
         appbar:
             appBarWidget(context: context, titleStr: LocaleKeys.newReservation),
         body: SingleChildScrollView(
@@ -73,7 +74,8 @@ class _CreateReservationPageState extends BasePopState<CreateReservationPage> {
               itemSpace(),
               AppText(
                 LocaleKeys.hours,
-                style: typoSmallTextRegular.copyWith(color: colorText40),
+                style: typoW400.copyWith(
+                    color: colorText0.withOpacity(0.87), fontSize: 14.5.sp),
               ),
               BlocBuilder<CreateReservationCubit, CreateReservationState>(
                   bloc: _bloc,
@@ -128,13 +130,12 @@ class _CreateReservationPageState extends BasePopState<CreateReservationPage> {
         children: [
           AppText(
             title,
-            style: typoSmallTextRegular.copyWith(color: colorText45),
+            style: typoW400.copyWith(
+                fontSize: 14.5.sp, color: colorText0.withOpacity(0.87)),
           ),
-          AppText(
-            '20 jun',
-            style: typoSmallTextRegular.copyWith(
-                color: colorText45, fontSize: 13.5.sp),
-          )
+          AppText('20 jun',
+              style: typoW400.copyWith(
+                  fontSize: 11.sp, color: colorText0.withOpacity(0.87)))
         ],
       );
 
@@ -161,12 +162,12 @@ class _CreateReservationPageState extends BasePopState<CreateReservationPage> {
         height: 30.h,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-            color: index % 2 == 0 ? colorBlack10 : Colors.transparent,
+            color: index % 2 == 0 ? HexColor('121212') : Colors.transparent,
             borderRadius: BorderRadius.circular(30)),
         child: AppText(
           Utils.convertTimeToYYHHFromDateTime(dateTime),
           style: typoSmallTextRegular.copyWith(
-              color: colorText45,
+              color: index % 2 == 0 ? colorText0 : colorText0.withOpacity(0.38),
               decoration: index % 2 == 0
                   ? TextDecoration.none
                   : TextDecoration.lineThrough),
@@ -190,9 +191,8 @@ class _CreateReservationPageState extends BasePopState<CreateReservationPage> {
               controller: controller,
               onTap: () => onTap.call(),
               isShowErrorText: false,
-              textStyle: typoSmallTextRegular.copyWith(
-                color: colorText0,
-              ),
+              textStyle: typoW400.copyWith(
+                  color: colorText0.withOpacity(0.87), fontSize: 14.5.sp),
               cursorColor: Colors.white60,
               decoration: decorTextField.copyWith(
                   suffixIcon: Padding(
@@ -213,8 +213,8 @@ class _CreateReservationPageState extends BasePopState<CreateReservationPage> {
             padding: const EdgeInsets.only(left: 3, right: 7),
             child: AppText(
               title,
-              style: typoSmallTextRegular.copyWith(
-                  color: colorText62, backgroundColor: colorBlack30),
+              style: typoW400.copyWith(
+                  fontSize: 12.sp, color: colorText0.withOpacity(0.6)),
             ),
           ),
         ],
@@ -226,7 +226,8 @@ class _CreateReservationPageState extends BasePopState<CreateReservationPage> {
         children: [
           AppText(
             '$lowerValue - $upperValue',
-            style: typoSmallTextRegular.copyWith(color: colorText45),
+            style: typoW400.copyWith(
+                fontSize: 12.5.sp, color: colorText0.withOpacity(0.87)),
           ),
           AppSlider(
               rightHandler: AppSliderHandler(

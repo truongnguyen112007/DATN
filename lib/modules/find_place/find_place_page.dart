@@ -5,12 +5,10 @@ import 'package:base_bloc/components/app_button.dart';
 import 'package:base_bloc/components/app_circle_loading.dart';
 import 'package:base_bloc/components/app_scalford.dart';
 import 'package:base_bloc/config/constant.dart';
-import 'package:base_bloc/data/globals.dart';
 import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/modules/find_place/find_place_cubit.dart';
 import 'package:base_bloc/modules/find_place/find_place_state.dart';
 import 'package:base_bloc/utils/app_utils.dart';
-import 'package:base_bloc/utils/log_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -118,7 +116,7 @@ class _FindPlacePageState extends BasePopState<FindPlacePage> {
         zoomGesturesEnabled: true,
         scrollGesturesEnabled: true,
         initialCameraPosition: _kGooglePlex,
-        onTap: (lng) => _bloc.mapCallback(lng,context),
+        onTap: (lng) => _bloc.mapCallback(lng, context),
         onMapCreated: (GoogleMapController controller) {
           try {
             _controller.complete(controller);
@@ -132,9 +130,8 @@ class _FindPlacePageState extends BasePopState<FindPlacePage> {
           child: Align(
         alignment: Alignment.bottomCenter,
         child: AppButton(
-            height: 30.h,
-            width: 60.w,
-            padding: const EdgeInsets.only(left: 5, right: 10),
+            height: 36/*30.h*/,
+            padding: const EdgeInsets.only(left: 10, right: 10),
             backgroundColor: colorWhite,
             shapeBorder: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(30),
@@ -144,14 +141,14 @@ class _FindPlacePageState extends BasePopState<FindPlacePage> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Icon(
-                  state.isShowMap ? Icons.location_on : Icons.list,
+                  !state.isShowMap ? Icons.location_on : Icons.list,
                   color: colorOrange100,
                 ),
                 const SizedBox(
                   width: 5,
                 ),
                 AppText(
-                  state.isShowMap ? LocaleKeys.map : LocaleKeys.list,
+                  !state.isShowMap ? LocaleKeys.map : LocaleKeys.list,
                   style: typoSmallTextRegular.copyWith(color: colorOrange100),
                 )
               ],
@@ -176,8 +173,8 @@ class _FindPlacePageState extends BasePopState<FindPlacePage> {
               width: 2,
             ),
             AppText(
-              'Filter',
-              style: typoSmallText300.copyWith(color: colorText0),
+              LocaleKeys.filter,
+              style: typoW400.copyWith(fontSize: 13.sp),
             )
           ],
         ),
@@ -203,6 +200,8 @@ class _FindPlacePageState extends BasePopState<FindPlacePage> {
                 Icons.search,
                 color: colorText45,
               ),
+              hintStyle: typoW400.copyWith(
+                  fontSize: 14.5.sp, color: colorText0.withOpacity(0.6)),
               hintText: LocaleKeys.find_place,
               contentPadding: EdgeInsets.all(15.h),
               fillColor: colorBlack10,
@@ -237,7 +236,7 @@ class _FindPlacePageState extends BasePopState<FindPlacePage> {
   Widget itemPlaces(BuildContext context, PlacesModel model) {
     return InkWell(
       child: Container(
-        height: 77.h,
+        height: 72.h,
         decoration: BoxDecoration(
             color: Colors.black, borderRadius: BorderRadius.circular(20)),
         child: Padding(
@@ -245,8 +244,8 @@ class _FindPlacePageState extends BasePopState<FindPlacePage> {
           child: Row(
             children: [
               Container(
-                height: 55.h,
-                width: 55.h,
+                height: 56.w,
+                width: 56.w,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(100),
                     color: Colors.yellow),
@@ -260,14 +259,16 @@ class _FindPlacePageState extends BasePopState<FindPlacePage> {
                 children: [
                   Text(
                     model.namePlace,
-                    style: typoLargeTextRegular.copyWith(color: colorText45),
+                    style: typoW600.copyWith(
+                        fontSize: 20.sp, color: colorText0.withOpacity(0.87)),
                   ),
                   Row(
                     children: [
                       AppText(
                         model.nameCity,
-                        style:
-                            typoSmallTextRegular.copyWith(color: colorText45),
+                        style: typoW400.copyWith(
+                            fontSize: 13.sp,
+                            color: colorText0.withOpacity(0.6)),
                       ),
                       SizedBox(
                         width: 5.w,
@@ -281,15 +282,11 @@ class _FindPlacePageState extends BasePopState<FindPlacePage> {
                         width: 5.w,
                       ),
                       AppText(
-                        model.distance.toString(),
-                        style:
-                            typoSmallTextRegular.copyWith(color: colorText45),
+                        "${model.distance}km",
+                        style: typoW400.copyWith(
+                            fontSize: 13.sp,
+                            color: colorText0.withOpacity(0.6)),
                       ),
-                      AppText(
-                        'km',
-                        style:
-                            typoSmallTextRegular.copyWith(color: colorText45),
-                      )
                     ],
                   ),
                 ],

@@ -53,23 +53,23 @@ class TabReservationCubit extends Cubit<TabReservationState> {
             endTime: '10:30',
             address:
                 'Wall no. 3 - Next to window Centurn Murall al.Kwasaaki 61 02-183 warsawa',
-            status: 'Murall Warsaw',
-            isCheck: false),
+            status: 'Murall',
+            isCheck: false, city: 'Warsaw'),
         ReservationModel(
             calendar: DateTime.now(),
             startTime: '10:30',
             endTime: '11:30',
             address:
                 'Wall no. 3 - Next to window Centurn Murall al.Kwasaaki 61 02-183 warsawa',
-            status: 'Kawasai Warsaw',
-            isCheck: false),
+            status: 'Kawasai',
+            isCheck: false, city: 'Warsaw'),
         ReservationModel(
             calendar: DateTime.now(),
             startTime: '11:30',
             endTime: '12:30',
             address:
                 'Wall no. 3 - Next to window Centurn Murall al.Kwasaaki 61 02-183 warsawa',
-            status: 'Kawasai Warsaw',
-            isCheck: true),
+            status: 'Kawasai',
+            isCheck: true, city: 'Warsaw'),
       ];
 }

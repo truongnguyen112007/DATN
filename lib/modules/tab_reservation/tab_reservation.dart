@@ -1,25 +1,22 @@
 import 'package:badges/badges.dart';
-import 'package:base_bloc/base/hex_color.dart';
 import 'package:base_bloc/components/appbar_widget.dart';
 import 'package:base_bloc/data/globals.dart';
 import 'package:base_bloc/modules/tab_reservation/tab_reservation_cubit.dart';
 import 'package:base_bloc/modules/tab_reservation/tab_reservation_state.dart';
 import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/utils/app_utils.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../../components/app_circle_loading.dart';
 import '../../components/app_scalford.dart';
 import '../../components/app_text.dart';
-import '../../components/item_feed_widget.dart';
-import '../../config/constant.dart';
 import '../../data/model/reservation_model.dart';
+import '../../gen/assets.gen.dart';
 import '../../localizations/app_localazations.dart';
 import '../../theme/colors.dart';
-import '../tab_home/tab_home_state.dart';
 
 class TabReservation extends StatefulWidget {
   const TabReservation({Key? key}) : super(key: key);
@@ -60,7 +57,8 @@ class _TabReservationState extends State<TabReservation>
 
   @override
   Widget build(BuildContext context) {
-    return AppScaffold(floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+    return AppScaffold(
+        floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
         floatingActionButton: addWidget(context),
         appbar: appbar(context),
         backgroundColor: colorBlack30,
@@ -91,28 +89,26 @@ class _TabReservationState extends State<TabReservation>
   }
 
   Widget addWidget(BuildContext context) => Padding(
-        padding:const EdgeInsets.only(bottom: 7),
-        child: InkWell(child: Container(
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(40),
-              gradient: const LinearGradient(
-                  colors: [colorOrange40, colorOrange70, colorOrange40],
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter)),
-          width: MediaQuery.of(context).size.width / 2.8,
-          height: 40.h,
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Icon(
-                Icons.add,
-                color: colorWhite,
-                size: 18,
-              ),
+        padding: const EdgeInsets.only(bottom: 7),
+        child: InkWell(
+          child: Container(
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(40),
+                gradient: Utils.backgroundGradientOrangeButton()),
+            width: MediaQuery.of(context).size.width / 2.8,
+            height: 37.h,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(
+                  Icons.add,
+                  color: colorWhite,
+                  size: 18,
+                ),
                 AppText(
                   " ${AppLocalizations.of(context)!.reservations}",
-                  style: typoSmallTextRegular.copyWith(color: colorText0),
+                  style: typoW600.copyWith(color: colorText0,fontSize: 13.sp),
                 )
               ],
             ),
@@ -120,36 +116,35 @@ class _TabReservationState extends State<TabReservation>
           onTap: () => _bloc.addOnclick(context),
         ),
       );
+
   PreferredSizeWidget appbar(BuildContext context) => appBarWidget(
           leading: const SizedBox(),
+          landingWidth: 0,
           automaticallyImplyLeading: false,
           context: context,
           titleStr: AppLocalizations.of(context)!.reservations,
           action: [
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.search,
-                color: colorGrey45,
-              ),
-            ),
-            SizedBox(
-              width: 15.w,
-            ),
-            SizedBox(
+            Container(
+              margin: EdgeInsets.only(left: 10, right: contentPadding),
               child: Badge(
+                gradient: LinearGradient(colors: [
+                  colorYellow70,
+                  colorPrimary,
+                  colorPrimary.withOpacity(0.65),
+                ]),
                 padding: const EdgeInsets.all(2),
-                position: BadgePosition.topEnd(top: 13.h, end: -2.h),
+                position: BadgePosition.topEnd(top: 13.h, end: 1.h),
                 toAnimate: false,
-                badgeContent: const Text('1'),
-                child: const Icon(
-                  Icons.notifications_none_sharp,
-                  color: colorGrey45,
+                badgeContent: AppText(
+                  '1',
+                  style: typoSmallTextRegular.copyWith(
+                      fontSize: 9.sp, color: colorWhite),
+                ),
+                child: SvgPicture.asset(
+                  Assets.svg.notification,
+                  color: colorSurfaceMediumEmphasis,
                 ),
               ),
-            ),
-            SizedBox(
-              width: contentPadding,
             ),
           ]);
 
@@ -186,7 +181,8 @@ class _TabReservationState extends State<TabReservation>
         padding: EdgeInsets.only(left: contentPadding, top: 10, bottom: 3),
         child: AppText(
           content.toUpperCase(),
-          style: typoSmallTextRegular.copyWith(color: colorText55),
+          style: typoW600.copyWith(
+              fontSize: 10.sp, color: colorText0.withOpacity(0.87)),
         ),
       );
 
@@ -206,64 +202,74 @@ class _TabReservationState extends State<TabReservation>
 
   Widget itemReservation(ReservationModel model) => Container(
         padding: EdgeInsets.only(
-            top: 10, bottom: 10, left: contentPadding + contentPadding),
+            top: 10,
+            bottom: 10,
+            left: contentPadding * 2,
+            right: contentPadding * 2),
+        height: 72.h,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15), color: colorBlack90),
         child: InkWell(
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
                 margin: EdgeInsets.only(right: contentPadding + 5),
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(100),
-                    gradient: LinearGradient(
-                        colors: model.isCheck
-                            ? [colorGrey37, colorGrey37]
-                            : [colorOrange50, colorOrange90],
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter)),
-                height: 60.w,
-                width: 60.w,
+                    gradient: model.isCheck
+                        ? LinearGradient(
+                            colors: [
+                                colorWhite.withOpacity(0.6),
+                                colorWhite.withOpacity(0.6)
+                              ],
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter)
+                        : Utils.backgroundGradientOrangeButton()),
+                height: 56.w,
+                width: 56.w,
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     AppText(
                       Utils.convertDateTimeToEEE(model.calendar),
-                      style: typoSmallTextRegular.copyWith(color: colorText10),
-                    ),
-                    const SizedBox(
-                      height: 2,
+                      style:
+                          typoW600.copyWith(fontSize: 13.sp, color: colorText0),
                     ),
                     AppText(
                       Utils.convertDateTimeToDD(model.calendar),
-                      style: typoLargeTextRegular.copyWith(
-                          color: colorText7, fontSize: 23.sp),
+                      style: typoW600.copyWith(
+                          fontSize: 22.sp, color: colorText0, height: 1),
                     )
                   ],
                 ),
               ),
               Expanded(
                   child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   AppText(
                     '${model.startTime} - ${model.endTime}',
-                    style: typoLargeTextRegular.copyWith(
-                        color: colorText30, fontSize: 23.sp),
+                    style: typoW600.copyWith(fontSize: 20.sp),
                   ),
                   const SizedBox(
-                    height: 5,
+                    height: 3,
                   ),
                   Row(
                     children: [
                       AppText(
                         ' ${model.status}',
-                        style:
-                            typoSmallTextRegular.copyWith(color: colorText67),
+                        style: typoW400.copyWith(
+                            fontSize: 12.5.sp,
+                            color: colorText0.withOpacity(0.6)),
                       ),
                       Container(
-                        margin: EdgeInsets.only(left: 10, right: 10),
+                        margin:  EdgeInsets.only(left: contentPadding*5, right: 10),
                         width: 5,
                         height: 5,
                         decoration: BoxDecoration(
@@ -272,11 +278,12 @@ class _TabReservationState extends State<TabReservation>
                       ),
                       Expanded(
                           child: AppText(
-                        ' ${model.status}',
+                        ' ${model.city}',
                         maxLine: 1,
                         overflow: TextOverflow.ellipsis,
-                        style:
-                            typoSmallTextRegular.copyWith(color: colorText67),
+                        style: typoW400.copyWith(
+                            fontSize: 12.5.sp,
+                            color: colorText0.withOpacity(0.6)),
                       ))
                     ],
                   )

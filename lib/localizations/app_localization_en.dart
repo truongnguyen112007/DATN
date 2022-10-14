@@ -306,7 +306,7 @@ class AppLocalizationEn extends AppLocalizations {
   String get notif_sharing => 'Sharing';
 
   @override
-  String get reclimb_available_in => 'Reclimb available in';
+  String get reclimb_available_in => 'Reclimb is available in';
 
   String get privacy_friends => 'Friends';
 

@@ -36,7 +36,7 @@ class ItemInfoRoutes extends StatelessWidget {
   Widget build(BuildContext context) => Stack(
         children: [
           Container(
-            height: 77.h,
+            height: 72.h,
             color: colorGrey90,
             key: Key('$index'),
             padding: const EdgeInsets.only(bottom: 10),
@@ -48,8 +48,8 @@ class ItemInfoRoutes extends StatelessWidget {
               ,
               child: Container(
                 padding: EdgeInsets.only(
-                    left: contentPadding + 10, right: contentPadding + 10),
-                height: 75.h,
+                    left: contentPadding*3, right: contentPadding + 10),
+                height: 72.h,
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15),
@@ -89,9 +89,7 @@ class ItemInfoRoutes extends StatelessWidget {
                               ))
                             ],
                           ),
-                    SizedBox(
-                      width: 22.w,
-                    ),
+                    SizedBox(width: contentPadding * 3),
                     Expanded(
                         child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,

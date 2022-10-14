@@ -131,6 +131,9 @@ class $AssetsSvgGen {
   /// File path: assets/svg/calendar.svg
   String get calendar => 'assets/svg/calendar.svg';
 
+  /// File path: assets/svg/calendar_1.svg
+  String get calendar1 => 'assets/svg/calendar_1.svg';
+
   /// File path: assets/svg/climp_orange.svg
   String get climpOrange => 'assets/svg/climp_orange.svg';
 
@@ -178,6 +181,12 @@ class $AssetsSvgGen {
 
   /// File path: assets/svg/liked.svg
   String get liked => 'assets/svg/liked.svg';
+
+  /// File path: assets/svg/location.svg
+  String get location => 'assets/svg/location.svg';
+
+  /// File path: assets/svg/message.svg
+  String get message => 'assets/svg/message.svg';
 
   /// File path: assets/svg/more_vertical.svg
   String get moreVertical => 'assets/svg/more_vertical.svg';
@@ -233,6 +242,7 @@ class $AssetsSvgGen {
         backCircle,
         bluetooth,
         calendar,
+        calendar1,
         climpOrange,
         closeIcon,
         comment,
@@ -249,6 +259,8 @@ class $AssetsSvgGen {
         icSetting,
         like,
         liked,
+        location,
+        message,
         moreVertical,
         moveToTop,
         notification,

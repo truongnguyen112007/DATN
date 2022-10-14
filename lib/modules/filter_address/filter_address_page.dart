@@ -68,7 +68,10 @@ class _FilterAddressPageState extends BasePopState<FilterAddressPage> {
             children: [
               AppText(
                 LocaleKeys.reclimb_available_in.toUpperCase(),
-                style: typoSmallTextRegular.copyWith(color: colorText45,),
+                style: typoW600.copyWith(
+                  fontSize: 11.sp,
+                  color: colorText0.withOpacity(0.87),
+                ),
               ),
               itemSpace(),
               BlocBuilder<FilterAddressCubit, FilterAddressState>(
@@ -120,15 +123,19 @@ class _FilterAddressPageState extends BasePopState<FilterAddressPage> {
 
   Widget itemAddress(BuildContext context, AddressModel model) => InkWell(
         child: Container(
+          alignment: Alignment.center,
+          height: 72.h,
           decoration: BoxDecoration(
               color: colorBlack90, borderRadius: BorderRadius.circular(13)),
           padding: EdgeInsets.all(contentPadding),
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               AppText(
                 model.city,
-                style: typoLargeTextRegular.copyWith(color: colorText0),
+                style: typoW600.copyWith(
+                    fontSize: 20.sp, color: colorText0.withOpacity(0.87)),
               ),
               const SizedBox(
                 height: 3,
@@ -136,8 +143,9 @@ class _FilterAddressPageState extends BasePopState<FilterAddressPage> {
               Row(
                 children: [
                   AppText(
-                    '${model.country}  ',
-                    style: typoSmallTextRegular.copyWith(color: colorText45),
+                    '${model.country}          ',
+                    style: typoW400.copyWith(
+                        color: colorText0.withOpacity(0.66), fontSize: 14.sp),
                   ),
                   const Icon(
                     Icons.brightness_1,
@@ -146,7 +154,8 @@ class _FilterAddressPageState extends BasePopState<FilterAddressPage> {
                   ),
                   AppText(
                     '  ${model.distance}km',
-                    style: typoSmallTextRegular.copyWith(color: colorText45),
+                    style: typoW400.copyWith(
+                        color: colorText0.withOpacity(0.66), fontSize: 14.sp),
                   )
                 ],
               )
@@ -169,15 +178,15 @@ class _FilterAddressPageState extends BasePopState<FilterAddressPage> {
         child: AppTextField(
           onChanged: (text) => searchOnChange.add(text),
           isShowErrorText: false,
-          textStyle: typoSmallTextRegular.copyWith(
-            color: colorText0,
-          ),
+          textStyle: typoW400.copyWith(color: colorText0, fontSize: 14.5.sp),
           cursorColor: Colors.white60,
           decoration: decorTextField.copyWith(
               prefixIcon: const Icon(
                 Icons.search,
                 color: colorText45,
               ),
+              hintStyle: typoW400.copyWith(
+                  color: colorText0.withOpacity(0.6), fontSize: 14.5.sp),
               hintText: LocaleKeys.find_city,
               contentPadding: EdgeInsets.all(15.h),
               fillColor: colorBlack10,

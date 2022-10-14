@@ -12,6 +12,7 @@ import 'package:base_bloc/utils/app_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../../base/base_state.dart';
 import '../../components/app_text.dart';
@@ -54,11 +55,11 @@ class _ReservationDetailPageState extends BasePopState<ReservationDetailPage> {
               ),
             ),
             itemSpace(),
-            itemWidget(Icons.calendar_month,
+            itemWidget(Assets.svg.calendar1, 20,
                 Utils.convertDateTimeToEEEDDMMM(widget.model.calendar),
                 content2: "${widget.model.startTime}-${widget.model.endTime}"),
             itemSpace(),
-            itemWidget(Icons.location_on, widget.model.address),
+            itemWidget(Assets.svg.location, 23, widget.model.address),
             itemSpace(),
             itemSpace(),
             cancelWidget(context)
@@ -71,10 +72,11 @@ class _ReservationDetailPageState extends BasePopState<ReservationDetailPage> {
   Widget cancelWidget(BuildContext context) => AppButton(
         title: AppLocalizations.of(context)!.cancelYourReservation,
         backgroundColor: colorGrey90,
-        textStyle: typoSmallTextRegular.copyWith(color: colorGrey45),
+        textStyle: typoW400.copyWith(
+            fontSize: 13.sp, color: colorText0.withOpacity(0.87)),
         shapeBorder: RoundedRectangleBorder(
-            side: const BorderSide(color: colorGrey50),
-            borderRadius: BorderRadius.circular(20)),
+            side: const BorderSide(color: colorGrey50,width: 2),
+            borderRadius: BorderRadius.circular(30)),
         onPress: () => _bloc.cancelOnClick(context),
         width: MediaQuery.of(context).size.width / 3.2,
       );
@@ -83,15 +85,20 @@ class _ReservationDetailPageState extends BasePopState<ReservationDetailPage> {
         height: contentPadding + 8,
       );
 
-  Widget itemWidget(IconData icon, String content1, {String? content2}) =>
+  Widget itemWidget(String icon, double size, String content1,
+          {String? content2}) =>
       Padding(
         padding: EdgeInsets.only(left: contentPadding, right: contentPadding),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Icon(
-              icon,
-              color: colorGrey45,
+            SizedBox(
+              width: size,
+              height: size,
+              child: SvgPicture.asset(
+                icon,
+                color: colorWhite.withOpacity(0.6),
+              ),
             ),
             const SizedBox(
               width: 10,
@@ -102,7 +109,8 @@ class _ReservationDetailPageState extends BasePopState<ReservationDetailPage> {
               children: [
                 AppText(
                   content1,
-                  style: typoSmallTextRegular.copyWith(color: colorGrey45),
+                  style: typoW400.copyWith(
+                      fontSize: 14.5.sp, color: colorText0.withOpacity(0.87)),
                 ),
                 Visibility(
                     visible: content2 != null,
@@ -110,8 +118,8 @@ class _ReservationDetailPageState extends BasePopState<ReservationDetailPage> {
                       padding: const EdgeInsets.only(top: 10),
                       child: AppText(
                         content2 ?? '',
-                        style:
-                            typoSmallTextRegular.copyWith(color: colorGrey45),
+                        style: typoW400.copyWith(
+                            fontSize: 14.5.sp, color: colorText0.withOpacity(0.87)),
                       ),
                     ))
               ],
@@ -124,30 +132,27 @@ class _ReservationDetailPageState extends BasePopState<ReservationDetailPage> {
         context: context,
         titleStr: AppLocalizations.of(context)!.tomorrow,
         action: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              Icons.search,
-              color: colorGrey45,
-            ),
-          ),
-          SizedBox(
-            width: 15.w,
-          ),
-          SizedBox(
+          Container(
+            margin: EdgeInsets.only(left: 10, right: contentPadding),
             child: Badge(
+              gradient: LinearGradient(colors: [
+                colorYellow70,
+                colorPrimary,
+                colorPrimary.withOpacity(0.65),
+              ]),
               padding: const EdgeInsets.all(2),
-              position: BadgePosition.topEnd(top: 13.h, end: -2.h),
+              position: BadgePosition.topEnd(top: 13.h, end: 1.h),
               toAnimate: false,
-              badgeContent: const Text('1'),
-              child: const Icon(
-                Icons.notifications_none_sharp,
-                color: colorGrey45,
+              badgeContent: AppText(
+                '1',
+                style: typoSmallTextRegular.copyWith(
+                    fontSize: 9.sp, color: colorWhite),
+              ),
+              child: SvgPicture.asset(
+                Assets.svg.notification,
+                color: colorSurfaceMediumEmphasis,
               ),
             ),
-          ),
-          SizedBox(
-            width: 20.w,
           ),
         ],
       );

@@ -34,7 +34,7 @@ PreferredSizeWidget appBarWidget(
       title: title ??
           AppText(
             titleStr ?? '',
-            style: googleFont.copyWith(
+            style: typoW600.copyWith(
                 fontWeight: FontWeight.w600,
                 fontSize: 20.sp,
                 color: colorText0.withOpacity(0.87)),
