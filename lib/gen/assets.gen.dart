@@ -112,6 +112,9 @@ class $AssetsSvgGen {
   /// File path: assets/svg/add_play_list.svg
   String get addPlayList => 'assets/svg/add_play_list.svg';
 
+  /// File path: assets/svg/add_to_play_list.svg
+  String get addToPlayList => 'assets/svg/add_to_play_list.svg';
+
   /// File path: assets/svg/avatar_test.png
   AssetGenImage get avatarTest =>
       const AssetGenImage('assets/svg/avatar_test.png');
@@ -125,11 +128,23 @@ class $AssetsSvgGen {
   /// File path: assets/svg/bluetooth.svg
   String get bluetooth => 'assets/svg/bluetooth.svg';
 
+  /// File path: assets/svg/calendar.svg
+  String get calendar => 'assets/svg/calendar.svg';
+
+  /// File path: assets/svg/climp_orange.svg
+  String get climpOrange => 'assets/svg/climp_orange.svg';
+
   /// File path: assets/svg/close_icon.svg
   String get closeIcon => 'assets/svg/close_icon.svg';
 
   /// File path: assets/svg/comment.svg
   String get comment => 'assets/svg/comment.svg';
+
+  /// File path: assets/svg/copy.svg
+  String get copy => 'assets/svg/copy.svg';
+
+  /// File path: assets/svg/delete.svg
+  String get delete => 'assets/svg/delete.svg';
 
   /// File path: assets/svg/doctor.png
   AssetGenImage get doctor => const AssetGenImage('assets/svg/doctor.png');
@@ -137,11 +152,14 @@ class $AssetsSvgGen {
   /// File path: assets/svg/doctor_background.svg
   String get doctorBackground => 'assets/svg/doctor_background.svg';
 
-  /// File path: assets/svg/notlocation.svg
-  String get notlocation => 'assets/svg/notlocation.svg';
+  /// File path: assets/svg/edit.svg
+  String get edit => 'assets/svg/edit.svg';
 
-  /// File path: assets/svg/shape.svg
-  String get shape => 'assets/svg/shape.svg';
+  /// File path: assets/svg/heart.svg
+  String get heart => 'assets/svg/heart.svg';
+
+  /// File path: assets/svg/home.svg
+  String get home => 'assets/svg/home.svg';
 
   /// File path: assets/svg/ic_account.svg
   String get icAccount => 'assets/svg/ic_account.svg';
@@ -164,11 +182,20 @@ class $AssetsSvgGen {
   /// File path: assets/svg/more_vertical.svg
   String get moreVertical => 'assets/svg/more_vertical.svg';
 
+  /// File path: assets/svg/move_to_top.svg
+  String get moveToTop => 'assets/svg/move_to_top.svg';
+
   /// File path: assets/svg/notification.svg
   String get notification => 'assets/svg/notification.svg';
 
+  /// File path: assets/svg/notlocation.svg
+  String get notlocation => 'assets/svg/notlocation.svg';
+
   /// File path: assets/svg/os.svg
   String get os => 'assets/svg/os.svg';
+
+  /// File path: assets/svg/person.svg
+  String get person => 'assets/svg/person.svg';
 
   /// File path: assets/svg/play.svg
   String get play => 'assets/svg/play.svg';
@@ -179,24 +206,43 @@ class $AssetsSvgGen {
   /// File path: assets/svg/relimb-dark.svg
   String get relimbDark => 'assets/svg/relimb-dark.svg';
 
+  /// File path: assets/svg/remove_from_playlist.svg
+  String get removeFromPlaylist => 'assets/svg/remove_from_playlist.svg';
+
+  /// File path: assets/svg/routes.svg
+  String get routes => 'assets/svg/routes.svg';
+
   /// File path: assets/svg/search.svg
   String get search => 'assets/svg/search.svg';
 
   /// File path: assets/svg/search_icon.svg
   String get searchIcon => 'assets/svg/search_icon.svg';
 
+  /// File path: assets/svg/shape.svg
+  String get shape => 'assets/svg/shape.svg';
+
+  /// File path: assets/svg/share.svg
+  String get share => 'assets/svg/share.svg';
 
   /// List of all assets
   List<dynamic> get values => [
         addPlayList,
+        addToPlayList,
         avatarTest,
         backButton,
         backCircle,
         bluetooth,
+        calendar,
+        climpOrange,
         closeIcon,
         comment,
+        copy,
+        delete,
         doctor,
         doctorBackground,
+        edit,
+        heart,
+        home,
         icAccount,
         icNotification,
         icPrivacy,
@@ -204,15 +250,20 @@ class $AssetsSvgGen {
         like,
         liked,
         moreVertical,
+        moveToTop,
         notification,
         notlocation,
         os,
+        person,
         play,
         playlistadd,
         relimbDark,
+        removeFromPlaylist,
+        routes,
         search,
         searchIcon,
-        shape
+        shape,
+        share
       ];
 }
 

@@ -1,14 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class GradientIcon extends StatelessWidget {
-   GradientIcon(
-  { required this.icon,
-    required  this.size,
-    required  this.gradient,}
-      );
+  const GradientIcon({
+    required this.icon,
+    required this.size,
+    required this.gradient,
+  });
 
-  final IconData icon;
+  final String icon;
   final double size;
   final Gradient gradient;
 
@@ -16,11 +17,10 @@ class GradientIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return ShaderMask(
       child: SizedBox(
-        width: size * 1.2,
-        height: size * 1.2,
-        child: Icon(
+        width: size,
+        height: size,
+        child: SvgPicture.asset(
           icon,
-          size: size,
           color: Colors.white,
         ),
       ),

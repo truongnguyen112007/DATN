@@ -38,6 +38,7 @@ class _TabHomeState extends State<TabHome> with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
     _bloc = TabHomeCubit();
+    _bloc.checkLocationPermission();
     paging();
     super.initState();
   }

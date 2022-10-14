@@ -440,4 +440,10 @@ class AppLocalizationEn extends AppLocalizations {
 
   @override
   String get theNearest => "THE NEAREST PLACES";
+
+  @override
+  String get create_routes => 'Create routes';
+
+  @override
+  String get find_routes => 'Find routes';
 }

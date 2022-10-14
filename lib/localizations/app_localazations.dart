@@ -310,6 +310,9 @@ abstract class AppLocalizations {
 
   String get comment;
   String get show_more;
+
+  String get create_routes;
+  String get find_routes;
 }
 
 class _AppLocalizationsDelegate

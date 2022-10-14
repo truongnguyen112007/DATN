@@ -40,7 +40,6 @@ class _TabClimbState extends State<TabClimb> with TickerProviderStateMixin {
 
   @override
   void dispose() {
-    // pageController.dispose();
     super.dispose();
   }
 
@@ -80,17 +79,9 @@ class _TabClimbState extends State<TabClimb> with TickerProviderStateMixin {
       body: BlocBuilder<TabClimbCubit, TabClimbState>(
           bloc: _bloc,
           builder: (BuildContext context, state) {
-            if (state is BluetoothState) {
-              return (state).isOnBluetooth!
-                  ? Container(
-                      child:
-                          // state.isOnLocation! ?
-                          trueBluetooth())
-                  //   :SizedBox(),
-                  // )
-                  : notBluetooth();
-            }
-            return SizedBox();
+            return state.isBluetooth
+                ? Container(child: trueBluetooth())
+                : notBluetooth();
           }),
     );
   }

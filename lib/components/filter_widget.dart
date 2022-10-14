@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../data/globals.dart';
 import '../localizations/app_localazations.dart';
 import '../theme/app_styles.dart';
@@ -30,11 +31,11 @@ class FilterWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           itemFilterWidget(Icons.swap_vert, AppLocalizations.of(context)!.sort,
-              colorWhite, () => sortCallBack.call()),
+              colorWhite.withOpacity(0.87), () => sortCallBack.call()),
           itemFilterWidget(
               Icons.filter_alt_outlined,
               AppLocalizations.of(context)!.filter,
-              colorWhite,
+              colorWhite.withOpacity(0.87),
                   () => filterCallBack.call()),
           itemFilterWidget(
               Icons.filter_alt_outlined,
@@ -65,8 +66,7 @@ class FilterWidget extends StatelessWidget {
             ),
             AppText(
               title,
-              style: typoSmallText300.copyWith(
-                  color: !isShow ? color : colorText0),
+              style: typoW400.copyWith(color: colorText0.withOpacity(0.87)),
             )
           ],
         ),

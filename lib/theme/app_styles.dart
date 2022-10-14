@@ -223,8 +223,15 @@ final boxShadowSelectBox = [
     offset: const Offset(0, 4),
   ),
 ];
-final googleFont = GoogleFonts.nunito();
-
+final googleFont = GoogleFonts.nunito(letterSpacing: 0.3, color: colorMainText);
+final typoW400 = GoogleFonts.nunito(
+    letterSpacing: 0.3, color: colorMainText, fontWeight: FontWeight.w400);
+final typoW500 = GoogleFonts.nunito(
+    letterSpacing: 0.3, color: colorMainText, fontWeight: FontWeight.w500);
+final typoW600 = GoogleFonts.nunito(
+    letterSpacing: 0.3, color: colorMainText, fontWeight: FontWeight.w600);
+final typoW700 = GoogleFonts.nunito(
+    letterSpacing: 0.3, color: colorMainText, fontWeight: FontWeight.w700);
 final typoHeading2 = googleFont.copyWith(
   fontStyle: FontStyle.normal,
   fontWeight: FontWeight.w800,
@@ -280,7 +287,6 @@ final typoLargeText700 = googleFont.copyWith(
   letterSpacing: 0.3,
   color: colorBlack,
 );
-
 
 final typoLargeTextRegular = googleFont.copyWith(
   fontStyle: FontStyle.normal,

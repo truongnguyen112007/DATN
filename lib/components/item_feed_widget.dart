@@ -4,14 +4,10 @@ import 'package:base_bloc/components/app_video.dart';
 import 'package:base_bloc/components/thumbnail_app.dart';
 import 'package:base_bloc/data/globals.dart';
 import 'package:base_bloc/localizations/app_localazations.dart';
-import 'package:base_bloc/modules/tab_home/tab_home.dart';
-import 'package:base_bloc/modules/tab_home/tab_home_cubit.dart';
-import 'package:base_bloc/modules/tab_home/tab_home_state.dart';
 import 'package:base_bloc/router/router_utils.dart';
 import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/utils/log_utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -43,6 +39,7 @@ class _ItemFeedState extends State<ItemFeed> {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
     return Container(
       decoration: BoxDecoration(
         color: colorMainBackground,
@@ -112,7 +109,7 @@ class _ItemFeedState extends State<ItemFeed> {
                     ),
                     itemSpaceVertical(),
                     Padding(
-                      padding: EdgeInsets.only(left: contentPadding),
+                      padding: EdgeInsets.only(left: 10.w),
                       child: AppText(
                         'Belay: Toprope',
                         style: typoSmallTextRegular.copyWith(
@@ -122,22 +119,18 @@ class _ItemFeedState extends State<ItemFeed> {
                     ),
                     itemSpaceVertical(height: 5),
                     Padding(
-                      padding: EdgeInsets.only(left: contentPadding),
+                      padding: EdgeInsets.only(left: 10.w),
                       child: AppText(
                         'Support: Yes',
                         style: typoSmallTextRegular.copyWith(
                             fontSize: 13.5.sp,
                             color: colorText0.withOpacity(0.87)),
                       ),
-                    )
+                    ),
                   ],
                 )
               : Padding(
-                  padding: EdgeInsets.only(
-                      left: contentPadding,
-                      bottom: 10.h,
-                      top: 10.h,
-                      right: contentPadding),
+                  padding: EdgeInsets.only(left: 10.w, bottom: 10.h, top: 10.h),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -236,8 +229,8 @@ class _ItemFeedState extends State<ItemFeed> {
         child: Row(
           children: [
             AppCircleImage(
-              width: 38.w,
-              height: 38.w,
+              width: 40.w,
+              height: 40.w,
               urlError: '',
               url: avatar,
             ),
