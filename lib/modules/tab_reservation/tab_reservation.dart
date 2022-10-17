@@ -119,7 +119,7 @@ class _TabReservationState extends State<TabReservation>
 
   PreferredSizeWidget appbar(BuildContext context) => appBarWidget(
           leading: const SizedBox(),
-          landingWidth: 0,
+          leadingWidth: 0,
           automaticallyImplyLeading: false,
           context: context,
           titleStr: AppLocalizations.of(context)!.reservations,

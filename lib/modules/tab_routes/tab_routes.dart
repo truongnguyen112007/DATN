@@ -100,7 +100,7 @@ class _TabRoutesState extends State<TabRoutes>
 
   PreferredSizeWidget appBar(BuildContext context) => appBarWidget(
         leading: SizedBox(),
-        landingWidth: contentPadding,
+    leadingWidth: contentPadding,
         titleStr: AppLocalizations.of(context)!.routes,
         action: [
           IconButton(

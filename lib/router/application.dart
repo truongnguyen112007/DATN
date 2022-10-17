@@ -7,4 +7,5 @@ class Application {
   static late FluroRouter climbRouter;
   static late FluroRouter reservationsRouter;
   static late FluroRouter profileRouter;
+  static late FluroRouter notificationsRouter;
 }

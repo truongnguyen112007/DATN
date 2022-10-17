@@ -197,6 +197,8 @@ abstract class AppLocalizations {
 
   String get notItemSelect;
 
+  String get notifications;
+
   String get user;
   String get popularity;
   String get info;
@@ -313,6 +315,12 @@ abstract class AppLocalizations {
 
   String get create_routes;
   String get find_routes;
+
+  /* Notifications */
+  String get invitations;
+  String get activities;
+  String get add_to_friends;
+  String get reject;
 }
 
 class _AppLocalizationsDelegate

@@ -446,4 +446,19 @@ class AppLocalizationEn extends AppLocalizations {
 
   @override
   String get find_routes => 'Find routes';
+
+  @override
+  String get notifications => 'Notifications';
+
+  @override
+  String get invitations => 'Invitations';
+
+  @override
+  String get activities => 'Activities';
+
+  @override
+  String get add_to_friends => 'Add to friends';
+
+  @override
+  String get reject => 'Reject';
 }

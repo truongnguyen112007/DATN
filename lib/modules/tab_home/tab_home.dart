@@ -66,8 +66,11 @@ class _TabHomeState extends State<TabHome> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-        padding: EdgeInsets.only(left: 7.w, right: 7.w),
-        appbar: appbar(context),
+        padding: EdgeInsets.only(left: contentPadding, right: contentPadding),
+        appbar: homeAppbar(context,
+            onClickSearch: () => _bloc.onClickSearch(context),
+            onClickNotification: () => _bloc.onClickNotification(context),
+            onClickJumpToTop: () => jumToTop()),
         backgroundColor: colorGreyBackground,
         body: RefreshIndicator(
           child: Stack(
@@ -129,52 +132,6 @@ class _TabHomeState extends State<TabHome> with AutomaticKeepAliveClientMixin {
         },
       );
 
-  PreferredSizeWidget appbar(BuildContext context) => appBarWidget(
-          leading: const SizedBox(),
-          backgroundColor: colorMainBackground,
-          landingWidth: contentPadding,
-          context: context,
-          title: InkWell(
-            onTap: () {
-              jumToTop();
-            },
-            child: SvgPicture.asset(
-              Assets.svg.relimbDark,
-              height: 24,
-            ),
-          ),
-          action: [
-            IconButton(
-              onPressed: () => _bloc.searchOnclick(context),
-              icon: SvgPicture.asset(
-                Assets.svg.search,
-                color: colorSurfaceMediumEmphasis,
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 10, right: contentPadding),
-              child: Badge(
-                gradient: LinearGradient(colors: [
-                  colorYellow70,
-                  colorPrimary,
-                  colorPrimary.withOpacity(0.65),
-                ]),
-                padding: const EdgeInsets.all(2),
-                position: BadgePosition.topEnd(top: 13.h, end: 1.h),
-                toAnimate: false,
-                badgeContent: AppText(
-                  '1',
-                  style: typoSmallTextRegular.copyWith(
-                      fontSize: 9.sp, color: colorWhite),
-                ),
-                child: SvgPicture.asset(
-                  Assets.svg.notification,
-                  color: colorSurfaceMediumEmphasis,
-                ),
-              ),
-            ),
-          ]);
-
   Widget itemSpace({double height = 10}) => SizedBox(
         height: height,
       );
@@ -191,14 +148,18 @@ class _TabHomeState extends State<TabHome> with AutomaticKeepAliveClientMixin {
                   RouterUtils.pushHome(
                       route: HomeRouters.reservation,
                       context: context,
-                      argument: [BottomNavigationConstant.TAB_HOME,ReservationModel(
-                          calendar: DateTime.now(),
-                          startTime: '12:00',
-                          endTime: '13:00',
-                          address:
-                          'Wall no. 3 - Next to window Centurn Murall al.Kwasaaki 61 02-183 warsawa',
-                          status: 'Murall Krakowska',
-                          isCheck: false, city: '')]);
+                      argument: [
+                        BottomNavigationConstant.TAB_HOME,
+                        ReservationModel(
+                            calendar: DateTime.now(),
+                            startTime: '12:00',
+                            endTime: '13:00',
+                            address:
+                                'Wall no. 3 - Next to window Centurn Murall al.Kwasaaki 61 02-183 warsawa',
+                            status: 'Murall Krakowska',
+                            isCheck: false,
+                            city: 'city')
+                      ]);
                 },
                 child: Container(
                   padding: const EdgeInsets.all(10),
