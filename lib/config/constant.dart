@@ -98,3 +98,10 @@ class BottomNavigationConstant{
   static const TAB_RESERVATIONS = 3;
   static const TAB_PROFILE = 4;
 }
+
+class BottomNavigationSearch{
+  static const TAB_ALL = 0;
+  static const TAB_PLACES = 1;
+  static const TAB_ROUTES = 2;
+  static const TAB_PERSON = 3;
+}
