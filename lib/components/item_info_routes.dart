@@ -37,7 +37,7 @@ class ItemInfoRoutes extends StatelessWidget {
         children: [
           Container(
             height: 72.h,
-            color: colorGrey90,
+            color: colorGreyBackground,
             key: Key('$index'),
             padding: const EdgeInsets.only(bottom: 10),
             child: GestureDetector(

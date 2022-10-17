@@ -1,5 +1,6 @@
 import 'package:base_bloc/base/base_state.dart';
 import 'package:base_bloc/base/hex_color.dart';
+import 'package:base_bloc/config/constant.dart';
 import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/modules/search_home/search_home_cubit.dart';
 import 'package:base_bloc/modules/search_home/search_home_state.dart';
@@ -52,7 +53,7 @@ class _SearchHomePageState extends BasePopState<SearchHomePage>
 
   @override
   void initState() {
-    pageController = PageController(initialPage: selectedIndex);
+    pageController = PageController(initialPage: BottomNavigationSearch.TAB_ROUTES);
     pageController.addListener(() {
       var newPage = pageController.page!.round();
       _bloc.jumToPage(newPage);
@@ -225,7 +226,7 @@ class _SearchHomePageState extends BasePopState<SearchHomePage>
                 padding: EdgeInsets.only(left: 15.w, right: 15.w),
                 margin: EdgeInsets.only(left: 6.w),
                 alignment: Alignment.center,
-                decoration: (state is InitState && index == 1) ||
+                decoration: (state is InitState && index == BottomNavigationSearch.TAB_ROUTES) ||
                         (state is ChangeTabState && state.index == index)
                     ? BoxDecoration(
                         borderRadius: BorderRadius.circular(20),

@@ -198,7 +198,7 @@ class _TabHomeState extends State<TabHome> with AutomaticKeepAliveClientMixin {
                           address:
                           'Wall no. 3 - Next to window Centurn Murall al.Kwasaaki 61 02-183 warsawa',
                           status: 'Murall Krakowska',
-                          isCheck: false)]);
+                          isCheck: false, city: '')]);
                 },
                 child: Container(
                   padding: const EdgeInsets.all(10),

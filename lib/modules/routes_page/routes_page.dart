@@ -12,6 +12,7 @@ import '../../components/app_text.dart';
 import '../../components/filter_widget.dart';
 import '../../components/item_info_routes.dart';
 import '../../data/eventbus/search_home_event.dart';
+import '../../data/globals.dart';
 import '../../data/model/routes_model.dart';
 import '../../theme/colors.dart';
 import '../../utils/app_utils.dart';
@@ -61,7 +62,7 @@ class _RoutesPageState extends State<RoutesPage>
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: colorBlack20,
+      color: colorGreyBackground,
       child: Column(
         children: [
           FilterWidget(
@@ -111,11 +112,9 @@ class _RoutesPageState extends State<RoutesPage>
     );
   }
 
-  List<String> test() => ['a', 'b', 'c', 'd'];
-
   Widget routesWidget(BuildContext context, RoutesPageState state) =>
       ListView.builder(
-          padding: EdgeInsets.only(top: 10.h),
+          padding: EdgeInsets.only(top: 10.h,left: contentPadding, right: contentPadding),
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           itemBuilder: (c, i) => i == state.lRoutes.length
