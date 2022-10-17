@@ -5,6 +5,7 @@ import 'package:base_bloc/modules/favourite/favourite_state.dart';
 import 'package:base_bloc/modules/playlist/playlist_cubit.dart';
 import 'package:base_bloc/modules/playlist/playlist_state.dart';
 import 'package:base_bloc/modules/tab_home/tab_home_state.dart';
+import 'package:base_bloc/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -45,49 +46,57 @@ class _FavouritePageState extends State<FavouritePage>
 
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
-      child: Stack(
-        children: [
-          SingleChildScrollView(
-            controller: scrollController,
-            physics: const AlwaysScrollableScrollPhysics(),
-            child: Column(
-              children: [
-                FilterWidget(
-                  isSelect: true,
-                  selectCallBack: () {},
-                  filterCallBack: () => _bloc.filterOnclick(context),
-                  sortCallBack: () {},
-                ),
-                BlocBuilder<FavouriteCubit, FavouriteState>(
-                    bloc: _bloc,
-                    builder: (c, state) {
-                      if (state.status == FeedStatus.initial ||
-                          state.status == FeedStatus.refresh) {
-                        return const SizedBox();
-                      }
-                      return playlistWidget(context, state);
-                    })
-              ],
+    return
+      Container(
+        color: colorGreyBackground,
+        child: Column(
+          children: [
+            FilterWidget(
+              isSelect: true,
+              selectCallBack: () {},
+              filterCallBack: () => _bloc.filterOnclick(context),
+              sortCallBack: () {},
             ),
-          ),
-          BlocBuilder<FavouriteCubit, FavouriteState>(
-            bloc: _bloc,
-            builder: (BuildContext context, state) =>
-                (state.status == FeedStatus.initial ||
-                        state.status == FeedStatus.refresh)
-                    ? const Center(
-                        child: AppCircleLoading(),
-                      )
-                    : const SizedBox(),
-          )
-        ],
-      ),
-      onRefresh: () async => _bloc.refresh(),
-    );
+            Expanded(
+              child: RefreshIndicator(
+              child: Stack(
+                children: [
+                  SingleChildScrollView(
+                    controller: scrollController,
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    child: Column(
+                      children: [
+                        BlocBuilder<FavouriteCubit, FavouriteState>(
+                            bloc: _bloc,
+                            builder: (c, state) {
+                              if (state.status == FeedStatus.initial ||
+                                  state.status == FeedStatus.refresh) {
+                                return const SizedBox();
+                              }
+                              return playlistWidget(context, state);
+                            })
+                      ],
+                    ),
+                  ),
+                  BlocBuilder<FavouriteCubit, FavouriteState>(
+                    bloc: _bloc,
+                    builder: (BuildContext context, state) =>
+                        (state.status == FeedStatus.initial ||
+                                state.status == FeedStatus.refresh)
+                            ? const Center(
+                                child: AppCircleLoading(),
+                              )
+                            : const SizedBox(),
+                  )
+                ],
+              ),
+              onRefresh: () async => _bloc.refresh(),
+    ),
+            ),
+          ],
+        ),
+      );
   }
-
-  List<String> test() => ['a', 'b', 'c', 'd'];
 
   Widget playlistWidget(BuildContext context, FavouriteState state) =>
       ReorderableListView.builder(
@@ -100,7 +109,6 @@ class _FavouritePageState extends State<FavouritePage>
           padding: EdgeInsets.all(contentPadding),
           itemBuilder: (c, i) => i == state.lPlayList.length
               ? const Center(
-                  key: Key('9182098089509'),
                   child: AppCircleLoading(),
                 )
               : ItemInfoRoutes(

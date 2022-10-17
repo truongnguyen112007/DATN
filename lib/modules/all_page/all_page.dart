@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../components/app_text.dart';
+import '../../components/message_search.dart';
 import '../../data/model/routes_model.dart';
 import '../../utils/app_utils.dart';
 
@@ -37,7 +38,7 @@ class _AllPageState extends State<AllPage> {
   Widget build(BuildContext context) {
     return Container(
       color: colorGreyBackground,
-      child: Center(child: AppText('This feature is under construction',style: googleFont.copyWith(color: colorWhite),))
+      child: const MessageSearch()
       // Column(
       //   children: [
       //     Padding(

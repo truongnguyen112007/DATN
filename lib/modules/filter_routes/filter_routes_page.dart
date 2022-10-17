@@ -264,8 +264,7 @@ class _FilterRoutesPageState extends BasePopState<FilterRoutesPage> {
           decoration: selectIndex == index
               ? BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  gradient: Utils.backgroundGradientOrangeButton(
-                      begin: Alignment.centerLeft, end: Alignment.centerRight),
+                  gradient: Utils.backgroundGradientOrangeButton(),
                 )
               : BoxDecoration(
                   borderRadius: BorderRadius.circular(20), color: colorBlack10),
