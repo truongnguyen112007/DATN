@@ -1,4 +1,6 @@
 import 'package:badges/badges.dart';
+import 'package:base_bloc/base/hex_color.dart';
+import 'package:base_bloc/components/appbar_widget.dart';
 import 'package:base_bloc/modules/designed/designed_page.dart';
 import 'package:base_bloc/modules/favourite/favourite_page.dart';
 import 'package:base_bloc/modules/history/history_page.dart';
@@ -8,9 +10,12 @@ import 'package:base_bloc/theme/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../../components/app_scalford.dart';
 import '../../components/app_text.dart';
+import '../../data/globals.dart';
+import '../../gen/assets.gen.dart';
 import '../../localizations/app_localazations.dart';
 
 class TabRoutes extends StatefulWidget {
@@ -35,6 +40,7 @@ class _TabRoutesState extends State<TabRoutes>
     return DefaultTabController(
         length: 4,
         child: AppScaffold(
+          resizeToAvoidBottomInset: false,
           appbar: appBar(context),
           backgroundColor: colorGrey90,
           body: Column(
@@ -56,26 +62,30 @@ class _TabRoutesState extends State<TabRoutes>
 
   Widget tabBar(BuildContext context) => Stack(
         children: [
-        Container(color: colorBlack,child:   TabBar(
-          indicatorColor: colorOrange100,
-          labelColor: colorOrange100,
-          unselectedLabelColor: colorText20,
-          tabs: [
-            Tab(
-              text: AppLocalizations.of(context)!.playlist,
+          Container(
+            color: colorBlack,
+            child: TabBar(
+              indicatorWeight: 3,
+              indicatorColor: HexColor('FF5A00'),
+              labelColor: HexColor('FF5A00'),
+              unselectedLabelColor: colorText0.withOpacity(0.6),
+              tabs: [
+                Tab(
+                  text: AppLocalizations.of(context)!.playlist,
+                ),
+                Tab(
+                  text: AppLocalizations.of(context)!.history,
+                ),
+                Tab(
+                  text: AppLocalizations.of(context)!.favourite,
+                ),
+                Tab(
+                  text: AppLocalizations.of(context)!.designed,
+                ),
+              ],
+              labelStyle: typoW400.copyWith(fontSize: 12.sp),
             ),
-            Tab(
-              text: AppLocalizations.of(context)!.history,
-            ),
-            Tab(
-              text: AppLocalizations.of(context)!.favourite,
-            ),
-            Tab(
-              text: AppLocalizations.of(context)!.designed,
-            ),
-          ],
-          labelStyle: typoSmallTextRegular.copyWith(color: colorText20),
-        ),),
+          ),
           Positioned.fill(
               child: Align(
             alignment: Alignment.bottomCenter,
@@ -88,31 +98,42 @@ class _TabRoutesState extends State<TabRoutes>
         ],
       );
 
-  PreferredSizeWidget appBar(BuildContext context) => AppBar(
-        backgroundColor: colorBlack,
-        // bottom: tabBar(context),
-        title: Text(AppLocalizations.of(context)!.routes),
-        actions: [
+  PreferredSizeWidget appBar(BuildContext context) => appBarWidget(
+        leading: SizedBox(),
+        landingWidth: contentPadding,
+        titleStr: AppLocalizations.of(context)!.routes,
+        action: [
           IconButton(
             onPressed: () {},
-            icon: const Icon(Icons.search),
-          ),
-          SizedBox(
-            width: 15.w,
-          ),
-          SizedBox(
-            child: Badge(
-              padding: const EdgeInsets.all(2),
-              position: BadgePosition.topEnd(top: 13.h, end: -2.h),
-              toAnimate: false,
-              badgeContent: const Text('1'),
-              child: const Icon(Icons.notifications_none_sharp),
+            icon: SvgPicture.asset(
+              Assets.svg.search,
+              color: colorSurfaceMediumEmphasis,
             ),
           ),
-          SizedBox(
-            width: 20.w,
+          Container(
+            margin: EdgeInsets.only(left: 10, right: contentPadding),
+            child: Badge(
+              gradient: LinearGradient(colors: [
+                colorYellow70,
+                colorPrimary,
+                colorPrimary.withOpacity(0.65),
+              ]),
+              padding: const EdgeInsets.all(2),
+              position: BadgePosition.topEnd(top: 13.h, end: 1.h),
+              toAnimate: false,
+              badgeContent: AppText(
+                '1',
+                style: typoSmallTextRegular.copyWith(
+                    fontSize: 9.sp, color: colorWhite),
+              ),
+              child: SvgPicture.asset(
+                Assets.svg.notification,
+                color: colorSurfaceMediumEmphasis,
+              ),
+            ),
           ),
         ],
+        context: context,
       );
 
   @override

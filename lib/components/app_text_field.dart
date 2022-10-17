@@ -30,6 +30,7 @@ class AppTextField extends StatefulWidget {
   final bool isShowErrorText;
   final int? maxLine;
   final List<TextInputFormatter>? inputFormatters;
+  final Color? cursorColor;
 
   const AppTextField(
       {this.controller,
@@ -57,7 +58,8 @@ class AppTextField extends StatefulWidget {
       this.height,
       this.isShowErrorText = true,
       this.maxLine,
-      this.inputFormatters})
+      this.inputFormatters,
+      this.cursorColor})
       : super(key: key);
 
   @override
@@ -79,7 +81,7 @@ class _AppTextFieldState extends State<AppTextField> {
     return Wrap(
       runSpacing: 5,
       children: [
-        TextField(
+        TextField(cursorColor: widget.cursorColor,
           inputFormatters: widget.inputFormatters,
           enabled: widget.enable,
           readOnly: widget.readOnly ?? false,

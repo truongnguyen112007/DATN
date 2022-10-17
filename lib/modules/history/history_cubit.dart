@@ -1,6 +1,10 @@
 import 'dart:async';
 
+import 'package:base_bloc/config/constant.dart';
+import 'package:base_bloc/modules/filter_routes/filter_routes_page.dart';
 import 'package:base_bloc/modules/history/history_state.dart';
+import 'package:base_bloc/router/router_utils.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../data/model/feed_model.dart';
@@ -33,7 +37,7 @@ class HistoryCubit extends Cubit<HistoryState> {
   }
 
   void refresh() {
-    emit(HistoryState(status: FeedStatus.refresh));
+    emit(const HistoryState(status: FeedStatus.refresh));
     getFeed();
   }
 
@@ -42,4 +46,7 @@ class HistoryCubit extends Cubit<HistoryState> {
             'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4'),
         FeedModel(false, '', photoURL: Assets.png.test.path),
       ];
+
+  void filterOnclick(BuildContext context) => RouterUtils.openNewPage(
+      const FilterRoutesPage(index: BottomNavigationConstant.TAB_ROUTES), context);
 }

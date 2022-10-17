@@ -1,7 +1,21 @@
+import 'package:badges/badges.dart';
+import 'package:base_bloc/components/profile_info_widget.dart';
+import 'package:base_bloc/localizations/app_localazations.dart';
+import 'package:base_bloc/modules/tab_profile/tab_profile_cubit.dart';
+import 'package:base_bloc/modules/tab_profile/tab_profile_post/tab_profile_post.dart';
+import 'package:base_bloc/modules/tab_profile/tab_profile_state.dart';
+import 'package:base_bloc/theme/app_styles.dart';
 import 'package:flutter/cupertino.dart';
-
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../components/app_scalford.dart';
-import '../../components/app_text.dart';
+import '../../components/dynamic_sliver_appbar.dart';
+import '../../data/globals.dart';
+import '../../localizations/app_localazations.dart';
+import '../../theme/colors.dart';
+import '../designed/designed_page.dart';
+import '../history/history_page.dart';
 
 class TabProfile extends StatefulWidget {
   const TabProfile({Key? key}) : super(key: key);
@@ -11,11 +25,95 @@ class TabProfile extends StatefulWidget {
 }
 
 class _TabProfileState extends State<TabProfile> {
+  late final TabProfileCubit _bloc;
+  late final DynamicSliverAppBar _silerAppBar;
+
+  @override
+  void initState() {
+    _bloc = TabProfileCubit();
+    _silerAppBar = DynamicSliverAppBar(
+        child: _buildProfileInfoHeaderSliverAppBarFlex(), maxHeight: 0.0);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return const AppScaffold(
-        body: Center(
-          child: AppText('TAB PROFILE'),
-        ));
+    return AppScaffold(
+      resizeToAvoidBottomInset: false,
+      backgroundColor: colorMainBackground,
+      appbar: appBar(context),
+      body: SafeArea(
+        child: DefaultTabController(
+          length: 3,
+          child: Scaffold(
+            backgroundColor: colorMainBackground,
+            appBar: PreferredSize(
+                preferredSize:
+                    Size.fromHeight(MediaQuery.of(context).size.height),
+                child: NestedScrollView(
+                  headerSliverBuilder: (context, value) {
+                    return [
+                      _silerAppBar,
+                      SliverPersistentHeader(
+                        pinned: true,
+                        delegate: SliverAppBarDelegate(
+                          minHeight: 44.w,
+                          maxHeight: 44.w,
+                          child: TabBar(
+                            labelColor: colorPrimary,
+                            labelStyle: googleFont.copyWith(
+                                fontSize: 14.w, fontWeight: FontWeight.w600),
+                            unselectedLabelColor: colorSubText,
+                            indicatorColor: colorPrimary,
+                            indicatorWeight: 2.w,
+                            tabs: [
+                              Tab(text: AppLocalizations.of(context)!.tabPosts),
+                              Tab(
+                                  text:
+                                      AppLocalizations.of(context)!.tabHistory),
+                              Tab(
+                                  text: AppLocalizations.of(context)!
+                                      .tabDesigned),
+                            ],
+                          ),
+                        ),
+                      )
+                    ];
+                  },
+                  body: TabBarView(
+                    children: [TabProfilePost(), HistoryPage(), DesignedPage()],
+                  ),
+                )),
+          ),
+        ),
+      ),
+    );
   }
+
+  Widget _buildProfileInfoHeaderSliverAppBarFlex() =>
+      BlocBuilder<TabProfileCubit, TabProfileState>(
+          bloc: _bloc,
+          builder: (BuildContext context, state) {
+            return ProfileInfoWidget(
+                userModel: _bloc.getCurrentUser(),
+                onPressEditProfile: () => _bloc.didPressEditProfile(context));
+          });
+
+  PreferredSizeWidget appBar(BuildContext context) => AppBar(
+        backgroundColor: colorMainBackground,
+        actions: [
+          SizedBox(
+            child: Badge(
+              padding: EdgeInsets.all(2.w),
+              position: BadgePosition.topEnd(top: 13.h, end: -2.h),
+              toAnimate: false,
+              badgeContent: const Text('1'),
+              child: const Icon(Icons.notifications_none_sharp),
+            ),
+          ),
+          SizedBox(
+            width: 2.0 * contentPadding,
+          ),
+        ],
+      );
 }

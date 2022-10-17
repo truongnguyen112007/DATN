@@ -1,13 +1,17 @@
 import 'dart:async';
-import 'dart:math';
 
-import 'package:base_bloc/components/item_feed_widget.dart';
+import 'package:base_bloc/config/constant.dart';
+import 'package:base_bloc/modules/create_routes/create_routes_page.dart';
 import 'package:base_bloc/modules/playlist/playlist_state.dart';
 import 'package:base_bloc/modules/tab_home/tab_home_state.dart';
-import 'package:base_bloc/utils/log_utils.dart';
+import 'package:base_bloc/router/router.dart';
+import 'package:base_bloc/router/router_utils.dart';
+import 'package:base_bloc/utils/app_utils.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../data/model/playlist_model.dart';
+import '../../data/model/routes_model.dart';
+import '../routers_detail/routes_detail_page.dart';
 
 enum ItemAction {
   MOVE_TO_TOP,
@@ -38,7 +42,7 @@ class PlayListCubit extends Cubit<PlaylistState> {
       if (state.isLoading) return;
       emit(state.copyWith(isLoading: true));
       Timer(
-          const Duration(seconds: 1),
+          const Duration(milliseconds: 200),
           () => emit(state.copyWith(
               isReadEnd: false,
               status: FeedStatus.success,
@@ -46,7 +50,7 @@ class PlayListCubit extends Cubit<PlaylistState> {
               isLoading: false)));
     } else {
       Timer(
-          const Duration(seconds: 1),
+          const Duration(milliseconds: 200),
           () => emit(state.copyWith(
               status: FeedStatus.success,
               lPlayList: fakeData(),
@@ -60,46 +64,59 @@ class PlayListCubit extends Cubit<PlaylistState> {
     lResponse.insert(newIndex, newItem);
     emit(state.copyWith(lPlayList: lResponse));
   }
-  void handleAction(ItemAction action,PlayListModel model)=>logE("TAG ACTION: $action");
 
-  List<PlayListModel> fakeData() => [
-        PlayListModel(
+  void itemOnLongClick(BuildContext context) =>
+      Utils.showActionDialog(context, (p0) {});
+
+  void itemOnclick(BuildContext context, RoutesModel model) =>
+      RouterUtils.openNewPage(
+          RoutesDetailPage(
+            index: BottomNavigationConstant.TAB_ROUTES,
+            model: model,
+          ),
+          context);
+
+  void createRoutesOnClick(BuildContext context) =>
+      RouterUtils.openNewPage(CreateRoutesPage(), context);
+
+  List<RoutesModel> fakeData() => [
+        RoutesModel(
             name: 'Adam 2022-05-22',
             height: 12,
             author: 'Adam Kowasaki',
             grade: '8A',
             status: 'corner'),
-        PlayListModel(
+        RoutesModel(
           name: 'Adam 2022-05-22',
           height: 122,
           author: 'TSU Tokoda',
           grade: '7B',
         ),
-        PlayListModel(
+        RoutesModel(
           name: 'Adam 2022-05-22',
           height: 11,
           author: 'AI Kowasaki',
           grade: '6A',
         ),
-        PlayListModel(
+        RoutesModel(
           name: 'Adam 2022-05-22',
           height: 12,
           author: 'Adam Kowasaki',
           grade: '6A',
         ),
-        PlayListModel(
+        RoutesModel(
             name: 'Adam 2022-05-22',
             height: 122,
             author: 'TSU Tokoda',
             grade: '5B',
             status: 'corner'),
-        PlayListModel(
+        RoutesModel(
             name: 'Adam 2022-05-22',
             height: 11,
             author: 'AI Kowasaki',
             grade: '6A',
             status: 'corner'),
-        PlayListModel(
+        RoutesModel(
             name: 'Adam 2022-05-22',
             height: 11,
             author: 'AI Kowasaki',

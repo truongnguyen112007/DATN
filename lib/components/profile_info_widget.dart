@@ -1,0 +1,156 @@
+import 'package:base_bloc/data/globals.dart';
+import 'package:base_bloc/data/model/user_model.dart';
+import 'package:base_bloc/theme/app_styles.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../localizations/app_localazations.dart';
+import '../theme/colors.dart';
+import 'app_text.dart';
+
+class ProfileInfoWidget extends StatelessWidget {
+  final UserModel userModel;
+  final VoidCallback onPressEditProfile;
+  static double _avatarSize = 56.w;
+
+  const ProfileInfoWidget(
+      {Key? key, required this.userModel, required this.onPressEditProfile})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: colorMainBackground,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding: EdgeInsets.only(
+                top: 2 * contentPadding,
+                left: 2 * contentPadding,
+                right: 2 * contentPadding),
+            child: Row(
+              children: [
+                CircleAvatar(
+                  radius: _avatarSize / 2.0,
+                  backgroundColor: Colors.transparent,
+                  child: ClipOval(
+                      child: Image.network(
+                    userModel.avatar ?? '',
+                    fit: BoxFit.cover,
+                    width: _avatarSize,
+                    height: _avatarSize,
+                  )),
+                ),
+                SizedBox(width: 2 * contentPadding),
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  AppText(userModel.name ?? '',
+                      style: googleFont.copyWith(
+                          color: colorMainText,
+                          fontSize: 22.w,
+                          fontWeight: FontWeight.w600)),
+                  AppText(userModel.type ?? '',
+                      style: googleFont.copyWith(
+                          color: colorSubText,
+                          fontSize: 14.w,
+                          fontWeight: FontWeight.w400))
+                ])
+              ],
+            ),
+          ),
+          SizedBox(height: 10.h),
+          Container(color: colorWhite.withOpacity(0.12), height: 1.h),
+          _userCountInfoWidget(context),
+          _userActionsWidget(context)
+        ],
+      ),
+    );
+  }
+
+  /* Show user count info: passed, dessigned, friends */
+  Widget _userCountInfoWidget(BuildContext context) {
+    return Container(
+        padding: EdgeInsets.only(
+            top: 2 * contentPadding,
+            left: 2 * contentPadding,
+            right: 2 * contentPadding),
+        child: Row(
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                AppText(AppLocalizations.of(context)!.countPassed,
+                    style: googleFont.copyWith(
+                        color: colorMainText,
+                        fontSize: 10.w,
+                        fontWeight: FontWeight.w600)),
+                AppText(userModel.passed.toString(),
+                    style: googleFont.copyWith(
+                        color: colorMainText,
+                        fontSize: 24.w,
+                        fontWeight: FontWeight.w700))
+              ],
+            ),
+            SizedBox(width: 40.w),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                AppText(AppLocalizations.of(context)!.countDesigned,
+                    style: googleFont.copyWith(
+                        color: colorMainText,
+                        fontSize: 10.w,
+                        fontWeight: FontWeight.w600)),
+                AppText(userModel.designed.toString(),
+                    style: googleFont.copyWith(
+                        color: colorMainText,
+                        fontSize: 24.w,
+                        fontWeight: FontWeight.w700))
+              ],
+            ),
+            SizedBox(width: 40.w),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                AppText(AppLocalizations.of(context)!.countFriends,
+                    style: googleFont.copyWith(
+                        color: colorMainText,
+                        fontSize: 10.w,
+                        fontWeight: FontWeight.w600)),
+                AppText(userModel.friends.toString(),
+                    style: googleFont.copyWith(
+                        color: colorMainText,
+                        fontSize: 24.w,
+                        fontWeight: FontWeight.w700))
+              ],
+            )
+          ],
+        ));
+  }
+
+  /* Custom actions: Edit settings, Add/Remove friends, Message */
+  Widget _userActionsWidget(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.only(
+          top: 2 * contentPadding,
+          left: 2 * contentPadding,
+          right: 2 * contentPadding),
+      child: TextButton(
+          child: Padding(
+            padding: EdgeInsets.only(left: 10.w, right: 10.w),
+            child: Text(AppLocalizations.of(context)!.editSettings,
+                style: googleFont.copyWith(
+                    color: colorMainText,
+                    fontSize: 14.w,
+                    fontWeight: FontWeight.w400)),
+          ),
+          style: TextButton.styleFrom(
+            primary: colorMainText,
+            onSurface: colorMainBackground,
+            side: BorderSide(color: colorMainText, width: 1.w),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(25.w))),
+          ),
+          onPressed: () => onPressEditProfile()),
+    );
+  }
+}

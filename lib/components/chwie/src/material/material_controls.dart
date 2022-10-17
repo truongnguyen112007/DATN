@@ -255,7 +255,7 @@ class _MaterialControlsState extends State<MaterialControls>
       opacity: notifier.hideStuff ? 0.0 : 1.0,
       duration: const Duration(milliseconds: 300),
       child: Container(
-        height: barHeight + 40.h + (chewieController.isFullScreen ? 10.0 : 0),
+        height: barHeight + 7 + (chewieController.isFullScreen ? 7 : 0),
         padding: EdgeInsets.only(
           left: 20,
           bottom: !chewieController.isFullScreen ? 10.0 : 0,

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Icon/Action/Playlist add</title>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" fill-opacity="0.75">
+        <g id="Icon/Action/Playlist-add" fill="#000000">
+            <path d="M15.8189189,18.1351351 L15.8189189,14.072973 L11.7567568,14.072973 L11.7567568,12.9540541 L15.8189189,12.9540541 L15.8189189,8.89189189 L16.9378378,8.89189189 L16.9378378,12.9540541 L21,12.9540541 L21,14.072973 L16.9378378,14.072973 L16.9378378,18.1351351 L15.8189189,18.1351351 Z M3,14.072973 L3,12.9540541 L10.1756757,12.9540541 L10.1756757,14.072973 L3,14.072973 Z M3,10.0837838 L3,8.96486486 L14.2378378,8.96486486 L14.2378378,10.0837838 L3,10.0837838 Z M3,6.09459459 L3,5 L14.2378378,5 L14.2378378,6.09459459 L3,6.09459459 Z" id="Shape"></path>
+        </g>
+    </g>
+</svg>

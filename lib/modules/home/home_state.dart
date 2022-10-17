@@ -9,6 +9,15 @@ class InitState extends HomeState {
   List<Object?> get props => [];
 }
 
+class HideBottomNavigationBarState extends HomeState {
+  final bool isHide;
+
+  HideBottomNavigationBarState(this.isHide);
+
+  @override
+  List<Object?> get props => [isHide];
+}
+
 class IndexChangeState extends HomeState {
   final int index;
 

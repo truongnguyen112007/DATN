@@ -1,10 +1,16 @@
 import 'dart:async';
 
 import 'package:base_bloc/modules/tab_home/tab_home_state.dart';
+import 'package:base_bloc/utils/log_utils.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geolocator/geolocator.dart';
 
+import '../../config/constant.dart';
 import '../../data/model/feed_model.dart';
 import '../../gen/assets.gen.dart';
+import '../../router/router.dart';
+import '../../router/router_utils.dart';
 
 class TabHomeCubit extends Cubit<TabHomeState> {
   TabHomeCubit() : super(const TabHomeState(status: FeedStatus.initial)) {
@@ -36,9 +42,26 @@ class TabHomeCubit extends Cubit<TabHomeState> {
     getFeed();
   }
 
+  void searchOnclick(BuildContext context) => RouterUtils.pushHome(
+      context: context,
+      route: HomeRouters.search,
+      argument: BottomNavigationConstant.TAB_HOME);
+
+  void onClickPlaylist () {
+
+  }
+
   List<FeedModel> fakeData() => [
         FeedModel(true,
             'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4'),
         FeedModel(false, '', photoURL: Assets.png.test.path),
       ];
+
+  Future<void> checkLocationPermission() async {
+    LocationPermission permission;
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      await Geolocator.requestPermission();
+    }
+  }
 }

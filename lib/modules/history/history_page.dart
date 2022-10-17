@@ -1,8 +1,11 @@
 import 'package:badges/badges.dart';
 import 'package:base_bloc/components/app_text.dart';
+import 'package:base_bloc/components/filter_widget.dart';
+import 'package:base_bloc/config/constant.dart';
 import 'package:base_bloc/data/globals.dart';
 import 'package:base_bloc/modules/history/history_cubit.dart';
 import 'package:base_bloc/modules/history/history_state.dart';
+import 'package:base_bloc/router/router_utils.dart';
 import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/theme/colors.dart';
 import 'package:flutter/cupertino.dart';
@@ -13,6 +16,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../components/app_circle_loading.dart';
 import '../../components/item_feed_widget.dart';
 import '../../localizations/app_localazations.dart';
+import '../filter_routes/filter_routes_page.dart';
 import '../tab_home/tab_home_state.dart';
 
 class HistoryPage extends StatefulWidget {
@@ -34,13 +38,22 @@ class _HistoryPageState extends State<HistoryPage>
     super.initState();
   }
 
+  @override
+  void dispose() {
+    _bloc.close();
+    _scrollController.dispose();
+    super.dispose();
+  }
+
   void paging() {
-    _scrollController.addListener(() {
-      if (!_scrollController.hasClients) return;
-      final maxScroll = _scrollController.position.maxScrollExtent;
-      final currentScroll = _scrollController.offset;
-      if (currentScroll >= (maxScroll * 0.9)) _bloc.getFeed(isPaging: true);
-    });
+    if (_scrollController.hasClients) {
+      _scrollController.addListener(() {
+        if (!_scrollController.hasClients) return;
+        final maxScroll = _scrollController.position.maxScrollExtent;
+        final currentScroll = _scrollController.offset;
+        if (currentScroll >= (maxScroll * 0.9)) _bloc.getFeed(isPaging: true);
+      });
+    }
   }
 
   @override
@@ -52,7 +65,14 @@ class _HistoryPageState extends State<HistoryPage>
             controller: _scrollController,
             physics: const AlwaysScrollableScrollPhysics(),
             child: Column(
-              children: [filterWidget(context), feedWidget()],
+              children: [
+                FilterWidget(
+                  selectCallBack: () {},
+                  filterCallBack: () => _bloc.filterOnclick(context),
+                  sortCallBack: () {},
+                ),
+                feedWidget()
+              ],
             ),
           ),
           BlocBuilder<HistoryCubit, HistoryState>(
@@ -77,18 +97,22 @@ class _HistoryPageState extends State<HistoryPage>
           Widget? widget;
           if (state.status == FeedStatus.initial ||
               state.status == FeedStatus.refresh) {
-            widget = SizedBox();
+            widget = const SizedBox();
           } else if (state.status == FeedStatus.success) {
             widget = ListView.separated(
+              padding: EdgeInsets.only(
+                  top: contentPadding * 2,
+                  left: contentPadding,
+                  right: contentPadding),
               physics: const NeverScrollableScrollPhysics(),
               primary: false,
               itemBuilder: (BuildContext context, int index) =>
                   (index == state.lFeed.length)
-                      ? const Center(
-                          child: CircularProgressIndicator(
-                          color: Colors.amber,
-                        ))
-                      : ItemFeed(model: state.lFeed[index]),
+                      ? const Center(child: AppCircleLoading())
+                      : ItemFeed(
+                          model: state.lFeed[index],
+                          index: BottomNavigationConstant.TAB_ROUTES,
+                        ),
               itemCount:
                   !state.readEnd ? state.lFeed.length + 1 : state.lFeed.length,
               shrinkWrap: true,
@@ -125,41 +149,6 @@ class _HistoryPageState extends State<HistoryPage>
           SizedBox(
             width: 20.w,
           ),
-        ],
-      );
-
-  Widget filterWidget(BuildContext context) => Container(
-        color: colorBlack,
-        padding: EdgeInsets.only(
-            left: contentPadding, right: contentPadding, top: 5, bottom: 5),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            itemFilterWidget(Icons.swap_vert,
-                AppLocalizations.of(context)!.sort, colorWhite),
-            itemFilterWidget(Icons.filter_alt_outlined,
-                AppLocalizations.of(context)!.filter, colorWhite),
-            itemFilterWidget(Icons.filter_alt_outlined,
-                AppLocalizations.of(context)!.filter, Colors.transparent)
-          ],
-        ),
-      );
-
-  Widget itemFilterWidget(IconData icon, String title, Color color) => Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(
-            icon,
-            color: color,
-            size: 20,
-          ),
-          const SizedBox(
-            width: 2,
-          ),
-          AppText(
-            title,
-            style: typoSmallText300.copyWith(color: color),
-          )
         ],
       );
 
