@@ -10,6 +10,7 @@ import 'package:base_bloc/modules/create_routes/create_routes_page.dart';
 import 'package:base_bloc/modules/filter_address/filter_address_page.dart';
 import 'package:base_bloc/modules/find_place/find_place_page.dart';
 import 'package:base_bloc/modules/home/home_page.dart';
+import 'package:base_bloc/modules/notifications_page/notifications_page.dart';
 import 'package:base_bloc/modules/reservation_detail/reservation_detail_page.dart';
 import 'package:base_bloc/modules/splash/splash_page.dart';
 import 'package:base_bloc/modules/tab_climb/tab_climb.dart';
@@ -32,6 +33,7 @@ var routeSplash = Handler(handlerFunc: (c, p) => const SplashPage());
 var routeHome = Handler(handlerFunc: (c, p) => const HomePage());
 var routeTabHome = Handler(handlerFunc: (c, p) => const TabHome());
 var routeSearchHome = Handler(handlerFunc: (c,p) => SearchHomePage(index: c!.settings!.arguments as int));
+var routeNotifications = Handler(handlerFunc: (c, p) => const NotificationsPage());
 var routeTabClimb = Handler(handlerFunc: (c, p) => const TabClimb());
 var routeTabProfile = Handler(handlerFunc: (c, p) => const TabProfile());
 var routeTabReservation =
