@@ -8,6 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../components/app_circle_loading.dart';
 import '../../components/app_text.dart';
 import '../../components/filter_widget.dart';
+import '../../components/message_search.dart';
 import '../../data/eventbus/search_home_event.dart';
 import '../../data/globals.dart';
 import '../../data/model/person_model.dart';
@@ -71,7 +72,7 @@ class _PersonsPageState extends State<PersonsPage>
     return Container(
       color: colorGreyBackground,
       child:
-      Center(child: AppText('This feature is under construction',style: googleFont.copyWith(color: colorWhite),))
+     const MessageSearch());
       // Column(
       //   children: [
       //     FilterWidget(
@@ -146,7 +147,6 @@ class _PersonsPageState extends State<PersonsPage>
       //     ),
       //   ],
       // ),
-    );
   }
 
   Widget heading(String title) {

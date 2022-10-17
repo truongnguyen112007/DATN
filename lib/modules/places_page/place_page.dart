@@ -13,6 +13,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../components/app_text.dart';
+import '../../components/message_search.dart';
 import '../../data/eventbus/hide_map_event.dart';
 import '../../data/eventbus/search_home_event.dart';
 import '../../theme/app_styles.dart';
@@ -82,9 +83,8 @@ class _PlacesPageState extends State<PlacesPage> {
     // final Size size = MediaQuery.of(context).size;
     return Container(
         color: colorGreyBackground,
-        child: Center(
-            child: AppText('This feature is under construction',
-                style: googleFont.copyWith(color: colorWhite))));
+        child:
+       const MessageSearch());
     // BlocBuilder<PlacesPageCubit, PlacesPageState>(
     //   bloc: _bloc,
     //   builder: (c, state) {
