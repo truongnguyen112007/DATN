@@ -446,4 +446,7 @@ class AppLocalizationEn extends AppLocalizations {
 
   @override
   String get find_routes => 'Find routes';
+
+  @override
+  String get add_favourite => 'Add favourite';
 }

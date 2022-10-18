@@ -79,6 +79,9 @@ class $AssetsPngGen {
   /// File path: assets/png/person.png
   AssetGenImage get person => const AssetGenImage('assets/png/person.png');
 
+  /// File path: assets/png/tesst.png
+  AssetGenImage get tesst => const AssetGenImage('assets/png/tesst.png');
+
   /// File path: assets/png/test.png
   AssetGenImage get test => const AssetGenImage('assets/png/test.png');
 
@@ -102,6 +105,7 @@ class $AssetsPngGen {
         liked,
         logoapp,
         person,
+        tesst,
         test
       ];
 }
@@ -176,6 +180,9 @@ class $AssetsSvgGen {
   /// File path: assets/svg/ic_setting.svg
   String get icSetting => 'assets/svg/ic_setting.svg';
 
+  /// File path: assets/svg/info.svg
+  String get info => 'assets/svg/info.svg';
+
   /// File path: assets/svg/like.svg
   String get like => 'assets/svg/like.svg';
 
@@ -184,6 +191,9 @@ class $AssetsSvgGen {
 
   /// File path: assets/svg/location.svg
   String get location => 'assets/svg/location.svg';
+
+  /// File path: assets/svg/man.svg
+  String get man => 'assets/svg/man.svg';
 
   /// File path: assets/svg/message.svg
   String get message => 'assets/svg/message.svg';
@@ -260,9 +270,11 @@ class $AssetsSvgGen {
         icNotification,
         icPrivacy,
         icSetting,
+        info,
         like,
         liked,
         location,
+        man,
         message,
         moreVertical,
         moveToTop,

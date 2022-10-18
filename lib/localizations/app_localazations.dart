@@ -313,6 +313,7 @@ abstract class AppLocalizations {
 
   String get create_routes;
   String get find_routes;
+  String get add_favourite;
 }
 
 class _AppLocalizationsDelegate

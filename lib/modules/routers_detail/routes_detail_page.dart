@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:base_bloc/base/base_state.dart';
+import 'package:base_bloc/base/hex_color.dart';
 import 'package:base_bloc/components/app_circle_loading.dart';
 import 'package:base_bloc/components/app_scalford.dart';
 import 'package:base_bloc/components/app_text.dart';
@@ -15,6 +16,7 @@ import 'package:base_bloc/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../components/appbar_widget.dart';
 
@@ -33,6 +35,7 @@ class RoutesDetailPage extends StatefulWidget {
 
 class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
   late RoutesDetailCubit _bloc;
+  final lBox = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L'];
   final List<String> _lRoutes = [];
   final List<String> lClimbing = [
     Assets.png.climbing1.path,
@@ -41,7 +44,7 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
     Assets.png.climbing4.path,
     Assets.png.climbing5.path
   ];
-  final lHeight = [2, 4, 6, 8, 10, 12];
+  final lHeight = [0, 2, 4, 6, 8, 10, 12];
 
   @override
   void initState() {
@@ -64,235 +67,318 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
   @override
   Widget buildWidget(BuildContext context) {
     return AppScaffold(
-        appbar: appBarWidget(
-            context: context,
-            action: const [
-              Icon(
-                Icons.more_vert,
-                color: colorText65,
-              )
-            ],
-            titleStr: widget.model.name),
-        backgroundColor: colorBlack,
+        appbar: appbarWidget(context),
+        backgroundColor: HexColor('212121'),
         body: Stack(
           children: [
-            Container(
-              height: MediaQuery.of(context).size.height,
-              color: colorBlack50,
-            ),
-            Positioned.fill(
-                child: Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                height: 40,
-                decoration: const BoxDecoration(
-                    boxShadow: [BoxShadow(color: colorWhite, blurRadius: 100)]),
-              ),
-            )),
+            blurBackground(context),
             BlocBuilder<RoutesDetailCubit, RoutesDetailState>(
               builder: (c, state) => state.status == RoutesStatus.initial
-                  ? const Center(
-                      child: AppCircleLoading(),
-                    )
+                  ? const Center(child: AppCircleLoading())
                   : Column(
                       children: [
                         infoRoutesWidget(context),
+                        Container(
+                            height: 15.h,
+                            color: HexColor('898989'),
+                            margin: EdgeInsets.only(
+                                left: MediaQuery.of(context).size.width / 4.8,
+                                right:
+                                    MediaQuery.of(context).size.width / 4.8)),
+                        Padding(
+                            padding: EdgeInsets.only(
+                                left: MediaQuery.of(context).size.width / 4.4,
+                                right: MediaQuery.of(context).size.width / 4.4),
+                            child: Image.asset(Assets.png.tesst.path)),
                         Expanded(
-                            child: Container(
-                          alignment: Alignment.bottomCenter,
-                          height: MediaQuery.of(context).size.height,
-                          // margin: const EdgeInsets.only(bottom: 30),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Expanded(child: infoHeightWidget(context)),
-                              Expanded(
-                                child: routesWidget(context),
+                            child: Stack(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  left: MediaQuery.of(context).size.width / 3.9,
+                                  right:
+                                      MediaQuery.of(context).size.width / 3.9),
+                              child: Row(
+                                children: [
+                                  lineGreyGradient(context, false),
+                                  Expanded(
+                                      child: Column(
+                                    children: [
+                                      Container(
+                                        height: 4,
+                                        color: colorBlack,
+                                      ),
+                                      Expanded(
+                                          child: Row(
+                                        children: [
+                                          heightWidget(true),
+                                          Expanded(
+                                              child: Container(
+                                            decoration: BoxDecoration(
+                                                gradient: gradientBackground()),
+                                            child: Column(
+                                              children: [
+                                                boxNameWidget(context),
+                                                routesWidget(context),
+                                                boxNameWidget(context),
+                                              ],
+                                            ),
+                                          )),
+                                          heightWidget(false),
+                                        ],
+                                      ))
+                                    ],
+                                  )),
+                                  lineGreyGradient(context, true),
+                                ],
                               ),
-                              const Expanded(
-                                child: SizedBox(),
-                              )
-                            ],
-                          ),
+                            ),
+                            Positioned(
+                              child: Align(
+                                alignment: Alignment.bottomLeft,
+                                child: Padding(
+                                  padding: EdgeInsets.only(
+                                      left: MediaQuery.of(context).size.width /
+                                          5.5),
+                                  child: SvgPicture.asset(
+                                    Assets.svg.man,
+                                    height: 74.h,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            infoHeightWidget(context)
+                          ],
                         )),
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Container(
+                            height: 7.h,
+                            decoration: BoxDecoration(boxShadow: [
+                              BoxShadow(
+                                color: HexColor('6B6B6B').withOpacity(0.05),
+                                spreadRadius: 0,
+                                blurRadius: 10,
+                                offset: const Offset(0, 0),
+                              )
+                            ]),
+                          ),
+                        ),
                         actionWidget()
                       ],
                     ),
               bloc: _bloc,
-            )
+            ),
           ],
         ));
   }
 
+  Widget blurBackground(BuildContext context) => Positioned.fill(
+          child: Align(
+        alignment: Alignment.bottomCenter,
+        child: Container(
+          height: 40,
+          decoration: const BoxDecoration(
+              boxShadow: [BoxShadow(color: colorWhite, blurRadius: 100)]),
+        ),
+      ));
+
+  PreferredSizeWidget appbarWidget(BuildContext context) => appBarWidget(
+      context: context,
+      action: [
+        Icon(Icons.more_vert, color: colorWhite.withOpacity(0.6)),
+        SizedBox(width: contentPadding)
+      ],
+      titleStr: widget.model.name);
+
+  Widget boxNameWidget(BuildContext context) => Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          for (int i = 0; i < lBox.length; i++)
+            Text(lBox[i], style: typoW400.copyWith(fontSize: 4.sp))
+        ],
+      );
+
+  Widget heightWidget(bool isLeft) => Container(
+      padding: EdgeInsets.only(bottom: 14.h),
+      alignment: Alignment.center,
+      decoration: BoxDecoration(gradient: gradientBackground()),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          for (int i = 47; i >= 0; i--)
+            Padding(
+                padding: EdgeInsets.only(
+                    top: 2.02.h,
+                    bottom: 2.02.h,
+                    left: isLeft ? 3 : 0,
+                    right: isLeft ? 0 : 3),
+                child: Text(
+                  '$i',
+                  style: typoW400.copyWith(fontSize: 4.sp),
+                ))
+        ],
+      ));
+
+  Widget lineGreyGradient(BuildContext context, bool isLeft) => Stack(
+        children: [
+          Container(
+            width: 22.w,
+            decoration: BoxDecoration(gradient: gradientBackground()),
+          ),
+          Positioned.fill(
+              child: Align(
+            alignment: isLeft ? Alignment.centerLeft : Alignment.centerRight,
+            child: Container(width: 5.w, color: HexColor('FF5A00')),
+          )),
+        ],
+      );
+
   Widget infoRoutesWidget(BuildContext context) => Container(
-        padding: const EdgeInsets.only(bottom: 15),
+        padding: EdgeInsets.only(bottom: 12.h),
         color: colorBlack,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            itemRoutesWidget(context, AppLocalizations.of(context)!.author,
+            itemInfoWidget(context, AppLocalizations.of(context)!.author,
                 widget.model.grade, widget.model.status ?? '',
-                padding: EdgeInsets.only(left: contentPadding, bottom: 10)),
-            itemRoutesWidget(context, AppLocalizations.of(context)!.user,
+                padding: EdgeInsets.only(left: contentPadding, bottom: 3)),
+            itemInfoWidget(context, AppLocalizations.of(context)!.user,
                 widget.model.grade, '',
-                padding: const EdgeInsets.only(bottom: 10)),
-            itemRoutesWidget(context, AppLocalizations.of(context)!.popularity,
+                padding: const EdgeInsets.only(bottom: 3)),
+            itemInfoWidget(context, AppLocalizations.of(context)!.popularity,
                 '100k', widget.model.author,
-                padding: EdgeInsets.only(right: contentPadding, bottom: 10))
+                padding: EdgeInsets.only(right: contentPadding, bottom: 3))
           ],
         ),
       );
 
-  Widget itemRoutesWidget(
+  Widget itemInfoWidget(
           BuildContext context, String title, String grade, String status,
           {EdgeInsetsGeometry? padding}) =>
       Padding(
-        padding: padding ?? EdgeInsets.all(0),
+        padding: padding ?? const EdgeInsets.all(0),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            AppText(
-              title,
-              style: typoSmallTextRegular.copyWith(color: colorText65),
-            ),
-            AppText(
-              grade,
-              style: typoLargeTextRegular.copyWith(color: colorText0),
-            ),
+            AppText(title,
+                style: typoW600.copyWith(
+                    fontSize: 9.sp, color: colorText0.withOpacity(0.87))),
+            AppText(grade, style: typoW700.copyWith(fontSize: 22.5.sp)),
             AppText(
               status,
-              style: typoSmallTextRegular.copyWith(color: colorText65),
+              style: typoW400.copyWith(
+                  fontSize: 12.5.sp, color: colorText0.withOpacity(0.87)),
             )
           ],
         ),
       );
 
-  Widget routesWidget(BuildContext context) => SizedBox(
-        height: MediaQuery.of(context).size.height / 1.52,
-        width: MediaQuery.of(context).size.width / 3,
-        child: GridView.builder(
-            shrinkWrap: true,
-            itemCount: _lRoutes.length,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 12,
-            ),
-            itemBuilder: (BuildContext context, int index) {
-              return GestureDetector(
-                onTap: () => _tapped(index),
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height,
-                  decoration: BoxDecoration(
-                      color: colorGrey70,
-                      border: Border.all(color: colorGrey60, width: 1)),
-                  child: Center(
-                      child: _lRoutes[index].isNotEmpty
-                          ? Image.asset(
-                              _lRoutes[index],
-                              width: 10,
-                            )
-                          : const SizedBox()),
-                ),
-              );
-            }),
-      );
+  Widget routesWidget(BuildContext context) => GridView.builder(
+      shrinkWrap: true,
+      itemCount: _lRoutes.length,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 12, childAspectRatio: 1.0),
+      itemBuilder: (BuildContext context, int index) {
+        return GestureDetector(
+          onTap: () => _tapped(index),
+          child: Container(
+            decoration: BoxDecoration(
+                border: Border.all(color: HexColor('8A8A8A'), width: 0.5)),
+            child: Center(
+                child: _lRoutes[index].isNotEmpty
+                    ? Image.asset(
+                        _lRoutes[index],
+                        width: 10,
+                      )
+                    : const SizedBox()),
+          ),
+        );
+      });
 
-  Widget infoHeightWidget(BuildContext context) => SizedBox(
-        height: MediaQuery.of(context).size.height / 1.5,
+  Widget infoHeightWidget(BuildContext context) => Container(
+        padding: EdgeInsets.only(bottom: 10.h),
+        width: MediaQuery.of(context).size.width / 3.9,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Expanded(
-                child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                for (int i = lHeight.length - 1; i >= 0; i--)
-                  heightWidget(lHeight[i])
-              ],
-            )),
-            Image.asset(
-              Assets.png.person.path,
-              height: 80.w, fit: BoxFit.fitHeight,
-              // height: 10,
-            )
+            for (int i = lHeight.length - 1; i >= 0; i--)
+              i == 0
+                  ? const SizedBox()
+                  : AppText('${lHeight[i]}m -------',
+                      style: typoW400.copyWith(
+                          fontSize: 16, color: colorText0.withOpacity(0.6)))
           ],
         ),
       );
 
-  Widget heightWidget(int height) => Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          AppText('${height}m ',
-              style: typoSmallTextRegular.copyWith(color: colorText65)),
-          AppText(
-            "-------",
-            style: typoMediumTextRegular.copyWith(
-                color: colorText65, letterSpacing: 5),
-          )
-        ],
-      );
-
-  void _tapped(int index) {
-/*    setState(() {
-      if (_turnOfO && _lRoutes[index] == '') {
-        _lRoutes[index] = 'o';
-      } else if (!_turnOfO && _lRoutes[index] == '') {
-        _lRoutes[index] = 'o';
-      }
-      _turnOfO = !_turnOfO;
-    });*/
-  }
+  void _tapped(int index) {}
 
   Widget actionWidget() => Container(
-        padding: const EdgeInsets.only(bottom: 5),
+        height: 45.h,
         color: colorBlack,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Expanded(
                 child: itemActionWidget(AppLocalizations.of(context)!.info,
-                    Icons.info, RoutesAction.INFO)),
+                    Assets.svg.info, RoutesAction.INFO)),
             Expanded(
                 child: itemActionWidget(AppLocalizations.of(context)!.share,
-                    Icons.share, RoutesAction.INFO)),
+                    Assets.svg.share, RoutesAction.INFO)),
             Expanded(
                 child: itemActionWidget(AppLocalizations.of(context)!.copy,
-                    Icons.copy, RoutesAction.INFO)),
+                    Assets.svg.copy, RoutesAction.INFO)),
             Expanded(
                 child: itemActionWidget(
-                    AppLocalizations.of(context)!.addToFavourite,
-                    Icons.heart_broken_outlined,
+                    AppLocalizations.of(context)!.add_favourite,
+                    Assets.svg.like,
                     RoutesAction.INFO)),
             Expanded(
                 child: itemActionWidget(
                     AppLocalizations.of(context)!.addToPlaylist,
-                    Icons.add_business_outlined,
+                    Assets.svg.addToPlayList,
                     RoutesAction.INFO))
           ],
         ),
       );
 
-  Widget itemActionWidget(String title, IconData icon, RoutesAction action) =>
+  Widget itemActionWidget(String title, String icon, RoutesAction action) =>
       InkWell(
-        child: Column(
-          children: [
-            Icon(
-              icon,
-              color: colorText65,
-            ),
-            AppText(
-              title,
-              style: typoSmallTextRegular.copyWith(color: colorText65),
-              maxLine: 1,
-              overflow: TextOverflow.ellipsis,
-            )
-          ],
+        child: Padding(
+          padding: const EdgeInsets.only(left: 1, right: 1),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 20,
+                height: 20,
+                child: SvgPicture.asset(icon),
+              ),
+              const SizedBox(height: 3),
+              AppText(
+                title,
+                style: typoW400.copyWith(
+                    fontSize: 12, color: colorText0.withOpacity(0.6)),
+                maxLine: 1,
+                overflow: TextOverflow.ellipsis,
+              )
+            ],
+          ),
         ),
         onTap: () => _bloc.handleAction(action),
       );
+
+  LinearGradient gradientBackground() => LinearGradient(colors: [
+        HexColor('747474'),
+        HexColor('6B6B6B'),
+        HexColor('494949'),
+        HexColor('494949'),
+        HexColor('494949'),
+        HexColor('494949'),
+      ], begin: Alignment.topCenter, end: Alignment.bottomCenter);
 
   @override
   int get tabIndex => widget.index;
