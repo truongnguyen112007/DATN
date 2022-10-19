@@ -1,4 +1,5 @@
 import 'package:base_bloc/modules/tab_climb/tab_climb_state.dart';
+import 'package:base_bloc/utils/log_utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_blue_elves/flutter_blue_elves.dart';
 import 'package:geolocator/geolocator.dart';
@@ -6,7 +7,7 @@ import 'package:geolocator/geolocator.dart';
 import '../../data/model/list_places_model.dart';
 
 class TabClimbCubit extends Cubit<TabClimbState> {
-  TabClimbCubit() : super(TabClimbState()) {
+  TabClimbCubit() : super(const TabClimbState()) {
     iosGetBlueState(const Duration(seconds: 0));
     androidGetBlueLack(const Duration(seconds: 0));
   }
@@ -32,6 +33,7 @@ class TabClimbCubit extends Cubit<TabClimbState> {
 
 Future<bool> checkTurnOnGps() async =>
     await Geolocator.isLocationServiceEnabled();
+
 
 List<PlacesModel> fakeData() => [
       PlacesModel(

@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:base_bloc/localizations/app_localization_en.dart';
 import 'package:base_bloc/localizations/app_localization_pl.dart';
 import 'package:flutter/foundation.dart';

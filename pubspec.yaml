@@ -42,7 +42,7 @@ dependencies:
   video_player: ^2.4.4
   wakelock: ^0.6.1+2
   flutter_tags: ^1.0.0-nullsafety.1
-  rxdart: ^0.27.5
+#  rxdart: ^0.27.5
   google_maps_flutter: ^2.1.12
   zoom_widget: ^2.0.0
   flutter_speed_dial: ^6.0.0
@@ -55,6 +55,8 @@ dependencies:
       ref: master
   flutter_blue_elves: ^0.1.9
   geolocator: ^9.0.2
+  location: ^4.4.0
+
 
 
 dev_dependencies:
