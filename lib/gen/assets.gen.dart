@@ -12,33 +12,6 @@ import 'package:flutter/widgets.dart';
 class $AssetsPngGen {
   const $AssetsPngGen();
 
-  /// File path: assets/png/climbing1.png
-  AssetGenImage get climbing1 =>
-      const AssetGenImage('assets/png/climbing1.png');
-
-  /// File path: assets/png/climbing2.png
-  AssetGenImage get climbing2 =>
-      const AssetGenImage('assets/png/climbing2.png');
-
-  /// File path: assets/png/climbing3.png
-  AssetGenImage get climbing3 =>
-      const AssetGenImage('assets/png/climbing3.png');
-
-  /// File path: assets/png/climbing4.png
-  AssetGenImage get climbing4 =>
-      const AssetGenImage('assets/png/climbing4.png');
-
-  /// File path: assets/png/climbing5.png
-  AssetGenImage get climbing5 =>
-      const AssetGenImage('assets/png/climbing5.png');
-
-  /// File path: assets/png/climbing6.png
-  AssetGenImage get climbing6 =>
-      const AssetGenImage('assets/png/climbing6.png');
-
-  /// File path: assets/png/doctor.png
-  AssetGenImage get doctor => const AssetGenImage('assets/png/doctor.png');
-
   /// File path: assets/png/ic_account.png
   AssetGenImage get icAccount =>
       const AssetGenImage('assets/png/ic_account.png');
@@ -87,13 +60,6 @@ class $AssetsPngGen {
 
   /// List of all assets
   List<AssetGenImage> get values => [
-        climbing1,
-        climbing2,
-        climbing3,
-        climbing4,
-        climbing5,
-        climbing6,
-        doctor,
         icAccount,
         icArrowBack,
         icFriends,
@@ -164,6 +130,24 @@ class $AssetsSvgGen {
 
   /// File path: assets/svg/heart.svg
   String get heart => 'assets/svg/heart.svg';
+
+  /// File path: assets/svg/holdset1.svg
+  String get holdset1 => 'assets/svg/holdset1.svg';
+
+  /// File path: assets/svg/holdset2.svg
+  String get holdset2 => 'assets/svg/holdset2.svg';
+
+  /// File path: assets/svg/holdset3.svg
+  String get holdset3 => 'assets/svg/holdset3.svg';
+
+  /// File path: assets/svg/holdset4.svg
+  String get holdset4 => 'assets/svg/holdset4.svg';
+
+  /// File path: assets/svg/holdset5.svg
+  String get holdset5 => 'assets/svg/holdset5.svg';
+
+  /// File path: assets/svg/holdset6.svg
+  String get holdset6 => 'assets/svg/holdset6.svg';
 
   /// File path: assets/svg/home.svg
   String get home => 'assets/svg/home.svg';
@@ -265,6 +249,12 @@ class $AssetsSvgGen {
         doctorBackground,
         edit,
         heart,
+        holdset1,
+        holdset2,
+        holdset3,
+        holdset4,
+        holdset5,
+        holdset6,
         home,
         icAccount,
         icNotification,
