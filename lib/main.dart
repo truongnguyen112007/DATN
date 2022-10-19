@@ -59,23 +59,24 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-        builder: (c, w) => MaterialApp(
-              localizationsDelegates: AppLocalizations.localizationsDelegates,
-              supportedLocales: AppLocalizations.supportedLocales,
-              title: 'Fluro',
-              debugShowCheckedModeBanner: false,
-              theme: ThemeData(
-                textTheme: GoogleFonts.mulishTextTheme(),
-                backgroundColor: Colors.white,
-                primaryColor: Colors.white,
-                bottomAppBarColor: Colors.yellow,
-                dividerColor: Colors.transparent,
-                // canvasColor: Colors.transparent,
-                shadowColor: Colors.transparent,
-                appBarTheme: const AppBarTheme(elevation: 0),
-              ),
-              onGenerateRoute: Application.router.generator,
-            ));
+      builder: (c, w) => MaterialApp(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        title: 'ReClimb',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          textTheme: GoogleFonts.mulishTextTheme(),
+          backgroundColor: Colors.white,
+          primaryColor: Colors.white,
+          bottomAppBarColor: Colors.yellow,
+          dividerColor: Colors.transparent,
+          // canvasColor: Colors.transparent,
+          shadowColor: Colors.transparent,
+          appBarTheme: const AppBarTheme(elevation: 0),
+        ),
+        onGenerateRoute: Application.router.generator,
+      ),
+    );
   }
 }
 
