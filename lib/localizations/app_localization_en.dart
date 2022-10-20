@@ -31,7 +31,7 @@ class AppLocalizationEn extends AppLocalizations {
   String get designed => 'Designed';
 
   @override
-  String get favourite => 'Favorite';
+  String get favourite => 'Favourite';
 
   @override
   String get history => 'History';
@@ -446,6 +446,9 @@ class AppLocalizationEn extends AppLocalizations {
 
   @override
   String get find_routes => 'Find routes';
+
+  @override
+  String get add_favourite => 'Add favourite';
 
   @override
   String get notifications => 'Notifications';

@@ -314,6 +314,7 @@ abstract class AppLocalizations {
 
   String get create_routes;
   String get find_routes;
+  String get add_favourite;
 
   /* Notifications */
   String get invitations;

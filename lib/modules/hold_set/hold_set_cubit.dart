@@ -24,26 +24,26 @@ class HoldSetCubit extends Cubit<HoldSetState> {
   void detailOnclick(context) =>
       RouterUtils.openNewPage(HoldSetDetailPage(), context);
   final List<String> fakePickAll = [
-    Assets.png.climbing1.path,
-    Assets.png.climbing2.path,
-    Assets.png.climbing3.path,
-    Assets.png.climbing4.path,
-    Assets.png.climbing5.path,
-    Assets.png.climbing1.path,
-    Assets.png.climbing2.path,
-    Assets.png.climbing3.path,
-    Assets.png.climbing4.path,
-    Assets.png.climbing5.path,
-    Assets.png.climbing4.path,
-    Assets.png.climbing5.path
+    Assets.svg.holdset1,
+    Assets.svg.holdset2,
+    Assets.svg.holdset3,
+    Assets.svg.holdset4,
+    Assets.svg.holdset5,
+    Assets.svg.holdset1,
+    Assets.svg.holdset2,
+    Assets.svg.holdset3,
+    Assets.svg.holdset4,
+    Assets.svg.holdset5,
+    Assets.svg.holdset4,
+    Assets.svg.holdset5
   ];
 
   final List<String> fakePickFavourite = [
-    Assets.png.climbing1.path,
-    Assets.png.climbing2.path,
-    Assets.png.climbing3.path,
-    Assets.png.climbing4.path,
-    Assets.png.climbing5.path,
-    Assets.png.climbing1.path,
+    Assets.svg.holdset1,
+    Assets.svg.holdset2,
+    Assets.svg.holdset3,
+    Assets.svg.holdset4,
+    Assets.svg.holdset5,
+    Assets.svg.holdset1,
   ];
 }
