@@ -421,5 +421,5 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
   bool get isNewPage => true;
 
   @override
-  int get durationShowBottomNavigationBar => 500;
+  int get timeDelayToShowBottomNavigation => 400;
 }
