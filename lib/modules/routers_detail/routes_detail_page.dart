@@ -118,11 +118,10 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
                                               Container(
-                                                width:
-                                                    column * sizeHoldSet + 16.w,
-                                                height: 2,
-                                                color: HexColor('A3A3A3'),
-                                              ),
+                                                  width: column * sizeHoldSet +
+                                                      16.w,
+                                                  height: 2,
+                                                  color: HexColor('A3A3A3')),
                                               Container(
                                                   width: column * sizeHoldSet +
                                                       16.w,
@@ -420,4 +419,7 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
 
   @override
   bool get isNewPage => true;
+
+  @override
+  int get durationShowBottomNavigationBar => 500;
 }

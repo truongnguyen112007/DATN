@@ -36,6 +36,9 @@ abstract class BasePopState<T extends StatefulWidget> extends BaseState<T> {
   bool get isWeb => false;
 
   bool get isNewPage => false;
+
+  int get timeDelayToShowBottomNavigation => 0;
+
   final BasePopBloc _basePopBloc = BasePopBloc();
 
   // Handle visibility of this page
@@ -69,7 +72,12 @@ abstract class BasePopState<T extends StatefulWidget> extends BaseState<T> {
         child: buildWidget(context),
         listener: (context, state) {
           if (state is BackBasePopState) {
-            if(isNewPage) Utils.fireEvent(HideBottomBarEvent(false));
+            if (isNewPage && timeDelayToShowBottomNavigation != 0) {
+              Timer(Duration(milliseconds: timeDelayToShowBottomNavigation),
+                  () => Utils.fireEvent(HideBottomBarEvent(false)));
+            } else if (isNewPage) {
+              Utils.fireEvent(HideBottomBarEvent(false));
+            }
             Navigator.pop(context);
           }
         },
