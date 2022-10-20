@@ -5,6 +5,7 @@ import 'package:flutter_blue_elves/flutter_blue_elves.dart';
   final bool isBluetooth;
   final bool isGps;
 
+
  const TabClimbState({this.isBluetooth = false, this.isGps = false});
 
   TabClimbState copyOf({bool? isBluetooth, bool? isGps}) =>

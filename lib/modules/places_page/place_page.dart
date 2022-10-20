@@ -13,8 +13,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../components/app_text.dart';
+import '../../components/message_search.dart';
 import '../../data/eventbus/hide_map_event.dart';
 import '../../data/eventbus/search_home_event.dart';
+import '../../theme/app_styles.dart';
+import '../../theme/colors.dart';
 import '../../utils/app_utils.dart';
 
 class PlacesPage extends StatefulWidget {
@@ -77,157 +80,161 @@ class _PlacesPageState extends State<PlacesPage> {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
-    return BlocBuilder<PlacesPageCubit, PlacesPageState>(
-        bloc: _bloc,
-        builder: (c, state) {
-          if (state.status == FeedStatus.success) {
-            _kGooglePlex = CameraPosition(
-                target: LatLng(state.lPlayList[0].lat, state.lPlayList[0].lng),
-                zoom: 15);
-            for (int i = 0; i < state.lPlayList.length; i++) {
-              markers.add(Marker(
-                  markerId: MarkerId(i.toString()),
-                  position:
-                      LatLng(state.lPlayList[i].lat, state.lPlayList[i].lng)));
-            }
-          }
-          return Container(
-            color: const Color(0xFF282D2F),
-            child: Column(
-              children: [
-                FilterWidget(
-                    sortCallBack: () {},
-                    filterCallBack: () {
-                      showModalBottomSheet<void>(
-                        context: context,
-                        backgroundColor: Colors.transparent,
-                        builder: (BuildContext context) {
-                          return filterDiaLog();
-                        },
-                      );
-                    },
-                    selectCallBack: () {},
-                    isSelect: false),
-                Expanded(
-                  child: Stack(
-                    children: [
-                      BlocBuilder<PlacesPageCubit, PlacesPageState>(
-                        bloc: _bloc,
-                        builder: (BuildContext context, state) {
-                          if (state.status == FeedStatus.initial ||
-                              state.status == FeedStatus.refresh)
-                            return SizedBox();
-                          return Visibility(
-                            visible: isShowMap,
-                            child: GoogleMap(
-                              markers: markers,
-                              zoomControlsEnabled: true,
-                              zoomGesturesEnabled: true,
-                              scrollGesturesEnabled: true,
-                              initialCameraPosition: _kGooglePlex,
-                              onMapCreated: (GoogleMapController controller) {
-                                try {
-                                  _controller.complete(controller);
-                                } catch (ex) {}
-                              },
-                            ),
-                          );
-                        },
-                      ),
-                      BlocBuilder<PlacesPageCubit, PlacesPageState>(
-                        bloc: _bloc,
-                        builder: (BuildContext context, state) => Visibility(
-                          visible: !isShowMap,
-                          child: Container(
-                            height: size.height,
-                            color: const Color(0xFF3B4244),
-                            child: ListView.separated(
-                              shrinkWrap: true,
-                              padding: const EdgeInsets.only(top: 10),
-                              itemBuilder: (BuildContext context, int index) {
-                                return itemPlaces(
-                                    context, state.lPlayList[index]);
-                              },
-                              separatorBuilder:
-                                  (BuildContext context, int index) => SizedBox(
-                                height: 10.h,
-                              ),
-                              itemCount: state.lPlayList.length,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.only(bottom: 20.h),
-                        alignment: Alignment.bottomCenter,
-                        child: OutlinedButton(
-                          onPressed: () {
-                            isShowMap = !isShowMap;
-                            widget.onCallBackShowMap(isShowMap);
-                            setState(() {});
-                          },
-                          style: ButtonStyle(
-                            overlayColor:
-                                MaterialStateProperty.all(Colors.transparent),
-                            splashFactory: NoSplash.splashFactory,
-                            side: MaterialStateProperty.all(
-                              const BorderSide(
-                                  color: Colors.deepOrange, width: 1),
-                            ),
-                            fixedSize: MaterialStateProperty.all(
-                              Size(100.w, 35.h),
-                            ),
-                            backgroundColor:
-                                MaterialStateProperty.all(Colors.white),
-                            shape: MaterialStateProperty.all(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(40),
-                              ),
-                            ),
-                          ),
-                          child: isShowMap
-                              ? Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.menu,
-                                      color: Colors.deepOrange,
-                                    ),
-                                    SizedBox(
-                                      width: 10.w,
-                                    ),
-                                    AppText(
-                                      AppLocalizations.of(context)!.list,
-                                      style:
-                                          TextStyle(color: Colors.deepOrange),
-                                    )
-                                  ],
-                                )
-                              : Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.location_on,
-                                      color: Colors.deepOrange,
-                                    ),
-                                    SizedBox(
-                                      width: 5.w,
-                                    ),
-                                    AppText(
-                                      AppLocalizations.of(context)!.map,
-                                      style:
-                                          TextStyle(color: Colors.deepOrange),
-                                    )
-                                  ],
-                                ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          );
-        });
+    // final Size size = MediaQuery.of(context).size;
+    return Container(
+        color: colorGreyBackground,
+        child:
+       const MessageSearch());
+    // BlocBuilder<PlacesPageCubit, PlacesPageState>(
+    //   bloc: _bloc,
+    //   builder: (c, state) {
+    //     if (state.status == FeedStatus.success) {
+    //       _kGooglePlex = CameraPosition(
+    //           target: LatLng(state.lPlayList[0].lat, state.lPlayList[0].lng),
+    //           zoom: 15);
+    //       for (int i = 0; i < state.lPlayList.length; i++) {
+    //         markers.add(Marker(
+    //             markerId: MarkerId(i.toString()),
+    //             position:
+    //                 LatLng(state.lPlayList[i].lat, state.lPlayList[i].lng)));
+    //       }
+    //     }
+    //     return Container(
+    //       color: const Color(0xFF282D2F),
+    //       child: Column(
+    //         children: [
+    //           FilterWidget(
+    //               sortCallBack: () {},
+    //               filterCallBack: () {
+    //                 showModalBottomSheet<void>(
+    //                   context: context,
+    //                   backgroundColor: Colors.transparent,
+    //                   builder: (BuildContext context) {
+    //                     return filterDiaLog();
+    //                   },
+    //                 );
+    //               },
+    //               selectCallBack: () {},
+    //               isSelect: false),
+    //           Expanded(
+    //             child: Stack(
+    //               children: [
+    //                 BlocBuilder<PlacesPageCubit, PlacesPageState>(
+    //                   bloc: _bloc,
+    //                   builder: (BuildContext context, state) {
+    //                     if (state.status == FeedStatus.initial ||
+    //                         state.status == FeedStatus.refresh)
+    //                       return SizedBox();
+    //                     return Visibility(
+    //                       visible: isShowMap,
+    //                       child: GoogleMap(
+    //                         markers: markers,
+    //                         zoomControlsEnabled: true,
+    //                         zoomGesturesEnabled: true,
+    //                         scrollGesturesEnabled: true,
+    //                         initialCameraPosition: _kGooglePlex,
+    //                         onMapCreated: (GoogleMapController controller) {
+    //                           try {
+    //                             _controller.complete(controller);
+    //                           } catch (ex) {}
+    //                         },
+    //                       ),
+    //                     );
+    //                   },
+    //                 ),
+    //                 BlocBuilder<PlacesPageCubit, PlacesPageState>(
+    //                   bloc: _bloc,
+    //                   builder: (BuildContext context, state) => Visibility(
+    //                     visible: !isShowMap,
+    //                     child: Container(
+    //                       height: size.height,
+    //                       color: const Color(0xFF3B4244),
+    //                       child: ListView.separated(
+    //                         shrinkWrap: true,
+    //                         padding: const EdgeInsets.only(top: 10),
+    //                         itemBuilder: (BuildContext context, int index) {
+    //                           return itemPlaces(
+    //                               context, state.lPlayList[index]);
+    //                         },
+    //                         separatorBuilder:
+    //                             (BuildContext context, int index) => SizedBox(
+    //                           height: 10.h,
+    //                         ),
+    //                         itemCount: state.lPlayList.length,
+    //                       ),
+    //                     ),
+    //                   ),
+    //                 ),
+    //                 Container(
+    //                   padding: EdgeInsets.only(bottom: 20.h),
+    //                   alignment: Alignment.bottomCenter,
+    //                   child: OutlinedButton(
+    //                     onPressed: () {
+    //                       isShowMap = !isShowMap;
+    //                       widget.onCallBackShowMap(isShowMap);
+    //                       setState(() {});
+    //                     },
+    //                     style: ButtonStyle(
+    //                       overlayColor:
+    //                           MaterialStateProperty.all(Colors.transparent),
+    //                       splashFactory: NoSplash.splashFactory,
+    //                       side: MaterialStateProperty.all(
+    //                         const BorderSide(
+    //                             color: Colors.deepOrange, width: 1),
+    //                       ),
+    //                       fixedSize: MaterialStateProperty.all(
+    //                         Size(100.w, 35.h),
+    //                       ),
+    //                       backgroundColor:
+    //                           MaterialStateProperty.all(Colors.white),
+    //                       shape: MaterialStateProperty.all(
+    //                         RoundedRectangleBorder(
+    //                           borderRadius: BorderRadius.circular(40),
+    //                         ),
+    //                       ),
+    //                     ),
+    //                     child: isShowMap
+    //                         ? Row(
+    //                             children: [
+    //                               const Icon(
+    //                                 Icons.menu,
+    //                                 color: Colors.deepOrange,
+    //                               ),
+    //                               SizedBox(
+    //                                 width: 10.w,
+    //                               ),
+    //                               AppText(
+    //                                 AppLocalizations.of(context)!.list,
+    //                                 style:
+    //                                     TextStyle(color: Colors.deepOrange),
+    //                               )
+    //                             ],
+    //                           )
+    //                         : Row(
+    //                             children: [
+    //                               const Icon(
+    //                                 Icons.location_on,
+    //                                 color: Colors.deepOrange,
+    //                               ),
+    //                               SizedBox(
+    //                                 width: 5.w,
+    //                               ),
+    //                               AppText(
+    //                                 AppLocalizations.of(context)!.map,
+    //                                 style:
+    //                                     TextStyle(color: Colors.deepOrange),
+    //                               )
+    //                             ],
+    //                           ),
+    //                   ),
+    //                 )
+    //               ],
+    //             ),
+    //           ),
+    //         ],
+    //       ),
+    //     );
+    //   });
   }
 
   Widget filterDiaLog() {

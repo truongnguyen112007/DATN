@@ -54,95 +54,93 @@ class _FilterRoutesPageState extends BasePopState<FilterRoutesPage> {
   @override
   Widget buildWidget(BuildContext context) {
     return AppScaffold(
-        resizeToAvoidBottomInset: false,
-        isTabToHideKeyBoard: false,
-        padding: EdgeInsets.only(left: contentPadding, right: contentPadding),
-        appbar: appbar(context),
-        backgroundColor: backgroundColor,
-        body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              itemSpace(),
-              Stack(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(top: 9.h),
-                    child: TextField(
-                      style: typoSmallTextRegular.copyWith(
-                        color: colorText0,
-                      ),
-                      cursorColor: Colors.white60,
-                      decoration: decorTextField.copyWith(
-                          fillColor: Colors.transparent,
-                          contentPadding: const EdgeInsets.symmetric(
-                              vertical: 17.0, horizontal: 16)),
+      resizeToAvoidBottomInset: false,
+      isTabToHideKeyBoard: false,
+      padding: EdgeInsets.only(left: contentPadding, right: contentPadding),
+      appbar: appbar(context),
+      backgroundColor: backgroundColor,
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            itemSpace(),
+            Stack(
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(top: 9.h),
+                  child: TextField(
+                    style: typoSmallTextRegular.copyWith(
+                      color: colorText0,
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10),
-                    child: AppText(
-                      "  ${AppLocalizations.of(context)!.author} ",
-                      style: typoW400.copyWith(
-                          color: colorText0.withOpacity(0.6),
-                          fontSize: 12,
-                          backgroundColor: colorGreyBackground),
-                    ),
-                  )
-                ],
-              ),
-              itemSpace(),
-              itemTitle(AppLocalizations.of(context)!.status),
-              itemSpace(height: 9),
-              statusWidget(),
-              itemSpace(),
-              itemTitle(AppLocalizations.of(context)!.corners),
-              itemSpace(height: 9),
-              filterWidget(corners, selectedCorner,
-                  (index) => setState(() => selectedCorner = index)),
-              itemSpace(),
-              itemTitle(AppLocalizations.of(context)!.authorsGrade),
-              rangeWidget(lowerAuthorGradeValue, upperAuthorGradeValue,
-                  (values) {
-                lowerAuthorGradeValue = values[0];
-                upperAuthorGradeValue = values[1];
-                setState(() {});
-              }),
-              itemTitle(AppLocalizations.of(context)!.userGrade),
-              rangeWidget(lowerUserGradeValue, upperUserGradeValue, (values) {
-                lowerUserGradeValue = values[0];
-                upperUserGradeValue = values[1];
-                setState(() {});
-              }),
-              itemTitle(AppLocalizations.of(context)!.designedBy),
-              itemSpace(height: 9),
-              filterWidget(designs, selectedDesign,
-                  (index) => setState(() => selectedDesign = index)),
-              const SizedBox(height: 50),
-              line(),
-              InkWell(
-                child: Container(
-                  height: 40.h,
-                  alignment: Alignment.center,
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                      gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [HexColor('FF9300'), HexColor('FF5A00')])),
-                  child: AppText(
-                    '${AppLocalizations.of(context)!.showResult}:  25',
-                    style:
-                        typoW600.copyWith(color: colorText0, fontSize: 13.sp),
+                    cursorColor: Colors.white60,
+                    decoration: decorTextField.copyWith(
+                        fillColor: Colors.transparent,
+                        contentPadding: const EdgeInsets.symmetric(
+                            vertical: 17.0, horizontal: 16)),
                   ),
                 ),
-                onTap: () => RouterUtils.pop(context),
+                Padding(
+                  padding: EdgeInsets.only(left: contentPadding),
+                  child: AppText(
+                    " ${LocaleKeys.author}  ",
+                    style: typoW400.copyWith(
+                        color: colorText0.withOpacity(0.6),
+                        fontSize: 12,
+                        backgroundColor: backgroundColor),
+                  ),
+                )
+              ],
+            ),
+            itemSpace(),
+            itemTitle(LocaleKeys.status),
+            itemSpace(height: 9),
+            statusWidget(),
+            itemSpace(),
+            itemTitle(LocaleKeys.corners),
+            itemSpace(height: 9),
+            filterWidget(corners, selectedCorner,
+                (index) => setState(() => selectedCorner = index)),
+            itemSpace(),
+            itemTitle(LocaleKeys.authorsGrade),
+            rangeWidget(lowerAuthorGradeValue, upperAuthorGradeValue, (values) {
+              lowerAuthorGradeValue = values[0];
+              upperAuthorGradeValue = values[1];
+              setState(() {});
+            }),
+            itemTitle(LocaleKeys.userGrade),
+            rangeWidget(lowerUserGradeValue, upperUserGradeValue, (values) {
+              lowerUserGradeValue = values[0];
+              upperUserGradeValue = values[1];
+              setState(() {});
+            }),
+            itemTitle(LocaleKeys.designedBy),
+            itemSpace(height: 9),
+            filterWidget(designs, selectedDesign,
+                (index) => setState(() => selectedDesign = index)),
+            const SizedBox(height: 50),
+            line(),
+            InkWell(
+              highlightColor: Colors.transparent,
+              splashColor: Colors.transparent,
+              child: Container(
+                height: 40.h,
+                alignment: Alignment.center,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    gradient: Utils.backgroundGradientOrangeButton()),
+                child: AppText(
+                  '${LocaleKeys.showResult}:  25',
+                  style: typoW600.copyWith(color: colorText0, fontSize: 13.sp),
+                ),
               ),
-              itemSpace()
-            ],
-          ),
-        ));
+              onTap: () => RouterUtils.pop(context),
+            ),
+            itemSpace()
+          ],
+        ),
+      ),
+    );
   }
 
   Widget rangeWidget(double lowerValue, double upperValue,
@@ -206,9 +204,12 @@ class _FilterRoutesPageState extends BasePopState<FilterRoutesPage> {
             height: MediaQuery.of(context).size.height,
             alignment: Alignment.center,
             child: InkWell(
-              onTap: () {},
+              borderRadius: BorderRadius.circular(10),
+              onTap: () {
+                RouterUtils.pop(context);
+              },
               child: AppText(
-                AppLocalizations.of(context)!.removeFilter,
+                LocaleKeys.removeFilter,
                 style: typoW600.copyWith(
                     color: HexColor('FF5A00'), fontSize: 13.sp),
               ),
@@ -255,14 +256,15 @@ class _FilterRoutesPageState extends BasePopState<FilterRoutesPage> {
           required VoidCallback itemOnclick,
           AlignmentGeometry? alignment}) =>
       InkWell(
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
         child: Container(
           alignment: alignment,
           margin: const EdgeInsets.only(right: 8),
           decoration: selectIndex == index
               ? BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  gradient: Utils.backgroundGradientOrangeButton(
-                      begin: Alignment.centerLeft, end: Alignment.centerRight),
+                  gradient: Utils.backgroundGradientOrangeButton(),
                 )
               : BoxDecoration(
                   borderRadius: BorderRadius.circular(20), color: colorBlack10),
@@ -304,12 +306,7 @@ class _FilterRoutesPageState extends BasePopState<FilterRoutesPage> {
           decoration: selectIndex == index
               ? BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  gradient: const LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [Colors.orange, Colors.red],
-                  ),
-                )
+                  gradient: Utils.backgroundGradientOrangeButton())
               : BoxDecoration(
                   borderRadius: BorderRadius.circular(20), color: colorBlack10),
           child: Text(

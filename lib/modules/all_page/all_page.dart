@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../components/app_text.dart';
+import '../../components/message_search.dart';
 import '../../data/model/routes_model.dart';
 import '../../utils/app_utils.dart';
 
@@ -36,87 +37,88 @@ class _AllPageState extends State<AllPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: const Color(0xFF282D2F),
-      child: Column(
-        children: [
-          Padding(
-            padding: EdgeInsets.only(top: 15.h, left: 15.w),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                 AppText(
-                  LocaleKeys.theNearest,
-                  style: typoLargeTextBold.copyWith(color: colorGrey60,fontSize: 12.sp)
-                ),
-                SizedBox(
-                  height: 10.h,
-                ),
-                SizedBox(
-                  height: 100.h,
-                  child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (BuildContext context, int index) {
-                        return index == nearestPlace.length
-                            ? box('More', Colors.black, icon: Icons.search)
-                            : box(nearestPlace[index], Colors.blue);
-                      },
-                      separatorBuilder: (BuildContext context, int index) =>
-                          SizedBox(
-                            width: 30.w,
-                          ),
-                      itemCount: nearestPlace.length + 1),
-                ),
-                const AppText(
-                  'TOP ROUTES BY GRADE',
-                  style: TextStyle(
-                      color: Colors.white70, fontWeight: FontWeight.w500),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: 15.h, bottom: 15.h),
-                  child: SizedBox(
-                    height: 60.h,
-                    child: ListView.separated(
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (BuildContext context, int index) {
-                          return itemTopRoute(
-                            _bloc.fakeData()[index],
-                          );
-                        },
-                        separatorBuilder: (BuildContext context, int index) =>
-                            SizedBox(
-                              width: 10.h,
-                            ),
-                        itemCount: _bloc.fakeData().length),
-                  ),
-                ),
-                const AppText(
-                  'TOP ROUTE SETTERS',
-                  style: TextStyle(
-                      color: Colors.white70, fontWeight: FontWeight.w500),
-                ),
-                SizedBox(
-                  height: 10.h,
-                ),
-                SizedBox(
-                  height: 100.h,
-                  child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (BuildContext context, int index) {
-                        return index == routeSetter.length
-                            ? box('More', Colors.black, icon: Icons.search)
-                            : box(routeSetter[index], Colors.yellow);
-                      },
-                      separatorBuilder: (BuildContext context, int index) =>
-                          SizedBox(
-                            width: 30.w,
-                          ),
-                      itemCount: routeSetter.length + 1),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+      color: colorGreyBackground,
+      child: const MessageSearch()
+      // Column(
+      //   children: [
+      //     Padding(
+      //       padding: EdgeInsets.only(top: 15.h, left: 15.w),
+      //       child: Column(
+      //         crossAxisAlignment: CrossAxisAlignment.start,
+      //         children: [
+      //            AppText(
+      //             LocaleKeys.theNearest,
+      //             style: typoLargeTextBold.copyWith(color: colorGrey60,fontSize: 12.sp)
+      //           ),
+      //           SizedBox(
+      //             height: 10.h,
+      //           ),
+      //           SizedBox(
+      //             height: 100.h,
+      //             child: ListView.separated(
+      //                 scrollDirection: Axis.horizontal,
+      //                 itemBuilder: (BuildContext context, int index) {
+      //                   return index == nearestPlace.length
+      //                       ? box('More', Colors.black, icon: Icons.search)
+      //                       : box(nearestPlace[index], Colors.blue);
+      //                 },
+      //                 separatorBuilder: (BuildContext context, int index) =>
+      //                     SizedBox(
+      //                       width: 30.w,
+      //                     ),
+      //                 itemCount: nearestPlace.length + 1),
+      //           ),
+      //           const AppText(
+      //             'TOP ROUTES BY GRADE',
+      //             style: TextStyle(
+      //                 color: Colors.white70, fontWeight: FontWeight.w500),
+      //           ),
+      //           Padding(
+      //             padding: EdgeInsets.only(top: 15.h, bottom: 15.h),
+      //             child: SizedBox(
+      //               height: 60.h,
+      //               child: ListView.separated(
+      //                   scrollDirection: Axis.horizontal,
+      //                   itemBuilder: (BuildContext context, int index) {
+      //                     return itemTopRoute(
+      //                       _bloc.fakeData()[index],
+      //                     );
+      //                   },
+      //                   separatorBuilder: (BuildContext context, int index) =>
+      //                       SizedBox(
+      //                         width: 10.h,
+      //                       ),
+      //                   itemCount: _bloc.fakeData().length),
+      //             ),
+      //           ),
+      //           const AppText(
+      //             'TOP ROUTE SETTERS',
+      //             style: TextStyle(
+      //                 color: Colors.white70, fontWeight: FontWeight.w500),
+      //           ),
+      //           SizedBox(
+      //             height: 10.h,
+      //           ),
+      //           SizedBox(
+      //             height: 100.h,
+      //             child: ListView.separated(
+      //                 scrollDirection: Axis.horizontal,
+      //                 itemBuilder: (BuildContext context, int index) {
+      //                   return index == routeSetter.length
+      //                       ? box('More', Colors.black, icon: Icons.search)
+      //                       : box(routeSetter[index], Colors.yellow);
+      //                 },
+      //                 separatorBuilder: (BuildContext context, int index) =>
+      //                     SizedBox(
+      //                       width: 30.w,
+      //                     ),
+      //                 itemCount: routeSetter.length + 1),
+      //           ),
+      //         ],
+      //       ),
+      //     ),
+      //   ],
+      // ),
     );
   }
 

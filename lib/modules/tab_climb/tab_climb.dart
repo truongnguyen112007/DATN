@@ -5,18 +5,22 @@ import 'package:base_bloc/components/app_scalford.dart';
 import 'package:base_bloc/modules/tab_climb/tab_climb_cubit.dart';
 import 'package:base_bloc/modules/tab_climb/tab_climb_state.dart';
 import 'package:base_bloc/theme/app_styles.dart';
+import 'package:base_bloc/utils/app_utils.dart';
 import 'package:base_bloc/utils/log_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_blue_elves/flutter_blue_elves.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:geolocator/geolocator.dart';
 import '../../components/app_text.dart';
+import '../../components/gradient_button.dart';
 import '../../data/model/list_places_model.dart';
 import '../../gen/assets.gen.dart';
 import '../../localizations/app_localazations.dart';
 import '../../theme/colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:location/location.dart';
 
 class TabClimb extends StatefulWidget {
   const TabClimb({Key? key}) : super(key: key);
@@ -161,84 +165,8 @@ class _TabClimbState extends State<TabClimb> with TickerProviderStateMixin {
 
   Widget trueBluetooth() {
     return SingleChildScrollView(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SizedBox(
-            height: 20.h,
-          ),
-          SvgPicture.asset(
-            Assets.svg.notlocation,
-            height: 33.sp,
-            color: colorWhite,
-          ),
-          SizedBox(
-            height: 20.h,
-          ),
-          AppText(
-            LocaleKeys.getCloser,
-            style: typoLargeTextBold.copyWith(
-                fontSize: 28.sp,
-                color: colorWhite,
-                fontWeight: FontWeight.w700),
-          ),
-          SizedBox(
-            height: 5.h,
-          ),
-          AppText(
-            LocaleKeys.connectToTheReClimb,
-            style: typoSuperSmallTextRegular.copyWith(
-                color: colorWhite, fontSize: 13.sp),
-            textAlign: TextAlign.center,
-          ),
-          Padding(
-            padding: EdgeInsets.only(top: 30.h, left: 5.w),
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              child: AppText(
-                LocaleKeys.theNearest,
-                style: typoLargeTextBold.copyWith(
-                    color: colorGrey60, fontSize: 8.sp),
-              ),
-            ),
-          ),
-          ListView.separated(
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            padding: const EdgeInsets.only(top: 10),
-            itemBuilder: (BuildContext context, int index) {
-              return itemNearestPlace(fakeData()[index]);
-            },
-            separatorBuilder: (BuildContext context, int index) => SizedBox(
-              height: 10.h,
-            ),
-            itemCount: fakeData().length,
-          ),
-          Padding(
-            padding: EdgeInsets.all(9),
-            child: MaterialButton(
-              height: 33.h,
-              color: colorBlack,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(18)),
-              onPressed: () {},
-              child: Center(
-                child: AppText(
-                  LocaleKeys.seeAll,
-                  style: typoLargeTextRegular.copyWith(
-                      color: colorRed70, fontSize: 15),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget notLocation() {
-    return SingleChildScrollView(
-      child: Center(
+      child: Container(
+        width: MediaQuery.of(context).size.width,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -247,7 +175,7 @@ class _TabClimbState extends State<TabClimb> with TickerProviderStateMixin {
             ),
             SvgPicture.asset(
               Assets.svg.notlocation,
-              height: 33.h,
+              height: 33.sp,
               color: colorWhite,
             ),
             SizedBox(
@@ -255,81 +183,133 @@ class _TabClimbState extends State<TabClimb> with TickerProviderStateMixin {
             ),
             AppText(
               LocaleKeys.getCloser,
-              style: typoLargeTextBold.copyWith(
-                  fontSize: 29.sp, color: colorWhite),
+              style: googleFont.copyWith(
+                  fontSize: 28.sp,
+                  color: colorWhite,
+                  fontWeight: FontWeight.w700),
             ),
             SizedBox(
               height: 5.h,
             ),
             AppText(
               LocaleKeys.connectToTheReClimb,
-              style: typoSuperSmallTextRegular.copyWith(
-                  color: colorWhite, fontSize: 12.sp),
+              style: googleFont.copyWith(color: colorText50, fontSize: 13.sp),
               textAlign: TextAlign.center,
             ),
-            Padding(
-              padding: EdgeInsets.only(bottom: 10.h, top: 50.h),
-              child: SvgPicture.asset(
-                Assets.svg.notlocation,
-                height: 33.h,
-                color: colorWhite,
-              ),
-            ),
-            AppText(LocaleKeys.turnOnLocation,
-                style: typoLargeTextBold.copyWith(
-                    color: colorWhite, fontSize: 29.sp)),
-            SizedBox(
-              height: 5.h,
-            ),
-            AppText(
-              LocaleKeys.cantFind,
-              style: typoSuperSmallTextRegular.copyWith(
-                  color: colorWhite, fontSize: 12.sp),
-              textAlign: TextAlign.center,
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: 13.h),
-              child: MaterialButton(
-                onPressed: () {},
-                color: Colors.deepOrange,
-                height: 33.h,
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(30),
-                  ),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    SvgPicture.asset(
-                      Assets.svg.shape,
-                      height: 16.h,
-                      color: colorWhite,
+            BlocBuilder<TabClimbCubit, TabClimbState>(
+              bloc: _bloc,
+              builder: (c, s) => s.isGps
+                  ? Column(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(top: 30.h, left: 5.w),
+                          child: Container(
+                            width: MediaQuery.of(context).size.width,
+                            child: AppText(
+                              LocaleKeys.theNearest,
+                              style: googleFont.copyWith(
+                                  color: colorGrey60, fontSize: 8.sp),
+                            ),
+                          ),
+                        ),
+                        ListView.separated(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          padding: const EdgeInsets.only(top: 10),
+                          itemBuilder: (BuildContext context, int index) {
+                            return itemNearestPlace(fakeData()[index]);
+                          },
+                          separatorBuilder: (BuildContext context, int index) =>
+                              SizedBox(
+                            height: 10.h,
+                          ),
+                          itemCount: fakeData().length,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(9),
+                          child: MaterialButton(
+                            height: 33.h,
+                            color: colorBlack,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(18)),
+                            onPressed: () {},
+                            child: Center(
+                              child: AppText(
+                                LocaleKeys.seeAll,
+                                style: googleFont.copyWith(
+                                    color: colorRed70, fontSize: 15),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
+                  : Padding(
+                      padding: EdgeInsets.only(top: 30.h),
+                      child: Column(
+                        children: [
+                          SvgPicture.asset(
+                            Assets.svg.notlocation,
+                            height: 33.sp,
+                            color: colorWhite,
+                          ),
+                          SizedBox(
+                            height: 20.h,
+                          ),
+                          AppText(
+                            LocaleKeys.turnOnLocation,
+                            style: googleFont.copyWith(
+                                color: colorWhite,
+                                fontSize: 28.sp,
+                                fontWeight: FontWeight.w700),
+                          ),
+                          SizedBox(
+                            height: 5.h,
+                          ),
+                          AppText(
+                            LocaleKeys.cantFind,
+                            textAlign: TextAlign.center,
+                            style: googleFont.copyWith(color: colorText50),
+                          ),
+                          SizedBox(
+                            height: 20.h,
+                          ),
+                          GradientButton(
+                            height: 35.h,
+                            width: 160.w,
+                            widget: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Icon(
+                                  Icons.add_location_alt,
+                                  color: colorText20,
+                                ),
+                                SizedBox(
+                                  width: 10.w,
+                                ),
+                                AppText(
+                                  LocaleKeys.turnOnLocation,
+                                  style:
+                                      googleFont.copyWith(color: colorText20),
+                                ),
+                              ],
+                            ),
+                            decoration: BoxDecoration(
+                                gradient:
+                                    Utils.backgroundGradientOrangeButton(),
+                                borderRadius: BorderRadius.circular(20)),
+                            onTap: () {
+                              Location().requestService();
+                            },
+                            borderRadius: BorderRadius.circular(20),
+                          )
+                        ],
+                      ),
                     ),
-                    SizedBox(
-                      width: 5.w,
-                    ),
-                    AppText(
-                      AppLocalizations.of(context)!.turnOnLocation,
-                      style:
-                          typoExtraSmallTextRegular.copyWith(color: colorWhite),
-                    ),
-                    SizedBox(
-                      width: 5.w,
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            )
           ],
         ),
       ),
-    );
-  }
-
-  Widget page4() {
-    return Container(
-      color: colorGrey90,
     );
   }
 

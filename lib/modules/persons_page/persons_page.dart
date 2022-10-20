@@ -8,6 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../components/app_circle_loading.dart';
 import '../../components/app_text.dart';
 import '../../components/filter_widget.dart';
+import '../../components/message_search.dart';
 import '../../data/eventbus/search_home_event.dart';
 import '../../data/globals.dart';
 import '../../data/model/person_model.dart';
@@ -69,82 +70,83 @@ class _PersonsPageState extends State<PersonsPage>
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: colorGrey50,
-      child: Column(
-        children: [
-          FilterWidget(
-              sortCallBack: () {},
-              filterCallBack: () {
-                showActionDialog();
-              },
-              selectCallBack: () {}),
-          Expanded(
-            child: Container(
-              color: colorGreyBackground,
-              child: RefreshIndicator(
-                onRefresh: () async => _bloc.refresh(),
-                child: Stack(
-                  children: [
-                    BlocBuilder<PersonsPageCubit, PersonsPageState>(
-                        bloc: _bloc,
-                        builder: (BuildContext context, state) {
-                          Widget? widget;
-                          if (state.status == StatusType.initial ||
-                              state.status == StatusType.refresh) {
-                            widget = const SizedBox();
-                          } else if (state.status == StatusType.success) {
-                            widget = SingleChildScrollView(
-                              child: Padding(
-                                padding: EdgeInsets.only(left: 8.w, right: 8.w),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    heading(
-                                      LocaleKeys.friend,
-                                    ),
-                                    lPersonsWidget(state.lFriend),
-                                    SizedBox(
-                                      height: 10.h,
-                                    ),
-                                    buttonSeeAll(),
-                                    heading(LocaleKeys.topRouteSetter),
-                                    lPersonsWidget(state.lTopRouteSetter),
-                                    SizedBox(
-                                      height: 10.h,
-                                    ),
-                                    buttonSeeAll(),
-                                    SizedBox(
-                                      height: 20.h,
-                                    )
-                                  ],
-                                ),
-                              ),
-                            );
-                          } else if (state.status == StatusType.search) {
-                            widget = Padding(
-                                padding: EdgeInsets.only(top: 10.h),
-                                child: lPersonsWidget(state.lTopRouteSetter));
-                          }
-                          return widget!;
-                        }),
-                    BlocBuilder<PersonsPageCubit, PersonsPageState>(
-                      bloc: _bloc,
-                      builder: (BuildContext context, state) =>
-                          (state.status == StatusType.initial ||
-                                  state.status == StatusType.refresh)
-                              ? const Center(
-                                  child: AppCircleLoading(),
-                                )
-                              : const SizedBox(),
-                    )
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
+      color: colorGreyBackground,
+      child:
+     const MessageSearch());
+      // Column(
+      //   children: [
+      //     FilterWidget(
+      //         sortCallBack: () {},
+      //         filterCallBack: () {
+      //           showActionDialog();
+      //         },
+      //         selectCallBack: () {}),
+      //     Expanded(
+      //       child: Container(
+      //         color: colorGreyBackground,
+      //         child: RefreshIndicator(
+      //           onRefresh: () async => _bloc.refresh(),
+      //           child: Stack(
+      //             children: [
+      //               BlocBuilder<PersonsPageCubit, PersonsPageState>(
+      //                   bloc: _bloc,
+      //                   builder: (BuildContext context, state) {
+      //                     Widget? widget;
+      //                     if (state.status == StatusType.initial ||
+      //                         state.status == StatusType.refresh) {
+      //                       widget = const SizedBox();
+      //                     } else if (state.status == StatusType.success) {
+      //                       widget = SingleChildScrollView(
+      //                         child: Padding(
+      //                           padding: EdgeInsets.only(left: 8.w, right: 8.w),
+      //                           child: Column(
+      //                             crossAxisAlignment: CrossAxisAlignment.start,
+      //                             children: [
+      //                               heading(
+      //                                 LocaleKeys.friend,
+      //                               ),
+      //                               lPersonsWidget(state.lFriend),
+      //                               SizedBox(
+      //                                 height: 10.h,
+      //                               ),
+      //                               buttonSeeAll(),
+      //                               heading(LocaleKeys.topRouteSetter),
+      //                               lPersonsWidget(state.lTopRouteSetter),
+      //                               SizedBox(
+      //                                 height: 10.h,
+      //                               ),
+      //                               buttonSeeAll(),
+      //                               SizedBox(
+      //                                 height: 20.h,
+      //                               )
+      //                             ],
+      //                           ),
+      //                         ),
+      //                       );
+      //                     } else if (state.status == StatusType.search) {
+      //                       widget = Padding(
+      //                           padding: EdgeInsets.only(top: 10.h),
+      //                           child: lPersonsWidget(state.lTopRouteSetter));
+      //                     }
+      //                     return widget!;
+      //                   }),
+      //               BlocBuilder<PersonsPageCubit, PersonsPageState>(
+      //                 bloc: _bloc,
+      //                 builder: (BuildContext context, state) =>
+      //                     (state.status == StatusType.initial ||
+      //                             state.status == StatusType.refresh)
+      //                         ? const Center(
+      //                             child: AppCircleLoading(),
+      //                           )
+      //                         : const SizedBox(),
+      //               )
+      //             ],
+      //           ),
+      //         ),
+      //       ),
+      //     ),
+      //   ],
+      // ),
   }
 
   Widget heading(String title) {

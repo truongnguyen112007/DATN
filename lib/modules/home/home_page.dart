@@ -179,7 +179,6 @@ class _HomePageState extends State<HomePage> {
         highlightColor: Colors.transparent,
       ),
       child: SizedBox(
-        // height: 50.h,
         child: BottomNavigationBar(
           showSelectedLabels: true,
           unselectedItemColor: Colors.grey,

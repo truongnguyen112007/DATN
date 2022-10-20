@@ -15,6 +15,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../components/app_circle_loading.dart';
 import '../../components/item_feed_widget.dart';
+import '../../components/message_tab_routes.dart';
 import '../../localizations/app_localazations.dart';
 import '../filter_routes/filter_routes_page.dart';
 import '../tab_home/tab_home_state.dart';
@@ -58,37 +59,38 @@ class _HistoryPageState extends State<HistoryPage>
 
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
-      child: Stack(
-        children: [
-          SingleChildScrollView(
-            controller: _scrollController,
-            physics: const AlwaysScrollableScrollPhysics(),
-            child: Column(
-              children: [
-                FilterWidget(
-                  selectCallBack: () {},
-                  filterCallBack: () => _bloc.filterOnclick(context),
-                  sortCallBack: () {},
-                ),
-                feedWidget()
-              ],
-            ),
-          ),
-          BlocBuilder<HistoryCubit, HistoryState>(
-            bloc: _bloc,
-            builder: (BuildContext context, state) =>
-                (state.status == FeedStatus.initial ||
-                        state.status == FeedStatus.refresh)
-                    ? const Center(
-                        child: AppCircleLoading(),
-                      )
-                    : const SizedBox(),
-          )
-        ],
-      ),
-      onRefresh: () async => _bloc.refresh(),
-    );
+    return Container(color: colorGreyBackground,child: const MessageTabRoutes(),);
+    //   RefreshIndicator(
+    //   child: Stack(
+    //     children: [
+    //       SingleChildScrollView(
+    //         controller: _scrollController,
+    //         physics: const AlwaysScrollableScrollPhysics(),
+    //         child: Column(
+    //           children: [
+    //             FilterWidget(
+    //               selectCallBack: () {},
+    //               filterCallBack: () => _bloc.filterOnclick(context),
+    //               sortCallBack: () {},
+    //             ),
+    //             feedWidget()
+    //           ],
+    //         ),
+    //       ),
+    //       BlocBuilder<HistoryCubit, HistoryState>(
+    //         bloc: _bloc,
+    //         builder: (BuildContext context, state) =>
+    //             (state.status == FeedStatus.initial ||
+    //                     state.status == FeedStatus.refresh)
+    //                 ? const Center(
+    //                     child: AppCircleLoading(),
+    //                   )
+    //                 : const SizedBox(),
+    //       )
+    //     ],
+    //   ),
+    //   onRefresh: () async => _bloc.refresh(),
+    // );
   }
 
   Widget feedWidget() => BlocBuilder<HistoryCubit, HistoryState>(

@@ -30,7 +30,7 @@ class FilterWidget extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          itemFilterWidget(Icons.swap_vert, AppLocalizations.of(context)!.sort,
+          itemFilterWidget(Icons.swap_vert, LocaleKeys.sort,
               colorWhite.withOpacity(0.87), () => sortCallBack.call()),
           itemFilterWidget(
               Icons.filter_alt_outlined,

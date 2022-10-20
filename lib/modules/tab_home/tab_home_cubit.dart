@@ -42,7 +42,7 @@ class TabHomeCubit extends Cubit<TabHomeState> {
     getFeed();
   }
 
-  void searchOnclick(BuildContext context) => RouterUtils.pushHome(
+  void onClickSearch(BuildContext context) => RouterUtils.pushHome(
       context: context,
       route: HomeRouters.search,
       argument: BottomNavigationConstant.TAB_HOME);
@@ -50,6 +50,11 @@ class TabHomeCubit extends Cubit<TabHomeState> {
   void onClickPlaylist () {
 
   }
+
+  void onClickNotification(BuildContext context) => RouterUtils.pushHome(
+      context: context,
+      route: HomeRouters.notifications,
+      argument: BottomNavigationConstant.TAB_HOME);
 
   List<FeedModel> fakeData() => [
         FeedModel(true,
