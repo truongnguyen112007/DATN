@@ -1,10 +1,16 @@
-/*
+import 'package:base_bloc/modules/tab_routes/tab_routes_state.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../config/constant.dart';
+import '../../router/router.dart';
+import '../../router/router_utils.dart';
 
-@freezed
-class TabRoutesState with _$TabRoutesState{
+class TabRouteCubit extends Cubit<TabRouteState>{
+  TabRouteCubit() : super(InitState());
 
-  const factory TabRoutesState.initState() =_InitState();
-  const factory TabRoutesState.loading() =_LoadingState();
-  const factory TabRoutesState.loaded({required int counter}) =_LoadedState();
-}*/
+  void onClickSearch(BuildContext context) => RouterUtils.pushRoutes(
+      context: context,
+      route: RoutesRouters.search,
+      argument: BottomNavigationConstant.TAB_ROUTES);
+}
