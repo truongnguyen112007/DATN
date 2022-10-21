@@ -117,7 +117,7 @@ class ItemInfoRoutes extends StatelessWidget {
                                   fontSize: 13.sp),
                             ),
                             const Icon(
-                              Icons.ac_unit_rounded,
+                              Icons.circle_sharp,
                               size: 6,
                               color: colorWhite,
                             ),

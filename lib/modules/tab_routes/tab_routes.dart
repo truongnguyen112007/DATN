@@ -5,6 +5,7 @@ import 'package:base_bloc/modules/designed/designed_page.dart';
 import 'package:base_bloc/modules/favourite/favourite_page.dart';
 import 'package:base_bloc/modules/history/history_page.dart';
 import 'package:base_bloc/modules/playlist/playlist_page.dart';
+import 'package:base_bloc/modules/tab_routes/tab_routes_cubit.dart';
 import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/theme/colors.dart';
 import 'package:flutter/cupertino.dart';
@@ -28,10 +29,12 @@ class TabRoutes extends StatefulWidget {
 class _TabRoutesState extends State<TabRoutes>
     with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   late TabController _tabController;
+  late final TabRouteCubit _bloc;
 
   @override
   void initState() {
     _tabController = TabController(length: 4, vsync: this);
+    _bloc = TabRouteCubit();
     super.initState();
   }
 
@@ -42,7 +45,7 @@ class _TabRoutesState extends State<TabRoutes>
         child: AppScaffold(
           resizeToAvoidBottomInset: false,
           appbar: appBar(context),
-          backgroundColor: colorGrey90,
+          backgroundColor: colorGreyBackground,
           body: Column(
             children: [
               tabBar(context),
@@ -71,16 +74,16 @@ class _TabRoutesState extends State<TabRoutes>
               unselectedLabelColor: colorText0.withOpacity(0.6),
               tabs: [
                 Tab(
-                  text: AppLocalizations.of(context)!.playlist,
+                  text: LocaleKeys.playlist,
                 ),
                 Tab(
-                  text: AppLocalizations.of(context)!.history,
+                  text: LocaleKeys.history,
                 ),
                 Tab(
-                  text: AppLocalizations.of(context)!.favourite,
+                  text: LocaleKeys.favourite,
                 ),
                 Tab(
-                  text: AppLocalizations.of(context)!.designed,
+                  text: LocaleKeys.designed,
                 ),
               ],
               labelStyle: typoW400.copyWith(fontSize: 12.sp),
@@ -100,11 +103,13 @@ class _TabRoutesState extends State<TabRoutes>
 
   PreferredSizeWidget appBar(BuildContext context) => appBarWidget(
         leading: SizedBox(),
-    leadingWidth: contentPadding,
-        titleStr: AppLocalizations.of(context)!.routes,
+        leadingWidth: contentPadding,
+        titleStr: LocaleKeys.routes,
         action: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              _bloc.onClickSearch(context);
+            },
             icon: SvgPicture.asset(
               Assets.svg.search,
               color: colorSurfaceMediumEmphasis,
