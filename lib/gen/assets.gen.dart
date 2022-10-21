@@ -12,6 +12,45 @@ import 'package:flutter/widgets.dart';
 class $AssetsPngGen {
   const $AssetsPngGen();
 
+  /// File path: assets/png/holdset1.png
+  AssetGenImage get holdset1 => const AssetGenImage('assets/png/holdset1.png');
+
+  /// File path: assets/png/holdset10.png
+  AssetGenImage get holdset10 =>
+      const AssetGenImage('assets/png/holdset10.png');
+
+  /// File path: assets/png/holdset11.png
+  AssetGenImage get holdset11 =>
+      const AssetGenImage('assets/png/holdset11.png');
+
+  /// File path: assets/png/holdset12.png
+  AssetGenImage get holdset12 =>
+      const AssetGenImage('assets/png/holdset12.png');
+
+  /// File path: assets/png/holdset2.png
+  AssetGenImage get holdset2 => const AssetGenImage('assets/png/holdset2.png');
+
+  /// File path: assets/png/holdset3.png
+  AssetGenImage get holdset3 => const AssetGenImage('assets/png/holdset3.png');
+
+  /// File path: assets/png/holdset4.png
+  AssetGenImage get holdset4 => const AssetGenImage('assets/png/holdset4.png');
+
+  /// File path: assets/png/holdset5.png
+  AssetGenImage get holdset5 => const AssetGenImage('assets/png/holdset5.png');
+
+  /// File path: assets/png/holdset6.png
+  AssetGenImage get holdset6 => const AssetGenImage('assets/png/holdset6.png');
+
+  /// File path: assets/png/holdset7.png
+  AssetGenImage get holdset7 => const AssetGenImage('assets/png/holdset7.png');
+
+  /// File path: assets/png/holdset8.png
+  AssetGenImage get holdset8 => const AssetGenImage('assets/png/holdset8.png');
+
+  /// File path: assets/png/holdset9.png
+  AssetGenImage get holdset9 => const AssetGenImage('assets/png/holdset9.png');
+
   /// File path: assets/png/ic_account.png
   AssetGenImage get icAccount =>
       const AssetGenImage('assets/png/ic_account.png');
@@ -60,6 +99,18 @@ class $AssetsPngGen {
 
   /// List of all assets
   List<AssetGenImage> get values => [
+        holdset1,
+        holdset10,
+        holdset11,
+        holdset12,
+        holdset2,
+        holdset3,
+        holdset4,
+        holdset5,
+        holdset6,
+        holdset7,
+        holdset8,
+        holdset9,
         icAccount,
         icArrowBack,
         icFriends,
@@ -128,6 +179,9 @@ class $AssetsSvgGen {
   /// File path: assets/svg/edit.svg
   String get edit => 'assets/svg/edit.svg';
 
+  /// File path: assets/svg/full_screen.svg
+  String get fullScreen => 'assets/svg/full_screen.svg';
+
   /// File path: assets/svg/heart.svg
   String get heart => 'assets/svg/heart.svg';
 
@@ -182,6 +236,9 @@ class $AssetsSvgGen {
   /// File path: assets/svg/message.svg
   String get message => 'assets/svg/message.svg';
 
+  /// File path: assets/svg/more.svg
+  String get more => 'assets/svg/more.svg';
+
   /// File path: assets/svg/more_vertical.svg
   String get moreVertical => 'assets/svg/more_vertical.svg';
 
@@ -230,6 +287,15 @@ class $AssetsSvgGen {
   /// File path: assets/svg/share.svg
   String get share => 'assets/svg/share.svg';
 
+  /// File path: assets/svg/three_d.svg
+  String get threeD => 'assets/svg/three_d.svg';
+
+  /// File path: assets/svg/turn_left.svg
+  String get turnLeft => 'assets/svg/turn_left.svg';
+
+  /// File path: assets/svg/turn_right.svg
+  String get turnRight => 'assets/svg/turn_right.svg';
+
   /// List of all assets
   List<dynamic> get values => [
         addPlayList,
@@ -248,6 +314,7 @@ class $AssetsSvgGen {
         doctor,
         doctorBackground,
         edit,
+        fullScreen,
         heart,
         holdset1,
         holdset2,
@@ -266,6 +333,7 @@ class $AssetsSvgGen {
         location,
         man,
         message,
+        more,
         moreVertical,
         moveToTop,
         notification,
@@ -281,7 +349,10 @@ class $AssetsSvgGen {
         search,
         searchIcon,
         shape,
-        share
+        share,
+        threeD,
+        turnLeft,
+        turnRight
       ];
 }
 

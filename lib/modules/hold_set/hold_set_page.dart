@@ -1,12 +1,13 @@
 import 'package:base_bloc/base/base_state.dart';
+import 'package:base_bloc/base/hex_color.dart';
 import 'package:base_bloc/components/app_scalford.dart';
 import 'package:base_bloc/components/app_text.dart';
 import 'package:base_bloc/components/appbar_widget.dart';
+import 'package:base_bloc/components/gradient_button.dart';
 import 'package:base_bloc/config/constant.dart';
 import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/modules/hold_set/hold_set_cubit.dart';
 import 'package:base_bloc/modules/hold_set/hold_set_state.dart';
-import 'package:base_bloc/router/router_utils.dart';
 import 'package:base_bloc/theme/colors.dart';
 import 'package:base_bloc/utils/app_utils.dart';
 import 'package:flutter/material.dart';
@@ -36,11 +37,11 @@ class _HoldSetPageState extends BasePopState<HoldSetPage> {
   @override
   Widget buildWidget(BuildContext context) {
     return AppScaffold(
-      padding: EdgeInsets.all(contentPadding),
-      backgroundColor: colorBlack90,
-      appbar: appbar(context),
-      body: SingleChildScrollView(
-        child: Column(
+        padding: EdgeInsets.all(contentPadding),
+        backgroundColor: colorBlack90,
+        appbar: appbar(context),
+        body: SingleChildScrollView(
+            child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
@@ -53,7 +54,7 @@ class _HoldSetPageState extends BasePopState<HoldSetPage> {
                 bloc: _bloc,
                 builder: (c, state) => Row(
                       children: [
-                        button(
+                        filterButton(
                             onTab: () => _bloc.setFilter(SelectType.ALL),
                             lColor: state.type == SelectType.ALL
                                 ? [colorOrange100, colorOrange40]
@@ -62,7 +63,7 @@ class _HoldSetPageState extends BasePopState<HoldSetPage> {
                         const SizedBox(
                           width: 10,
                         ),
-                        button(
+                        filterButton(
                             onTab: () => _bloc.setFilter(SelectType.FAVOURITE),
                             lColor: state.type == SelectType.FAVOURITE
                                 ? [colorOrange100, colorOrange40]
@@ -82,11 +83,12 @@ class _HoldSetPageState extends BasePopState<HoldSetPage> {
                         LocaleKeys.type, () {
                       Utils.hideKeyboard(context);
                     })),
-            itemSpace(height: 20),
+            itemSpace(),
             InkWell(
               child: AppText(
                 LocaleKeys.double_tab_to_see_3d_preview,
-                style: typoSmallTextRegular.copyWith(color: colorText45),
+                style: typoW400.copyWith(
+                    fontSize: 12.sp, color: colorText0.withOpacity(0.6)),
               ),
               onTap: () => _bloc.detailOnclick(context),
             ),
@@ -94,19 +96,14 @@ class _HoldSetPageState extends BasePopState<HoldSetPage> {
             holdSetWidget(context),
             itemSpace(height: 20),
             BlocBuilder<HoldSetCubit, HoldSetState>(
-                bloc: _bloc,
-                builder: (c, state) => button(
-                    onTab: () => _bloc.selectOnClick(
-                        state.lHoldSet[state.currentIndex], context),
-                    padding: EdgeInsets.only(
-                        top: contentPadding, bottom: contentPadding),
-                    lColor: [colorOrange100, colorOrange40],
-                    title: LocaleKeys.select,
-                    width: MediaQuery.of(context).size.width)),
+              bloc: _bloc,
+              builder: (c, state) => selectButton(
+                onTab: () => _bloc.selectOnClick(
+                    state.lHoldSet[state.currentIndex].hold2d, context),
+              ),
+            ),
           ],
-        ),
-      ),
-    );
+        )));
   }
 
   Widget holdSetWidget(BuildContext context) =>
@@ -124,15 +121,38 @@ class _HoldSetPageState extends BasePopState<HoldSetPage> {
               ));
 
   Widget itemHoldSetWidget(
-          BuildContext context, int index, String icon, int currentIndex) =>
+          BuildContext context, int index, HoldModel model, int currentIndex) =>
       Padding(
-        padding: const EdgeInsets.all(1.5),
+        padding: const EdgeInsets.all(1.8),
         child: InkWell(
-          child: Container(
-            decoration: BoxDecoration(
-                color: currentIndex == index ? colorPink30 : colorWhite,
-                borderRadius: BorderRadius.circular(8)),
-            child: Image.asset(icon),
+          child: Stack(
+            children: [
+              Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                padding: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                    border: Border.all(
+                        color: currentIndex == index
+                            ? HexColor('FF5A00')
+                            : Colors.transparent),
+                    color: currentIndex == index ? colorPink30 : colorWhite,
+                    borderRadius: BorderRadius.circular(8)),
+                child: Image.asset(model.hold3d),
+              ),
+              Align(
+                alignment: Alignment.topRight,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 2, top: 2),
+                  child: Icon(
+                    Icons.check_circle,
+                    color: currentIndex == index
+                        ? HexColor('403B38')
+                        : Colors.transparent,
+                  ),
+                ),
+              )
+            ],
           ),
           onTap: () => _bloc.setIndex(index),
         ),
@@ -148,9 +168,8 @@ class _HoldSetPageState extends BasePopState<HoldSetPage> {
               controller: controller,
               onTap: () => onTap.call(),
               isShowErrorText: false,
-              textStyle: typoSmallTextRegular.copyWith(
-                color: colorText0,
-              ),
+              textStyle: typoW400.copyWith(
+                  fontSize: 16, color: colorText0.withOpacity(0.87)),
               cursorColor: Colors.white60,
               decoration: decorTextField.copyWith(
                   fillColor: Colors.transparent,
@@ -162,11 +181,9 @@ class _HoldSetPageState extends BasePopState<HoldSetPage> {
             color: colorBlack90,
             margin: EdgeInsets.only(left: contentPadding),
             padding: const EdgeInsets.only(left: 3, right: 7),
-            child: AppText(
-              title,
-              style: typoSmallTextRegular.copyWith(
-                  color: colorText62, backgroundColor: colorBlack90),
-            ),
+            child: AppText(title,
+                style: typoW400.copyWith(
+                    color: colorText0.withOpacity(0.6), fontSize: 12.sp)),
           ),
         ],
       );
@@ -175,7 +192,23 @@ class _HoldSetPageState extends BasePopState<HoldSetPage> {
         height: height,
       );
 
-  Widget button(
+  Widget selectButton({
+    required VoidCallback onTab,
+  }) =>
+      GradientButton(
+          height: 36.h,
+          isCenter: true,
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+              gradient: Utils.backgroundGradientOrangeButton(),
+              borderRadius: BorderRadius.circular(30)),
+          onTap: () => onTab.call(),
+          widget: AppText(LocaleKeys.select,
+              textAlign: TextAlign.center,
+              style: typoW600.copyWith(color: colorText0, fontSize: 12.5.sp)),
+          borderRadius: BorderRadius.circular(30));
+
+  Widget filterButton(
           {required List<Color> lColor,
           required String title,
           required VoidCallback onTab,
@@ -196,7 +229,7 @@ class _HoldSetPageState extends BasePopState<HoldSetPage> {
               borderRadius: BorderRadius.circular(30)),
           child: AppText(
             title,
-            style: typoSmallTextRegular.copyWith(color: colorText0),
+            style: typoW600.copyWith(color: colorText0, fontSize: 12.5.sp),
           ),
         ),
       );
