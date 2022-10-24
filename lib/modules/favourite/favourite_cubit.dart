@@ -9,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/model/routes_model.dart';
 import '../../utils/app_utils.dart';
 import '../../utils/log_utils.dart';
+import '../create_routes/create_routes_page.dart';
 import '../filter_routes/filter_routes_page.dart';
 import '../playlist/playlist_cubit.dart';
 import '../tab_home/tab_home_state.dart';
@@ -61,6 +62,9 @@ class FavouriteCubit extends Cubit<FavouriteState> {
     emit(const FavouriteState(status: FeedStatus.refresh, lPlayList: []));
     getFavourite();
   }
+
+  void createRoutesOnClick(BuildContext context) =>
+      RouterUtils.openNewPage(CreateRoutesPage(), context);
 
   List<RoutesModel> fakeData() => [
         RoutesModel(

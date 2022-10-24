@@ -6,6 +6,7 @@ import 'package:base_bloc/modules/playlist/playlist_state.dart';
 import 'package:base_bloc/modules/tab_home/tab_home_state.dart';
 import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/theme/colors.dart';
+import 'package:base_bloc/utils/app_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -76,14 +77,15 @@ class _PlayListPageState extends State<PlayListPage>
           child: Align(
               alignment: Alignment.bottomRight,
               child: SpeedDial(
+                overlayColor: colorBlack,
+                overlayOpacity: 0.8,
                 gradientBoxShape: BoxShape.circle,
-                gradient: const LinearGradient(
-                    colors: [colorOrange110, colorOrange40]),
+                gradient: Utils.backgroundGradientOrangeButton(),
                 icon: Icons.add,
-              backgroundColor: colorOrange100,
+                backgroundColor: colorOrange100,
                 activeBackgroundColor: colorWhite,
                 activeIcon: Icons.close,
-                activeChild: Icon(Icons.close,color: colorBlack,),
+                activeChild: const Icon(Icons.close,color: colorBlack,),
                 spacing: 3,
                 childPadding: const EdgeInsets.all(5),
                 spaceBetweenChildren: 4,
@@ -91,7 +93,7 @@ class _PlayListPageState extends State<PlayListPage>
                 buttonSize: const Size(56.0, 56.0),
                 childrenButtonSize: const Size(56.0, 56.0),
                 direction: SpeedDialDirection.up,
-                renderOverlay: false,
+                renderOverlay: true,
                 useRotationAnimation: true,
                 animationCurve: Curves.elasticInOut,
                 isOpenOnStart: false,
@@ -137,7 +139,6 @@ class _PlayListPageState extends State<PlayListPage>
           padding: EdgeInsets.all(contentPadding),
           itemBuilder: (c, i) => i == state.lPlayList.length
               ? const Center(
-                  key: Key('9182098089509'),
                   child: AppCircleLoading(),
                 )
               : ItemInfoRoutes(

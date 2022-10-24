@@ -1,2 +1,9 @@
+import 'package:equatable/equatable.dart';
 
-// class T
+abstract class TabRouteState extends Equatable{
+}
+
+class InitState extends TabRouteState {
+  @override
+  List<Object?> get props => [];
+}

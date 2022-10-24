@@ -38,6 +38,7 @@ class HomeRouters {
 
 class RoutesRouters {
   static String root = '/';
+  static String search = '/search';
   static String routesDetail = '/routesDetail';
   static String createRoutes ='/createRoutes';
   static configureRouter(FluroRouter router) {
@@ -47,6 +48,7 @@ class RoutesRouters {
     router.define(root, handler: routeTabRoutes);
     router.define(routesDetail, handler: routeRoutesDetail);
     router.define(createRoutes, handler: routeCreateRoutes);
+    router.define(search, handler: routeSearchHome);
   }
 }
 
