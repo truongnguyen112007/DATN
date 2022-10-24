@@ -1,43 +1,48 @@
 import 'package:equatable/equatable.dart';
 
+import '../../data/model/hold_set_model.dart';
 import '../persons_page/persons_page_state.dart';
 
 class CreateRoutesState extends Equatable {
   final int column;
   final int row;
   final StatusType status;
-  final int sizeBox;
-  final List<String> lBox;
-  final int selectIndex;
+  final double sizeHoldSet;
+  final List<HoldSetModel> lRoutes;
+  final int? selectIndex;
   final int timeStamp;
+  final String currentHoldSet;
 
   const CreateRoutesState(
       {this.status = StatusType.initial,
+      this.currentHoldSet = '',
       this.timeStamp = 0,
-      this.sizeBox = 10,
+      this.sizeHoldSet = 10,
       this.column = 0,
       this.row = 0,
-      this.selectIndex = 0,
-      this.lBox = const <String>[]});
+      this.selectIndex,
+      this.lRoutes = const <HoldSetModel>[]});
 
   CreateRoutesState copyOf(
           {StatusType? status,
           int? column,
           int? selectIndex,
+          String? currentHoldSet,
           int? row,
-          int? sizeBox,
-          List<String>? lBox,
+          double? sizeHoldSet,
+          List<HoldSetModel>? lRoutes,
           int? timeStamp}) =>
       CreateRoutesState(
+          currentHoldSet: currentHoldSet ?? this.currentHoldSet,
           selectIndex: selectIndex ?? this.selectIndex,
           status: status ?? this.status,
           column: column ?? this.column,
           row: row ?? this.row,
-          sizeBox: sizeBox ?? this.sizeBox,
-          lBox: lBox ?? this.lBox,
+          sizeHoldSet: sizeHoldSet ?? this.sizeHoldSet,
+          lRoutes: lRoutes ?? this.lRoutes,
           timeStamp: timeStamp ?? this.timeStamp);
 
   @override
   List<Object?> get props =>
-      [status, sizeBox, column, row, lBox, selectIndex, timeStamp];
+      [status, sizeHoldSet, column, row, lRoutes, selectIndex, timeStamp];
 }

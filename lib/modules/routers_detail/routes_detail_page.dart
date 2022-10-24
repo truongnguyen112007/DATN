@@ -88,7 +88,7 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           infoRoutesWidget(context),
-                          const Spacer(),
+                          // const Spacer(),
                           Container(
                               width: sizeHoldSet * column * 1.8,
                               height: 18.h,
@@ -96,8 +96,8 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
                           SizedBox(
                               width: sizeHoldSet * column * 1.66,
                               child: Image.asset(Assets.png.tesst.path)),
-                          Flexible(
-                              flex: 15,
+                          Expanded(
+                              // flex: 15,
                               child: Stack(
                                 children: [
                                   Positioned.fill(
