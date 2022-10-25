@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:base_bloc/base/base_state.dart';
 import 'package:base_bloc/base/hex_color.dart';
 import 'package:base_bloc/components/app_scalford.dart';
@@ -17,6 +19,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../components/app_text.dart';
+import '../../utils/app_utils.dart';
 
 class ConfirmCreateReservationPage extends StatefulWidget {
   final PlacesModel placesModel;
@@ -39,11 +42,15 @@ class _ConfirmCreateReservationPageState
     extends BasePopState<ConfirmCreateReservationPage> {
   late TextEditingController placeController, wallController;
   late ConfirmCreateReservationCubit _bloc;
+  StreamSubscription<PlacesModel>? _getPlaceStream;
 
   @override
   void initState() {
     _bloc = ConfirmCreateReservationCubit();
     _bloc.setData(widget.addressModel, widget.placesModel, widget.dateTime);
+    _getPlaceStream = Utils.eventBus
+        .on<PlacesModel>()
+        .listen((model) => _bloc.setPlace(model));
     placeController = TextEditingController();
     wallController = TextEditingController();
     placeController.text = widget.placesModel.namePlace;

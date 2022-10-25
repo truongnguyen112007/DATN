@@ -1,3 +1,4 @@
+import 'package:base_bloc/data/eventbus/new_page_event.dart';
 import 'package:base_bloc/data/model/address_model.dart';
 import 'package:base_bloc/data/model/list_places_model.dart';
 import 'package:base_bloc/modules/confirm_create_reservation/confirm_create_reservation_state.dart';
@@ -17,9 +18,12 @@ class ConfirmCreateReservationCubit
 
   void placeOnclick(BuildContext context) async {
     Utils.hideKeyboard(context);
-    var model = await RouterUtils.openNewPage(const FindPlacePage(), context);
+    var model = await RouterUtils.openNewPage(const FindPlacePage(), context,
+        type: NewPageType.FILL_PLACE);
     emit(state.copyOf(placesModel: model));
   }
+
+  void setPlace(PlacesModel model) => emit(state.copyOf(placesModel: model));
 
   void addressOnclick(BuildContext context) async {
     Utils.hideKeyboard(context);

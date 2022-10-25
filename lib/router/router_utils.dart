@@ -82,12 +82,13 @@ class RouterUtils {
           {dynamic result, bool isHideBottomBar = false}) =>
       Navigator.pop(context, result);
 
-  static dynamic openNewPage(Widget newPage, BuildContext context) async {
-    Utils.fireEvent(NewPageEvent(newPage));
+  static dynamic openNewPage(Widget newPage, BuildContext context,
+      {NewPageType? type}) async {
+    Utils.fireEvent(NewPageEvent(newPage, type: type));
   }
 
-  static dynamic pushTo(BuildContext context, Widget newPage) {
-    return Navigator.of(context).push(
+  static Future<dynamic> pushTo(BuildContext context, Widget newPage) async {
+    return await Navigator.of(context).push(
       PageRouteBuilder(
         pageBuilder: (context, animation, secondaryAnimation) => newPage,
         transitionsBuilder: (context, animation, secondaryAnimation, child) {

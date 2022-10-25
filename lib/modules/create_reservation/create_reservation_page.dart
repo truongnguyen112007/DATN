@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:base_bloc/base/base_state.dart';
@@ -19,6 +20,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../components/app_slider.dart';
 import '../../components/app_text.dart';
+import '../../data/model/list_places_model.dart';
 import '../../theme/app_styles.dart';
 import '../../theme/colors.dart';
 
@@ -34,15 +36,22 @@ class _CreateReservationPageState extends BasePopState<CreateReservationPage> {
   var upperAuthorGradeValue = 24.0;
   late CreateReservationCubit _bloc;
   late TextEditingController _cityController, _placeController;
-
+  StreamSubscription<PlacesModel>? _getPlaceStream;
   @override
   void initState() {
+    _getPlaceStream = Utils.eventBus
+        .on<PlacesModel>()
+        .listen((model) => _bloc.setPlace(model));
     _cityController = TextEditingController();
     _placeController = TextEditingController();
     _bloc = CreateReservationCubit();
     super.initState();
   }
-
+@override
+  void dispose() {
+    _getPlaceStream?.cancel();
+    super.dispose();
+  }
   @override
   Widget buildWidget(BuildContext context) {
     return AppScaffold(
