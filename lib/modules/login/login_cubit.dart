@@ -1,4 +1,5 @@
 import 'package:base_bloc/config/constant.dart';
+import 'package:base_bloc/modules/home/home_page.dart';
 import 'package:base_bloc/modules/login/login_state.dart';
 import 'package:base_bloc/router/router_utils.dart';
 import 'package:base_bloc/utils/app_utils.dart';
@@ -8,6 +9,8 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../data/eventbus/new_page_event.dart';
+
 class LoginCubit extends Cubit<LoginState> {
   LoginCubit() : super(const LoginState(errorEmail: '', errorPassword: ''));
 
@@ -16,8 +19,8 @@ class LoginCubit extends Cubit<LoginState> {
     bool isValidPass = checkValidPassword(password);
     if (isValidPass && isValidEmail) {
       StorageUtils.setLogin(true);
-      RouterUtils.pop(context);
-
+      /*  RouterUtils.pop(context);*/
+      Utils.fireEvent(NewPageEvent(HomePage()));
     }
   }
 

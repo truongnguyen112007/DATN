@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../components/app_scalford.dart';
+import '../../components/check_login.dart';
 import '../../components/dynamic_sliver_appbar.dart';
 import '../../data/globals.dart';
 import '../../localizations/app_localazations.dart';
@@ -42,50 +43,66 @@ class _TabProfileState extends State<TabProfile> {
       resizeToAvoidBottomInset: false,
       backgroundColor: colorMainBackground,
       appbar: appBar(context),
-      body: SafeArea(
-        child: DefaultTabController(
-          length: 3,
-          child: Scaffold(
-            backgroundColor: colorMainBackground,
-            appBar: PreferredSize(
-                preferredSize:
-                    Size.fromHeight(MediaQuery.of(context).size.height),
-                child: NestedScrollView(
-                  headerSliverBuilder: (context, value) {
-                    return [
-                      _silerAppBar,
-                      SliverPersistentHeader(
-                        pinned: true,
-                        delegate: SliverAppBarDelegate(
-                          minHeight: 44.w,
-                          maxHeight: 44.w,
-                          child: TabBar(
-                            labelColor: colorPrimary,
-                            labelStyle: googleFont.copyWith(
-                                fontSize: 14.w, fontWeight: FontWeight.w600),
-                            unselectedLabelColor: colorSubText,
-                            indicatorColor: colorPrimary,
-                            indicatorWeight: 2.w,
-                            tabs: [
-                              Tab(text: AppLocalizations.of(context)!.tabPosts),
-                              Tab(
-                                  text:
-                                      AppLocalizations.of(context)!.tabHistory),
-                              Tab(
-                                  text: AppLocalizations.of(context)!
-                                      .tabDesigned),
+      body: BlocBuilder(
+        bloc: _bloc,
+        builder: (c, s) => !isLogin
+            ? CheckLogin(
+                loginCallBack: () {
+                  _bloc.onClickLogin(context);
+                },
+              )
+            : SafeArea(
+                child: DefaultTabController(
+                  length: 3,
+                  child: Scaffold(
+                    backgroundColor: colorMainBackground,
+                    appBar: PreferredSize(
+                        preferredSize:
+                            Size.fromHeight(MediaQuery.of(context).size.height),
+                        child: NestedScrollView(
+                          headerSliverBuilder: (context, value) {
+                            return [
+                              _silerAppBar,
+                              SliverPersistentHeader(
+                                pinned: true,
+                                delegate: SliverAppBarDelegate(
+                                  minHeight: 44.w,
+                                  maxHeight: 44.w,
+                                  child: TabBar(
+                                    labelColor: colorPrimary,
+                                    labelStyle: googleFont.copyWith(
+                                        fontSize: 14.w,
+                                        fontWeight: FontWeight.w600),
+                                    unselectedLabelColor: colorSubText,
+                                    indicatorColor: colorPrimary,
+                                    indicatorWeight: 2.w,
+                                    tabs: [
+                                      Tab(
+                                          text: AppLocalizations.of(context)!
+                                              .tabPosts),
+                                      Tab(
+                                          text: AppLocalizations.of(context)!
+                                              .tabHistory),
+                                      Tab(
+                                          text: AppLocalizations.of(context)!
+                                              .tabDesigned),
+                                    ],
+                                  ),
+                                ),
+                              )
+                            ];
+                          },
+                          body: const TabBarView(
+                            children: [
+                              TabProfilePost(),
+                              HistoryPage(),
+                              DesignedPage()
                             ],
                           ),
-                        ),
-                      )
-                    ];
-                  },
-                  body: TabBarView(
-                    children: [TabProfilePost(), HistoryPage(), DesignedPage()],
+                        )),
                   ),
-                )),
-          ),
-        ),
+                ),
+              ),
       ),
     );
   }

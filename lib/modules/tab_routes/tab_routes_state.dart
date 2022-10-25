@@ -1,9 +1,8 @@
 import 'package:equatable/equatable.dart';
 
-abstract class TabRouteState extends Equatable{
-}
-
-class InitState extends TabRouteState {
+class TabRouteState extends Equatable{
+  final int? timeStamp;
+  const TabRouteState ({this.timeStamp});
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [timeStamp];
 }

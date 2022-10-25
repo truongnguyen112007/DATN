@@ -4,12 +4,14 @@ import 'dart:math' as math;
 import 'package:base_bloc/base/hex_color.dart';
 import 'package:base_bloc/components/app_scalford.dart';
 import 'package:base_bloc/config/constant.dart';
+import 'package:base_bloc/data/eventbus/new_page_event.dart';
 import 'package:base_bloc/data/eventbus/switch_tab_event.dart';
 import 'package:base_bloc/modules/home/home_state.dart';
 import 'package:base_bloc/modules/root/root_climb_page.dart';
 import 'package:base_bloc/modules/root/root_home_page.dart';
 import 'package:base_bloc/modules/root/root_profile_page.dart';
 import 'package:base_bloc/modules/root/root_reservation_page.dart';
+import 'package:base_bloc/router/router_utils.dart';
 import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/theme/colors.dart';
 import 'package:base_bloc/utils/app_utils.dart';
@@ -48,9 +50,13 @@ class _HomePageState extends State<HomePage> {
   bool isShowBottomBar = false;
 
   StreamSubscription<HideBottomBarEvent>? _hideBottomBarStream;
+  StreamSubscription<NewPageEvent>? _newPageStream;
 
   @override
   void initState() {
+    _newPageStream = Utils.eventBus.on<NewPageEvent>().listen((event) {
+      RouterUtils.openNewPage(event.newPage, context);
+    });
     _hideBottomBarStream = Utils.eventBus
         .on<HideBottomBarEvent>()
         .listen((event) => _bloc.hideBottomBar(event.isHide));

@@ -45,6 +45,14 @@ class TabReservationCubit extends Cubit<TabReservationState> {
           route: ReservationRouters.routesReservationDetail,
           argument: [BottomNavigationConstant.TAB_RESERVATIONS,model]);
 
+  void onClickLogin(BuildContext context) async {
+    await RouterUtils.pushReservations(
+        context: context,
+        route: ReservationRouters.login,
+        argument: BottomNavigationConstant.TAB_RESERVATIONS);
+    emit(state.copyOf(timeStamp: DateTime.now().microsecondsSinceEpoch));
+  }
+
   void addOnclick(BuildContext context) =>
       RouterUtils.pushReservations(route: ReservationRouters.routesCreateReservationPage, context: context);
   List<ReservationModel> fakeData() => [

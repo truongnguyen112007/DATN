@@ -13,6 +13,7 @@ import 'package:flutter_svg/svg.dart';
 import '../../components/app_circle_loading.dart';
 import '../../components/app_scalford.dart';
 import '../../components/app_text.dart';
+import '../../components/check_login.dart';
 import '../../data/model/reservation_model.dart';
 import '../../gen/assets.gen.dart';
 import '../../localizations/app_localazations.dart';
@@ -58,62 +59,76 @@ class _TabReservationState extends State<TabReservation>
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-        floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-        floatingActionButton: addWidget(context),
-        appbar: appbar(context),
-        backgroundColor: colorBlack30,
-        body: RefreshIndicator(
-          child: Stack(
-            children: [
-              SingleChildScrollView(
-                controller: _scrollController,
-                physics: const AlwaysScrollableScrollPhysics(),
-                child: Column(
-                  children: [reservationWidget()],
-                ),
-              ),
-              BlocBuilder<TabReservationCubit, TabReservationState>(
-                bloc: _bloc,
-                builder: (BuildContext context, state) =>
-                    (state.status == StatusType.initial ||
-                            state.status == StatusType.refresh)
-                        ? const Center(
-                            child: AppCircleLoading(),
-                          )
-                        : const SizedBox(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+      floatingActionButton: addWidget(context),
+      appbar: appbar(context),
+      backgroundColor: colorBlack30,
+      body: BlocBuilder(
+        bloc: _bloc,
+        builder: (c, s) => !isLogin
+            ? CheckLogin(
+                loginCallBack: () {
+                  _bloc.onClickLogin(context);
+                },
               )
-            ],
-          ),
-          onRefresh: () async => _bloc.refresh(),
-        ));
+            : RefreshIndicator(
+                child: Stack(
+                  children: [
+                    SingleChildScrollView(
+                      controller: _scrollController,
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      child: Column(
+                        children: [reservationWidget()],
+                      ),
+                    ),
+                    BlocBuilder<TabReservationCubit, TabReservationState>(
+                      bloc: _bloc,
+                      builder: (BuildContext context, state) =>
+                          (state.status == StatusType.initial ||
+                                  state.status == StatusType.refresh)
+                              ? const Center(
+                                  child: AppCircleLoading(),
+                                )
+                              : const SizedBox(),
+                    )
+                  ],
+                ),
+                onRefresh: () async => _bloc.refresh(),
+              ),
+      ),
+    );
   }
 
-  Widget addWidget(BuildContext context) => Padding(
-        padding: const EdgeInsets.only(bottom: 7),
-        child: InkWell(
-          child: Container(
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(40),
-                gradient: Utils.backgroundGradientOrangeButton()),
-            width: MediaQuery.of(context).size.width / 2.8,
-            height: 37.h,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Icon(
-                  Icons.add,
-                  color: colorWhite,
-                  size: 18,
-                ),
-                AppText(
-                  " ${AppLocalizations.of(context)!.reservations}",
-                  style: typoW600.copyWith(color: colorText0,fontSize: 13.sp),
-                )
-              ],
+  Widget addWidget(BuildContext context) => Visibility(
+        visible: isLogin,
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 7),
+          child: InkWell(
+            child: Container(
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(40),
+                  gradient: Utils.backgroundGradientOrangeButton()),
+              width: MediaQuery.of(context).size.width / 2.8,
+              height: 37.h,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(
+                    Icons.add,
+                    color: colorWhite,
+                    size: 18,
+                  ),
+                  AppText(
+                    " ${AppLocalizations.of(context)!.reservations}",
+                    style:
+                        typoW600.copyWith(color: colorText0, fontSize: 13.sp),
+                  )
+                ],
+              ),
             ),
+            onTap: () => _bloc.addOnclick(context),
           ),
-          onTap: () => _bloc.addOnclick(context),
         ),
       );
 
@@ -249,8 +264,8 @@ class _TabReservationState extends State<TabReservation>
               ),
               Expanded(
                   child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   AppText(
@@ -269,7 +284,8 @@ class _TabReservationState extends State<TabReservation>
                             color: colorText0.withOpacity(0.6)),
                       ),
                       Container(
-                        margin:  EdgeInsets.only(left: contentPadding*5, right: 10),
+                        margin: EdgeInsets.only(
+                            left: contentPadding * 5, right: 10),
                         width: 5,
                         height: 5,
                         decoration: BoxDecoration(

@@ -10,11 +10,13 @@ import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/theme/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../components/app_scalford.dart';
 import '../../components/app_text.dart';
+import '../../components/check_login.dart';
 import '../../data/globals.dart';
 import '../../gen/assets.gen.dart';
 import '../../localizations/app_localazations.dart';
@@ -41,26 +43,37 @@ class _TabRoutesState extends State<TabRoutes>
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-        length: 4,
-        child: AppScaffold(
-          resizeToAvoidBottomInset: false,
-          appbar: appBar(context),
-          backgroundColor: colorGreyBackground,
-          body: Column(
-            children: [
-              tabBar(context),
-              const Expanded(
-                  child: TabBarView(
-                children: [
-                  PlayListPage(),
-                  HistoryPage(),
-                  FavouritePage(),
-                  DesignedPage()
-                ],
-              ))
-            ],
-          ),
-        ));
+      length: 4,
+      child: AppScaffold(
+        resizeToAvoidBottomInset: false,
+        appbar: appBar(context),
+        backgroundColor: colorGreyBackground,
+        body: BlocBuilder(
+          bloc: _bloc,
+          builder: (c, s) => !isLogin
+              ? CheckLogin(
+                  loginCallBack: () {
+                    _bloc.onClickLogin(context);
+                  },
+                )
+              : Column(
+                  children: [
+                    tabBar(context),
+                    const Expanded(
+                      child: TabBarView(
+                        children: [
+                          PlayListPage(),
+                          HistoryPage(),
+                          FavouritePage(),
+                          DesignedPage()
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+        ),
+      ),
+    );
   }
 
   Widget tabBar(BuildContext context) => Stack(

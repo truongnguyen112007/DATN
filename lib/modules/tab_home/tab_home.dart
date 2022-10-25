@@ -74,41 +74,44 @@ class _TabHomeState extends State<TabHome> with AutomaticKeepAliveClientMixin {
             onClickNotification: () => _bloc.onClickNotification(context),
             onClickJumpToTop: () => jumToTop()),
         backgroundColor: colorGreyBackground,
-        body:
-     BlocBuilder(
-       bloc: _bloc,
-       builder: (c,s)=>   !isLogin
-           ? const CheckLogin()
-           : RefreshIndicator(
-         child: Stack(
-           children: [
-             SingleChildScrollView(
-               controller: _scrollController,
-               physics: const AlwaysScrollableScrollPhysics(),
-               child: Column(
-                 children: [
-                   itemSpace(),
-                   nextClimbWidget(context),
-                   itemSpace(),
-                   feedWidget()
-                 ],
-               ),
-             ),
-             BlocBuilder<TabHomeCubit, TabHomeState>(
-               bloc: _bloc,
-               builder: (BuildContext context, state) =>
-               (state.status == FeedStatus.initial ||
-                   state.status == FeedStatus.refresh)
-                   ? const Center(
-                 child: AppCircleLoading(),
-               )
-                   : const SizedBox(),
-             )
-           ],
-         ),
-         onRefresh: () async => _bloc.refresh(),
-       ),
-     ));
+        body: BlocBuilder(
+          bloc: _bloc,
+          builder: (c, s) => !isLogin
+              ? CheckLogin(
+                  loginCallBack: () {
+                    _bloc.onClickLogin(context);
+                  },
+                )
+              : RefreshIndicator(
+                  child: Stack(
+                    children: [
+                      SingleChildScrollView(
+                        controller: _scrollController,
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        child: Column(
+                          children: [
+                            itemSpace(),
+                            nextClimbWidget(context),
+                            itemSpace(),
+                            feedWidget()
+                          ],
+                        ),
+                      ),
+                      BlocBuilder<TabHomeCubit, TabHomeState>(
+                        bloc: _bloc,
+                        builder: (BuildContext context, state) =>
+                            (state.status == FeedStatus.initial ||
+                                    state.status == FeedStatus.refresh)
+                                ? const Center(
+                                    child: AppCircleLoading(),
+                                  )
+                                : const SizedBox(),
+                      )
+                    ],
+                  ),
+                  onRefresh: () async => _bloc.refresh(),
+                ),
+        ));
   }
 
   Widget feedWidget() => BlocBuilder<TabHomeCubit, TabHomeState>(

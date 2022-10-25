@@ -39,7 +39,7 @@ class TabHomeCubit extends Cubit<TabHomeState> {
   }
 
   void refresh() {
-    emit(TabHomeState(status: FeedStatus.refresh));
+    emit(const TabHomeState(status: FeedStatus.refresh));
     getFeed();
   }
 
@@ -55,9 +55,7 @@ class TabHomeCubit extends Cubit<TabHomeState> {
         context: context,
         route: HomeRouters.login,
         argument: BottomNavigationConstant.TAB_HOME);
-    Timer(Duration(seconds: 1),(){    emit(state.copyOf(timeStamp: DateTime.now().microsecondsSinceEpoch));
-    });
-    logE("TAG ISLOGIN ${isLogin}");
+    emit(state.copyOf(timeStamp: DateTime.now().microsecondsSinceEpoch));
   }
 
   void onClickNotification(BuildContext context) => RouterUtils.pushHome(
