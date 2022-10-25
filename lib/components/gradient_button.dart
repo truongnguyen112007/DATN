@@ -8,6 +8,7 @@ class GradientButton extends StatelessWidget {
   final VoidCallback onTap;
   final Widget widget;
   final BorderRadius borderRadius;
+  final bool isCenter;
 
   const GradientButton(
       {Key? key,
@@ -15,6 +16,9 @@ class GradientButton extends StatelessWidget {
       this.width,
       required this.decoration,
       required this.onTap,
+      this.isCenter = false,
+      required this.widget,
+      required this.borderRadius})
       required this.widget,
       required this.borderRadius})
       : super(key: key);
@@ -28,7 +32,7 @@ class GradientButton extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         borderRadius: borderRadius,
-        child: widget,
+        child: isCenter ? Center(child: widget) : widget,
       ),
     );
   }

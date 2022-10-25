@@ -1,5 +1,8 @@
 import 'dart:io';
 
+import 'package:base_bloc/modules/home/home_page.dart';
+import 'package:base_bloc/modules/splash/splash_page.dart';
+import 'package:base_bloc/modules/tab_profile/edit_settings/edit_settings_page.dart';
 import 'package:base_bloc/router/application.dart';
 import 'package:base_bloc/router/router.dart';
 import 'package:base_bloc/utils/log_utils.dart';

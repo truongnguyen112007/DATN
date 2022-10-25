@@ -6,6 +6,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../gen/assets.gen.dart';
 
+class HoldModel {
+  final String hold3d;
+  final String hold2d;
+
+  HoldModel(this.hold3d, this.hold2d);
+}
+
 class HoldSetCubit extends Cubit<HoldSetState> {
   HoldSetCubit() : super(const HoldSetState()) {
     emit(state.copyOf(lHoldSet: fakePickAll));
@@ -23,27 +30,27 @@ class HoldSetCubit extends Cubit<HoldSetState> {
 
   void detailOnclick(context) =>
       RouterUtils.openNewPage(HoldSetDetailPage(), context);
-  final List<String> fakePickAll = [
-    Assets.svg.holdset1,
-    Assets.svg.holdset2,
-    Assets.svg.holdset3,
-    Assets.svg.holdset4,
-    Assets.svg.holdset5,
-    Assets.svg.holdset1,
-    Assets.svg.holdset2,
-    Assets.svg.holdset3,
-    Assets.svg.holdset4,
-    Assets.svg.holdset5,
-    Assets.svg.holdset4,
-    Assets.svg.holdset5
+  final List<HoldModel> fakePickAll = [
+    HoldModel(Assets.png.holdset1.path, Assets.svg.holdset1),
+    HoldModel(Assets.png.holdset2.path, Assets.svg.holdset2),
+    HoldModel(Assets.png.holdset3.path, Assets.svg.holdset3),
+    HoldModel(Assets.png.holdset4.path, Assets.svg.holdset4),
+    HoldModel(Assets.png.holdset5.path, Assets.svg.holdset5),
+    HoldModel(Assets.png.holdset6.path, Assets.svg.holdset6),
+    HoldModel(Assets.png.holdset7.path, Assets.svg.holdset1),
+    HoldModel(Assets.png.holdset8.path, Assets.svg.holdset2),
+    HoldModel(Assets.png.holdset9.path, Assets.svg.holdset3),
+    HoldModel(Assets.png.holdset10.path, Assets.svg.holdset4),
+    HoldModel(Assets.png.holdset11.path, Assets.svg.holdset5),
+    HoldModel(Assets.png.holdset12.path, Assets.svg.holdset6),
   ];
 
-  final List<String> fakePickFavourite = [
-    Assets.svg.holdset1,
-    Assets.svg.holdset2,
-    Assets.svg.holdset3,
-    Assets.svg.holdset4,
-    Assets.svg.holdset5,
-    Assets.svg.holdset1,
+  final List<HoldModel> fakePickFavourite = [
+    HoldModel(Assets.png.holdset1.path, Assets.svg.holdset1),
+    HoldModel(Assets.png.holdset2.path, Assets.svg.holdset2),
+    HoldModel(Assets.png.holdset3.path, Assets.svg.holdset3),
+    HoldModel(Assets.png.holdset4.path, Assets.svg.holdset4),
+    HoldModel(Assets.png.holdset5.path, Assets.svg.holdset5),
+    HoldModel(Assets.png.holdset6.path, Assets.svg.holdset6),
   ];
 }

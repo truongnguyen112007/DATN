@@ -49,17 +49,13 @@ class _HomePageState extends State<HomePage> {
   final _bloc = HomeCubit();
   bool isShowBottomBar = false;
 
-  StreamSubscription<HideBottomBarEvent>? _hideBottomBarStream;
   StreamSubscription<NewPageEvent>? _newPageStream;
 
   @override
   void initState() {
     _newPageStream = Utils.eventBus.on<NewPageEvent>().listen((event) {
-      RouterUtils.openNewPage(event.newPage, context);
+      RouterUtils.pushTo(context, event.newPage);
     });
-    _hideBottomBarStream = Utils.eventBus
-        .on<HideBottomBarEvent>()
-        .listen((event) => _bloc.hideBottomBar(event.isHide));
     super.initState();
   }
 
@@ -67,7 +63,7 @@ class _HomePageState extends State<HomePage> {
   void dispose() {
     _pageController.dispose();
     _bloc.close();
-    _hideBottomBarStream?.cancel();
+    _newPageStream?.cancel();
     super.dispose();
   }
 
