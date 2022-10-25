@@ -321,6 +321,10 @@ abstract class AppLocalizations {
   String get activities;
   String get add_to_friends;
   String get reject;
+
+  String get login;
+  String get youNeedLogin;
+  String get logOut;
 }
 
 class _AppLocalizationsDelegate

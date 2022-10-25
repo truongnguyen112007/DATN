@@ -11,7 +11,6 @@ import 'package:base_bloc/modules/root/root_climb_page.dart';
 import 'package:base_bloc/modules/root/root_home_page.dart';
 import 'package:base_bloc/modules/root/root_profile_page.dart';
 import 'package:base_bloc/modules/root/root_reservation_page.dart';
-import 'package:base_bloc/modules/splash/splash_page.dart';
 import 'package:base_bloc/router/router_utils.dart';
 import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/theme/colors.dart';

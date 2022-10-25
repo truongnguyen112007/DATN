@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-class NewPageEvent {
+class NewPageEvent{
   final Widget newPage;
-
   NewPageEvent(this.newPage);
 }
