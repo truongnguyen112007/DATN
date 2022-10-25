@@ -1,5 +1,8 @@
 import 'dart:io';
 
+import 'package:base_bloc/modules/home/home_page.dart';
+import 'package:base_bloc/modules/splash/splash_page.dart';
+import 'package:base_bloc/modules/tab_profile/edit_settings/edit_settings_page.dart';
 import 'package:base_bloc/router/application.dart';
 import 'package:base_bloc/router/router.dart';
 import 'package:base_bloc/utils/log_utils.dart';
@@ -62,7 +65,14 @@ class _MyAppState extends State<MyApp> {
       builder: (c, w) => MaterialApp(
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
-        title: 'ReClimb',
+        title: 'ReClimb', initialRoute: '/',
+        routes: {
+          // When navigating to the "/" route, build the FirstScreen widget.
+          '/': (context) => const SplashPage(),
+          // When navigating to the "/second" route, build the SecondScreen widget.
+          '/homepage': (context) => const HomePage(),
+          '/test': (context) => const EditSettingsPage(),
+        },
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           textTheme: GoogleFonts.mulishTextTheme(),
@@ -74,7 +84,9 @@ class _MyAppState extends State<MyApp> {
           shadowColor: Colors.transparent,
           appBarTheme: const AppBarTheme(elevation: 0),
         ),
-        onGenerateRoute: Application.router.generator,
+        // home: SplashPage(),
+        // builder: (context,w)=>SplashPage(),
+        // onGenerateRoute: Application.router.generator,
       ),
     );
   }

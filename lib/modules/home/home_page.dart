@@ -10,6 +10,8 @@ import 'package:base_bloc/modules/root/root_climb_page.dart';
 import 'package:base_bloc/modules/root/root_home_page.dart';
 import 'package:base_bloc/modules/root/root_profile_page.dart';
 import 'package:base_bloc/modules/root/root_reservation_page.dart';
+import 'package:base_bloc/modules/splash/splash_page.dart';
+import 'package:base_bloc/router/router_utils.dart';
 import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/theme/colors.dart';
 import 'package:base_bloc/utils/app_utils.dart';
@@ -51,10 +53,10 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    _hideBottomBarStream = Utils.eventBus
+   /* _hideBottomBarStream = Utils.eventBus
         .on<HideBottomBarEvent>()
         .listen((event) => _bloc.hideBottomBar(event.isHide));
-    super.initState();
+   */ super.initState();
   }
 
   @override
