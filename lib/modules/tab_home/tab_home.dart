@@ -1,6 +1,7 @@
 import 'package:base_bloc/base/hex_color.dart';
 import 'package:base_bloc/components/app_circle_loading.dart';
 import 'package:base_bloc/components/appbar_widget.dart';
+import 'package:base_bloc/components/gradient_button.dart';
 import 'package:base_bloc/components/item_loading.dart';
 import 'package:base_bloc/data/globals.dart';
 import 'package:base_bloc/data/model/reservation_model.dart';
@@ -22,6 +23,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../components/app_scalford.dart';
 import '../../components/app_text.dart';
+import '../../components/check_login.dart';
 import '../../components/item_feed_widget.dart';
 import '../../config/constant.dart';
 import '../../gen/assets.gen.dart';
@@ -72,35 +74,41 @@ class _TabHomeState extends State<TabHome> with AutomaticKeepAliveClientMixin {
             onClickNotification: () => _bloc.onClickNotification(context),
             onClickJumpToTop: () => jumToTop()),
         backgroundColor: colorGreyBackground,
-        body: RefreshIndicator(
-          child: Stack(
-            children: [
-              SingleChildScrollView(
-                controller: _scrollController,
-                physics: const AlwaysScrollableScrollPhysics(),
-                child: Column(
-                  children: [
-                    itemSpace(),
-                    nextClimbWidget(context),
-                    itemSpace(),
-                    feedWidget()
-                  ],
-                ),
-              ),
-              BlocBuilder<TabHomeCubit, TabHomeState>(
-                bloc: _bloc,
-                builder: (BuildContext context, state) =>
-                    (state.status == FeedStatus.initial ||
-                            state.status == FeedStatus.refresh)
-                        ? const Center(
-                            child: AppCircleLoading(),
-                          )
-                        : const SizedBox(),
-              )
-            ],
-          ),
-          onRefresh: () async => _bloc.refresh(),
-        ));
+        body:
+     BlocBuilder(
+       bloc: _bloc,
+       builder: (c,s)=>   !isLogin
+           ? const CheckLogin()
+           : RefreshIndicator(
+         child: Stack(
+           children: [
+             SingleChildScrollView(
+               controller: _scrollController,
+               physics: const AlwaysScrollableScrollPhysics(),
+               child: Column(
+                 children: [
+                   itemSpace(),
+                   nextClimbWidget(context),
+                   itemSpace(),
+                   feedWidget()
+                 ],
+               ),
+             ),
+             BlocBuilder<TabHomeCubit, TabHomeState>(
+               bloc: _bloc,
+               builder: (BuildContext context, state) =>
+               (state.status == FeedStatus.initial ||
+                   state.status == FeedStatus.refresh)
+                   ? const Center(
+                 child: AppCircleLoading(),
+               )
+                   : const SizedBox(),
+             )
+           ],
+         ),
+         onRefresh: () async => _bloc.refresh(),
+       ),
+     ));
   }
 
   Widget feedWidget() => BlocBuilder<TabHomeCubit, TabHomeState>(

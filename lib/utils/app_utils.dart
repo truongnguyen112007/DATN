@@ -106,7 +106,7 @@ class Utils {
       case '6A':
         return [
           HexColor('D17800'),
-          HexColor('D17800').withOpacity(0.6  ),
+          HexColor('D17800').withOpacity(0.6),
           HexColor('005926'),
           HexColor('005926')
         ];
@@ -239,7 +239,7 @@ class Utils {
               children: [
                 Container(
                   padding: EdgeInsets.all(contentPadding),
-                  decoration:  BoxDecoration(
+                  decoration: BoxDecoration(
                     color: colorBlack.withOpacity(0.75),
                     borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(20),
@@ -310,13 +310,20 @@ class Utils {
         padding: EdgeInsets.all(contentPadding),
         child: Row(
           children: [
-           SizedBox(width: 22.w,height: 22.w,child: SvgPicture.asset(icon),),
+            SizedBox(
+              width: 22.w,
+              height: 22.w,
+              child: SvgPicture.asset(icon),
+            ),
             SizedBox(
               width: 40.w,
             ),
             AppText(
               text,
-              style: typoW400.copyWith(fontSize: 16,color: colorText0.withOpacity(0.87))/*typoSuperSmallTextRegular.copyWith(color: colorText0)*/,
+              style: typoW400.copyWith(
+                  fontSize: 16,
+                  color: colorText0.withOpacity(
+                      0.87)) /*typoSuperSmallTextRegular.copyWith(color: colorText0)*/,
             )
           ],
         ),
@@ -410,5 +417,4 @@ class UtilsExtension extends Utils {
       onTap: () => callback.call(),
     );
   }
-
 }

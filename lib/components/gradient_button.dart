@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class GradientButton extends StatelessWidget {
   final double height;
-  final double width;
+  final double? width;
   final Decoration decoration;
   final VoidCallback onTap;
   final Widget widget;
@@ -12,10 +12,11 @@ class GradientButton extends StatelessWidget {
   const GradientButton(
       {Key? key,
       required this.height,
-      required this.width,
+      this.width,
       required this.decoration,
       required this.onTap,
-      required this.widget, required this.borderRadius})
+      required this.widget,
+      required this.borderRadius})
       : super(key: key);
 
   @override

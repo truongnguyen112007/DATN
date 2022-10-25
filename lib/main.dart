@@ -26,6 +26,7 @@ Future<void> configApp() async {
   HttpOverrides.global = MyHttpOverrides();
   configOrientation();
   await GetStorage.init();
+  await StorageUtils.getLogin();
   // await dotenv.load(fileName: '.env.dev');
 }
 

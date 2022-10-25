@@ -20,6 +20,7 @@ import 'package:base_bloc/modules/tab_reservation/tab_reservation.dart';
 import 'package:base_bloc/modules/tab_routes/tab_routes.dart';
 import 'package:fluro/fluro.dart';
 
+import '../modules/login/login.dart';
 import '../modules/search_home/search_home_page.dart';
 
 import '../modules/routers_detail/routes_detail_page.dart';
@@ -34,6 +35,7 @@ var routeHome = Handler(handlerFunc: (c, p) => const HomePage());
 var routeTabHome = Handler(handlerFunc: (c, p) => const TabHome());
 var routeSearchHome = Handler(handlerFunc: (c,p) => SearchHomePage(index: c!.settings!.arguments as int));
 var routeNotifications = Handler(handlerFunc: (c, p) => const NotificationsPage());
+var routeLogin = Handler(handlerFunc: (c,p)=>  Login(index: c!.settings!.arguments as int,));
 var routeTabClimb = Handler(handlerFunc: (c, p) => const TabClimb());
 var routeTabProfile = Handler(handlerFunc: (c, p) => const TabProfile());
 var routeTabReservation =

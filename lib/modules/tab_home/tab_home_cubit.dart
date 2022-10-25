@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:base_bloc/data/globals.dart';
 import 'package:base_bloc/modules/tab_home/tab_home_state.dart';
 import 'package:base_bloc/utils/log_utils.dart';
 import 'package:flutter/cupertino.dart';
@@ -47,8 +48,16 @@ class TabHomeCubit extends Cubit<TabHomeState> {
       route: HomeRouters.search,
       argument: BottomNavigationConstant.TAB_HOME);
 
-  void onClickPlaylist () {
+  void onClickPlaylist() {}
 
+  void onClickLogin(BuildContext context) async {
+    await RouterUtils.pushHome(
+        context: context,
+        route: HomeRouters.login,
+        argument: BottomNavigationConstant.TAB_HOME);
+    Timer(Duration(seconds: 1),(){    emit(state.copyOf(timeStamp: DateTime.now().microsecondsSinceEpoch));
+    });
+    logE("TAG ISLOGIN ${isLogin}");
   }
 
   void onClickNotification(BuildContext context) => RouterUtils.pushHome(

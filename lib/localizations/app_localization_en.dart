@@ -464,4 +464,14 @@ class AppLocalizationEn extends AppLocalizations {
 
   @override
   String get reject => 'Reject';
+
+  @override
+  String get login => 'Login';
+
+  @override
+  String get youNeedLogin => 'You need to login to use\n this service';
+
+  @override
+  // TODO: implement logOut
+  String get logOut => 'LogOut';
 }

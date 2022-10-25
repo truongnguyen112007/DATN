@@ -21,6 +21,7 @@ class Routers {
 
 class HomeRouters {
   static String root = '/';
+  static String login = '/login';
   static String search = '/search_home';
   static String reservation = '/reservation';
   static String notifications = '/notifications';
@@ -33,6 +34,7 @@ class HomeRouters {
     router.define(search, handler: routeSearchHome);
     router.define(reservation, handler: routeReservationDetail);
     router.define(notifications, handler: routeNotifications);
+    router.define(login, handler: routeLogin);
   }
 }
 

@@ -1,7 +1,18 @@
-
+import 'package:base_bloc/config/constant.dart';
+import 'package:base_bloc/data/globals.dart' as globals;
+import 'package:get_storage/get_storage.dart';
 
 class StorageUtils {
-  /*static Future<void> saveDoctorRatingLatest(List<RatingModel> lDoctor) async {
+  static void setLogin(bool isLogin) {
+    GetStorage().write(StorageKey.isLogin, isLogin);
+    globals.isLogin = isLogin;
+  }
+
+  static Future<void> getLogin() async {
+    globals.isLogin = await GetStorage().read(StorageKey.isLogin);
+  }
+
+/*static Future<void> saveDoctorRatingLatest(List<RatingModel> lDoctor) async {
     var json = jsonEncode(lDoctor.map((e) => e.toJson()).toList());
     await GetStorage().write(StorageKey.ratingLatest, json);
   }
@@ -34,14 +45,6 @@ class StorageUtils {
     return null;
   }
 
-  static Future<void> saveUser(UserResponse ob) async {
-    globals.accessToken = ob.token;
-    globals.refreshToken = ob.refreshToken??'';
-    globals.accountId = ob.userId.toString();
-    globals.userName = ob.profile?.fullName ?? '';
-    globals.isLogin = true;
-    await GetStorage().write(StorageKey.AccountInfo, ob.toJson());
-  }
 
   static Future<void> clearData() async {
     globals.accessToken = '';
