@@ -65,14 +65,7 @@ class _MyAppState extends State<MyApp> {
       builder: (c, w) => MaterialApp(
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
-        title: 'ReClimb', initialRoute: '/',
-        routes: {
-          // When navigating to the "/" route, build the FirstScreen widget.
-          '/': (context) => const SplashPage(),
-          // When navigating to the "/second" route, build the SecondScreen widget.
-          '/homepage': (context) => const HomePage(),
-          '/test': (context) => const EditSettingsPage(),
-        },
+        title: 'ReClimb',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           textTheme: GoogleFonts.mulishTextTheme(),
@@ -84,9 +77,7 @@ class _MyAppState extends State<MyApp> {
           shadowColor: Colors.transparent,
           appBarTheme: const AppBarTheme(elevation: 0),
         ),
-        // home: SplashPage(),
-        // builder: (context,w)=>SplashPage(),
-        // onGenerateRoute: Application.router.generator,
+        onGenerateRoute: Application.router.generator,
       ),
     );
   }

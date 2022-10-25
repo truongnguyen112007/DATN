@@ -27,14 +27,7 @@ class _SplashPageState extends State<SplashPage> {
   Widget build(BuildContext context) {
     return BlocListener(
       bloc: _bloc,
-      listener: (c, s) {
-       /* Navigator.push(
-          c,
-          MaterialPageRoute(builder: (context) => const HomePage()),
-        );*/
-        RouterUtils.openNewPage(HomePage(), c);
-        // _bloc.openHomePage(context);
-      },
+      listener: (c, s) => _bloc.openHomePage(context),
       child: AppScaffold(
           body: Center(
         child: TextButton(

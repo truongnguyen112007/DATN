@@ -2,6 +2,7 @@ import 'package:base_bloc/data/model/settings_model.dart';
 import 'package:base_bloc/gen/assets.gen.dart';
 import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/modules/tab_profile/edit_settings/edit_account/edit_account_page.dart';
+import 'package:base_bloc/modules/tab_profile/edit_settings/edit_settings_page.dart';
 import 'package:base_bloc/modules/tab_profile/edit_settings/privacy_settings/privacy_settings_page.dart';
 import 'package:base_bloc/router/router_utils.dart';
 import 'package:flutter/cupertino.dart';
@@ -60,10 +61,8 @@ class EditSettingsCubit extends Cubit<EditSettingsState> {
   ];
 
   void openAccountPage(BuildContext context) {
-    RouterUtils.openNewPage2(SplashPage(), context);
-
-    // RouterUtils.openNewPage(EditAccountPage(), context);
-  }
+    RouterUtils.openNewPage(EditSettingsPage(), context);
+}
 
   void openNotificationsSettingsPage(BuildContext context) {
     RouterUtils.openNewPage(NotificationsSettingsPage(), context);

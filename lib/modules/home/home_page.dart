@@ -4,6 +4,7 @@ import 'dart:math' as math;
 import 'package:base_bloc/base/hex_color.dart';
 import 'package:base_bloc/components/app_scalford.dart';
 import 'package:base_bloc/config/constant.dart';
+import 'package:base_bloc/data/eventbus/new_page_event.dart';
 import 'package:base_bloc/data/eventbus/switch_tab_event.dart';
 import 'package:base_bloc/modules/home/home_state.dart';
 import 'package:base_bloc/modules/root/root_climb_page.dart';
@@ -49,21 +50,21 @@ class _HomePageState extends State<HomePage> {
   final _bloc = HomeCubit();
   bool isShowBottomBar = false;
 
-  StreamSubscription<HideBottomBarEvent>? _hideBottomBarStream;
+  StreamSubscription<NewPageEvent>? _newPageStream;
 
   @override
   void initState() {
-   /* _hideBottomBarStream = Utils.eventBus
-        .on<HideBottomBarEvent>()
-        .listen((event) => _bloc.hideBottomBar(event.isHide));
-   */ super.initState();
+    _newPageStream = Utils.eventBus.on<NewPageEvent>().listen((event) {
+      RouterUtils.pushTo(context, event.newPage);
+    });
+    super.initState();
   }
 
   @override
   void dispose() {
     _pageController.dispose();
     _bloc.close();
-    _hideBottomBarStream?.cancel();
+    _newPageStream?.cancel();
     super.dispose();
   }
 
