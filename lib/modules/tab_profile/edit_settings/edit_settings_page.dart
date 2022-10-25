@@ -73,6 +73,9 @@ class _EditSettingsState extends BaseState<EditSettingsPage>
                     case SettingsItemType.GENERAL:
                       _bloc.openGeneralSettingsPage(context);
                       break;
+                    case SettingsItemType.LOGOUT:
+                        _bloc.logOut(context);
+                      break;
                     default:
                       print(item.type.title);
                   }

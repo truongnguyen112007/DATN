@@ -1,10 +1,14 @@
 import 'package:base_bloc/modules/tab_climb/tab_climb_state.dart';
+import 'package:base_bloc/router/router.dart';
 import 'package:base_bloc/utils/log_utils.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_blue_elves/flutter_blue_elves.dart';
 import 'package:geolocator/geolocator.dart';
 
+import '../../config/constant.dart';
 import '../../data/model/list_places_model.dart';
+import '../../router/router_utils.dart';
 
 class TabClimbCubit extends Cubit<TabClimbState> {
   TabClimbCubit() : super(const TabClimbState()) {
@@ -28,6 +32,14 @@ class TabClimbCubit extends Cubit<TabClimbState> {
         emit(state.copyOf(isGps: isGps));
       }
     });
+  }
+
+  void onClickLogin(BuildContext context) async {
+    await RouterUtils.pushClimb(
+        context: context,
+        route: ClimbRouters.login,
+        argument: BottomNavigationConstant.TAB_CLIMB);
+    emit(TabClimbState(timeStamp: DateTime.now().microsecondsSinceEpoch));
   }
 }
 

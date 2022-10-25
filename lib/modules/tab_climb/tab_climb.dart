@@ -14,7 +14,9 @@ import 'package:flutter_blue_elves/flutter_blue_elves.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
 import '../../components/app_text.dart';
+import '../../components/check_login.dart';
 import '../../components/gradient_button.dart';
+import '../../data/globals.dart';
 import '../../data/model/list_places_model.dart';
 import '../../gen/assets.gen.dart';
 import '../../localizations/app_localazations.dart';
@@ -80,13 +82,22 @@ class _TabClimbState extends State<TabClimb> with TickerProviderStateMixin {
           ),
         ],
       ),
-      body: BlocBuilder<TabClimbCubit, TabClimbState>(
-          bloc: _bloc,
-          builder: (BuildContext context, state) {
-            return state.isBluetooth
-                ? Container(child: trueBluetooth())
-                : notBluetooth();
-          }),
+      body: BlocBuilder(
+        bloc: _bloc,
+        builder: (c, s) => !isLogin
+            ? CheckLogin(
+                loginCallBack: () {
+                  _bloc.onClickLogin(context);
+                },
+              )
+            : BlocBuilder<TabClimbCubit, TabClimbState>(
+                bloc: _bloc,
+                builder: (BuildContext context, state) {
+                  return state.isBluetooth
+                      ? Container(child: trueBluetooth())
+                      : notBluetooth();
+                }),
+      ),
     );
   }
 

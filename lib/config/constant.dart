@@ -6,6 +6,7 @@ class StorageKey {
   static const String doctorPromote = 'DoctorPromote';
   static const String ratingLatest = 'ratingLatest';
   static const String loginByFbOrGg = 'loginByFbOrGg';
+  static const String isLogin = 'isLogin';
 }
 
 class ConstantKey {

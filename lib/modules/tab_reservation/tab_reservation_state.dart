@@ -1,7 +1,7 @@
 import 'package:base_bloc/data/model/reservation_model.dart';
 import 'package:equatable/equatable.dart';
 
-enum StatusType { initial,search, success, failure, refresh }
+enum StatusType { initial, search, success, failure, refresh }
 
 class TabReservationState extends Equatable {
   final bool isLoading;
@@ -11,19 +11,30 @@ class TabReservationState extends Equatable {
   final List<ReservationModel> lNextWeek;
   final bool readEnd;
   final int currentPage;
+  final int? timeStamp;
 
-  const TabReservationState(
-      {this.readEnd = false,
-      this.isLoading = true,
-      this.currentPage = 1,
-      this.lToday = const <ReservationModel>[],
-      this.lTomorrow = const <ReservationModel>[],
-      this.lNextWeek = const <ReservationModel>[],
-      this.status = StatusType.initial});
+  const TabReservationState({
+    this.readEnd = false,
+    this.isLoading = true,
+    this.currentPage = 1,
+    this.lToday = const <ReservationModel>[],
+    this.lTomorrow = const <ReservationModel>[],
+    this.lNextWeek = const <ReservationModel>[],
+    this.status = StatusType.initial,
+    this.timeStamp,
+  });
 
   @override
-  List<Object?> get props =>
-      [lToday, lTomorrow, lNextWeek, currentPage, readEnd, status, isLoading];
+  List<Object?> get props => [
+        lToday,
+        lTomorrow,
+        lNextWeek,
+        currentPage,
+        readEnd,
+        status,
+        isLoading,
+        timeStamp
+      ];
 
   TabReservationState copyOf(
           {List<ReservationModel>? lToday,
@@ -32,7 +43,8 @@ class TabReservationState extends Equatable {
           List<ReservationModel>? lNextWeek,
           bool? readEnd,
           int? currentPage,
-          StatusType? status}) =>
+          StatusType? status,
+          int? timeStamp}) =>
       TabReservationState(
           isLoading: isLoading ?? this.isLoading,
           lToday: lToday ?? this.lToday,
@@ -40,5 +52,6 @@ class TabReservationState extends Equatable {
           lNextWeek: lNextWeek ?? this.lNextWeek,
           readEnd: readEnd ?? this.readEnd,
           currentPage: currentPage ?? this.currentPage,
-          status: status ?? this.status);
+          status: status ?? this.status,
+          timeStamp: timeStamp ?? this.timeStamp);
 }
