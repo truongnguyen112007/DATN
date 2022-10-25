@@ -19,8 +19,6 @@ class GradientButton extends StatelessWidget {
       this.isCenter = false,
       required this.widget,
       required this.borderRadius})
-      required this.widget,
-      required this.borderRadius})
       : super(key: key);
 
   @override
