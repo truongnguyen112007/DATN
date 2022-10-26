@@ -61,7 +61,17 @@ class _TabReservationState extends State<TabReservation>
     return AppScaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       floatingActionButton: addWidget(context),
-      appbar: appbar(context),
+      appbar: homeAppbar(context, onClickSearch: () {
+        _bloc.onClickSearch(context);
+      },
+          onClickNotification: () {
+        _bloc.onClickNotification(context);
+          },
+          onClickJumpToTop: () {},
+          widget: AppText(
+            LocaleKeys.reservations,
+            style: googleFont.copyWith(color: colorWhite),
+          )),
       backgroundColor: colorBlack30,
       body: BlocBuilder(
         bloc: _bloc,
@@ -132,36 +142,36 @@ class _TabReservationState extends State<TabReservation>
         ),
       );
 
-  PreferredSizeWidget appbar(BuildContext context) => appBarWidget(
-          leading: const SizedBox(),
-          leadingWidth: 0,
-          automaticallyImplyLeading: false,
-          context: context,
-          titleStr: AppLocalizations.of(context)!.reservations,
-          action: [
-            Container(
-              margin: EdgeInsets.only(left: 10, right: contentPadding),
-              child: Badge(
-                gradient: LinearGradient(colors: [
-                  colorYellow70,
-                  colorPrimary,
-                  colorPrimary.withOpacity(0.65),
-                ]),
-                padding: const EdgeInsets.all(2),
-                position: BadgePosition.topEnd(top: 13.h, end: 1.h),
-                toAnimate: false,
-                badgeContent: AppText(
-                  '1',
-                  style: typoSmallTextRegular.copyWith(
-                      fontSize: 9.sp, color: colorWhite),
-                ),
-                child: SvgPicture.asset(
-                  Assets.svg.notification,
-                  color: colorSurfaceMediumEmphasis,
-                ),
-              ),
-            ),
-          ]);
+  // PreferredSizeWidget appbar(BuildContext context) => appBarWidget(
+  //         leading: const SizedBox(),
+  //         leadingWidth: 0,
+  //         automaticallyImplyLeading: false,
+  //         context: context,
+  //         titleStr: AppLocalizations.of(context)!.reservations,
+  //         action: [
+  //           Container(
+  //             margin: EdgeInsets.only(left: 10, right: contentPadding),
+  //             child: Badge(
+  //               gradient: LinearGradient(colors: [
+  //                 colorYellow70,
+  //                 colorPrimary,
+  //                 colorPrimary.withOpacity(0.65),
+  //               ]),
+  //               padding: const EdgeInsets.all(2),
+  //               position: BadgePosition.topEnd(top: 13.h, end: 1.h),
+  //               toAnimate: false,
+  //               badgeContent: AppText(
+  //                 '1',
+  //                 style: typoSmallTextRegular.copyWith(
+  //                     fontSize: 9.sp, color: colorWhite),
+  //               ),
+  //               child: SvgPicture.asset(
+  //                 Assets.svg.notification,
+  //                 color: colorSurfaceMediumEmphasis,
+  //               ),
+  //             ),
+  //           ),
+  //         ]);
 
   Widget reservationWidget() =>
       BlocBuilder<TabReservationCubit, TabReservationState>(

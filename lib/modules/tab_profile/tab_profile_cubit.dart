@@ -10,11 +10,16 @@ import '../../config/constant.dart';
 import '../../router/router.dart';
 
 class TabProfileCubit extends Cubit<TabProfileState> {
-  TabProfileCubit() : super(TabProfileState());
+  TabProfileCubit() : super(const TabProfileState());
 
   void didPressEditProfile(BuildContext context) {
-    RouterUtils.openNewPage(EditSettingsPage(), context);
+    RouterUtils.openNewPage(const EditSettingsPage(), context);
   }
+
+  void onClickSearch(BuildContext context) => RouterUtils.pushProfile(
+      context: context,
+      route: ProfileRouters.search,
+      argument: BottomNavigationConstant.TAB_PROFILE);
 
   void onClickLogin(BuildContext context) async {
     await RouterUtils.pushProfile(
@@ -23,6 +28,11 @@ class TabProfileCubit extends Cubit<TabProfileState> {
         argument: BottomNavigationConstant.TAB_PROFILE);
     emit(TabProfileState(timeStamp: DateTime.now().microsecondsSinceEpoch));
   }
+
+  void onClickNotification(BuildContext context) => RouterUtils.pushProfile(
+      context: context,
+      route: ProfileRouters.notifications,
+      argument: BottomNavigationConstant.TAB_PROFILE);
 
   UserModel getCurrentUser() {
     return UserModel.fakeCurrentUser();

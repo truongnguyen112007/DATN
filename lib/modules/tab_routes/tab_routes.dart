@@ -46,7 +46,17 @@ class _TabRoutesState extends State<TabRoutes>
       length: 4,
       child: AppScaffold(
         resizeToAvoidBottomInset: false,
-        appbar: appBar(context),
+        appbar: homeAppbar(context, onClickSearch: () {
+          _bloc.onClickSearch(context);
+        },
+            onClickNotification: () {
+          _bloc.onClickNotification(context);
+            },
+            onClickJumpToTop: () {},
+            widget: AppText(
+              LocaleKeys.routes,
+              style: googleFont.copyWith(color: colorWhite),
+            )),
         backgroundColor: colorGreyBackground,
         body: BlocBuilder(
           bloc: _bloc,
@@ -114,45 +124,45 @@ class _TabRoutesState extends State<TabRoutes>
         ],
       );
 
-  PreferredSizeWidget appBar(BuildContext context) => appBarWidget(
-        leading: SizedBox(),
-        leadingWidth: contentPadding,
-        titleStr: LocaleKeys.routes,
-        action: [
-          IconButton(
-            onPressed: () {
-              _bloc.onClickSearch(context);
-            },
-            icon: SvgPicture.asset(
-              Assets.svg.search,
-              color: colorSurfaceMediumEmphasis,
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(left: 10, right: contentPadding),
-            child: Badge(
-              gradient: LinearGradient(colors: [
-                colorYellow70,
-                colorPrimary,
-                colorPrimary.withOpacity(0.65),
-              ]),
-              padding: const EdgeInsets.all(2),
-              position: BadgePosition.topEnd(top: 13.h, end: 1.h),
-              toAnimate: false,
-              badgeContent: AppText(
-                '1',
-                style: typoSmallTextRegular.copyWith(
-                    fontSize: 9.sp, color: colorWhite),
-              ),
-              child: SvgPicture.asset(
-                Assets.svg.notification,
-                color: colorSurfaceMediumEmphasis,
-              ),
-            ),
-          ),
-        ],
-        context: context,
-      );
+  // PreferredSizeWidget appBar(BuildContext context) => appBarWidget(
+  //       leading: SizedBox(),
+  //       leadingWidth: contentPadding,
+  //       titleStr: LocaleKeys.routes,
+  //       action: [
+  //         IconButton(
+  //           onPressed: () {
+  //             _bloc.onClickSearch(context);
+  //           },
+  //           icon: SvgPicture.asset(
+  //             Assets.svg.search,
+  //             color: colorSurfaceMediumEmphasis,
+  //           ),
+  //         ),
+  //         Container(
+  //           margin: EdgeInsets.only(left: 10, right: contentPadding),
+  //           child: Badge(
+  //             gradient: LinearGradient(colors: [
+  //               colorYellow70,
+  //               colorPrimary,
+  //               colorPrimary.withOpacity(0.65),
+  //             ]),
+  //             padding: const EdgeInsets.all(2),
+  //             position: BadgePosition.topEnd(top: 13.h, end: 1.h),
+  //             toAnimate: false,
+  //             badgeContent: AppText(
+  //               ' ',
+  //               style: typoSmallTextRegular.copyWith(
+  //                   fontSize: 9.sp, color: colorWhite),
+  //             ),
+  //             child: SvgPicture.asset(
+  //               Assets.svg.notification,
+  //               color: colorSurfaceMediumEmphasis,
+  //             ),
+  //           ),
+  //         ),
+  //       ],
+  //       context: context,
+  //     );
 
   @override
   bool get wantKeepAlive => true;

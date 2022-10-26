@@ -2,6 +2,8 @@ import 'package:base_bloc/config/constant.dart';
 import 'package:base_bloc/data/globals.dart' as globals;
 import 'package:get_storage/get_storage.dart';
 
+import '../data/globals.dart';
+
 class StorageUtils {
   static void setLogin(bool isLogin) {
     GetStorage().write(StorageKey.isLogin, isLogin);
@@ -9,7 +11,10 @@ class StorageUtils {
   }
 
   static Future<void> getLogin() async {
-    globals.isLogin = await GetStorage().read(StorageKey.isLogin);
+    var isLogin = await GetStorage().read(StorageKey.isLogin);
+    if(isLogin != null) {
+      globals.isLogin = isLogin;
+    }
   }
 
 /*static Future<void> saveDoctorRatingLatest(List<RatingModel> lDoctor) async {
