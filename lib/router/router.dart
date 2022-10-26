@@ -42,6 +42,7 @@ class RoutesRouters {
   static String root = '/';
   static String search = '/search';
   static String login = '/login';
+  static String notifications = '/notifications';
   static String routesDetail = '/routesDetail';
   static String createRoutes ='/createRoutes';
   static configureRouter(FluroRouter router) {
@@ -53,12 +54,15 @@ class RoutesRouters {
     router.define(createRoutes, handler: routeCreateRoutes);
     router.define(search, handler: routeSearchHome);
     router.define(login, handler: routeLogin);
+    router.define(notifications, handler: routeNotifications);
   }
 }
 
 class ClimbRouters {
   static String root = '/';
   static String login = '/login';
+  static String search = '/search';
+  static String notifications = '/notifications';
 
   static configureRouter(FluroRouter router) {
     router.notFoundHandler = Handler(handlerFunc: (c, x) {
@@ -66,12 +70,16 @@ class ClimbRouters {
     });
     router.define(root, handler: routeTabClimb);
     router.define(login, handler: routeLogin);
+    router.define(search, handler: routeSearchHome);
+    router.define(notifications, handler: routeNotifications);
   }
 }
 
 class ReservationRouters {
   static String root = '/';
   static String login = '/login';
+  static String search = '/search';
+  static String notifications = '/notifications';
   static String routesReservationDetail = '/reservationDetail';
   static String routesCreateReservationPage = '/createReservationPage';
   static String routesFilterAddress = '/routesFilterCity';
@@ -93,12 +101,16 @@ class ReservationRouters {
     router.define(routesCreateReservationSuccess,
         handler: routeCreateReservationSuccess);
     router.define(login, handler: routeLogin);
+    router.define(search, handler: routeSearchHome);
+    router.define(notifications, handler: routeNotifications);
   }
 }
 
 class ProfileRouters {
   static String root = '/';
   static String login = '/login';
+  static String search = '/search';
+  static String notifications = '/notifications';
 
   static configureProfileRouter(FluroRouter router) {
     router.notFoundHandler = Handler(handlerFunc: (c, x) {
@@ -106,5 +118,7 @@ class ProfileRouters {
     });
     router.define(root, handler: routeTabProfile);
     router.define(login, handler: routeLogin);
+    router.define(search, handler: routeSearchHome);
+    router.define(notifications, handler: routeNotifications);
   }
 }

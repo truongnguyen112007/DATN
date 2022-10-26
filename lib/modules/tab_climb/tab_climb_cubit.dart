@@ -33,6 +33,16 @@ class TabClimbCubit extends Cubit<TabClimbState> {
       }
     });
   }
+  void onClickNotification(BuildContext context) => RouterUtils.pushClimb(
+      context: context,
+      route: ClimbRouters.notifications,
+      argument: BottomNavigationConstant.TAB_CLIMB);
+
+  void onClickSearch(BuildContext context) => RouterUtils.pushClimb(
+      context: context,
+      route: ClimbRouters.search,
+      argument: BottomNavigationConstant.TAB_CLIMB);
+
 
   void onClickLogin(BuildContext context) async {
     await RouterUtils.pushClimb(

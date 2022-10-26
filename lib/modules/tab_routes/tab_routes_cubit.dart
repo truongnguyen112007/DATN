@@ -15,6 +15,11 @@ class TabRouteCubit extends Cubit<TabRouteState>{
       route: RoutesRouters.search,
       argument: BottomNavigationConstant.TAB_ROUTES);
 
+  void onClickNotification(BuildContext context) => RouterUtils.pushRoutes(
+      context: context,
+      route: RoutesRouters.notifications,
+      argument: BottomNavigationConstant.TAB_ROUTES);
+
   void onClickLogin(BuildContext context) async {
     await RouterUtils.pushRoutes(
         context: context,

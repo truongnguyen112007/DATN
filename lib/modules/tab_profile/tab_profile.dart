@@ -1,4 +1,6 @@
 import 'package:badges/badges.dart';
+import 'package:base_bloc/components/app_text.dart';
+import 'package:base_bloc/components/appbar_widget.dart';
 import 'package:base_bloc/components/profile_info_widget.dart';
 import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/modules/tab_profile/tab_profile_cubit.dart';
@@ -42,7 +44,17 @@ class _TabProfileState extends State<TabProfile> {
     return AppScaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: colorMainBackground,
-      appbar: appBar(context),
+      appbar: homeAppbar(context, onClickSearch: () {
+        _bloc.onClickSearch(context);
+      },
+          onClickNotification: () {
+        _bloc.onClickNotification(context);
+          },
+          onClickJumpToTop: () {},
+          widget: AppText(
+            LocaleKeys.profile,
+            style: googleFont.copyWith(color: colorWhite),
+          )),
       body: BlocBuilder(
         bloc: _bloc,
         builder: (c, s) => !isLogin
@@ -115,22 +127,4 @@ class _TabProfileState extends State<TabProfile> {
                 userModel: _bloc.getCurrentUser(),
                 onPressEditProfile: () => _bloc.didPressEditProfile(context));
           });
-
-  PreferredSizeWidget appBar(BuildContext context) => AppBar(
-        backgroundColor: colorMainBackground,
-        actions: [
-          SizedBox(
-            child: Badge(
-              padding: EdgeInsets.all(2.w),
-              position: BadgePosition.topEnd(top: 13.h, end: -2.h),
-              toAnimate: false,
-              badgeContent: const Text('1'),
-              child: const Icon(Icons.notifications_none_sharp),
-            ),
-          ),
-          SizedBox(
-            width: 2.0 * contentPadding,
-          ),
-        ],
-      );
 }

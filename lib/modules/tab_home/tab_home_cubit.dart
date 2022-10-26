@@ -48,8 +48,6 @@ class TabHomeCubit extends Cubit<TabHomeState> {
       route: HomeRouters.search,
       argument: BottomNavigationConstant.TAB_HOME);
 
-  void onClickPlaylist() {}
-
   void onClickLogin(BuildContext context) async {
     await RouterUtils.pushHome(
         context: context,

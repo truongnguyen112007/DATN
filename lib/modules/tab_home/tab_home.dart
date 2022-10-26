@@ -69,10 +69,16 @@ class _TabHomeState extends State<TabHome> with AutomaticKeepAliveClientMixin {
   Widget build(BuildContext context) {
     return AppScaffold(
         padding: EdgeInsets.only(left: contentPadding, right: contentPadding),
-        appbar: homeAppbar(context,
-            onClickSearch: () => _bloc.onClickSearch(context),
-            onClickNotification: () => _bloc.onClickNotification(context),
-            onClickJumpToTop: () => jumToTop()),
+        appbar: homeAppbar(
+          context,
+          onClickSearch: () => _bloc.onClickSearch(context),
+          onClickNotification: () => _bloc.onClickNotification(context),
+          onClickJumpToTop: () => jumToTop(),
+          widget: SvgPicture.asset(
+            Assets.svg.relimbDark,
+            height: 24.w,
+          ),
+        ),
         backgroundColor: colorGreyBackground,
         body: BlocBuilder(
           bloc: _bloc,
@@ -197,53 +203,51 @@ class _TabHomeState extends State<TabHome> with AutomaticKeepAliveClientMixin {
                         ),
                       ),
                       Expanded(
-                          flex: 6,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Container(
-                                width: 40.w,
-                                height: 40.w,
-                                decoration: BoxDecoration(
-                                    color: Colors.greenAccent,
-                                    borderRadius: BorderRadius.circular(100)),
-                              ),
-                              SizedBox(
-                                width: 12.w,
-                              ),
-                              Expanded(
-                                child: Stack(
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(bottom: 10.h),
-                                      child: AppText(
-                                        '12:00 Tuesday, 23th March',
-                                        style: typoLargeTextRegular.copyWith(
-                                            fontSize: 20.2.sp,
-                                            color:
-                                                colorText90.withOpacity(0.65)),
-                                        maxLine: 1,
-                                      ),
+                        flex: 6,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Container(
+                              width: 40.w,
+                              height: 40.w,
+                              decoration: BoxDecoration(
+                                  color: Colors.greenAccent,
+                                  borderRadius: BorderRadius.circular(100)),
+                            ),
+                            SizedBox(
+                              width: 12.w,
+                            ),
+                            Expanded(
+                              child: Stack(
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(bottom: 10.h),
+                                    child: AppText(
+                                      '12:00 Tuesday, 23th March',
+                                      style: typoLargeTextRegular.copyWith(
+                                          fontSize: 20.2.sp,
+                                          color: colorText90.withOpacity(0.65)),
+                                      maxLine: 1,
                                     ),
-                                    Positioned.fill(
-                                        child: Align(
-                                      alignment: Alignment.bottomLeft,
-                                      child: AppText(
-                                        'Murall Krakowska, Warszawa',
-                                        style:
-                                            typoSuperSmallTextRegular.copyWith(
-                                                fontSize: 13.sp,
-                                                color: colorText90
-                                                    .withOpacity(0.6)),
-                                        maxLine: 1,
-                                      ),
-                                    ))
-                                  ],
-                                ),
+                                  ),
+                                  Positioned.fill(
+                                      child: Align(
+                                    alignment: Alignment.bottomLeft,
+                                    child: AppText(
+                                      'Murall Krakowska, Warszawa',
+                                      style: typoSuperSmallTextRegular.copyWith(
+                                          fontSize: 13.sp,
+                                          color: colorText90.withOpacity(0.6)),
+                                      maxLine: 1,
+                                    ),
+                                  ))
+                                ],
                               ),
-                            ],
-                          ))
+                            ),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),

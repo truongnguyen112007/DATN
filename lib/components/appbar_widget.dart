@@ -46,17 +46,18 @@ PreferredSizeWidget appBarWidget(
       actions: action,
     );
 
-PreferredSizeWidget homeAppbar(BuildContext context, {required Function onClickSearch, required Function onClickNotification, required Function onClickJumpToTop}) => appBarWidget(
+PreferredSizeWidget homeAppbar(BuildContext context, {required Function onClickSearch, required Function onClickNotification, required Function onClickJumpToTop,required Widget widget}) => appBarWidget(
     leading: const SizedBox(),
     backgroundColor: colorMainBackground,
     leadingWidth: contentPadding,
     context: context,
     title: InkWell(
       onTap: () => onClickJumpToTop(),
-      child: SvgPicture.asset(
-        Assets.svg.relimbDark,
-        height: 24.w,
-      ),
+      child: widget
+      // SvgPicture.asset(
+      //   Assets.svg.relimbDark,
+      //   height: 24.w,
+      // ),
     ),
     action: [
       IconButton(

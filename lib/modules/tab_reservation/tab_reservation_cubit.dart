@@ -39,6 +39,16 @@ class TabReservationCubit extends Cubit<TabReservationState> {
     emit(const TabReservationState(status: StatusType.refresh));
     getFeed();
   }
+  void onClickNotification(BuildContext context) => RouterUtils.pushReservations(
+      context: context,
+      route: ReservationRouters.notifications,
+      argument: BottomNavigationConstant.TAB_RESERVATIONS);
+
+  void onClickSearch(BuildContext context) => RouterUtils.pushReservations(
+      context: context,
+      route: ReservationRouters.search,
+      argument: BottomNavigationConstant.TAB_RESERVATIONS);
+
   void itemOnclick(BuildContext context, ReservationModel model) =>
       RouterUtils.pushReservations(
           context: context,

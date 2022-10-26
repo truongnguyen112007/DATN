@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:badges/badges.dart';
 import 'package:base_bloc/components/app_scalford.dart';
+import 'package:base_bloc/components/appbar_widget.dart';
 import 'package:base_bloc/modules/tab_climb/tab_climb_cubit.dart';
 import 'package:base_bloc/modules/tab_climb/tab_climb_state.dart';
 import 'package:base_bloc/theme/app_styles.dart';
@@ -53,35 +54,18 @@ class _TabClimbState extends State<TabClimb> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return AppScaffold(
       backgroundColor: colorGrey90,
-      appbar: AppBar(
-        backgroundColor: colorBlack,
-        title: AppText(
-          AppLocalizations.of(context)!.climb,
-          style: typoExtraSmallTextBold.copyWith(
-              color: colorWhite, fontSize: 15.sp),
-        ),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.search),
-          ),
-          SizedBox(
-            width: 15.w,
-          ),
-          SizedBox(
-            child: Badge(
-              padding: const EdgeInsets.all(2),
-              position: BadgePosition.topEnd(top: 13.h, end: -2.h),
-              toAnimate: false,
-              badgeContent: const Text('1'),
-              child: const Icon(Icons.notifications_none_sharp),
-            ),
-          ),
-          SizedBox(
-            width: 20.w,
-          ),
-        ],
-      ),
+      appbar: homeAppbar(context,
+          onClickSearch: () {
+              _bloc.onClickSearch(context);
+          },
+          onClickNotification: () {
+        _bloc.onClickNotification(context);
+          },
+          onClickJumpToTop: () {},
+          widget: AppText(
+            LocaleKeys.climb,
+            style: googleFont.copyWith(color: colorWhite),
+          )),
       body: BlocBuilder(
         bloc: _bloc,
         builder: (c, s) => !isLogin

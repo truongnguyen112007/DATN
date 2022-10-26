@@ -4,7 +4,7 @@ class AppLocalizationEn extends AppLocalizations {
   AppLocalizationEn([String locale = 'en']) : super(locale);
 
   @override
-  String get appTitle => 'Reclimp';
+  String get appTitle => 'ReClimb';
 
   @override
   String get climb => 'Climb';
