@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:base_bloc/data/eventbus/new_page_event.dart';
 import 'package:base_bloc/data/model/hold_set_model.dart';
 import 'package:base_bloc/modules/create_routes/create_routes_state.dart';
 import 'package:base_bloc/modules/persons_page/persons_page_state.dart';
@@ -15,7 +16,8 @@ class CreateRoutesCubit extends Cubit<CreateRoutesState> {
 
   void itemOnLongPress(int index, BuildContext context) async {
     emit(state.copyOf(selectIndex: index));
-    var result = await RouterUtils.openNewPage(const HoldSetPage(), context);
+    var result = await RouterUtils.openNewPage(const HoldSetPage(), context,
+        type: NewPageType.HOLD_SET);
     if (result != null) {
       state.lRoutes[index] =
           HoldSetModel(holdSet: result, rotate: state.lRoutes[index].rotate);
@@ -24,6 +26,15 @@ class CreateRoutesCubit extends Cubit<CreateRoutesState> {
           lRoutes: state.lRoutes,
           timeStamp: DateTime.now().microsecondsSinceEpoch));
     }
+  }
+
+  void setHoldSet(String holdSet) {
+    state.lRoutes[state.selectIndex ?? 0] = HoldSetModel(
+        holdSet: holdSet, rotate: state.lRoutes[state.selectIndex ?? 0].rotate);
+    emit(state.copyOf(
+        currentHoldSet: holdSet,
+        lRoutes: state.lRoutes,
+        timeStamp: DateTime.now().microsecondsSinceEpoch));
   }
 
   void itemOnClick(int index) {

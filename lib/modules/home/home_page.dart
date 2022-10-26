@@ -4,6 +4,7 @@ import 'dart:math' as math;
 import 'package:base_bloc/base/hex_color.dart';
 import 'package:base_bloc/components/app_scalford.dart';
 import 'package:base_bloc/config/constant.dart';
+import 'package:base_bloc/data/eventbus/hold_set_event.dart';
 import 'package:base_bloc/data/eventbus/new_page_event.dart';
 import 'package:base_bloc/data/eventbus/switch_tab_event.dart';
 import 'package:base_bloc/modules/home/home_state.dart';
@@ -15,6 +16,7 @@ import 'package:base_bloc/router/router_utils.dart';
 import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/theme/colors.dart';
 import 'package:base_bloc/utils/app_utils.dart';
+import 'package:base_bloc/utils/log_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -53,8 +55,17 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    _newPageStream = Utils.eventBus.on<NewPageEvent>().listen((event) {
-      RouterUtils.pushTo(context, event.newPage);
+    _newPageStream = Utils.eventBus.on<NewPageEvent>().listen((event) async {
+      var result = await RouterUtils.pushTo(context, event.newPage,isReplace: event.isReplace);
+      if (result != null && event.type != null) {
+        switch (event.type) {
+          case NewPageType.HOLD_SET:
+            Utils.fireEvent(HoldSetEvent(result));
+            return;
+          case NewPageType.FILL_PLACE:
+            Utils.fireEvent(result);
+        }
+      }
     });
     super.initState();
   }

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:base_bloc/base/base_state.dart';
 import 'package:base_bloc/components/app_button.dart';
 import 'package:base_bloc/components/app_scalford.dart';
@@ -20,6 +22,7 @@ import 'package:flutter_svg/svg.dart';
 
 import '../../base/hex_color.dart';
 import '../../components/app_circle_loading.dart';
+import '../../data/eventbus/hold_set_event.dart';
 import '../../gen/assets.gen.dart';
 import '../../router/router_utils.dart';
 import '../../utils/app_utils.dart';
@@ -47,12 +50,21 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage> {
     Assets.svg.holdset6,
   ];
   final lHeight = [0, 2, 4, 6, 8, 10, 12];
-
+ StreamSubscription<HoldSetEvent>? _holdSetStream;
   @override
   void initState() {
+    _holdSetStream = Utils.eventBus.on<HoldSetEvent>().listen((event) {
+      _bloc.setHoldSet(event.holdSet);
+    });
     _bloc = CreateRoutesCubit();
     _bloc.setData(row: row, column: column, sizeHoldSet: sizeHoldSet);
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _holdSetStream?.cancel();
+    super.dispose();
   }
 
   @override
@@ -375,7 +387,7 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage> {
   Widget zoomWidget(BuildContext context, Widget widget) => Zoomer(
         enableTranslation: true,
         scaleCallBack: (value) {
-          logE("TAG SCALE CALLBACK: $value");
+          // logE("TAG SCALE CALLBACK: $value");
         },
         controller: _zoomController,
         height: MediaQuery.of(context).size.height,

@@ -174,7 +174,7 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
                                   ),
                                   Positioned.fill(
                                       child: Align(
-                                    alignment: Alignment.centerLeft,
+                                    alignment: Alignment.bottomLeft,
                                     child: infoHeightWidget(context),
                                   ))
                                 ],
@@ -330,7 +330,8 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
             }),
       );
 
-  Widget infoHeightWidget(BuildContext context) => SizedBox(
+  Widget infoHeightWidget(BuildContext context) => Container(
+        margin: EdgeInsets.only(bottom: sizeHoldSet * 2),
         height: row * sizeHoldSet,
         width: MediaQuery.of(context).size.width / 3.9,
         child: Column(
