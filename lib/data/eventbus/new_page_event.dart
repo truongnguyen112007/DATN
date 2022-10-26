@@ -4,7 +4,8 @@ enum NewPageType { HOLD_SET,FILL_PLACE }
 
 class NewPageEvent {
   final Widget newPage;
+  final bool isReplace;
   final NewPageType? type;
 
-  NewPageEvent(this.newPage, {this.type});
+  NewPageEvent(this.newPage, {this.type, this.isReplace = false});
 }

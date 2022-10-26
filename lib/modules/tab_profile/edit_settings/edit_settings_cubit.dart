@@ -90,6 +90,6 @@ class EditSettingsCubit extends Cubit<EditSettingsState> {
     StorageUtils.setLogin(false);
      emit(EditSettingsState(timeStamp: DateTime.now().microsecondsSinceEpoch));
     toast('LogOut success');
-    RouterUtils.openNewPage(const HomePage(), context);
+    RouterUtils.openNewPage(const HomePage(), context,isReplace: true);
   }
 }

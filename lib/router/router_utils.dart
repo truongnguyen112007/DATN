@@ -1,6 +1,8 @@
 import 'package:base_bloc/utils/app_utils.dart';
+import 'package:base_bloc/utils/log_utils.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 import '../data/eventbus/new_page_event.dart';
 import 'application.dart';
@@ -83,11 +85,31 @@ class RouterUtils {
       Navigator.pop(context, result);
 
   static dynamic openNewPage(Widget newPage, BuildContext context,
-      {NewPageType? type}) async {
-    Utils.fireEvent(NewPageEvent(newPage, type: type));
+      {NewPageType? type, bool isReplace = false}) async {
+    Utils.fireEvent(NewPageEvent(newPage, type: type, isReplace: isReplace));
   }
 
-  static Future<dynamic> pushTo(BuildContext context, Widget newPage) async {
+  static Future<dynamic> pushTo(BuildContext context, Widget newPage,
+      {bool isReplace = false}) async {
+    if (isReplace) {
+      return await Navigator.of(context).pushAndRemoveUntil<void>(
+          PageRouteBuilder(
+            pageBuilder: (context, animation, secondaryAnimation) => newPage,
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+              const begin = Offset(0.0, 1.0);
+              const end = Offset.zero;
+              const curve = Curves.ease;
+              var tween =
+                  Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+              return SlideTransition(
+                position: animation.drive(tween),
+                child: child,
+              );
+            },
+          ),
+          (Route<dynamic> route) => false);
+    }
     return await Navigator.of(context).push(
       PageRouteBuilder(
         pageBuilder: (context, animation, secondaryAnimation) => newPage,

@@ -20,7 +20,7 @@ class LoginCubit extends Cubit<LoginState> {
     if (isValidPass && isValidEmail) {
       StorageUtils.setLogin(true);
       /*  RouterUtils.pop(context);*/
-      Utils.fireEvent(NewPageEvent(HomePage()));
+      RouterUtils.openNewPage(HomePage(), context,isReplace: true);
     }
   }
 

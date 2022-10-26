@@ -56,7 +56,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     _newPageStream = Utils.eventBus.on<NewPageEvent>().listen((event) async {
-      var result = await RouterUtils.pushTo(context, event.newPage);
+      var result = await RouterUtils.pushTo(context, event.newPage,isReplace: event.isReplace);
       if (result != null && event.type != null) {
         switch (event.type) {
           case NewPageType.HOLD_SET:
