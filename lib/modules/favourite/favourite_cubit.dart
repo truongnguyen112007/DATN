@@ -64,7 +64,7 @@ class FavouriteCubit extends Cubit<FavouriteState> {
   }
 
   void createRoutesOnClick(BuildContext context) =>
-      RouterUtils.openNewPage(CreateRoutesPage(), context);
+      RouterUtils.openNewPage(const CreateRoutesPage(), context);
 
   List<RoutesModel> fakeData() => [
         RoutesModel(
@@ -110,11 +110,36 @@ class FavouriteCubit extends Cubit<FavouriteState> {
             grade: '6A',
             status: 'corner')
       ];
-  void itemOnClick(BuildContext context) =>Utils.showActionDialog(context, (p0){});
+
+  void itemOnClick(BuildContext context) =>
+      Utils.showActionDialog(context, (p0) {});
 
   void filterOnclick(BuildContext context) => RouterUtils.openNewPage(
       const FilterRoutesPage(
         index: BottomNavigationConstant.TAB_ROUTES,
       ),
       context);
+
+  void selectOnclick(bool isShowAdd) {
+    emit(state.copyWith(isShowAdd: isShowAdd));
+  }
+
+  void filterItemOnclick(int index) {
+    logE("TAG INDEX: $index");
+    state.lPlayList[index].isSelect =  !state.lPlayList[index].isSelect;
+    logE("TAG state.lPlayList[index].isSelect: ${state.lPlayList[index].isSelect}");
+    emit(state.copyWith(
+        lPlayList: state.lPlayList,
+        timeStamp: DateTime.now().millisecondsSinceEpoch));
+    var isFilter = false;
+  /*  for (int i = 0; i < state.lPlayList.length; i++) {
+      logE("TAG INDEX: $i IS SHOW BUTON: ${state.lPlayList[i].isSelect}");
+     *//* if (state.lPlayList[i].isSelect == true) {
+        logE("TAG IS SHOW BUTON: TRUE");
+        isFilter = true;
+        break;
+      }*//*
+    }
+    emit(state.copyWith(isShowActionButton: isFilter,timeStamp: DateTime.now().microsecondsSinceEpoch));
+  */}
 }

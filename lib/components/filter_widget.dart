@@ -7,19 +7,29 @@ import '../theme/app_styles.dart';
 import '../theme/colors.dart';
 import 'app_text.dart';
 
-class FilterWidget extends StatelessWidget {
+class FilterWidget extends StatefulWidget {
   final bool isSelect;
   final VoidCallback sortCallBack;
   final VoidCallback filterCallBack;
   final VoidCallback selectCallBack;
+  final bool onClickSelect;
+  final VoidCallback unsSelectCallBack;
 
   const FilterWidget(
       {Key? key,
-        this.isSelect = false,
-        required this.sortCallBack,
-        required this.filterCallBack,
-        required this.selectCallBack})
+      this.isSelect = false,
+      required this.sortCallBack,
+      required this.filterCallBack,
+      required this.selectCallBack,
+      this.onClickSelect = false, required this.unsSelectCallBack,})
       : super(key: key);
+
+  @override
+  State<FilterWidget> createState() => _FilterWidgetState();
+}
+
+class _FilterWidgetState extends State<FilterWidget> {
+  bool onClickSelect = false;
 
   @override
   Widget build(BuildContext context) {
@@ -31,26 +41,36 @@ class FilterWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           itemFilterWidget(Icons.swap_vert, LocaleKeys.sort,
-              colorWhite.withOpacity(0.87), () => sortCallBack.call()),
+              colorWhite.withOpacity(0.87), () => widget.sortCallBack.call()),
           itemFilterWidget(
               Icons.filter_alt_outlined,
               AppLocalizations.of(context)!.filter,
               colorWhite.withOpacity(0.87),
-                  () => filterCallBack.call()),
+              () => widget.filterCallBack.call()),
           itemFilterWidget(
-              Icons.filter_alt_outlined,
-              AppLocalizations.of(context)!.select,
-              Colors.transparent,
-              isShow: isSelect,
-                  () => selectCallBack.call())
+            Icons.filter_alt_outlined,
+            onClickSelect
+                ? 'Unselect all'
+                : LocaleKeys.select,
+            Colors.transparent,
+            isShow: widget.isSelect,
+            () => setState(() {
+              // onClickSelect = !onClickSelect;
+              if (onClickSelect = !onClickSelect) {
+                widget.selectCallBack.call();
+              } else {
+                widget.unsSelectCallBack.call();
+              }
+            }),
+          ),
         ],
       ),
     );
   }
 
   Widget itemFilterWidget(
-      IconData icon, String title, Color color, VoidCallback callback,
-      {bool isShow = false}) =>
+          IconData icon, String title, Color color, VoidCallback callback,
+          {bool isShow = false}) =>
       InkWell(
         onTap: () => callback.call(),
         child: Row(
