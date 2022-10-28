@@ -45,5 +45,5 @@ class FavouriteState extends Equatable {
 
   @override
   List<Object?> get props =>
-      [status, lPlayList, isReadEnd, isLoading, isShowAdd, isClickRadioButton,isShowActionButton];
+      [status, lPlayList, isReadEnd, isLoading, isShowAdd, isClickRadioButton,isShowActionButton,timeStamp];
 }

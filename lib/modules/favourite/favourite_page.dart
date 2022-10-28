@@ -107,26 +107,28 @@ class _FavouritePageState extends State<FavouritePage>
                       builder: (c, state) => Positioned.fill(
                         left: 10.w,
                         bottom: 10.h,
-                        child: Align(
-                          alignment: Alignment.bottomLeft,
-                          child: GradientButton(
-                            isShow: state.isShowActionButton,
-                            height: 36.h,
-                            isCenter: true,
-                            width: 170.w,
-                            decoration: BoxDecoration(
-                              gradient: Utils.backgroundGradientOrangeButton(),
-                              borderRadius: BorderRadius.circular(18),
-                            ),
-                            onTap: () {},
-                            widget: AppText(
-                              'Action',
-                              style: googleFont.copyWith(
-                                  color: colorWhite, fontSize: 15.sp),
-                            ),
-                            borderRadius: BorderRadius.circular(18),
-                          ),
-                        ),
+                        child: state.isShowActionButton
+                            ? Align(
+                                alignment: Alignment.bottomLeft,
+                                child: GradientButton(
+                                  height: 36.h,
+                                  isCenter: true,
+                                  width: 170.w,
+                                  decoration: BoxDecoration(
+                                    gradient:
+                                        Utils.backgroundGradientOrangeButton(),
+                                    borderRadius: BorderRadius.circular(18),
+                                  ),
+                                  onTap: () {},
+                                  widget: AppText(
+                                    'Action',
+                                    style: googleFont.copyWith(
+                                        color: colorWhite, fontSize: 15.sp),
+                                  ),
+                                  borderRadius: BorderRadius.circular(18),
+                                ),
+                              )
+                            : const SizedBox(),
                       ),
                     ),
                     addWidget(context)

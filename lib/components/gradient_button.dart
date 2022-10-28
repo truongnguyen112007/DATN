@@ -10,7 +10,6 @@ class GradientButton extends StatelessWidget {
   final Widget widget;
   final BorderRadius borderRadius;
   final bool isCenter;
-  final bool? isShow;
 
   const GradientButton(
       {Key? key,
@@ -20,7 +19,7 @@ class GradientButton extends StatelessWidget {
       required this.onTap,
       this.isCenter = false,
       required this.widget,
-      required this.borderRadius,this.isShow = false})
+      required this.borderRadius})
       : super(key: key);
 
   @override

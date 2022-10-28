@@ -125,10 +125,16 @@ class FavouriteCubit extends Cubit<FavouriteState> {
   }
 
   void filterItemOnclick(int index) {
-    logE("TAG INDEX: $index");
     state.lPlayList[index].isSelect =  !state.lPlayList[index].isSelect;
-    logE("TAG state.lPlayList[index].isSelect: ${state.lPlayList[index].isSelect}");
-    emit(state.copyWith(
+    var isShowActionButton = false;
+      for (int i = 0; i < state.lPlayList.length; i++) {
+        if (state.lPlayList[i].isSelect == true) {
+          isShowActionButton = true;
+          break;
+        }
+      }
+    logE("TAG IS SHOW BUTON: ${isShowActionButton}");
+    emit(state.copyWith(isShowActionButton: isShowActionButton,
         lPlayList: state.lPlayList,
         timeStamp: DateTime.now().millisecondsSinceEpoch));
     var isFilter = false;
