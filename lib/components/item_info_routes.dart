@@ -30,9 +30,10 @@ class ItemInfoRoutes extends StatelessWidget {
       required this.callBack,
       required this.index,
       required this.detailCallBack,
-       this.filterOnclick,
+      this.filterOnclick,
       this.onLongPress,
-      this.removeSelectCallBack, this.isShowSelect = false})
+      this.removeSelectCallBack,
+      this.isShowSelect = false})
       : super(key: key);
 
   @override
@@ -43,119 +44,125 @@ class ItemInfoRoutes extends StatelessWidget {
             color: colorGreyBackground,
             key: Key('$index'),
             padding: const EdgeInsets.only(bottom: 10),
-            child: SizedBox(
-           /*   onLongPress: () => onLongPress?.call(model),
-              onTap: () => detailCallBack.call(
-                  model) *//*showActionDialog(
-                  model, (action) => actionCallBack.call(action))*//*
-              ,*/
-              child:
-              Row(
-                children: [
-                  isShowSelect ?
-                 InkWell(
-                   child: Padding(
-                     padding: EdgeInsets.only(right: 10.w),
-                     child:  Icon(model.isSelect ? Icons.ac_unit : Icons.circle_outlined,color: colorWhite,),
-                   ),
-                   onTap: ()=>filterOnclick?.call(),
-                 ): const SizedBox(),
-                    Expanded(
-                      child: Container(
-                  padding: EdgeInsets.only(
-                        left: contentPadding*3, right: contentPadding + 10),
-                  height: 72.h,
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
+            child: InkWell(
+                   // onLongPress: () => onLongPress?.call(model),
+              // onTap: () => detailCallBack.call(model),
+              //   showActionDialog(model, (action) => actionCallBack.call(action)),
+                child: Row(
+              children: [
+                isShowSelect
+                    ? InkWell(
+                        child: Padding(
+                          padding: EdgeInsets.only(right: 10.w),
+                          child: model.isSelect
+                              ? Icon(Icons.radio_button_checked,
+                                  color: colorPrimary20)
+                              : const Icon(
+                                  Icons.circle_outlined,
+                                  color: colorWhite,
+                                ),
+                        ),
+                        onTap: () => filterOnclick?.call(),
+                      )
+                    : const SizedBox(),
+                Expanded(
+                  child: Container(
+                    padding: EdgeInsets.only(
+                        left: contentPadding * 3, right: contentPadding + 10),
+                    height: 72.h,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         gradient: LinearGradient(
                             colors: Utils.getBackgroundColor(model.grade))),
-                  child: Row(
+                    child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         model.status == null
                             ? AppText(model.grade,
-                            style: googleFont.copyWith(
-                                fontWeight: FontWeight.w700,
-                                color: colorText0,
-                                fontSize: 31.sp))
-                            : Stack(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(bottom: 5.h),
-                              child: AppText(
-                                model.grade,
                                 style: googleFont.copyWith(
                                     fontWeight: FontWeight.w700,
                                     color: colorText0,
-                                    fontSize: 31.sp),
-                                textAlign: TextAlign.end,
-                              ),
-                            ),
-                            Positioned.fill(
-                                child: Container(
-                                  alignment: Alignment.bottomCenter,
-                                  child: AppText(
-                                    model.status ?? '',
-                                    textAlign: TextAlign.center,
-                                    style: googleFont.copyWith(
-                                        color: colorWhite.withOpacity(0.87)),
+                                    fontSize: 31.sp))
+                            : Stack(
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(bottom: 5.h),
+                                    child: AppText(
+                                      model.grade,
+                                      style: googleFont.copyWith(
+                                          fontWeight: FontWeight.w700,
+                                          color: colorText0,
+                                          fontSize: 31.sp),
+                                      textAlign: TextAlign.end,
+                                    ),
                                   ),
-                                ))
-                          ],
-                        ),
+                                  Positioned.fill(
+                                      child: Container(
+                                    alignment: Alignment.bottomCenter,
+                                    child: AppText(
+                                      model.status ?? '',
+                                      textAlign: TextAlign.center,
+                                      style: googleFont.copyWith(
+                                          color: colorWhite.withOpacity(0.87)),
+                                    ),
+                                  ))
+                                ],
+                              ),
                         SizedBox(width: contentPadding * 3),
                         Expanded(
                             child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            AppText(
+                              model.name,
+                              style: googleFont.copyWith(
+                                  color: colorText0.withOpacity(0.87),
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 20.5.sp),
+                              maxLine: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            SizedBox(
+                              height: 5.h,
+                            ),
+                            Row(
                               children: [
                                 AppText(
-                                  model.name,
+                                  '${AppLocalizations.of(context)!.routes} ${model.height}m ',
                                   style: googleFont.copyWith(
-                                      color: colorText0.withOpacity(0.87),
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 20.5.sp),
-                                  maxLine: 1,
-                                  overflow: TextOverflow.ellipsis,
+                                      color: colorText0.withOpacity(0.6),
+                                      fontSize: 13.sp),
+                                ),
+                                const Icon(
+                                  Icons.circle_sharp,
+                                  size: 6,
+                                  color: colorWhite,
                                 ),
                                 SizedBox(
-                                  height: 5.h,
+                                  width: contentPadding,
                                 ),
-                                Row(
-                                  children: [
-                                    AppText(
-                                      '${AppLocalizations.of(context)!.routes} ${model.height}m ',
-                                      style: googleFont.copyWith(
-                                          color: colorText0.withOpacity(0.6),
-                                          fontSize: 13.sp),
-                                    ),
-                                    const Icon(
-                                      Icons.circle_sharp,
-                                      size: 6,
-                                      color: colorWhite,
-                                    ),
-                                    SizedBox(width: contentPadding,),
-                                    Expanded(
-                                        child: AppText(" ${model.author}",
-                                            overflow: TextOverflow.ellipsis,
-                                            maxLine: 1,
-                                            style: googleFont.copyWith(
-                                                color: colorText0.withOpacity(0.6),
-                                                fontSize: 13.sp)))
-                                  ],
-                                )
+                                Expanded(
+                                    child: AppText(" ${model.author}",
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLine: 1,
+                                        style: googleFont.copyWith(
+                                            color: colorText0.withOpacity(0.6),
+                                            fontSize: 13.sp)))
                               ],
-                            ))
+                            )
+                          ],
+                        ))
                       ],
+                    ),
                   ),
                 ),
-                    ),
-              ],)
-            ),
+              ],
+            )),
           ),
-     /*     model.isSelect
+          /*     model.isSelect
               ? Container(
                   height: 77.h,
                   padding: const EdgeInsets.only(bottom: 10),

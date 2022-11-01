@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:base_bloc/config/constant.dart';
+import 'package:base_bloc/data/eventbus/refresh_event.dart';
 import 'package:base_bloc/modules/favourite/favourite_state.dart';
 import 'package:base_bloc/router/router_utils.dart';
 import 'package:flutter/cupertino.dart';
@@ -59,7 +60,10 @@ class FavouriteCubit extends Cubit<FavouriteState> {
       logE("TAG ACTION: $action");
 
   void refresh() {
-    emit(const FavouriteState(status: FeedStatus.refresh, lPlayList: []));
+    Utils.fireEvent(RefreshEvent(RefreshType.FILTER));
+    emit(
+      const FavouriteState(status: FeedStatus.refresh),
+    );
     getFavourite();
   }
 
@@ -125,27 +129,29 @@ class FavouriteCubit extends Cubit<FavouriteState> {
   }
 
   void filterItemOnclick(int index) {
-    state.lPlayList[index].isSelect =  !state.lPlayList[index].isSelect;
+    state.lPlayList[index].isSelect = !state.lPlayList[index].isSelect;
     var isShowActionButton = false;
-      for (int i = 0; i < state.lPlayList.length; i++) {
-        if (state.lPlayList[i].isSelect == true) {
-          isShowActionButton = true;
-          break;
-        }
+    for (int i = 0; i < state.lPlayList.length; i++) {
+      if (state.lPlayList[i].isSelect == true) {
+        isShowActionButton = true;
+        break;
       }
+    }
     logE("TAG IS SHOW BUTON: ${isShowActionButton}");
-    emit(state.copyWith(isShowActionButton: isShowActionButton,
+    emit(state.copyWith(
+        isShowActionButton: isShowActionButton,
         lPlayList: state.lPlayList,
         timeStamp: DateTime.now().millisecondsSinceEpoch));
     var isFilter = false;
-  /*  for (int i = 0; i < state.lPlayList.length; i++) {
+    /*  for (int i = 0; i < state.lPlayList.length; i++) {
       logE("TAG INDEX: $i IS SHOW BUTON: ${state.lPlayList[i].isSelect}");
-     *//* if (state.lPlayList[i].isSelect == true) {
+     */ /* if (state.lPlayList[i].isSelect == true) {
         logE("TAG IS SHOW BUTON: TRUE");
         isFilter = true;
         break;
-      }*//*
+      }*/ /*
     }
     emit(state.copyWith(isShowActionButton: isFilter,timeStamp: DateTime.now().microsecondsSinceEpoch));
-  */}
+  */
+  }
 }

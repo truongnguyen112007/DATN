@@ -21,6 +21,7 @@ import '../../data/model/routes_model.dart';
 import '../../localizations/app_localazations.dart';
 import '../../theme/app_styles.dart';
 import '../../utils/app_utils.dart';
+import '../../utils/log_utils.dart';
 
 class FavouritePage extends StatefulWidget {
   const FavouritePage({Key? key}) : super(key: key);
@@ -109,7 +110,7 @@ class _FavouritePageState extends State<FavouritePage>
                         bottom: 10.h,
                         child: state.isShowActionButton
                             ? Align(
-                                alignment: Alignment.bottomLeft,
+                                alignment: Alignment.bottomRight,
                                 child: GradientButton(
                                   height: 36.h,
                                   isCenter: true,
@@ -119,7 +120,14 @@ class _FavouritePageState extends State<FavouritePage>
                                         Utils.backgroundGradientOrangeButton(),
                                     borderRadius: BorderRadius.circular(18),
                                   ),
-                                  onTap: () {},
+                                  onTap: () {
+                                    var lSelectRadioButton = <RoutesModel>[];
+                                    for( var element in state.lPlayList) {
+                                      if (element.isSelect == true) lSelectRadioButton.add(element);
+                                    }
+                                    return showActionDialog(
+                                        lSelectRadioButton, (p0) {});
+                                  },
                                   widget: AppText(
                                     'Action',
                                     style: googleFont.copyWith(
@@ -145,75 +153,75 @@ class _FavouritePageState extends State<FavouritePage>
 
   Widget addWidget(BuildContext context) =>
       BlocBuilder<FavouriteCubit, FavouriteState>(
-          bloc: _bloc,
-          builder: (c, state) => Visibility(
-                visible: state.isShowAdd,
-                child: Positioned.fill(
-                    child: Padding(
-                        padding: const EdgeInsets.all(5),
-                        child: Align(
-                            alignment: Alignment.bottomRight,
-                            child: SpeedDial(
-                              overlayColor: colorBlack,
-                              overlayOpacity: 0.8,
-                              gradientBoxShape: BoxShape.circle,
-                              gradient: Utils.backgroundGradientOrangeButton(),
-                              icon: Icons.add,
-                              backgroundColor: colorOrange100,
-                              activeBackgroundColor: colorWhite,
-                              activeIcon: Icons.close,
-                              activeChild: const Icon(
-                                Icons.close,
-                                color: colorBlack,
-                              ),
-                              spacing: 3,
-                              childPadding: const EdgeInsets.all(5),
-                              spaceBetweenChildren: 4,
-                              dialRoot: null,
-                              buttonSize: const Size(56.0, 56.0),
-                              childrenButtonSize: const Size(56.0, 56.0),
-                              direction: SpeedDialDirection.up,
-                              renderOverlay: true,
-                              useRotationAnimation: true,
-                              animationCurve: Curves.elasticInOut,
-                              isOpenOnStart: false,
-                              animationDuration:
-                                  const Duration(milliseconds: 300),
-                              children: [
-                                SpeedDialChild(
-                                  labelWidget: AppText(
-                                    LocaleKeys.find_routes,
-                                    style: typoW400.copyWith(
-                                        fontSize: 16,
-                                        color: colorText0.withOpacity(0.87)),
-                                  ),
-                                  child: const Icon(
-                                    Icons.search,
-                                    color: colorBlack,
-                                  ),
-                                  backgroundColor: Colors.white,
-                                  foregroundColor: Colors.white,
-                                  onTap: () {},
-                                ),
-                                SpeedDialChild(
-                                  labelWidget: AppText(
-                                    LocaleKeys.create_routes,
-                                    style: typoW400.copyWith(
-                                        fontSize: 16,
-                                        color: colorText0.withOpacity(0.87)),
-                                  ),
-                                  child: const Icon(
-                                    Icons.add,
-                                    color: colorBlack,
-                                  ),
-                                  backgroundColor: Colors.white,
-                                  foregroundColor: Colors.white,
-                                  onTap: () =>
-                                      _bloc.createRoutesOnClick(context),
-                                ),
-                              ],
-                            )))),
-              ));
+        bloc: _bloc,
+        builder: (c, state) => Visibility(
+          visible: state.isShowAdd,
+          child: Positioned.fill(
+            child: Padding(
+              padding: const EdgeInsets.all(5),
+              child: Align(
+                alignment: Alignment.bottomRight,
+                child: SpeedDial(
+                  overlayColor: colorBlack,
+                  overlayOpacity: 0.8,
+                  gradientBoxShape: BoxShape.circle,
+                  gradient: Utils.backgroundGradientOrangeButton(),
+                  icon: Icons.add,
+                  backgroundColor: colorOrange100,
+                  activeBackgroundColor: colorWhite,
+                  activeIcon: Icons.close,
+                  activeChild: const Icon(
+                    Icons.close,
+                    color: colorBlack,
+                  ),
+                  spacing: 3,
+                  childPadding: const EdgeInsets.all(5),
+                  spaceBetweenChildren: 4,
+                  dialRoot: null,
+                  buttonSize: const Size(56.0, 56.0),
+                  childrenButtonSize: const Size(56.0, 56.0),
+                  direction: SpeedDialDirection.up,
+                  renderOverlay: true,
+                  useRotationAnimation: true,
+                  animationCurve: Curves.elasticInOut,
+                  isOpenOnStart: false,
+                  animationDuration: const Duration(milliseconds: 300),
+                  children: [
+                    SpeedDialChild(
+                      labelWidget: AppText(
+                        LocaleKeys.find_routes,
+                        style: typoW400.copyWith(
+                            fontSize: 16, color: colorText0.withOpacity(0.87)),
+                      ),
+                      child: const Icon(
+                        Icons.search,
+                        color: colorBlack,
+                      ),
+                      backgroundColor: Colors.white,
+                      foregroundColor: Colors.white,
+                      onTap: () {},
+                    ),
+                    SpeedDialChild(
+                      labelWidget: AppText(
+                        LocaleKeys.create_routes,
+                        style: typoW400.copyWith(
+                            fontSize: 16, color: colorText0.withOpacity(0.87)),
+                      ),
+                      child: const Icon(
+                        Icons.add,
+                        color: colorBlack,
+                      ),
+                      backgroundColor: Colors.white,
+                      foregroundColor: Colors.white,
+                      onTap: () => _bloc.createRoutesOnClick(context),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
 
   Widget playlistWidget(BuildContext context, FavouriteState state) =>
       ReorderableListView.builder(
@@ -245,6 +253,94 @@ class _FavouritePageState extends State<FavouritePage>
               !state.isReadEnd && state.lPlayList.isNotEmpty && state.isLoading
                   ? state.lPlayList.length + 1
                   : state.lPlayList.length);
+
+  void showActionDialog(
+      List<RoutesModel> model, Function(ItemAction) callBack) {
+  logE("${model.length}");
+    showModalBottomSheet(
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      context: context,
+      builder: (x) => Wrap(
+        children: [
+          Container(
+            decoration: const BoxDecoration(
+              color: Color(0xFF212121),
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20),
+                topRight: Radius.circular(20),
+              ),
+            ),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: contentPadding,
+                ),
+                itemAction(
+                    Icons.thumb_up_alt,
+                    AppLocalizations.of(context)!.moveToPlaylist,
+                    ItemAction.MOVE_TO_TOP,
+                    () => callBack.call(ItemAction.MOVE_TO_TOP)),
+                itemAction(
+                    Icons.account_balance_rounded,
+                    AppLocalizations.of(context)!.addToPlaylist,
+                    ItemAction.ADD_TO_PLAYLIST,
+                    () => callBack.call(ItemAction.ADD_TO_PLAYLIST)),
+                itemAction(
+                    Icons.add,
+                    AppLocalizations.of(context)!.removeFromPlaylist,
+                    ItemAction.REMOVE_FROM_PLAYLIST,
+                    () => callBack.call(ItemAction.REMOVE_FROM_PLAYLIST)),
+                itemAction(
+                    Icons.favorite,
+                    AppLocalizations.of(context)!.addToFavourite,
+                    ItemAction.ADD_TO_FAVOURITE,
+                    () => callBack.call(ItemAction.ADD_TO_FAVOURITE)),
+                itemAction(
+                    Icons.remove_circle_outline,
+                    AppLocalizations.of(context)!.removeFromFavorite,
+                    ItemAction.REMOVE_FROM_PLAYLIST,
+                    () => callBack.call(ItemAction.REMOVE_FROM_PLAYLIST)),
+                itemAction(Icons.share, AppLocalizations.of(context)!.share,
+                    ItemAction.SHARE, () => callBack.call(ItemAction.SHARE)),
+                itemAction(Icons.copy, AppLocalizations.of(context)!.copy,
+                    ItemAction.COPY, () => callBack.call(ItemAction.COPY)),
+                itemAction(Icons.edit, AppLocalizations.of(context)!.edit,
+                    ItemAction.EDIT, () => callBack.call(ItemAction.EDIT)),
+                itemAction(Icons.delete, AppLocalizations.of(context)!.delete,
+                    ItemAction.DELETE, () => callBack.call(ItemAction.DELETE)),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget itemAction(IconData icon, String text, ItemAction action,
+      VoidCallback filterCallBack) {
+    return InkWell(
+      child: Padding(
+        padding: EdgeInsets.all(contentPadding),
+        child: Row(
+          children: [
+            Icon(
+              icon,
+              color: Colors.white,
+            ),
+            SizedBox(
+              width: 40.w,
+            ),
+            AppText(
+              text,
+              style: typoSuperSmallTextRegular.copyWith(color: colorText0),
+            )
+          ],
+        ),
+      ),
+      onTap: () => filterCallBack.call(),
+    );
+  }
 
   @override
   bool get wantKeepAlive => true;

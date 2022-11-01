@@ -15,7 +15,7 @@ class FavouriteState extends Equatable {
 
   const FavouriteState({
     this.status = FeedStatus.initial,
-    this.lPlayList = const <RoutesModel>[],
+    this. lPlayList = const <RoutesModel>[],
     this.isReadEnd = false,
     this.timeStamp = 0,
     this.isLoading = true,

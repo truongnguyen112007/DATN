@@ -1,10 +1,15 @@
+import 'dart:async';
+
+import 'package:base_bloc/data/eventbus/refresh_event.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../data/globals.dart';
+import '../data/model/routes_model.dart';
 import '../localizations/app_localazations.dart';
 import '../theme/app_styles.dart';
 import '../theme/colors.dart';
+import '../utils/app_utils.dart';
 import 'app_text.dart';
 
 class FilterWidget extends StatefulWidget {
@@ -15,14 +20,15 @@ class FilterWidget extends StatefulWidget {
   final bool onClickSelect;
   final VoidCallback unsSelectCallBack;
 
-  const FilterWidget(
-      {Key? key,
-      this.isSelect = false,
-      required this.sortCallBack,
-      required this.filterCallBack,
-      required this.selectCallBack,
-      this.onClickSelect = false, required this.unsSelectCallBack,})
-      : super(key: key);
+  const FilterWidget({
+    Key? key,
+    this.isSelect = false,
+    required this.sortCallBack,
+    required this.filterCallBack,
+    required this.selectCallBack,
+    this.onClickSelect = false,
+    required this.unsSelectCallBack,
+  }) : super(key: key);
 
   @override
   State<FilterWidget> createState() => _FilterWidgetState();
@@ -30,6 +36,19 @@ class FilterWidget extends StatefulWidget {
 
 class _FilterWidgetState extends State<FilterWidget> {
   bool onClickSelect = false;
+  StreamSubscription<RefreshEvent>? _isSelectStream;
+
+  @override
+  void initState() {
+    _isSelectStream = Utils.eventBus.on<RefreshEvent>().listen((model) {
+      if (model.type == RefreshType.FILTER) {
+        setState(() {
+          onClickSelect = false;
+        });
+      }
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,9 +68,7 @@ class _FilterWidgetState extends State<FilterWidget> {
               () => widget.filterCallBack.call()),
           itemFilterWidget(
             Icons.filter_alt_outlined,
-            onClickSelect
-                ? 'Unselect all'
-                : LocaleKeys.select,
+            onClickSelect ? 'Unselect all' : LocaleKeys.select,
             Colors.transparent,
             isShow: widget.isSelect,
             () => setState(() {

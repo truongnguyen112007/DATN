@@ -1,4 +1,4 @@
-enum RefreshType { ADDRESS, EXP, RATE }
+enum RefreshType { ADDRESS, EXP, RATE ,FILTER}
 
 class RefreshEvent {
   final RefreshType type;
