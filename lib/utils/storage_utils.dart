@@ -2,8 +2,6 @@ import 'package:base_bloc/config/constant.dart';
 import 'package:base_bloc/data/globals.dart' as globals;
 import 'package:get_storage/get_storage.dart';
 
-import '../data/globals.dart';
-
 class StorageUtils {
   static void setLogin(bool isLogin) {
     GetStorage().write(StorageKey.isLogin, isLogin);

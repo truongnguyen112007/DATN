@@ -70,6 +70,7 @@ class _RoutesPageState extends State<RoutesPage>
             selectCallBack: () => _bloc.selectOnClick(context),
             filterCallBack: () => _bloc.filterOnclick(context),
             sortCallBack: () {},
+            unsSelectCallBack: () {},
           ),
           Expanded(
             child: RefreshIndicator(
