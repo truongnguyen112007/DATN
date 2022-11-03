@@ -1,6 +1,5 @@
 import 'package:badges/badges.dart';
 import 'package:base_bloc/components/app_text.dart';
-import 'package:base_bloc/components/feeture_under_widget.dart';
 import 'package:base_bloc/components/filter_widget.dart';
 import 'package:base_bloc/config/constant.dart';
 import 'package:base_bloc/data/globals.dart';
