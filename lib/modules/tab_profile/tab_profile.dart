@@ -135,7 +135,7 @@ class _TabProfileState extends State<TabProfile> {
           bloc: _bloc,
           builder: (BuildContext context, state) {
             return ProfileInfoWidget(
-                userModel: _bloc.getCurrentUser(),
+                profileModel: _bloc.getCurrentUser(),
                 onPressEditProfile: () => _bloc.didPressEditProfile(context));
           });
 }

@@ -1,7 +1,7 @@
 import 'package:base_bloc/base/base_state.dart';
 import 'package:base_bloc/components/app_text.dart';
 import 'package:base_bloc/data/globals.dart';
-import 'package:base_bloc/data/model/user_model.dart';
+import 'package:base_bloc/data/model/profile_model.dart';
 import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/theme/colors.dart';
@@ -67,7 +67,7 @@ class _EditAccountState extends BaseState<EditAccountPage>
     );
   }
 
-  Widget changeAvatarView(UserModel userModel) {
+  Widget changeAvatarView(ProfileModel ProfileModel) {
     return Container(
       child: Row(
         children: [
@@ -76,7 +76,7 @@ class _EditAccountState extends BaseState<EditAccountPage>
             backgroundColor: Colors.transparent,
             child: ClipOval(
                 child: Image.network(
-              userModel.avatar ?? '',
+              ProfileModel.avatar ?? '',
               fit: BoxFit.cover,
               width: _avatarSize,
               height: _avatarSize,

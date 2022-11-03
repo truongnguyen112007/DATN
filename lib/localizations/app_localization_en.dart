@@ -472,8 +472,26 @@ class AppLocalizationEn extends AppLocalizations {
   String get youNeedLogin => 'You need to login to use\n this service';
 
   @override
-  // TODO: implement logOut
-  String get logOut => 'Log Out';
+  String get logOut => 'LogOut';
+
+  @override
+  String get please_input_email   => 'Please enter your Email';
+
+  @override
+  String get please_input_pass =>'Please enter your Password';
+
+  @override
+  String get please_input_valid_email => 'Please enter valid Email';
+
+  @override
+  String get please_input_valid_pass => 'Please enter valid Password';
+
+  @override
+  String get network_error => 'Network error, please try again.';
+  @override
+  String get login_success => 'Login success.';
+  @override
+  String get logout_success => 'LogOut Success';
 
   @override
   String get thisFeatureIsUnder => "This feature is under\nconstruction";

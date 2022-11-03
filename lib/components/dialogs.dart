@@ -16,7 +16,7 @@ import 'app_text.dart';
 class Dialogs {
   static final GlobalKey<State> _keyLoader = GlobalKey<State>();
 
-  Future<void>? showLoadingDialog(BuildContext? context) {
+  static Future<void>? showLoadingDialog(BuildContext? context) {
     if (context == null) {
       return null;
     }
@@ -32,10 +32,7 @@ class Dialogs {
               children: const <Widget>[
                 Center(
                   child: CircularProgressIndicator(
-                    backgroundColor: colorNeutralDark20,
-                    valueColor:
-                        AlwaysStoppedAnimation<Color>(colorPrimaryBrand100),
-                  ),
+                      color: colorOrange110, strokeWidth: 4.0),
                 )
               ],
             ),

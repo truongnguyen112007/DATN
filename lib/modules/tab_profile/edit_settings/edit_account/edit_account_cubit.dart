@@ -1,7 +1,7 @@
 import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../data/model/user_model.dart';
+import '../../../../data/model/profile_model.dart';
 import 'edit_account_state.dart';
 
 enum AccountFieldType {
@@ -52,7 +52,7 @@ class EditAccountCubit extends Cubit<EditAccountState> {
         AccountFieldType.EMAIL: getCurrentUser().email,
       };
 
-  UserModel getCurrentUser() {
-    return UserModel.fakeCurrentUser();
+  ProfileModel getCurrentUser() {
+    return ProfileModel.fakeCurrentUser();
   }
 }
