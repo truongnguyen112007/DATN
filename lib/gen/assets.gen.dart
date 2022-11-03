@@ -237,6 +237,9 @@ class $AssetsSvgGen {
   /// File path: assets/svg/logout.svg
   String get logout => 'assets/svg/logout.svg';
 
+  /// File path: assets/svg/logout1.svg
+  String get logout1 => 'assets/svg/logout1.svg';
+
   /// File path: assets/svg/man.svg
   String get man => 'assets/svg/man.svg';
 
@@ -339,6 +342,7 @@ class $AssetsSvgGen {
         liked,
         location,
         logout,
+        logout1,
         man,
         message,
         more,

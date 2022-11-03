@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'package:base_bloc/data/model/reservation_model.dart';
+import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/modules/tab_reservation/tab_reservation_state.dart';
 import 'package:base_bloc/router/router_utils.dart';
+import 'package:base_bloc/utils/toast_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../config/constant.dart';
@@ -39,7 +41,8 @@ class TabReservationCubit extends Cubit<TabReservationState> {
     emit(const TabReservationState(status: StatusType.refresh));
     getFeed();
   }
-  void onClickNotification(BuildContext context) => RouterUtils.pushReservations(
+  void onClickNotification(BuildContext context) => /*toast(LocaleKeys.thisFeatureIsUnder);*/
+      RouterUtils.pushReservations(
       context: context,
       route: ReservationRouters.notifications,
       argument: BottomNavigationConstant.TAB_RESERVATIONS);

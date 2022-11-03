@@ -26,9 +26,16 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends BasePopState<Login> with TickerProviderStateMixin {
+  bool _obscureText = true;
   final emailController = TextEditingController();
   final passWordController = TextEditingController();
   late LoginCubit _bloc;
+
+  void _toggle() {
+    setState(() {
+      _obscureText = !_obscureText;
+    });
+  }
 
   @override
   void initState() {
@@ -56,7 +63,7 @@ class _LoginState extends BasePopState<Login> with TickerProviderStateMixin {
               builder: (c, s) => textField(
                 errorText: s.errorEmail,
                 labelText: 'E-mail address',
-                controller: emailController,
+                controller: emailController, obText: false,
               ),
             ),
             SizedBox(
@@ -68,7 +75,9 @@ class _LoginState extends BasePopState<Login> with TickerProviderStateMixin {
                   errorText: s.errorPassword,
                   labelText: 'Password',
                   icon: Icons.remove_red_eye,
-                  controller: passWordController),
+                  controller: passWordController,
+                  voidCallback: _toggle ,
+                  obText: _obscureText),
             ),
             SizedBox(
               height: 30.h,
@@ -108,8 +117,10 @@ class _LoginState extends BasePopState<Login> with TickerProviderStateMixin {
       {required String labelText,
       IconData? icon,
       String errorText = '',
-      required TextEditingController controller}) {
+      required TextEditingController controller,
+      required bool obText,VoidCallback?voidCallback}) {
     return TextFormField(
+      obscureText: obText,
       style: googleFont.copyWith(color: colorWhite),
       controller: controller,
       cursorColor: colorOrange90,
@@ -117,9 +128,14 @@ class _LoginState extends BasePopState<Login> with TickerProviderStateMixin {
           errorText: errorText.isEmpty ? null : errorText,
           labelText: labelText,
           labelStyle: googleFont.copyWith(color: colorSubText),
-          suffixIcon: Icon(
-            icon,
-            color: colorGrey35,
+          suffixIcon: InkWell(
+            splashColor: colorTransparent,
+            hoverColor: colorTransparent,
+            onTap: voidCallback,
+            child: Icon(
+              icon,
+              color: colorGrey35,
+            ),
           ),
           errorBorder: OutlineInputBorder(
             borderSide: const BorderSide(color: colorGrey35),

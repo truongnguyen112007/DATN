@@ -24,6 +24,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../components/app_scalford.dart';
 import '../../components/app_text.dart';
 import '../../components/check_login.dart';
+import '../../components/feeture_under_widget.dart';
 import '../../components/item_feed_widget.dart';
 import '../../config/constant.dart';
 import '../../gen/assets.gen.dart';
@@ -88,7 +89,8 @@ class _TabHomeState extends State<TabHome> with AutomaticKeepAliveClientMixin {
                     _bloc.onClickLogin(context);
                   },
                 )
-              : RefreshIndicator(
+              : /*const FeatureUnderWidget()*/
+          RefreshIndicator(
                   child: Stack(
                     children: [
                       SingleChildScrollView(

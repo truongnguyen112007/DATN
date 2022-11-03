@@ -3,8 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../config/constant.dart';
+import '../../localizations/app_localazations.dart';
 import '../../router/router.dart';
 import '../../router/router_utils.dart';
+import '../../utils/toast_utils.dart';
 import '../home/home_state.dart';
 
 class TabRouteCubit extends Cubit<TabRouteState>{
@@ -15,7 +17,8 @@ class TabRouteCubit extends Cubit<TabRouteState>{
       route: RoutesRouters.search,
       argument: BottomNavigationConstant.TAB_ROUTES);
 
-  void onClickNotification(BuildContext context) => RouterUtils.pushRoutes(
+  void onClickNotification(BuildContext context) => /*toast(LocaleKeys.thisFeatureIsUnder);*/
+      RouterUtils.pushRoutes(
       context: context,
       route: RoutesRouters.notifications,
       argument: BottomNavigationConstant.TAB_ROUTES);

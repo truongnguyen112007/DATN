@@ -45,9 +45,10 @@ class ItemInfoRoutes extends StatelessWidget {
             key: Key('$index'),
             padding: const EdgeInsets.only(bottom: 10),
             child: InkWell(
-                   // onLongPress: () => onLongPress?.call(model),
-              // onTap: () => detailCallBack.call(model),
-              //   showActionDialog(model, (action) => actionCallBack.call(action)),
+                onLongPress: () => onLongPress?.call(model),
+                onTap: () =>
+                    detailCallBack.call(model),
+                // showActionDialog(model, (action) => () {}/*actionCallBack.call(action)*/),
                 child: Row(
               children: [
                 isShowSelect
@@ -136,14 +137,14 @@ class ItemInfoRoutes extends StatelessWidget {
                                       color: colorText0.withOpacity(0.6),
                                       fontSize: 13.sp),
                                 ),
-                                const Icon(
-                                  Icons.circle_sharp,
-                                  size: 6,
-                                  color: colorWhite,
+                                 Padding(
+                                   padding: EdgeInsets.only(left: 5.w,right: 5.w),
+                                   child: const Icon(
+                                    Icons.circle_sharp,
+                                    size: 6,
+                                    color: colorWhite,
                                 ),
-                                SizedBox(
-                                  width: contentPadding,
-                                ),
+                                 ),
                                 Expanded(
                                     child: AppText(" ${model.author}",
                                         overflow: TextOverflow.ellipsis,
@@ -162,36 +163,6 @@ class ItemInfoRoutes extends StatelessWidget {
               ],
             )),
           ),
-          /*     model.isSelect
-              ? Container(
-                  height: 77.h,
-                  padding: const EdgeInsets.only(bottom: 10),
-                  width: MediaQuery.of(context).size.width,
-                  child: InkWell(
-                    onTap: () => removeSelectCallBack?.call(model),
-                    child: Container(
-                      margin: EdgeInsets.only(bottom: 10.h),
-                      alignment: Alignment.bottomRight,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          color: Colors.grey.withOpacity(0.8)),
-                      child: Container(
-                        margin: EdgeInsets.only(
-                            right: contentPadding, bottom: contentPadding),
-                        padding: const EdgeInsets.all(2),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(100),
-                            border: Border.all(color: colorWhite)),
-                        child: const Icon(
-                          Icons.check,
-                          size: 17,
-                          color: colorWhite,
-                        ),
-                      ),
-                    ),
-                  ),
-                )
-              : const SizedBox()*/
         ],
       );
 

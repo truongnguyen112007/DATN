@@ -61,17 +61,17 @@ class _FavouritePageState extends State<FavouritePage>
       body: Container(
         child: Column(
           children: [
-            FilterWidget(
-              isSelect: true,
-              selectCallBack: () {
-                _bloc.selectOnclick(false);
-              },
-              filterCallBack: () => _bloc.filterOnclick(context),
-              sortCallBack: () {},
-              unsSelectCallBack: () {
-                _bloc.selectOnclick(true);
-              },
-            ),
+               FilterWidget(
+                isSelect: true,
+                selectCallBack: () {
+                  _bloc.selectOnclick(false);
+                },
+                filterCallBack: () => _bloc.filterOnclick(context),
+                sortCallBack: () {},
+                unsSelectCallBack: () {
+                  _bloc.selectOnclick(true);
+                },
+              ),
             Expanded(
               child: RefreshIndicator(
                 child: Stack(
@@ -108,6 +108,7 @@ class _FavouritePageState extends State<FavouritePage>
                       builder: (c, state) => Positioned.fill(
                         left: 10.w,
                         bottom: 10.h,
+                        right: 5.w,
                         child: state.isShowActionButton
                             ? Align(
                                 alignment: Alignment.bottomRight,
@@ -247,7 +248,7 @@ class _FavouritePageState extends State<FavouritePage>
                   },
                   index: i,
                   onLongPress: (model) => _bloc.itemOnClick(context),
-                  detailCallBack: (RoutesModel action) {},
+                  detailCallBack: (RoutesModel action) =>  _bloc.itemOnclick(context, state.lPlayList[i]),
                 ),
           itemCount:
               !state.isReadEnd && state.lPlayList.isNotEmpty && state.isLoading
@@ -256,7 +257,6 @@ class _FavouritePageState extends State<FavouritePage>
 
   void showActionDialog(
       List<RoutesModel> model, Function(ItemAction) callBack) {
-  logE("${model.length}");
     showModalBottomSheet(
       isScrollControlled: true,
       backgroundColor: Colors.transparent,

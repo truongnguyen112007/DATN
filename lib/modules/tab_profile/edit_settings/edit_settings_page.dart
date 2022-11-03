@@ -4,11 +4,13 @@ import 'package:base_bloc/data/globals.dart';
 import 'package:base_bloc/data/model/settings_model.dart';
 import 'package:base_bloc/gen/assets.gen.dart';
 import 'package:base_bloc/localizations/app_localazations.dart';
+import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/theme/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../components/app_scalford.dart';
+import '../../../components/app_text.dart';
 import '../../../components/appbar_widget.dart';
 import 'edit_settings_cubit.dart';
 
@@ -41,7 +43,14 @@ class _EditSettingsState extends BaseState<EditSettingsPage>
   Widget build(BuildContext context) {
     return AppScaffold(
         backgroundColor: colorGreyBackground,
-        appbar: appBarWidget(context: context, titleStr: LocaleKeys.settings),
+        appbar: AppBar(
+          backgroundColor: colorBlack,
+          title: AppText(
+            LocaleKeys.settings,
+            style: googleFont.copyWith(color: colorWhite),
+          ),
+        ),
+        // appBarWidget(context: context, titleStr: LocaleKeys.settings,),
         body: settingsListView());
   }
 
@@ -74,7 +83,7 @@ class _EditSettingsState extends BaseState<EditSettingsPage>
                       _bloc.openGeneralSettingsPage(context);
                       break;
                     case SettingsItemType.LOGOUT:
-                        _bloc.logOut(context);
+                      _bloc.logOut(context);
                       break;
                     default:
                       print(item.type.title);

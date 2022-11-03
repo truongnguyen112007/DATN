@@ -37,14 +37,14 @@ class SettingsItemWidget extends StatelessWidget {
                 children: [
                   Container(
                       child: SvgPicture.asset(setting.type.icon,
-                          color: colorMainText),
+                          color: setting.color ?? colorMainText),
                       width: 18.w,
                       height: 18.w),
                   SizedBox(width: 3.0 * contentPadding),
                   AppText(
                     setting.type.title,
                     style: googleFont.copyWith(
-                        color: colorMainText,
+                        color: setting.color ?? colorMainText,
                         fontSize: 16.w,
                         fontWeight: FontWeight.w400),
                   )
