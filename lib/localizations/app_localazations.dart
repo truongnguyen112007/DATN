@@ -326,6 +326,14 @@ abstract class AppLocalizations {
   String get youNeedLogin;
   String get logOut;
 
+  String get please_input_valid_pass;
+  String get please_input_pass;
+  String get please_input_email;
+  String get please_input_valid_email;
+  String get network_error;
+  String get login_success;
+  String get logout_success;
+
   String get thisFeatureIsUnder;
 }
 

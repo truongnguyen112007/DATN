@@ -2,18 +2,35 @@ import 'package:base_bloc/config/constant.dart';
 import 'package:base_bloc/data/globals.dart' as globals;
 import 'package:get_storage/get_storage.dart';
 
+import '../data/model/user_model.dart';
+
 class StorageUtils {
-  static void setLogin(bool isLogin) {
-    GetStorage().write(StorageKey.isLogin, isLogin);
-    globals.isLogin = isLogin;
+  static void login(UserModel model) {
+    GetStorage().write(StorageKey.userModel, model.toJson());
+    globals.isLogin = true;
   }
 
-  static Future<void> getLogin() async {
-    var isLogin = await GetStorage().read(StorageKey.isLogin);
-    if(isLogin != null) {
-      globals.isLogin = isLogin;
-    }
+  static void logout() {
+    GetStorage().remove(StorageKey.userModel);
+    globals.isLogin = false;
+    globals.accessToken = '';
   }
+
+  static Future<void> getInfo() async {
+    var userStr = await GetStorage().read(StorageKey.userModel);
+    try {
+      var userModel = UserModel.fromJson(userStr);
+      globals.accessToken = userModel.token ?? '';
+      globals.isLogin = true;
+    } catch (ex) {
+      globals.isLogin = false;
+      globals.accessToken = '';
+    }
+    /*if(isLogin != null) {
+      globals.isLogin = isLogin;
+    }*/
+  }
+}
 
 /*static Future<void> saveDoctorRatingLatest(List<RatingModel> lDoctor) async {
     var json = jsonEncode(lDoctor.map((e) => e.toJson()).toList());
@@ -82,4 +99,3 @@ class StorageUtils {
   static Future<bool> isLoginByFbOrGg() async =>
       await GetStorage().read(StorageKey.loginByFbOrGg) ?? false;
 */
-}

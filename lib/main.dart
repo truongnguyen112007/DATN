@@ -5,6 +5,7 @@ import 'package:base_bloc/modules/splash/splash_page.dart';
 import 'package:base_bloc/modules/tab_profile/edit_settings/edit_settings_page.dart';
 import 'package:base_bloc/router/application.dart';
 import 'package:base_bloc/router/router.dart';
+import 'package:base_bloc/utils/device_utils.dart';
 import 'package:base_bloc/utils/log_utils.dart';
 import 'package:base_bloc/utils/storage_utils.dart';
 import 'package:fluro/fluro.dart';
@@ -29,7 +30,8 @@ Future<void> configApp() async {
   HttpOverrides.global = MyHttpOverrides();
   configOrientation();
   await GetStorage.init();
-  await StorageUtils.getLogin();
+  await StorageUtils.getInfo();
+  await DeviceUtils.getInfo();
   // await dotenv.load(fileName: '.env.dev');
 }
 

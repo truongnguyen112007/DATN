@@ -1,59 +1,37 @@
-import 'package:base_bloc/data/globals.dart';
+// To parse this JSON data, do
+//
+//     final userModel = userModelFromJson(jsonString);
 
-import '../../gen/assets.gen.dart';
-import '../../modules/tab_profile/edit_settings/edit_settings_cubit.dart';
+import 'dart:convert';
+
+UserModel userModelFromJson(String str) => UserModel.fromJson(json.decode(str));
+
+String userModelToJson(UserModel data) => json.encode(data.toJson());
 
 class UserModel {
-  String? name;
-  String? surname;
-  String? nickname;
-  String? avatar;
-  String? type;
-  String? height;
-  String? favoriteRouteGrade;
-  String? email;
-  int passed = 0;
-  int designed = 0;
-  int friends = 0;
+  UserModel({
+    this.userId,
+    this.role,
+    this.refreshToken,
+    this.token,
+  });
 
-  UserModel(
-      {String? name = null,
-      String? surname = null,
-      String? nickname: null,
-      String? avatar: null,
-      String? type: null,
-      String? height: null,
-      String? favoriteRouteGrade: null,
-      String? email: null,
-      int passed: 0,
-      int designed: 0,
-      int friends: 0}) {
-    this.name = name;
-    this.surname = surname;
-    this.nickname = nickname;
-    this.avatar = avatar;
-    this.type = type;
-    this.height = height;
-    this.favoriteRouteGrade = favoriteRouteGrade;
-    this.email = email;
-    this.passed = passed;
-    this.designed = designed;
-    this.friends = friends;
-  }
+  int? userId;
+  String? role;
+  String? refreshToken;
+  String? token;
 
-  static UserModel fakeCurrentUser() {
-    return UserModel(
-        name: 'Marcin Kowalski',
-        surname: 'Kowalski',
-        nickname: 'Kowal',
-        avatar:
-            'https://thegioidienanh.vn/stores/news_dataimages/anhvu/092022/05/07/4955_300520026_497051069095370_6964118069725518096_n.jpg?rt=20220905075129',
-        type: 'Climb, Route setter',
-        height: '170',
-        favoriteRouteGrade: '5A+',
-        email: 'adamkowalski@gmail.com',
-        passed: 32,
-        designed: 12,
-        friends: 24);
-  }
+  factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
+    userId: json["user_id"],
+    role: json["role"],
+    refreshToken: json["refresh_token"],
+    token: json["token"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "user_id": userId,
+    "role": role,
+    "refresh_token": refreshToken,
+    "token": token,
+  };
 }

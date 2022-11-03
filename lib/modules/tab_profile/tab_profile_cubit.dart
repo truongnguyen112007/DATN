@@ -1,4 +1,4 @@
-import 'package:base_bloc/data/model/user_model.dart';
+import 'package:base_bloc/data/model/profile_model.dart';
 import 'package:base_bloc/modules/tab_profile/edit_settings/edit_settings_page.dart';
 import 'package:base_bloc/modules/tab_profile/tab_profile.dart';
 import 'package:base_bloc/modules/tab_profile/tab_profile_state.dart';
@@ -34,7 +34,7 @@ class TabProfileCubit extends Cubit<TabProfileState> {
       route: ProfileRouters.notifications,
       argument: BottomNavigationConstant.TAB_PROFILE);
 
-  UserModel getCurrentUser() {
-    return UserModel.fakeCurrentUser();
+  ProfileModel getCurrentUser() {
+    return ProfileModel.fakeCurrentUser();
   }
 }
