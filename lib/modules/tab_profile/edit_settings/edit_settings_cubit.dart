@@ -96,9 +96,12 @@ class EditSettingsCubit extends Cubit<EditSettingsState> {
   }
 
   void logOut(BuildContext context) {
-    StorageUtils.logout();
-    emit(EditSettingsState(timeStamp: DateTime.now().microsecondsSinceEpoch));
-    toast(LocaleKeys.logout_success);
-    RouterUtils.openNewPage(const HomePage(), context, isReplace: true);
+    Dialogs.showLogOutDiaLog(context,callback: () async {
+      await Dialogs.hideLoadingDialog();
+      StorageUtils.logout();
+      // emit(EditSettingsState(timeStamp: DateTime.now().microsecondsSinceEpoch));
+      toast(LocaleKeys.logout_success);
+      RouterUtils.openNewPage(const HomePage(), context, isReplace: true);
+    });
   }
 }
