@@ -31,7 +31,7 @@ class AppLocalizationEn extends AppLocalizations {
   String get designed => 'Designed';
 
   @override
-  String get favourite => 'Favourite';
+  String get favourite => 'Favorite';
 
   @override
   String get history => 'History';
@@ -473,5 +473,8 @@ class AppLocalizationEn extends AppLocalizations {
 
   @override
   // TODO: implement logOut
-  String get logOut => 'LogOut';
+  String get logOut => 'Log Out';
+
+  @override
+  String get thisFeatureIsUnder => "This feature is under\nconstruction";
 }

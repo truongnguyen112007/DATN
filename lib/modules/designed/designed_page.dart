@@ -1,4 +1,5 @@
 import 'package:base_bloc/components/app_circle_loading.dart';
+import 'package:base_bloc/components/feeture_under_widget.dart';
 import 'package:base_bloc/components/message_tab_routes.dart';
 import 'package:base_bloc/data/globals.dart';
 import 'package:base_bloc/modules/designed/designed_cubit.dart';
@@ -52,50 +53,51 @@ class _DesignedPageState extends State<DesignedPage>
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return
+      /*Container(
       color: colorGreyBackground,
-      child: const MessageTabRoutes(),
+      child: FeatureUnderWidget(),
+    );*/
+      RefreshIndicator(
+      child: Stack(
+        children: [
+          SingleChildScrollView(
+            controller: scrollController,
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: Column(
+              children: [
+                FilterWidget(
+                  isSelect: true,
+                  selectCallBack: () => _bloc.selectOnClick(context),
+                  filterCallBack: () => _bloc.filterOnclick(context),
+                  sortCallBack: () {}, unsSelectCallBack: () {  },
+                ),
+                BlocBuilder<DesignedCubit, DesignedState>(
+                    bloc: _bloc,
+                    builder: (c, state) {
+                      if (state.status == FeedStatus.initial ||
+                          state.status == FeedStatus.refresh) {
+                        return const SizedBox();
+                      }
+                      return routesWidget(context, state);
+                    })
+              ],
+            ),
+          ),
+          BlocBuilder<DesignedCubit, DesignedState>(
+            bloc: _bloc,
+            builder: (BuildContext context, state) =>
+                (state.status == FeedStatus.initial ||
+                        state.status == FeedStatus.refresh)
+                    ? const Center(
+                        child: AppCircleLoading(),
+                      )
+                    : const SizedBox(),
+          )
+        ],
+      ),
+      onRefresh: () async => _bloc.refresh(),
     );
-    //   RefreshIndicator(
-    //   child: Stack(
-    //     children: [
-    //       SingleChildScrollView(
-    //         controller: scrollController,
-    //         physics: const AlwaysScrollableScrollPhysics(),
-    //         child: Column(
-    //           children: [
-    //             FilterWidget(
-    //               isSelect: true,
-    //               selectCallBack: () => _bloc.selectOnClick(context),
-    //               filterCallBack: () => _bloc.filterOnclick(context),
-    //               sortCallBack: () {},
-    //             ),
-    //             BlocBuilder<DesignedCubit, DesignedState>(
-    //                 bloc: _bloc,
-    //                 builder: (c, state) {
-    //                   if (state.status == FeedStatus.initial ||
-    //                       state.status == FeedStatus.refresh) {
-    //                     return const SizedBox();
-    //                   }
-    //                   return routesWidget(context, state);
-    //                 })
-    //           ],
-    //         ),
-    //       ),
-    //       BlocBuilder<DesignedCubit, DesignedState>(
-    //         bloc: _bloc,
-    //         builder: (BuildContext context, state) =>
-    //             (state.status == FeedStatus.initial ||
-    //                     state.status == FeedStatus.refresh)
-    //                 ? const Center(
-    //                     child: AppCircleLoading(),
-    //                   )
-    //                 : const SizedBox(),
-    //       )
-    //     ],
-    //   ),
-    //   onRefresh: () async => _bloc.refresh(),
-    // );
   }
 
   List<String> test() => ['a', 'b', 'c', 'd'];

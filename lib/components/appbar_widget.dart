@@ -52,6 +52,8 @@ PreferredSizeWidget homeAppbar(BuildContext context, {required Function onClickS
     leadingWidth: contentPadding,
     context: context,
     title: InkWell(
+      splashColor: colorTransparent,
+      highlightColor: colorTransparent,
       onTap: () => onClickJumpToTop(),
       child: widget
       // SvgPicture.asset(
@@ -69,7 +71,7 @@ PreferredSizeWidget homeAppbar(BuildContext context, {required Function onClickS
       ),
       InkWell(
         child: Container(
-          margin: EdgeInsets.only(left: 10,right: contentPadding),
+          margin: EdgeInsets.only(left: 10.w,right: contentPadding),
           child: Badge(
             gradient: LinearGradient(colors: [
               colorYellow70,
@@ -77,7 +79,7 @@ PreferredSizeWidget homeAppbar(BuildContext context, {required Function onClickS
               colorPrimary.withOpacity(0.65),
             ]),
             padding: const EdgeInsets.all(2),
-            position: BadgePosition.topEnd(top: 13.h, end: 1.h),
+            position: BadgePosition.topEnd(top: 11.h, end: 3.h),
             toAnimate: false,
             badgeContent: AppText(
               ' ',

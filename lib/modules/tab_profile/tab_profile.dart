@@ -3,6 +3,7 @@ import 'package:base_bloc/components/app_text.dart';
 import 'package:base_bloc/components/appbar_widget.dart';
 import 'package:base_bloc/components/profile_info_widget.dart';
 import 'package:base_bloc/localizations/app_localazations.dart';
+import 'package:base_bloc/modules/tab_profile/edit_settings/edit_settings_page.dart';
 import 'package:base_bloc/modules/tab_profile/tab_profile_cubit.dart';
 import 'package:base_bloc/modules/tab_profile/tab_profile_post/tab_profile_post.dart';
 import 'package:base_bloc/modules/tab_profile/tab_profile_state.dart';
@@ -41,7 +42,16 @@ class _TabProfileState extends State<TabProfile> {
 
   @override
   Widget build(BuildContext context) {
-    return AppScaffold(
+    return  /*AppScaffold(body: BlocBuilder(
+        bloc: _bloc,
+        builder: (c, s) => !isLogin
+            ? CheckLogin(
+          loginCallBack: () {
+            _bloc.onClickLogin(context);
+          },
+        )
+            :EditSettingsPage()));*/
+    AppScaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: colorMainBackground,
       appbar: homeAppbar(context, onClickSearch: () {
@@ -55,7 +65,8 @@ class _TabProfileState extends State<TabProfile> {
             LocaleKeys.profile,
             style: googleFont.copyWith(color: colorWhite),
           )),
-      body: BlocBuilder(
+      body:
+      BlocBuilder(
         bloc: _bloc,
         builder: (c, s) => !isLogin
             ? CheckLogin(

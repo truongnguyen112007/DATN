@@ -14,6 +14,7 @@ import '../../components/app_circle_loading.dart';
 import '../../components/app_scalford.dart';
 import '../../components/app_text.dart';
 import '../../components/check_login.dart';
+import '../../components/feeture_under_widget.dart';
 import '../../data/model/reservation_model.dart';
 import '../../gen/assets.gen.dart';
 import '../../localizations/app_localazations.dart';
@@ -73,7 +74,8 @@ class _TabReservationState extends State<TabReservation>
             style: googleFont.copyWith(color: colorWhite),
           )),
       backgroundColor: colorBlack30,
-      body: BlocBuilder(
+      body:
+      BlocBuilder(
         bloc: _bloc,
         builder: (c, s) => !isLogin
             ? CheckLogin(
@@ -81,7 +83,8 @@ class _TabReservationState extends State<TabReservation>
                   _bloc.onClickLogin(context);
                 },
               )
-            : RefreshIndicator(
+            :  /*const FeatureUnderWidget()*/
+        RefreshIndicator(
                 child: Stack(
                   children: [
                     SingleChildScrollView(
@@ -141,37 +144,6 @@ class _TabReservationState extends State<TabReservation>
           ),
         ),
       );
-
-  // PreferredSizeWidget appbar(BuildContext context) => appBarWidget(
-  //         leading: const SizedBox(),
-  //         leadingWidth: 0,
-  //         automaticallyImplyLeading: false,
-  //         context: context,
-  //         titleStr: AppLocalizations.of(context)!.reservations,
-  //         action: [
-  //           Container(
-  //             margin: EdgeInsets.only(left: 10, right: contentPadding),
-  //             child: Badge(
-  //               gradient: LinearGradient(colors: [
-  //                 colorYellow70,
-  //                 colorPrimary,
-  //                 colorPrimary.withOpacity(0.65),
-  //               ]),
-  //               padding: const EdgeInsets.all(2),
-  //               position: BadgePosition.topEnd(top: 13.h, end: 1.h),
-  //               toAnimate: false,
-  //               badgeContent: AppText(
-  //                 '1',
-  //                 style: typoSmallTextRegular.copyWith(
-  //                     fontSize: 9.sp, color: colorWhite),
-  //               ),
-  //               child: SvgPicture.asset(
-  //                 Assets.svg.notification,
-  //                 color: colorSurfaceMediumEmphasis,
-  //               ),
-  //             ),
-  //           ),
-  //         ]);
 
   Widget reservationWidget() =>
       BlocBuilder<TabReservationCubit, TabReservationState>(

@@ -84,40 +84,45 @@ class _SearchHomePageState extends BasePopState<SearchHomePage>
     return AppScaffold(
       backgroundColor: colorBlack,
       resizeToAvoidBottomInset: false,
-      body: SizedBox(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        child: Column(
-          children: [
-            appBar(),
-            SizedBox(
-              height: 10.h,
-            ),
-            categoryWidget(),
-            SizedBox(
-              height: 8.h,
-            ),
-            const Divider(thickness: 1, color: colorGrey80, height: 2),
-            Expanded(
-              child: PageView(
-                physics: const NeverScrollableScrollPhysics(),
-                controller: pageController,
-                children: [
-                  AllPage(),
-                  PlacesPage(
-                    index: 1,
-                    onCallBackShowMap: (i) {},
-                  ),
-                  const RoutesPage(
-                    index: 2,
-                  ),
-                  const PersonsPage(
-                    index: 3,
-                  ),
-                ],
+      body: GestureDetector(
+        onTap: (){
+          FocusScope.of(context).requestFocus(FocusNode());
+        },
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          child: Column(
+            children: [
+              appBar(),
+              SizedBox(
+                height: 10.h,
               ),
-            ),
-          ],
+              categoryWidget(),
+              SizedBox(
+                height: 8.h,
+              ),
+              const Divider(thickness: 1, color: colorGrey80, height: 2),
+              Expanded(
+                child: PageView(
+                  physics: const NeverScrollableScrollPhysics(),
+                  controller: pageController,
+                  children: [
+                    AllPage(),
+                    PlacesPage(
+                      index: 1,
+                      onCallBackShowMap: (i) {},
+                    ),
+                    const RoutesPage(
+                      index: 2,
+                    ),
+                    const PersonsPage(
+                      index: 3,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -148,7 +153,7 @@ class _SearchHomePageState extends BasePopState<SearchHomePage>
               },
               child: SvgPicture.asset(
                 Assets.svg.backButton,
-                color: colorWhite.withOpacity(0.6),
+                color: colorWhite.withOpacity(1.0),
                 width: 16.sp,
               )),
           SizedBox(

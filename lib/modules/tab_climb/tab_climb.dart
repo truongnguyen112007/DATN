@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:badges/badges.dart';
 import 'package:base_bloc/components/app_scalford.dart';
 import 'package:base_bloc/components/appbar_widget.dart';
+import 'package:base_bloc/components/feeture_under_widget.dart';
 import 'package:base_bloc/modules/tab_climb/tab_climb_cubit.dart';
 import 'package:base_bloc/modules/tab_climb/tab_climb_state.dart';
 import 'package:base_bloc/theme/app_styles.dart';
@@ -52,7 +53,8 @@ class _TabClimbState extends State<TabClimb> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return AppScaffold(
+    return
+      AppScaffold(
       backgroundColor: colorGrey90,
       appbar: homeAppbar(context,
           onClickSearch: () {
@@ -66,7 +68,8 @@ class _TabClimbState extends State<TabClimb> with TickerProviderStateMixin {
             LocaleKeys.climb,
             style: googleFont.copyWith(color: colorWhite),
           )),
-      body: BlocBuilder(
+      body:
+      BlocBuilder(
         bloc: _bloc,
         builder: (c, s) => !isLogin
             ? CheckLogin(
@@ -74,7 +77,8 @@ class _TabClimbState extends State<TabClimb> with TickerProviderStateMixin {
                   _bloc.onClickLogin(context);
                 },
               )
-            : BlocBuilder<TabClimbCubit, TabClimbState>(
+            : /*const FeatureUnderWidget()*/
+        BlocBuilder<TabClimbCubit, TabClimbState>(
                 bloc: _bloc,
                 builder: (BuildContext context, state) {
                   return state.isBluetooth

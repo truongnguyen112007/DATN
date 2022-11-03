@@ -2,8 +2,10 @@ import 'dart:async';
 
 import 'package:base_bloc/config/constant.dart';
 import 'package:base_bloc/data/eventbus/refresh_event.dart';
+import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/modules/favourite/favourite_state.dart';
 import 'package:base_bloc/router/router_utils.dart';
+import 'package:base_bloc/utils/toast_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -13,6 +15,7 @@ import '../../utils/log_utils.dart';
 import '../create_routes/create_routes_page.dart';
 import '../filter_routes/filter_routes_page.dart';
 import '../playlist/playlist_cubit.dart';
+import '../routers_detail/routes_detail_page.dart';
 import '../tab_home/tab_home_state.dart';
 
 class FavouriteCubit extends Cubit<FavouriteState> {
@@ -67,7 +70,7 @@ class FavouriteCubit extends Cubit<FavouriteState> {
     getFavourite();
   }
 
-  void createRoutesOnClick(BuildContext context) =>
+  void createRoutesOnClick(BuildContext context) => /*toast(LocaleKeys.thisFeatureIsUnder)*/
       RouterUtils.openNewPage(const CreateRoutesPage(), context);
 
   List<RoutesModel> fakeData() => [
@@ -124,9 +127,19 @@ class FavouriteCubit extends Cubit<FavouriteState> {
       ),
       context);
 
-  void selectOnclick(bool isShowAdd) {
-    emit(state.copyWith(isShowAdd: isShowAdd));
+  void selectOnclick(bool isShowAdd) async{
+    for(int i =0;i<state.lPlayList.length;i++){
+      state.lPlayList[i].isSelect = false;
+    }
+    emit(state.copyWith(timeStamp: DateTime.now().millisecondsSinceEpoch,isShowAdd: isShowAdd,isShowActionButton: false));
   }
+  void itemOnclick(BuildContext context, RoutesModel model) =>
+      RouterUtils.openNewPage(
+          RoutesDetailPage(
+            index: BottomNavigationConstant.TAB_ROUTES,
+            model: model,
+          ),
+          context);
 
   void filterItemOnclick(int index) {
     state.lPlayList[index].isSelect = !state.lPlayList[index].isSelect;

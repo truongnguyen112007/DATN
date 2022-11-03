@@ -325,6 +325,8 @@ abstract class AppLocalizations {
   String get login;
   String get youNeedLogin;
   String get logOut;
+
+  String get thisFeatureIsUnder;
 }
 
 class _AppLocalizationsDelegate

@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:base_bloc/data/globals.dart';
+import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/modules/tab_home/tab_home_state.dart';
 import 'package:base_bloc/utils/log_utils.dart';
+import 'package:base_bloc/utils/toast_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
@@ -56,7 +58,8 @@ class TabHomeCubit extends Cubit<TabHomeState> {
     emit(state.copyOf(timeStamp: DateTime.now().microsecondsSinceEpoch));
   }
 
-  void onClickNotification(BuildContext context) => RouterUtils.pushHome(
+  void onClickNotification(BuildContext context) => /*toast(LocaleKeys.thisFeatureIsUnder);*/
+      RouterUtils.pushHome(
       context: context,
       route: HomeRouters.notifications,
       argument: BottomNavigationConstant.TAB_HOME);
