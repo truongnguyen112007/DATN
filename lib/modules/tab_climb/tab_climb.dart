@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:badges/badges.dart';
 import 'package:base_bloc/components/app_scalford.dart';
 import 'package:base_bloc/components/appbar_widget.dart';
-import 'package:base_bloc/components/feeture_under_widget.dart';
 import 'package:base_bloc/modules/tab_climb/tab_climb_cubit.dart';
 import 'package:base_bloc/modules/tab_climb/tab_climb_state.dart';
 import 'package:base_bloc/theme/app_styles.dart';

@@ -14,7 +14,6 @@ import '../../components/app_circle_loading.dart';
 import '../../components/app_scalford.dart';
 import '../../components/app_text.dart';
 import '../../components/check_login.dart';
-import '../../components/feeture_under_widget.dart';
 import '../../data/model/reservation_model.dart';
 import '../../gen/assets.gen.dart';
 import '../../localizations/app_localazations.dart';
