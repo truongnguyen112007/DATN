@@ -33,24 +33,13 @@ class MeasureWidget extends StatefulWidget {
 }
 
 class _MeaSureWidgetState extends State<MeasureWidget> {
-  StreamSubscription<ScaleEvent>? _scaleStream;
-  double scale = 1;
-  double sizePadding = 0.0;
-
   @override
   void initState() {
-    scale = widget.scale;
-    _scaleStream =
-        Utils.eventBus.on<ScaleEvent>().listen((event) => setState(() {
-              scale = event.scale;
-              // logE("TAG SCALE: $scale FONT SIZE: ${6.sp / scale})}");
-            }));
     super.initState();
   }
 
   @override
   void dispose() {
-    _scaleStream?.cancel();
     super.dispose();
   }
 
@@ -67,16 +56,13 @@ class _MeaSureWidgetState extends State<MeasureWidget> {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                AppText(' ${index + 1}',
+                AppText(' ${index + 1}-',
                     style: typoW600.copyWith(
-                        fontSize: 8.sp,
-                        color: (index == 3 || index % 3 == 0)
-                            ? colorText0.withOpacity(0.8)
-                            : Colors.transparent)),
+                        fontSize: 1.5.sp, color: colorText0.withOpacity(0.8),)),
                 Container(
                   margin: const EdgeInsets.only(left: 3),
-                  width: 3,
-                  height: 1,
+                  width: 8,
+                  height: 0.1,
                   color: HexColor('5E5E5E'),
                 )
               ],

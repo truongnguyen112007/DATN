@@ -50,9 +50,9 @@ class ZoomRoutesPage extends StatefulWidget {
 
 class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
   late CreateRoutesCubit _bloc;
-  final ZoomerController _zoomController = ZoomerController(initialScale: 1.0);
+  final ZoomerController _zoomController = ZoomerController(initialScale: 6.0);
   final ZoomerController _zoomMeasureController =
-      ZoomerController(initialScale: 1.0);
+      ZoomerController(initialScale: 6.0);
   final lBox = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L'];
   final sizeHoldSet = 8.6.h;
   final row = 47;
@@ -65,19 +65,20 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
     Assets.svg.holdset5,
     Assets.svg.holdset6,
   ];
-  final lHeight = [0, 2, 4, 6, 8, 10, 12];
   StreamSubscription<HoldSetEvent>? _holdSetStream;
   late ScrollController _lBoxController;
   GlobalKey key = GlobalKey();
 
   @override
   void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((c) {
+      logE("TAG JUMB:");
+      _zoomMeasureController.setOffset = Offset(-2, 10);
+    });
+
     _zoomController.onZoomUpdate(() {
       _zoomMeasureController.setScale = _zoomController.scale;
-      // Utils.fireEvent(ScaleEvent(_zoomController.scale));
-      logE("TAG SCALE: ${_zoomController.scale}");
-      _zoomMeasureController.setOffset =
-          Offset(1 - _zoomController.scale, _zoomController.offset.dy);
+      _zoomMeasureController.setOffset = Offset(2, _zoomController.offset.dy);
     });
     _bloc = CreateRoutesCubit();
     _bloc.setData(row: row, column: column, sizeHoldSet: sizeHoldSet);
@@ -102,38 +103,52 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
       body: BlocBuilder<CreateRoutesCubit, CreateRoutesState>(
         builder: (c, state) => state.status == StatusType.initial
             ? const Center(child: AppCircleLoading())
-            : Row(
+            : Column(
                 children: [
-                  Container(
-                      height: MediaQuery.of(context).size.height,
-                      width: 20.w,
-                      alignment: Alignment.bottomRight,
-                      color: colorBlack,
-                      child: zoomWidget(
-                          isScaleByDx: false,
-                          context,
-                          _zoomMeasureController,
-                          MeasureWidget(
-                              scale: 1,
-                              sizeHoldSet: sizeHoldSet,
-                              row: row))),
                   Expanded(
-                      child: zoomWidget(
-                          context,
-                          _zoomController,
-                          Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                  width: state.column * state.sizeHoldSet,
-                                  decoration: BoxDecoration(
-                                      gradient: gradientBackground()),
-                                  child: Align(
-                                    alignment: Alignment.center,
-                                    child: routesWidget(context),
-                                  ),
-                                ),
-                              ])))
+                      child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                          height: MediaQuery.of(context).size.height,
+                          width: 20.w,
+                          alignment: Alignment.center,
+                          color: colorBlack,
+                          child: zoomWidget(
+                              offset: Offset(2, 0.0),
+                              isScaleByDx: false,
+                              context,
+                              _zoomMeasureController,
+                              Container(
+                                alignment: Alignment.center,
+                                height: MediaQuery.of(context).size.height,
+                                width: 20.w,
+                                child: MeasureWidget(
+                                    scale: 1,
+                                    sizeHoldSet: sizeHoldSet,
+                                    row: row),
+                              ))),
+                      Expanded(
+                          child: zoomWidget(
+                              context,
+                              _zoomController,
+                              Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      width: state.column * state.sizeHoldSet,
+                                      decoration: BoxDecoration(
+                                          gradient: gradientBackground()),
+                                      child: Align(
+                                        alignment: Alignment.center,
+                                        child: routesWidget(context),
+                                      ),
+                                    ),
+                                  ])))
+                    ],
+                  )),
+                  optionWidget()
                 ],
               ),
         bloc: _bloc,
@@ -141,72 +156,19 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
     );
   }
 
-  Widget blurBackground(BuildContext context) => Positioned.fill(
-      child: Align(
-          alignment: Alignment.bottomCenter,
-          child: Container(
-              height: 40,
-              decoration: const BoxDecoration(boxShadow: [
-                BoxShadow(color: colorWhite, blurRadius: 100)
-              ]))));
-
-  Widget boxNameWidget(BuildContext context) => Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          for (int i = 0; i < lBox.length; i++)
-            AppText(lBox[i],
-                style: typoW400.copyWith(fontSize: 4.sp, height: 1))
-        ],
-      );
-
-  Widget heightWidget(bool isLeft) => Container(
-      width: 8.w,
-      height: row * sizeHoldSet,
-      alignment: Alignment.center,
-      decoration: BoxDecoration(gradient: gradientBackground()),
-      child: ListView.builder(
-          reverse: true,
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: row,
-          itemBuilder: (BuildContext context, int index) => Container(
-              alignment: !isLeft ? Alignment.centerLeft : Alignment.centerRight,
-              height: sizeHoldSet,
-              child: AppText(' $index',
-                  style: typoW400.copyWith(fontSize: 4.sp)))));
-
-  Widget lineGreyGradient(
-          BuildContext context, bool isLeft, CreateRoutesState state) =>
-      Stack(children: [
-        Container(
-          width: 22.w,
-          decoration: BoxDecoration(gradient: gradientBackground()),
-        ),
-        Positioned.fill(
-            child: Align(
-          alignment: isLeft ? Alignment.centerLeft : Alignment.centerRight,
-          child: Container(width: 5.w, color: HexColor('FF5A00')),
-        )),
-      ]);
-
-  Widget itemInfoWidget(
-          BuildContext context, String title, String grade, String status,
-          {EdgeInsetsGeometry? padding}) =>
-      Padding(
-        padding: padding ?? const EdgeInsets.all(0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            AppText(title,
-                style: typoW600.copyWith(
-                    fontSize: 9.sp, color: colorText0.withOpacity(0.87))),
-            AppText(grade, style: typoW700.copyWith(fontSize: 22.5.sp)),
-            AppText(
-              status,
-              style: typoW400.copyWith(
-                  fontSize: 12.5.sp, color: colorText0.withOpacity(0.87)),
-            )
-          ],
+  Widget measureWidget(BuildContext context) => Container(
+        height: MediaQuery.of(context).size.height,
+        width: 20.w,
+        alignment: Alignment.center,
+        color: colorBlack,
+        child: zoomWidget(
+          isScaleByDx: false,
+          context,
+          _zoomMeasureController,
+          Container(
+              alignment: Alignment.center,
+              child:
+                  MeasureWidget(scale: 1, sizeHoldSet: sizeHoldSet, row: row)),
         ),
       );
 
@@ -290,8 +252,9 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
 
   Widget zoomWidget(
           BuildContext context, ZoomerController controller, Widget widget,
-          {bool isScaleByDx = true}) =>
+          {bool isScaleByDx = true, Offset? offset}) =>
       Zoomer(
+          offset: offset,
           enableTranslation: true,
           controller: controller,
           height: MediaQuery.of(context).size.height,
@@ -299,8 +262,8 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
           enableRotation: false,
           background: const BoxDecoration(),
           clipRotation: true,
-          maxScale: 8,
-          minScale: 1,
+          maxScale: 6,
+          minScale: 6,
           child: widget);
 
   LinearGradient gradientBackground() => LinearGradient(colors: [

@@ -73,6 +73,7 @@ class ZoomerController {
 
 class Zoomer extends StatefulWidget {
   ///Zoomer widget to create interactive Zoomable widget
+  final Offset? offset;
   final Widget child;
   final double height, width, minScale, maxScale;
   final BoxDecoration background;
@@ -85,6 +86,7 @@ class Zoomer extends StatefulWidget {
   Zoomer(
       {required this.child,
       this.scaleCallBack,
+      this.offset,
       required this.controller,
       required this.height,
       required this.width,
@@ -130,6 +132,8 @@ class _ZoomerState extends State<Zoomer> {
   @override
   void initState() {
     super.initState();
+    _offset = widget.offset ?? Offset(0.0, 0.0);
+    logE("TAG OFFSET: ${_offset.toString()}");
     double l = (1 + _scale);
     l = l < 0 ? (-_scale - 1) / 4 : l;
     _limitOffset = Offset(widget.width, widget.height) * l;
@@ -216,6 +220,7 @@ class _ZoomerState extends State<Zoomer> {
 
   @override
   Widget build(BuildContext context) {
+    logE("TAG OFFSET: ${_offset.dx}");
     return GestureDetector(
       onScaleStart: _scaleStart,
       onScaleUpdate: _scaleUpdate,
