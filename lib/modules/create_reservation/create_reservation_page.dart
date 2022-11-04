@@ -20,7 +20,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../components/app_slider.dart';
 import '../../components/app_text.dart';
-import '../../data/model/list_places_model.dart';
+import '../../data/model/places_model.dart';
 import '../../theme/app_styles.dart';
 import '../../theme/colors.dart';
 

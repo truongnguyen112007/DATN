@@ -1,5 +1,5 @@
 import 'package:base_bloc/data/eventbus/new_page_event.dart';
-import 'package:base_bloc/data/model/list_places_model.dart';
+import 'package:base_bloc/data/model/places_model.dart';
 import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/modules/create_reservation/create_reservation_state.dart';
 import 'package:base_bloc/modules/find_place/find_place_page.dart';

@@ -8,7 +8,7 @@ import 'package:base_bloc/components/appbar_widget.dart';
 import 'package:base_bloc/config/constant.dart';
 import 'package:base_bloc/data/globals.dart';
 import 'package:base_bloc/data/model/address_model.dart';
-import 'package:base_bloc/data/model/list_places_model.dart';
+import 'package:base_bloc/data/model/places_model.dart';
 import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/modules/confirm_create_reservation/confirm_create_reservation_cubit.dart';
 import 'package:base_bloc/modules/confirm_create_reservation/confirm_create_reservation_state.dart';

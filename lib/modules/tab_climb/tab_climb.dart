@@ -18,7 +18,7 @@ import '../../components/app_text.dart';
 import '../../components/check_login.dart';
 import '../../components/gradient_button.dart';
 import '../../data/globals.dart';
-import '../../data/model/list_places_model.dart';
+import '../../data/model/places_model.dart';
 import '../../gen/assets.gen.dart';
 import '../../localizations/app_localazations.dart';
 import '../../theme/colors.dart';

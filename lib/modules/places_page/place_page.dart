@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'package:base_bloc/components/app_circle_loading.dart';
 import 'package:base_bloc/components/filter_widget.dart';
-import 'package:base_bloc/data/model/list_places_model.dart';
+import 'package:base_bloc/data/globals.dart';
+import 'package:base_bloc/data/model/places_model.dart';
 import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/modules/places_page/places_page_cubit.dart';
 import 'package:base_bloc/modules/places_page/places_page_state.dart';
@@ -16,6 +18,7 @@ import '../../components/app_text.dart';
 import '../../components/message_search.dart';
 import '../../data/eventbus/hide_map_event.dart';
 import '../../data/eventbus/search_home_event.dart';
+import '../../gen/assets.gen.dart';
 import '../../theme/app_styles.dart';
 import '../../theme/colors.dart';
 import '../../utils/app_utils.dart';
@@ -45,7 +48,8 @@ final List<String> holdSet = [
 
 final List<String> itemCity = ['item1', 'item2', 'item3'];
 
-class _PlacesPageState extends State<PlacesPage> {
+class _PlacesPageState extends State<PlacesPage>
+    with AutomaticKeepAliveClientMixin {
   String? selectedValue = itemCity[0];
   int selectedHeight = 0;
   int selectedHold = 0;
@@ -80,162 +84,203 @@ class _PlacesPageState extends State<PlacesPage> {
 
   @override
   Widget build(BuildContext context) {
-    // final Size size = MediaQuery.of(context).size;
-    return Container(
-        color: colorGreyBackground,
-        child:
-       const MessageSearch());
-    // BlocBuilder<PlacesPageCubit, PlacesPageState>(
-    //   bloc: _bloc,
-    //   builder: (c, state) {
-    //     if (state.status == FeedStatus.success) {
-    //       _kGooglePlex = CameraPosition(
-    //           target: LatLng(state.lPlayList[0].lat, state.lPlayList[0].lng),
-    //           zoom: 15);
-    //       for (int i = 0; i < state.lPlayList.length; i++) {
-    //         markers.add(Marker(
-    //             markerId: MarkerId(i.toString()),
-    //             position:
-    //                 LatLng(state.lPlayList[i].lat, state.lPlayList[i].lng)));
-    //       }
-    //     }
-    //     return Container(
-    //       color: const Color(0xFF282D2F),
-    //       child: Column(
-    //         children: [
-    //           FilterWidget(
-    //               sortCallBack: () {},
-    //               filterCallBack: () {
-    //                 showModalBottomSheet<void>(
-    //                   context: context,
-    //                   backgroundColor: Colors.transparent,
-    //                   builder: (BuildContext context) {
-    //                     return filterDiaLog();
-    //                   },
-    //                 );
-    //               },
-    //               selectCallBack: () {},
-    //               isSelect: false),
-    //           Expanded(
-    //             child: Stack(
-    //               children: [
-    //                 BlocBuilder<PlacesPageCubit, PlacesPageState>(
-    //                   bloc: _bloc,
-    //                   builder: (BuildContext context, state) {
-    //                     if (state.status == FeedStatus.initial ||
-    //                         state.status == FeedStatus.refresh)
-    //                       return SizedBox();
-    //                     return Visibility(
-    //                       visible: isShowMap,
-    //                       child: GoogleMap(
-    //                         markers: markers,
-    //                         zoomControlsEnabled: true,
-    //                         zoomGesturesEnabled: true,
-    //                         scrollGesturesEnabled: true,
-    //                         initialCameraPosition: _kGooglePlex,
-    //                         onMapCreated: (GoogleMapController controller) {
-    //                           try {
-    //                             _controller.complete(controller);
-    //                           } catch (ex) {}
-    //                         },
-    //                       ),
-    //                     );
-    //                   },
-    //                 ),
-    //                 BlocBuilder<PlacesPageCubit, PlacesPageState>(
-    //                   bloc: _bloc,
-    //                   builder: (BuildContext context, state) => Visibility(
-    //                     visible: !isShowMap,
-    //                     child: Container(
-    //                       height: size.height,
-    //                       color: const Color(0xFF3B4244),
-    //                       child: ListView.separated(
-    //                         shrinkWrap: true,
-    //                         padding: const EdgeInsets.only(top: 10),
-    //                         itemBuilder: (BuildContext context, int index) {
-    //                           return itemPlaces(
-    //                               context, state.lPlayList[index]);
-    //                         },
-    //                         separatorBuilder:
-    //                             (BuildContext context, int index) => SizedBox(
-    //                           height: 10.h,
-    //                         ),
-    //                         itemCount: state.lPlayList.length,
-    //                       ),
-    //                     ),
-    //                   ),
-    //                 ),
-    //                 Container(
-    //                   padding: EdgeInsets.only(bottom: 20.h),
-    //                   alignment: Alignment.bottomCenter,
-    //                   child: OutlinedButton(
-    //                     onPressed: () {
-    //                       isShowMap = !isShowMap;
-    //                       widget.onCallBackShowMap(isShowMap);
-    //                       setState(() {});
-    //                     },
-    //                     style: ButtonStyle(
-    //                       overlayColor:
-    //                           MaterialStateProperty.all(Colors.transparent),
-    //                       splashFactory: NoSplash.splashFactory,
-    //                       side: MaterialStateProperty.all(
-    //                         const BorderSide(
-    //                             color: Colors.deepOrange, width: 1),
-    //                       ),
-    //                       fixedSize: MaterialStateProperty.all(
-    //                         Size(100.w, 35.h),
-    //                       ),
-    //                       backgroundColor:
-    //                           MaterialStateProperty.all(Colors.white),
-    //                       shape: MaterialStateProperty.all(
-    //                         RoundedRectangleBorder(
-    //                           borderRadius: BorderRadius.circular(40),
-    //                         ),
-    //                       ),
-    //                     ),
-    //                     child: isShowMap
-    //                         ? Row(
-    //                             children: [
-    //                               const Icon(
-    //                                 Icons.menu,
-    //                                 color: Colors.deepOrange,
-    //                               ),
-    //                               SizedBox(
-    //                                 width: 10.w,
-    //                               ),
-    //                               AppText(
-    //                                 AppLocalizations.of(context)!.list,
-    //                                 style:
-    //                                     TextStyle(color: Colors.deepOrange),
-    //                               )
-    //                             ],
-    //                           )
-    //                         : Row(
-    //                             children: [
-    //                               const Icon(
-    //                                 Icons.location_on,
-    //                                 color: Colors.deepOrange,
-    //                               ),
-    //                               SizedBox(
-    //                                 width: 5.w,
-    //                               ),
-    //                               AppText(
-    //                                 AppLocalizations.of(context)!.map,
-    //                                 style:
-    //                                     TextStyle(color: Colors.deepOrange),
-    //                               )
-    //                             ],
-    //                           ),
-    //                   ),
-    //                 )
-    //               ],
-    //             ),
-    //           ),
-    //         ],
-    //       ),
-    //     );
-    //   });
+    return RefreshIndicator(
+        child: Stack(
+          children: [
+            ListView(),
+            BlocBuilder<PlacesPageCubit, PlacesPageState>(
+                bloc: _bloc,
+                builder: (c, state) {
+                  if (state.isLoading && state.lPlayList.isEmpty) {
+                    return const Center(child: AppCircleLoading());
+                  }
+                  if (state.status == FeedStatus.success &&
+                      state.lPlayList.isNotEmpty) {
+                    _kGooglePlex = CameraPosition(
+                        target: LatLng(
+                            state.lPlayList[0].lat, state.lPlayList[0].lng),
+                        zoom: 15);
+                    for (int i = 0; i < state.lPlayList.length; i++) {
+                      markers.add(Marker(
+                          markerId: MarkerId(i.toString()),
+                          position: LatLng(
+                              state.lPlayList[i].lat, state.lPlayList[i].lng)));
+                    }
+                  }
+                  return Container(
+                    color: const Color(0xFF282D2F),
+                    child: Column(
+                      children: [
+                        FilterWidget(
+                          sortCallBack: () {},
+                          filterCallBack: () {
+                            showModalBottomSheet<void>(
+                              context: context,
+                              backgroundColor: Colors.transparent,
+                              builder: (BuildContext context) {
+                                return filterDiaLog();
+                              },
+                            );
+                          },
+                          selectCallBack: () {},
+                          isSelect: false,
+                          unsSelectCallBack: () {},
+                        ),
+                        Expanded(
+                          child: Stack(children: [
+                            googleMap(),
+                            infoPlaceWidget(),
+                            changeUiWidget()
+                          ]),
+                        ),
+                      ],
+                    ),
+                  );
+                })
+          ],
+        ),
+        onRefresh: () async {
+          _bloc.onRefresh();
+        });
   }
+
+  Widget titleWidget(String title) => Padding(
+      padding: EdgeInsets.only(left: contentPadding, top: contentPadding),
+      child: AppText(title.toUpperCase(),
+          style: typoW600.copyWith(
+              color: colorText0.withOpacity(0.87), fontSize: 9.sp)));
+
+  Widget infoPlaceWidget() => BlocBuilder<PlacesPageCubit, PlacesPageState>(
+        bloc: _bloc,
+        builder: (BuildContext context, state) => Visibility(
+          visible: !isShowMap,
+          child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Visibility(
+                  visible: state.lLastPlace.isNotEmpty,
+                  child: Row(
+                    children: [
+                      titleWidget(LocaleKeys.last_visited_place),
+                      const Spacer(),
+                      Padding(
+                        padding: EdgeInsets.only(
+                            right: contentPadding, top: contentPadding),
+                        child: InkWell(
+                            child: Icon(Icons.close,
+                                size: 13, color: colorWhite.withOpacity(0.87)),
+                            onTap: () => _bloc.clearCache()),
+                      )
+                    ],
+                  ),
+                ),
+                Visibility(
+                  visible: state.lLastPlace.isNotEmpty,
+                  child: lPlaceWidget(state.lLastPlace),
+                ),
+                titleWidget(LocaleKeys.the_nearest_place),
+                lPlaceWidget(state.lPlayList)
+              ],
+            ),
+          ),
+        ),
+      );
+
+  Widget lPlaceWidget(List<PlacesModel> lPlayList) => ListView.separated(
+        physics: const NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        padding: EdgeInsets.only(
+            top: 10, left: contentPadding, right: contentPadding),
+        itemBuilder: (BuildContext context, int index) => itemPlaces(context,
+            lPlayList[index], () => _bloc.placeOnClick(lPlayList[index])),
+        separatorBuilder: (BuildContext context, int index) =>
+            const SizedBox(height: 10),
+        itemCount: lPlayList.length,
+      );
+
+  Widget changeUiWidget() => Container(
+        padding: EdgeInsets.only(bottom: 20.h),
+        alignment: Alignment.bottomCenter,
+        child: OutlinedButton(
+          onPressed: () {
+            isShowMap = !isShowMap;
+            widget.onCallBackShowMap(isShowMap);
+            setState(() {});
+          },
+          style: ButtonStyle(
+            overlayColor: MaterialStateProperty.all(Colors.transparent),
+            splashFactory: NoSplash.splashFactory,
+            side: MaterialStateProperty.all(
+              const BorderSide(color: Colors.deepOrange, width: 1),
+            ),
+            fixedSize: MaterialStateProperty.all(
+              Size(100.w, 35.h),
+            ),
+            backgroundColor: MaterialStateProperty.all(Colors.white),
+            shape: MaterialStateProperty.all(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(40),
+              ),
+            ),
+          ),
+          child: isShowMap
+              ? Row(
+                  children: [
+                    const Icon(
+                      Icons.menu,
+                      color: Colors.deepOrange,
+                    ),
+                    SizedBox(
+                      width: 10.w,
+                    ),
+                    AppText(
+                      AppLocalizations.of(context)!.list,
+                      style: TextStyle(color: Colors.deepOrange),
+                    )
+                  ],
+                )
+              : Row(
+                  children: [
+                    const Icon(
+                      Icons.location_on,
+                      color: Colors.deepOrange,
+                    ),
+                    SizedBox(
+                      width: 5.w,
+                    ),
+                    AppText(
+                      AppLocalizations.of(context)!.map,
+                      style: TextStyle(color: Colors.deepOrange),
+                    )
+                  ],
+                ),
+        ),
+      );
+
+  Widget googleMap() => BlocBuilder<PlacesPageCubit, PlacesPageState>(
+        bloc: _bloc,
+        builder: (BuildContext context, state) {
+          if (state.status == FeedStatus.initial ||
+              state.status == FeedStatus.refresh) return SizedBox();
+          return Visibility(
+            visible: isShowMap,
+            child: GoogleMap(
+              markers: markers,
+              zoomControlsEnabled: true,
+              zoomGesturesEnabled: true,
+              scrollGesturesEnabled: true,
+              initialCameraPosition: _kGooglePlex,
+              onMapCreated: (GoogleMapController controller) {
+                try {
+                  _controller.complete(controller);
+                } catch (ex) {}
+              },
+            ),
+          );
+        },
+      );
 
   Widget filterDiaLog() {
     return StatefulBuilder(
@@ -274,89 +319,86 @@ class _PlacesPageState extends State<PlacesPage> {
                 ],
               ),
             ),
-            const Divider(
-              thickness: 1,
-              color: Colors.white24,
-            ),
+            const Divider(thickness: 1, color: Colors.white24),
             Padding(
-              padding: EdgeInsets.only(left: 20.w, right: 20.w, top: 10.h),
-              child: Stack(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(top: 5.w),
-                    child: DropdownButtonHideUnderline(
-                      child: DropdownButton2(
-                        customButton: Container(
-                          height: 50.h,
-                          decoration: BoxDecoration(
-                            color: Color(0xFF212121),
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(width: 1, color: Colors.white60),
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.only(left: 10.w, right: 10.w),
-                            child: Row(
-                              children: [
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                AppText(
-                                  selectedValue ?? '',
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                                const Spacer(),
-                                const Icon(
-                                  Icons.arrow_drop_down_rounded,
-                                  color: Colors.white,
-                                ),
-                              ],
+                padding: EdgeInsets.only(
+                    left: contentPadding, right: contentPadding, top: 10.h),
+                child: Stack(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(top: 5.w),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton2(
+                          customButton: Container(
+                            height: 50.h,
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF212121),
+                              borderRadius: BorderRadius.circular(10),
+                              border:
+                                  Border.all(width: 1, color: Colors.white60),
+                            ),
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 10.w, right: 10.w),
+                              child: Row(
+                                children: [
+                                  const SizedBox(width: 10),
+                                  AppText(
+                                    selectedValue ?? '',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                  const Spacer(),
+                                  const Icon(Icons.arrow_drop_down_rounded,
+                                      color: Colors.white),
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                        isExpanded: true,
-                        items: itemCity
-                            .map(
-                              (item) => DropdownMenuItem<String>(
-                                value: item,
-                                child: Text(
-                                  item,
-                                  style: const TextStyle(
-                                    fontSize: 12,
+                          isExpanded: true,
+                          items: itemCity
+                              .map(
+                                (item) => DropdownMenuItem<String>(
+                                  value: item,
+                                  child: Text(
+                                    item,
+                                    style: const TextStyle(
+                                      fontSize: 12,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            )
-                            .toList(),
-                        value: selectedValue,
-                        onChanged: (value) {
-                          setState(() {
-                            selectedValue = value as String;
-                          });
-                        },
+                              )
+                              .toList(),
+                          value: selectedValue,
+                          onChanged: (value) {
+                            setState(() {
+                              selectedValue = value as String;
+                            });
+                          },
+                        ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 12.w),
-                    child: Container(
-                      color: Color(0xFF212121),
-                      width: 40.w,
-                      height: 15.h,
-                      child: Center(
-                          child: AppText(
-                        AppLocalizations.of(context)!.city,
-                        style: TextStyle(color: Colors.white60),
-                      )),
-                    ),
-                  )
-                ],
-              ),
-            ),
-            titleFilter(AppLocalizations.of(context)!.wallHeight, selectedHeight, wallHeight, (index) {
+                    Padding(
+                      padding: EdgeInsets.only(left: 12.w),
+                      child: Container(
+                        color: Color(0xFF212121),
+                        width: 40.w,
+                        height: 15.h,
+                        child: Center(
+                            child: AppText(
+                          AppLocalizations.of(context)!.city,
+                          style: TextStyle(color: Colors.white60),
+                        )),
+                      ),
+                    )
+                  ],
+                )),
+            titleFilter(AppLocalizations.of(context)!.wallHeight,
+                selectedHeight, wallHeight, (index) {
               selectedHeight = index;
               setState(() {});
             }),
-            titleFilter(AppLocalizations.of(context)!.holdSet, selectedHold, holdSet, (index) {
+            titleFilter(
+                AppLocalizations.of(context)!.holdSet, selectedHold, holdSet,
+                (index) {
               selectedHold = index;
               setState(() {});
             }),
@@ -411,7 +453,7 @@ class _PlacesPageState extends State<PlacesPage> {
       ),
       Padding(
         padding: EdgeInsets.only(left: 10.w, bottom: 10.h),
-        child: ListFilterDialog(list, select, (index) {
+        child: lFilterWidget(list, select, (index) {
           selectOnClick(index);
           select = index;
           setState(() {});
@@ -420,12 +462,12 @@ class _PlacesPageState extends State<PlacesPage> {
     ]);
   }
 
-  Widget ListFilterDialog(
+  Widget lFilterWidget(
       List nameList, int select, Function(int) onCallBackSelect) {
     final Size size = MediaQuery.of(context).size;
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter setState) {
-      return Container(
+      return SizedBox(
         height: size.height / 18.h,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
@@ -465,71 +507,61 @@ class _PlacesPageState extends State<PlacesPage> {
     });
   }
 
-  Widget itemPlaces(BuildContext context, PlacesModel model) {
-    final Size size = MediaQuery.of(context).size;
-    return Padding(
-      padding: EdgeInsets.only(left: 10.w, right: 20.w),
-      child: Container(
-        height: size.height / 8,
-        decoration: BoxDecoration(
-            color: Colors.black, borderRadius: BorderRadius.circular(20)),
-        child: Padding(
-          padding: EdgeInsets.only(left: 25.w),
-          child: Row(
-            children: [
-              Container(
-                height: 55.h,
-                width: 55.h,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(100),
-                    color: Colors.yellow),
-              ),
-              SizedBox(
-                width: 20.w,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    model.namePlace,
-                    style: const TextStyle(color: Colors.white, fontSize: 25),
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        model.nameCity,
-                        style: const TextStyle(
-                            color: Colors.white54, fontSize: 17),
-                      ),
-                      SizedBox(
-                        width: 5.w,
-                      ),
-                      const Icon(
-                        Icons.brightness_1_rounded,
-                        color: Colors.white54,
-                        size: 8,
-                      ),
-                      SizedBox(
-                        width: 5.w,
-                      ),
-                      Text(
-                        model.distance.toString(),
-                        style: const TextStyle(
-                            color: Colors.white54, fontSize: 17),
-                      ),
-                      const AppText(
-                        'km',
-                        style: TextStyle(color: Colors.white54, fontSize: 17),
-                      )
-                    ],
-                  ),
-                ],
-              ),
-            ],
+  Widget itemPlaces(
+          BuildContext context, PlacesModel model, VoidCallback itemOnclick) =>
+      InkWell(
+        child: Container(
+          height: 72.h,
+          decoration: BoxDecoration(
+              color: Colors.black, borderRadius: BorderRadius.circular(20)),
+          child: Padding(
+            padding: EdgeInsets.only(left: 25.w),
+            child: Row(
+              children: [
+                SizedBox(
+                  height: 49.h,
+                  width: 49.h,
+                  child: Image.asset(Assets.png.mural.path),
+                ),
+                const SizedBox(width: 20),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    AppText(
+                      model.namePlace,
+                      style: typoW600.copyWith(
+                          fontSize: 20.sp, color: colorText0.withOpacity(0.87)),
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          model.nameCity,
+                          style: typoW400.copyWith(
+                              fontSize: 13.sp,
+                              color: colorText0.withOpacity(0.87)),
+                        ),
+                        SizedBox(width: MediaQuery.of(context).size.width / 5),
+                        const Icon(Icons.brightness_1_rounded,
+                            color: Colors.white54, size: 8),
+                        const SizedBox(width: 5),
+                        Text(
+                          '${model.distance} km',
+                          style: typoW400.copyWith(
+                              fontSize: 13.sp,
+                              color: colorText0.withOpacity(0.87)),
+                        )
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
-      ),
-    );
-  }
+        onTap: () => itemOnclick.call(),
+      );
+
+  @override
+  bool get wantKeepAlive => true;
 }

@@ -5,7 +5,7 @@ import 'package:base_bloc/router/router_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import '../../data/model/list_places_model.dart';
+import '../../data/model/places_model.dart';
 
 class FindPlaceCubit extends Cubit<FindPlaceState> {
   FindPlaceCubit() : super(const FindPlaceState()) {
@@ -55,7 +55,7 @@ class FindPlaceCubit extends Cubit<FindPlaceState> {
   }
 
   List<PlacesModel> fakeData() => [
-        PlacesModel(
+         PlacesModel(
             namePlace: 'Hardwalls',
             nameCity: 'Warsaw',
             distance: 2.2,

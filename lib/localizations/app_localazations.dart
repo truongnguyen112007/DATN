@@ -335,6 +335,8 @@ abstract class AppLocalizations {
   String get logout_success;
 
   String get thisFeatureIsUnder;
+  String get last_visited_place;
+  String get the_nearest_place;
 }
 
 class _AppLocalizationsDelegate

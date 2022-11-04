@@ -91,6 +91,9 @@ class $AssetsPngGen {
   /// File path: assets/png/logoapp.png
   AssetGenImage get logoapp => const AssetGenImage('assets/png/logoapp.png');
 
+  /// File path: assets/png/mural.png
+  AssetGenImage get mural => const AssetGenImage('assets/png/mural.png');
+
   /// File path: assets/png/person.png
   AssetGenImage get person => const AssetGenImage('assets/png/person.png');
 
@@ -125,6 +128,7 @@ class $AssetsPngGen {
         icSetting,
         liked,
         logoapp,
+        mural,
         person,
         tesst,
         test
@@ -237,9 +241,6 @@ class $AssetsSvgGen {
   /// File path: assets/svg/logout.svg
   String get logout => 'assets/svg/logout.svg';
 
-  /// File path: assets/svg/logout1.svg
-  String get logout1 => 'assets/svg/logout1.svg';
-
   /// File path: assets/svg/man.svg
   String get man => 'assets/svg/man.svg';
 
@@ -342,7 +343,6 @@ class $AssetsSvgGen {
         liked,
         location,
         logout,
-        logout1,
         man,
         message,
         more,

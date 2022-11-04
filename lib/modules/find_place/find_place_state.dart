@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../../data/model/list_places_model.dart';
+import '../../data/model/places_model.dart';
 import '../persons_page/persons_page_state.dart';
 
 enum FindPlaceStatus { initial, success, failure, refresh, search }

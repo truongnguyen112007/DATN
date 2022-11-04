@@ -31,7 +31,7 @@ extension SettingsItemTypeExtension on SettingsItemType {
       case SettingsItemType.GENERAL:
         return Assets.svg.icSetting;
       case SettingsItemType.LOGOUT:
-        return Assets.svg.logout1;
+        return Assets.svg.logout;
     }
   }
 

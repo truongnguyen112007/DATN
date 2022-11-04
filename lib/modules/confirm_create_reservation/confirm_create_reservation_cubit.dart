@@ -1,6 +1,6 @@
 import 'package:base_bloc/data/eventbus/new_page_event.dart';
 import 'package:base_bloc/data/model/address_model.dart';
-import 'package:base_bloc/data/model/list_places_model.dart';
+import 'package:base_bloc/data/model/places_model.dart';
 import 'package:base_bloc/modules/confirm_create_reservation/confirm_create_reservation_state.dart';
 import 'package:base_bloc/modules/create_reservation/create_reservation_state.dart';
 import 'package:flutter/cupertino.dart';
