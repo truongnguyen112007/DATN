@@ -1,6 +1,6 @@
 import 'package:base_bloc/config/constant.dart';
 import 'package:base_bloc/data/model/address_model.dart';
-import 'package:base_bloc/data/model/list_places_model.dart';
+import 'package:base_bloc/data/model/places_model.dart';
 import 'package:base_bloc/data/model/reservation_model.dart';
 import 'package:base_bloc/data/model/routes_model.dart';
 import 'package:base_bloc/modules/confirm_create_reservation/confirm_create_reservation_page.dart';

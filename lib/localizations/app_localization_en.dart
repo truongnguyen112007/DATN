@@ -495,4 +495,10 @@ class AppLocalizationEn extends AppLocalizations {
 
   @override
   String get thisFeatureIsUnder => "This feature is under\nconstruction";
+
+  @override
+  String get last_visited_place => 'Last visited place';
+
+  @override
+  String get the_nearest_place => 'The nearest place';
 }

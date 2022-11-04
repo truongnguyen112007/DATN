@@ -18,7 +18,7 @@ import 'package:rxdart/rxdart.dart';
 import '../../components/app_text.dart';
 import '../../components/app_text_field.dart';
 import '../../components/appbar_widget.dart';
-import '../../data/model/list_places_model.dart';
+import '../../data/model/places_model.dart';
 import '../../theme/app_styles.dart';
 import '../../theme/colors.dart';
 

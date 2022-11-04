@@ -9,7 +9,7 @@ import 'package:flutter_blue_elves/flutter_blue_elves.dart';
 import 'package:geolocator/geolocator.dart';
 
 import '../../config/constant.dart';
-import '../../data/model/list_places_model.dart';
+import '../../data/model/places_model.dart';
 import '../../router/router_utils.dart';
 
 class TabClimbCubit extends Cubit<TabClimbState> {
