@@ -71,7 +71,6 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
 
   @override
   Widget buildWidget(BuildContext context) {
-    var devicePixelRatio = MediaQuery.of(context).devicePixelRatio;
     return AppScaffold(
         appbar: appbarWidget(context),
         backgroundColor: HexColor('212121'),
@@ -231,19 +230,20 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
       );
 
   Widget heightWidget(bool isLeft) => Container(
+      width: 8.w,
       height: row * sizeHoldSet,
       alignment: Alignment.center,
       decoration: BoxDecoration(gradient: gradientBackground()),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          for (int i = row; i >= 0; i--)
-            Padding(
-                padding: EdgeInsets.only(
-                    left: isLeft ? 3 : 0, right: isLeft ? 0 : 3),
-                child: Text('$i', style: typoW400.copyWith(fontSize: 4.sp)))
-        ],
-      ));
+      child: ListView.builder(
+          reverse: true,
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: row,
+          itemBuilder: (BuildContext context, int index) => Container(
+              alignment: !isLeft ? Alignment.centerLeft : Alignment.centerRight,
+              height: sizeHoldSet,
+              child: AppText(' $index',
+                  style: typoW400.copyWith(fontSize: 4.sp)))));
 
   Widget lineGreyGradient(BuildContext context, bool isLeft) => Stack(
         children: [

@@ -4,6 +4,7 @@ import 'package:base_bloc/data/eventbus/new_page_event.dart';
 import 'package:base_bloc/data/model/hold_set_model.dart';
 import 'package:base_bloc/modules/create_routes/create_routes_state.dart';
 import 'package:base_bloc/modules/persons_page/persons_page_state.dart';
+import 'package:base_bloc/modules/zoom_routes/zoom_routes_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -37,11 +38,18 @@ class CreateRoutesCubit extends Cubit<CreateRoutesState> {
         timeStamp: DateTime.now().microsecondsSinceEpoch));
   }
 
-  void itemOnClick(int index) {
+  void itemOnClick(int index, BuildContext context) {
     /*   if (state.currentHoldSet.isNotEmpty) {
       state.lRoutes[index] = HoldSetModel(holdSet: state.currentHoldSet);
     }*/
-    emit(state.copyOf(selectIndex: index, lRoutes: state.lRoutes));
+    // emit(state.copyOf(selectIndex: index, lRoutes: state.lRoutes));
+    RouterUtils.openNewPage(
+        ZoomRoutesPage(
+            row: state.row,
+            lRoutes: state.lRoutes,
+            column: state.column,
+            sizeHoldSet: state.sizeHoldSet),
+        context);
   }
 
   void turnLeftOnClick(BuildContext context) {
