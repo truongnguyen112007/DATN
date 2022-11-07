@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:base_bloc/components/app_scalford.dart';
+import 'package:base_bloc/components/measure_name_widget.dart';
 import 'package:base_bloc/components/zoomer.dart';
 import 'package:base_bloc/modules/zoom_routes/zoom_routes_cubit.dart';
 import 'package:base_bloc/modules/zoom_routes/zoom_routes_state.dart';
@@ -49,10 +50,12 @@ class ZoomRoutesPage extends StatefulWidget {
 }
 
 class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
-  late CreateRoutesCubit _bloc;
-  final ZoomerController _zoomController = ZoomerController(initialScale: 6.0);
+  late ZoomRoutesCubit _bloc;
+  final ZoomerController _zoomController = ZoomerController(initialScale: 4.0);
+  final ZoomerController _zoomMeasureNameController =
+      ZoomerController(initialScale: 4.0);
   final ZoomerController _zoomMeasureController =
-      ZoomerController(initialScale: 6.0);
+      ZoomerController(initialScale: 4.0);
   final lBox = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L'];
   final sizeHoldSet = 8.6.h;
   final row = 47;
@@ -71,17 +74,17 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
 
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((c) {
-      logE("TAG JUMB:");
-      _zoomMeasureController.setOffset = Offset(-2, 10);
-    });
-
     _zoomController.onZoomUpdate(() {
-      _zoomMeasureController.setScale = _zoomController.scale;
-      _zoomMeasureController.setOffset = Offset(2, _zoomController.offset.dy);
+      _zoomMeasureController.setOffset = Offset(-7, _zoomController.offset.dy);
+      _zoomMeasureNameController.setOffset =
+          Offset(_zoomController.offset.dx, -9);
     });
-    _bloc = CreateRoutesCubit();
-    _bloc.setData(row: row, column: column, sizeHoldSet: sizeHoldSet);
+    _bloc = ZoomRoutesCubit();
+    _bloc.setData(
+        row: row,
+        column: column,
+        sizeHoldSet: sizeHoldSet,
+        lRoutes: widget.lRoutes);
     _holdSetStream = Utils.eventBus
         .on<HoldSetEvent>()
         .listen((event) => _bloc.setHoldSet(event.holdSet));
@@ -95,82 +98,99 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
     super.dispose();
   }
 
+  int test = 0;
+
   @override
   Widget build(BuildContext context) {
-    return AppScaffold(
-      backgroundColor: HexColor('212121'),
-      appbar: appbar(context),
-      body: BlocBuilder<CreateRoutesCubit, CreateRoutesState>(
-        builder: (c, state) => state.status == StatusType.initial
-            ? const Center(child: AppCircleLoading())
-            : Column(
-                children: [
-                  Expanded(
-                      child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
+    return WillPopScope(
+        child: AppScaffold(
+          backgroundColor: HexColor('212121'),
+          appbar: appbar(context),
+          body: BlocBuilder<ZoomRoutesCubit, ZoomRoutesState>(
+            builder: (c, state) => state.status == StatusType.initial
+                ? const Center(child: AppCircleLoading())
+                : Column(
                     children: [
                       Container(
-                          height: MediaQuery.of(context).size.height,
-                          width: 20.w,
-                          alignment: Alignment.center,
                           color: colorBlack,
-                          child: zoomWidget(
-                              offset: Offset(2, 0.0),
-                              isScaleByDx: false,
-                              context,
-                              _zoomMeasureController,
+                          padding: EdgeInsets.only(left: 25.w),
+                          height: 20.h,
+                          width: MediaQuery.of(context).size.width,
+                          child: Stack(
+                            children: [
+                              zoomWidget(
+                                  context,
+                                  _zoomMeasureNameController,
+                                  MeasureNameBoxWidget(
+                                      lBox: lBox, sizeHoldSet: sizeHoldSet),
+                                  offset: const Offset(0.2, -9)),
                               Container(
-                                alignment: Alignment.center,
-                                height: MediaQuery.of(context).size.height,
-                                width: 20.w,
-                                child: MeasureWidget(
-                                    scale: 1,
-                                    sizeHoldSet: sizeHoldSet,
-                                    row: row),
-                              ))),
+                                  color: Colors.transparent,
+                                  height: 20.h,
+                                  width: MediaQuery.of(context).size.width)
+                            ],
+                          )),
                       Expanded(
-                          child: zoomWidget(
-                              context,
-                              _zoomController,
-                              Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      width: state.column * state.sizeHoldSet,
-                                      decoration: BoxDecoration(
-                                          gradient: gradientBackground()),
-                                      child: Align(
-                                        alignment: Alignment.center,
-                                        child: routesWidget(context),
-                                      ),
-                                    ),
-                                  ])))
+                          child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                              height: MediaQuery.of(context).size.height,
+                              width: 25.w,
+                              alignment: Alignment.center,
+                              color: colorBlack,
+                              child: Stack(children: [zoomWidget(
+                                  offset: const Offset(-7, 0.0),
+                                  isScaleByDx: false,
+                                  context,
+                                  _zoomMeasureController,
+                                  Container(
+                                      alignment: Alignment.center,
+                                      height:
+                                      MediaQuery.of(context).size.height,
+                                      width: 25.w,
+                                      child: MeasureWidget(
+                                          scale: 1,
+                                          sizeHoldSet: sizeHoldSet,
+                                              row: row))),
+                                  Container(
+                                      height:
+                                          MediaQuery.of(context).size.height,
+                                      width: 25.w,
+                                      color: Colors.transparent)
+                                ],
+                              )),
+                          Expanded(
+                              child: zoomWidget(
+                                  context,
+                                  _zoomController,
+                                  isLimitOffset: true,
+                                  Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                          width:
+                                              state.column * state.sizeHoldSet,
+                                          decoration: BoxDecoration(
+                                              gradient: gradientBackground()),
+                                          child: Align(
+                                            alignment: Alignment.center,
+                                            child: routesWidget(context),
+                                          ),
+                                        ),
+                                      ])))
+                        ],
+                      )),
+                      optionWidget()
                     ],
-                  )),
-                  optionWidget()
-                ],
-              ),
-        bloc: _bloc,
-      ),
-    );
-  }
-
-  Widget measureWidget(BuildContext context) => Container(
-        height: MediaQuery.of(context).size.height,
-        width: 20.w,
-        alignment: Alignment.center,
-        color: colorBlack,
-        child: zoomWidget(
-          isScaleByDx: false,
-          context,
-          _zoomMeasureController,
-          Container(
-              alignment: Alignment.center,
-              child:
-                  MeasureWidget(scale: 1, sizeHoldSet: sizeHoldSet, row: row)),
+                  ),
+            bloc: _bloc,
+          ),
         ),
-      );
+        onWillPop: () async => _bloc.goBack(context));
+  }
 
   Widget optionWidget() => Container(
         color: colorBlack,
@@ -200,7 +220,6 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       colors: [colorOrange100, colorOrange50]),
-                  color: Colors.cyan,
                   borderRadius: BorderRadius.circular(50)),
               height: 32.h,
               child: AppText(
@@ -213,7 +232,7 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
       );
 
   Widget routesWidget(BuildContext context) =>
-      BlocBuilder<CreateRoutesCubit, CreateRoutesState>(
+      BlocBuilder<ZoomRoutesCubit, ZoomRoutesState>(
           bloc: _bloc,
           builder: (c, state) => GridView.builder(
               controller: _lBoxController,
@@ -229,10 +248,10 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
                   child: Container(
                     decoration: BoxDecoration(
                         border: Border.all(
-                            color: state.selectIndex == index
+                            color: state.currentIndex == index
                                 ? colorOrange100
                                 : colorGrey60,
-                            width: state.selectIndex == index ? 1 : 0.5)),
+                            width: state.currentIndex == index ? 1 : 0.5)),
                     child: Center(
                         child: state.lRoutes[index].holdSet.isNotEmpty
                             ? RotatedBox(
@@ -252,9 +271,12 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
 
   Widget zoomWidget(
           BuildContext context, ZoomerController controller, Widget widget,
-          {bool isScaleByDx = true, Offset? offset}) =>
+          {bool isScaleByDx = true,
+          bool isLimitOffset = false,
+          Offset? offset}) =>
       Zoomer(
           offset: offset,
+          isLimitOffset: isLimitOffset,
           enableTranslation: true,
           controller: controller,
           height: MediaQuery.of(context).size.height,
@@ -262,8 +284,8 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
           enableRotation: false,
           background: const BoxDecoration(),
           clipRotation: true,
-          maxScale: 6,
-          minScale: 6,
+          maxScale: 4,
+          minScale: 4,
           child: widget);
 
   LinearGradient gradientBackground() => LinearGradient(colors: [
@@ -295,36 +317,40 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
 
   Widget spaceMenu() => const SizedBox(width: 30);
 
-  PreferredSizeWidget appbar(BuildContext context) =>
-      appBarWidget(context: context, action: [
-        BlocBuilder<CreateRoutesCubit, CreateRoutesState>(
-            builder: (c, state) => state.selectIndex != null &&
-                    state.lRoutes[state.selectIndex!].holdSet.isNotEmpty
-                ? svgButton(context, Assets.svg.turnLeft,
-                    () => _bloc.turnLeftOnClick(context))
-                : const SizedBox(),
-            bloc: _bloc),
-        const SizedBox(width: 10),
-        BlocBuilder<CreateRoutesCubit, CreateRoutesState>(
-            builder: (c, state) => state.selectIndex != null &&
-                    state.lRoutes[state.selectIndex!].holdSet.isNotEmpty
-                ? svgButton(
-                    context, Assets.svg.delete, () => _bloc.deleteOnclick())
-                : const SizedBox(),
-            bloc: _bloc),
-        const SizedBox(width: 10),
-        BlocBuilder<CreateRoutesCubit, CreateRoutesState>(
-            builder: (c, state) => state.selectIndex != null &&
-                    state.lRoutes[state.selectIndex!].holdSet.isNotEmpty
-                ? svgButton(context, Assets.svg.turnRight,
-                    () => _bloc.turnRightOnClick(context))
-                : const SizedBox(),
-            bloc: _bloc),
-        const SizedBox(width: 10),
-        svgButton(context, Assets.svg.threeD, () {}, isBackgroundCircle: false),
-        svgButton(context, Assets.svg.fullScreen, () {},
-            isBackgroundCircle: false),
-        svgButton(context, Assets.svg.more, () {}, isBackgroundCircle: false),
-        SizedBox(width: contentPadding)
-      ]);
+  PreferredSizeWidget appbar(BuildContext context) => appBarWidget(
+          context: context,
+          onPressed: () => _bloc.goBack(context),
+          action: [
+            BlocBuilder<ZoomRoutesCubit, ZoomRoutesState>(
+                builder: (c, state) => state.currentIndex != null &&
+                        state.lRoutes[state.currentIndex!].holdSet.isNotEmpty
+                    ? svgButton(context, Assets.svg.turnLeft,
+                        () => _bloc.turnLeftOnClick(context))
+                    : const SizedBox(),
+                bloc: _bloc),
+            const SizedBox(width: 10),
+            BlocBuilder<ZoomRoutesCubit, ZoomRoutesState>(
+                builder: (c, state) => state.currentIndex != null &&
+                        state.lRoutes[state.currentIndex!].holdSet.isNotEmpty
+                    ? svgButton(
+                        context, Assets.svg.delete, () => _bloc.deleteOnclick())
+                    : const SizedBox(),
+                bloc: _bloc),
+            const SizedBox(width: 10),
+            BlocBuilder<ZoomRoutesCubit, ZoomRoutesState>(
+                builder: (c, state) => state.currentIndex != null &&
+                        state.lRoutes[state.currentIndex!].holdSet.isNotEmpty
+                    ? svgButton(context, Assets.svg.turnRight,
+                        () => _bloc.turnRightOnClick(context))
+                    : const SizedBox(),
+                bloc: _bloc),
+            const SizedBox(width: 10),
+            svgButton(context, Assets.svg.threeD, () {},
+                isBackgroundCircle: false),
+            svgButton(context, Assets.svg.fullScreen, () {},
+                isBackgroundCircle: false),
+            svgButton(context, Assets.svg.more, () {},
+                isBackgroundCircle: false),
+            SizedBox(width: contentPadding)
+          ]);
 }

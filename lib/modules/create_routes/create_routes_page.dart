@@ -8,6 +8,7 @@ import 'package:base_bloc/components/appbar_widget.dart';
 import 'package:base_bloc/components/zoomer.dart';
 import 'package:base_bloc/config/constant.dart';
 import 'package:base_bloc/data/globals.dart';
+import 'package:base_bloc/data/model/hold_set_model.dart';
 import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/modules/create_routes/create_routes_cubit.dart';
 import 'package:base_bloc/modules/create_routes/create_routes_state.dart';
@@ -49,13 +50,13 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage> {
     Assets.svg.holdset5,
     Assets.svg.holdset6,
   ];
-  StreamSubscription<HoldSetEvent>? _holdSetStream;
+  StreamSubscription<List<HoldSetModel>>? _lHoldSetStream;
 
   @override
   void initState() {
-    _holdSetStream = Utils.eventBus.on<HoldSetEvent>().listen((event) {
-      _bloc.setHoldSet(event.holdSet);
-    });
+    _lHoldSetStream = Utils.eventBus
+        .on<List<HoldSetModel>>()
+        .listen((list) => _bloc.setHoldSets(list));
     _bloc = CreateRoutesCubit();
     _bloc.setData(row: row, column: column, sizeHoldSet: sizeHoldSet);
     super.initState();
@@ -63,7 +64,7 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage> {
 
   @override
   void dispose() {
-    _holdSetStream?.cancel();
+    _lHoldSetStream?.cancel();
     super.dispose();
   }
 

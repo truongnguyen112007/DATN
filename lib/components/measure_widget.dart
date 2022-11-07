@@ -12,8 +12,7 @@ import '../base/hex_color.dart';
 import '../theme/app_styles.dart';
 import 'app_text.dart';
 
-class MeasureWidget extends StatefulWidget {
-  // final ScrollController controller;
+class MeasureWidget extends StatelessWidget {
   final int row;
   final double sizeHoldSet;
   double scale;
@@ -22,26 +21,10 @@ class MeasureWidget extends StatefulWidget {
   MeasureWidget(
       {Key? key,
       required this.row,
-      // required this.controller,
       required this.sizeHoldSet,
       required this.scale,
       this.dy = 1})
       : super(key: key);
-
-  @override
-  State<MeasureWidget> createState() => _MeaSureWidgetState();
-}
-
-class _MeaSureWidgetState extends State<MeasureWidget> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,22 +32,26 @@ class _MeaSureWidgetState extends State<MeasureWidget> {
         reverse: true,
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
-        itemCount: widget.row,
+        itemCount: row,
         itemBuilder: (BuildContext context, int index) => Container(
-            height: widget.sizeHoldSet,
+            height: sizeHoldSet,
             alignment: Alignment.centerRight,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
+            child: Stack(
               children: [
-                AppText(' ${index + 1}-',
-                    style: typoW600.copyWith(
-                        fontSize: 1.5.sp, color: colorText0.withOpacity(0.8),)),
-                Container(
-                  margin: const EdgeInsets.only(left: 3),
-                  width: 8,
-                  height: 0.1,
-                  color: HexColor('5E5E5E'),
-                )
+                Positioned.fill(
+                    child: Center(
+                        child: Container(
+                            width: 3, height: 0.3, color: colorGrey70))),
+                SizedBox(
+                    width: 6.5.w,
+                    child: AppText(
+                        (index + 1).toString().length == 1
+                            ? '  ${(index + 1)}'
+                            : '${index + 1}',
+                        style: typoW600.copyWith(
+                            backgroundColor: colorBlack,
+                            fontSize: 2.sp,
+                            color: colorText0.withOpacity(0.8))))
               ],
             )));
   }

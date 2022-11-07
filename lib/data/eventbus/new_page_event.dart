@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-enum NewPageType { HOLD_SET,FILL_PLACE }
+enum NewPageType { HOLD_SET, FILL_PLACE, ZOOM_ROUTES }
 
 class NewPageEvent {
   final Widget newPage;

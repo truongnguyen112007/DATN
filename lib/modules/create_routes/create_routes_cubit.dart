@@ -29,6 +29,9 @@ class CreateRoutesCubit extends Cubit<CreateRoutesState> {
     }
   }
 
+  void setHoldSets(List<HoldSetModel> list) =>
+      emit(state.copyOf(lRoutes: list,timeStamp: DateTime.now().microsecondsSinceEpoch));
+
   void setHoldSet(String holdSet) {
     state.lRoutes[state.selectIndex ?? 0] = HoldSetModel(
         holdSet: holdSet, rotate: state.lRoutes[state.selectIndex ?? 0].rotate);
@@ -49,7 +52,8 @@ class CreateRoutesCubit extends Cubit<CreateRoutesState> {
             lRoutes: state.lRoutes,
             column: state.column,
             sizeHoldSet: state.sizeHoldSet),
-        context);
+        context,
+        type: NewPageType.ZOOM_ROUTES);
   }
 
   void turnLeftOnClick(BuildContext context) {

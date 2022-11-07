@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:base_bloc/utils/log_utils.dart';
@@ -78,6 +79,7 @@ class Zoomer extends StatefulWidget {
   final double height, width, minScale, maxScale;
   final BoxDecoration background;
   final bool enableRotation;
+  final bool isLimitOffset;
   final bool clipRotation;
   final bool enableTranslation;
   final ZoomerController controller;
@@ -87,6 +89,7 @@ class Zoomer extends StatefulWidget {
       {required this.child,
       this.scaleCallBack,
       this.offset,
+      this.isLimitOffset = false,
       required this.controller,
       required this.height,
       required this.width,
@@ -132,8 +135,7 @@ class _ZoomerState extends State<Zoomer> {
   @override
   void initState() {
     super.initState();
-    _offset = widget.offset ?? Offset(0.0, 0.0);
-    logE("TAG OFFSET: ${_offset.toString()}");
+    _offset = widget.offset ?? const Offset(0.0, 0.0);
     double l = (1 + _scale);
     l = l < 0 ? (-_scale - 1) / 4 : l;
     _limitOffset = Offset(widget.width, widget.height) * l;
@@ -192,7 +194,7 @@ class _ZoomerState extends State<Zoomer> {
     }
   }
 
-  void _scaleUpdate(ScaleUpdateDetails details) {
+  void _scaleUpdate(ScaleUpdateDetails details) async {
     double scale =
         (_startScale * details.scale).clamp(widget.minScale, widget.maxScale);
     Offset offset = details.focalPoint -
@@ -206,8 +208,15 @@ class _ZoomerState extends State<Zoomer> {
       }
 
       if (details.scale == 1.0 && widget.enableTranslation) {
-        _offset = Offset(offset.dx.clamp(-_limitOffset.dx, _limitOffset.dx),
-            offset.dy.clamp(-_limitOffset.dy, _limitOffset.dy));
+        //Todo set limit _offset to wrap content screen.
+        if (widget.isLimitOffset) {
+          _offset = Offset(
+              offset.dx.clamp(-_limitOffset.dx / 14, _limitOffset.dx / 14),
+              offset.dy.clamp(-_limitOffset.dy / 3.77, _limitOffset.dy / 3.77));
+        } else {
+          _offset = Offset(offset.dx.clamp(-_limitOffset.dx, _limitOffset.dx),
+              offset.dy.clamp(-_limitOffset.dy, _limitOffset.dy));
+        }
       }
     });
 
@@ -220,16 +229,13 @@ class _ZoomerState extends State<Zoomer> {
 
   @override
   Widget build(BuildContext context) {
-    logE("TAG OFFSET: ${_offset.dx}");
     return GestureDetector(
       onScaleStart: _scaleStart,
       onScaleUpdate: _scaleUpdate,
       onScaleEnd: _scaleEnd,
       child: ClipRect(
         child: Container(
-          decoration: widget.background == null
-              ? BoxDecoration(color: Colors.black)
-              : widget.background,
+          decoration: widget.background,
           height: widget.height,
           width: widget.width,
           child: Transform(

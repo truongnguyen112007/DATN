@@ -63,7 +63,9 @@ class _HomePageState extends State<HomePage> {
             Utils.fireEvent(HoldSetEvent(result));
             return;
           case NewPageType.FILL_PLACE:
+          case NewPageType.ZOOM_ROUTES:
             Utils.fireEvent(result);
+            return;
         }
       }
     });
