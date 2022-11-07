@@ -20,6 +20,7 @@ PreferredSizeWidget appBarWidget(
         Color? backgroundColor,
         List<Widget>? action,
         bool isHideBottomBar = false,
+        VoidCallback? onPressed,
         bool automaticallyImplyLeading = true}) =>
     AppBar(
       toolbarHeight: toolbarHeight,
@@ -31,8 +32,13 @@ PreferredSizeWidget appBarWidget(
       leading: leading ??
           IconButton(
             icon: Assets.png.icArrowBack.image(width: 16.w, height: 16.w),
-            onPressed: () =>
-                RouterUtils.pop(context, isHideBottomBar: isHideBottomBar),
+            onPressed: () {
+              if (onPressed != null) {
+                onPressed.call();
+                return;
+              }
+              RouterUtils.pop(context, isHideBottomBar: isHideBottomBar);
+            },
           ),
       title: title ??
           AppText(
