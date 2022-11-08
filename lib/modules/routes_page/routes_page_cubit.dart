@@ -3,6 +3,7 @@ import 'package:base_bloc/modules/routes_page/routes_page_state.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../config/constant.dart';
+import '../../data/eventbus/refresh_event.dart';
 import '../../data/model/routes_model.dart';
 import '../../localizations/app_localazations.dart';
 import '../../router/router_utils.dart';
@@ -11,21 +12,23 @@ import '../../utils/log_utils.dart';
 import '../../utils/toast_utils.dart';
 import '../filter_routes/filter_routes_page.dart';
 import '../playlist/playlist_cubit.dart';
+import '../routers_detail/routes_detail_page.dart';
+import '../tab_home/tab_home_state.dart';
 
 
 class RoutesPageCubit extends Cubit<RoutesPageState> {
   RoutesPageCubit() : super(const RoutesPageState()) {
     if (state.status == DesignStatus.initial) {
-      getFavourite();
+      getRoutes();
     }
   }
 
   onRefresh() {
     emit(const RoutesPageState(status: DesignStatus.refresh));
-    getFavourite();
+    getRoutes();
   }
 
-  getFavourite({bool isPaging = false}) {
+  getRoutes({bool isPaging = false}) {
     if (state.isReadEnd) return;
     if (isPaging) {
       if (state.isLoading) return;
@@ -58,8 +61,11 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
       logE("TAG ACTION: $action");
 
   void refresh() {
-    emit(const RoutesPageState(status: DesignStatus.refresh, lRoutes: []));
-    getFavourite();
+    Utils.fireEvent(RefreshEvent(RefreshType.FILTER));
+    emit(
+       const RoutesPageState(status: DesignStatus.refresh),
+    );
+    getRoutes();
   }
 
   void selectRoutes(int index, bool isSelect) {
@@ -68,6 +74,14 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
         lRoutes: state.lRoutes,
         timeStamp: DateTime.now().millisecondsSinceEpoch));
   }
+
+  void itemOnclick(BuildContext context, RoutesModel model) =>
+      RouterUtils.openNewPage(
+          RoutesDetailPage(
+            index: BottomNavigationConstant.TAB_ROUTES,
+            model: model,
+          ),
+          context);
 
   List<RoutesModel> fakeData() => [
     RoutesModel(
@@ -103,22 +117,35 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
        )
   ];
 
-  void selectOnClick(BuildContext context) {
-    var isSelect = state.lRoutes.where((element) {
-      return element.isSelect;
-    });
-    if (isSelect.isEmpty) {
-      toast(AppLocalizations.of(context)!.notItemSelect);
-      return;
+  void selectOnclick(bool isShowAdd) async{
+    for(int i =0;i<state.lRoutes.length;i++){
+      state.lRoutes[i].isSelect = false;
     }
-    Utils.showActionDialog(context, (p0) {});
+    emit(state.copyWith(timeStamp: DateTime.now().millisecondsSinceEpoch,isShowAdd: isShowAdd,isShowActionButton: false));
   }
 
+  void itemOnLongPress(BuildContext context) =>
+      Utils.showActionDialog(context, (p0) {});
+
   void filterOnclick(BuildContext context) => RouterUtils.openNewPage(
-      const FilterRoutesPage(
-        index: BottomNavigationConstant.TAB_HOME,
-      ),
+      const FilterRoutesPage(),
       context);
+
+  void filterItemOnclick(int index) {
+    state.lRoutes[index].isSelect = !state.lRoutes[index].isSelect;
+    var isShowActionButton = false;
+    for (int i = 0; i < state.lRoutes.length; i++) {
+      if (state.lRoutes[i].isSelect == true) {
+        isShowActionButton = true;
+        break;
+      }
+    }
+    logE("TAG IS SHOW BUTON: ${isShowActionButton}");
+    emit(state.copyWith(
+        isShowActionButton: isShowActionButton,
+        lRoutes: state.lRoutes,
+        timeStamp: DateTime.now().millisecondsSinceEpoch));
+}
 
   void search(String keySearch) {
     if (keySearch.isEmpty) {

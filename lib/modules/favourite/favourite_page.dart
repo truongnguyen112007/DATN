@@ -130,7 +130,7 @@ class _FavouritePageState extends State<FavouritePage>
                                         lSelectRadioButton, (p0) {});
                                   },
                                   widget: AppText(
-                                    'Action',
+                                    LocaleKeys.action,
                                     style: googleFont.copyWith(
                                         color: colorWhite, fontSize: 15.sp),
                                   ),
@@ -247,7 +247,7 @@ class _FavouritePageState extends State<FavouritePage>
                     _bloc.filterItemOnclick(i);
                   },
                   index: i,
-                  onLongPress: (model) => _bloc.itemOnClick(context),
+                  onLongPress: (model) => _bloc.itemOnLongPress(context),
                   detailCallBack: (RoutesModel action) =>  _bloc.itemOnclick(context, state.lPlayList[i]),
                 ),
           itemCount:

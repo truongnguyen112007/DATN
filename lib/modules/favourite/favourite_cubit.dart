@@ -106,13 +106,11 @@ class FavouriteCubit extends Cubit<FavouriteState> {
            )
       ];
 
-  void itemOnClick(BuildContext context) =>
+  void itemOnLongPress(BuildContext context) =>
       Utils.showActionDialog(context, (p0) {});
 
   void filterOnclick(BuildContext context) => RouterUtils.openNewPage(
-      const FilterRoutesPage(
-        index: BottomNavigationConstant.TAB_ROUTES,
-      ),
+      const FilterRoutesPage(),
       context);
 
   void selectOnclick(bool isShowAdd) async{
@@ -121,6 +119,7 @@ class FavouriteCubit extends Cubit<FavouriteState> {
     }
     emit(state.copyWith(timeStamp: DateTime.now().millisecondsSinceEpoch,isShowAdd: isShowAdd,isShowActionButton: false));
   }
+
   void itemOnclick(BuildContext context, RoutesModel model) =>
       RouterUtils.openNewPage(
           RoutesDetailPage(
