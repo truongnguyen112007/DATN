@@ -13,7 +13,7 @@ class BaseService {
   var baseUrl = '';
 
   void initProvider() {
-    baseUrl = 'https://83.171.249.207/api/v1/';
+    baseUrl = 'http://83.171.249.207/api/v1/';
   }
 
   // ignore: non_constant_identifier_names
@@ -32,9 +32,7 @@ class BaseService {
         queryParameters: queryParam,
         options: Options(headers: {
                 'Authorization': 'Bearer ${globals.accessToken}',
-                'Content-Type': 'application/json',
-                'Host': 'auth.com',
-                'lang': globals.lang
+                // 'Content-Type': 'application/json',
               },sendTimeout: timeOut,),
       ).timeout(Duration(seconds: timeOut));
       Logger().d(response.data);
@@ -42,7 +40,8 @@ class BaseService {
           response.data != null) {
         var result = response.data;
         return ApiResult<dynamic>(
-            message: response.data['meta']['message'] ?? '', data: result);
+            message: response.data['meta']['message'] ?? '',
+            data: result['data']);
       } else {
         Logger().e('Error ${response.statusCode} - ${response.statusMessage}');
         var result = response.data;
@@ -57,9 +56,13 @@ class BaseService {
     } on DioError catch (exception) {
       Logger().e('[EXCEPTION] ' + exception.response.toString());
       print('============================================================');
-      return ApiResult<dynamic>(
-          error: exception.response?.data['meta']['message'] ?? '',
-          statusCode: exception.response?.statusCode);
+      try {
+        return ApiResult<dynamic>(
+            error: exception.response?.data['meta']['message'] ?? '',
+            statusCode: exception.response?.statusCode);
+      } catch (e) {
+        return ApiResult<dynamic>(error: LocaleKeys.network_error);
+      }
     } catch (error) {
       Logger().e('[EXCEPTION] $error');
       Logger().e('[ERROR] $error');
@@ -107,9 +110,13 @@ class BaseService {
     } on DioError catch (exception) {
       Logger().e('[EXCEPTION] ' + exception.response.toString());
       print('============================================================');
-      return ApiResult<dynamic>(
-          error: exception.response?.data['meta']['message'] ?? '',
-          statusCode: exception.response?.statusCode);
+      try {
+        return ApiResult<dynamic>(
+            error: exception.response?.data['meta']['message'] ?? '',
+            statusCode: exception.response?.statusCode);
+      } catch (e) {
+        return ApiResult<dynamic>(error: LocaleKeys.network_error);
+      }
     } catch (error) {
       Logger().e('[ERROR] ' + error.toString());
       print('============================================================');
@@ -155,9 +162,13 @@ class BaseService {
     } on DioError  catch (exception) {
       Logger().e('[EXCEPTION] ' + exception.response.toString());
       print('============================================================');
-      return ApiResult<dynamic>(
-          error: exception.response?.data['meta']['message'] ?? '',
-          statusCode: exception.response?.statusCode);
+      try {
+        return ApiResult<dynamic>(
+            error: exception.response?.data['meta']['message'] ?? '',
+            statusCode: exception.response?.statusCode);
+      } catch (e) {
+        return ApiResult<dynamic>(error: LocaleKeys.network_error);
+      }
     } catch (error) {
       Logger().e('[ERROR] ' + error.toString());
       print('============================================================');
@@ -203,9 +214,13 @@ class BaseService {
     } on DioError catch (exception) {
       Logger().e('[EXCEPTION] ' + exception.response.toString());
       print('============================================================');
-      return ApiResult<dynamic>(
-          error: exception.response?.data['meta']['message'] ?? '',
-          statusCode: exception.response?.statusCode);
+      try {
+        return ApiResult<dynamic>(
+            error: exception.response?.data['meta']['message'] ?? '',
+            statusCode: exception.response?.statusCode);
+      } catch (e) {
+        return ApiResult<dynamic>(error: LocaleKeys.network_error);
+      }
     } catch (error) {
       Logger().e('[ERROR] $error');
       print('============================================================');
@@ -246,9 +261,13 @@ class BaseService {
     } on DioError catch (exception) {
       Logger().e('[EXCEPTION] ' + exception.response.toString());
       print('============================================================');
-      return ApiResult<dynamic>(
-          error: exception.response?.data['meta']['message'] ?? '',
-          statusCode: exception.response?.statusCode);
+      try {
+        return ApiResult<dynamic>(
+            error: exception.response?.data['meta']['message'] ?? '',
+            statusCode: exception.response?.statusCode);
+      } catch (e) {
+        return ApiResult<dynamic>(error: LocaleKeys.network_error);
+      }
     } catch (error) {
       Logger().e('[ERROR] $error');
       print('============================================================');

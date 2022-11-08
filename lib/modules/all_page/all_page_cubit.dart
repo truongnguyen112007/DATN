@@ -11,44 +11,31 @@ class AllPageCubit extends Cubit<AllPageState> {
     RoutesModel(
         name: 'Adam 2022-05-22',
         height: 12,
-        author: 'Adam Kowasaki',
-        grade: '8A',
-        status: 'corner'),
+       ),
     RoutesModel(
       name: 'Adam 2022-05-22',
       height: 122,
-      author: 'TSU Tokoda',
-      grade: '7B',
+
     ),
     RoutesModel(
       name: 'Adam 2022-05-22',
       height: 11,
-      author: 'AI Kowasaki',
-      grade: '6A',
+
     ),
     RoutesModel(
       name: 'Adam 2022-05-22',
       height: 12,
-      author: 'Adam Kowasaki',
-      grade: '6A',
+
     ),
     RoutesModel(
         name: 'Adam 2022-05-22',
         height: 122,
-        author: 'TSU Tokoda',
-        grade: '5B',
-        status: 'corner'),
+     ),
     RoutesModel(
         name: 'Adam 2022-05-22',
-        height: 11,
-        author: 'AI Kowasaki',
-        grade: '6A',
-        status: 'corner'),
+        height: 11),
     RoutesModel(
         name: 'Adam 2022-05-22',
-        height: 11,
-        author: 'AI Kowasaki',
-        grade: '6A',
-        status: 'corner')
+        height: 11)
   ];
 }

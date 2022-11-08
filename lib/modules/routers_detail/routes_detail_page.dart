@@ -265,13 +265,13 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             itemInfoWidget(context, AppLocalizations.of(context)!.author,
-                widget.model.grade, widget.model.status ?? '',
+                widget.model.name ?? '', widget.model.authorRate.toString(),
                 padding: EdgeInsets.only(left: contentPadding, bottom: 3)),
-            itemInfoWidget(context, AppLocalizations.of(context)!.user,
-                widget.model.grade, '',
+            itemInfoWidget(
+                context, AppLocalizations.of(context)!.user, 'test', '',
                 padding: const EdgeInsets.only(bottom: 3)),
-            itemInfoWidget(context, AppLocalizations.of(context)!.popularity,
-                '100k', widget.model.author,
+            itemInfoWidget(
+                context, AppLocalizations.of(context)!.popularity, '100k', '',
                 padding: EdgeInsets.only(right: contentPadding, bottom: 3))
           ],
         ),

@@ -1,30 +1,34 @@
+import 'package:base_bloc/data/model/playlist_model.dart';
 import 'package:base_bloc/data/model/routes_model.dart';
 import 'package:base_bloc/modules/tab_home/tab_home_state.dart';
 import 'package:equatable/equatable.dart';
 
 class PlaylistState extends Equatable {
   final FeedStatus status;
-  final List<RoutesModel> lPlayList;
+  final List<RoutesModel> lRoutes;
+  List<PlaylistModel> lPlayList;
   final bool isReadEnd;
   final bool isLoading;
 
-  const PlaylistState(
+  PlaylistState(
       {this.status = FeedStatus.initial,
-      this.lPlayList = const <RoutesModel>[],
+      this.lRoutes = const <RoutesModel>[],
+      this.lPlayList = const <PlaylistModel>[],
       this.isReadEnd = false,
       this.isLoading = true});
 
   PlaylistState copyWith(
           {FeedStatus? status,
-          List<RoutesModel>? lPlayList,
+          List<RoutesModel>? lRoutes,
+          List<PlaylistModel>? lPlaylist,
           bool? isReadEnd,
           bool? isLoading}) =>
       PlaylistState(
           isLoading: isLoading ?? this.isLoading,
           status: status ?? this.status,
-          lPlayList: lPlayList ?? this.lPlayList,
+          lRoutes: lRoutes ?? this.lRoutes,
           isReadEnd: isReadEnd ?? this.isReadEnd);
 
   @override
-  List<Object?> get props => [status, lPlayList, isReadEnd,isLoading];
+  List<Object?> get props => [status, lRoutes, isReadEnd,isLoading];
 }

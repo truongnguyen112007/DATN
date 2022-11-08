@@ -101,25 +101,25 @@ class Utils {
           HexColor('005926'),
           HexColor('005926'),
         ];
-      case '5C':
+      case '5':
         return [colorOrange80, colorGreen70, colorGreen70];
-      case '6A':
+      case '6':
         return [
           HexColor('D17800'),
           HexColor('D17800').withOpacity(0.6),
           HexColor('005926'),
           HexColor('005926')
         ];
-      case '7B':
+      case '7':
         return [HexColor('D11D00'), HexColor('D17800'), HexColor('D17800')];
-      case '8A':
+      case '8':
         return [
           HexColor('D17800'),
           HexColor('D17800'),
           HexColor('005926'),
           HexColor('005926')
         ];
-      case '5B':
+      case '5':
         return [
           HexColor('A77208'),
           HexColor('005926'),
