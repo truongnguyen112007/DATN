@@ -1,4 +1,5 @@
 import 'package:base_bloc/components/app_circle_loading.dart';
+import 'package:base_bloc/components/app_not_data_widget.dart';
 import 'package:base_bloc/components/app_text.dart';
 import 'package:base_bloc/data/globals.dart';
 import 'package:base_bloc/modules/playlist/playlist_cubit.dart';
@@ -57,13 +58,20 @@ class _PlayListPageState extends State<PlayListPage>
             child: BlocBuilder<PlayListCubit, PlaylistState>(
                 bloc: _bloc,
                 builder: (c, state) {
-                  if (state.status == FeedStatus.initial ||
-                      state.status == FeedStatus.refresh) {
-                    return const Center(
-                      child: AppCircleLoading(),
-                    );
-                  }
-                  return playlistWidget(context, state);
+                  return state.status == FeedStatus.initial ||
+                          state.status == FeedStatus.refresh
+                      ? const Center(child: AppCircleLoading())
+                      : (state.status == FeedStatus.failure
+                          ? Center(
+                              child: Stack(
+                              children: [
+                                ListView(
+                                    physics:
+                                        const AlwaysScrollableScrollPhysics()),
+                                const AppNotDataWidget()
+                              ],
+                            ))
+                          : playlistWidget(context, state));
                 }),
             onRefresh: () async => _bloc.onRefresh()),
         addWidget(context)
@@ -85,7 +93,10 @@ class _PlayListPageState extends State<PlayListPage>
                 backgroundColor: colorOrange100,
                 activeBackgroundColor: colorWhite,
                 activeIcon: Icons.close,
-                activeChild: const Icon(Icons.close,color: colorBlack,),
+                activeChild: const Icon(
+                  Icons.close,
+                  color: colorBlack,
+                ),
                 spacing: 3,
                 childPadding: const EdgeInsets.all(5),
                 spaceBetweenChildren: 4,
@@ -111,7 +122,7 @@ class _PlayListPageState extends State<PlayListPage>
                     ),
                     backgroundColor: Colors.white,
                     foregroundColor: Colors.white,
-                    onTap: (){},
+                    onTap: () {},
                   ),
                   SpeedDialChild(
                     labelWidget: AppText(
@@ -119,42 +130,40 @@ class _PlayListPageState extends State<PlayListPage>
                       style: typoW400.copyWith(
                           fontSize: 16, color: colorText0.withOpacity(0.87)),
                     ),
-                    child:  const Icon(Icons.add,color: colorBlack,),
+                    child: const Icon(
+                      Icons.add,
+                      color: colorBlack,
+                    ),
                     backgroundColor: Colors.white,
                     foregroundColor: Colors.white,
                     onTap: () => _bloc.createRoutesOnClick(context),
                   ),
                 ],
-              )
-              )));
+              ))));
 
   Widget playlistWidget(BuildContext context, PlaylistState state) =>
-      ReorderableListView.builder(
-          onReorder: (int oldIndex, int newIndex) {
-            if (oldIndex < newIndex) newIndex -= 1;
-            _bloc.setIndex(newIndex, oldIndex);
-          },
-          scrollController: scrollController,
+      ListView.builder(
+          controller: scrollController,
           physics: const AlwaysScrollableScrollPhysics(),
           padding: EdgeInsets.all(contentPadding),
-          itemBuilder: (c, i) => i == state.lPlayList.length
+          itemBuilder: (c, i) => i == state.lRoutes.length
               ? const Center(
                   child: AppCircleLoading(),
                 )
               : ItemInfoRoutes(
                   key: Key('$i'),
                   context: context,
-                  model: state.lPlayList[i],
+                  model: state.lRoutes[i],
                   callBack: (model) {},
                   index: i,
                   onLongPress: (model) => _bloc.itemOnLongClick(context),
                   detailCallBack: (RoutesModel action) =>
-                      _bloc.itemOnclick(context, state.lPlayList[i]),
+                      _bloc.itemOnclick(context, state.lRoutes[i]),
                 ),
           itemCount:
-              !state.isReadEnd && state.lPlayList.isNotEmpty && state.isLoading
-                  ? state.lPlayList.length + 1
-                  : state.lPlayList.length);
+              !state.isReadEnd && state.lRoutes.isNotEmpty && state.isLoading
+                  ? state.lRoutes.length + 1
+                  : state.lRoutes.length);
 
   @override
   bool get wantKeepAlive => true;

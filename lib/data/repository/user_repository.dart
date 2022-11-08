@@ -23,4 +23,7 @@ class UserRepository extends BaseService{
         ApiKey.device_name: globals.deviceName,
         ApiKey.device_model: globals.deviceModel,
       });
+
+  Future<ApiResult> getPlaylists() async => await GET('playlist');
+  Future<ApiResult> getPlaylistById(String id) async => await GET('playlist/$id');
 }
