@@ -54,11 +54,16 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage> {
 
   @override
   void initState() {
+    _bloc = CreateRoutesCubit();
     _lHoldSetStream = Utils.eventBus
         .on<List<HoldSetModel>>()
         .listen((list) => _bloc.setHoldSets(list));
-    _bloc = CreateRoutesCubit();
-    _bloc.setData(row: row, column: column, sizeHoldSet: sizeHoldSet);
+    _bloc.setData(
+        row: row,
+        column: column,
+        sizeHoldSet: sizeHoldSet,
+        lHoldSetImage: lHoldSet,
+        model: widget.model);
     super.initState();
   }
 
@@ -75,9 +80,7 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage> {
       appbar: appbar(context),
       body: BlocBuilder<CreateRoutesCubit, CreateRoutesState>(
         builder: (c, state) => state.status == StatusType.initial
-            ? const Center(
-                child: AppCircleLoading(),
-              )
+            ? const Center(child: AppCircleLoading())
             : Column(
                 children: [
                   line(),
@@ -239,11 +242,10 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage> {
                               ? colorText0.withOpacity(0.8)
                               : Colors.transparent)),
                   Container(
-                    margin: const EdgeInsets.only(left: 3),
-                    width: 3,
-                    height: 1,
-                    color: HexColor('5E5E5E'),
-                  )
+                      margin: const EdgeInsets.only(left: 3),
+                      width: 3,
+                      height: 1,
+                      color: HexColor('5E5E5E'))
                 ],
               ))));
 

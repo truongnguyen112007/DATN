@@ -376,20 +376,20 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
                     Assets.svg.info, RoutesAction.INFO)),
             Expanded(
                 child: itemActionWidget(AppLocalizations.of(context)!.share,
-                    Assets.svg.share, RoutesAction.INFO)),
+                    Assets.svg.share, RoutesAction.SHARE)),
             Expanded(
                 child: itemActionWidget(AppLocalizations.of(context)!.copy,
-                    Assets.svg.copy, RoutesAction.INFO)),
+                    Assets.svg.copy, RoutesAction.COPY)),
             Expanded(
                 child: itemActionWidget(
                     AppLocalizations.of(context)!.add_favourite,
                     Assets.svg.like,
-                    RoutesAction.INFO)),
+                    RoutesAction.ADD_FAVOURITE)),
             Expanded(
                 child: itemActionWidget(
                     AppLocalizations.of(context)!.addToPlaylist,
                     Assets.svg.addToPlayList,
-                    RoutesAction.INFO))
+                    RoutesAction.ADD_TO_PLAY_LIST))
           ],
         ),
       );
@@ -417,8 +417,7 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
             ],
           ),
         ),
-        onTap: () => _bloc.handleAction(action),
-      );
+          onTap: () => _bloc.handleAction(action, context));
 
   LinearGradient gradientBackground() => LinearGradient(colors: [
         HexColor('747474'),

@@ -117,9 +117,8 @@ class PlayListCubit extends Cubit<PlaylistState> {
     toast('Share post success');
   }
 
-  void copyRoutes(BuildContext context,RoutesModel model,int index) async{
-     RouterUtils.openNewPage(CreateRoutesPage(), context);
-  }
+  void copyRoutes(BuildContext context, RoutesModel model, int index) =>
+      RouterUtils.openNewPage(CreateRoutesPage(model: model), context);
 
   void itemOnclick(BuildContext context, RoutesModel model) =>
       RouterUtils.openNewPage(

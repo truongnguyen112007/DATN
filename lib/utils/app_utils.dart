@@ -296,11 +296,13 @@ class Utils {
                               ItemAction.EDIT,
                               () => callBack.call(ItemAction.EDIT))
                           : const SizedBox(),
-                      itemAction(
-                          Assets.svg.delete,
-                          AppLocalizations.of(context)!.delete,
-                          ItemAction.DELETE,
-                          () => callBack.call(ItemAction.DELETE)),
+                      !isPlaylist
+                          ? itemAction(
+                              Assets.svg.delete,
+                              AppLocalizations.of(context)!.delete,
+                              ItemAction.DELETE,
+                              () => callBack.call(ItemAction.DELETE))
+                          : const SizedBox()
                     ],
                   ),
                 )
