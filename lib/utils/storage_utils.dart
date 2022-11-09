@@ -13,9 +13,11 @@ class StorageUtils {
   }
 
   static void logout() {
+    GetStorage().remove(StorageKey.playlistId);
     GetStorage().remove(StorageKey.userModel);
     globals.isLogin = false;
     globals.accessToken = '';
+    globals.playlistId = '';
     globals.userId = 0;
   }
 
@@ -34,5 +36,13 @@ class StorageUtils {
     /*if(isLogin != null) {
       globals.isLogin = isLogin;
     }*/
+  }
+
+  static Future<void> savePlaylistId(String playlistId) =>
+      GetStorage().write(StorageKey.playlistId, playlistId);
+
+  static Future<String?> getPlaylistId() async {
+    var playlistId = await GetStorage().read(StorageKey.playlistId);
+    return playlistId;
   }
 }

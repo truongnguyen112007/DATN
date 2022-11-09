@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:base_bloc/base/base_state.dart';
@@ -14,6 +15,7 @@ import 'package:base_bloc/modules/routers_detail/routes_detail_state.dart';
 import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/theme/colors.dart';
 import 'package:base_bloc/utils/app_utils.dart';
+import 'package:base_bloc/utils/log_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -41,7 +43,7 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
   final row = 47;
   final column = 12;
   final List<String> _lRoutes = [];
-  final List<String> lHoldSet = [
+  final List<String> lHoldSetImage = [
     Assets.svg.holdset1,
     Assets.svg.holdset2,
     Assets.svg.holdset3,
@@ -53,18 +55,20 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
 
   @override
   void initState() {
-    _bloc = RoutesDetailCubit();
-    fakeData();
+    _bloc = RoutesDetailCubit(widget.model);
+    createRoutes();
     super.initState();
   }
 
-  void fakeData() {
+  void createRoutes() {
     var random = Random();
     for (int i = 0; i < row * column; i++) {
-      if (i % 19 == 0 || i % 15 == 0) {
-        _lRoutes.add(lHoldSet[random.nextInt(lHoldSet.length)]);
-      } else {
-        _lRoutes.add('');
+      _lRoutes.add('');
+    }
+    List<int> lHoldSet = json.decode(widget.model.holds ?? '').cast<int>();
+    for (var element in lHoldSet) {
+      if (element < _lRoutes.length) {
+        _lRoutes[element] = lHoldSetImage[random.nextInt(lHoldSetImage.length)];
       }
     }
   }
@@ -73,7 +77,7 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
   Widget buildWidget(BuildContext context) {
     return AppScaffold(
         appbar: appbarWidget(context),
-        backgroundColor: HexColor('212121'),
+        backgroundColor: colorBackgroundColor,
         body: SizedBox(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
@@ -87,7 +91,6 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           infoRoutesWidget(context),
-                          // const Spacer(),
                           Container(
                               width: sizeHoldSet * column * 1.8,
                               height: 18.h,
@@ -264,15 +267,21 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            itemInfoWidget(context, AppLocalizations.of(context)!.author,
-                widget.model.name ?? '', widget.model.authorRate.toString(),
-                padding: EdgeInsets.only(left: contentPadding, bottom: 3)),
-            itemInfoWidget(
-                context, AppLocalizations.of(context)!.user, 'test', '',
-                padding: const EdgeInsets.only(bottom: 3)),
-            itemInfoWidget(
-                context, AppLocalizations.of(context)!.popularity, '100k', '',
-                padding: EdgeInsets.only(right: contentPadding, bottom: 3))
+            Expanded(
+                child: itemInfoWidget(
+                    context,
+                    AppLocalizations.of(context)!.author,
+                    widget.model.name ?? '',
+                    widget.model.authorRate.toString(),
+                    padding: EdgeInsets.only(left: contentPadding, bottom: 3))),
+            Expanded(
+                child: itemInfoWidget(
+                    context, AppLocalizations.of(context)!.user, 'test', '',
+                    padding: const EdgeInsets.only(bottom: 3))),
+            Expanded(
+                child: itemInfoWidget(context,
+                    AppLocalizations.of(context)!.popularity, '100k', '',
+                    padding: EdgeInsets.only(right: contentPadding, bottom: 3)))
           ],
         ),
       );
@@ -287,13 +296,18 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
           children: [
             AppText(title,
                 style: typoW600.copyWith(
-                    fontSize: 9.sp, color: colorText0.withOpacity(0.87))),
-            AppText(grade, style: typoW700.copyWith(fontSize: 22.5.sp)),
-            AppText(
-              status,
-              style: typoW400.copyWith(
-                  fontSize: 12.5.sp, color: colorText0.withOpacity(0.87)),
-            )
+                    fontSize: 9.sp, color: colorText0.withOpacity(0.87)),
+                maxLine: 1,
+                overflow: TextOverflow.ellipsis),
+            AppText(grade,
+                style: typoW700.copyWith(fontSize: 22.5.sp),
+                maxLine: 1,
+                overflow: TextOverflow.ellipsis),
+            AppText(status,
+                style: typoW400.copyWith(
+                    fontSize: 12.5.sp, color: colorText0.withOpacity(0.87)),
+                maxLine: 1,
+                overflow: TextOverflow.ellipsis)
           ],
         ),
       );
@@ -362,20 +376,20 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
                     Assets.svg.info, RoutesAction.INFO)),
             Expanded(
                 child: itemActionWidget(AppLocalizations.of(context)!.share,
-                    Assets.svg.share, RoutesAction.INFO)),
+                    Assets.svg.share, RoutesAction.SHARE)),
             Expanded(
                 child: itemActionWidget(AppLocalizations.of(context)!.copy,
-                    Assets.svg.copy, RoutesAction.INFO)),
+                    Assets.svg.copy, RoutesAction.COPY)),
             Expanded(
                 child: itemActionWidget(
                     AppLocalizations.of(context)!.add_favourite,
                     Assets.svg.like,
-                    RoutesAction.INFO)),
+                    RoutesAction.ADD_FAVOURITE)),
             Expanded(
                 child: itemActionWidget(
                     AppLocalizations.of(context)!.addToPlaylist,
                     Assets.svg.addToPlayList,
-                    RoutesAction.INFO))
+                    RoutesAction.ADD_TO_PLAY_LIST))
           ],
         ),
       );
@@ -403,8 +417,7 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
             ],
           ),
         ),
-        onTap: () => _bloc.handleAction(action),
-      );
+          onTap: () => _bloc.handleAction(action, context));
 
   LinearGradient gradientBackground() => LinearGradient(colors: [
         HexColor('747474'),
