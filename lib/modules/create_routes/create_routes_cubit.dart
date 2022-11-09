@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:base_bloc/data/eventbus/new_page_event.dart';
 import 'package:base_bloc/data/model/hold_set_model.dart';
@@ -6,8 +7,10 @@ import 'package:base_bloc/data/model/routes_model.dart';
 import 'package:base_bloc/modules/create_routes/create_routes_state.dart';
 import 'package:base_bloc/modules/persons_page/persons_page_state.dart';
 import 'package:base_bloc/modules/zoom_routes/zoom_routes_page.dart';
+import 'package:base_bloc/utils/log_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'dart:convert';
 
 import '../../gen/assets.gen.dart';
 import '../../router/router_utils.dart';
@@ -79,10 +82,21 @@ class CreateRoutesCubit extends Cubit<CreateRoutesState> {
       {required int row,
       required int column,
       required double sizeHoldSet,
-      RoutesModel? model}) {
+      RoutesModel? model,
+      required List<String> lHoldSetImage}) {
     var lRoutes = <HoldSetModel>[];
     for (int i = 0; i < row * column; i++) {
       lRoutes.add(HoldSetModel());
+    }
+    if (model != null) {
+      var random = Random();
+      List<int> lHoldSet = json.decode(model.holds ?? '').cast<int>();
+      for (var element in lHoldSet) {
+        if (element < lRoutes.length) {
+          lRoutes[element].holdSet =
+              lHoldSetImage[random.nextInt(lHoldSetImage.length)];
+        }
+      }
     }
     Timer(
         const Duration(seconds: 1),

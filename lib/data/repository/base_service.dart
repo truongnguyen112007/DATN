@@ -177,8 +177,8 @@ class BaseService {
   }
 
   // ignore: non_constant_identifier_names
-  Future<ApiResult> PUT(String url, dynamic body,
-      { bool isNewFormat = false}) async {
+  Future<ApiResult> PUT(String url,
+      {dynamic body, bool isNewFormat = false}) async {
     if (await ConnectionUtils.isConnect() == false) {
       return ApiResult(error: LocaleKeys.network_error);
     }

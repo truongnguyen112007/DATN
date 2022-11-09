@@ -41,6 +41,8 @@ class UserRepository extends BaseService{
       await POST('favourite/$userId', {ApiKey.route_id: routeId});
 
   Future<ApiResult> removeFromFavorite(int userId, String routeId) async =>
-      await PUT('favourite/$userId', {ApiKey.route_id: routeId});
+      await PUT('favourite/$userId', body: {ApiKey.route_id: routeId});
 
+  Future<ApiResult> addToPlaylist(String playlistId, String routeId) async =>
+      await PUT('playlistdetail/$playlistId/$routeId');
 }
