@@ -17,9 +17,8 @@ import '../../components/app_text.dart';
 import '../../theme/colors.dart';
 
 class FilterRoutesPage extends StatefulWidget {
-  final int index;
 
-  const FilterRoutesPage({Key? key, required this.index}) : super(key: key);
+  const FilterRoutesPage({Key? key}) : super(key: key);
 
   @override
   State<FilterRoutesPage> createState() => _FilterRoutesPageState();
@@ -38,7 +37,7 @@ final List<String> corners = ['With corners', 'Without corners'];
 
 final List<String> designs = ["Route setter", 'Friends'];
 
-class _FilterRoutesPageState extends BasePopState<FilterRoutesPage> {
+class _FilterRoutesPageState extends State<FilterRoutesPage> {
   int selectedStatus = 0;
 
   int selectedCorner = 0;
@@ -52,7 +51,7 @@ class _FilterRoutesPageState extends BasePopState<FilterRoutesPage> {
   var backgroundColor = HexColor('212121');
 
   @override
-  Widget buildWidget(BuildContext context) {
+  Widget build(BuildContext context) {
     return AppScaffold(
       resizeToAvoidBottomInset: false,
       isTabToHideKeyBoard: false,
@@ -319,6 +318,4 @@ class _FilterRoutesPageState extends BasePopState<FilterRoutesPage> {
   @override
   bool get isNewPage => true;
 
-  @override
-  int get tabIndex => widget.index;
 }

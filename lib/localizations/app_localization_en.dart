@@ -503,5 +503,8 @@ class AppLocalizationEn extends AppLocalizations {
   String get the_nearest_place => 'The nearest place';
 
   @override
+  String get action => "Action";
+
+  @override
   String get not_data => 'Not data, please try again.';
 }

@@ -48,5 +48,5 @@ class HistoryCubit extends Cubit<HistoryState> {
       ];
 
   void filterOnclick(BuildContext context) => RouterUtils.openNewPage(
-      const FilterRoutesPage(index: BottomNavigationConstant.TAB_ROUTES), context);
+      const FilterRoutesPage(), context);
 }

@@ -115,8 +115,6 @@ class DesignedCubit extends Cubit<DesignedState> {
   }
 
   void filterOnclick(BuildContext context) => RouterUtils.openNewPage(
-      const FilterRoutesPage(
-        index: BottomNavigationConstant.TAB_ROUTES,
-      ),
+      const FilterRoutesPage(),
       context);
 }

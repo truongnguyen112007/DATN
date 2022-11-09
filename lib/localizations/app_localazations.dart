@@ -337,6 +337,8 @@ abstract class AppLocalizations {
   String get thisFeatureIsUnder;
   String get last_visited_place;
   String get the_nearest_place;
+
+  String get action;
   String get not_data;
 }
 
