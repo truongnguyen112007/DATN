@@ -9,8 +9,9 @@ String avatar = '';
 String deviceId = '';
 String deviceName = '';
 String deviceModel = '';
-String accountId = '';
+int userId = 0;
 String userName = '';
+String playlistId = '';
 
 bool isLogin = false;
 bool isTokenExpired = false;

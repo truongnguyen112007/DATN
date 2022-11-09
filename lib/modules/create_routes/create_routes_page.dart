@@ -9,13 +9,13 @@ import 'package:base_bloc/components/zoomer.dart';
 import 'package:base_bloc/config/constant.dart';
 import 'package:base_bloc/data/globals.dart';
 import 'package:base_bloc/data/model/hold_set_model.dart';
+import 'package:base_bloc/data/model/routes_model.dart';
 import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/modules/create_routes/create_routes_cubit.dart';
 import 'package:base_bloc/modules/create_routes/create_routes_state.dart';
 import 'package:base_bloc/modules/persons_page/persons_page_state.dart';
 import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/theme/colors.dart';
-import 'package:base_bloc/utils/log_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -23,13 +23,13 @@ import 'package:flutter_svg/svg.dart';
 
 import '../../base/hex_color.dart';
 import '../../components/app_circle_loading.dart';
-import '../../data/eventbus/hold_set_event.dart';
 import '../../gen/assets.gen.dart';
 import '../../router/router_utils.dart';
 import '../../utils/app_utils.dart';
 
 class CreateRoutesPage extends StatefulWidget {
-  const CreateRoutesPage({Key? key}) : super(key: key);
+  final RoutesModel? model;
+  const CreateRoutesPage({Key? key,this.model}) : super(key: key);
 
   @override
   State<CreateRoutesPage> createState() => _CreateRoutesPageState();

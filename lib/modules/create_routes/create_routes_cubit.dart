@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:base_bloc/data/eventbus/new_page_event.dart';
 import 'package:base_bloc/data/model/hold_set_model.dart';
+import 'package:base_bloc/data/model/routes_model.dart';
 import 'package:base_bloc/modules/create_routes/create_routes_state.dart';
 import 'package:base_bloc/modules/persons_page/persons_page_state.dart';
 import 'package:base_bloc/modules/zoom_routes/zoom_routes_page.dart';
@@ -75,7 +76,10 @@ class CreateRoutesCubit extends Cubit<CreateRoutesState> {
   }
 
   void setData(
-      {required int row, required int column, required double sizeHoldSet}) {
+      {required int row,
+      required int column,
+      required double sizeHoldSet,
+      RoutesModel? model}) {
     var lRoutes = <HoldSetModel>[];
     for (int i = 0; i < row * column; i++) {
       lRoutes.add(HoldSetModel());

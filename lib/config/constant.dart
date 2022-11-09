@@ -8,6 +8,7 @@ class StorageKey {
   static const String loginByFbOrGg = 'loginByFbOrGg';
   static const String isLogin = 'isLogin';
   static const String userModel = 'userModel';
+  static const String playlistId = 'playlistId';
 }
 
 class ConstantKey {
@@ -32,8 +33,11 @@ class ApiKey {
   static const device_id = 'device_id';
   static const device_name = 'device_name';
   static const device_model = 'device_model';
-
+  static const name = 'name';
+  static const user_id = 'user_id';
+  static const route_id = 'route_id';
 }
+
 class BottomNavigationConstant{
   static const TAB_HOME = 0;
   static const TAB_ROUTES = 1;
