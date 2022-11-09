@@ -29,6 +29,9 @@ class UserRepository extends BaseService{
 
   Future<ApiResult> getPlaylists() async => await GET('playlist');
   Future<ApiResult> getPlaylistById(String id) async => await GET('playlist/$id');
+  Future<ApiResult> getFavorite(int userId) async => await GET("favourite/$userId");
+  Future<ApiResult> removeFromFavorite(int userId, String routeId) async =>
+      await PUT('favourite/$userId',body: {ApiKey.route_id: routeId});
 
   Future<ApiResult> removeFromPlaylist(
           String playlistId, String routeId) async =>
@@ -39,9 +42,6 @@ class UserRepository extends BaseService{
 
   Future<ApiResult> addToFavorite(int userId, String routeId) async =>
       await POST('favourite/$userId', {ApiKey.route_id: routeId});
-
-  Future<ApiResult> removeFromFavorite(int userId, String routeId) async =>
-      await PUT('favourite/$userId', body: {ApiKey.route_id: routeId});
 
   Future<ApiResult> addToPlaylist(String playlistId, String routeId) async =>
       await PUT('playlistdetail/$playlistId/$routeId');
