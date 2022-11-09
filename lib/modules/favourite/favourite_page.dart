@@ -251,7 +251,7 @@ class _FavouritePageState extends State<FavouritePage>
                     _bloc.filterItemOnclick(i);
                   },
                   index: i,
-                  onLongPress: (model) => _bloc.itemOnLongPress(context),
+                  onLongPress: (model) => _bloc.itemOnLongClick(context,model,i),
                   detailCallBack: (RoutesModel action) =>  _bloc.itemOnclick(context, state.lPlayList[i]),
                 ),
           itemCount:

@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:base_bloc/base/hex_color.dart';
 import 'package:base_bloc/data/model/general_action_sheet_model.dart';
 import 'package:base_bloc/modules/tab_profile/edit_settings/privacy_settings/privacy_settings_cubit.dart';
+import 'package:base_bloc/utils/log_utils.dart';
 import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -231,7 +232,8 @@ class Utils {
 
   static void showActionDialog(
       BuildContext context, Function(ItemAction) callBack,
-      {bool isPlaylist = false}) {
+      {bool isPlaylist = false, bool isFavorite = false}) {
+    logE("TAG sdsdfisFavorite $isFavorite");
     showModalBottomSheet(
         isScrollControlled: true,
         backgroundColor: Colors.transparent,
@@ -252,11 +254,13 @@ class Utils {
                       SizedBox(
                         height: contentPadding,
                       ),
-                      itemAction(
-                          Assets.svg.moveToTop,
-                          AppLocalizations.of(context)!.moveToPlaylist,
-                          ItemAction.MOVE_TO_TOP,
-                          () => callBack.call(ItemAction.MOVE_TO_TOP)),
+                      !isFavorite
+                          ? itemAction(
+                              Assets.svg.moveToTop,
+                              AppLocalizations.of(context)!.moveToPlaylist,
+                              ItemAction.MOVE_TO_TOP,
+                              () => callBack.call(ItemAction.MOVE_TO_TOP))
+                          : const SizedBox(),
                       !isPlaylist
                           ? itemAction(
                               Assets.svg.addToPlayList,
@@ -264,21 +268,27 @@ class Utils {
                               ItemAction.ADD_TO_PLAYLIST,
                               () => callBack.call(ItemAction.ADD_TO_PLAYLIST))
                           : const SizedBox(),
-                      itemAction(
-                          Assets.svg.removeFromPlaylist,
-                          AppLocalizations.of(context)!.removeFromPlaylist,
-                          ItemAction.REMOVE_FROM_PLAYLIST,
-                          () => callBack.call(ItemAction.REMOVE_FROM_PLAYLIST)),
-                      itemAction(
-                          Assets.svg.liked,
-                          AppLocalizations.of(context)!.addToFavourite,
-                          ItemAction.ADD_TO_FAVOURITE,
-                          () => callBack.call(ItemAction.ADD_TO_FAVOURITE)),
-                      itemAction(
-                          Assets.svg.like,
-                          AppLocalizations.of(context)!.removeFromFavorite,
-                          ItemAction.REMOVE_FROM_FAVORITE,
-                          () => callBack.call(ItemAction.REMOVE_FROM_FAVORITE)),
+                      !isFavorite
+                          ? itemAction(
+                              Assets.svg.removeFromPlaylist,
+                              AppLocalizations.of(context)!.removeFromPlaylist,
+                              ItemAction.REMOVE_FROM_PLAYLIST,
+                              () => callBack
+                                  .call(ItemAction.REMOVE_FROM_PLAYLIST))
+                          : const SizedBox(),
+                      !isFavorite
+                          ? itemAction(
+                              Assets.svg.liked,
+                              AppLocalizations.of(context)!.addToFavourite,
+                              ItemAction.ADD_TO_FAVOURITE,
+                              () => callBack.call(ItemAction.ADD_TO_FAVOURITE))
+                          : const SizedBox(),
+                           itemAction(
+                              Assets.svg.like,
+                              AppLocalizations.of(context)!.removeFromFavorite,
+                              ItemAction.REMOVE_FROM_FAVORITE,
+                              () => callBack
+                                  .call(ItemAction.REMOVE_FROM_FAVORITE)),
                       itemAction(
                           Assets.svg.share,
                           AppLocalizations.of(context)!.share,
@@ -289,14 +299,14 @@ class Utils {
                           AppLocalizations.of(context)!.copy,
                           ItemAction.COPY,
                           () => callBack.call(ItemAction.COPY)),
-                      !isPlaylist
+                      (!isPlaylist && !isFavorite)
                           ? itemAction(
                               Assets.svg.edit,
                               AppLocalizations.of(context)!.edit,
                               ItemAction.EDIT,
                               () => callBack.call(ItemAction.EDIT))
                           : const SizedBox(),
-                      !isPlaylist
+                      (!isPlaylist && ! isFavorite)
                           ? itemAction(
                               Assets.svg.delete,
                               AppLocalizations.of(context)!.delete,
