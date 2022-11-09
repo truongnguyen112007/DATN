@@ -16,8 +16,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/globals.dart' as globals;
 import 'package:dio/dio.dart';
 
+import '../../data/model/playlist_model.dart';
+
 class LoginCubit extends Cubit<LoginState> {
   var userRepository = UserRepository();
+
   LoginCubit() : super(const LoginState(errorEmail: '', errorPassword: ''));
 
   void onClickLogin(String email, String password, BuildContext context) async {
@@ -30,40 +33,62 @@ class LoginCubit extends Cubit<LoginState> {
       if (response.error != null) {
         toast(response.error.toString());
       } else {
-        toast(LocaleKeys.login_success);
+        var userModel = UserModel.fromJson(response.data);
         StorageUtils.login(UserModel.fromJson(response.data));
+        await checkPlaylistId(userModel);
+        toast(LocaleKeys.login_success);
         RouterUtils.openNewPage(const HomePage(), context, isReplace: true);
       }
     }
   }
 
-  bool checkValidEmail(String email) {
-    bool isValid = false;
-    if (email.isEmpty) {
-      isValid = false;
-      emit(state.copyOf(errorEmail: LocaleKeys.please_input_email));
-    } else if (!EmailValidator.validate(email)) {
-      emit(state.copyOf(errorEmail: LocaleKeys.please_input_valid_email));
-      isValid = false;
-    } else {
-      isValid = true;
-      emit(state.copyOf(errorEmail: ''));
+  Future<void> createPlaylist(UserModel userModel) async {
+    var userResponse =
+    await userRepository.createPlaylist('', userModel.userId ?? 0);
+    if (userResponse.data != null && userResponse.error == null) {
+      checkPlaylistId(userModel);
     }
-    return isValid;
   }
 
-  bool checkValidPassword(String password) {
-    bool isValid = false;
-    if (password.isEmpty) {
-      isValid = false;
-      emit(state.copyOf(errorPassword: LocaleKeys.please_input_pass));
-    } else if (!Utils.validatePassword(password)) {
-      emit(state.copyOf(errorPassword: LocaleKeys.please_input_valid_pass));
-      isValid = false;
-    } else {
-      isValid = true;
-      emit(state.copyOf(errorPassword: ''));
+  Future<void> checkPlaylistId(UserModel userModel) async {
+    var response = await userRepository.getPlaylists();
+    if (response.error == null && response.data != null) {
+      try {
+        var lPlaylist = playListModelFromJson(response.data);
+        globals.playlistId = lPlaylist[0].id ?? '';
+        StorageUtils.savePlaylistId(globals.playlistId);
+      } catch (ex) {
+        createPlaylist(userModel);
+      }
     }
-    return isValid;
-  }
 }
+
+bool checkValidEmail(String email) {
+  bool isValid = false;
+  if (email.isEmpty) {
+    isValid = false;
+    emit(state.copyOf(errorEmail: LocaleKeys.please_input_email));
+  } else if (!EmailValidator.validate(email)) {
+    emit(state.copyOf(errorEmail: LocaleKeys.please_input_valid_email));
+    isValid = false;
+  } else {
+    isValid = true;
+    emit(state.copyOf(errorEmail: ''));
+  }
+  return isValid;
+}
+
+bool checkValidPassword(String password) {
+  bool isValid = false;
+  if (password.isEmpty) {
+    isValid = false;
+    emit(state.copyOf(errorPassword: LocaleKeys.please_input_pass));
+  } else if (!Utils.validatePassword(password)) {
+    emit(state.copyOf(errorPassword: LocaleKeys.please_input_valid_pass));
+    isValid = false;
+  } else {
+    isValid = true;
+    emit(state.copyOf(errorPassword: ''));
+  }
+  return isValid;
+}}

@@ -230,7 +230,8 @@ class Utils {
   static String randomTag() => Random().nextInt(100).toString();
 
   static void showActionDialog(
-      BuildContext context, Function(ItemAction) callBack) {
+      BuildContext context, Function(ItemAction) callBack,
+      {bool isPlaylist = false}) {
     showModalBottomSheet(
         isScrollControlled: true,
         backgroundColor: Colors.transparent,
@@ -256,11 +257,13 @@ class Utils {
                           AppLocalizations.of(context)!.moveToPlaylist,
                           ItemAction.MOVE_TO_TOP,
                           () => callBack.call(ItemAction.MOVE_TO_TOP)),
-                      itemAction(
-                          Assets.svg.addToPlayList,
-                          AppLocalizations.of(context)!.addToPlaylist,
-                          ItemAction.ADD_TO_PLAYLIST,
-                          () => callBack.call(ItemAction.ADD_TO_PLAYLIST)),
+                      !isPlaylist
+                          ? itemAction(
+                              Assets.svg.addToPlayList,
+                              AppLocalizations.of(context)!.addToPlaylist,
+                              ItemAction.ADD_TO_PLAYLIST,
+                              () => callBack.call(ItemAction.ADD_TO_PLAYLIST))
+                          : const SizedBox(),
                       itemAction(
                           Assets.svg.removeFromPlaylist,
                           AppLocalizations.of(context)!.removeFromPlaylist,
@@ -274,8 +277,8 @@ class Utils {
                       itemAction(
                           Assets.svg.like,
                           AppLocalizations.of(context)!.removeFromFavorite,
-                          ItemAction.REMOVE_FROM_PLAYLIST,
-                          () => callBack.call(ItemAction.REMOVE_FROM_PLAYLIST)),
+                          ItemAction.REMOVE_FROM_FAVORITE,
+                          () => callBack.call(ItemAction.REMOVE_FROM_FAVORITE)),
                       itemAction(
                           Assets.svg.share,
                           AppLocalizations.of(context)!.share,
@@ -286,11 +289,13 @@ class Utils {
                           AppLocalizations.of(context)!.copy,
                           ItemAction.COPY,
                           () => callBack.call(ItemAction.COPY)),
-                      itemAction(
-                          Assets.svg.edit,
-                          AppLocalizations.of(context)!.edit,
-                          ItemAction.EDIT,
-                          () => callBack.call(ItemAction.EDIT)),
+                      !isPlaylist
+                          ? itemAction(
+                              Assets.svg.edit,
+                              AppLocalizations.of(context)!.edit,
+                              ItemAction.EDIT,
+                              () => callBack.call(ItemAction.EDIT))
+                          : const SizedBox(),
                       itemAction(
                           Assets.svg.delete,
                           AppLocalizations.of(context)!.delete,

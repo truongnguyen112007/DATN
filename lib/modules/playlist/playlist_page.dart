@@ -44,7 +44,7 @@ class _PlayListPageState extends State<PlayListPage>
         var maxScroll = scrollController.position.maxScrollExtent;
         var currentScroll = scrollController.position.pixels;
         if (maxScroll - currentScroll <= 200) {
-          _bloc.getPlaylist(isPaging: true);
+          _bloc.getPlayListById(isPaging: true);
         }
       });
     }
@@ -61,16 +61,14 @@ class _PlayListPageState extends State<PlayListPage>
                   return state.status == FeedStatus.initial ||
                           state.status == FeedStatus.refresh
                       ? const Center(child: AppCircleLoading())
-                      : (state.status == FeedStatus.failure
+                      : (state.status == FeedStatus.failure || state.lRoutes.isEmpty
                           ? Center(
-                              child: Stack(
-                              children: [
-                                ListView(
-                                    physics:
-                                        const AlwaysScrollableScrollPhysics()),
-                                const AppNotDataWidget()
-                              ],
-                            ))
+                              child: Stack(children: [
+                              ListView(
+                                  physics:
+                                      const AlwaysScrollableScrollPhysics()),
+                              const AppNotDataWidget()
+                            ]))
                           : playlistWidget(context, state));
                 }),
             onRefresh: () async => _bloc.onRefresh()),
@@ -156,7 +154,8 @@ class _PlayListPageState extends State<PlayListPage>
                   model: state.lRoutes[i],
                   callBack: (model) {},
                   index: i,
-                  onLongPress: (model) => _bloc.itemOnLongClick(context),
+                  onLongPress: (model) =>
+                      _bloc.itemOnLongClick(context, model, i),
                   detailCallBack: (RoutesModel action) =>
                       _bloc.itemOnclick(context, state.lRoutes[i]),
                 ),

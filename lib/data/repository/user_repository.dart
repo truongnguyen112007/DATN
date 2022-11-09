@@ -24,6 +24,23 @@ class UserRepository extends BaseService{
         ApiKey.device_model: globals.deviceModel,
       });
 
+  Future<ApiResult> createPlaylist(String name, int userId) async =>
+      await POST('playlist', {ApiKey.name: '', ApiKey.user_id: userId});
+
   Future<ApiResult> getPlaylists() async => await GET('playlist');
   Future<ApiResult> getPlaylistById(String id) async => await GET('playlist/$id');
+
+  Future<ApiResult> removeFromPlaylist(
+          String playlistId, String routeId) async =>
+      await DELETE('playlistdetail/$playlistId/$routeId');
+
+  Future<ApiResult> deleteRoute(String routeId) async =>
+      await DELETE('route/$routeId');
+
+  Future<ApiResult> addToFavorite(int userId, String routeId) async =>
+      await POST('favourite/$userId', {ApiKey.route_id: routeId});
+
+  Future<ApiResult> removeFromFavorite(int userId, String routeId) async =>
+      await PUT('favourite/$userId', {ApiKey.route_id: routeId});
+
 }
