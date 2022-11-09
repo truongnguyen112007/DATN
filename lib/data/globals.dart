@@ -7,6 +7,7 @@ String refreshToken = '';
 String lang = '';
 String avatar = '';
 String deviceId = '';
+int userId = 0;
 String deviceName = '';
 String deviceModel = '';
 String accountId = '';

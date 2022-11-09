@@ -21,6 +21,7 @@ enum ItemAction {
   ADD_TO_PLAYLIST,
   REMOVE_FROM_PLAYLIST,
   ADD_TO_FAVOURITE,
+  REMOVE_FROM_FAVOUTITE,
   SHARE,
   COPY,
   EDIT,
@@ -41,28 +42,6 @@ class PlayListCubit extends Cubit<PlaylistState> {
     emit(PlaylistState(status: FeedStatus.refresh));
     // getPlaylist();
     getPlaylists();
-  }
-
-  getPlaylist({bool isPaging = false}) {
-    if (state.isReadEnd) return;
-    if (isPaging) {
-      if (state.isLoading) return;
-      emit(state.copyWith(isLoading: true));
-      Timer(
-          const Duration(milliseconds: 200),
-          () => emit(state.copyWith(
-              isReadEnd: false,
-              status: FeedStatus.success,
-              lRoutes: state.lRoutes..addAll(fakeData()),
-              isLoading: false)));
-    } else {
-      Timer(
-          const Duration(milliseconds: 200),
-          () => emit(state.copyWith(
-              status: FeedStatus.success,
-              lRoutes: fakeData(),
-              isLoading: false)));
-    }
   }
 
   void itemOnLongClick(BuildContext context) =>

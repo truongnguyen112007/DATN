@@ -48,7 +48,7 @@ class _FavouritePageState extends State<FavouritePage>
         var maxScroll = scrollController.position.maxScrollExtent;
         var currentScroll = scrollController.position.pixels;
         if (maxScroll - currentScroll <= 200) {
-          _bloc.getFavourite(isPaging: true);
+          _bloc.getFavourite();
         }
       });
     }
@@ -59,91 +59,95 @@ class _FavouritePageState extends State<FavouritePage>
     return AppScaffold(
       backgroundColor: colorGreyBackground,
       body: Container(
-        child: Column(
+        child: Stack(
           children: [
-               FilterWidget(
-                isSelect: true,
-                selectCallBack: () {
-                  _bloc.selectOnclick(false);
-                },
-                filterCallBack: () => _bloc.filterOnclick(context),
-                sortCallBack: () {},
-                unsSelectCallBack: () {
-                  _bloc.selectOnclick(true);
-                },
-              ),
-            Expanded(
-              child: RefreshIndicator(
-                child: Stack(
-                  children: [
-                    SingleChildScrollView(
-                      controller: scrollController,
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      child: Column(
-                        children: [
-                          BlocBuilder<FavouriteCubit, FavouriteState>(
-                              bloc: _bloc,
-                              builder: (c, state) {
-                                if (state.status == FeedStatus.initial ||
-                                    state.status == FeedStatus.refresh) {
-                                  return const SizedBox();
-                                }
-                                return playlistWidget(context, state);
-                              }),
-                        ],
-                      ),
-                    ),
-                    BlocBuilder<FavouriteCubit, FavouriteState>(
-                      bloc: _bloc,
-                      builder: (BuildContext context, state) =>
-                          (state.status == FeedStatus.initial ||
-                                  state.status == FeedStatus.refresh)
-                              ? const Center(
-                                  child: AppCircleLoading(),
-                                )
-                              : const SizedBox(),
-                    ),
-                    BlocBuilder<FavouriteCubit, FavouriteState>(
-                      bloc: _bloc,
-                      builder: (c, state) => Positioned.fill(
-                        left: 10.w,
-                        bottom: 10.h,
-                        right: 5.w,
-                        child: state.isShowActionButton
-                            ? Align(
-                                alignment: Alignment.bottomRight,
-                                child: GradientButton(
-                                  height: 36.h,
-                                  isCenter: true,
-                                  width: 170.w,
-                                  decoration: BoxDecoration(
-                                    gradient:
-                                        Utils.backgroundGradientOrangeButton(),
-                                    borderRadius: BorderRadius.circular(18),
-                                  ),
-                                  onTap: () {
-                                    var lSelectRadioButton = <RoutesModel>[];
-                                    for( var element in state.lPlayList) {
-                                      if (element.isSelect == true) lSelectRadioButton.add(element);
+            Column(
+              children: [
+                   FilterWidget(
+                    isSelect: true,
+                    selectCallBack: () {
+                      _bloc.selectOnclick(false);
+                    },
+                    filterCallBack: () => _bloc.filterOnclick(context),
+                    sortCallBack: () {},
+                    unsSelectCallBack: () {
+                      _bloc.selectOnclick(true);
+                    },
+                  ),
+                Expanded(
+                  child: RefreshIndicator(
+                    child: Stack(
+                      children: [
+                        SingleChildScrollView(
+                          controller: scrollController,
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          child: Column(
+                            children: [
+                              BlocBuilder<FavouriteCubit, FavouriteState>(
+                                  bloc: _bloc,
+                                  builder: (c, state) {
+                                    if (state.status == FeedStatus.initial ||
+                                        state.status == FeedStatus.refresh) {
+                                      return const SizedBox();
                                     }
-                                    return showActionDialog(
-                                        lSelectRadioButton, (p0) {});
-                                  },
-                                  widget: AppText(
-                                    LocaleKeys.action,
-                                    style: googleFont.copyWith(
-                                        color: colorWhite, fontSize: 15.sp),
-                                  ),
-                                  borderRadius: BorderRadius.circular(18),
-                                ),
-                              )
-                            : const SizedBox(),
-                      ),
+                                    return playlistWidget(context, state);
+                                  }),
+                            ],
+                          ),
+                        ),
+                        BlocBuilder<FavouriteCubit, FavouriteState>(
+                          bloc: _bloc,
+                          builder: (BuildContext context, state) =>
+                              (state.status == FeedStatus.initial ||
+                                      state.status == FeedStatus.refresh)
+                                  ? const Center(
+                                      child: AppCircleLoading(),
+                                    )
+                                  : const SizedBox(),
+                        ),
+                      ],
                     ),
-                    addWidget(context)
-                  ],
+                    onRefresh: () async => _bloc.refresh(),
+                  ),
                 ),
-                onRefresh: () async => _bloc.refresh(),
+              ],
+            ),
+            addWidget(context),
+            BlocBuilder<FavouriteCubit, FavouriteState>(
+              bloc: _bloc,
+              builder: (c, state) => Positioned.fill(
+                left: 10.w,
+                bottom: 10.h,
+                right: 5.w,
+                child: state.isShowActionButton
+                    ? Align(
+                  alignment: Alignment.bottomRight,
+                  child: GradientButton(
+                    height: 36.h,
+                    isCenter: true,
+                    width: 170.w,
+                    decoration: BoxDecoration(
+                      gradient:
+                      Utils.backgroundGradientOrangeButton(),
+                      borderRadius: BorderRadius.circular(18),
+                    ),
+                    onTap: () {
+                      var lSelectRadioButton = <RoutesModel>[];
+                      for( var element in state.lPlayList) {
+                        if (element.isSelect == true) lSelectRadioButton.add(element);
+                      }
+                      return showActionDialog(
+                          lSelectRadioButton, (p0) {});
+                    },
+                    widget: AppText(
+                      LocaleKeys.action,
+                      style: googleFont.copyWith(
+                          color: colorWhite, fontSize: 15.sp),
+                    ),
+                    borderRadius: BorderRadius.circular(18),
+                  ),
+                )
+                    : const SizedBox(),
               ),
             ),
           ],
@@ -159,7 +163,7 @@ class _FavouritePageState extends State<FavouritePage>
           visible: state.isShowAdd,
           child: Positioned.fill(
             child: Padding(
-              padding: const EdgeInsets.all(5),
+              padding: const EdgeInsets.all(10),
               child: Align(
                 alignment: Alignment.bottomRight,
                 child: SpeedDial(

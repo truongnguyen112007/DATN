@@ -44,7 +44,7 @@ class _PlayListPageState extends State<PlayListPage>
         var maxScroll = scrollController.position.maxScrollExtent;
         var currentScroll = scrollController.position.pixels;
         if (maxScroll - currentScroll <= 200) {
-          _bloc.getPlaylist(isPaging: true);
+          _bloc.getPlaylists();
         }
       });
     }

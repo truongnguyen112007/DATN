@@ -32,6 +32,7 @@ class ApiKey {
   static const device_id = 'device_id';
   static const device_name = 'device_name';
   static const device_model = 'device_model';
+  static const route_id = 'route_id';
 
 }
 class BottomNavigationConstant{
