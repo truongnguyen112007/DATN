@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:base_bloc/modules/zoom_routes/zoom_routes_state.dart';
+import 'package:base_bloc/utils/log_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -42,8 +43,9 @@ class ZoomRoutesCubit extends Cubit<ZoomRoutesState> {
         timeStamp: DateTime.now().microsecondsSinceEpoch));
   }
 
-  void itemOnClick(int index, BuildContext context) =>
-      emit(state.copyOf(currentIndex: index));
+  void itemOnClick(int index, BuildContext context) {
+    emit(state.copyOf(currentIndex: index));
+  }
 
   void turnLeftOnClick(BuildContext context) {
     var rotate = state.lRoutes[state.currentIndex!].rotate - 1;
@@ -67,10 +69,12 @@ class ZoomRoutesCubit extends Cubit<ZoomRoutesState> {
           {required int row,
           required int column,
           required double sizeHoldSet,
-          required List<HoldSetModel>? lRoutes}) =>
+          required List<HoldSetModel>? lRoutes,
+          required int currentIndex}) =>
       Timer(
           const Duration(seconds: 1),
           () => emit(state.copyOf(
+              currentIndex: currentIndex,
               status: StatusType.success,
               column: column,
               row: row,
