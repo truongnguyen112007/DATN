@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:logger/logger.dart';
 
 import '../../base/hex_color.dart';
 import '../../components/app_button.dart';
@@ -36,9 +37,11 @@ class ZoomRoutesPage extends StatefulWidget {
   final int column;
   final double sizeHoldSet;
   final List<HoldSetModel> lRoutes;
+  final int currentIndex;
 
   const ZoomRoutesPage(
       {Key? key,
+      required this.currentIndex,
       required this.row,
       required this.lRoutes,
       required this.column,
@@ -60,27 +63,20 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
   final sizeHoldSet = 8.6.h;
   final row = 47;
   final column = 12;
-  final List<String> lHoldSet = [
-    Assets.svg.holdset1,
-    Assets.svg.holdset2,
-    Assets.svg.holdset3,
-    Assets.svg.holdset4,
-    Assets.svg.holdset5,
-    Assets.svg.holdset6,
-  ];
+  Offset? offset;
   StreamSubscription<HoldSetEvent>? _holdSetStream;
   late ScrollController _lBoxController;
-  GlobalKey key = GlobalKey();
 
   @override
   void initState() {
+    _bloc = ZoomRoutesCubit();
     _zoomController.onZoomUpdate(() {
       _zoomMeasureController.setOffset = Offset(-7, _zoomController.offset.dy);
       _zoomMeasureNameController.setOffset =
           Offset(_zoomController.offset.dx, -9);
     });
-    _bloc = ZoomRoutesCubit();
     _bloc.setData(
+        currentIndex: widget.currentIndex,
         row: row,
         column: column,
         sizeHoldSet: sizeHoldSet,
@@ -89,7 +85,51 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
         .on<HoldSetEvent>()
         .listen((event) => _bloc.setHoldSet(event.holdSet));
     _lBoxController = ScrollController();
+    checkOffset();
     super.initState();
+  }
+
+  void checkOffset() {
+    var dx = 0.0;
+    var dy = 0.0;
+    if (widget.currentIndex % 12 == 0 ||
+        widget.currentIndex == 1 ||
+        widget.currentIndex == 2 ||
+        widget.currentIndex == 3 ||
+        widget.currentIndex == 4 ||
+        widget.currentIndex == 5 ||
+        widget.currentIndex % 12 == 1 ||
+        widget.currentIndex % 12 == 2 ||
+        widget.currentIndex % 12 == 3 ||
+        widget.currentIndex % 12 == 4 ||
+        widget.currentIndex % 12 == 5) {
+      dx = 21;
+    } else if (widget.currentIndex == 12 ||
+        widget.currentIndex == 11 ||
+        widget.currentIndex == 10 ||
+        widget.currentIndex % 12 == 11 ||
+        widget.currentIndex % 12 == 10 ||
+        widget.currentIndex % 12 == 9 ||
+        widget.currentIndex % 12 == 8 ||
+        widget.currentIndex % 12 == 7) {
+      dx = -21;
+    }
+    if (widget.currentIndex <= 84) {
+      dy = 166;
+    } else if (widget.currentIndex > 84 && widget.currentIndex <= 156) {
+      dy = 89;
+    } else if (widget.currentIndex > 156 && widget.currentIndex < 252) {
+      dy = 36;
+    } else if (widget.currentIndex > 252 && widget.currentIndex < 324) {
+      dy = 11;
+    } else if (widget.currentIndex > 324 && widget.currentIndex < 396) {
+      dy = -54;
+    } else if (widget.currentIndex > 396 && widget.currentIndex < 468) {
+      dy = -127;
+    } else {
+      dy = -166;
+    }
+    offset = Offset(dx, dy);
   }
 
   @override
@@ -97,8 +137,6 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
     _holdSetStream?.cancel();
     super.dispose();
   }
-
-  int test = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -123,7 +161,7 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
                                   _zoomMeasureNameController,
                                   MeasureNameBoxWidget(
                                       lBox: lBox, sizeHoldSet: sizeHoldSet),
-                                  offset: const Offset(0.2, -9)),
+                                  offset: Offset(offset!.dx, -8)),
                               Container(
                                   color: Colors.transparent,
                                   height: 20.h,
@@ -140,19 +178,22 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
                               width: 25.w,
                               alignment: Alignment.center,
                               color: colorBlack,
-                              child: Stack(children: [zoomWidget(
-                                  offset: const Offset(-7, 0.0),
-                                  isScaleByDx: false,
-                                  context,
-                                  _zoomMeasureController,
-                                  Container(
-                                      alignment: Alignment.center,
-                                      height:
-                                      MediaQuery.of(context).size.height,
-                                      width: 25.w,
-                                      child: MeasureWidget(
-                                          scale: 1,
-                                          sizeHoldSet: sizeHoldSet,
+                              child: Stack(
+                                children: [
+                                  zoomWidget(
+                                      offset: Offset(-7, offset!.dy),
+                                      isScaleByDx: false,
+                                      context,
+                                      _zoomMeasureController,
+                                      Container(
+                                          alignment: Alignment.center,
+                                          height: MediaQuery.of(context)
+                                              .size
+                                              .height,
+                                          width: 25.w,
+                                          child: MeasureWidget(
+                                              scale: 1,
+                                              sizeHoldSet: sizeHoldSet,
                                               row: row))),
                                   Container(
                                       height:
@@ -163,6 +204,7 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
                               )),
                           Expanded(
                               child: zoomWidget(
+                                  offset: offset,
                                   context,
                                   _zoomController,
                                   isLimitOffset: true,

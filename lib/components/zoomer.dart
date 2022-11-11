@@ -134,8 +134,7 @@ class _ZoomerState extends State<Zoomer> {
 
   @override
   void initState() {
-    super.initState();
-    _offset = widget.offset ?? const Offset(0.0, 0.0);
+    _offset = widget.offset! ;/*?? const Offset(0.0, 0.0);*/
     double l = (1 + _scale);
     l = l < 0 ? (-_scale - 1) / 4 : l;
     _limitOffset = Offset(widget.width, widget.height) * l;
@@ -154,6 +153,7 @@ class _ZoomerState extends State<Zoomer> {
         setOffset = value;
       };
     }
+    super.initState();
   }
 
   void _scaleStart(ScaleStartDetails details) {
@@ -239,13 +239,12 @@ class _ZoomerState extends State<Zoomer> {
           height: widget.height,
           width: widget.width,
           child: Transform(
-            transform: Matrix4.identity()
-              ..scale(-_scale, -_scale)
-              ..translate(_offset.dx, _offset.dy)
-              ..rotateZ(_angle),
-            alignment: FractionalOffset.center,
-            child: widget.child,
-          ),
+              transform: Matrix4.identity()
+                ..scale(-_scale, -_scale)
+                ..translate(_offset.dx, _offset.dy)
+                ..rotateZ(_angle),
+              alignment: FractionalOffset.center,
+              child: widget.child),
         ),
       ),
     );
