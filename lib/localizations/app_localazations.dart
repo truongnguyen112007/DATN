@@ -344,6 +344,7 @@ abstract class AppLocalizations {
   String get address;
   String get schedule;
   String get photos;
+  String get corner;
 }
 
 class _AppLocalizationsDelegate

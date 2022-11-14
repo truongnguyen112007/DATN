@@ -158,11 +158,11 @@ Widget itemTopRoute(RoutesModel model) {
     width: 60.w,
     decoration: BoxDecoration(
         gradient:   LinearGradient(
-    colors: Utils.getBackgroundColor(model.authorRate.toString())),
+    colors: Utils.getBackgroundColor(model.authorGrade.toString())),
         borderRadius: BorderRadius.circular(100)),
     child: Center(
       child: AppText(
-        model.ratePointTotal.toString(),
+        model.authorGrade.toString(),
         style: const TextStyle(
             color: Colors.white70, fontWeight: FontWeight.w500, fontSize: 20),
       ),

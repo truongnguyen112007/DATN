@@ -76,23 +76,41 @@ class ItemInfoRoutes extends StatelessWidget {
                             borderRadius: BorderRadius.circular(15),
                             gradient: LinearGradient(
                                 colors: Utils.getBackgroundColor(
-                                    model.authorRate.toString()))),
+                                    model.authorGrade.toString()))),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            model.modified == null
-                                ? AppText(model.authorRate.toString(),
-                                    style: googleFont.copyWith(
+                            model.hasConner == false
+                                ? AppText(model.authorGrade.toString(),
+                                style: googleFont.copyWith(
                                         fontWeight: FontWeight.w700,
                                         color: colorText0,
                                         fontSize: 31.sp))
-                                : AppText(
-                                    "${model.authorRate}",
-                                    style: googleFont.copyWith(
-                                        fontWeight: FontWeight.w700,
-                                        color: colorText0,
-                                        fontSize: 31.sp),
-                                    textAlign: TextAlign.center,
+                                : Stack(
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(bottom: 5.h),
+                                        child: AppText(
+                                          "${model.authorGrade}C",
+                                          style: googleFont.copyWith(
+                                              fontWeight: FontWeight.w700,
+                                              color: colorText0,
+                                              fontSize: 31.sp),
+                                          textAlign: TextAlign.end,
+                                        ),
+                                      ),
+                                      Positioned.fill(
+                                          child: Container(
+                                        alignment: Alignment.bottomCenter,
+                                        child: AppText(
+                                          LocaleKeys.corner,
+                                          textAlign: TextAlign.center,
+                                          style: typoW400.copyWith(
+                                              color:
+                                                  colorWhite.withOpacity(0.87)),
+                                        ),
+                                      ))
+                                    ],
                                   ),
                             SizedBox(width: contentPadding * 3),
                             Expanded(

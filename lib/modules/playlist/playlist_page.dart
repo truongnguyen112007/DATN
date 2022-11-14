@@ -39,15 +39,13 @@ class _PlayListPageState extends State<PlayListPage>
   }
 
   void paging() {
-    if (scrollController.hasClients) {
-      scrollController.addListener(() {
-        var maxScroll = scrollController.position.maxScrollExtent;
-        var currentScroll = scrollController.position.pixels;
-        if (maxScroll - currentScroll <= 200) {
-          _bloc.getPlayListById(isPaging: true);
-        }
-      });
-    }
+    scrollController.addListener(() {
+      var maxScroll = scrollController.position.maxScrollExtent;
+      var currentScroll = scrollController.position.pixels;
+      if (maxScroll - currentScroll <= 200) {
+        _bloc.getPlayListById(isPaging: true);
+      }
+    });
   }
 
   @override
@@ -61,7 +59,8 @@ class _PlayListPageState extends State<PlayListPage>
                   return state.status == FeedStatus.initial ||
                           state.status == FeedStatus.refresh
                       ? const Center(child: AppCircleLoading())
-                      : (state.status == FeedStatus.failure || state.lRoutes.isEmpty
+                      : (state.status == FeedStatus.failure ||
+                              state.lRoutes.isEmpty
                           ? Center(
                               child: Stack(children: [
                               ListView(

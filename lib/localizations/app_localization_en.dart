@@ -516,4 +516,7 @@ class AppLocalizationEn extends AppLocalizations {
 
   @override
   String get schedule => "Schedule";
+
+  @override
+  String get corner => 'corner';
 }
