@@ -507,4 +507,7 @@ class AppLocalizationEn extends AppLocalizations {
 
   @override
   String get not_data => 'Not data, please try again.';
+
+  @override
+  String get corner => 'corner';
 }

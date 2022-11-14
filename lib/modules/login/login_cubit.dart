@@ -29,13 +29,14 @@ class LoginCubit extends Cubit<LoginState> {
     if (isValidPass && isValidEmail) {
       Dialogs.showLoadingDialog(context);
       var response = await userRepository.login(email, password);
-      await Dialogs.hideLoadingDialog();
       if (response.error != null) {
+        await Dialogs.hideLoadingDialog();
         toast(response.error.toString());
       } else {
         var userModel = UserModel.fromJson(response.data);
         StorageUtils.login(UserModel.fromJson(response.data));
         await checkPlaylistId(userModel);
+        await Dialogs.hideLoadingDialog();
         toast(LocaleKeys.login_success);
         RouterUtils.openNewPage(const HomePage(), context, isReplace: true);
       }

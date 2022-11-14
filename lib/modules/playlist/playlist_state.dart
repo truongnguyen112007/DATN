@@ -10,6 +10,7 @@ class PlaylistState extends Equatable {
   final bool isReadEnd;
   final bool isLoading;
   final int? timeStamp;
+  final int nextPage;
 
   PlaylistState(
       {this.status = FeedStatus.initial,
@@ -17,6 +18,7 @@ class PlaylistState extends Equatable {
       this.lPlayList = const <PlaylistModel>[],
       this.isReadEnd = false,
       this.isLoading = true,
+      this.nextPage = 0,
       this.timeStamp});
 
   PlaylistState copyWith(
@@ -25,8 +27,10 @@ class PlaylistState extends Equatable {
           List<PlaylistModel>? lPlaylist,
           bool? isReadEnd,
           int? timeStamp,
+          int? nextPage,
           bool? isLoading}) =>
       PlaylistState(
+          nextPage: nextPage ?? this.nextPage,
           timeStamp: timeStamp ?? this.timeStamp,
           isLoading: isLoading ?? this.isLoading,
           status: status ?? this.status,

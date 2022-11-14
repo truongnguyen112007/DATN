@@ -271,16 +271,19 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
                 child: itemInfoWidget(
                     context,
                     AppLocalizations.of(context)!.author,
-                    widget.model.name ?? '',
-                    widget.model.authorRate.toString(),
+                    widget.model.authorGrade.toString(),
+                    (widget.model.hasConner ?? false) ? LocaleKeys.corner : '',
                     padding: EdgeInsets.only(left: contentPadding, bottom: 3))),
             Expanded(
                 child: itemInfoWidget(
-                    context, AppLocalizations.of(context)!.user, 'test', '',
+                    context,
+                    AppLocalizations.of(context)!.user,
+                    widget.model.userGrade.toString(),
+                    '',
                     padding: const EdgeInsets.only(bottom: 3))),
             Expanded(
                 child: itemInfoWidget(context,
-                    AppLocalizations.of(context)!.popularity, '100k', '',
+                    AppLocalizations.of(context)!.popularity, '${widget.model.popurlarity}k', '',
                     padding: EdgeInsets.only(right: contentPadding, bottom: 3)))
           ],
         ),
@@ -294,7 +297,7 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            AppText(title,
+            AppText(title.toUpperCase(),
                 style: typoW600.copyWith(
                     fontSize: 9.sp, color: colorText0.withOpacity(0.87)),
                 maxLine: 1,
