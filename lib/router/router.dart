@@ -25,6 +25,7 @@ class HomeRouters {
   static String search = '/search_home';
   static String reservation = '/reservation';
   static String notifications = '/notifications';
+  static String placeDetail = '/placeDetail';
 
   static configureMainRoutes(FluroRouter router) {
     router.notFoundHandler = Handler(handlerFunc: (c, p) {
@@ -35,6 +36,7 @@ class HomeRouters {
     router.define(reservation, handler: routeReservationDetail);
     router.define(notifications, handler: routeNotifications);
     router.define(login, handler: routeLogin);
+    router.define(placeDetail, handler: routePlaceDetail);
   }
 }
 
@@ -42,9 +44,11 @@ class RoutesRouters {
   static String root = '/';
   static String search = '/search';
   static String login = '/login';
+  static String placeDetail = '/placeDetail';
   static String notifications = '/notifications';
   static String routesDetail = '/routesDetail';
-  static String createRoutes ='/createRoutes';
+  static String createRoutes = '/createRoutes';
+
   static configureRouter(FluroRouter router) {
     router.notFoundHandler = Handler(handlerFunc: (c, x) {
       logE("ROUTE WAS NOT FOUND !!!");
@@ -55,6 +59,7 @@ class RoutesRouters {
     router.define(search, handler: routeSearchHome);
     router.define(login, handler: routeLogin);
     router.define(notifications, handler: routeNotifications);
+    router.define(placeDetail, handler: routePlaceDetail);
   }
 }
 
@@ -63,6 +68,7 @@ class ClimbRouters {
   static String login = '/login';
   static String search = '/search';
   static String notifications = '/notifications';
+  static String placeDetail = '/placeDetail';
 
   static configureRouter(FluroRouter router) {
     router.notFoundHandler = Handler(handlerFunc: (c, x) {
@@ -72,6 +78,7 @@ class ClimbRouters {
     router.define(login, handler: routeLogin);
     router.define(search, handler: routeSearchHome);
     router.define(notifications, handler: routeNotifications);
+    router.define(placeDetail, handler: routePlaceDetail);
   }
 }
 
@@ -80,20 +87,24 @@ class ReservationRouters {
   static String login = '/login';
   static String search = '/search';
   static String notifications = '/notifications';
+  static String placeDetail = '/placeDetail';
   static String routesReservationDetail = '/reservationDetail';
   static String routesCreateReservationPage = '/createReservationPage';
   static String routesFilterAddress = '/routesFilterCity';
   static String routesFindPlace = '/routeFindPlace';
-  static String routesConfirmCreateReservation = '/routesConfirmCreateReservation';
+  static String routesConfirmCreateReservation =
+      '/routesConfirmCreateReservation';
   static String routesCreateReservationSuccess =
       'routesCreateReservationSuccess';
+
   static configureRouter(FluroRouter router) {
     router.notFoundHandler = Handler(handlerFunc: (c, x) {
       logE("ROUTE WAS NOT FOUND !!!");
     });
     router.define(root, handler: routeTabReservation);
     router.define(routesReservationDetail, handler: routeReservationDetail);
-    router.define(routesCreateReservationPage, handler: routeCreateReservationPage);
+    router.define(routesCreateReservationPage,
+        handler: routeCreateReservationPage);
     router.define(routesFilterAddress, handler: routeFilterAddress);
     router.define(routesFindPlace, handler: routeFindPlace);
     router.define(routesConfirmCreateReservation,
@@ -103,6 +114,7 @@ class ReservationRouters {
     router.define(login, handler: routeLogin);
     router.define(search, handler: routeSearchHome);
     router.define(notifications, handler: routeNotifications);
+    router.define(placeDetail, handler: routePlaceDetail);
   }
 }
 
@@ -111,6 +123,7 @@ class ProfileRouters {
   static String login = '/login';
   static String search = '/search';
   static String notifications = '/notifications';
+  static String placeDetail = '/placeDetail';
 
   static configureProfileRouter(FluroRouter router) {
     router.notFoundHandler = Handler(handlerFunc: (c, x) {
@@ -120,5 +133,6 @@ class ProfileRouters {
     router.define(login, handler: routeLogin);
     router.define(search, handler: routeSearchHome);
     router.define(notifications, handler: routeNotifications);
+    router.define(placeDetail, handler: routePlaceDetail);
   }
 }

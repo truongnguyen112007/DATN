@@ -25,10 +25,11 @@ import '../../utils/app_utils.dart';
 
 class PlacesPage extends StatefulWidget {
   final int index;
+  final int root;
   final Function(bool isShow) onCallBackShowMap;
 
   const PlacesPage(
-      {Key? key, required this.index, required this.onCallBackShowMap})
+      {Key? key, required this.index, required this.onCallBackShowMap, required this.root})
       : super(key: key);
 
   @override
@@ -64,7 +65,7 @@ class _PlacesPageState extends State<PlacesPage>
 
   @override
   void initState() {
-    _bloc = PlacesPageCubit();
+    _bloc = PlacesPageCubit(widget.root);
     _searchStream = Utils.eventBus.on<SearchHomeEvent>().listen((event) {
       if (event.index == widget.index) {}
     });
@@ -194,7 +195,7 @@ class _PlacesPageState extends State<PlacesPage>
         padding: EdgeInsets.only(
             top: 10, left: contentPadding, right: contentPadding),
         itemBuilder: (BuildContext context, int index) => itemPlaces(context,
-            lPlayList[index], () => _bloc.placeOnClick(lPlayList[index])),
+            lPlayList[index], () => _bloc.placeOnClick(lPlayList[index],context)),
         separatorBuilder: (BuildContext context, int index) =>
             const SizedBox(height: 10),
         itemCount: lPlayList.length,
@@ -344,7 +345,7 @@ class _PlacesPageState extends State<PlacesPage>
                                   const SizedBox(width: 10),
                                   AppText(
                                     selectedValue ?? '',
-                                    style: TextStyle(color: Colors.white),
+                                    style: const TextStyle(color: Colors.white),
                                   ),
                                   const Spacer(),
                                   const Icon(Icons.arrow_drop_down_rounded,

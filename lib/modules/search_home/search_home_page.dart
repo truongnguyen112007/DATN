@@ -107,8 +107,9 @@ class _SearchHomePageState extends BasePopState<SearchHomePage>
                   physics: const NeverScrollableScrollPhysics(),
                   controller: pageController,
                   children: [
-                    AllPage(),
+                    const AllPage(),
                     PlacesPage(
+                      root: widget.index,
                       index: 1,
                       onCallBackShowMap: (i) {},
                     ),

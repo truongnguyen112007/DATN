@@ -509,5 +509,14 @@ class AppLocalizationEn extends AppLocalizations {
   String get not_data => 'Not data, please try again.';
 
   @override
+  String get address => 'Address';
+
+  @override
+  String get photos => "Photos";
+
+  @override
+  String get schedule => "Schedule";
+
+  @override
   String get corner => 'corner';
 }

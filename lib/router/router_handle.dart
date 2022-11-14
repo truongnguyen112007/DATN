@@ -11,6 +11,7 @@ import 'package:base_bloc/modules/filter_address/filter_address_page.dart';
 import 'package:base_bloc/modules/find_place/find_place_page.dart';
 import 'package:base_bloc/modules/home/home_page.dart';
 import 'package:base_bloc/modules/notifications_page/notifications_page.dart';
+import 'package:base_bloc/modules/place_address/place_address.dart';
 import 'package:base_bloc/modules/reservation_detail/reservation_detail_page.dart';
 import 'package:base_bloc/modules/splash/splash_page.dart';
 import 'package:base_bloc/modules/tab_climb/tab_climb.dart';
@@ -33,9 +34,15 @@ var routeRoutesDetail = Handler(
 var routeSplash = Handler(handlerFunc: (c, p) => const SplashPage());
 var routeHome = Handler(handlerFunc: (c, p) => const HomePage());
 var routeTabHome = Handler(handlerFunc: (c, p) => const TabHome());
-var routeSearchHome = Handler(handlerFunc: (c,p) => SearchHomePage(index: c!.settings!.arguments as int));
-var routeNotifications = Handler(handlerFunc: (c, p) => const NotificationsPage());
-var routeLogin = Handler(handlerFunc: (c,p)=>  Login(index: c!.settings!.arguments as int,));
+var routeSearchHome = Handler(
+    handlerFunc: (c, p) =>
+        SearchHomePage(index: c!.settings!.arguments as int));
+var routeNotifications =
+    Handler(handlerFunc: (c, p) => const NotificationsPage());
+var routeLogin = Handler(
+    handlerFunc: (c, p) => Login(
+          index: c!.settings!.arguments as int,
+        ));
 var routeTabClimb = Handler(handlerFunc: (c, p) => const TabClimb());
 var routeTabProfile = Handler(handlerFunc: (c, p) => const TabProfile());
 var routeTabReservation =
@@ -44,7 +51,7 @@ var routeTabRoutes = Handler(handlerFunc: (c, p) => const TabRoutes());
 var routeReservationDetail = Handler(
     handlerFunc: (c, p) => ReservationDetailPage(
           index: (c!.settings!.arguments as List)[0] as int,
-          model: (c.settings!.arguments as List)[1]as ReservationModel,
+          model: (c.settings!.arguments as List)[1] as ReservationModel,
         ));
 var routeCreateReservationPage =
     Handler(handlerFunc: (c, p) => const CreateReservationPage());
@@ -61,3 +68,8 @@ var routeCreateReservationSuccess =
     Handler(handlerFunc: (c, p) => const CreateReservationSuccessPage());
 var routeCreateRoutes =
     Handler(handlerFunc: (c, p) => const CreateRoutesPage());
+var routePlaceDetail = Handler(
+    handlerFunc: (c, p) => PlaceAddress(
+          index: (c!.settings!.arguments as List)[0] as int,
+          model: (c.settings!.arguments as List)[1] as PlacesModel,
+        ));
