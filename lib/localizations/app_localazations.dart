@@ -340,6 +340,10 @@ abstract class AppLocalizations {
 
   String get action;
   String get not_data;
+
+  String get address;
+  String get schedule;
+  String get photos;
 }
 
 class _AppLocalizationsDelegate
