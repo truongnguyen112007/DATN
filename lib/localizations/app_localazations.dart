@@ -340,6 +340,7 @@ abstract class AppLocalizations {
 
   String get action;
   String get not_data;
+  String get corner;
 }
 
 class _AppLocalizationsDelegate

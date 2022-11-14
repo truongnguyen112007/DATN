@@ -103,11 +103,16 @@ class PlayListCubit extends Cubit<PlaylistState> {
 
   void moveItemToTop(BuildContext context, RoutesModel model, int index) async {
     Dialogs.showLoadingDialog(context);
-    await Future.delayed(const Duration(seconds: 1));
+    var response =
+        await userRepository.moveToTop(globals.playlistId, model.id ?? '');
     await Dialogs.hideLoadingDialog();
-    state.lRoutes.removeAt(index);
-    state.lRoutes.insert(0, model);
-    emit(state.copyWith(timeStamp: DateTime.now().microsecondsSinceEpoch));
+    if (response.error == null) {
+      state.lRoutes.removeAt(index);
+      state.lRoutes.insert(0, model);
+      emit(state.copyWith(timeStamp: DateTime.now().microsecondsSinceEpoch));
+    } else {
+      toast(response.data.toString());
+    }
   }
 
   void shareRoutes(BuildContext context, RoutesModel model, int index) async {
@@ -149,14 +154,31 @@ class PlayListCubit extends Cubit<PlaylistState> {
   }
 
   void getPlayListById({bool isPaging = false}) async {
-    var response = await userRepository.getPlaylistById(globals.playlistId);
-    if (response.data != null && response.error == null) {
-      var lResponse = routeModelFromJson(response.data['routes']);
+    if (state.isLoading && state.lRoutes.isNotEmpty || state.isReadEnd) return;
+    emit(state.copyWith(isLoading: true));
+    var response = await userRepository.getPlaylistById(globals.playlistId,
+        nextPage: state.nextPage);
+    try {
+      if (response.data != null && response.error == null) {
+        var lResponse = routeModelFromJson(response.data['routes']);
+        emit(state.copyWith(
+            status: FeedStatus.success,
+            isReadEnd: lResponse.isEmpty,
+            nextPage: state.nextPage + 1,
+            isLoading: false,
+            lRoutes:
+                isPaging ? (state.lRoutes..addAll(lResponse)) : lResponse));
+      } else {
+        emit(state.copyWith(isReadEnd: true, isLoading: false));
+        toast(response.error.toString());
+      }
+    } catch (ex) {
       emit(state.copyWith(
-          status: FeedStatus.success, isLoading: false, lRoutes: lResponse));
-    } else {
-      emit(state.copyWith(status: FeedStatus.failure));
-      toast(response.error.toString());
+          status: state.lRoutes.isNotEmpty
+              ? FeedStatus.success
+              : FeedStatus.failure,
+          isReadEnd: true,
+          isLoading: false));
     }
   }
 }

@@ -1,8 +1,9 @@
 // To parse this JSON data, do
 //
-//     final routeModel = routeModelFromJson(jsonString);
+//     final RoutesModel = RoutesModelFromJson(jsonString);
 
 import 'dart:convert';
+
 
 List<RoutesModel> routeModelFromJson(List<dynamic> str) =>
     List<RoutesModel>.from(str.map((x) => RoutesModel.fromJson(x)));
@@ -12,60 +13,72 @@ String routeModelToJson(List<RoutesModel> data) =>
 
 class RoutesModel {
   RoutesModel({
-    this.authorRate,
-    this.created,
-    this.userId,
-    this.name,
     this.modified,
+    this.userGrade,
+    this.hasConner,
+    this.name,
+    this.popurlarity,
+    this.userId,
+    this.published,
+    this.userGradeCount,
     this.visibility,
     this.height,
-    this.holds,
     this.id,
-    this.userRateCount,
-    this.ratePointTotal,
-    this.isSelect =false
+    this.authorGrade,
+    this.created,
+    this.holds,
+    this.isSelect = false,
   });
 
-  int? authorRate;
-  int? created;
-  String? userId;
-  String? name;
   int? modified;
-  dynamic visibility;
+  double? userGrade;
+  bool? hasConner;
+  String? name;
+  int? popurlarity;
+  String? userId;
+  bool? published;
+  int? userGradeCount;
+  int? visibility;
   int? height;
-  String? holds;
   String? id;
-  int? userRateCount;
-  int? ratePointTotal;
+  int? authorGrade;
+  int? created;
+  String? holds;
   bool isSelect;
 
   factory RoutesModel.fromJson(Map<String, dynamic> json) => RoutesModel(
-    authorRate: json["author_rate"],
-    created: json["created"],
-    userId: json["user_id"],
-    name: json["name"],
     modified: json["modified"],
+    userGrade: json["user_grade"],
+    hasConner: json["has_conner"],
+    name: json["name"],
+    popurlarity: json["popurlarity"],
+    userId: json["user_id"],
+    published: json["published"],
+    userGradeCount: json["user_grade_count"],
     visibility: json["visibility"],
     height: json["height"],
-    holds: json["holds"],
     id: json["id"],
-    userRateCount: json["user_rate_count"],
-    ratePointTotal: json["rate_point_total"],
+    authorGrade: json["author_grade"],
+    created: json["created"],
+    holds: json["holds"],
     isSelect: false,
   );
 
   Map<String, dynamic> toJson() => {
-    "author_rate": authorRate,
-    "created": created,
-    "user_id": userId,
-    "name": name,
     "modified": modified,
+    "user_grade": userGrade,
+    "has_conner": hasConner,
+    "name": name,
+    "popurlarity": popurlarity,
+    "user_id": userId,
+    "published": published,
+    "user_grade_count": userGradeCount,
     "visibility": visibility,
     "height": height,
-    "holds": holds,
     "id": id,
-    "user_rate_count": userRateCount,
-    "rate_point_total": ratePointTotal,
-    "isSelect": isSelect,
+    "author_grade": authorGrade,
+    "created": created,
+    "holds": holds,
   };
 }
+

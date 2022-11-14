@@ -48,10 +48,9 @@ class _TabRoutesState extends State<TabRoutes>
         resizeToAvoidBottomInset: false,
         appbar: homeAppbar(context, onClickSearch: () {
           _bloc.onClickSearch(context);
-        },
-            onClickNotification: () {
+        }, onClickNotification: () {
           _bloc.onClickNotification(context);
-            },
+        },
             onClickJumpToTop: () {},
             widget: AppText(
               LocaleKeys.routes,
