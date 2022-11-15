@@ -18,8 +18,9 @@ import 'address_cubit.dart';
 
 class Address extends StatefulWidget {
   final PlacesModel model;
+  final int index;
 
-  const Address({Key? key, required this.model}) : super(key: key);
+  const Address({Key? key, required this.model, required this.index}) : super(key: key);
 
   @override
   State<Address> createState() => _AddressState();
@@ -33,7 +34,7 @@ class _AddressState extends State<Address> {
 
   @override
   void initState() {
-    _bloc = AddressCubit();
+    _bloc = AddressCubit(widget.index);
     _kGooglePlex = CameraPosition(
         target: LatLng(
       widget.model.lat, widget.model.lng),

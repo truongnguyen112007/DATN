@@ -25,7 +25,8 @@ import '../../theme/app_styles.dart';
 import '../../theme/colors.dart';
 
 class CreateReservationPage extends StatefulWidget {
-  const CreateReservationPage({Key? key}) : super(key: key);
+  final int index;
+  const CreateReservationPage({Key? key, required this.index}) : super(key: key);
 
   @override
   State<CreateReservationPage> createState() => _CreateReservationPageState();
@@ -262,5 +263,5 @@ class _CreateReservationPageState extends BasePopState<CreateReservationPage> {
       );
 
   @override
-  int get tabIndex => BottomNavigationConstant.TAB_RESERVATIONS;
+  int get tabIndex => widget.index;
 }

@@ -53,8 +53,11 @@ var routeReservationDetail = Handler(
           index: (c!.settings!.arguments as List)[0] as int,
           model: (c.settings!.arguments as List)[1] as ReservationModel,
         ));
-var routeCreateReservationPage =
-    Handler(handlerFunc: (c, p) => const CreateReservationPage());
+var routeCreateReservationPage = Handler(
+  handlerFunc: (c, p) => CreateReservationPage(
+    index: c!.settings!.arguments as int,
+  ),
+);
 var routeFilterAddress =
     Handler(handlerFunc: (c, p) => const FilterAddressPage());
 var routeFindPlace = Handler(handlerFunc: (c, p) => const FindPlacePage());
