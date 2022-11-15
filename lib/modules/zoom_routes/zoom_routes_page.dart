@@ -38,7 +38,6 @@ class ZoomRoutesPage extends StatefulWidget {
   final double sizeHoldSet;
   final List<HoldSetModel> lRoutes;
   final int currentIndex;
-  final double heightOffScreen;
 
   const ZoomRoutesPage(
       {Key? key,
@@ -46,7 +45,7 @@ class ZoomRoutesPage extends StatefulWidget {
       required this.row,
       required this.lRoutes,
       required this.column,
-      required this.sizeHoldSet, required this.heightOffScreen})
+      required this.sizeHoldSet})
       : super(key: key);
 
   @override
@@ -104,7 +103,7 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
         widget.currentIndex % 12 == 3 ||
         widget.currentIndex % 12 == 4 ||
         widget.currentIndex % 12 == 5) {
-      dx = widget.heightOffScreen >= 800 ? 21 : 15;
+      dx = 21;
     } else if (widget.currentIndex == 12 ||
         widget.currentIndex == 11 ||
         widget.currentIndex == 10 ||
@@ -113,10 +112,10 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
         widget.currentIndex % 12 == 9 ||
         widget.currentIndex % 12 == 8 ||
         widget.currentIndex % 12 == 7) {
-      dx = widget.heightOffScreen >= 800 ? -21 : -15;
+      dx = -21;
     }
     if (widget.currentIndex <= 84) {
-      dy = widget.heightOffScreen >= 800 ? 166 : 146;
+      dy = 166;
     } else if (widget.currentIndex > 84 && widget.currentIndex <= 156) {
       dy = 89;
     } else if (widget.currentIndex > 156 && widget.currentIndex < 252) {
@@ -128,7 +127,7 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
     } else if (widget.currentIndex > 396 && widget.currentIndex < 468) {
       dy = -127;
     } else {
-      dy = widget.heightOffScreen >= 800 ? -166 : -146;
+      dy = -166;
     }
     offset = Offset(dx, dy);
   }
@@ -205,7 +204,6 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
                               )),
                           Expanded(
                               child: zoomWidget(
-                                  isRoute: true,
                                   offset: offset,
                                   context,
                                   _zoomController,
@@ -317,10 +315,8 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
           BuildContext context, ZoomerController controller, Widget widget,
           {bool isScaleByDx = true,
           bool isLimitOffset = false,
-          bool isRoute = false,
           Offset? offset}) =>
       Zoomer(
-          isRoute: isRoute,
           offset: offset,
           isLimitOffset: isLimitOffset,
           enableTranslation: true,
