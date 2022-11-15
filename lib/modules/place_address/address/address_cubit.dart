@@ -3,15 +3,34 @@ import 'package:base_bloc/utils/log_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../config/constant.dart';
 import '../../../data/model/reservation_model.dart';
 import '../../../router/router.dart';
 import '../../../router/router_utils.dart';
 
 class AddressCubit extends Cubit<AddressState> {
-  AddressCubit(): super (const AddressState());
+  final int index;
+  AddressCubit(this.index): super (const AddressState());
 
-  void addOnclick(BuildContext context) {
-      RouterUtils.pushReservations(route: ReservationRouters.routesCreateReservationPage, context: context);
+  void addOnclick(BuildContext context)  {
+     switch(index) {
+       case BottomNavigationConstant.TAB_HOME :
+         RouterUtils.pushHome(context: context, route: HomeRouters.routesCreateReservationPage,argument: index);
+         break;
+       case BottomNavigationConstant.TAB_ROUTES :
+         RouterUtils.pushRoutes(context: context, route: RoutesRouters.routesCreateReservationPage,argument: index);
+         break;
+       case BottomNavigationConstant.TAB_CLIMB :
+         RouterUtils.pushClimb(context: context, route: ClimbRouters.routesCreateReservationPage,argument: index);
+         break;
+       case BottomNavigationConstant.TAB_RESERVATIONS :
+         RouterUtils.pushReservations(context: context, route: ReservationRouters.routesCreateReservationPage,argument: index);
+         break;
+       case BottomNavigationConstant.TAB_PROFILE :
+         RouterUtils.pushProfile(context: context, route: ProfileRouters.routesCreateReservationPage,argument: index);
+         break;
+     }
+
   List<ReservationModel> fakeData() => [
     ReservationModel(
         calendar: DateTime.now(),

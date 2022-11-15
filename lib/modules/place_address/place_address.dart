@@ -105,7 +105,7 @@ class _PlaceAddressState extends BasePopState<PlaceAddress>
               controller: controller,
               children: [
                 Address(
-                  model: widget.model,
+                  model: widget.model, index: widget.index,
                 ),
                 const Schedule(),
                 const Photos()
