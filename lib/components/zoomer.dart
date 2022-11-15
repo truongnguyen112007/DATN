@@ -84,6 +84,7 @@ class Zoomer extends StatefulWidget {
   final bool enableTranslation;
   final ZoomerController controller;
   final Function(double)? scaleCallBack;
+  final bool isRoute;
 
   Zoomer(
       {required this.child,
@@ -98,6 +99,7 @@ class Zoomer extends StatefulWidget {
       this.minScale = 0.5,
       this.enableTranslation = false,
       this.enableRotation = false,
+      this.isRoute = false,
       this.clipRotation = true});
 
   @override
@@ -152,6 +154,11 @@ class _ZoomerState extends State<Zoomer> {
       widget.controller._setZoomerOffset = (value) {
         setOffset = value;
       };
+    }
+    if (widget.isRoute) {
+      _scaleEnd(ScaleEndDetails(
+          velocity: const Velocity(pixelsPerSecond: Offset(0.0, 0.0)),
+          pointerCount: 0));
     }
     super.initState();
   }
@@ -211,7 +218,9 @@ class _ZoomerState extends State<Zoomer> {
         //Todo set limit _offset to wrap content screen.
         if (widget.isLimitOffset) {
           _offset = Offset(
-              offset.dx.clamp(-_limitOffset.dx / 14, _limitOffset.dx / 14),
+              offset.dx.clamp(
+                  -_limitOffset.dx / (widget.height >= 800 ? 14 : 17),
+                  _limitOffset.dx / (widget.height >= 800 ? 14 : 17)),
               offset.dy.clamp(-_limitOffset.dy / 3.77, _limitOffset.dy / 3.77));
         } else {
           _offset = Offset(offset.dx.clamp(-_limitOffset.dx, _limitOffset.dx),
@@ -233,8 +242,8 @@ class _ZoomerState extends State<Zoomer> {
       onScaleStart: _scaleStart,
       onScaleUpdate: _scaleUpdate,
       onScaleEnd: _scaleEnd,
-      child: ClipRect(
-        child: Container(
+        child: ClipRect(
+            child: Container(
           decoration: widget.background,
           height: widget.height,
           width: widget.width,
@@ -245,8 +254,6 @@ class _ZoomerState extends State<Zoomer> {
                 ..rotateZ(_angle),
               alignment: FractionalOffset.center,
               child: widget.child),
-        ),
-      ),
-    );
+        )));
   }
 }

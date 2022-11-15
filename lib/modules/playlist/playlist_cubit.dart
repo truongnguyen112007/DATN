@@ -169,7 +169,8 @@ class PlayListCubit extends Cubit<PlaylistState> {
             lRoutes:
                 isPaging ? (state.lRoutes..addAll(lResponse)) : lResponse));
       } else {
-        emit(state.copyWith(isReadEnd: true, isLoading: false));
+        emit(state.copyWith(
+            isReadEnd: true, isLoading: false, status: FeedStatus.failure));
         toast(response.error.toString());
       }
     } catch (ex) {

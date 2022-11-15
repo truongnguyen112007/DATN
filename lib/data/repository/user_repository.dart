@@ -28,7 +28,7 @@ class UserRepository extends BaseService{
       await POST('playlist', {ApiKey.name: '', ApiKey.user_id: userId});
 
   Future<ApiResult> getPlaylists() async =>
-      await GET('playlist?start=0&count=${ApiKey.limit_offset}');
+      await GET('playlist?start=1&count=${ApiKey.limit_offset}');
 
   Future<ApiResult> getPlaylistById(String id, {int nextPage = 0}) async =>
       await GET('playlist/$id?start=$nextPage&count=${ApiKey.limit_offset}');

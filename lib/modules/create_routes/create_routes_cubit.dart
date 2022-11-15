@@ -56,7 +56,9 @@ class CreateRoutesCubit extends Cubit<CreateRoutesState> {
             row: state.row,
             lRoutes: state.lRoutes,
             column: state.column,
-            sizeHoldSet: state.sizeHoldSet),
+          sizeHoldSet: state.sizeHoldSet,
+          heightOffScreen: MediaQuery.of(context).size.height,
+        ),
         context,
         type: NewPageType.ZOOM_ROUTES);
   }
