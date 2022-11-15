@@ -18,7 +18,7 @@ class PlaylistState extends Equatable {
       this.lPlayList = const <PlaylistModel>[],
       this.isReadEnd = false,
       this.isLoading = true,
-      this.nextPage = 0,
+      this.nextPage = 1,
       this.timeStamp});
 
   PlaylistState copyWith(

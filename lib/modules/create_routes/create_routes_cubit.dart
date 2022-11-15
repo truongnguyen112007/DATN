@@ -52,10 +52,13 @@ class CreateRoutesCubit extends Cubit<CreateRoutesState> {
     // emit(state.copyOf(selectIndex: index, lRoutes: state.lRoutes));
     RouterUtils.openNewPage(
         ZoomRoutesPage(
+            currentIndex: index,
             row: state.row,
             lRoutes: state.lRoutes,
             column: state.column,
-            sizeHoldSet: state.sizeHoldSet),
+          sizeHoldSet: state.sizeHoldSet,
+          heightOffScreen: MediaQuery.of(context).size.height,
+        ),
         context,
         type: NewPageType.ZOOM_ROUTES);
   }
