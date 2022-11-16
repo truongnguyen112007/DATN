@@ -46,6 +46,7 @@ class _LoginState extends BasePopState<Login> with TickerProviderStateMixin {
   @override
   Widget buildWidget(BuildContext context) {
     return AppScaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: colorGreyBackground,
       appbar: AppBar(
         backgroundColor: colorBlack,
@@ -54,8 +55,9 @@ class _LoginState extends BasePopState<Login> with TickerProviderStateMixin {
           style: googleFont.copyWith(color: colorWhite),
         ),
       ),
-      body: Container(
-        margin: EdgeInsets.only(left: 16.w, right: 16.w, top: 15.h),
+      body: 
+      Padding(
+        padding: const EdgeInsets.all(15),
         child: Column(
           children: [
             BlocBuilder<LoginCubit, LoginState>(
@@ -63,7 +65,8 @@ class _LoginState extends BasePopState<Login> with TickerProviderStateMixin {
               builder: (c, s) => textField(
                 errorText: s.errorEmail,
                 labelText: 'E-mail address',
-                controller: emailController, obText: false,
+                controller: emailController,
+                obText: false,
               ),
             ),
             SizedBox(
@@ -76,7 +79,7 @@ class _LoginState extends BasePopState<Login> with TickerProviderStateMixin {
                   labelText: 'Password',
                   icon: Icons.remove_red_eye,
                   controller: passWordController,
-                  voidCallback: _toggle ,
+                  voidCallback: _toggle,
                   obText: _obscureText),
             ),
             SizedBox(
@@ -118,7 +121,8 @@ class _LoginState extends BasePopState<Login> with TickerProviderStateMixin {
       IconData? icon,
       String errorText = '',
       required TextEditingController controller,
-      required bool obText,VoidCallback?voidCallback}) {
+      required bool obText,
+      VoidCallback? voidCallback}) {
     return TextFormField(
       obscureText: obText,
       style: googleFont.copyWith(color: colorWhite),

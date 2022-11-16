@@ -229,20 +229,23 @@ class BaseService {
   }
 
   // ignore: non_constant_identifier_names
-  Future<ApiResult> DELETE(String url) async {
+  Future<ApiResult> DELETE(String url,{dynamic body}) async {
     if (await ConnectionUtils.isConnect() == false) {
       return ApiResult(error: LocaleKeys.network_error);
     }
     print('============================================================');
     print('[DELETE] ${baseUrl}$url');
     print("Bearer " + globals.accessToken);
+    print("BODY: ${json.encode(body)}");
 
     try {
       final response = await Dio()
           .delete(baseUrl + url,
-              options: Options(headers: {
+              data: jsonDecode(body),
+              options: Options(
+                headers: {
                   'Authorization': 'Bearer ${globals.accessToken}',
-                  // 'Content-Type': 'application/json'
+                  'Content-Type': 'application/json'
                 },sendTimeout: timeOut,)).timeout(Duration(seconds: timeOut));
       Logger().d(response.data);
       if (response.data != null) {

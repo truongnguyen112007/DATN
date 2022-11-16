@@ -233,7 +233,6 @@ class Utils {
   static void showActionDialog(
       BuildContext context, Function(ItemAction) callBack,
       {bool isPlaylist = false, bool isFavorite = false}) {
-    logE("TAG sdsdfisFavorite $isFavorite");
     showModalBottomSheet(
         isScrollControlled: true,
         backgroundColor: Colors.transparent,

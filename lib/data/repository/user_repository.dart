@@ -28,32 +28,35 @@ class UserRepository extends BaseService{
       await POST('playlist', {ApiKey.name: '', ApiKey.user_id: userId});
 
   Future<ApiResult> getPlaylists() async =>
-      await GET('playlist?start=0&count=${ApiKey.limit_offset}');
+      await GET('playlist?start=1&count=${ApiKey.limit_offset}');
 
   Future<ApiResult> getPlaylistById(String id, {int nextPage = 0}) async =>
       await GET('playlist/$id?start=$nextPage&count=${ApiKey.limit_offset}');
 
-  Future<ApiResult> getFavorite(int userId) async =>
-      await GET("favourite/$userId");
-
-  Future<ApiResult> removeFromFavorite(int userId, String routeId) async =>
-      await DELETE('favourite?ids=$routeId');
-
-  Future<ApiResult> removeFromPlaylist(
-          String playlistId, String routeId) async =>
-      await DELETE('playlistdetail/$playlistId?ids=$routeId');
-
   Future<ApiResult> deleteRoute(String routeId) async =>
       await DELETE('route/$routeId');
+
+  Future<ApiResult> addToPlaylist(String playlistId,List<String> lRoute) async =>
+      await POST('playlistdetail/$playlistId',{
+        ApiKey.route_ids : lRoute
+      });
+
+  Future<ApiResult> moveToTop(String playlistId, String routeId) async =>
+      await PUT('playlistdetail/$playlistId', body: {ApiKey.route_id: routeId});
+
+  Future<ApiResult> getFavorite(int userId) async =>
+      await GET("favourite?start=1&count=${ApiKey.limit_offset}");
+
+  Future<ApiResult> removeFromFavorite(List<String> routeId) async =>
+      await DELETE('favourite',body: {ApiKey.route_ids: routeId});
 
   Future<ApiResult> addToFavorite(int userId, String routeId) async =>
       await POST('favourite', {
         ApiKey.route_ids: [routeId]
       });
 
-  Future<ApiResult> addToPlaylist(String playlistId, String routeId) async =>
-      await PUT('playlistdetail/$playlistId/$routeId');
+  Future<ApiResult> removeFromPlaylist(
+      String playlistId, String routeId) async =>
+      await DELETE('playlistdetail/$playlistId?ids=$routeId');
 
-  Future<ApiResult> moveToTop(String playlistId, String routeId) async =>
-      await PUT('playlistdetail/$playlistId', body: {ApiKey.route_id: routeId});
 }

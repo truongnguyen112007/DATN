@@ -136,8 +136,7 @@ class _FavouritePageState extends State<FavouritePage>
                       for( var element in state.lPlayList) {
                         if (element.isSelect == true) lSelectRadioButton.add(element);
                       }
-                      return showActionDialog(
-                          lSelectRadioButton, (p0) {});
+                    _bloc.itemOnLongClick(context,0,isMultiSelect: true);
                     },
                     widget: AppText(
                       LocaleKeys.action,
@@ -251,7 +250,7 @@ class _FavouritePageState extends State<FavouritePage>
                     _bloc.filterItemOnclick(i);
                   },
                   index: i,
-                  onLongPress: (model) => _bloc.itemOnLongClick(context,model,i),
+                  onLongPress: (model) => _bloc.itemOnLongClick(context,i,model: model),
                   detailCallBack: (RoutesModel action) =>  _bloc.itemOnclick(context, state.lPlayList[i]),
                 ),
           itemCount:
@@ -280,37 +279,37 @@ class _FavouritePageState extends State<FavouritePage>
                 SizedBox(
                   height: contentPadding,
                 ),
-                itemAction(
-                    Icons.thumb_up_alt,
-                    AppLocalizations.of(context)!.moveToPlaylist,
-                    ItemAction.MOVE_TO_TOP,
-                    () => callBack.call(ItemAction.MOVE_TO_TOP)),
+                // itemAction(
+                //     Icons.thumb_up_alt,
+                //     AppLocalizations.of(context)!.moveToPlaylist,
+                //     ItemAction.MOVE_TO_TOP,
+                //     () => callBack.call(ItemAction.MOVE_TO_TOP)),
                 itemAction(
                     Icons.account_balance_rounded,
                     AppLocalizations.of(context)!.addToPlaylist,
                     ItemAction.ADD_TO_PLAYLIST,
                     () => callBack.call(ItemAction.ADD_TO_PLAYLIST)),
-                itemAction(
-                    Icons.add,
-                    AppLocalizations.of(context)!.removeFromPlaylist,
-                    ItemAction.REMOVE_FROM_PLAYLIST,
-                    () => callBack.call(ItemAction.REMOVE_FROM_PLAYLIST)),
-                itemAction(
-                    Icons.favorite,
-                    AppLocalizations.of(context)!.addToFavourite,
-                    ItemAction.ADD_TO_FAVOURITE,
-                    () => callBack.call(ItemAction.ADD_TO_FAVOURITE)),
-                itemAction(
-                    Icons.remove_circle_outline,
-                    AppLocalizations.of(context)!.removeFromFavorite,
-                    ItemAction.REMOVE_FROM_PLAYLIST,
-                    () => callBack.call(ItemAction.REMOVE_FROM_PLAYLIST)),
+                // itemAction(
+                //     Icons.add,
+                //     AppLocalizations.of(context)!.removeFromPlaylist,
+                //     ItemAction.REMOVE_FROM_PLAYLIST,
+                //     () => callBack.call(ItemAction.REMOVE_FROM_PLAYLIST)),
+                // itemAction(
+                //     Icons.favorite,
+                //     AppLocalizations.of(context)!.addToFavourite,
+                //     ItemAction.ADD_TO_FAVOURITE,
+                //     () => callBack.call(ItemAction.ADD_TO_FAVOURITE)),
+                // itemAction(
+                //     Icons.remove_circle_outline,
+                //     AppLocalizations.of(context)!.removeFromFavorite,
+                //     ItemAction.REMOVE_FROM_PLAYLIST,
+                //     () => callBack.call(ItemAction.REMOVE_FROM_PLAYLIST)),
                 itemAction(Icons.share, AppLocalizations.of(context)!.share,
                     ItemAction.SHARE, () => callBack.call(ItemAction.SHARE)),
                 itemAction(Icons.copy, AppLocalizations.of(context)!.copy,
                     ItemAction.COPY, () => callBack.call(ItemAction.COPY)),
-                itemAction(Icons.edit, AppLocalizations.of(context)!.edit,
-                    ItemAction.EDIT, () => callBack.call(ItemAction.EDIT)),
+                // itemAction(Icons.edit, AppLocalizations.of(context)!.edit,
+                //     ItemAction.EDIT, () => callBack.call(ItemAction.EDIT)),
                 itemAction(Icons.delete, AppLocalizations.of(context)!.delete,
                     ItemAction.DELETE, () => callBack.call(ItemAction.DELETE)),
               ],
