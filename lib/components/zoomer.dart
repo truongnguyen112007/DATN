@@ -217,11 +217,25 @@ class _ZoomerState extends State<Zoomer> {
       if (details.scale == 1.0 && widget.enableTranslation) {
         //Todo set limit _offset to wrap content screen.
         if (widget.isLimitOffset) {
+          double dx = widget.height >= 800 ? 14 : 17;
+          double dy =3.7;
+          dx = widget.height >= 800
+              ? (scale == 4.0
+                  ? 14
+                  : (scale == 3.0 ? 22 : (scale == 2.0 ? 12 : 9)))
+              : (scale == 4.0
+                  ? 14.3
+                  : (scale == 3.0 ? 22.3 : (scale == 2.0 ? 14 : 13)));
+          dy = widget.height >= 800
+              ? (scale == 4.0
+                  ? 3.77
+                  : (scale == 3.0 ? 3 : (scale == 2.0 ? 2.5 : 5)))
+              : (scale == 4.0
+                  ? 3.7
+                  : (scale == 3.0 ? 2.9 : (scale == 2.0 ? 2.3 : 6)));
           _offset = Offset(
-              offset.dx.clamp(
-                  -_limitOffset.dx / (widget.height >= 800 ? 14 : 17),
-                  _limitOffset.dx / (widget.height >= 800 ? 14 : 17)),
-              offset.dy.clamp(-_limitOffset.dy / 3.77, _limitOffset.dy / 3.77));
+              offset.dx.clamp(-_limitOffset.dx / dx, _limitOffset.dx / dx),
+              offset.dy.clamp(-_limitOffset.dy / dy, _limitOffset.dy / dy));
         } else {
           _offset = Offset(offset.dx.clamp(-_limitOffset.dx, _limitOffset.dx),
               offset.dy.clamp(-_limitOffset.dy, _limitOffset.dy));

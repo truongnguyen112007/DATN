@@ -233,7 +233,6 @@ class Utils {
   static void showActionDialog(
       BuildContext context, Function(ItemAction) callBack,
       {bool isPlaylist = false, bool isFavorite = false}) {
-    logE("TAG sdsdfisFavorite $isFavorite");
     showModalBottomSheet(
         isScrollControlled: true,
         backgroundColor: Colors.transparent,
@@ -251,9 +250,7 @@ class Utils {
                   ),
                   child: Column(
                     children: [
-                      SizedBox(
-                        height: contentPadding,
-                      ),
+                      SizedBox(height: contentPadding),
                       !isFavorite
                           ? itemAction(
                               Assets.svg.moveToTop,

@@ -38,7 +38,6 @@ class RoutesDetailPage extends StatefulWidget {
 
 class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
   late RoutesDetailCubit _bloc;
-  final lBox = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L'];
   final sizeHoldSet = 8.6.h;
   final row = 47;
   final column = 12;
@@ -226,8 +225,8 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
   Widget boxNameWidget(BuildContext context) => Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          for (int i = 0; i < lBox.length; i++)
-            AppText(lBox[i],
+          for (int i = 0; i < lHoldSetName.length; i++)
+            AppText(lHoldSetName[i],
                 style: typoW400.copyWith(fontSize: 4.sp, height: 1))
         ],
       );

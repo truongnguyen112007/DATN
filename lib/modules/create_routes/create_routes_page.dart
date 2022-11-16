@@ -7,7 +7,7 @@ import 'package:base_bloc/components/app_text.dart';
 import 'package:base_bloc/components/appbar_widget.dart';
 import 'package:base_bloc/components/zoomer.dart';
 import 'package:base_bloc/config/constant.dart';
-import 'package:base_bloc/data/globals.dart';
+import 'package:base_bloc/data/globals.dart' as globals;
 import 'package:base_bloc/data/model/hold_set_model.dart';
 import 'package:base_bloc/data/model/routes_model.dart';
 import 'package:base_bloc/localizations/app_localazations.dart';
@@ -38,7 +38,6 @@ class CreateRoutesPage extends StatefulWidget {
 class _CreateRoutesPageState extends BasePopState<CreateRoutesPage> {
   late CreateRoutesCubit _bloc;
   final ZoomerController _zoomController = ZoomerController(initialScale: 1.0);
-  final lBox = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L'];
   final sizeHoldSet = 8.6.h;
   final row = 47;
   final column = 12;
@@ -255,7 +254,7 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage> {
       width: MediaQuery.of(context).size.width,
       color: colorBlack,
       child: ListView.builder(
-          itemCount: lBox.length,
+          itemCount: globals.lHoldSetName.length,
           scrollDirection: Axis.horizontal,
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
@@ -265,7 +264,7 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  AppText(lBox[i],
+                  AppText(globals.lHoldSetName[i],
                       style: typoW600.copyWith(
                           fontSize: 8.sp,
                           color: i % 2 == 0
@@ -287,8 +286,8 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage> {
   Widget nameHoldSetWidget(BuildContext context) => Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          for (int i = 0; i < lBox.length; i++)
-            AppText(lBox[i],
+          for (int i = 0; i < globals.lHoldSetName.length; i++)
+            AppText(globals.lHoldSetName[i],
                 style: typoW400.copyWith(fontSize: 4.sp, height: 1))
         ],
       );
@@ -346,7 +345,10 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage> {
   Widget optionWidget() => Container(
         color: colorBlack,
         padding: EdgeInsets.only(
-            left: contentPadding, right: contentPadding, top: 5, bottom: 5),
+            left: globals.contentPadding,
+            right: globals.contentPadding,
+            top: 5,
+            bottom: 5),
         child: Row(
           children: [
             AppButton(
@@ -361,8 +363,8 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage> {
             const Spacer(),
             Container(
               padding: EdgeInsets.only(
-                  left: contentPadding,
-                  right: contentPadding,
+                  left: globals.contentPadding,
+                  right: globals.contentPadding,
                   top: 5,
                   bottom: 5),
               alignment: Alignment.center,
@@ -492,7 +494,7 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage> {
         svgButton(context, Assets.svg.fullScreen, () {},
             isBackgroundCircle: false),
         svgButton(context, Assets.svg.more, () {}, isBackgroundCircle: false),
-        SizedBox(width: contentPadding)
+        SizedBox(width: globals.contentPadding)
       ]);
 
   @override

@@ -20,7 +20,7 @@ class CreateRoutesCubit extends Cubit<CreateRoutesState> {
   CreateRoutesCubit() : super(const CreateRoutesState());
 
   void itemOnLongPress(int index, BuildContext context) async {
-    emit(state.copyOf(selectIndex: index));
+    /*emit(state.copyOf(selectIndex: index));
     var result = await RouterUtils.openNewPage(const HoldSetPage(), context,
         type: NewPageType.HOLD_SET);
     if (result != null) {
@@ -30,7 +30,7 @@ class CreateRoutesCubit extends Cubit<CreateRoutesState> {
           currentHoldSet: result,
           lRoutes: state.lRoutes,
           timeStamp: DateTime.now().microsecondsSinceEpoch));
-    }
+    }*/
   }
 
   void setHoldSets(List<HoldSetModel> list) =>
@@ -124,11 +124,5 @@ class CreateRoutesCubit extends Cubit<CreateRoutesState> {
     }
   }
 
-  final List<String> lHoldSet = [
-    Assets.svg.holdset1,
-    Assets.svg.holdset2,
-    Assets.svg.holdset3,
-    Assets.svg.holdset4,
-    Assets.svg.holdset5
-  ];
+
 }

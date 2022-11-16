@@ -5,13 +5,12 @@ import 'package:base_bloc/components/measure_name_widget.dart';
 import 'package:base_bloc/components/zoomer.dart';
 import 'package:base_bloc/modules/zoom_routes/zoom_routes_cubit.dart';
 import 'package:base_bloc/modules/zoom_routes/zoom_routes_state.dart';
+import 'package:base_bloc/utils/log_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:logger/logger.dart';
-
 import '../../base/hex_color.dart';
 import '../../components/app_button.dart';
 import '../../components/app_circle_loading.dart';
@@ -19,7 +18,7 @@ import '../../components/app_text.dart';
 import '../../components/appbar_widget.dart';
 import '../../components/measure_widget.dart';
 import '../../data/eventbus/hold_set_event.dart';
-import '../../data/globals.dart';
+import '../../data/globals.dart' as globals;
 import '../../data/model/hold_set_model.dart';
 import '../../gen/assets.gen.dart';
 import '../../localizations/app_localazations.dart';
@@ -27,9 +26,6 @@ import '../../router/router_utils.dart';
 import '../../theme/app_styles.dart';
 import '../../theme/colors.dart';
 import '../../utils/app_utils.dart';
-import '../../utils/log_utils.dart';
-import '../create_routes/create_routes_cubit.dart';
-import '../create_routes/create_routes_state.dart';
 import '../persons_page/persons_page_state.dart';
 
 class ZoomRoutesPage extends StatefulWidget {
@@ -55,26 +51,37 @@ class ZoomRoutesPage extends StatefulWidget {
 
 class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
   late ZoomRoutesCubit _bloc;
-  final ZoomerController _zoomController = ZoomerController(initialScale: 4.0);
-  final ZoomerController _zoomMeasureNameController =
-  ZoomerController(initialScale: 4.0);
-  final ZoomerController _zoomMeasureController =
-  ZoomerController(initialScale: 4.0);
-  final lBox = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L'];
-  final sizeHoldSet = 8.6.h;
-  final row = 47;
-  final column = 12;
+  late ZoomerController _zoomController;
+  late ZoomerController _zoomMeasureNameController;
+  late ZoomerController _zoomMeasureController;
+  late MeasureNameBoxController _measureNameBoxController;
+  late MeasureHeightController _measureHeightController;
+  var _scale =4.0;
+  late double sizeHoldSet;
+  late int row;
+  late int column;
   Offset? offset;
   StreamSubscription<HoldSetEvent>? _holdSetStream;
   late ScrollController _lBoxController;
+  var dxMeasureHeight =-10.5;
+  var dyMeasureBoxName =-9.0;
 
   @override
   void initState() {
     _bloc = ZoomRoutesCubit();
+    _zoomController = ZoomerController(initialScale: 4.0);
+    _zoomMeasureNameController = ZoomerController(initialScale: 4.0);
+    _zoomMeasureController = ZoomerController(initialScale: 4.0);
+    _measureNameBoxController = MeasureNameBoxController();
+    _measureHeightController = MeasureHeightController();
+    sizeHoldSet = widget.sizeHoldSet;
+    row = widget.row;
+    column = widget.column;
     _zoomController.onZoomUpdate(() {
-      _zoomMeasureController.setOffset = Offset(-7, _zoomController.offset.dy);
+      _zoomMeasureController.setOffset =
+          Offset(dxMeasureHeight, _zoomController.offset.dy);
       _zoomMeasureNameController.setOffset =
-          Offset(_zoomController.offset.dx, -9);
+          Offset(_zoomController.offset.dx, dyMeasureBoxName);
     });
     _bloc.setData(
         currentIndex: widget.currentIndex,
@@ -86,51 +93,22 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
         .on<HoldSetEvent>()
         .listen((event) => _bloc.setHoldSet(event.holdSet));
     _lBoxController = ScrollController();
-    checkOffset();
+    offset = _bloc.getOffset(widget.currentIndex, widget.heightOffScreen);
     super.initState();
   }
 
-  void checkOffset() {
-    var dx = 0.0;
-    var dy = 0.0;
-    if (widget.currentIndex % 12 == 0 ||
-        widget.currentIndex == 1 ||
-        widget.currentIndex == 2 ||
-        widget.currentIndex == 3 ||
-        widget.currentIndex == 4 ||
-        widget.currentIndex == 5 ||
-        widget.currentIndex % 12 == 1 ||
-        widget.currentIndex % 12 == 2 ||
-        widget.currentIndex % 12 == 3 ||
-        widget.currentIndex % 12 == 4 ||
-        widget.currentIndex % 12 == 5) {
-      dx = widget.heightOffScreen >= 800 ? 21 : 15;
-    } else if (widget.currentIndex == 12 ||
-        widget.currentIndex == 11 ||
-        widget.currentIndex == 10 ||
-        widget.currentIndex % 12 == 11 ||
-        widget.currentIndex % 12 == 10 ||
-        widget.currentIndex % 12 == 9 ||
-        widget.currentIndex % 12 == 8 ||
-        widget.currentIndex % 12 == 7) {
-      dx = widget.heightOffScreen >= 800 ? -21 : -15;
-    }
-    if (widget.currentIndex <= 84) {
-      dy = widget.heightOffScreen >= 800 ? 166 : 146;
-    } else if (widget.currentIndex > 84 && widget.currentIndex <= 156) {
-      dy = 89;
-    } else if (widget.currentIndex > 156 && widget.currentIndex < 252) {
-      dy = 36;
-    } else if (widget.currentIndex > 252 && widget.currentIndex < 324) {
-      dy = 11;
-    } else if (widget.currentIndex > 324 && widget.currentIndex < 396) {
-      dy = -54;
-    } else if (widget.currentIndex > 396 && widget.currentIndex < 468) {
-      dy = -127;
-    } else {
-      dy = widget.heightOffScreen >= 800 ? -166 : -146;
-    }
-    offset = Offset(dx, dy);
+  void setScale(double scale) {
+    _scale = scale;
+    _zoomController.setScale = scale;
+    _zoomController.setOffset = const Offset(0.0, 0.0);
+    _zoomMeasureNameController.setOffset = const Offset(0, -9);
+    _measureNameBoxController.setScale = scale;
+    _measureHeightController.setScale = scale;
+    _zoomMeasureController.setScale = scale;
+      _zoomMeasureNameController.setScale = scale;
+    dxMeasureHeight =
+        scale == 1.0 ? -10 : (scale == 2 ? -8 : (scale == 3 ? -9 : -10.5));
+    _zoomMeasureController.setOffset = Offset(dxMeasureHeight, 0);
   }
 
   @override
@@ -146,100 +124,111 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
           backgroundColor: HexColor('212121'),
           appbar: appbar(context),
           body: BlocBuilder<ZoomRoutesCubit, ZoomRoutesState>(
-            builder: (c, state) => state.status == StatusType.initial
-                ? const Center(child: AppCircleLoading())
-                : Column(
-              children: [
-                Container(
-                    color: colorBlack,
-                    padding: EdgeInsets.only(left: 25.w),
-                    height: 20.h,
-                    width: MediaQuery.of(context).size.width,
-                    child: Stack(
-                      children: [
-                        zoomWidget(
-                            context,
-                            _zoomMeasureNameController,
-                            MeasureNameBoxWidget(
-                                lBox: lBox, sizeHoldSet: sizeHoldSet),
-                            offset: Offset(offset!.dx, -8)),
-                        Container(
-                            color: Colors.transparent,
-                            height: 20.h,
-                            width: MediaQuery.of(context).size.width)
-                      ],
-                    )),
-                Expanded(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+            builder: (c, state) {
+              if (state.scale != _scale) setScale(state.scale);
+              return state.status == StatusType.initial
+                  ? const Center(child: AppCircleLoading())
+                  : Column(
                       children: [
                         Container(
-                            height: MediaQuery.of(context).size.height,
-                            width: 25.w,
-                            alignment: Alignment.center,
                             color: colorBlack,
+                            padding: EdgeInsets.only(left: 25.w),
+                            height: 20.h,
+                            width: MediaQuery.of(context).size.width,
                             child: Stack(
                               children: [
-                                zoomWidget(
-                                    offset: Offset(-7, offset!.dy),
-                                    isScaleByDx: false,
-                                    context,
-                                    _zoomMeasureController,
-                                    Container(
-                                        alignment: Alignment.center,
-                                        height: MediaQuery.of(context)
-                                            .size
-                                            .height,
-                                        width: 25.w,
-                                        child: MeasureWidget(
-                                            scale: 1,
-                                            sizeHoldSet: sizeHoldSet,
-                                            row: row))),
+                                measureNameWidget(context, state),
                                 Container(
-                                    height:
-                                    MediaQuery.of(context).size.height,
-                                    width: 25.w,
-                                    color: Colors.transparent)
+                                    color: Colors.transparent,
+                                    height: 20.h,
+                                    width: MediaQuery.of(context).size.width)
                               ],
                             )),
                         Expanded(
-                            child: zoomWidget(
-                                isRoute: true,
-                                offset: offset,
-                                context,
-                                _zoomController,
-                                isLimitOffset: true,
-                                Column(
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.center,
-                                    children: [
-                                      Container(
-                                        width:
-                                        state.column * state.sizeHoldSet,
-                                        decoration: BoxDecoration(
-                                            gradient: gradientBackground()),
-                                        child: Align(
-                                          alignment: Alignment.center,
-                                          child: routesWidget(context),
-                                        ),
-                                      ),
-                                    ])))
+                            child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            measureHeightWidget(context, state),
+                            Expanded(child: infoRouteWidget(context, state))
+                          ],
+                        )),
+                        optionWidget()
                       ],
-                    )),
-                optionWidget()
-              ],
-            ),
+                    );
+            },
             bloc: _bloc,
           ),
         ),
         onWillPop: () async => _bloc.goBack(context));
   }
 
+  Widget measureNameWidget(BuildContext context, ZoomRoutesState state) =>
+      zoomWidget(
+          scale: state.scale,
+          context,
+          _zoomMeasureNameController,
+          MeasureNameBoxWidget(
+              controller: _measureNameBoxController,
+              lBox: globals.lHoldSetName,
+              sizeHoldSet: sizeHoldSet),
+          offset: Offset(offset!.dx, -8));
+  
+  Widget measureHeightWidget(BuildContext context,ZoomRoutesState state)=> Container(
+      height: MediaQuery.of(context).size.height,
+      width: 25.w,
+      alignment: Alignment.center,
+      color: colorBlack,
+      child: Stack(
+        children: [
+          zoomWidget(
+              offset: Offset(dxMeasureHeight, offset!.dy),
+              isScaleByDx: false,
+              context,
+              scale: state.scale,
+              _zoomMeasureController,
+              Container(
+                  alignment: Alignment.center,
+                  height: MediaQuery.of(context)
+                      .size
+                      .height,
+                  width: 25.w,
+                      child: MeasureHeightWidget(
+                          scale: 1,
+                          sizeHoldSet: sizeHoldSet,
+                          row: row,
+                          controller: _measureHeightController))),
+              Container(
+                  height: MediaQuery.of(context).size.height,
+                  width: 25.w,
+                  color: Colors.transparent)
+        ],
+      ));
+  
+
+  Widget infoRouteWidget(BuildContext context, ZoomRoutesState state) =>
+      zoomWidget(
+          isRoute: true,
+          offset: offset,
+          context,
+          scale: state.scale,
+          _zoomController,
+          isLimitOffset: true,
+          Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Container(
+              width: state.column * state.sizeHoldSet,
+              decoration: BoxDecoration(gradient: gradientBackground()),
+              child: Align(
+                alignment: Alignment.center,
+                child: routeWidget(context),
+              ),
+            ),
+          ]));
+
   Widget optionWidget() => Container(
     color: colorBlack,
     padding: EdgeInsets.only(
-        left: contentPadding, right: contentPadding, top: 5, bottom: 5),
+        left: globals.contentPadding, right: globals.contentPadding, top: 5, bottom: 5),
     child: Row(
       children: [
         AppButton(
@@ -254,10 +243,10 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
         const Spacer(),
         Container(
           padding: EdgeInsets.only(
-              left: contentPadding,
-              right: contentPadding,
-              top: 5,
-              bottom: 5),
+                  left: globals.contentPadding,
+                  right: globals.contentPadding,
+                  top: 5,
+                  bottom: 5),
           alignment: Alignment.center,
           decoration: BoxDecoration(
               gradient: const LinearGradient(
@@ -275,7 +264,7 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
     ),
   );
 
-  Widget routesWidget(BuildContext context) =>
+  Widget routeWidget(BuildContext context) =>
       BlocBuilder<ZoomRoutesCubit, ZoomRoutesState>(
           bloc: _bloc,
           builder: (c, state) => GridView.builder(
@@ -318,7 +307,8 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
       {bool isScaleByDx = true,
         bool isLimitOffset = false,
         bool isRoute = false,
-        Offset? offset}) =>
+          Offset? offset,
+          double scale = 4.0}) =>
       Zoomer(
           isRoute: isRoute,
           offset: offset,
@@ -330,8 +320,8 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
           enableRotation: false,
           background: const BoxDecoration(),
           clipRotation: true,
-          maxScale: 4,
-          minScale: 4,
+          maxScale: scale,
+          minScale: scale,
           child: widget);
 
   LinearGradient gradientBackground() => LinearGradient(colors: [
@@ -393,10 +383,10 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
         const SizedBox(width: 10),
         svgButton(context, Assets.svg.threeD, () {},
             isBackgroundCircle: false),
-        svgButton(context, Assets.svg.fullScreen, () {},
-            isBackgroundCircle: false),
-        svgButton(context, Assets.svg.more, () {},
-            isBackgroundCircle: false),
-        SizedBox(width: contentPadding)
-      ]);
+        svgButton(context, Assets.svg.fullScreen, () =>_bloc.setScale(),
+                isBackgroundCircle: false),
+            svgButton(context, Assets.svg.more, () {},
+                isBackgroundCircle: false),
+            SizedBox(width: globals.contentPadding)
+          ]);
 }
