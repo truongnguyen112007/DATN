@@ -66,13 +66,13 @@ class ItemInfoRoutes extends StatelessWidget {
                                       color: colorWhite,
                                     ),
                             ),
-                            onTap: () => filterOnclick?.call(),
+                            onTap: () => filterOnclick?.call()
                           )
                         : const SizedBox(),
                     Expanded(
                       child: Container(
                         padding: EdgeInsets.only(
-                            left: contentPadding * 3,
+                            left: contentPadding,
                             right: contentPadding + 10),
                         height: 72.h,
                         width: MediaQuery.of(context).size.width,
@@ -84,40 +84,47 @@ class ItemInfoRoutes extends StatelessWidget {
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            model.hasConner == false
-                                ? AppText(model.authorGrade.toString(),
-                                    style: googleFont.copyWith(
-                                        fontWeight: FontWeight.w700,
-                                        color: colorText0,
-                                        fontSize: 31.sp))
-                                : Stack(
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.only(bottom: 5.h),
-                                        child: AppText(
-                                          "${model.authorGrade}C",
+                            Expanded(
+                              flex: 2,
+                              child: model.hasConner == false
+                                  ? Center(
+                                      child: AppText(
+                                          model.authorGrade.toString(),
                                           style: googleFont.copyWith(
                                               fontWeight: FontWeight.w700,
                                               color: colorText0,
-                                              fontSize: 31.sp),
-                                          textAlign: TextAlign.end,
-                                        ),
-                                      ),
-                                      Positioned.fill(
-                                          child: Container(
-                                        alignment: Alignment.bottomCenter,
+                                              fontSize: 31.sp)),
+                                    )
+                                  : Center(child: Stack(
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(bottom: 5.h),
+                                    child: AppText(
+                                      "${model.authorGrade}C",
+                                      style: googleFont.copyWith(
+                                          fontWeight: FontWeight.w700,
+                                          color: colorText0,
+                                          fontSize: 31.sp),
+                                      textAlign: TextAlign.end,
+                                    ),
+                                  ),
+                                  Positioned.fill(
+                                      child: Container(
+                                        alignment: Alignment.bottomLeft,
                                         child: AppText(
-                                          LocaleKeys.corner,
-                                          textAlign: TextAlign.center,
+                                          " ${LocaleKeys.corner}",
+                                          textAlign: TextAlign.start,
                                           style: typoW400.copyWith(
-                                              color:
-                                                  colorWhite.withOpacity(0.87)),
+                                              color: colorWhite
+                                                  .withOpacity(0.87)),
                                         ),
                                       ))
-                                    ],
-                                  ),
-                            SizedBox(width: contentPadding * 3),
+                                ],
+                              ),),
+                            ),
+                            const SizedBox(width: 10),
                             Expanded(
+                                flex: 8,
                                 child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.start,
