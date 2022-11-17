@@ -62,6 +62,23 @@ class CreateRoutesCubit extends Cubit<CreateRoutesState> {
         context,
         type: NewPageType.ZOOM_ROUTES);
   }
+  void scaleOnClick(BuildContext context) {
+    /*   if (state.currentHoldSet.isNotEmpty) {
+      state.lRoutes[index] = HoldSetModel(holdSet: state.currentHoldSet);
+    }*/
+    // emit(state.copyOf(selectIndex: index, lRoutes: state.lRoutes));
+    RouterUtils.openNewPage(
+        ZoomRoutesPage(
+            currentIndex: 0,
+            row: state.row,
+            lRoutes: state.lRoutes,
+            column: state.column,
+          sizeHoldSet: state.sizeHoldSet,
+          heightOffScreen: MediaQuery.of(context).size.height,
+        ),
+        context,
+        type: NewPageType.ZOOM_ROUTES);
+  }
 
   void turnLeftOnClick(BuildContext context) {
     var rotate = state.lRoutes[state.selectIndex!].rotate - 1;

@@ -40,61 +40,67 @@ class _HoldSetPageState extends BasePopState<HoldSetPage> {
         padding: EdgeInsets.all(contentPadding),
         backgroundColor: colorBlack90,
         appbar: appbar(context),
-        body: SingleChildScrollView(
-            child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        body: Column(
           children: [
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: 0.1,
-              color: colorText45,
-            ),
-            itemSpace(),
-            BlocBuilder<HoldSetCubit, HoldSetState>(
-                bloc: _bloc,
-                builder: (c, state) => Row(
-                      children: [
-                        filterButton(
-                            onTab: () => _bloc.setFilter(SelectType.ALL),
-                            lColor: state.type == SelectType.ALL
-                                ? [colorOrange100, colorOrange40]
-                                : [colorBlack30, colorBlack30],
-                            title: LocaleKeys.all),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        filterButton(
-                            onTab: () => _bloc.setFilter(SelectType.FAVOURITE),
-                            lColor: state.type == SelectType.FAVOURITE
-                                ? [colorOrange100, colorOrange40]
-                                : [colorBlack30, colorBlack30],
-                            title: LocaleKeys.favourite),
-                      ],
-                    )),
-            itemSpace(),
-            BlocBuilder<HoldSetCubit, HoldSetState>(
-                bloc: _bloc,
-                builder: (c, state) => textFieldWidget(
-                        TextEditingController(
-                            text: state.type == SelectType.ALL
-                                ? LocaleKeys.all
-                                : LocaleKeys.favourite),
-                        context,
-                        LocaleKeys.type, () {
-                      Utils.hideKeyboard(context);
-                    })),
-            itemSpace(),
-            InkWell(
-              child: AppText(
-                LocaleKeys.double_tab_to_see_3d_preview,
-                style: typoW400.copyWith(
-                    fontSize: 12.sp, color: colorText0.withOpacity(0.6)),
-              ),
-              onTap: () => _bloc.detailOnclick(context),
-            ),
-            itemSpace(),
-            holdSetWidget(context),
-            itemSpace(height: 20),
+            Expanded(
+                child: SingleChildScrollView(
+                    child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 0.1,
+                  color: colorText45,
+                ),
+                itemSpace(),
+                BlocBuilder<HoldSetCubit, HoldSetState>(
+                    bloc: _bloc,
+                    builder: (c, state) => Row(
+                          children: [
+                            filterButton(
+                                onTab: () => _bloc.setFilter(SelectType.ALL),
+                                lColor: state.type == SelectType.ALL
+                                    ? [colorOrange100, colorOrange40]
+                                    : [colorBlack30, colorBlack30],
+                                title: LocaleKeys.all),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            filterButton(
+                                onTab: () =>
+                                    _bloc.setFilter(SelectType.FAVOURITE),
+                                lColor: state.type == SelectType.FAVOURITE
+                                    ? [colorOrange100, colorOrange40]
+                                    : [colorBlack30, colorBlack30],
+                                title: LocaleKeys.favourite),
+                          ],
+                        )),
+                itemSpace(),
+                BlocBuilder<HoldSetCubit, HoldSetState>(
+                    bloc: _bloc,
+                    builder: (c, state) => textFieldWidget(
+                            TextEditingController(
+                                text: state.type == SelectType.ALL
+                                    ? LocaleKeys.all
+                                    : LocaleKeys.favourite),
+                            context,
+                            LocaleKeys.type, () {
+                          Utils.hideKeyboard(context);
+                        })),
+                itemSpace(),
+                InkWell(
+                  child: AppText(
+                    LocaleKeys.double_tab_to_see_3d_preview,
+                    style: typoW400.copyWith(
+                        fontSize: 12.sp, color: colorText0.withOpacity(0.6)),
+                  ),
+                  onTap: () => _bloc.detailOnclick(context),
+                ),
+                itemSpace(),
+                holdSetWidget(context),
+                itemSpace(height: 20),
+              ],
+            ))),
             BlocBuilder<HoldSetCubit, HoldSetState>(
               bloc: _bloc,
               builder: (c, state) => selectButton(
@@ -103,7 +109,7 @@ class _HoldSetPageState extends BasePopState<HoldSetPage> {
               ),
             ),
           ],
-        )));
+        ));
   }
 
   Widget holdSetWidget(BuildContext context) =>

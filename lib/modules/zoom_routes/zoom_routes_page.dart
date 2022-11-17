@@ -385,7 +385,8 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
             isBackgroundCircle: false),
         svgButton(context, Assets.svg.fullScreen, () =>_bloc.setScale(),
                 isBackgroundCircle: false),
-            svgButton(context, Assets.svg.more, () {},
+            svgButton(
+                context, Assets.svg.more, () => _bloc.confirmOnclick(context),
                 isBackgroundCircle: false),
             SizedBox(width: globals.contentPadding)
           ]);

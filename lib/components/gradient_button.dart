@@ -8,7 +8,7 @@ class GradientButton extends StatelessWidget {
   final Decoration decoration;
   final VoidCallback onTap;
   final Widget widget;
-  final BorderRadius borderRadius;
+  final BorderRadius? borderRadius;
   final bool isCenter;
 
   const GradientButton(
@@ -19,7 +19,7 @@ class GradientButton extends StatelessWidget {
       required this.onTap,
       this.isCenter = false,
       required this.widget,
-      required this.borderRadius})
+      this.borderRadius})
       : super(key: key);
 
   @override

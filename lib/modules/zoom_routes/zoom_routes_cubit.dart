@@ -1,7 +1,10 @@
 import 'dart:async';
 
+import 'package:base_bloc/localizations/app_localazations.dart';
+import 'package:base_bloc/modules/create_info_route/create_info_route_page.dart';
 import 'package:base_bloc/modules/zoom_routes/zoom_routes_state.dart';
 import 'package:base_bloc/utils/log_utils.dart';
+import 'package:base_bloc/utils/toast_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -41,7 +44,8 @@ class ZoomRoutesCubit extends Cubit<ZoomRoutesState> {
 
   void setHoldSet(String holdSet) {
     state.lRoutes[state.currentIndex ?? 0] = HoldSetModel(
-        holdSet: holdSet, rotate: state.lRoutes[state.currentIndex ?? 0].rotate);
+        holdSet: holdSet,
+        rotate: state.lRoutes[state.currentIndex ?? 0].rotate);
     emit(state.copyOf(
         currentHoldSet: holdSet,
         lRoutes: state.lRoutes,
@@ -96,6 +100,20 @@ class ZoomRoutesCubit extends Cubit<ZoomRoutesState> {
           currentHoldSet: '',
           lRoutes: state.lRoutes,
           timeStamp: DateTime.now().microsecondsSinceEpoch));
+    }
+  }
+
+  void confirmOnclick(BuildContext context) {
+    var lHoldSet = <HoldSetModel>[];
+    for (int i = 0; i < state.lRoutes.length; i++) {
+      if (state.lRoutes[i].holdSet.isNotEmpty) {
+        lHoldSet.add(state.lRoutes[i].copyOf(index: i));
+      }
+    }
+    if (lHoldSet.isEmpty) {
+      toast(LocaleKeys.please_input_hold_set);
+    } else {
+      RouterUtils.openNewPage(CreateInfoRoutePage(lHoldSet: lHoldSet), context);
     }
   }
 

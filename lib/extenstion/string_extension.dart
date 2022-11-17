@@ -1,5 +1,5 @@
 extension StringExtension on String {
-  String capitalize() {
+  String toCapitalize() {
     if (isEmpty) {
       return this;
     }

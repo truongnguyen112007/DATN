@@ -39,6 +39,12 @@ class ApiKey {
   static const route_ids = 'route_ids';
   static const limit_offset = 10;
   static const playlist_id = 'playlist_id';
+  static const height = 'height';
+  static const holds = 'holds';
+  static const has_conner = 'has_conner';
+  static const author_grade = 'author_grade';
+  static const published = 'published';
+  static const visibility = 'visibility';
 }
 
 class BottomNavigationConstant{

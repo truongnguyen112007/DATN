@@ -59,4 +59,21 @@ class UserRepository extends BaseService{
       String playlistId, String routeId) async =>
       await DELETE('playlistdetail/$playlistId?ids=$routeId');
 
+  Future<ApiResult> createRoute(
+          {required String name,
+          int height = 12,
+          required List<int> lHold,
+          required bool hasCorner,
+          required String authorGrade,
+          bool published = true,
+          int visibility = 0}) async =>
+      await POST('route', {
+        ApiKey.name: name,
+        ApiKey.height: height,
+        ApiKey.holds: lHold,
+        ApiKey.has_conner: hasCorner,
+        ApiKey.author_grade: int.parse(authorGrade.substring(0, 1)),
+        ApiKey.published: published,
+        ApiKey.visibility: visibility
+      });
 }
