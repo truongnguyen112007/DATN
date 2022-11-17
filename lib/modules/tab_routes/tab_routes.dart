@@ -95,18 +95,10 @@ class _TabRoutesState extends State<TabRoutes>
               labelColor: HexColor('FF5A00'),
               unselectedLabelColor: colorText0.withOpacity(0.6),
               tabs: [
-                Tab(
-                  text: LocaleKeys.playlist,
-                ),
-                Tab(
-                  text: LocaleKeys.history,
-                ),
-                Tab(
-                  text: LocaleKeys.favourite,
-                ),
-                Tab(
-                  text: LocaleKeys.designed,
-                ),
+                Tab(text: LocaleKeys.playlist),
+                Tab(text: LocaleKeys.history),
+                Tab(text: LocaleKeys.favourite),
+                Tab(text: LocaleKeys.designed),
               ],
               labelStyle: typoW400.copyWith(fontSize: 12.sp),
             ),

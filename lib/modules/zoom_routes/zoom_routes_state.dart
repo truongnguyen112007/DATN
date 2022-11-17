@@ -12,6 +12,7 @@ class ZoomRoutesState extends Equatable {
   final int? currentIndex;
   final int timeStamp;
   final String currentHoldSet;
+  final double scale;
 
   const ZoomRoutesState(
       {this.status = StatusType.initial,
@@ -19,6 +20,7 @@ class ZoomRoutesState extends Equatable {
         this.timeStamp = 0,
         this.sizeHoldSet = 10,
         this.column = 0,
+        this.scale =4.0,
         this.row = 0,
         this.currentIndex,
         this.lRoutes = const <HoldSetModel>[]});
@@ -29,6 +31,7 @@ class ZoomRoutesState extends Equatable {
         int? currentIndex,
         String? currentHoldSet,
         int? row,
+        double? scale,
         double? sizeHoldSet,
         List<HoldSetModel>? lRoutes,
         int? timeStamp}) =>
@@ -40,9 +43,18 @@ class ZoomRoutesState extends Equatable {
           row: row ?? this.row,
           sizeHoldSet: sizeHoldSet ?? this.sizeHoldSet,
           lRoutes: lRoutes ?? this.lRoutes,
-          timeStamp: timeStamp ?? this.timeStamp);
+          timeStamp: timeStamp ?? this.timeStamp,
+          scale: scale ?? this.scale);
 
   @override
-  List<Object?> get props =>
-      [status, sizeHoldSet, column, row, lRoutes, currentIndex, timeStamp];
+  List<Object?> get props => [
+        status,
+        sizeHoldSet,
+        column,
+        row,
+        lRoutes,
+        currentIndex,
+        timeStamp,
+        scale
+      ];
 }

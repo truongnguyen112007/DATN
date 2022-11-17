@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:base_bloc/modules/zoom_routes/zoom_routes_state.dart';
+import 'package:base_bloc/utils/log_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -18,6 +19,11 @@ class ZoomRoutesCubit extends Cubit<ZoomRoutesState> {
     RouterUtils.pop(context, result: state.lRoutes);
     return false;
   }
+
+  void setScale() => emit(state.copyOf(
+      scale: state.scale == 1.2
+          ? 2
+          : (state.scale == 2 ? 3 : (state.scale == 3 ? 4 : 1.2))));
 
   void itemOnLongPress(int index, BuildContext context) async {
     emit(state.copyOf(currentIndex: index));
@@ -42,8 +48,9 @@ class ZoomRoutesCubit extends Cubit<ZoomRoutesState> {
         timeStamp: DateTime.now().microsecondsSinceEpoch));
   }
 
-  void itemOnClick(int index, BuildContext context) =>
-      emit(state.copyOf(currentIndex: index));
+  void itemOnClick(int index, BuildContext context) {
+    emit(state.copyOf(currentIndex: index));
+  }
 
   void turnLeftOnClick(BuildContext context) {
     var rotate = state.lRoutes[state.currentIndex!].rotate - 1;
@@ -67,10 +74,12 @@ class ZoomRoutesCubit extends Cubit<ZoomRoutesState> {
           {required int row,
           required int column,
           required double sizeHoldSet,
-          required List<HoldSetModel>? lRoutes}) =>
+          required List<HoldSetModel>? lRoutes,
+          required int currentIndex}) =>
       Timer(
           const Duration(seconds: 1),
           () => emit(state.copyOf(
+              currentIndex: currentIndex,
               status: StatusType.success,
               column: column,
               row: row,
@@ -90,11 +99,46 @@ class ZoomRoutesCubit extends Cubit<ZoomRoutesState> {
     }
   }
 
-  final List<String> lHoldSet = [
-    Assets.svg.holdset1,
-    Assets.svg.holdset2,
-    Assets.svg.holdset3,
-    Assets.svg.holdset4,
-    Assets.svg.holdset5
-  ];
+  Offset getOffset(int currentIndex, double heightOffScreen) {
+    var dx = 0.0;
+    var dy = 0.0;
+    if (currentIndex % 12 == 0 ||
+        currentIndex == 1 ||
+        currentIndex == 2 ||
+        currentIndex == 3 ||
+        currentIndex == 4 ||
+        currentIndex == 5 ||
+        currentIndex % 12 == 1 ||
+        currentIndex % 12 == 2 ||
+        currentIndex % 12 == 3 ||
+        currentIndex % 12 == 4 ||
+        currentIndex % 12 == 5) {
+      dx = heightOffScreen >= 800 ? 21 : 15;
+    } else if (currentIndex == 12 ||
+        currentIndex == 11 ||
+        currentIndex == 10 ||
+        currentIndex % 12 == 11 ||
+        currentIndex % 12 == 10 ||
+        currentIndex % 12 == 9 ||
+        currentIndex % 12 == 8 ||
+        currentIndex % 12 == 7) {
+      dx = heightOffScreen >= 800 ? -21 : -15;
+    }
+    if (currentIndex <= 84) {
+      dy = heightOffScreen >= 800 ? 166 : 146;
+    } else if (currentIndex > 84 && currentIndex <= 156) {
+      dy = 89;
+    } else if (currentIndex > 156 && currentIndex < 252) {
+      dy = 36;
+    } else if (currentIndex > 252 && currentIndex < 324) {
+      dy = 11;
+    } else if (currentIndex > 324 && currentIndex < 396) {
+      dy = -54;
+    } else if (currentIndex > 396 && currentIndex < 468) {
+      dy = -127;
+    } else {
+      dy = heightOffScreen >= 800 ? -166 : -146;
+    }
+    return Offset(dx, dy);
+  }
 }

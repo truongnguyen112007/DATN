@@ -250,9 +250,7 @@ class Utils {
                   ),
                   child: Column(
                     children: [
-                      SizedBox(
-                        height: contentPadding,
-                      ),
+                      SizedBox(height: contentPadding),
                       !isFavorite
                           ? itemAction(
                               Assets.svg.moveToTop,
