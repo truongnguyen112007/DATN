@@ -228,12 +228,8 @@ class _FavouritePageState extends State<FavouritePage>
       );
 
   Widget playlistWidget(BuildContext context, FavouriteState state) =>
-      ReorderableListView.builder(
+      ListView.builder(
           shrinkWrap: true,
-          onReorder: (int oldIndex, int newIndex) {
-            if (oldIndex < newIndex) newIndex -= 1;
-            _bloc.setIndex(newIndex, oldIndex);
-          },
           physics: const NeverScrollableScrollPhysics(),
           padding: EdgeInsets.all(contentPadding),
           itemBuilder: (c, i) => i == state.lPlayList.length

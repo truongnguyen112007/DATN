@@ -131,7 +131,7 @@ class _LoginState extends BasePopState<Login> with TickerProviderStateMixin {
       decoration: InputDecoration(
           errorText: errorText.isEmpty ? null : errorText,
           labelText: labelText,
-          labelStyle: googleFont.copyWith(color: colorSubText),
+          labelStyle: googleFont.copyWith(color: errorText.isEmpty ? colorSubText: colorSemanticRed100),
           suffixIcon: InkWell(
             splashColor: colorTransparent,
             hoverColor: colorTransparent,
@@ -142,11 +142,15 @@ class _LoginState extends BasePopState<Login> with TickerProviderStateMixin {
             ),
           ),
           errorBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color: colorGrey35),
+            borderSide: const BorderSide(color: colorSemanticRed100),
             borderRadius: BorderRadius.circular(5),
           ),
           enabledBorder: OutlineInputBorder(
             borderSide: const BorderSide(color: colorGrey35),
+            borderRadius: BorderRadius.circular(5),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderSide: const BorderSide(color: colorSemanticRed100),
             borderRadius: BorderRadius.circular(5),
           ),
           focusedBorder: OutlineInputBorder(
