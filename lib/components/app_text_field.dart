@@ -31,9 +31,12 @@ class AppTextField extends StatefulWidget {
   final int? maxLine;
   final List<TextInputFormatter>? inputFormatters;
   final Color? cursorColor;
+  final double? cursorHeight;
+  final TextStyle? errorStyle;
 
   const AppTextField(
       {this.controller,
+      this.errorStyle,
       this.hintText,
       this.errorText,
       this.obscureText,
@@ -47,6 +50,7 @@ class AppTextField extends StatefulWidget {
       this.onEditingComplete,
       this.onChanged,
       this.onTap,
+      this.cursorHeight,
       Key? key,
       this.textStyle,
       this.hintStyle,
@@ -81,7 +85,9 @@ class _AppTextFieldState extends State<AppTextField> {
     return Wrap(
       runSpacing: 5,
       children: [
-        TextField(cursorColor: widget.cursorColor,
+        TextField(
+          cursorColor: widget.cursorColor,
+          cursorHeight: widget.cursorHeight,
           inputFormatters: widget.inputFormatters,
           enabled: widget.enable,
           readOnly: widget.readOnly ?? false,
@@ -125,8 +131,9 @@ class _AppTextFieldState extends State<AppTextField> {
                     ? widget.errorText!
                     : ' '
                 : '',
-            style: typoNormalTextRegular.copyWith(
-                color: colorSemanticRed100, fontSize: 11.sp))
+            style: widget.errorStyle ??
+                typoNormalTextRegular.copyWith(
+                    color: colorSemanticRed100, fontSize: 11.sp))
       ],
     );
   }

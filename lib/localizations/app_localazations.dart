@@ -345,6 +345,11 @@ abstract class AppLocalizations {
   String get schedule;
   String get photos;
   String get corner;
+  String get publish;
+  String get route_name;
+  String get who_can_see_this_route;
+  String get grade;
+  String get please_input_hold_set;
 }
 
 class _AppLocalizationsDelegate
