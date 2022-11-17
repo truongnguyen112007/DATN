@@ -13,71 +13,71 @@ String routeModelToJson(List<RoutesModel> data) =>
 
 class RoutesModel {
   RoutesModel({
-    this.modified,
+    // this.modified,
     this.userGrade,
     this.hasConner,
     this.name,
     this.popurlarity,
-    this.userId,
+    // this.userId,
     this.published,
     this.userGradeCount,
-    this.visibility,
+    // this.visibility,
     this.height,
     this.id,
     this.authorGrade,
-    this.created,
+    // this.created,
     this.holds,
     this.isSelect = false,
   });
 
-  int? modified;
-  double? userGrade;
+  // int? modified;
+  int? userGrade;
   bool? hasConner;
   String? name;
   int? popurlarity;
-  String? userId;
+  // int? userId;
   bool? published;
   int? userGradeCount;
-  int? visibility;
+  // int? visibility;
   int? height;
   String? id;
   int? authorGrade;
-  int? created;
+  // int? created;
   String? holds;
   bool isSelect;
 
   factory RoutesModel.fromJson(Map<String, dynamic> json) => RoutesModel(
-    modified: json["modified"],
+    // modified: json["modified"],
     userGrade: json["user_grade"],
     hasConner: json["has_conner"],
     name: json["name"],
     popurlarity: json["popurlarity"],
-    userId: json["user_id"],
+    // userId: json["user_id"],
     published: json["published"],
     userGradeCount: json["user_grade_count"],
-    visibility: json["visibility"],
+    // visibility: json["visibility"],
     height: json["height"],
     id: json["id"],
     authorGrade: json["author_grade"],
-    created: json["created"],
+    // created: json["created"],
     holds: json["holds"],
     isSelect: false,
   );
 
   Map<String, dynamic> toJson() => {
-    "modified": modified,
+    // "modified": modified,
     "user_grade": userGrade,
     "has_conner": hasConner,
     "name": name,
     "popurlarity": popurlarity,
-    "user_id": userId,
+    // "user_id": userId,
     "published": published,
     "user_grade_count": userGradeCount,
-    "visibility": visibility,
+    // "visibility": visibility,
     "height": height,
     "id": id,
     "author_grade": authorGrade,
-    "created": created,
+    // "created": created,
     "holds": holds,
   };
 }
