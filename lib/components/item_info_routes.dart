@@ -46,7 +46,9 @@ class ItemInfoRoutes extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: 10),
             child: InkWell(
                 onLongPress: () => onLongPress?.call(model),
-                onTap: () => detailCallBack.call(model),
+                onTap: () => isShowSelect
+                    ? filterOnclick?.call()
+                    : detailCallBack.call(model),
                 // showActionDialog(model, (action) => () {}/*actionCallBack.call(action)*/),
                 child: Row(
                   children: [
@@ -55,8 +57,10 @@ class ItemInfoRoutes extends StatelessWidget {
                             child: Padding(
                               padding: EdgeInsets.only(right: 10.w),
                               child: model.isSelect
-                                  ? Icon(Icons.radio_button_checked,
-                                      color: colorPrimary20)
+                                  ? Icon(
+                                      Icons.radio_button_checked,
+                                      color: colorPrimary20,
+                                    )
                                   : const Icon(
                                       Icons.circle_outlined,
                                       color: colorWhite,
@@ -82,7 +86,7 @@ class ItemInfoRoutes extends StatelessWidget {
                           children: [
                             model.hasConner == false
                                 ? AppText(model.authorGrade.toString(),
-                                style: googleFont.copyWith(
+                                    style: googleFont.copyWith(
                                         fontWeight: FontWeight.w700,
                                         color: colorText0,
                                         fontSize: 31.sp))

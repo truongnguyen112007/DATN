@@ -27,14 +27,19 @@ class BaseService {
     print("Bearer ${globals.accessToken}");
 
     try {
-      final response = await Dio().get(
-        baseUrl + url,
-        queryParameters: queryParam,
-        options: Options(headers: {
+      final response = await Dio()
+          .get(
+            baseUrl + url,
+            queryParameters: queryParam,
+            options: Options(
+              headers: {
                 'Authorization': 'Bearer ${globals.accessToken}',
                 // 'Content-Type': 'application/json',
-              },sendTimeout: timeOut,),
-      ).timeout(Duration(seconds: timeOut));
+              },
+              sendTimeout: timeOut,
+            ),
+          )
+          .timeout(Duration(seconds: timeOut));
       Logger().d(response.data);
       if ((response.statusCode == 200 || response.statusCode == 201) &&
           response.data != null) {
@@ -58,7 +63,8 @@ class BaseService {
       print('============================================================');
       try {
         return ApiResult<dynamic>(
-            error: exception.response?.data['meta']['message'] ?? LocaleKeys.network_error,
+            error: exception.response?.data['meta']['message'] ??
+                LocaleKeys.network_error,
             statusCode: exception.response?.statusCode);
       } catch (e) {
         return ApiResult<dynamic>(error: LocaleKeys.network_error);
@@ -85,14 +91,16 @@ class BaseService {
           .patch(
             baseUrl + url,
             data: body,
-        options: Options(sendTimeout: timeOut,
-          headers: {
-            'Authorization': 'Bearer ${globals.accessToken}',
-            'lang': globals.lang,
-              'Content-Type': 'application/json'
-          },
-        ),
-      ).timeout(Duration(seconds: timeOut));
+            options: Options(
+              sendTimeout: timeOut,
+              headers: {
+                'Authorization': 'Bearer ${globals.accessToken}',
+                'lang': globals.lang,
+                'Content-Type': 'application/json'
+              },
+            ),
+          )
+          .timeout(Duration(seconds: timeOut));
       if (response.data != null) {
         var result = response.data;
         Logger().d(result);
@@ -104,7 +112,7 @@ class BaseService {
         Logger().e('Error ${response.statusCode} - ${response.statusMessage}');
         var result = response.data;
         return ApiResult<dynamic>(
-          error: result["meta"]["message"] ?? response.statusMessage ?? '',
+            error: result["meta"]["message"] ?? response.statusMessage ?? '',
             data: result);
       }
     } on DioError catch (exception) {
@@ -112,7 +120,8 @@ class BaseService {
       print('============================================================');
       try {
         return ApiResult<dynamic>(
-            error: exception.response?.data['meta']['message'] ?? LocaleKeys.network_error,
+            error: exception.response?.data['meta']['message'] ??
+                LocaleKeys.network_error,
             statusCode: exception.response?.statusCode);
       } catch (e) {
         return ApiResult<dynamic>(error: LocaleKeys.network_error);
@@ -141,9 +150,14 @@ class BaseService {
         'lang': globals.lang,
         'Content-Type': 'application/json',
       };
-      final response = await Dio().post(baseUrl + url,
-          data: isMultipart ? body : jsonEncode(body),
-          options: Options(headers: headers,sendTimeout: timeOut,)).timeout(Duration(seconds: timeOut));
+      final response = await Dio()
+          .post(baseUrl + url,
+              data: isMultipart ? body : jsonEncode(body),
+              options: Options(
+                headers: headers,
+                sendTimeout: timeOut,
+              ))
+          .timeout(Duration(seconds: timeOut));
       Logger().d(response.data.toString());
       if (response.data != null) {
         var result = response.data;
@@ -159,12 +173,13 @@ class BaseService {
             error: result["meta"]["message"] ?? response.statusMessage ?? '',
             data: result);
       }
-    } on DioError  catch (exception) {
+    } on DioError catch (exception) {
       Logger().e('[EXCEPTION] ' + exception.response.toString());
       print('============================================================');
       try {
         return ApiResult<dynamic>(
-            error: exception.response?.data['meta']['message'] ?? LocaleKeys.network_error,
+            error: exception.response?.data['meta']['message'] ??
+                LocaleKeys.network_error,
             statusCode: exception.response?.statusCode);
       } catch (e) {
         return ApiResult<dynamic>(error: LocaleKeys.network_error);
@@ -186,13 +201,15 @@ class BaseService {
     print('[PUT] ' + baseUrl + url);
     print('[PARAMS] ' + body.toString());
     try {
-      final response = await Dio().put(baseUrl + url,
-          data: body,
-          options: Options(sendTimeout: timeOut,
-            headers: {
-              'Authorization': 'Bearer ${globals.accessToken}',
-              'Content-Type': 'application/json',
-              'lang': globals.lang /*
+      final response = await Dio()
+          .put(baseUrl + url,
+              data: body,
+              options: Options(
+                sendTimeout: timeOut,
+                headers: {
+                  'Authorization': 'Bearer ${globals.accessToken}',
+                  'Content-Type': 'application/json',
+                  'lang': globals.lang /*
           'Host': 'auth.com'*/
                 },
               ))
@@ -216,7 +233,8 @@ class BaseService {
       print('============================================================');
       try {
         return ApiResult<dynamic>(
-            error: exception.response?.data['meta']['message'] ?? LocaleKeys.network_error,
+            error: exception.response?.data['meta']['message'] ??
+                LocaleKeys.network_error,
             statusCode: exception.response?.statusCode);
       } catch (e) {
         return ApiResult<dynamic>(error: LocaleKeys.network_error);
@@ -229,21 +247,27 @@ class BaseService {
   }
 
   // ignore: non_constant_identifier_names
-  Future<ApiResult> DELETE(String url) async {
+  Future<ApiResult> DELETE(String url, {dynamic body}) async {
     if (await ConnectionUtils.isConnect() == false) {
       return ApiResult(error: LocaleKeys.network_error);
     }
     print('============================================================');
     print('[DELETE] ${baseUrl}$url');
     print("Bearer " + globals.accessToken);
+    print("BODY: ${json.encode(body)}");
 
     try {
       final response = await Dio()
           .delete(baseUrl + url,
-              options: Options(headers: {
+              data: jsonEncode(body),
+              options: Options(
+                headers: {
                   'Authorization': 'Bearer ${globals.accessToken}',
-                  // 'Content-Type': 'application/json'
-                },sendTimeout: timeOut,)).timeout(Duration(seconds: timeOut));
+                  'Content-Type': 'application/json'
+                },
+                sendTimeout: timeOut,
+              ))
+          .timeout(Duration(seconds: timeOut));
       Logger().d(response.data);
       if (response.data != null) {
         var result = response.data;

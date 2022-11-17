@@ -92,7 +92,7 @@ class PlayListCubit extends Cubit<PlaylistState> {
     var response = isAdd
         ? await userRepository.addToFavorite(globals.userId, model.id ?? '')
         : await userRepository.removeFromFavorite(
-            globals.userId, model.id ?? '');
+          [model.id ?? '']);
     await Dialogs.hideLoadingDialog();
     if (response.error == null) {
       toast(response.message);
@@ -169,8 +169,7 @@ class PlayListCubit extends Cubit<PlaylistState> {
             lRoutes:
                 isPaging ? (state.lRoutes..addAll(lResponse)) : lResponse));
       } else {
-        emit(state.copyWith(
-            isReadEnd: true, isLoading: false, status: FeedStatus.failure));
+        emit(state.copyWith(isReadEnd: true, isLoading: false,status: FeedStatus.failure));
         toast(response.error.toString());
       }
     } catch (ex) {
