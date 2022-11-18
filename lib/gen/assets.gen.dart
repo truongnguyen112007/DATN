@@ -187,6 +187,12 @@ class $AssetsSvgGen {
   /// File path: assets/svg/edit.svg
   String get edit => 'assets/svg/edit.svg';
 
+  /// File path: assets/svg/fly.svg
+  String get fly => 'assets/svg/fly.svg';
+
+  /// File path: assets/svg/friend.svg
+  String get friend => 'assets/svg/friend.svg';
+
   /// File path: assets/svg/full_screen.svg
   String get fullScreen => 'assets/svg/full_screen.svg';
 
@@ -240,6 +246,9 @@ class $AssetsSvgGen {
 
   /// File path: assets/svg/logout.svg
   String get logout => 'assets/svg/logout.svg';
+
+  /// File path: assets/svg/logout1.svg
+  String get logout1 => 'assets/svg/logout1.svg';
 
   /// File path: assets/svg/man.svg
   String get man => 'assets/svg/man.svg';
@@ -325,6 +334,8 @@ class $AssetsSvgGen {
         doctor,
         doctorBackground,
         edit,
+        fly,
+        friend,
         fullScreen,
         heart,
         holdset1,
@@ -343,6 +354,7 @@ class $AssetsSvgGen {
         liked,
         location,
         logout,
+        logout1,
         man,
         message,
         more,

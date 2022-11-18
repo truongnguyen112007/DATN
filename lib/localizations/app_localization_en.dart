@@ -518,4 +518,19 @@ class AppLocalizationEn extends AppLocalizations {
 
   @override
   String get corner => 'corner';
+
+  @override
+  String get publish => 'Publish';
+
+  @override
+  String get route_name => 'Route name';
+
+  @override
+  String get who_can_see_this_route => 'Who can see this route';
+
+  @override
+  String get grade => 'Grade';
+
+  @override
+  String get please_input_hold_set => 'Please input hold set';
 }

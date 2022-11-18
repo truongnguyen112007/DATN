@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:math' as math;
-
+import 'dart:io';
 import 'package:base_bloc/base/hex_color.dart';
 import 'package:base_bloc/components/app_scalford.dart';
 import 'package:base_bloc/config/constant.dart';
@@ -56,7 +56,8 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     _newPageStream = Utils.eventBus.on<NewPageEvent>().listen((event) async {
-      var result = await RouterUtils.pushTo(context, event.newPage,isReplace: event.isReplace);
+      var result = await RouterUtils.pushTo(context, event.newPage,
+          isReplace: event.isReplace);
       if (result != null && event.type != null) {
         switch (event.type) {
           case NewPageType.HOLD_SET:
@@ -100,7 +101,7 @@ class _HomePageState extends State<HomePage> {
                         ? false
                         : true),
                 child: Padding(
-                  padding: EdgeInsets.only(top: 20.h),
+                  padding: EdgeInsets.only(top: Platform.isIOS ? 15.h : 20.h),
                   child: Container(
                     alignment: Alignment.bottomCenter,
                     decoration: const BoxDecoration(
@@ -161,7 +162,7 @@ class _HomePageState extends State<HomePage> {
           child: Container(
             padding: EdgeInsets.only(top: 17.h),
             height: 50.h,
-            margin: EdgeInsets.only(bottom: 20.h),
+            margin: EdgeInsets.only(bottom: 28),
             decoration: const BoxDecoration(
               color: colorBlack,
               borderRadius: BorderRadius.only(
