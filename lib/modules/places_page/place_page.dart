@@ -354,7 +354,6 @@ class _PlacesPageState extends State<PlacesPage>
                               ),
                             ),
                           ),
-                          isExpanded: true,
                           items: itemCity
                               .map(
                                 (item) => DropdownMenuItem<String>(

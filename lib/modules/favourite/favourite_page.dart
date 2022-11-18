@@ -1,4 +1,3 @@
-import 'package:base_bloc/components/app_button.dart';
 import 'package:base_bloc/components/app_circle_loading.dart';
 import 'package:base_bloc/components/app_scalford.dart';
 import 'package:base_bloc/components/gradient_button.dart';
@@ -6,22 +5,24 @@ import 'package:base_bloc/data/globals.dart';
 import 'package:base_bloc/modules/favourite/favourite_cubit.dart';
 import 'package:base_bloc/modules/favourite/favourite_state.dart';
 import 'package:base_bloc/modules/playlist/playlist_cubit.dart';
-import 'package:base_bloc/modules/playlist/playlist_state.dart';
 import 'package:base_bloc/modules/tab_home/tab_home_state.dart';
+import 'package:base_bloc/router/router_utils.dart';
 import 'package:base_bloc/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
+import '../../components/app_not_data_widget.dart';
 import '../../components/app_text.dart';
 import '../../components/filter_widget.dart';
 import '../../components/item_info_routes.dart';
+import '../../config/constant.dart';
 import '../../data/model/routes_model.dart';
 import '../../localizations/app_localazations.dart';
+import '../../router/router.dart';
 import '../../theme/app_styles.dart';
 import '../../utils/app_utils.dart';
-import '../../utils/log_utils.dart';
 
 class FavouritePage extends StatefulWidget {
   const FavouritePage({Key? key}) : super(key: key);
@@ -43,15 +44,13 @@ class _FavouritePageState extends State<FavouritePage>
   }
 
   void paging() {
-    if (scrollController.hasClients) {
-      scrollController.addListener(() {
-        var maxScroll = scrollController.position.maxScrollExtent;
-        var currentScroll = scrollController.position.pixels;
-        if (maxScroll - currentScroll <= 200) {
-          _bloc.getFavourite();
-        }
-      });
-    }
+    scrollController.addListener(() {
+      var maxScroll = scrollController.position.maxScrollExtent;
+      var currentScroll = scrollController.position.pixels;
+      if (maxScroll - currentScroll <= 200) {
+        _bloc.getFavourite(isPaging: true);
+      }
+    });
   }
 
   @override
@@ -63,50 +62,37 @@ class _FavouritePageState extends State<FavouritePage>
           children: [
             Column(
               children: [
-                   FilterWidget(
-                    isSelect: true,
-                    selectCallBack: () {
-                      _bloc.selectOnclick(false);
-                    },
-                    filterCallBack: () => _bloc.filterOnclick(context),
-                    sortCallBack: () {},
-                    unsSelectCallBack: () {
-                      _bloc.selectOnclick(true);
-                    },
-                  ),
+                FilterWidget(
+                  isSelect: true,
+                  selectCallBack: () {
+                    _bloc.selectOnclick(false);
+                  },
+                  filterCallBack: () => _bloc.filterOnclick(context),
+                  sortCallBack: () {},
+                  unsSelectCallBack: () {
+                    _bloc.selectOnclick(true);
+                  },
+                ),
                 Expanded(
                   child: RefreshIndicator(
-                    child: Stack(
-                      children: [
-                        SingleChildScrollView(
-                          controller: scrollController,
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          child: Column(
-                            children: [
-                              BlocBuilder<FavouriteCubit, FavouriteState>(
-                                  bloc: _bloc,
-                                  builder: (c, state) {
-                                    if (state.status == FeedStatus.initial ||
-                                        state.status == FeedStatus.refresh) {
-                                      return const SizedBox();
-                                    }
-                                    return playlistWidget(context, state);
-                                  }),
-                            ],
-                          ),
-                        ),
-                        BlocBuilder<FavouriteCubit, FavouriteState>(
-                          bloc: _bloc,
-                          builder: (BuildContext context, state) =>
-                              (state.status == FeedStatus.initial ||
-                                      state.status == FeedStatus.refresh)
-                                  ? const Center(
-                                      child: AppCircleLoading(),
-                                    )
-                                  : const SizedBox(),
-                        ),
-                      ],
-                    ),
+                    child: BlocBuilder<FavouriteCubit, FavouriteState>(
+                        bloc: _bloc,
+                        builder: (c, state) {
+                          return (state.status == FeedStatus.initial ||
+                                  state.status == FeedStatus.refresh)
+                              ? const Center(child: AppCircleLoading())
+                              : (state.status == FeedStatus.failure ||
+                                      state.lPlayList.isEmpty
+                                  ? Center(
+                                      child: Stack(children: [
+                                      ListView(
+                                        physics:
+                                            const AlwaysScrollableScrollPhysics(),
+                                      ),
+                                      const AppNotDataWidget()
+                                    ]))
+                                  : playlistWidget(context, state));
+                        }),
                     onRefresh: () async => _bloc.refresh(),
                   ),
                 ),
@@ -121,31 +107,32 @@ class _FavouritePageState extends State<FavouritePage>
                 right: 5.w,
                 child: state.isShowActionButton
                     ? Align(
-                  alignment: Alignment.bottomRight,
-                  child: GradientButton(
-                    height: 36.h,
-                    isCenter: true,
-                    width: 170.w,
-                    decoration: BoxDecoration(
-                      gradient:
-                      Utils.backgroundGradientOrangeButton(),
-                      borderRadius: BorderRadius.circular(18),
-                    ),
-                    onTap: () {
-                      var lSelectRadioButton = <RoutesModel>[];
-                      for( var element in state.lPlayList) {
-                        if (element.isSelect == true) lSelectRadioButton.add(element);
-                      }
-                    _bloc.itemOnLongClick(context,0,isMultiSelect: true);
-                    },
-                    widget: AppText(
-                      LocaleKeys.action,
-                      style: googleFont.copyWith(
-                          color: colorWhite, fontSize: 15.sp),
-                    ),
-                    borderRadius: BorderRadius.circular(18),
-                  ),
-                )
+                        alignment: Alignment.bottomRight,
+                        child: GradientButton(
+                          height: 36.h,
+                          isCenter: true,
+                          width: 170.w,
+                          decoration: BoxDecoration(
+                            gradient: Utils.backgroundGradientOrangeButton(),
+                            borderRadius: BorderRadius.circular(18),
+                          ),
+                          onTap: () {
+                            var lSelectRadioButton = <RoutesModel>[];
+                            for (var element in state.lPlayList) {
+                              if (element.isSelect == true)
+                                lSelectRadioButton.add(element);
+                            }
+                            _bloc.itemOnLongClick(context, 0,
+                                isMultiSelect: true);
+                          },
+                          widget: AppText(
+                            LocaleKeys.action,
+                            style: googleFont.copyWith(
+                                color: colorWhite, fontSize: 15.sp),
+                          ),
+                          borderRadius: BorderRadius.circular(18),
+                        ),
+                      )
                     : const SizedBox(),
               ),
             ),
@@ -229,8 +216,7 @@ class _FavouritePageState extends State<FavouritePage>
 
   Widget playlistWidget(BuildContext context, FavouriteState state) =>
       ListView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
+          controller: scrollController,
           padding: EdgeInsets.all(contentPadding),
           itemBuilder: (c, i) => i == state.lPlayList.length
               ? const Center(
@@ -246,75 +232,15 @@ class _FavouritePageState extends State<FavouritePage>
                     _bloc.filterItemOnclick(i);
                   },
                   index: i,
-                  onLongPress: (model) => _bloc.itemOnLongClick(context,i,model: model),
-                  detailCallBack: (RoutesModel action) =>  _bloc.itemOnclick(context, state.lPlayList[i]),
+                  onLongPress: (model) =>
+                      _bloc.itemOnLongClick(context, i, model: model),
+                  detailCallBack: (RoutesModel action) =>
+                      _bloc.itemOnclick(context, state.lPlayList[i]),
                 ),
           itemCount:
               !state.isReadEnd && state.lPlayList.isNotEmpty && state.isLoading
                   ? state.lPlayList.length + 1
                   : state.lPlayList.length);
-
-  void showActionDialog(
-      List<RoutesModel> model, Function(ItemAction) callBack) {
-    showModalBottomSheet(
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      context: context,
-      builder: (x) => Wrap(
-        children: [
-          Container(
-            decoration: const BoxDecoration(
-              color: Color(0xFF212121),
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20),
-                topRight: Radius.circular(20),
-              ),
-            ),
-            child: Column(
-              children: [
-                SizedBox(
-                  height: contentPadding,
-                ),
-                // itemAction(
-                //     Icons.thumb_up_alt,
-                //     AppLocalizations.of(context)!.moveToPlaylist,
-                //     ItemAction.MOVE_TO_TOP,
-                //     () => callBack.call(ItemAction.MOVE_TO_TOP)),
-                itemAction(
-                    Icons.account_balance_rounded,
-                    AppLocalizations.of(context)!.addToPlaylist,
-                    ItemAction.ADD_TO_PLAYLIST,
-                    () => callBack.call(ItemAction.ADD_TO_PLAYLIST)),
-                // itemAction(
-                //     Icons.add,
-                //     AppLocalizations.of(context)!.removeFromPlaylist,
-                //     ItemAction.REMOVE_FROM_PLAYLIST,
-                //     () => callBack.call(ItemAction.REMOVE_FROM_PLAYLIST)),
-                // itemAction(
-                //     Icons.favorite,
-                //     AppLocalizations.of(context)!.addToFavourite,
-                //     ItemAction.ADD_TO_FAVOURITE,
-                //     () => callBack.call(ItemAction.ADD_TO_FAVOURITE)),
-                // itemAction(
-                //     Icons.remove_circle_outline,
-                //     AppLocalizations.of(context)!.removeFromFavorite,
-                //     ItemAction.REMOVE_FROM_PLAYLIST,
-                //     () => callBack.call(ItemAction.REMOVE_FROM_PLAYLIST)),
-                itemAction(Icons.share, AppLocalizations.of(context)!.share,
-                    ItemAction.SHARE, () => callBack.call(ItemAction.SHARE)),
-                itemAction(Icons.copy, AppLocalizations.of(context)!.copy,
-                    ItemAction.COPY, () => callBack.call(ItemAction.COPY)),
-                // itemAction(Icons.edit, AppLocalizations.of(context)!.edit,
-                //     ItemAction.EDIT, () => callBack.call(ItemAction.EDIT)),
-                itemAction(Icons.delete, AppLocalizations.of(context)!.delete,
-                    ItemAction.DELETE, () => callBack.call(ItemAction.DELETE)),
-              ],
-            ),
-          )
-        ],
-      ),
-    );
-  }
 
   Widget itemAction(IconData icon, String text, ItemAction action,
       VoidCallback filterCallBack) {

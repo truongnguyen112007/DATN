@@ -51,8 +51,7 @@ class AppLocalizationEn extends AppLocalizations {
   String get sort => 'Sort';
 
   @override
-  // TODO: implement addToPlaylist
-  String get addToPlaylist => 'Add to playlist';
+  String get addToPlaylist => 'Add playlist';
 
   @override
   // TODO: implement copy
@@ -448,7 +447,7 @@ class AppLocalizationEn extends AppLocalizations {
   String get find_routes => 'Find routes';
 
   @override
-  String get add_favourite => 'Add favourite';
+  String get add_favourite => 'Add fav';
 
   @override
   String get notifications => 'Notifications';

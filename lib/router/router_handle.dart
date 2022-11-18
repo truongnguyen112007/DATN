@@ -13,6 +13,7 @@ import 'package:base_bloc/modules/home/home_page.dart';
 import 'package:base_bloc/modules/notifications_page/notifications_page.dart';
 import 'package:base_bloc/modules/place_address/place_address.dart';
 import 'package:base_bloc/modules/reservation_detail/reservation_detail_page.dart';
+import 'package:base_bloc/modules/routes_page/routes_page.dart';
 import 'package:base_bloc/modules/splash/splash_page.dart';
 import 'package:base_bloc/modules/tab_climb/tab_climb.dart';
 import 'package:base_bloc/modules/tab_home/tab_home.dart';
@@ -22,7 +23,7 @@ import 'package:base_bloc/modules/tab_routes/tab_routes.dart';
 import 'package:fluro/fluro.dart';
 
 import '../modules/login/login.dart';
-import '../modules/search_home/search_home_page.dart';
+import '../modules/search/search_page.dart';
 
 import '../modules/routers_detail/routes_detail_page.dart';
 
@@ -36,7 +37,7 @@ var routeHome = Handler(handlerFunc: (c, p) => const HomePage());
 var routeTabHome = Handler(handlerFunc: (c, p) => const TabHome());
 var routeSearchHome = Handler(
     handlerFunc: (c, p) =>
-        SearchHomePage(index: c!.settings!.arguments as int));
+        SearchPage(index: c!.settings!.arguments as int));
 var routeNotifications =
     Handler(handlerFunc: (c, p) => const NotificationsPage());
 var routeLogin = Handler(
@@ -76,3 +77,4 @@ var routePlaceDetail = Handler(
           index: (c!.settings!.arguments as List)[0] as int,
           model: (c.settings!.arguments as List)[1] as PlacesModel,
         ));
+var routeSearchRoute = Handler(handlerFunc: (c,p) => RoutesPage(index: c!.settings!.arguments as int));

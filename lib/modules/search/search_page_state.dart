@@ -1,13 +1,13 @@
 import 'package:equatable/equatable.dart';
 
-abstract class SearchHomeState extends Equatable{}
+abstract class SearchState extends Equatable{}
 
-class InitState extends SearchHomeState {
+class InitSearchState extends SearchState {
   @override
   List<Object?> get props => [];
 }
 
-class ChangeTabState extends SearchHomeState{
+class ChangeTabState extends SearchState{
 
   final int index;
 

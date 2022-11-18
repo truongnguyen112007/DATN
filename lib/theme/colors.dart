@@ -1,3 +1,4 @@
+import 'package:base_bloc/base/hex_color.dart';
 import 'package:flutter/material.dart';
 
 const colorTransparent = Color(0x00000000);
@@ -202,5 +203,6 @@ var colorSchemeOnSurface = const Color(0xffe5e5e5);
 var colorSchemeOnError = const Color(0xffe5e5e5);
 
 var colorYellow70 = const Color(0xFFFF9300);
+var colorShowActionDialog = HexColor('#212121');
 
 
