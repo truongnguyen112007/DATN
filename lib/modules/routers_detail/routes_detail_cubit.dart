@@ -54,7 +54,7 @@ class RoutesDetailCubit extends Cubit<RoutesDetailState> {
   void addToFavorite(BuildContext context, RoutesModel model) async {
     Dialogs.showLoadingDialog(context);
     var response =
-        await userRepository.addToFavorite(globals.userId, model.id ?? '');
+        await userRepository.addToFavorite(globals.userId, [model.id ?? '']);
     await Dialogs.hideLoadingDialog();
     if (response.error == null) {
       toast(response.message);
@@ -66,7 +66,7 @@ class RoutesDetailCubit extends Cubit<RoutesDetailState> {
   void addToPlaylist(BuildContext context, RoutesModel model) async {
     Dialogs.showLoadingDialog(context);
     var response =
-        await userRepository.addToFavorite(globals.userId, model.id ?? '');
+        await userRepository.addToFavorite(globals.userId, [model.id ?? '']);
     await Dialogs.hideLoadingDialog();
     if (response.error == null) {
       toast(response.message);

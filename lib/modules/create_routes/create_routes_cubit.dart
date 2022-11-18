@@ -13,7 +13,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:convert';
 
 import '../../gen/assets.gen.dart';
+import '../../localizations/app_localazations.dart';
 import '../../router/router_utils.dart';
+import '../../utils/toast_utils.dart';
+import '../create_info_route/create_info_route_page.dart';
 import '../hold_set/hold_set_page.dart';
 
 class CreateRoutesCubit extends Cubit<CreateRoutesState> {
@@ -43,6 +46,20 @@ class CreateRoutesCubit extends Cubit<CreateRoutesState> {
         currentHoldSet: holdSet,
         lRoutes: state.lRoutes,
         timeStamp: DateTime.now().microsecondsSinceEpoch));
+  }
+
+  void confirmOnclick(BuildContext context) {
+    var lHoldSet = <HoldSetModel>[];
+    for (int i = 0; i < state.lRoutes.length; i++) {
+      if (state.lRoutes[i].holdSet.isNotEmpty) {
+        lHoldSet.add(state.lRoutes[i].copyOf(index: i));
+      }
+    }
+    if (lHoldSet.isEmpty) {
+      toast(LocaleKeys.please_input_hold_set);
+    } else {
+      RouterUtils.openNewPage(CreateInfoRoutePage(lHoldSet: lHoldSet), context);
+    }
   }
 
   void itemOnClick(int index, BuildContext context) {

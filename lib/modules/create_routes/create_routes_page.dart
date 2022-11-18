@@ -494,7 +494,8 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage> {
         svgButton(
             context, Assets.svg.fullScreen, () => _bloc.scaleOnClick(context),
             isBackgroundCircle: false),
-        svgButton(context, Assets.svg.more, () {}, isBackgroundCircle: false),
+        svgButton(context, Assets.svg.more, () => _bloc.confirmOnclick(context),
+            isBackgroundCircle: false),
         SizedBox(width: globals.contentPadding)
       ]);
 
