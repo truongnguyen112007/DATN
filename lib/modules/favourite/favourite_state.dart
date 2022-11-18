@@ -12,27 +12,30 @@ class FavouriteState extends Equatable {
   final bool isClickRadioButton;
   final bool isShowActionButton;
   final int timeStamp;
+  final int nextPage;
 
   const FavouriteState({
     this.status = FeedStatus.initial,
-    this. lPlayList = const <RoutesModel>[],
+    this.lPlayList = const <RoutesModel>[],
     this.isReadEnd = false,
     this.timeStamp = 0,
     this.isLoading = true,
     this.isShowAdd = true,
     this.isClickRadioButton = false,
     this.isShowActionButton = false,
+    this.nextPage = 1,
   });
 
   FavouriteState copyWith(
           {FeedStatus? status,
           List<RoutesModel>? lPlayList,
-            int? timeStamp,
+          int? timeStamp,
           bool? isReadEnd,
           bool? isLoading,
           bool? isShowAdd,
           bool? isClickRadioButton,
-          bool? isShowActionButton}) =>
+          bool? isShowActionButton,
+          int? nextPage}) =>
       FavouriteState(
           timeStamp: timeStamp ?? this.timeStamp,
           isLoading: isLoading ?? this.isLoading,
@@ -41,9 +44,19 @@ class FavouriteState extends Equatable {
           isReadEnd: isReadEnd ?? this.isReadEnd,
           isShowAdd: isShowAdd ?? this.isShowAdd,
           isClickRadioButton: isClickRadioButton ?? this.isClickRadioButton,
-          isShowActionButton: isShowActionButton ?? this.isShowActionButton);
+          isShowActionButton: isShowActionButton ?? this.isShowActionButton,
+          nextPage: nextPage ?? this.nextPage);
 
   @override
-  List<Object?> get props =>
-      [status, lPlayList, isReadEnd, isLoading, isShowAdd, isClickRadioButton,isShowActionButton,timeStamp];
+  List<Object?> get props => [
+        status,
+        lPlayList,
+        isReadEnd,
+        isLoading,
+        isShowAdd,
+        isClickRadioButton,
+        isShowActionButton,
+        timeStamp,
+        nextPage,
+      ];
 }

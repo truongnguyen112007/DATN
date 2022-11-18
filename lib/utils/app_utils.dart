@@ -215,6 +215,10 @@ class Utils {
     return TimeOfDay(hour: dateTime.hour, minute: dateTime.minute);
   }
 
+  static String convertTimeStampToYYYYMMYY(int timestamp) =>
+      DateFormat('yyyy-MM-dd')
+          .format(DateTime.fromMillisecondsSinceEpoch(timestamp * 1000));
+
   static String reformatDateToMMMDDYYFromStr(String dateTime) {
     return DateFormat('MMM DD YYYY').parse(dateTime).toString();
   }
@@ -232,7 +236,7 @@ class Utils {
 
   static void showActionDialog(
       BuildContext context, Function(ItemAction) callBack,
-      {bool isPlaylist = false, bool isFavorite = false}) {
+      {bool isPlaylist = false, bool isFavorite = false,bool isCopy = true}) {
     showModalBottomSheet(
         isScrollControlled: true,
         backgroundColor: Colors.transparent,
@@ -242,7 +246,7 @@ class Utils {
                 Container(
                   padding: EdgeInsets.all(contentPadding),
                   decoration: BoxDecoration(
-                    color: colorBlack.withOpacity(0.75),
+                    color: colorShowActionDialog,
                     borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20),
@@ -291,11 +295,11 @@ class Utils {
                           AppLocalizations.of(context)!.share,
                           ItemAction.SHARE,
                           () => callBack.call(ItemAction.SHARE)),
-                      itemAction(
+                       isCopy ? itemAction(
                           Assets.svg.copy,
                           AppLocalizations.of(context)!.copy,
                           ItemAction.COPY,
-                          () => callBack.call(ItemAction.COPY)),
+                          () => callBack.call(ItemAction.COPY)): const SizedBox(),
                       (!isPlaylist && !isFavorite)
                           ? itemAction(
                               Assets.svg.edit,

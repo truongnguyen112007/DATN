@@ -91,8 +91,7 @@ class PlayListCubit extends Cubit<PlaylistState> {
     Dialogs.showLoadingDialog(context);
     var response = isAdd
         ? await userRepository.addToFavorite(globals.userId, model.id ?? '')
-        : await userRepository.removeFromFavorite(
-          [model.id ?? '']);
+        : await userRepository.removeFromFavorite(model.id ?? '');
     await Dialogs.hideLoadingDialog();
     if (response.error == null) {
       toast(response.message);

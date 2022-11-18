@@ -38,25 +38,32 @@ class FavouriteCubit extends Cubit<FavouriteState> {
   }
 
   void itemOnLongClick(BuildContext context, int index,
-          {bool isMultiSelect = false, RoutesModel? model}) =>
-      Utils.showActionDialog(context, (type) {
-        Navigator.pop(context);
-        switch (type) {
-          case ItemAction.ADD_TO_PLAYLIST:
-            addToPlaylist(context, isMultiSelect: isMultiSelect, model: model);
-            return;
-          case ItemAction.REMOVE_FROM_FAVORITE:
-            removeFromFavourite(
-                context, model: model, index, isMultiSelect: isMultiSelect);
-            return;
-          case ItemAction.SHARE:
-            shareRoutes(context, model!, index);
-            return;
-          case ItemAction.COPY:
-            copyRoutes(context, model!, index);
-            return;
-        }
-      }, isFavorite: true);
+          {bool isMultiSelect = false, RoutesModel? model, bool isCopy = true}){
+    var count =0;
+    for (var element in state.lPlayList) {
+      if(element.isSelect) count++;
+    }
+    Utils.showActionDialog(context, (type) {
+      Navigator.pop(context);
+      switch (type) {
+        case ItemAction.ADD_TO_PLAYLIST:
+          addToPlaylist(context, isMultiSelect: isMultiSelect, model: model);
+          return;
+        case ItemAction.REMOVE_FROM_FAVORITE:
+          removeFromFavourite(
+              context, model: model, index, isMultiSelect: isMultiSelect);
+          return;
+        case ItemAction.SHARE:
+          shareRoutes(context, model!, index);
+          return;
+        case ItemAction.COPY:
+          copyRoutes(context, model!, index);
+          return;
+      }
+    },
+        isFavorite: true,
+        isCopy: !isMultiSelect ? true : (count == 1 ? true : false));
+  }
 
   void handleAction(ItemAction action, RoutesModel model) =>
       logE("TAG ACTION: $action");
@@ -121,19 +128,35 @@ class FavouriteCubit extends Cubit<FavouriteState> {
   */
   }
 
-  void getFavourite() async {
-    var response = await userRepository.getFavorite(globals.userId);
+  void getFavourite({bool isPaging = false}) async {
+    if (state.isLoading && state.lPlayList.isNotEmpty || state.isReadEnd) return;
+    emit(state.copyWith(isLoading: true));
+    var response = await userRepository.getFavorite(globals.userId,state.nextPage);
     if (response.data != null && response.error == null) {
       try {
         var lResponse = routeModelFromJson(response.data);
         emit(state.copyWith(
             status: FeedStatus.success,
+            isReadEnd: lResponse.isEmpty,
+            nextPage: state.nextPage + 1,
             isLoading: false,
-            lPlayList: lResponse));
+            lPlayList:
+                isPaging ? (state.lPlayList..addAll(lResponse)) : lResponse));
       } catch (e) {
-        emit(state.copyWith(status: FeedStatus.failure));
+        logE('ksd$e');
+        emit(state.copyWith(
+            isReadEnd: true, isLoading: false, status: FeedStatus.failure));
       }
     } else {
+      emit(
+        state.copyWith(
+          status: state.lPlayList.isNotEmpty
+              ? FeedStatus.success
+              : FeedStatus.failure,
+          isReadEnd: true,
+          isLoading: false,
+        ),
+      );
       toast(response.error.toString());
     }
   }
@@ -141,24 +164,24 @@ class FavouriteCubit extends Cubit<FavouriteState> {
   void removeFromFavourite(BuildContext context, int index,
       {RoutesModel? model, bool isMultiSelect = false}) async {
     Dialogs.showLoadingDialog(context);
-    var lRoutes = <String>[];
+    var routeIds = '';
     var lIndex = [];
     if (isMultiSelect) {
       for (int i = 0; i < state.lPlayList.length; i++) {
         if (state.lPlayList[i].isSelect) {
-          lRoutes.add(state.lPlayList[i].id ?? '');
+          routeIds += '${state.lPlayList[i].id ?? ''},';
           lIndex.add(i);
         }
       }
     } else {
-      lRoutes.add(model!.id ?? "");
+      routeIds = model!.id ?? '';
     }
-    var response = await userRepository.removeFromFavorite(lRoutes);
+    var response = await userRepository.removeFromFavorite(routeIds);
     await Dialogs.hideLoadingDialog();
     if (response.error == null) {
       if (isMultiSelect) {
-        for(int i =lIndex.length-1;i>=0;i--){
-          state.lPlayList.removeAt(i);
+        for (int i = lIndex.length - 1; i >= 0; i--) {
+          state.lPlayList.removeAt(lIndex[i]);
         }
         emit(state.copyWith(timeStamp: DateTime.now().microsecondsSinceEpoch));
       } else {
@@ -200,6 +223,6 @@ class FavouriteCubit extends Cubit<FavouriteState> {
     toast('Share post success');
   }
 
-  void copyRoutes(BuildContext context, RoutesModel model, int index) =>
+  void copyRoutes(BuildContext context, RoutesModel model, int index,) =>
       RouterUtils.openNewPage(CreateRoutesPage(model: model), context);
 }

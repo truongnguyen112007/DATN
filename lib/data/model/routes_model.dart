@@ -25,7 +25,7 @@ class RoutesModel {
     this.height,
     this.id,
     this.authorGrade,
-    // this.created,
+    this.created,
     this.holds,
     this.isSelect = false,
   });
@@ -42,7 +42,7 @@ class RoutesModel {
   int? height;
   String? id;
   int? authorGrade;
-  // int? created;
+  int? created;
   String? holds;
   bool isSelect;
 
@@ -59,7 +59,7 @@ class RoutesModel {
     height: json["height"],
     id: json["id"],
     authorGrade: json["author_grade"],
-    // created: json["created"],
+    created: json["created"],
     holds: json["holds"],
     isSelect: false,
   );
@@ -77,7 +77,7 @@ class RoutesModel {
     "height": height,
     "id": id,
     "author_grade": authorGrade,
-    // "created": created,
+    "created": created,
     "holds": holds,
   };
 }

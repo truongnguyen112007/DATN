@@ -5,6 +5,7 @@ import 'package:base_bloc/data/globals.dart';
 import 'package:base_bloc/modules/playlist/playlist_cubit.dart';
 import 'package:base_bloc/modules/playlist/playlist_state.dart';
 import 'package:base_bloc/modules/tab_home/tab_home_state.dart';
+import 'package:base_bloc/router/router_utils.dart';
 import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/theme/colors.dart';
 import 'package:base_bloc/utils/app_utils.dart';
@@ -15,8 +16,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 import '../../components/item_info_routes.dart';
+import '../../config/constant.dart';
 import '../../data/model/routes_model.dart';
 import '../../localizations/app_localazations.dart';
+import '../../router/router.dart';
 import '../../utils/log_utils.dart';
 
 class PlayListPage extends StatefulWidget {
@@ -119,7 +122,12 @@ class _PlayListPageState extends State<PlayListPage>
                     ),
                     backgroundColor: Colors.white,
                     foregroundColor: Colors.white,
-                    onTap: () {},
+                    onTap: () {
+                      RouterUtils.pushRoutes(
+                          context: context,
+                          route: RoutesRouters.search,
+                          argument: BottomNavigationConstant.TAB_ROUTES);
+                    },
                   ),
                   SpeedDialChild(
                     labelWidget: AppText(

@@ -44,11 +44,11 @@ class UserRepository extends BaseService{
   Future<ApiResult> moveToTop(String playlistId, String routeId) async =>
       await PUT('playlistdetail/$playlistId', body: {ApiKey.route_id: routeId});
 
-  Future<ApiResult> getFavorite(int userId) async =>
-      await GET("favourite?start=1&count=${ApiKey.limit_offset}");
+  Future<ApiResult> getFavorite(int userId,int nextPage) async =>
+      await GET("favourite?start=$nextPage&count=${ApiKey.limit_offset}");
 
-  Future<ApiResult> removeFromFavorite(List<String> routeId) async =>
-      await DELETE('favourite',body: {ApiKey.route_ids: routeId});
+  Future<ApiResult> removeFromFavorite(String routeIds) async =>
+      await DELETE('favourite?ids=$routeIds',/*body: {ApiKey.route_ids: routeId}*/);
 
   Future<ApiResult> addToFavorite(int userId, String routeId) async =>
       await POST('favourite', {

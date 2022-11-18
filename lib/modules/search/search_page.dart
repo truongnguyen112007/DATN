@@ -2,10 +2,9 @@ import 'package:base_bloc/base/base_state.dart';
 import 'package:base_bloc/base/hex_color.dart';
 import 'package:base_bloc/config/constant.dart';
 import 'package:base_bloc/localizations/app_localazations.dart';
-import 'package:base_bloc/modules/search_home/search_home_cubit.dart';
-import 'package:base_bloc/modules/search_home/search_home_state.dart';
+import 'package:base_bloc/modules/search/search_page_cubit.dart';
+import 'package:base_bloc/modules/search/search_page_state.dart';
 import 'package:base_bloc/theme/colors.dart';
-import 'package:base_bloc/utils/log_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -18,26 +17,27 @@ import '../../gen/assets.gen.dart';
 import '../../theme/app_styles.dart';
 import '../../utils/app_utils.dart';
 import '../all_page/all_page.dart';
+import '../home/home_state.dart';
 import '../persons_page/persons_page.dart';
 import '../places_page/place_page.dart';
 import '../routes_page/routes_page.dart';
 
-class SearchHomePage extends StatefulWidget {
+class SearchPage extends StatefulWidget {
   final int index;
 
-  const SearchHomePage({Key? key, required this.index}) : super(key: key);
+  const SearchPage({Key? key, required this.index}) : super(key: key);
 
   @override
-  State<SearchHomePage> createState() => _SearchHomePageState();
+  State<SearchPage> createState() => _SearchPageState();
 }
 
-class _SearchHomePageState extends BasePopState<SearchHomePage>
+class _SearchPageState extends BasePopState<SearchPage>
     with TickerProviderStateMixin {
   var isShowMap = false;
 
   int selectedIndex = 1;
 
-  late SearchHomeCubit _bloc;
+  late SearchCubit _bloc;
 
   final itemOnChange = BehaviorSubject<String>();
 
@@ -66,7 +66,7 @@ class _SearchHomePageState extends BasePopState<SearchHomePage>
               SearchHomeEvent(selectedIndex, value),
             ));
 
-    _bloc = SearchHomeCubit();
+    _bloc = SearchCubit();
 
     super.initState();
   }
@@ -232,7 +232,7 @@ class _SearchHomePageState extends BasePopState<SearchHomePage>
                 padding: EdgeInsets.only(left: 15.w, right: 15.w),
                 margin: EdgeInsets.only(left: 6.w),
                 alignment: Alignment.center,
-                decoration: (state is InitState && index == BottomNavigationSearch.TAB_ROUTES) ||
+                decoration: (state is InitSearchState && index == BottomNavigationSearch.TAB_ROUTES) ||
                         (state is ChangeTabState && state.index == index)
                     ? BoxDecoration(
                         borderRadius: BorderRadius.circular(20),

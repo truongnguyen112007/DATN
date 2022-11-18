@@ -100,86 +100,83 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
                           Expanded(
                               // flex: 15,
                               child: Stack(
-                                children: [
-                                  Positioned.fill(
-                                      child: Align(
-                                    alignment: Alignment.center,
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        lineGreyGradient(context, false),
-                                        Container(
-                                          decoration: BoxDecoration(
-                                              gradient: gradientBackground()),
-                                          alignment: Alignment.bottomCenter,
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Positioned.fill(
+                                  child: Align(
+                                alignment: Alignment.center,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    lineGreyGradient(context, false),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                          gradient: gradientBackground()),
+                                      alignment: Alignment.bottomCenter,
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Container(
+                                              width:
+                                                  column * sizeHoldSet + 16.w,
+                                              height: 2,
+                                              color: HexColor('A3A3A3')),
+                                          Container(
+                                              width:
+                                                  column * sizeHoldSet + 16.w,
+                                              height: 5,
+                                              color: colorBlack),
+                                          const Spacer(),
+                                          Row(
                                             children: [
+                                              heightWidget(true),
                                               Container(
-                                                  width: column * sizeHoldSet +
-                                                      16.w,
-                                                  height: 2,
-                                                  color: HexColor('A3A3A3')),
-                                              Container(
-                                                  width: column * sizeHoldSet +
-                                                      16.w,
-                                                  height: 5,
-                                                  color: colorBlack),
-                                              const Spacer(),
-                                              Row(
-                                                children: [
-                                                  heightWidget(true),
-                                                  Container(
-                                                    width: column * sizeHoldSet,
-                                                    decoration: BoxDecoration(
-                                                        gradient:
-                                                            gradientBackground()),
-                                                    child: Column(
-                                                      children: [
-                                                        boxNameWidget(context),
-                                                        routesWidget(context),
-                                                        boxNameWidget(context),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  heightWidget(false),
-                                                ],
+                                                width: column * sizeHoldSet,
+                                                decoration: BoxDecoration(
+                                                    gradient:
+                                                        gradientBackground()),
+                                                child: Column(
+                                                  children: [
+                                                    boxNameWidget(context),
+                                                    routesWidget(context),
+                                                    boxNameWidget(context),
+                                                  ],
+                                                ),
                                               ),
-                                              SizedBox(
-                                                height: sizeHoldSet * 1.5,
-                                              )
+                                              heightWidget(false),
                                             ],
                                           ),
-                                        ),
-                                        lineGreyGradient(context, true),
-                                      ],
-                                    ),
-                                  )),
-                                  Positioned(
-                                    child: Align(
-                                      alignment: Alignment.bottomLeft,
-                                      child: Padding(
-                                        padding: EdgeInsets.only(
-                                            left: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                5.5),
-                                        child: SvgPicture.asset(Assets.svg.man,
-                                            height:
-                                                row * sizeHoldSet / 6 + 2.h),
+                                          SizedBox(
+                                            height: sizeHoldSet * 1.5,
+                                          )
+                                        ],
                                       ),
                                     ),
-                                  ),
-                                  Positioned.fill(
-                                      child: Align(
-                                    alignment: Alignment.bottomLeft,
-                                    child: infoHeightWidget(context),
-                                  ))
-                                ],
+                                    lineGreyGradient(context, true),
+                                  ],
+                                ),
                               )),
+                              Positioned(
+                                child: Align(
+                                  alignment: Alignment.bottomLeft,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(
+                                        left:
+                                            MediaQuery.of(context).size.width /
+                                                5.5),
+                                    child: SvgPicture.asset(Assets.svg.man,
+                                        height: row * sizeHoldSet / 6 + 2.h),
+                                  ),
+                                ),
+                              ),
+                              Positioned.fill(
+                                  child: Align(
+                                alignment: Alignment.bottomLeft,
+                                child: infoHeightWidget(context),
+                              ))
+                            ],
+                          )),
                           Align(
                             alignment: Alignment.bottomCenter,
                             child: Container(
@@ -281,8 +278,11 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
                     '',
                     padding: const EdgeInsets.only(bottom: 3))),
             Expanded(
-                child: itemInfoWidget(context,
-                    AppLocalizations.of(context)!.popularity, '${widget.model.popurlarity}k', '',
+                child: itemInfoWidget(
+                    context,
+                    AppLocalizations.of(context)!.popularity,
+                    '${widget.model.popurlarity}k',
+                    '',
                     padding: EdgeInsets.only(right: contentPadding, bottom: 3)))
           ],
         ),
@@ -374,51 +374,47 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Expanded(
-                child: itemActionWidget(AppLocalizations.of(context)!.info,
-                    Assets.svg.info, RoutesAction.INFO)),
-            Expanded(
-                child: itemActionWidget(AppLocalizations.of(context)!.share,
-                    Assets.svg.share, RoutesAction.SHARE)),
-            Expanded(
-                child: itemActionWidget(AppLocalizations.of(context)!.copy,
-                    Assets.svg.copy, RoutesAction.COPY)),
+                child: itemActionWidget(
+                    LocaleKeys.info, Assets.svg.info, RoutesAction.INFO)),
             Expanded(
                 child: itemActionWidget(
-                    AppLocalizations.of(context)!.add_favourite,
-                    Assets.svg.like,
-                    RoutesAction.ADD_FAVOURITE)),
+                    LocaleKeys.share, Assets.svg.share, RoutesAction.SHARE)),
             Expanded(
                 child: itemActionWidget(
-                    AppLocalizations.of(context)!.addToPlaylist,
-                    Assets.svg.addToPlayList,
-                    RoutesAction.ADD_TO_PLAY_LIST))
+                    LocaleKeys.copy, Assets.svg.copy, RoutesAction.COPY)),
+            Expanded(
+                child: itemActionWidget(LocaleKeys.add_favourite,
+                    Assets.svg.like, RoutesAction.ADD_FAVOURITE)),
+            Expanded(
+                child: itemActionWidget(LocaleKeys.addToPlaylist,
+                    Assets.svg.addToPlayList, RoutesAction.ADD_TO_PLAY_LIST))
           ],
         ),
       );
 
   Widget itemActionWidget(String title, String icon, RoutesAction action) =>
       InkWell(
-        child: Padding(
-          padding: const EdgeInsets.only(left: 1, right: 1),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                width: 20,
-                height: 20,
-                child: SvgPicture.asset(icon),
-              ),
-              const SizedBox(height: 3),
-              AppText(
-                title,
-                style: typoW400.copyWith(
-                    fontSize: 12, color: colorText0.withOpacity(0.6)),
-                maxLine: 1,
-                overflow: TextOverflow.ellipsis,
-              )
-            ],
+          child: Padding(
+            padding: const EdgeInsets.only(left: 1, right: 1),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: 20,
+                  height: 20,
+                  child: SvgPicture.asset(icon),
+                ),
+                const SizedBox(height: 3),
+                AppText(
+                  title,
+                  style: typoW400.copyWith(
+                      fontSize: 12, color: colorText0.withOpacity(0.6)),
+                  maxLine: 1,
+                  overflow: TextOverflow.ellipsis,
+                )
+              ],
+            ),
           ),
-        ),
           onTap: () => _bloc.handleAction(action, context));
 
   LinearGradient gradientBackground() => LinearGradient(colors: [
