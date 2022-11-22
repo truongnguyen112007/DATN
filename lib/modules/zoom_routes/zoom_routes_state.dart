@@ -1,9 +1,11 @@
+import 'package:base_bloc/data/model/routes_model.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../data/model/hold_set_model.dart';
 import '../persons_page/persons_page_state.dart';
 
 class ZoomRoutesState extends Equatable {
+  final bool isEdit;
   final int column;
   final int row;
   final StatusType status;
@@ -13,11 +15,14 @@ class ZoomRoutesState extends Equatable {
   final int timeStamp;
   final String currentHoldSet;
   final double scale;
+  final RoutesModel? model;
 
   const ZoomRoutesState(
       {this.status = StatusType.initial,
+        this.model,
         this.currentHoldSet = '',
         this.timeStamp = 0,
+        this.isEdit = false,
         this.sizeHoldSet = 10,
         this.column = 0,
         this.scale =4.0,
@@ -27,15 +32,19 @@ class ZoomRoutesState extends Equatable {
 
   ZoomRoutesState copyOf(
       {StatusType? status,
+        RoutesModel? model,
         int? column,
+        bool? isEdit,
         int? currentIndex,
         String? currentHoldSet,
         int? row,
         double? scale,
         double? sizeHoldSet,
         List<HoldSetModel>? lRoutes,
-        int? timeStamp}) =>
+          int? timeStamp}) =>
       ZoomRoutesState(
+          model: model ?? this.model,
+          isEdit: isEdit ?? this.isEdit,
           currentHoldSet: currentHoldSet ?? this.currentHoldSet,
           currentIndex: currentIndex ?? this.currentIndex,
           status: status ?? this.status,
@@ -48,6 +57,8 @@ class ZoomRoutesState extends Equatable {
 
   @override
   List<Object?> get props => [
+        model,
+        isEdit,
         status,
         sizeHoldSet,
         column,

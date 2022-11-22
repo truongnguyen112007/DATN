@@ -58,7 +58,10 @@ class CreateRoutesCubit extends Cubit<CreateRoutesState> {
     if (lHoldSet.isEmpty) {
       toast(LocaleKeys.please_input_hold_set);
     } else {
-      RouterUtils.openNewPage(CreateInfoRoutePage(lHoldSet: lHoldSet), context);
+      RouterUtils.openNewPage(
+          CreateInfoRoutePage(
+              lHoldSet: lHoldSet, model: state.model, isEdit: state.isEdit),
+          context);
     }
   }
 
@@ -69,8 +72,10 @@ class CreateRoutesCubit extends Cubit<CreateRoutesState> {
     // emit(state.copyOf(selectIndex: index, lRoutes: state.lRoutes));
     RouterUtils.openNewPage(
         ZoomRoutesPage(
-            currentIndex: index,
-            row: state.row,
+          model: state.model,
+          isEdit: state.isEdit,
+          currentIndex: index,
+          row: state.row,
             lRoutes: state.lRoutes,
             column: state.column,
           sizeHoldSet: state.sizeHoldSet,
@@ -117,6 +122,7 @@ class CreateRoutesCubit extends Cubit<CreateRoutesState> {
 
   void setData(
       {required int row,
+      bool? isEdit,
       required int column,
       required double sizeHoldSet,
       RoutesModel? model,
@@ -140,6 +146,7 @@ class CreateRoutesCubit extends Cubit<CreateRoutesState> {
         () => emit(state.copyOf(
             status: StatusType.success,
             column: column,
+            model: model,
             row: row,
             sizeHoldSet: sizeHoldSet,
             lRoutes: lRoutes)));

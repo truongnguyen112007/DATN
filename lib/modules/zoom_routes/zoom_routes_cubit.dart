@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:base_bloc/data/model/routes_model.dart';
 import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/modules/create_info_route/create_info_route_page.dart';
 import 'package:base_bloc/modules/zoom_routes/zoom_routes_state.dart';
@@ -76,13 +77,17 @@ class ZoomRoutesCubit extends Cubit<ZoomRoutesState> {
 
   void setData(
           {required int row,
+          required bool isEdit,
           required int column,
+           RoutesModel? model,
           required double sizeHoldSet,
           required List<HoldSetModel>? lRoutes,
           required int currentIndex}) =>
       Timer(
           const Duration(seconds: 1),
           () => emit(state.copyOf(
+              model: model,
+              isEdit: isEdit,
               currentIndex: currentIndex,
               status: StatusType.success,
               column: column,
@@ -113,7 +118,13 @@ class ZoomRoutesCubit extends Cubit<ZoomRoutesState> {
     if (lHoldSet.isEmpty) {
       toast(LocaleKeys.please_input_hold_set);
     } else {
-      RouterUtils.openNewPage(CreateInfoRoutePage(lHoldSet: lHoldSet), context);
+      RouterUtils.openNewPage(
+          CreateInfoRoutePage(
+            lHoldSet: lHoldSet,
+            model: state.model,
+            isEdit: state.isEdit,
+          ),
+          context);
     }
   }
 

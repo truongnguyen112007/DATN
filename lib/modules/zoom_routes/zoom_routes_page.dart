@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:base_bloc/components/app_scalford.dart';
 import 'package:base_bloc/components/measure_name_widget.dart';
 import 'package:base_bloc/components/zoomer.dart';
+import 'package:base_bloc/data/model/routes_model.dart';
 import 'package:base_bloc/modules/zoom_routes/zoom_routes_cubit.dart';
 import 'package:base_bloc/modules/zoom_routes/zoom_routes_state.dart';
 import 'package:base_bloc/utils/log_utils.dart';
@@ -35,11 +36,15 @@ class ZoomRoutesPage extends StatefulWidget {
   final List<HoldSetModel> lRoutes;
   final int currentIndex;
   final double heightOffScreen;
+  final bool isEdit;
+  final RoutesModel? model;
 
   const ZoomRoutesPage(
       {Key? key,
-        required this.currentIndex,
-        required this.row,
+      required this.currentIndex,
+      this.isEdit = false,
+      this.model,
+      required this.row,
         required this.lRoutes,
         required this.column,
         required this.sizeHoldSet, required this.heightOffScreen})
@@ -84,6 +89,8 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
           Offset(_zoomController.offset.dx, dyMeasureBoxName);
     });
     _bloc.setData(
+        model: widget.model,
+        isEdit: widget.isEdit,
         currentIndex: widget.currentIndex,
         row: row,
         column: column,

@@ -29,7 +29,9 @@ import '../../utils/app_utils.dart';
 
 class CreateRoutesPage extends StatefulWidget {
   final RoutesModel? model;
-  const CreateRoutesPage({Key? key,this.model}) : super(key: key);
+  final bool? isEdit;
+
+  const CreateRoutesPage({Key? key, this.model, this.isEdit}) : super(key: key);
 
   @override
   State<CreateRoutesPage> createState() => _CreateRoutesPageState();
@@ -59,6 +61,7 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage> {
         .listen((list) => _bloc.setHoldSets(list));
     _bloc.setData(
         row: row,
+        isEdit: widget.isEdit,
         column: column,
         sizeHoldSet: sizeHoldSet,
         lHoldSetImage: lHoldSet,

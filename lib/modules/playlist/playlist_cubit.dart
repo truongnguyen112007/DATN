@@ -67,6 +67,9 @@ class PlayListCubit extends Cubit<PlaylistState> {
           case ItemAction.COPY:
             copyRoutes(context, model, index);
             return;
+          case ItemAction.EDIT:
+            editRoute(context, model, index);
+            return;
         }
       }, isPlaylist: true);
 
@@ -120,6 +123,10 @@ class PlayListCubit extends Cubit<PlaylistState> {
     await Dialogs.hideLoadingDialog();
     toast('Share post success');
   }
+
+  void editRoute(BuildContext context, RoutesModel model, int index) =>
+      RouterUtils.openNewPage(
+          CreateRoutesPage(model: model, isEdit: true), context);
 
   void copyRoutes(BuildContext context, RoutesModel model, int index) =>
       RouterUtils.openNewPage(CreateRoutesPage(model: model), context);
