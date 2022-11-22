@@ -69,6 +69,9 @@ class PlayListCubit extends Cubit<PlaylistState> {
           case ItemAction.COPY:
             copyRoutes(context, model, index);
             return;
+          case ItemAction.EDIT:
+            editRoute(context, model, index);
+            return;
         }
       }, isPlaylist: true, model: model);
 
@@ -96,7 +99,7 @@ class PlayListCubit extends Cubit<PlaylistState> {
       BuildContext context, RoutesModel model, int index, bool isAdd) async {
     Dialogs.showLoadingDialog(context);
     var response = isAdd
-        ? await userRepository.addToFavorite(globals.userId, model.id ?? '')
+        ? await userRepository.addToFavorite(globals.userId, [model.id ?? ''])
         : await userRepository.removeFromFavorite(model.id ?? '');
     await Dialogs.hideLoadingDialog();
     if (response.error == null) {
@@ -137,6 +140,10 @@ class PlayListCubit extends Cubit<PlaylistState> {
     await Dialogs.hideLoadingDialog();
     toast('Share post success');
   }
+
+  void editRoute(BuildContext context, RoutesModel model, int index) =>
+      RouterUtils.openNewPage(
+          CreateRoutesPage(model: model, isEdit: true), context);
 
   void copyRoutes(BuildContext context, RoutesModel model, int index) =>
       RouterUtils.openNewPage(CreateRoutesPage(model: model), context);

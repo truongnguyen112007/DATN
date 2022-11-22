@@ -13,7 +13,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:convert';
 
 import '../../gen/assets.gen.dart';
+import '../../localizations/app_localazations.dart';
 import '../../router/router_utils.dart';
+import '../../utils/toast_utils.dart';
+import '../create_info_route/create_info_route_page.dart';
 import '../hold_set/hold_set_page.dart';
 
 class CreateRoutesCubit extends Cubit<CreateRoutesState> {
@@ -45,6 +48,23 @@ class CreateRoutesCubit extends Cubit<CreateRoutesState> {
         timeStamp: DateTime.now().microsecondsSinceEpoch));
   }
 
+  void confirmOnclick(BuildContext context) {
+    var lHoldSet = <HoldSetModel>[];
+    for (int i = 0; i < state.lRoutes.length; i++) {
+      if (state.lRoutes[i].holdSet.isNotEmpty) {
+        lHoldSet.add(state.lRoutes[i].copyOf(index: i));
+      }
+    }
+    if (lHoldSet.isEmpty) {
+      toast(LocaleKeys.please_input_hold_set);
+    } else {
+      RouterUtils.openNewPage(
+          CreateInfoRoutePage(
+              lHoldSet: lHoldSet, model: state.model, isEdit: state.isEdit),
+          context);
+    }
+  }
+
   void itemOnClick(int index, BuildContext context) {
     /*   if (state.currentHoldSet.isNotEmpty) {
       state.lRoutes[index] = HoldSetModel(holdSet: state.currentHoldSet);
@@ -52,8 +72,10 @@ class CreateRoutesCubit extends Cubit<CreateRoutesState> {
     // emit(state.copyOf(selectIndex: index, lRoutes: state.lRoutes));
     RouterUtils.openNewPage(
         ZoomRoutesPage(
-            currentIndex: index,
-            row: state.row,
+          model: state.model,
+          isEdit: state.isEdit,
+          currentIndex: index,
+          row: state.row,
             lRoutes: state.lRoutes,
             column: state.column,
           sizeHoldSet: state.sizeHoldSet,
@@ -100,6 +122,7 @@ class CreateRoutesCubit extends Cubit<CreateRoutesState> {
 
   void setData(
       {required int row,
+      bool? isEdit,
       required int column,
       required double sizeHoldSet,
       RoutesModel? model,
@@ -123,6 +146,7 @@ class CreateRoutesCubit extends Cubit<CreateRoutesState> {
         () => emit(state.copyOf(
             status: StatusType.success,
             column: column,
+            model: model,
             row: row,
             sizeHoldSet: sizeHoldSet,
             lRoutes: lRoutes)));

@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:base_bloc/components/app_circle_loading.dart';
 import 'package:base_bloc/components/app_scalford.dart';
 import 'package:base_bloc/components/gradient_button.dart';
@@ -67,87 +65,85 @@ class _FavouritePageState extends State<FavouritePage>
   Widget build(BuildContext context) {
     return AppScaffold(
       backgroundColor: colorGreyBackground,
-      body: Container(
-        child: Stack(
-          children: [
-            Column(
-              children: [
-                FilterWidget(
-                  isSelect: true,
-                  selectCallBack: () {
-                    _bloc.selectOnclick(false);
-                  },
-                  filterCallBack: () => _bloc.filterOnclick(context),
-                  sortCallBack: () {},
-                  unsSelectCallBack: () {
-                    _bloc.selectOnclick(true);
-                  },
+      body: Stack(
+        children: [
+          Column(
+            children: [
+              FilterWidget(
+                isSelect: true,
+                selectCallBack: () {
+                  _bloc.selectOnclick(false);
+                },
+                filterCallBack: () => _bloc.filterOnclick(context),
+                sortCallBack: () {},
+                unsSelectCallBack: () {
+                  _bloc.selectOnclick(true);
+                },
+              ),
+              Expanded(
+                child: RefreshIndicator(
+                  child: BlocBuilder<FavouriteCubit, FavouriteState>(
+                      bloc: _bloc,
+                      builder: (c, state) {
+                        return (state.status == FeedStatus.initial ||
+                                state.status == FeedStatus.refresh)
+                            ? const Center(child: AppCircleLoading())
+                            : (state.status == FeedStatus.failure ||
+                                    state.lPlayList.isEmpty
+                                ? Center(
+                                    child: Stack(children: [
+                                    ListView(
+                                      physics:
+                                          const AlwaysScrollableScrollPhysics(),
+                                    ),
+                                    const AppNotDataWidget()
+                                  ]))
+                                : playlistWidget(context, state));
+                      }),
+                  onRefresh: () async => _bloc.refresh(),
                 ),
-                Expanded(
-                  child: RefreshIndicator(
-                    child: BlocBuilder<FavouriteCubit, FavouriteState>(
-                        bloc: _bloc,
-                        builder: (c, state) {
-                          return (state.status == FeedStatus.initial ||
-                                  state.status == FeedStatus.refresh)
-                              ? const Center(child: AppCircleLoading())
-                              : (state.status == FeedStatus.failure ||
-                                      state.lPlayList.isEmpty
-                                  ? Center(
-                                      child: Stack(children: [
-                                      ListView(
-                                        physics:
-                                            const AlwaysScrollableScrollPhysics(),
-                                      ),
-                                      const AppNotDataWidget()
-                                    ]))
-                                  : playlistWidget(context, state));
-                        }),
-                    onRefresh: () async => _bloc.refresh(),
-                  ),
-                ),
-              ],
-            ),
-            addWidget(context),
-            BlocBuilder<FavouriteCubit, FavouriteState>(
-              bloc: _bloc,
-              builder: (c, state) => Positioned.fill(
-                left: 10.w,
-                bottom: 10.h,
-                right: 5.w,
-                child: state.isShowActionButton
-                    ? Align(
-                        alignment: Alignment.bottomRight,
-                        child: GradientButton(
-                          height: 36.h,
-                          isCenter: true,
-                          width: 170.w,
-                          decoration: BoxDecoration(
-                            gradient: Utils.backgroundGradientOrangeButton(),
-                            borderRadius: BorderRadius.circular(18),
-                          ),
-                          onTap: () {
-                            var lSelectRadioButton = <RoutesModel>[];
-                            for (var element in state.lPlayList) {
-                              if (element.isSelect == true)
-                                lSelectRadioButton.add(element);
-                            }
-                            _bloc.itemOnLongClick(context, 0,
-                                isMultiSelect: true);
-                          },
-                          widget: AppText(
-                            LocaleKeys.action,
-                            style: googleFont.copyWith(
-                                color: colorWhite, fontSize: 15.sp),
-                          ),
+              ),
+            ],
+          ),
+          addWidget(context),
+          BlocBuilder<FavouriteCubit, FavouriteState>(
+            bloc: _bloc,
+            builder: (c, state) => Positioned.fill(
+              left: 10.w,
+              bottom: 10.h,
+              right: 5.w,
+              child: state.isShowActionButton
+                  ? Align(
+                      alignment: Alignment.bottomRight,
+                      child: GradientButton(
+                        height: 36.h,
+                        isCenter: true,
+                        width: 170.w,
+                        decoration: BoxDecoration(
+                          gradient: Utils.backgroundGradientOrangeButton(),
                           borderRadius: BorderRadius.circular(18),
                         ),
-                      )
-                    : const SizedBox(),
-              ),
+                        onTap: () {
+                          var lSelectRadioButton = <RoutesModel>[];
+                          for (var element in state.lPlayList) {
+                            if (element.isSelect == true)
+                              lSelectRadioButton.add(element);
+                          }
+                          _bloc.itemOnLongClick(context, 0,
+                              isMultiSelect: true);
+                        },
+                        widget: AppText(
+                          LocaleKeys.action,
+                          style: googleFont.copyWith(
+                              color: colorWhite, fontSize: 15.sp),
+                        ),
+                        borderRadius: BorderRadius.circular(18),
+                      ),
+                    )
+                  : const SizedBox(),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

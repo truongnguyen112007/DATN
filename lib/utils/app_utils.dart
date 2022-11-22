@@ -236,6 +236,7 @@ class Utils {
 
   static void showActionDialog(
       BuildContext context, Function(ItemAction) callBack,
+      {bool isPlaylist = false, bool isFavorite = false,bool isCopy = true,bool isDesigned = false}) {
       {bool isPlaylist = false,
       bool isFavorite = false,
       bool isCopy = true,
@@ -259,7 +260,7 @@ class Utils {
                   child: Column(
                     children: [
                       SizedBox(height: contentPadding),
-                      !isFavorite
+                      !isDesigned && !isFavorite
                           ? itemAction(
                               Assets.svg.moveToTop,
                               AppLocalizations.of(context)!.moveToPlaylist,
@@ -273,7 +274,7 @@ class Utils {
                               ItemAction.ADD_TO_PLAYLIST,
                               () => callBack.call(ItemAction.ADD_TO_PLAYLIST))
                           : const SizedBox(),
-                      !isFavorite
+                      !isDesigned && !isFavorite
                           ? itemAction(
                               Assets.svg.removeFromPlaylist,
                               AppLocalizations.of(context)!.removeFromPlaylist,
@@ -288,11 +289,14 @@ class Utils {
                               ItemAction.ADD_TO_FAVOURITE,
                               () => callBack.call(ItemAction.ADD_TO_FAVOURITE))
                           : const SizedBox(),
-                      itemAction(
-                          Assets.svg.like,
-                          AppLocalizations.of(context)!.removeFromFavorite,
-                          ItemAction.REMOVE_FROM_FAVORITE,
-                          () => callBack.call(ItemAction.REMOVE_FROM_FAVORITE)),
+                      !isDesigned
+                          ? itemAction(
+                              Assets.svg.like,
+                              AppLocalizations.of(context)!.removeFromFavorite,
+                              ItemAction.REMOVE_FROM_FAVORITE,
+                              () => callBack
+                                  .call(ItemAction.REMOVE_FROM_FAVORITE))
+                          : const SizedBox(),
                       itemAction(
                           Assets.svg.share,
                           AppLocalizations.of(context)!.share,

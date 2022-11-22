@@ -33,6 +33,9 @@ class UserRepository extends BaseService{
   Future<ApiResult> getPlaylistById(String id, {int nextPage = 0}) async =>
       await GET('playlist/$id?start=$nextPage&count=${ApiKey.limit_offset}');
 
+  Future<ApiResult> getRoute({int nextPage = 0}) async =>
+      await GET('route?start=$nextPage&count=${ApiKey.limit_offset}');
+
   Future<ApiResult> deleteRoute(String routeId) async =>
       await DELETE('route/$routeId');
 
@@ -50,9 +53,9 @@ class UserRepository extends BaseService{
   Future<ApiResult> removeFromFavorite(String routeIds) async =>
       await DELETE('favourite?ids=$routeIds',/*body: {ApiKey.route_ids: routeId}*/);
 
-  Future<ApiResult> addToFavorite(int userId, String routeId) async =>
+  Future<ApiResult> addToFavorite(int userId, List<String> routeIds) async =>
       await POST('favourite', {
-        ApiKey.route_ids: [routeId]
+        ApiKey.route_ids: routeIds
       });
 
   Future<ApiResult> removeFromPlaylist(
@@ -68,6 +71,26 @@ class UserRepository extends BaseService{
           bool published = true,
           int visibility = 0}) async =>
       await POST('route', {
+        ApiKey.name: name,
+        ApiKey.height: height,
+        ApiKey.holds: lHold,
+        ApiKey.has_conner: hasCorner,
+        ApiKey.author_grade: int.parse(authorGrade.substring(0, 1)),
+        ApiKey.published: published,
+        ApiKey.visibility: visibility
+      });
+
+  Future<ApiResult> editRoute(
+      {
+        required String routeId,
+        required String name,
+        int height = 12,
+        required List<int> lHold,
+        required bool hasCorner,
+        required String authorGrade,
+        bool published = true,
+        int visibility = 0}) async =>
+      await PUT('route/$routeId',body: {
         ApiKey.name: name,
         ApiKey.height: height,
         ApiKey.holds: lHold,
