@@ -1,3 +1,4 @@
+import 'package:base_bloc/data/model/routes_model.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../data/model/hold_set_model.dart';
@@ -12,9 +13,13 @@ class CreateRoutesState extends Equatable {
   final int? selectIndex;
   final int timeStamp;
   final String currentHoldSet;
+  final bool isEdit;
+  final RoutesModel? model;
 
   const CreateRoutesState(
       {this.status = StatusType.initial,
+      this.model,
+      this.isEdit = false,
       this.currentHoldSet = '',
       this.timeStamp = 0,
       this.sizeHoldSet = 10,
@@ -25,7 +30,9 @@ class CreateRoutesState extends Equatable {
 
   CreateRoutesState copyOf(
           {StatusType? status,
+          RoutesModel? model,
           int? column,
+          bool? isEdit,
           int? selectIndex,
           String? currentHoldSet,
           int? row,
@@ -33,6 +40,8 @@ class CreateRoutesState extends Equatable {
           List<HoldSetModel>? lRoutes,
           int? timeStamp}) =>
       CreateRoutesState(
+          model: model ?? this.model,
+          isEdit: isEdit ?? this.isEdit,
           currentHoldSet: currentHoldSet ?? this.currentHoldSet,
           selectIndex: selectIndex ?? this.selectIndex,
           status: status ?? this.status,
@@ -43,6 +52,14 @@ class CreateRoutesState extends Equatable {
           timeStamp: timeStamp ?? this.timeStamp);
 
   @override
-  List<Object?> get props =>
-      [status, sizeHoldSet, column, row, lRoutes, selectIndex, timeStamp];
+  List<Object?> get props => [
+        status,
+        sizeHoldSet,
+        column,
+        row,
+        lRoutes,
+        selectIndex,
+        timeStamp,
+        isEdit
+      ];
 }

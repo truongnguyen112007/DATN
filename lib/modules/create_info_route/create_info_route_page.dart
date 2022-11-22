@@ -5,6 +5,7 @@ import 'package:base_bloc/components/app_text_field.dart';
 import 'package:base_bloc/components/appbar_widget.dart';
 import 'package:base_bloc/components/gradient_button.dart';
 import 'package:base_bloc/data/globals.dart';
+import 'package:base_bloc/data/model/routes_model.dart';
 import 'package:base_bloc/extenstion/string_extension.dart';
 import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/modules/create_info_route/create_info_route_cubit.dart';
@@ -22,8 +23,11 @@ import '../../theme/app_styles.dart';
 
 class CreateInfoRoutePage extends StatefulWidget {
   final List<HoldSetModel> lHoldSet;
+  final RoutesModel? model;
+  final bool isEdit;
 
-  const CreateInfoRoutePage({Key? key, required this.lHoldSet})
+  const CreateInfoRoutePage(
+      {Key? key, required this.lHoldSet, this.model, this.isEdit = false})
       : super(key: key);
 
   @override
@@ -37,6 +41,8 @@ class _CreateInfoRoutePageState extends State<CreateInfoRoutePage> {
   @override
   void initState() {
     _bloc = CreateInfoRouteCubit(widget.lHoldSet);
+    if(widget.model!=null) routeNameController.text = widget.model?.name??'';
+    _bloc.setData(widget.model);
     super.initState();
   }
 

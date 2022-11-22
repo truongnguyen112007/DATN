@@ -79,4 +79,24 @@ class UserRepository extends BaseService{
         ApiKey.published: published,
         ApiKey.visibility: visibility
       });
+
+  Future<ApiResult> editRoute(
+      {
+        required String routeId,
+        required String name,
+        int height = 12,
+        required List<int> lHold,
+        required bool hasCorner,
+        required String authorGrade,
+        bool published = true,
+        int visibility = 0}) async =>
+      await PUT('route/$routeId',body: {
+        ApiKey.name: name,
+        ApiKey.height: height,
+        ApiKey.holds: lHold,
+        ApiKey.has_conner: hasCorner,
+        ApiKey.author_grade: int.parse(authorGrade.substring(0, 1)),
+        ApiKey.published: published,
+        ApiKey.visibility: visibility
+      });
 }

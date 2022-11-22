@@ -1,4 +1,5 @@
 import 'package:base_bloc/components/dialogs.dart';
+import 'package:base_bloc/data/model/routes_model.dart';
 import 'package:base_bloc/data/repository/user_repository.dart';
 import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/modules/create_info_route/create_info_route_state.dart';
@@ -18,6 +19,24 @@ class CreateInfoRouteCubit extends Cubit<CreateInfoRouteState> {
 
   CreateInfoRouteCubit(this.lHoldSet) : super(const CreateInfoRouteState());
 
+  void setData(RoutesModel? model) {
+    if (model != null) {
+      var currentIndex = 0;
+      for (int i = 0; i < lGrade.length; i++) {
+        if (lGrade[i].substring(0, 1) == model.authorGrade.toString()) {
+          currentIndex = i;
+          break;
+        }
+      }
+      emit(state.copyOf(isEdit: true,
+          model: model,
+          isCorner: model.hasConner ?? false,
+          currentIndexGrade: currentIndex,
+          grade: '${model.authorGrade}',
+          routeName: model.name ?? ''));
+    }
+  }
+
   void increase() {
     if (state.currentIndexGrade == lGrade.length - 1) return;
     emit(state.copyOf(
@@ -36,16 +55,23 @@ class CreateInfoRouteCubit extends Cubit<CreateInfoRouteState> {
 
   void publishOnclick(String routeName, BuildContext context) async {
     if (routeName.isEmpty) {
-      emit(state.copyOf(errorRouteName: LocaleKeys.please_input_hold_set));
+      emit(state.copyOf(errorRouteName: LocaleKeys.please_input_hold_set,));
     } else {
       emit(state.copyOf(errorRouteName: ''));
       Utils.hideKeyboard(context);
       Dialogs.showLoadingDialog(context);
-      var response = await userRepository.createRoute(
-          name: routeName,
-          lHold: lHoldSet.map((e) => e.index).toList(),
-          hasCorner: state.isCorner,
-          authorGrade: state.grade);
+      var response = !state.isEdit
+          ? await userRepository.createRoute(
+              name: routeName,
+              lHold: lHoldSet.map((e) => e.index).toList(),
+              hasCorner: state.isCorner,
+              authorGrade: state.grade)
+          : await userRepository.editRoute(
+              name: routeName,
+              lHold: lHoldSet.map((e) => e.index).toList(),
+              hasCorner: state.isCorner,
+              authorGrade: state.grade,
+              routeId: state.model?.id ?? '');
       await Dialogs.hideLoadingDialog();
       if (response.error != null) {
         toast(response.error.toString());

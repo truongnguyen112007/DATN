@@ -203,7 +203,7 @@ class BaseService {
     try {
       final response = await Dio()
           .put(baseUrl + url,
-              data: body,
+              data: json.encode(body),
               options: Options(
                 sendTimeout: timeOut,
                 headers: {

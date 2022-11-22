@@ -18,7 +18,7 @@ class RoutesModel {
     this.hasConner,
     this.name,
     this.popurlarity,
-    // this.userId,
+    this.userId,
     this.published,
     this.userGradeCount,
     // this.visibility,
@@ -35,7 +35,7 @@ class RoutesModel {
   bool? hasConner;
   String? name;
   int? popurlarity;
-  // int? userId;
+  int? userId;
   bool? published;
   int? userGradeCount;
   // int? visibility;
@@ -52,7 +52,7 @@ class RoutesModel {
     hasConner: json["has_conner"],
     name: json["name"],
     popurlarity: json["popurlarity"],
-    // userId: json["user_id"],
+    userId: json["user_id"],
     published: json["published"],
     userGradeCount: json["user_grade_count"],
     // visibility: json["visibility"],
@@ -70,7 +70,7 @@ class RoutesModel {
     "has_conner": hasConner,
     "name": name,
     "popurlarity": popurlarity,
-    // "user_id": userId,
+    "user_id": userId,
     "published": published,
     "user_grade_count": userGradeCount,
     // "visibility": visibility,
