@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:base_bloc/components/app_circle_loading.dart';
 import 'package:base_bloc/components/app_scalford.dart';
 import 'package:base_bloc/components/gradient_button.dart';
@@ -8,6 +10,7 @@ import 'package:base_bloc/modules/playlist/playlist_cubit.dart';
 import 'package:base_bloc/modules/tab_home/tab_home_state.dart';
 import 'package:base_bloc/router/router_utils.dart';
 import 'package:base_bloc/theme/colors.dart';
+import 'package:base_bloc/utils/log_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -18,6 +21,7 @@ import '../../components/app_text.dart';
 import '../../components/filter_widget.dart';
 import '../../components/item_info_routes.dart';
 import '../../config/constant.dart';
+import '../../data/eventbus/refresh_event.dart';
 import '../../data/model/routes_model.dart';
 import '../../localizations/app_localazations.dart';
 import '../../router/router.dart';
@@ -35,11 +39,17 @@ class _FavouritePageState extends State<FavouritePage>
     with AutomaticKeepAliveClientMixin {
   late FavouriteCubit _bloc;
   var scrollController = ScrollController();
+  StreamSubscription<RefreshEvent>? _refreshStream;
 
   @override
   void initState() {
     _bloc = FavouriteCubit();
     paging();
+    _refreshStream = Utils.eventBus.on<RefreshEvent>().listen((model) {
+      if(model.type == RefreshType.FAVORITE){
+        _bloc.refresh();
+      }
+    });
     super.initState();
   }
 
@@ -216,6 +226,7 @@ class _FavouritePageState extends State<FavouritePage>
 
   Widget playlistWidget(BuildContext context, FavouriteState state) =>
       ListView.builder(
+        physics: const AlwaysScrollableScrollPhysics(),
           controller: scrollController,
           padding: EdgeInsets.all(contentPadding),
           itemBuilder: (c, i) => i == state.lPlayList.length
@@ -241,31 +252,31 @@ class _FavouritePageState extends State<FavouritePage>
               !state.isReadEnd && state.lPlayList.isNotEmpty && state.isLoading
                   ? state.lPlayList.length + 1
                   : state.lPlayList.length);
-
-  Widget itemAction(IconData icon, String text, ItemAction action,
-      VoidCallback filterCallBack) {
-    return InkWell(
-      child: Padding(
-        padding: EdgeInsets.all(contentPadding),
-        child: Row(
-          children: [
-            Icon(
-              icon,
-              color: Colors.white,
-            ),
-            SizedBox(
-              width: 40.w,
-            ),
-            AppText(
-              text,
-              style: typoSuperSmallTextRegular.copyWith(color: colorText0),
-            )
-          ],
-        ),
-      ),
-      onTap: () => filterCallBack.call(),
-    );
-  }
+  //
+  // Widget itemAction(IconData icon, String text, ItemAction action,
+  //     VoidCallback filterCallBack) {
+  //   return InkWell(
+  //     child: Padding(
+  //       padding: EdgeInsets.all(contentPadding),
+  //       child: Row(
+  //         children: [
+  //           Icon(
+  //             icon,
+  //             color: Colors.white,
+  //           ),
+  //           SizedBox(
+  //             width: 40.w,
+  //           ),
+  //           AppText(
+  //             text,
+  //             style: typoSuperSmallTextRegular.copyWith(color: colorText0),
+  //           )
+  //         ],
+  //       ),
+  //     ),
+  //     onTap: () => filterCallBack.call(),
+  //   );
+  // }
 
   @override
   bool get wantKeepAlive => true;

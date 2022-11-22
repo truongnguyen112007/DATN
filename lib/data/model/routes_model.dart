@@ -28,6 +28,8 @@ class RoutesModel {
     this.created,
     this.holds,
     this.isSelect = false,
+    this.playlistIn,
+    this.favouriteIn,
   });
 
   // int? modified;
@@ -45,6 +47,9 @@ class RoutesModel {
   int? created;
   String? holds;
   bool isSelect;
+  bool? playlistIn;
+  bool? favouriteIn;
+
 
   factory RoutesModel.fromJson(Map<String, dynamic> json) => RoutesModel(
     // modified: json["modified"],
@@ -62,6 +67,8 @@ class RoutesModel {
     created: json["created"],
     holds: json["holds"],
     isSelect: false,
+    playlistIn: json["playlist_in"],
+    favouriteIn: json["favourite_in"]
   );
 
   Map<String, dynamic> toJson() => {
@@ -79,6 +86,8 @@ class RoutesModel {
     "author_grade": authorGrade,
     "created": created,
     "holds": holds,
+    "playlist_in" : playlistIn,
+    "favourite_in" : favouriteIn,
   };
 }
 

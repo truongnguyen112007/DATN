@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:base_bloc/components/dialogs.dart';
 import 'package:base_bloc/config/constant.dart';
+import 'package:base_bloc/data/eventbus/refresh_event.dart';
 import 'package:base_bloc/data/globals.dart' as globals;
 import 'package:base_bloc/data/model/playlist_model.dart';
 import 'package:base_bloc/data/repository/user_repository.dart';
@@ -68,10 +70,14 @@ class PlayListCubit extends Cubit<PlaylistState> {
             copyRoutes(context, model, index);
             return;
         }
-      }, isPlaylist: true);
+      }, isPlaylist: true, model: model);
 
   void removeOrDeleteRoutes(
-      BuildContext context, RoutesModel model, int index, bool isRemove) async {
+    BuildContext context,
+    RoutesModel model,
+    int index,
+    bool isRemove,
+  ) async {
     Dialogs.showLoadingDialog(context);
     var response = isRemove
         ? await userRepository.removeFromPlaylist(
@@ -95,9 +101,20 @@ class PlayListCubit extends Cubit<PlaylistState> {
     await Dialogs.hideLoadingDialog();
     if (response.error == null) {
       toast(response.message);
+      isAdd ? (model.favouriteIn = true) : (model.favouriteIn = false);
+      emit(
+        state.copyWith(
+          timeStamp: DateTime.now().microsecondsSinceEpoch,
+        ),
+      );
+      refreshFav();
     } else {
       toast(response.error.toString());
     }
+  }
+
+  void refreshFav() {
+    Utils.fireEvent(RefreshEvent(RefreshType.FAVORITE));
   }
 
   void moveItemToTop(BuildContext context, RoutesModel model, int index) async {
@@ -168,7 +185,8 @@ class PlayListCubit extends Cubit<PlaylistState> {
             lRoutes:
                 isPaging ? (state.lRoutes..addAll(lResponse)) : lResponse));
       } else {
-        emit(state.copyWith(isReadEnd: true, isLoading: false,status: FeedStatus.failure));
+        emit(state.copyWith(
+            isReadEnd: true, isLoading: false, status: FeedStatus.failure));
         toast(response.error.toString());
       }
     } catch (ex) {
