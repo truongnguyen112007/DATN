@@ -188,7 +188,7 @@ class ItemInfoRoutes extends StatelessWidget {
                                                 style: googleFont.copyWith(
                                                     color: colorText0
                                                         .withOpacity(0.6),
-                                                    fontSize: 13.sp)))
+                                                    fontSize: 13.sp) ))
                                       ],
                                     )
                                   ],
@@ -202,110 +202,4 @@ class ItemInfoRoutes extends StatelessWidget {
           ),
         ],
       );
-
-  void showActionDialog(RoutesModel model, Function(ItemAction) callBack) {
-    showModalBottomSheet(
-        isScrollControlled: true,
-        backgroundColor: Colors.transparent,
-        context: context,
-        builder: (x) => Wrap(
-              children: [
-                Container(
-                  decoration: const BoxDecoration(
-                    color: Color(0xFF212121),
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20),
-                    ),
-                  ),
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: contentPadding,
-                      ),
-                      itemAction(
-                          Icons.thumb_up_alt,
-                          AppLocalizations.of(context)!.moveToPlaylist,
-                          model,
-                          ItemAction.MOVE_TO_TOP,
-                          () => callBack.call(ItemAction.MOVE_TO_TOP)),
-                      itemAction(
-                          Icons.account_balance_rounded,
-                          AppLocalizations.of(context)!.addToPlaylist,
-                          model,
-                          ItemAction.ADD_TO_PLAYLIST,
-                          () => callBack.call(ItemAction.ADD_TO_PLAYLIST)),
-                      itemAction(
-                          Icons.add,
-                          AppLocalizations.of(context)!.removeFromPlaylist,
-                          model,
-                          ItemAction.REMOVE_FROM_PLAYLIST,
-                          () => callBack.call(ItemAction.REMOVE_FROM_PLAYLIST)),
-                      itemAction(
-                          Icons.favorite,
-                          AppLocalizations.of(context)!.addToFavourite,
-                          model,
-                          ItemAction.ADD_TO_FAVOURITE,
-                          () => callBack.call(ItemAction.ADD_TO_FAVOURITE)),
-                      itemAction(
-                          Icons.remove_circle_outline,
-                          AppLocalizations.of(context)!.removeFromFavorite,
-                          model,
-                          ItemAction.REMOVE_FROM_PLAYLIST,
-                          () => callBack.call(ItemAction.REMOVE_FROM_PLAYLIST)),
-                      itemAction(
-                          Icons.share,
-                          AppLocalizations.of(context)!.share,
-                          model,
-                          ItemAction.SHARE,
-                          () => callBack.call(ItemAction.SHARE)),
-                      itemAction(
-                          Icons.copy,
-                          AppLocalizations.of(context)!.copy,
-                          model,
-                          ItemAction.COPY,
-                          () => callBack.call(ItemAction.COPY)),
-                      itemAction(
-                          Icons.edit,
-                          AppLocalizations.of(context)!.edit,
-                          model,
-                          ItemAction.EDIT,
-                          () => callBack.call(ItemAction.EDIT)),
-                      itemAction(
-                          Icons.delete,
-                          AppLocalizations.of(context)!.delete,
-                          model,
-                          ItemAction.DELETE,
-                          () => callBack.call(ItemAction.DELETE)),
-                    ],
-                  ),
-                )
-              ],
-            ));
-  }
-
-  Widget itemAction(IconData icon, String text, RoutesModel model,
-      ItemAction action, VoidCallback filterCallBack) {
-    return InkWell(
-      child: Padding(
-        padding: EdgeInsets.all(contentPadding),
-        child: Row(
-          children: [
-            Icon(
-              icon,
-              color: Colors.white,
-            ),
-            SizedBox(
-              width: 40.w,
-            ),
-            AppText(
-              text,
-              style: typoSuperSmallTextRegular.copyWith(color: colorText0),
-            )
-          ],
-        ),
-      ),
-      onTap: () => filterCallBack.call(),
-    );
-  }
 }

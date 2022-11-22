@@ -38,16 +38,16 @@ class FavouriteCubit extends Cubit<FavouriteState> {
   }
 
   void itemOnLongClick(BuildContext context, int index,
-          {bool isMultiSelect = false, RoutesModel? model, bool isCopy = true}){
-    var count =0;
+      {bool isMultiSelect = false, RoutesModel? model, bool isCopy = true}) {
+    var count = 0;
     for (var element in state.lPlayList) {
-      if(element.isSelect) count++;
+      if (element.isSelect) count++;
     }
     Utils.showActionDialog(context, (type) {
       Navigator.pop(context);
       switch (type) {
         case ItemAction.ADD_TO_PLAYLIST:
-          addToPlaylist(context, isMultiSelect: isMultiSelect, model: model);
+          addToPlaylist(context, isMultiSelect: isMultiSelect, model: model,);
           return;
         case ItemAction.REMOVE_FROM_FAVORITE:
           removeFromFavourite(
@@ -62,6 +62,7 @@ class FavouriteCubit extends Cubit<FavouriteState> {
       }
     },
         isFavorite: true,
+        model: model,
         isCopy: !isMultiSelect ? true : (count == 1 ? true : false));
   }
 
@@ -129,9 +130,11 @@ class FavouriteCubit extends Cubit<FavouriteState> {
   }
 
   void getFavourite({bool isPaging = false}) async {
-    if (state.isLoading && state.lPlayList.isNotEmpty || state.isReadEnd) return;
+    if (state.isLoading && state.lPlayList.isNotEmpty || state.isReadEnd)
+      return;
     emit(state.copyWith(isLoading: true));
-    var response = await userRepository.getFavorite(globals.userId,state.nextPage);
+    var response =
+        await userRepository.getFavorite(globals.userId, state.nextPage);
     if (response.data != null && response.error == null) {
       try {
         var lResponse = routeModelFromJson(response.data);
@@ -183,10 +186,11 @@ class FavouriteCubit extends Cubit<FavouriteState> {
         for (int i = lIndex.length - 1; i >= 0; i--) {
           state.lPlayList.removeAt(lIndex[i]);
         }
-        emit(state.copyWith(timeStamp: DateTime.now().microsecondsSinceEpoch));
+        emit(state.copyWith(timeStamp: DateTime.now().microsecondsSinceEpoch,isShowAdd: true,isShowActionButton: false));
       } else {
         state.lPlayList.removeAt(index);
-        emit(state.copyWith(timeStamp: DateTime.now().microsecondsSinceEpoch));
+        emit(state.copyWith(timeStamp: DateTime.now().microsecondsSinceEpoch,isShowAdd: true,isShowActionButton: false));
+        refreshPlaylist();
       }
     } else {
       toast(response.error.toString());
@@ -211,9 +215,16 @@ class FavouriteCubit extends Cubit<FavouriteState> {
     await Dialogs.hideLoadingDialog();
     if (response.error == null) {
       toast(response.message);
+      model?.playlistIn = true;
+      emit(state.copyWith(timeStamp: DateTime.now().microsecondsSinceEpoch,));
+      refreshPlaylist();
     } else {
       toast(response.error.toString());
     }
+  }
+
+  void refreshPlaylist() {
+    Utils.fireEvent(RefreshEvent(RefreshType.PLAYLIST));
   }
 
   void shareRoutes(BuildContext context, RoutesModel model, int index) async {
@@ -223,6 +234,10 @@ class FavouriteCubit extends Cubit<FavouriteState> {
     toast('Share post success');
   }
 
-  void copyRoutes(BuildContext context, RoutesModel model, int index,) =>
+  void copyRoutes(
+    BuildContext context,
+    RoutesModel model,
+    int index,
+  ) =>
       RouterUtils.openNewPage(CreateRoutesPage(model: model), context);
 }

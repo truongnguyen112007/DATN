@@ -237,6 +237,11 @@ class Utils {
   static void showActionDialog(
       BuildContext context, Function(ItemAction) callBack,
       {bool isPlaylist = false, bool isFavorite = false,bool isCopy = true,bool isDesigned = false}) {
+      {bool isPlaylist = false,
+      bool isFavorite = false,
+      bool isCopy = true,
+      RoutesModel? model}) {
+    // logE("{${model?.playlistIn},${isPlaylist}}");
     showModalBottomSheet(
         isScrollControlled: true,
         backgroundColor: Colors.transparent,
@@ -262,7 +267,7 @@ class Utils {
                               ItemAction.MOVE_TO_TOP,
                               () => callBack.call(ItemAction.MOVE_TO_TOP))
                           : const SizedBox(),
-                      !isPlaylist
+                      !isPlaylist && (!(model?.playlistIn ?? false))
                           ? itemAction(
                               Assets.svg.addToPlayList,
                               AppLocalizations.of(context)!.addToPlaylist,
@@ -277,7 +282,7 @@ class Utils {
                               () => callBack
                                   .call(ItemAction.REMOVE_FROM_PLAYLIST))
                           : const SizedBox(),
-                      !isFavorite
+                      !isFavorite && (!(model?.favouriteIn ?? false))
                           ? itemAction(
                               Assets.svg.liked,
                               AppLocalizations.of(context)!.addToFavourite,
@@ -297,11 +302,13 @@ class Utils {
                           AppLocalizations.of(context)!.share,
                           ItemAction.SHARE,
                           () => callBack.call(ItemAction.SHARE)),
-                       isCopy ? itemAction(
-                          Assets.svg.copy,
-                          AppLocalizations.of(context)!.copy,
-                          ItemAction.COPY,
-                          () => callBack.call(ItemAction.COPY)): const SizedBox(),
+                      isCopy
+                          ? itemAction(
+                              Assets.svg.copy,
+                              AppLocalizations.of(context)!.copy,
+                              ItemAction.COPY,
+                              () => callBack.call(ItemAction.COPY))
+                          : const SizedBox(),
                       (!isPlaylist && !isFavorite)
                           ? itemAction(
                               Assets.svg.edit,
