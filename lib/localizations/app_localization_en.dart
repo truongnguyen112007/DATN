@@ -533,4 +533,29 @@ class AppLocalizationEn extends AppLocalizations {
 
   @override
   String get please_input_hold_set => 'Please input hold set';
+
+  @override
+  String get briefly_touch_surface_with_fingertip => 'Briefly touch surface\nwith fingertip';
+
+  @override
+  String get edit_route => 'Edit route';
+
+  @override
+  String get next => 'Next';
+
+  @override
+  String get pinch_to_scale_down_and_up => 'Pinch to scale down and up';
+
+  @override
+  String get press_cell_with_hold_to_move_it_or_rotate_it => 'Press cell with hold to move it or rotate it';
+
+  @override
+  String get tab_on_cell_to_select_hold => 'Tap on cell to select hold';
+
+  @override
+  String get touch_suface_for_extended_privod_of_time =>
+      'Touch surface for\nextended period of\ntime';
+
+  @override
+  String get touch_surface_with_two_fingers_and_bring_them_closer_together => 'Touch surface with two\nfingers and bring them\ncloser together';
 }

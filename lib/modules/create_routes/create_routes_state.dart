@@ -15,10 +15,12 @@ class CreateRoutesState extends Equatable {
   final String currentHoldSet;
   final bool isEdit;
   final RoutesModel? model;
+  final bool isShowGuideline;
 
   const CreateRoutesState(
       {this.status = StatusType.initial,
       this.model,
+      this.isShowGuideline = true,
       this.isEdit = false,
       this.currentHoldSet = '',
       this.timeStamp = 0,
@@ -36,10 +38,12 @@ class CreateRoutesState extends Equatable {
           int? selectIndex,
           String? currentHoldSet,
           int? row,
+          bool? isShowGuideline,
           double? sizeHoldSet,
           List<HoldSetModel>? lRoutes,
           int? timeStamp}) =>
       CreateRoutesState(
+          isShowGuideline: isShowGuideline ?? this.isShowGuideline,
           model: model ?? this.model,
           isEdit: isEdit ?? this.isEdit,
           currentHoldSet: currentHoldSet ?? this.currentHoldSet,
@@ -53,6 +57,7 @@ class CreateRoutesState extends Equatable {
 
   @override
   List<Object?> get props => [
+        isShowGuideline,
         status,
         sizeHoldSet,
         column,

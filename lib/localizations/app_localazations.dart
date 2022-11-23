@@ -350,6 +350,14 @@ abstract class AppLocalizations {
   String get who_can_see_this_route;
   String get grade;
   String get please_input_hold_set;
+  String get next;
+  String get edit_route;
+  String get tab_on_cell_to_select_hold;
+  String get briefly_touch_surface_with_fingertip;
+  String get press_cell_with_hold_to_move_it_or_rotate_it;
+  String get pinch_to_scale_down_and_up;
+  String get touch_suface_for_extended_privod_of_time;
+  String get touch_surface_with_two_fingers_and_bring_them_closer_together;
 }
 
 class _AppLocalizationsDelegate
