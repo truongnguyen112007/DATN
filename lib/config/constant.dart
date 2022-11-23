@@ -9,6 +9,7 @@ class StorageKey {
   static const String isLogin = 'isLogin';
   static const String userModel = 'userModel';
   static const String playlistId = 'playlistId';
+  static const String isGuideline = 'isGuideline';
 }
 
 class ConstantKey {

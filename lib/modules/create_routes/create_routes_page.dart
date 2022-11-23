@@ -5,6 +5,7 @@ import 'package:base_bloc/components/app_button.dart';
 import 'package:base_bloc/components/app_scalford.dart';
 import 'package:base_bloc/components/app_text.dart';
 import 'package:base_bloc/components/appbar_widget.dart';
+import 'package:base_bloc/components/gradient_button.dart';
 import 'package:base_bloc/components/zoomer.dart';
 import 'package:base_bloc/config/constant.dart';
 import 'package:base_bloc/data/globals.dart' as globals;
@@ -23,6 +24,7 @@ import 'package:flutter_svg/svg.dart';
 
 import '../../base/hex_color.dart';
 import '../../components/app_circle_loading.dart';
+import '../../data/globals.dart';
 import '../../gen/assets.gen.dart';
 import '../../router/router_utils.dart';
 import '../../utils/app_utils.dart';
@@ -37,7 +39,7 @@ class CreateRoutesPage extends StatefulWidget {
   State<CreateRoutesPage> createState() => _CreateRoutesPageState();
 }
 
-class _CreateRoutesPageState extends BasePopState<CreateRoutesPage> {
+class _CreateRoutesPageState extends BasePopState<CreateRoutesPage>   with TickerProviderStateMixin {
   late CreateRoutesCubit _bloc;
   final ZoomerController _zoomController = ZoomerController(initialScale: 1.0);
   final sizeHoldSet = 8.6.h;
@@ -52,6 +54,21 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage> {
     Assets.svg.holdset6,
   ];
   StreamSubscription<List<HoldSetModel>>? _lHoldSetStream;
+  late final AnimationController _animationController1 =
+      AnimationController(duration: const Duration(milliseconds: 1200), vsync: this);
+  late final Animation<double> _animation1 =
+      CurvedAnimation(parent: _animationController1, curve: Curves.easeInSine);
+
+  late final AnimationController _animationController2 =
+      AnimationController(duration: const Duration(milliseconds: 1100), vsync: this);
+  late final Animation<double> _animation2 =
+      CurvedAnimation(parent: _animationController2, curve: Curves.easeInSine);
+
+  late final AnimationController _animationController3 = AnimationController(
+      duration: const Duration(milliseconds: 1100), vsync: this);
+  late final Animation<double> _animation3 =
+      CurvedAnimation(parent: _animationController3, curve: Curves.easeInSine);
+  var step = 1;
 
   @override
   void initState() {
@@ -66,6 +83,7 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage> {
         sizeHoldSet: sizeHoldSet,
         lHoldSetImage: lHoldSet,
         model: widget.model);
+    Timer(const Duration(seconds: 1), () => _animationController1.forward());
     super.initState();
   }
 
@@ -83,137 +101,263 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage> {
       body: BlocBuilder<CreateRoutesCubit, CreateRoutesState>(
         builder: (c, state) => state.status == StatusType.initial
             ? const Center(child: AppCircleLoading())
-            : Column(
+            : Stack(
                 children: [
-                  line(),
-                  measureNameWidget(),
-                  Expanded(
-                      child: Stack(children: [
-                    blurBackground(context),
-                    Row(
-                      children: [
-                        measureWidget(),
-                        Expanded(
-                            child: Column(
-                          mainAxisSize: MainAxisSize.min,
+                  Column(
+                    children: [
+                      line(),
+                      measureNameWidget(),
+                      Expanded(
+                          child: Stack(children: [
+                        blurBackground(context),
+                        Row(
                           children: [
-                            Container(
-                                width: state.sizeHoldSet * state.column * 1.8,
-                                height: 18.h,
-                                color: HexColor('898989')),
-                            SizedBox(
-                                width: state.sizeHoldSet * state.column * 1.66,
-                                child: Image.asset(Assets.png.tesst.path)),
+                            measureWidget(),
                             Expanded(
-                                child: Stack(
+                                child: Column(
+                              mainAxisSize: MainAxisSize.min,
                               children: [
-                                Positioned.fill(
-                                    child: Align(
-                                  alignment: Alignment.center,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      wallWidget(context, false, state),
-                                      Container(
-                                        decoration: BoxDecoration(
-                                            gradient: gradientBackground()),
-                                        alignment: Alignment.bottomCenter,
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Container(
-                                                width: state.column *
-                                                        state.sizeHoldSet +
-                                                    16.w,
-                                                height: 2,
-                                                color: HexColor('A3A3A3')),
-                                            Container(
-                                                width: state.column *
-                                                        state.sizeHoldSet +
-                                                    16.w,
-                                                height: 5,
-                                                color: colorBlack),
-                                            const Spacer(),
-                                            Row(
+                                Container(
+                                    width:
+                                        state.sizeHoldSet * state.column * 1.8,
+                                    height: 18.h,
+                                    color: HexColor('898989')),
+                                SizedBox(
+                                    width:
+                                        state.sizeHoldSet * state.column * 1.66,
+                                    child: Image.asset(Assets.png.tesst.path)),
+                                Expanded(
+                                    child: Stack(
+                                  children: [
+                                    Positioned.fill(
+                                        child: Align(
+                                      alignment: Alignment.center,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          wallWidget(context, false, state),
+                                          Container(
+                                            decoration: BoxDecoration(
+                                                gradient: gradientBackground()),
+                                            alignment: Alignment.bottomCenter,
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
                                               children: [
-                                                heightWidget(true),
                                                 Container(
-                                                  width: state.column *
-                                                      state.sizeHoldSet,
-                                                  decoration: BoxDecoration(
-                                                      gradient:
-                                                          gradientBackground()),
-                                                  child: Column(
-                                                    children: [
-                                                      nameHoldSetWidget(
-                                                          context),
-                                                      routesWidget(context),
-                                                      nameHoldSetWidget(
-                                                          context),
-                                                    ],
-                                                  ),
+                                                    width: state.column *
+                                                            state.sizeHoldSet +
+                                                        16.w,
+                                                    height: 2,
+                                                    color: HexColor('A3A3A3')),
+                                                Container(
+                                                    width: state.column *
+                                                            state.sizeHoldSet +
+                                                        16.w,
+                                                    height: 5,
+                                                    color: colorBlack),
+                                                const Spacer(),
+                                                Row(
+                                                  children: [
+                                                    heightWidget(true),
+                                                    Container(
+                                                      width: state.column *
+                                                          state.sizeHoldSet,
+                                                      decoration: BoxDecoration(
+                                                          gradient:
+                                                              gradientBackground()),
+                                                      child: Column(
+                                                        children: [
+                                                          nameHoldSetWidget(
+                                                              context),
+                                                          routesWidget(context),
+                                                          nameHoldSetWidget(
+                                                              context),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    heightWidget(false),
+                                                  ],
                                                 ),
-                                                heightWidget(false),
+                                                SizedBox(
+                                                  height:
+                                                      state.sizeHoldSet * 1.5,
+                                                )
                                               ],
                                             ),
-                                            SizedBox(
-                                              height: state.sizeHoldSet * 1.5,
-                                            )
-                                          ],
+                                          ),
+                                          wallWidget(context, true, state),
+                                        ],
+                                      ),
+                                    )),
+                                    Positioned(
+                                      child: Align(
+                                        alignment: Alignment.bottomLeft,
+                                        child: Padding(
+                                          padding: EdgeInsets.only(
+                                              left: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  5.5),
+                                          child: SvgPicture.asset(
+                                              Assets.svg.man,
+                                              height: state.row *
+                                                      state.sizeHoldSet /
+                                                      6 +
+                                                  2.h),
                                         ),
                                       ),
-                                      wallWidget(context, true, state),
-                                    ],
-                                  ),
-                                )),
-                                Positioned(
-                                  child: Align(
-                                    alignment: Alignment.bottomLeft,
-                                    child: Padding(
-                                      padding: EdgeInsets.only(
-                                          left: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              5.5),
-                                      child: SvgPicture.asset(Assets.svg.man,
-                                          height: state.row *
-                                                  state.sizeHoldSet /
-                                                  6 +
-                                              2.h),
                                     ),
+                                  ],
+                                )),
+                                Align(
+                                  alignment: Alignment.bottomCenter,
+                                  child: Container(
+                                    height: 7.h,
+                                    decoration: BoxDecoration(boxShadow: [
+                                      BoxShadow(
+                                        color: HexColor('6B6B6B')
+                                            .withOpacity(0.05),
+                                        spreadRadius: 0,
+                                        blurRadius: 10,
+                                        offset: const Offset(0, 0),
+                                      )
+                                    ]),
                                   ),
                                 ),
                               ],
                             )),
-                            Align(
-                              alignment: Alignment.bottomCenter,
-                              child: Container(
-                                height: 7.h,
-                                decoration: BoxDecoration(boxShadow: [
-                                  BoxShadow(
-                                    color: HexColor('6B6B6B').withOpacity(0.05),
-                                    spreadRadius: 0,
-                                    blurRadius: 10,
-                                    offset: const Offset(0, 0),
-                                  )
-                                ]),
-                              ),
-                            ),
+                            const SizedBox(width: 20)
                           ],
-                        )),
-                        const SizedBox(width: 20)
-                      ],
-                    ),
-                  ])),
-                  optionWidget()
+                        ),
+                      ])),
+                      optionWidget()
+                    ],
+                  ),
+                  state.isShowGuideline
+                      ? guidelineWidget(context)
+                      : const SizedBox()
                 ],
               ),
         bloc: _bloc,
       ),
     );
   }
+
+  Widget guidelineWidget(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.only(left: 30.w),
+      color: colorBlack.withOpacity(0.7),
+      height: MediaQuery.of(context).size.height,
+      width: MediaQuery.of(context).size.width,
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Center(
+            child: Padding(
+                padding: EdgeInsets.only(right: 30.w),
+                child: FadeTransition(
+                  opacity: _animation1,
+                  child: AppText(LocaleKeys.edit_route,
+                      style: typoW700.copyWith(fontSize: 29.sp)),
+                )),
+          ),
+          const Spacer(),
+          space(),
+          itemGuideline(LocaleKeys.tab_on_cell_to_select_hold,
+              LocaleKeys.briefly_touch_surface_with_fingertip, Assets.svg.hand,
+              animation: _animation1),
+          space(height: 30),
+          itemGuideline(
+              LocaleKeys.press_cell_with_hold_to_move_it_or_rotate_it,
+              LocaleKeys.touch_suface_for_extended_privod_of_time,
+              Assets.svg.hand,
+              animation: _animation2),
+          space(height: 30),
+          itemGuideline(
+              LocaleKeys.pinch_to_scale_down_and_up,
+              LocaleKeys
+                  .touch_surface_with_two_fingers_and_bring_them_closer_together,
+              Assets.svg.doubleHands,
+              iconWidth: 98.w,
+              animation: _animation3),
+          const Spacer(),
+          const Spacer(),
+          const Spacer(),
+          Align(
+              alignment: Alignment.centerRight,
+              child: Container(
+                  margin: EdgeInsets.only(
+                      right: contentPadding, bottom: contentPadding + 5),
+                  child: GradientButton(
+                      height: 30,
+                      width: 80,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: colorWhite)),
+                      onTap: () => nextStep(),
+                      widget: AppText(
+                        ' ${LocaleKeys.next} >> ',
+                        style: typoW400.copyWith(fontSize: 13.sp),
+                      ),
+                      isCenter: true)))
+        ],
+      ),
+    );
+  }
+
+  void nextStep() {
+    step++;
+    switch (step) {
+      case 1:
+        _animationController1.forward();
+        return;
+      case 2:
+        _animationController2.forward();
+        return;
+      case 3:
+        _animationController3.forward();
+        return;
+      default:
+        _bloc.showGuideline(false);
+    }
+  }
+
+  Widget animationWidget(bool isVisible, Widget child) => AnimatedOpacity(
+        opacity: isVisible ? 1.0 : 0.0,
+        duration: const Duration(milliseconds: 500),
+        child: Container(
+          width: 200.0,
+          height: 200.0,
+          color: Colors.green,
+        ),
+      );
+
+  Widget itemGuideline(String title, String content, String icon,
+          {double? iconWidth,
+            required Animation<double> animation}) =>
+      FadeTransition(
+        opacity: animation,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            AppText(title, style: typoW400.copyWith(fontSize: 14.sp)),
+            space(),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SvgPicture.asset(icon, width: iconWidth ?? 47.w),
+                spaceMenu(),
+                AppText(content,
+                    style:
+                        typoW400.copyWith(color: colorText0.withOpacity(0.6)))
+              ],
+            )
+          ],
+        ),
+      );
 
   Widget line() => Container(
       height: 0.3,
@@ -470,6 +614,8 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage> {
               onTap: () => onTab.call()),
         ),
       );
+
+  Widget space({double height =10})=>SizedBox(height: height);
 
   Widget spaceMenu() => const SizedBox(width: 30);
 

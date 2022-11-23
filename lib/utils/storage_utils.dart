@@ -45,4 +45,10 @@ class StorageUtils {
     var playlistId = await GetStorage().read(StorageKey.playlistId);
     return playlistId;
   }
+
+  static Future<void> saveGuideline(bool isGuideline) async =>
+      await GetStorage().write(StorageKey.isGuideline, isGuideline);
+
+  static Future<bool> getGuideline() async =>
+      await GetStorage().read(StorageKey.isGuideline) ?? false;
 }

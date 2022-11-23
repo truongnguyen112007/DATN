@@ -8,6 +8,7 @@ import 'package:base_bloc/modules/create_routes/create_routes_state.dart';
 import 'package:base_bloc/modules/persons_page/persons_page_state.dart';
 import 'package:base_bloc/modules/zoom_routes/zoom_routes_page.dart';
 import 'package:base_bloc/utils/log_utils.dart';
+import 'package:base_bloc/utils/storage_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:convert';
@@ -126,7 +127,8 @@ class CreateRoutesCubit extends Cubit<CreateRoutesState> {
       required int column,
       required double sizeHoldSet,
       RoutesModel? model,
-      required List<String> lHoldSetImage}) {
+      required List<String> lHoldSetImage})  async{
+    var isGuideline = await StorageUtils.getGuideline();
     var lRoutes = <HoldSetModel>[];
     for (int i = 0; i < row * column; i++) {
       lRoutes.add(HoldSetModel());
@@ -144,6 +146,7 @@ class CreateRoutesCubit extends Cubit<CreateRoutesState> {
     Timer(
         const Duration(seconds: 1),
         () => emit(state.copyOf(
+            isShowGuideline: !isGuideline,
             status: StatusType.success,
             column: column,
             model: model,
@@ -165,5 +168,7 @@ class CreateRoutesCubit extends Cubit<CreateRoutesState> {
     }
   }
 
-
-}
+  void showGuideline(bool isShow) {
+    emit(state.copyOf(isShowGuideline: isShow));
+    StorageUtils.saveGuideline(true);
+  }}
