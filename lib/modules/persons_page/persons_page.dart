@@ -1,18 +1,16 @@
 import 'dart:async';
 import 'package:base_bloc/modules/persons_page/persons_page_cubit.dart';
-import 'package:base_bloc/modules/persons_page/persons_page_state.dart';
 import 'package:base_bloc/utils/log_utils.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../components/app_circle_loading.dart';
 import '../../components/app_text.dart';
-import '../../components/filter_widget.dart';
 import '../../components/message_search.dart';
 import '../../data/eventbus/search_home_event.dart';
 import '../../data/globals.dart';
 import '../../data/model/person_model.dart';
-import '../../localizations/app_localazations.dart';
+import '../../localization/locale_keys.dart';
 import '../../router/router_utils.dart';
 import '../../theme/app_styles.dart';
 import '../../theme/colors.dart';
@@ -174,7 +172,7 @@ class _PersonsPageState extends State<PersonsPage>
           onPressed: () {},
           child: Center(
             child: AppText(
-              LocaleKeys.seeAll,
+              LocaleKeys.seeAll.tr(),
               style: typoLargeTextRegular.copyWith(
                   color: colorOrange90, fontSize: 15.sp),
             ),

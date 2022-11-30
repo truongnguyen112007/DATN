@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:base_bloc/data/model/reservation_model.dart';
-import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/modules/tab_reservation/tab_reservation_state.dart';
 import 'package:base_bloc/router/router_utils.dart';
 import 'package:base_bloc/utils/toast_utils.dart';

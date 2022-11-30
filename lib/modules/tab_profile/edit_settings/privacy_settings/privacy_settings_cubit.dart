@@ -1,5 +1,6 @@
 import 'package:base_bloc/modules/tab_profile/edit_settings/privacy_settings/privacy_setting_state.dart';
 import 'package:base_bloc/utils/app_utils.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,7 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../data/model/general_action_sheet_model.dart';
 import '../../../../data/model/privacy_settings_model.dart';
 import '../../../../gen/assets.gen.dart';
-import '../../../../localizations/app_localazations.dart';
+import '../../../../localization/locale_keys.dart';
 
 enum PrivacySettingsItemValue {
   PUBLIC,
@@ -19,11 +20,11 @@ extension PrivacySettingsItemValueExtension on PrivacySettingsItemValue {
   String get title {
     switch (this) {
       case PrivacySettingsItemValue.PUBLIC:
-        return LocaleKeys.privacy_public;
+        return LocaleKeys.privacy_public.tr();
       case PrivacySettingsItemValue.FRIENDS:
-        return LocaleKeys.privacy_friends;
+        return LocaleKeys.privacy_friends.tr();
       case PrivacySettingsItemValue.PRIVATE:
-        return LocaleKeys.privacy_private;
+        return LocaleKeys.privacy_private.tr();
     }
   }
 

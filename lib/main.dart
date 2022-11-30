@@ -1,31 +1,33 @@
 import 'dart:io';
-
-import 'package:base_bloc/modules/home/home_page.dart';
-import 'package:base_bloc/modules/splash/splash_page.dart';
-import 'package:base_bloc/modules/tab_profile/edit_settings/edit_settings_page.dart';
 import 'package:base_bloc/router/application.dart';
 import 'package:base_bloc/router/router.dart';
 import 'package:base_bloc/utils/device_utils.dart';
-import 'package:base_bloc/utils/log_utils.dart';
 import 'package:base_bloc/utils/storage_utils.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import 'localizations/app_localazations.dart';
+import 'localization/codegen_loader.g.dart';
+import 'localization/locale_keys.dart';
 
 void main() async {
   await configApp();
-  runApp(const MyApp());
+  runApp(
+    EasyLocalization(
+        assetLoader: const Applocalizations(),
+        supportedLocales: Applocalizations.supportedLocales,
+        path: 'assets/translations',
+        child: const MyApp()),
+  );
+  // runApp(const MyApp());
 }
 
 Future<void> configApp() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
 
   HttpOverrides.global = MyHttpOverrides();
   configOrientation();
@@ -64,11 +66,13 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    StorageUtils.getLanguageCode(context);
     return ScreenUtilInit(
       builder: (c, w) => MaterialApp(
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        supportedLocales: AppLocalizations.supportedLocales,
-        title: 'ReClimb',
+        localizationsDelegates: context.localizationDelegates,
+        supportedLocales: context.supportedLocales,
+        locale: context.locale,
+        title: LocaleKeys.appName.tr(),
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           textTheme: GoogleFonts.mulishTextTheme(),

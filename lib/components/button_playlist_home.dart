@@ -1,10 +1,11 @@
 import 'package:base_bloc/data/model/feed_model.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import '../gen/assets.gen.dart';
-import '../localizations/app_localazations.dart';
+import '../localization/locale_keys.dart';
 import '../theme/app_styles.dart';
 import '../theme/colors.dart';
 import '../utils/toast_utils.dart';
@@ -51,7 +52,7 @@ class _ButtonPlayListHomeState extends State<ButtonPlayListHome> {
               color: colorWhite,
             ),
           ),
-          LocaleKeys.playlist),
+          LocaleKeys.playlist.tr()),
     );
   }
 

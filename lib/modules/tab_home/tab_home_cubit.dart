@@ -1,10 +1,6 @@
 import 'dart:async';
 
-import 'package:base_bloc/data/globals.dart';
-import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/modules/tab_home/tab_home_state.dart';
-import 'package:base_bloc/utils/log_utils.dart';
-import 'package:base_bloc/utils/toast_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';

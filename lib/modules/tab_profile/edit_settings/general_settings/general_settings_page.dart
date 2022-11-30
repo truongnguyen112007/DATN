@@ -1,20 +1,15 @@
 import 'package:base_bloc/base/base_state.dart';
 import 'package:base_bloc/components/app_text.dart';
-import 'package:base_bloc/data/globals.dart';
-import 'package:base_bloc/localizations/app_localazations.dart';
-import 'package:base_bloc/modules/tab_profile/edit_settings/privacy_settings/privacy_setting_state.dart';
-import 'package:base_bloc/modules/tab_profile/edit_settings/privacy_settings/privacy_settings_cubit.dart';
-import 'package:base_bloc/theme/colors.dart';
+import 'package:base_bloc/data/globals.dart';import 'package:base_bloc/theme/colors.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get_storage/get_storage.dart';
 import '../../../../components/app_scalford.dart';
 import '../../../../components/appbar_widget.dart';
 import '../../../../data/model/general_settings_model.dart';
-import '../../../../data/model/privacy_settings_model.dart';
-import '../../../../gen/assets.gen.dart';
+import '../../../../localization/locale_keys.dart';
 import '../../../../theme/app_styles.dart';
 import 'general_settings_cubit.dart';
 import 'general_settings_state.dart';
@@ -49,8 +44,7 @@ class _GeneralSettingsState extends BaseState<GeneralSettingsPage>
     return AppScaffold(
         backgroundColor: colorGreyBackground,
         appbar: appBarWidget(
-            context: context,
-            titleStr: AppLocalizations.of(context)!.settingsGeneral),
+            context: context, titleStr: LocaleKeys.settingsGeneral.tr()),
         body: generalSettingsListView(context));
   }
 
@@ -66,7 +60,7 @@ class _GeneralSettingsState extends BaseState<GeneralSettingsPage>
           itemCount: state.generalSettingsList.length,
           itemBuilder: (context, index) {
             return generalSettingsItemView(
-                context, state.generalSettingsList.elementAt(index));
+                this.context, state.generalSettingsList.elementAt(index));
           },
         );
       },
@@ -106,7 +100,7 @@ class _GeneralSettingsState extends BaseState<GeneralSettingsPage>
               ),
             ),
             onTap: () {
-              _bloc.showGeneralSettingsOption(context, item);
+              _bloc.showGeneralSettingsOption(this.context, item);
             },
           );
         });

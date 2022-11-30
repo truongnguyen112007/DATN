@@ -1,22 +1,20 @@
 import 'package:base_bloc/components/dialogs.dart';
-import 'package:base_bloc/config/constant.dart';
 import 'package:base_bloc/data/model/user_model.dart';
 import 'package:base_bloc/data/repository/user_repository.dart';
-import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/modules/home/home_page.dart';
 import 'package:base_bloc/modules/login/login_state.dart';
 import 'package:base_bloc/router/router_utils.dart';
 import 'package:base_bloc/utils/app_utils.dart';
-import 'package:base_bloc/utils/log_utils.dart';
 import 'package:base_bloc/utils/storage_utils.dart';
 import 'package:base_bloc/utils/toast_utils.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/globals.dart' as globals;
-import 'package:dio/dio.dart';
 
 import '../../data/model/playlist_model.dart';
+import '../../localization/locale_keys.dart';
 
 class LoginCubit extends Cubit<LoginState> {
   var userRepository = UserRepository();
@@ -37,7 +35,7 @@ class LoginCubit extends Cubit<LoginState> {
         StorageUtils.login(UserModel.fromJson(response.data));
         await checkPlaylistId(userModel);
         await Dialogs.hideLoadingDialog();
-        toast(LocaleKeys.login_success);
+        toast(LocaleKeys.login_success.tr());
         RouterUtils.openNewPage(const HomePage(), context, isReplace: true);
       }
     }
@@ -68,9 +66,9 @@ bool checkValidEmail(String email) {
   bool isValid = false;
   if (email.isEmpty) {
     isValid = false;
-    emit(state.copyOf(errorEmail: LocaleKeys.please_input_email));
+    emit(state.copyOf(errorEmail: LocaleKeys.please_input_email.tr()));
   } else if (!EmailValidator.validate(email)) {
-    emit(state.copyOf(errorEmail: LocaleKeys.please_input_valid_email));
+    emit(state.copyOf(errorEmail: LocaleKeys.please_input_valid_email.tr()));
     isValid = false;
   } else {
     isValid = true;
@@ -83,9 +81,9 @@ bool checkValidPassword(String password) {
   bool isValid = false;
   if (password.isEmpty) {
     isValid = false;
-    emit(state.copyOf(errorPassword: LocaleKeys.please_input_pass));
+    emit(state.copyOf(errorPassword: LocaleKeys.please_input_pass.tr()));
   } else if (!Utils.validatePassword(password)) {
-    emit(state.copyOf(errorPassword: LocaleKeys.please_input_valid_pass));
+    emit(state.copyOf(errorPassword: LocaleKeys.please_input_valid_pass.tr()));
     isValid = false;
   } else {
     isValid = true;

@@ -1,6 +1,4 @@
-import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/modules/all_page/all_page_cubit.dart';
-import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/theme/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

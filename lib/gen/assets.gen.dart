@@ -398,12 +398,26 @@ class $AssetsTdGen {
   List<String> get values => [boombox];
 }
 
+class $AssetsTranslationsGen {
+  const $AssetsTranslationsGen();
+
+  /// File path: assets/translations/en.json
+  String get en => 'assets/translations/en.json';
+
+  /// File path: assets/translations/pl.json
+  String get pl => 'assets/translations/pl.json';
+
+  /// List of all assets
+  List<String> get values => [en, pl];
+}
+
 class Assets {
   Assets._();
 
   static const $AssetsPngGen png = $AssetsPngGen();
   static const $AssetsSvgGen svg = $AssetsSvgGen();
   static const $AssetsTdGen td = $AssetsTdGen();
+  static const $AssetsTranslationsGen translations = $AssetsTranslationsGen();
 }
 
 class AssetGenImage {

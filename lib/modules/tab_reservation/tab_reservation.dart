@@ -5,18 +5,16 @@ import 'package:base_bloc/modules/tab_reservation/tab_reservation_cubit.dart';
 import 'package:base_bloc/modules/tab_reservation/tab_reservation_state.dart';
 import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/utils/app_utils.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
-
 import '../../components/app_circle_loading.dart';
 import '../../components/app_scalford.dart';
 import '../../components/app_text.dart';
 import '../../components/check_login.dart';
 import '../../data/model/reservation_model.dart';
-import '../../gen/assets.gen.dart';
-import '../../localizations/app_localazations.dart';
+import '../../localization/locale_keys.dart';
 import '../../theme/colors.dart';
 
 class TabReservation extends StatefulWidget {
@@ -69,7 +67,7 @@ class _TabReservationState extends State<TabReservation>
           },
           onClickJumpToTop: () {},
           widget: AppText(
-            LocaleKeys.reservations,
+            LocaleKeys.reservations.tr(),
             style: googleFont.copyWith(color: colorWhite),
           )),
       backgroundColor: colorBlack30,
@@ -132,7 +130,7 @@ class _TabReservationState extends State<TabReservation>
                     size: 18,
                   ),
                   AppText(
-                    " ${AppLocalizations.of(context)!.reservations}",
+                    " ${LocaleKeys.reservations.tr()}",
                     style:
                         typoW600.copyWith(color: colorText0, fontSize: 13.sp),
                   )
@@ -157,11 +155,11 @@ class _TabReservationState extends State<TabReservation>
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                titleWidget(AppLocalizations.of(context)!.today),
+                titleWidget(LocaleKeys.today.tr()),
                 lReservationWidget(state.lToday),
-                titleWidget(AppLocalizations.of(context)!.tomorrow),
+                titleWidget(LocaleKeys.tomorrow.tr()),
                 lReservationWidget(state.lTomorrow),
-                titleWidget(AppLocalizations.of(context)!.nextWeek),
+                titleWidget(LocaleKeys.nextWeek.tr()),
                 lReservationWidget(state.lNextWeek),
                 const SizedBox(
                   height: 20,

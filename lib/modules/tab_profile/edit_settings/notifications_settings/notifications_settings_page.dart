@@ -1,22 +1,17 @@
-import 'dart:convert';
-
 import 'package:base_bloc/base/base_state.dart';
 import 'package:base_bloc/components/app_text.dart';
-import 'package:base_bloc/components/settings_item_widget.dart';
 import 'package:base_bloc/data/model/notifications_settings_model.dart';
-import 'package:base_bloc/data/model/settings_model.dart';
-import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/modules/tab_profile/edit_settings/notifications_settings/notifications_settings_state.dart';
 import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/theme/colors.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get_storage/get_storage.dart';
 import '../../../../components/app_scalford.dart';
 import '../../../../components/appbar_widget.dart';
 import '../../../../data/globals.dart';
+import '../../../../localization/locale_keys.dart';
 import 'notifications_settings_cubit.dart';
 
 class NotificationsSettingsPage extends StatefulWidget {
@@ -51,7 +46,7 @@ class _NotificationsSettingsState extends BaseState<NotificationsSettingsPage>
         backgroundColor: colorGreyBackground,
         appbar: appBarWidget(
             context: context,
-            titleStr: LocaleKeys.settingsNotifications),
+            titleStr: LocaleKeys.settingsNotifications.tr()),
         body: notificationsSettingsListView(context));
   }
 
@@ -70,7 +65,7 @@ class _NotificationsSettingsState extends BaseState<NotificationsSettingsPage>
               return Container(
                 padding: EdgeInsets.only(bottom: 2.0*contentPadding),
                 child: AppText(
-                    LocaleKeys.notif_push_notifications,
+                    LocaleKeys.notif_push_notifications.tr(),
                     style: googleFont.copyWith(fontSize: 22.w, fontWeight: FontWeight.w600, color: colorMainText)),
               );
             }

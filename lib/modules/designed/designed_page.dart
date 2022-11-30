@@ -1,10 +1,10 @@
 import 'package:base_bloc/components/app_circle_loading.dart';
-import 'package:base_bloc/components/message_tab_routes.dart';
 import 'package:base_bloc/data/globals.dart';
 import 'package:base_bloc/modules/designed/designed_cubit.dart';
 import 'package:base_bloc/modules/designed/designed_state.dart';
 import 'package:base_bloc/modules/tab_home/tab_home_state.dart';
 import 'package:base_bloc/theme/colors.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,9 +15,8 @@ import '../../components/app_text.dart';
 import '../../components/filter_widget.dart';
 import '../../components/gradient_button.dart';
 import '../../components/item_info_routes.dart';
-import '../../components/message_search.dart';
 import '../../data/model/routes_model.dart';
-import '../../localizations/app_localazations.dart';
+import '../../localization/locale_keys.dart';
 import '../../theme/app_styles.dart';
 import '../../utils/app_utils.dart';
 import '../playlist/playlist_cubit.dart';
@@ -129,7 +128,7 @@ class _DesignedPageState extends State<DesignedPage>
                         isMultiSelect: true);
                   },
                   widget: AppText(
-                    LocaleKeys.action,
+                    LocaleKeys.action.tr(),
                     style: googleFont.copyWith(
                         color: colorWhite, fontSize: 15.sp),
                   ),
@@ -182,7 +181,7 @@ class _DesignedPageState extends State<DesignedPage>
                   children: [
                     SpeedDialChild(
                       labelWidget: AppText(
-                        LocaleKeys.find_routes,
+                        LocaleKeys.find_routes.tr(),
                         style: typoW400.copyWith(
                             fontSize: 16, color: colorText0.withOpacity(0.87)),
                       ),
@@ -196,7 +195,7 @@ class _DesignedPageState extends State<DesignedPage>
                     ),
                     SpeedDialChild(
                       labelWidget: AppText(
-                        LocaleKeys.create_routes,
+                        LocaleKeys.create_routes.tr(),
                         style: typoW400.copyWith(
                             fontSize: 16, color: colorText0.withOpacity(0.87)),
                       ),

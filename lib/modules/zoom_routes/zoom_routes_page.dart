@@ -6,8 +6,7 @@ import 'package:base_bloc/components/zoomer.dart';
 import 'package:base_bloc/data/model/routes_model.dart';
 import 'package:base_bloc/modules/zoom_routes/zoom_routes_cubit.dart';
 import 'package:base_bloc/modules/zoom_routes/zoom_routes_state.dart';
-import 'package:base_bloc/utils/log_utils.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -22,7 +21,7 @@ import '../../data/eventbus/hold_set_event.dart';
 import '../../data/globals.dart' as globals;
 import '../../data/model/hold_set_model.dart';
 import '../../gen/assets.gen.dart';
-import '../../localizations/app_localazations.dart';
+import '../../localization/locale_keys.dart';
 import '../../router/router_utils.dart';
 import '../../theme/app_styles.dart';
 import '../../theme/colors.dart';
@@ -242,7 +241,7 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
           shapeBorder: RoundedRectangleBorder(
               side: const BorderSide(color: colorWhite),
               borderRadius: BorderRadius.circular(50)),
-          title: LocaleKeys.cancel,
+          title: LocaleKeys.cancel.tr(),
           height: 32.h,
           textStyle: typoSmallTextRegular.copyWith(color: colorText0),
           onPress: () => RouterUtils.pop(context),
@@ -263,7 +262,7 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
               borderRadius: BorderRadius.circular(50)),
           height: 32.h,
           child: AppText(
-            LocaleKeys.save_daft,
+            LocaleKeys.save_daft.tr(),
             style: typoSmallTextRegular.copyWith(color: colorText0),
           ),
         )

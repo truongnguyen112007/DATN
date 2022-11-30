@@ -1,8 +1,8 @@
 import 'package:base_bloc/components/app_scalford.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../localizations/app_localazations.dart';
-import '../modules/tab_home/tab_home_cubit.dart';
+import '../localization/locale_keys.dart';
 import '../theme/app_styles.dart';
 import '../theme/colors.dart';
 import '../utils/app_utils.dart';
@@ -34,7 +34,7 @@ class _CheckLoginState extends State<CheckLogin> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             AppText(
-              LocaleKeys.youNeedLogin,
+              LocaleKeys.youNeedLogin.tr(),
               style: googleFont.copyWith(
                   color: colorWhite, fontSize: 25.sp),
               textAlign: TextAlign.center,
@@ -51,7 +51,7 @@ class _CheckLoginState extends State<CheckLogin> {
               onTap: widget.loginCallBack,
               widget: Center(
                 child: AppText(
-                  LocaleKeys.login,
+                  LocaleKeys.login.tr(),
                   style: googleFont.copyWith(
                       color: colorWhite, fontSize: 15.sp),
                 ),

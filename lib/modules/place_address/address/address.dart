@@ -4,6 +4,7 @@ import 'package:base_bloc/components/app_scalford.dart';
 import 'package:base_bloc/data/model/places_model.dart';
 import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/theme/colors.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,7 +13,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../components/app_text.dart';
 import '../../../data/globals.dart';
-import '../../../localizations/app_localazations.dart';
+import '../../../localization/locale_keys.dart';
 import '../../../utils/app_utils.dart';
 import 'address_cubit.dart';
 
@@ -118,7 +119,7 @@ class _AddressState extends State<Address> {
                     size: 18,
                   ),
                   AppText(
-                    " ${AppLocalizations.of(context)!.reservations}",
+                    " ${LocaleKeys.reservations.tr()}",
                     style:
                         typoW600.copyWith(color: colorText0, fontSize: 13.sp),
                   )

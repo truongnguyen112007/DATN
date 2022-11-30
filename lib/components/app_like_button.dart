@@ -1,12 +1,13 @@
 import 'package:base_bloc/components/app_text.dart';
-import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/theme/colors.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../gen/assets.gen.dart';
+import '../localization/locale_keys.dart';
 
 class AppLikeButton extends StatefulWidget {
   const AppLikeButton({Key? key}) : super(key: key);
@@ -63,7 +64,7 @@ class _AppLikeButtonState extends State<AppLikeButton> {
                     ),
             )),
             AppText(
-              '$count ${LocaleKeys.likes}',
+              '$count ${LocaleKeys.likes.tr()}',
               style: typoSuperSmallTextRegular.copyWith(
                   fontSize: 11.sp, color: colorText0.withOpacity(0.87)),
             )

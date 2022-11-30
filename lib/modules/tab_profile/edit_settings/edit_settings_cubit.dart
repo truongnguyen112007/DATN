@@ -1,16 +1,15 @@
 import 'package:base_bloc/data/model/settings_model.dart';
 import 'package:base_bloc/gen/assets.gen.dart';
-import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/modules/home/home_page.dart';
 import 'package:base_bloc/modules/tab_profile/edit_settings/edit_account/edit_account_page.dart';
-import 'package:base_bloc/modules/tab_profile/edit_settings/edit_settings_page.dart';
 import 'package:base_bloc/modules/tab_profile/edit_settings/privacy_settings/privacy_settings_page.dart';
 import 'package:base_bloc/router/router_utils.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../components/dialogs.dart';
-import '../../../utils/log_utils.dart';
+import '../../../localization/locale_keys.dart';
 import '../../../utils/storage_utils.dart';
 import '../../../utils/toast_utils.dart';
 import 'edit_settings_state.dart';
@@ -38,15 +37,15 @@ extension SettingsItemTypeExtension on SettingsItemType {
   String get title {
     switch (this) {
       case SettingsItemType.ACCOUNT:
-        return LocaleKeys.settingsAccount;
+        return LocaleKeys.settingsAccount.tr();
       case SettingsItemType.NOTIFICATIONS:
-        return LocaleKeys.settingsNotifications;
+        return LocaleKeys.settingsNotifications.tr();
       case SettingsItemType.PRIVACY:
-        return LocaleKeys.settingsPrivacy;
+        return LocaleKeys.settingsPrivacy.tr();
       case SettingsItemType.GENERAL:
-        return LocaleKeys.settingsGeneral;
+        return LocaleKeys.settingsGeneral.tr();
       case SettingsItemType.LOGOUT:
-        return LocaleKeys.logOut;
+        return LocaleKeys.logOut.tr();
     }
   }
 }

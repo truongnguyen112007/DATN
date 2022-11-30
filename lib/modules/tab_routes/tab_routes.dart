@@ -8,18 +8,17 @@ import 'package:base_bloc/modules/playlist/playlist_page.dart';
 import 'package:base_bloc/modules/tab_routes/tab_routes_cubit.dart';
 import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/theme/colors.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 
 import '../../components/app_scalford.dart';
 import '../../components/app_text.dart';
 import '../../components/check_login.dart';
 import '../../data/globals.dart';
-import '../../gen/assets.gen.dart';
-import '../../localizations/app_localazations.dart';
+import '../../localization/locale_keys.dart';
 
 class TabRoutes extends StatefulWidget {
   const TabRoutes({Key? key}) : super(key: key);
@@ -53,7 +52,7 @@ class _TabRoutesState extends State<TabRoutes>
         },
             onClickJumpToTop: () {},
             widget: AppText(
-              LocaleKeys.routes,
+              LocaleKeys.routes.tr(),
               style: googleFont.copyWith(color: colorWhite),
             )),
         backgroundColor: colorGreyBackground,
@@ -95,10 +94,10 @@ class _TabRoutesState extends State<TabRoutes>
               labelColor: HexColor('FF5A00'),
               unselectedLabelColor: colorText0.withOpacity(0.6),
               tabs: [
-                Tab(text: LocaleKeys.playlist),
-                Tab(text: LocaleKeys.history),
-                Tab(text: LocaleKeys.favourite),
-                Tab(text: LocaleKeys.designed),
+                Tab(text: LocaleKeys.playlist.tr()),
+                Tab(text: LocaleKeys.history.tr()),
+                Tab(text: LocaleKeys.favourite.tr()),
+                Tab(text: LocaleKeys.designed.tr()),
               ],
               labelStyle: typoW400.copyWith(fontSize: 12.sp),
             ),

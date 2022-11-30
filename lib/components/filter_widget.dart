@@ -1,12 +1,10 @@
 import 'dart:async';
 
 import 'package:base_bloc/data/eventbus/refresh_event.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../data/globals.dart';
-import '../data/model/routes_model.dart';
-import '../localizations/app_localazations.dart';
+import '../localization/locale_keys.dart';
 import '../theme/app_styles.dart';
 import '../theme/colors.dart';
 import '../utils/app_utils.dart';
@@ -59,16 +57,16 @@ class _FilterWidgetState extends State<FilterWidget> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          itemFilterWidget(Icons.swap_vert, LocaleKeys.sort,
+          itemFilterWidget(Icons.swap_vert, LocaleKeys.sort.tr(),
               colorWhite.withOpacity(0.87), () => widget.sortCallBack.call()),
           itemFilterWidget(
               Icons.filter_alt_outlined,
-              AppLocalizations.of(context)!.filter,
+              LocaleKeys.filter.tr(),
               colorWhite.withOpacity(0.87),
               () => widget.filterCallBack.call()),
           itemFilterWidget(
             Icons.filter_alt_outlined,
-            onClickSelect ? 'Unselect all' : LocaleKeys.select,
+            onClickSelect ? 'Unselect all' : LocaleKeys.select.tr(),
             Colors.transparent,
             isShow: widget.isSelect,
             () => setState(() {

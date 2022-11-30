@@ -1,7 +1,8 @@
-import 'package:base_bloc/localizations/app_localazations.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../data/model/profile_model.dart';
+import '../../../../localization/locale_keys.dart';
 import 'edit_account_state.dart';
 
 enum AccountFieldType {
@@ -18,19 +19,19 @@ extension AccountFieldTypeExtension on AccountFieldType {
   String get title {
     switch (this) {
       case AccountFieldType.NICKNAME:
-        return LocaleKeys.account_nickname;
+        return LocaleKeys.account_nickname.tr();
       case AccountFieldType.NAME:
-        return LocaleKeys.account_name;
+        return LocaleKeys.account_name.tr();
       case AccountFieldType.SURNAME:
-        return LocaleKeys.account_surname;
+        return LocaleKeys.account_surname.tr();
       case AccountFieldType.TYPE:
-        return LocaleKeys.account_type;
+        return LocaleKeys.account_type.tr();
       case AccountFieldType.HEIGHT:
-        return LocaleKeys.account_height;
+        return LocaleKeys.account_height.tr();
       case AccountFieldType.FAVORITE_ROUTE_GRADE:
-        return LocaleKeys.account_favorite_route_grade;
+        return LocaleKeys.account_favorite_route_grade.tr();
       case AccountFieldType.EMAIL:
-        return LocaleKeys.account_email;
+        return LocaleKeys.account_email.tr();
     }
   }
 }

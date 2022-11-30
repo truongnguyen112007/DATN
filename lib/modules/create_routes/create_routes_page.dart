@@ -11,12 +11,12 @@ import 'package:base_bloc/config/constant.dart';
 import 'package:base_bloc/data/globals.dart' as globals;
 import 'package:base_bloc/data/model/hold_set_model.dart';
 import 'package:base_bloc/data/model/routes_model.dart';
-import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/modules/create_routes/create_routes_cubit.dart';
 import 'package:base_bloc/modules/create_routes/create_routes_state.dart';
 import 'package:base_bloc/modules/persons_page/persons_page_state.dart';
 import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/theme/colors.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -26,6 +26,7 @@ import '../../base/hex_color.dart';
 import '../../components/app_circle_loading.dart';
 import '../../data/globals.dart';
 import '../../gen/assets.gen.dart';
+import '../../localization/locale_keys.dart';
 import '../../router/router_utils.dart';
 import '../../utils/app_utils.dart';
 
@@ -260,26 +261,26 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage>   with Ticke
                 padding: EdgeInsets.only(right: 30.w),
                 child: FadeTransition(
                   opacity: _animation1,
-                  child: AppText(LocaleKeys.edit_route,
+                  child: AppText(LocaleKeys.edit_route.tr(),
                       style: typoW700.copyWith(fontSize: 29.sp)),
                 )),
           ),
           const Spacer(),
           space(),
-          itemGuideline(LocaleKeys.tab_on_cell_to_select_hold,
-              LocaleKeys.briefly_touch_surface_with_fingertip, Assets.svg.hand,
+          itemGuideline(LocaleKeys.tab_on_cell_to_select_hold.tr(),
+              LocaleKeys.briefly_touch_surface_with_fingertip.tr(), Assets.svg.hand,
               animation: _animation1),
           space(height: 30),
           itemGuideline(
-              LocaleKeys.press_cell_with_hold_to_move_it_or_rotate_it,
-              LocaleKeys.touch_suface_for_extended_privod_of_time,
+              LocaleKeys.press_cell_with_hold_to_move_it_or_rotate_it.tr(),
+              LocaleKeys.touch_suface_for_extended_privod_of_time.tr(),
               Assets.svg.hand,
               animation: _animation2),
           space(height: 30),
           itemGuideline(
-              LocaleKeys.pinch_to_scale_down_and_up,
+              LocaleKeys.pinch_to_scale_down_and_up.tr(),
               LocaleKeys
-                  .touch_surface_with_two_fingers_and_bring_them_closer_together,
+                  .touch_surface_with_two_fingers_and_bring_them_closer_together.tr(),
               Assets.svg.doubleHands,
               iconWidth: 98.w,
               animation: _animation3),
@@ -299,7 +300,7 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage>   with Ticke
                           border: Border.all(color: colorWhite)),
                       onTap: () => nextStep(),
                       widget: AppText(
-                        ' ${LocaleKeys.next} >> ',
+                        ' ${LocaleKeys.next.tr()} >> ',
                         style: typoW400.copyWith(fontSize: 13.sp),
                       ),
                       isCenter: true)))
@@ -502,7 +503,7 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage>   with Ticke
               shapeBorder: RoundedRectangleBorder(
                   side: const BorderSide(color: colorWhite),
                   borderRadius: BorderRadius.circular(50)),
-              title: LocaleKeys.cancel,
+              title: LocaleKeys.cancel.tr(),
               height: 32.h,
               textStyle: typoSmallTextRegular.copyWith(color: colorText0),
               onPress: () => RouterUtils.pop(context),
@@ -524,7 +525,7 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage>   with Ticke
                   borderRadius: BorderRadius.circular(50)),
               height: 32.h,
               child: AppText(
-                LocaleKeys.save_daft,
+                LocaleKeys.save_daft.tr(),
                 style: typoSmallTextRegular.copyWith(color: colorText0),
               ),
             )

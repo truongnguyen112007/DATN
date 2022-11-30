@@ -1,9 +1,8 @@
 import 'dart:convert';
-import 'package:base_bloc/utils/log_utils.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:logger/logger.dart';
-import '../../localizations/app_localazations.dart';
+import '../../localization/locale_keys.dart';
 import '../../utils/connection_utils.dart';
 import '../globals.dart' as globals;
 import '../globals.dart';
@@ -20,7 +19,7 @@ class BaseService {
   Future<ApiResult> GET(String url,
       {Map<String, dynamic>? queryParam, bool isNewFormat = false}) async {
     if (await ConnectionUtils.isConnect() == false) {
-      return ApiResult(error: LocaleKeys.network_error);
+      return ApiResult(error: LocaleKeys.network_error.tr());
     }
     print('============================================================');
     print('[GET] ${baseUrl}$url');
@@ -64,22 +63,22 @@ class BaseService {
       try {
         return ApiResult<dynamic>(
             error: exception.response?.data['meta']['message'] ??
-                LocaleKeys.network_error,
+                LocaleKeys.network_error.tr(),
             statusCode: exception.response?.statusCode);
       } catch (e) {
-        return ApiResult<dynamic>(error: LocaleKeys.network_error);
+        return ApiResult<dynamic>(error: LocaleKeys.network_error.tr());
       }
     } catch (error) {
       Logger().e('[EXCEPTION] $error');
       Logger().e('[ERROR] $error');
       print('============================================================');
-      return ApiResult<dynamic>(error: LocaleKeys.network_error);
+      return ApiResult<dynamic>(error: LocaleKeys.network_error.tr());
     }
   }
 
   Future<ApiResult> PATCH(String url, dynamic body) async {
     if (await ConnectionUtils.isConnect() == false) {
-      return ApiResult(error: LocaleKeys.network_error);
+      return ApiResult(error: LocaleKeys.network_error.tr());
     }
     print('============================================================');
     print('[PATCH] ${baseUrl}$url');
@@ -121,15 +120,15 @@ class BaseService {
       try {
         return ApiResult<dynamic>(
             error: exception.response?.data['meta']['message'] ??
-                LocaleKeys.network_error,
+                LocaleKeys.network_error.tr(),
             statusCode: exception.response?.statusCode);
       } catch (e) {
-        return ApiResult<dynamic>(error: LocaleKeys.network_error);
+        return ApiResult<dynamic>(error: LocaleKeys.network_error.tr());
       }
     } catch (error) {
       Logger().e('[ERROR] ' + error.toString());
       print('============================================================');
-      return ApiResult<dynamic>(error: LocaleKeys.network_error);
+      return ApiResult<dynamic>(error: LocaleKeys.network_error.tr());
     }
   }
 
@@ -137,7 +136,7 @@ class BaseService {
   Future<ApiResult> POST(String url, dynamic body,
       {bool isMultipart = false, bool isNewFormat = false}) async {
     if (await ConnectionUtils.isConnect() == false) {
-      return ApiResult(error: LocaleKeys.network_error);
+      return ApiResult(error: LocaleKeys.network_error.tr());
     }
     print('============================================================');
     print('[POST] ' + baseUrl + url);
@@ -179,15 +178,15 @@ class BaseService {
       try {
         return ApiResult<dynamic>(
             error: exception.response?.data['meta']['message'] ??
-                LocaleKeys.network_error,
+                LocaleKeys.network_error.tr(),
             statusCode: exception.response?.statusCode);
       } catch (e) {
-        return ApiResult<dynamic>(error: LocaleKeys.network_error);
+        return ApiResult<dynamic>(error: LocaleKeys.network_error.tr());
       }
     } catch (error) {
       Logger().e('[ERROR] ' + error.toString());
       print('============================================================');
-      return ApiResult<dynamic>(error: LocaleKeys.network_error);
+      return ApiResult<dynamic>(error: LocaleKeys.network_error.tr());
     }
   }
 
@@ -195,7 +194,7 @@ class BaseService {
   Future<ApiResult> PUT(String url,
       {dynamic body, bool isNewFormat = false}) async {
     if (await ConnectionUtils.isConnect() == false) {
-      return ApiResult(error: LocaleKeys.network_error);
+      return ApiResult(error: LocaleKeys.network_error.tr());
     }
     print('============================================================');
     print('[PUT] ' + baseUrl + url);
@@ -234,22 +233,22 @@ class BaseService {
       try {
         return ApiResult<dynamic>(
             error: exception.response?.data['meta']['message'] ??
-                LocaleKeys.network_error,
+                LocaleKeys.network_error.tr(),
             statusCode: exception.response?.statusCode);
       } catch (e) {
-        return ApiResult<dynamic>(error: LocaleKeys.network_error);
+        return ApiResult<dynamic>(error: LocaleKeys.network_error.tr());
       }
     } catch (error) {
       Logger().e('[ERROR] $error');
       print('============================================================');
-      return ApiResult<dynamic>(error: LocaleKeys.network_error);
+      return ApiResult<dynamic>(error: LocaleKeys.network_error.tr());
     }
   }
 
   // ignore: non_constant_identifier_names
   Future<ApiResult> DELETE(String url, {dynamic body}) async {
     if (await ConnectionUtils.isConnect() == false) {
-      return ApiResult(error: LocaleKeys.network_error);
+      return ApiResult(error: LocaleKeys.network_error.tr());
     }
     print('============================================================');
     print('[DELETE] ${baseUrl}$url');
@@ -288,15 +287,15 @@ class BaseService {
       try {
         return ApiResult<dynamic>(
             error: exception.response?.data['meta']['message'] ??
-                LocaleKeys.network_error,
+                LocaleKeys.network_error.tr(),
             statusCode: exception.response?.statusCode);
       } catch (e) {
-        return ApiResult<dynamic>(error: LocaleKeys.network_error);
+        return ApiResult<dynamic>(error: LocaleKeys.network_error.tr());
       }
     } catch (error) {
       Logger().e('[ERROR] $error');
       print('============================================================');
-      return ApiResult<dynamic>(error: LocaleKeys.network_error);
+      return ApiResult<dynamic>(error: LocaleKeys.network_error.tr());
     }
   }
 }

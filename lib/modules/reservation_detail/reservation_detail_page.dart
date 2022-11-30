@@ -4,11 +4,11 @@ import 'package:base_bloc/components/app_scalford.dart';
 import 'package:base_bloc/components/appbar_widget.dart';
 import 'package:base_bloc/data/globals.dart';
 import 'package:base_bloc/data/model/reservation_model.dart';
-import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/modules/reservation_detail/reservation_detail_cubit.dart';
 import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/theme/colors.dart';
 import 'package:base_bloc/utils/app_utils.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -17,6 +17,7 @@ import 'package:flutter_svg/svg.dart';
 import '../../base/base_state.dart';
 import '../../components/app_text.dart';
 import '../../gen/assets.gen.dart';
+import '../../localization/locale_keys.dart';
 
 class ReservationDetailPage extends StatefulWidget {
   final int index;
@@ -70,7 +71,7 @@ class _ReservationDetailPageState extends BasePopState<ReservationDetailPage> {
   }
 
   Widget cancelWidget(BuildContext context) => AppButton(
-        title: AppLocalizations.of(context)!.cancelYourReservation,
+        title: LocaleKeys.cancelYourReservation.tr(),
         backgroundColor: colorGrey90,
         textStyle: typoW400.copyWith(
             fontSize: 13.sp, color: colorText0.withOpacity(0.87)),
@@ -130,7 +131,7 @@ class _ReservationDetailPageState extends BasePopState<ReservationDetailPage> {
 
   PreferredSizeWidget appbar(BuildContext context) => appBarWidget(
         context: context,
-        titleStr: AppLocalizations.of(context)!.tomorrow,
+        titleStr: LocaleKeys.tomorrow.tr(),
         action: [
           Container(
             margin: EdgeInsets.only(left: 10, right: contentPadding),

@@ -1,17 +1,17 @@
 import 'package:base_bloc/components/dialogs.dart';
 import 'package:base_bloc/data/model/routes_model.dart';
 import 'package:base_bloc/data/repository/user_repository.dart';
-import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/modules/create_info_route/create_info_route_state.dart';
 import 'package:base_bloc/modules/home/home_page.dart';
 import 'package:base_bloc/router/router_utils.dart';
 import 'package:base_bloc/utils/app_utils.dart';
-import 'package:base_bloc/utils/log_utils.dart';
 import 'package:base_bloc/utils/toast_utils.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../data/model/hold_set_model.dart';
+import '../../localization/locale_keys.dart';
 
 class CreateInfoRouteCubit extends Cubit<CreateInfoRouteState> {
   final List<HoldSetModel> lHoldSet;
@@ -55,7 +55,7 @@ class CreateInfoRouteCubit extends Cubit<CreateInfoRouteState> {
 
   void publishOnclick(String routeName, BuildContext context) async {
     if (routeName.isEmpty) {
-      emit(state.copyOf(errorRouteName: LocaleKeys.please_input_hold_set,));
+      emit(state.copyOf(errorRouteName: LocaleKeys.please_input_hold_set.tr(),));
     } else {
       emit(state.copyOf(errorRouteName: ''));
       Utils.hideKeyboard(context);

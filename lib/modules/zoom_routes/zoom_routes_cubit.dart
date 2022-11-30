@@ -1,17 +1,16 @@
 import 'dart:async';
 
 import 'package:base_bloc/data/model/routes_model.dart';
-import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/modules/create_info_route/create_info_route_page.dart';
 import 'package:base_bloc/modules/zoom_routes/zoom_routes_state.dart';
-import 'package:base_bloc/utils/log_utils.dart';
 import 'package:base_bloc/utils/toast_utils.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../data/eventbus/new_page_event.dart';
 import '../../data/model/hold_set_model.dart';
-import '../../gen/assets.gen.dart';
+import '../../localization/locale_keys.dart';
 import '../../router/router_utils.dart';
 import '../hold_set/hold_set_page.dart';
 import '../persons_page/persons_page_state.dart';
@@ -116,7 +115,7 @@ class ZoomRoutesCubit extends Cubit<ZoomRoutesState> {
       }
     }
     if (lHoldSet.isEmpty) {
-      toast(LocaleKeys.please_input_hold_set);
+      toast(LocaleKeys.please_input_hold_set.tr());
     } else {
       RouterUtils.openNewPage(
           CreateInfoRoutePage(

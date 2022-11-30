@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:base_bloc/modules/routes_page/routes_page_cubit.dart';
 import 'package:base_bloc/modules/routes_page/routes_page_state.dart';
-import 'package:base_bloc/router/router_utils.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,11 +15,10 @@ import '../../components/item_info_routes.dart';
 import '../../data/eventbus/search_home_event.dart';
 import '../../data/globals.dart';
 import '../../data/model/routes_model.dart';
-import '../../localizations/app_localazations.dart';
+import '../../localization/locale_keys.dart';
 import '../../theme/app_styles.dart';
 import '../../theme/colors.dart';
 import '../../utils/app_utils.dart';
-import '../../utils/log_utils.dart';
 import '../playlist/playlist_cubit.dart';
 import '../tab_home/tab_home_state.dart';
 
@@ -210,36 +209,36 @@ class _RoutesPageState extends State<RoutesPage>
                 ),
                 itemAction(
                     Icons.thumb_up_alt,
-                    LocaleKeys.moveToPlaylist,
+                    LocaleKeys.moveToPlaylist.tr(),
                     ItemAction.MOVE_TO_TOP,
                         () => callBack.call(ItemAction.MOVE_TO_TOP)),
                 itemAction(
                     Icons.account_balance_rounded,
-                    LocaleKeys.addToPlaylist,
+                    LocaleKeys.addToPlaylist.tr(),
                     ItemAction.ADD_TO_PLAYLIST,
                         () => callBack.call(ItemAction.ADD_TO_PLAYLIST)),
                 itemAction(
                     Icons.add,
-                    LocaleKeys.removeFromPlaylist,
+                    LocaleKeys.removeFromPlaylist.tr(),
                     ItemAction.REMOVE_FROM_PLAYLIST,
                         () => callBack.call(ItemAction.REMOVE_FROM_PLAYLIST)),
                 itemAction(
                     Icons.favorite,
-                    LocaleKeys.addToFavourite,
+                    LocaleKeys.addToFavourite.tr(),
                     ItemAction.ADD_TO_FAVOURITE,
                         () => callBack.call(ItemAction.ADD_TO_FAVOURITE)),
                 itemAction(
                     Icons.remove_circle_outline,
-                    LocaleKeys.removeFromFavorite,
+                    LocaleKeys.removeFromFavorite.tr(),
                     ItemAction.REMOVE_FROM_PLAYLIST,
                         () => callBack.call(ItemAction.REMOVE_FROM_PLAYLIST)),
-                itemAction(Icons.share, LocaleKeys.share,
+                itemAction(Icons.share, LocaleKeys.share.tr(),
                     ItemAction.SHARE, () => callBack.call(ItemAction.SHARE)),
-                itemAction(Icons.copy, LocaleKeys.copy,
+                itemAction(Icons.copy, LocaleKeys.copy.tr(),
                     ItemAction.COPY, () => callBack.call(ItemAction.COPY)),
-                itemAction(Icons.edit, LocaleKeys.edit,
+                itemAction(Icons.edit, LocaleKeys.edit.tr(),
                     ItemAction.EDIT, () => callBack.call(ItemAction.EDIT)),
-                itemAction(Icons.delete, LocaleKeys.delete,
+                itemAction(Icons.delete, LocaleKeys.delete.tr(),
                     ItemAction.DELETE, () => callBack.call(ItemAction.DELETE)),
               ],
             ),

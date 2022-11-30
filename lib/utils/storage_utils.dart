@@ -1,7 +1,8 @@
 import 'package:base_bloc/config/constant.dart';
 import 'package:base_bloc/data/globals.dart' as globals;
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get_storage/get_storage.dart';
-
 import '../data/model/user_model.dart';
 
 class StorageUtils {
@@ -33,9 +34,6 @@ class StorageUtils {
       globals.accessToken = '';
       globals.userId = 0;
     }
-    /*if(isLogin != null) {
-      globals.isLogin = isLogin;
-    }*/
   }
 
   static Future<void> savePlaylistId(String playlistId) =>
@@ -51,4 +49,14 @@ class StorageUtils {
 
   static Future<bool> getGuideline() async =>
       await GetStorage().read(StorageKey.isGuideline) ?? false;
-}
+
+  static Future<void> saveLanguageCode(String code) async {
+    globals.languageCode = code;
+    return await GetStorage().write(StorageKey.languageCode, code);
+  }
+
+  static Future<String> getLanguageCode(BuildContext context) async {
+    var languageCode = await GetStorage().read(StorageKey.languageCode) ?? context.locale.languageCode;
+    globals.languageCode = languageCode;
+    return languageCode;
+  }}

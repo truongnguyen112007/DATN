@@ -1,26 +1,23 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:badges/badges.dart';
 import 'package:base_bloc/components/app_scalford.dart';
 import 'package:base_bloc/components/appbar_widget.dart';
 import 'package:base_bloc/modules/tab_climb/tab_climb_cubit.dart';
 import 'package:base_bloc/modules/tab_climb/tab_climb_state.dart';
 import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/utils/app_utils.dart';
-import 'package:base_bloc/utils/log_utils.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_blue_elves/flutter_blue_elves.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:geolocator/geolocator.dart';
 import '../../components/app_text.dart';
 import '../../components/check_login.dart';
 import '../../components/gradient_button.dart';
 import '../../data/globals.dart';
 import '../../data/model/places_model.dart';
 import '../../gen/assets.gen.dart';
-import '../../localizations/app_localazations.dart';
+import '../../localization/locale_keys.dart';
 import '../../theme/colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:location/location.dart';
@@ -64,7 +61,7 @@ class _TabClimbState extends State<TabClimb> with TickerProviderStateMixin {
           },
           onClickJumpToTop: () {},
           widget: AppText(
-            LocaleKeys.climb,
+            LocaleKeys.climb.tr(),
             style: googleFont.copyWith(color: colorWhite),
           )),
       body:
@@ -103,7 +100,7 @@ class _TabClimbState extends State<TabClimb> with TickerProviderStateMixin {
             height: 10.h,
           ),
           AppText(
-            LocaleKeys.bluetooth,
+            LocaleKeys.bluetooth.tr(),
             style: typoLargeTextBold.copyWith(
                 color: colorWhite,
                 fontSize: 29.sp,
@@ -113,7 +110,7 @@ class _TabClimbState extends State<TabClimb> with TickerProviderStateMixin {
             padding: EdgeInsets.only(
                 top: 10.h, bottom: 30.h, left: 20.w, right: 20.w),
             child: AppText(
-              LocaleKeys.pleaseTurnOnBl,
+              LocaleKeys.pleaseTurnOnBl.tr(),
               style: typoExtraSmallTextRegular.copyWith(
                   color: colorWhite, fontSize: 13.sp),
               textAlign: TextAlign.center,
@@ -146,7 +143,7 @@ class _TabClimbState extends State<TabClimb> with TickerProviderStateMixin {
                   width: 5.w,
                 ),
                 AppText(
-                  AppLocalizations.of(context)!.turnOnBluetooth,
+                  LocaleKeys.turnOnBluetooth.tr(),
                   style: typoExtraSmallTextRegular.copyWith(
                       color: colorWhite, fontSize: 11.sp),
                 ),
@@ -180,7 +177,7 @@ class _TabClimbState extends State<TabClimb> with TickerProviderStateMixin {
               height: 20.h,
             ),
             AppText(
-              LocaleKeys.getCloser,
+              LocaleKeys.getCloser.tr(),
               style: googleFont.copyWith(
                   fontSize: 28.sp,
                   color: colorWhite,
@@ -190,7 +187,7 @@ class _TabClimbState extends State<TabClimb> with TickerProviderStateMixin {
               height: 5.h,
             ),
             AppText(
-              LocaleKeys.connectToTheReClimb,
+              LocaleKeys.connectToTheReClimb.tr(),
               style: googleFont.copyWith(color: colorText50, fontSize: 13.sp),
               textAlign: TextAlign.center,
             ),
@@ -204,7 +201,7 @@ class _TabClimbState extends State<TabClimb> with TickerProviderStateMixin {
                           child: Container(
                             width: MediaQuery.of(context).size.width,
                             child: AppText(
-                              LocaleKeys.theNearest,
+                              LocaleKeys.theNearest.tr(),
                               style: googleFont.copyWith(
                                   color: colorGrey60, fontSize: 8.sp),
                             ),
@@ -233,7 +230,7 @@ class _TabClimbState extends State<TabClimb> with TickerProviderStateMixin {
                             onPressed: () {},
                             child: Center(
                               child: AppText(
-                                LocaleKeys.seeAll,
+                                LocaleKeys.seeAll.tr(),
                                 style: googleFont.copyWith(
                                     color: colorRed70, fontSize: 15),
                               ),
@@ -255,7 +252,7 @@ class _TabClimbState extends State<TabClimb> with TickerProviderStateMixin {
                             height: 20.h,
                           ),
                           AppText(
-                            LocaleKeys.turnOnLocation,
+                            LocaleKeys.turnOnLocation.tr(),
                             style: googleFont.copyWith(
                                 color: colorWhite,
                                 fontSize: 28.sp,
@@ -265,7 +262,7 @@ class _TabClimbState extends State<TabClimb> with TickerProviderStateMixin {
                             height: 5.h,
                           ),
                           AppText(
-                            LocaleKeys.cantFind,
+                            LocaleKeys.cantFind.tr(),
                             textAlign: TextAlign.center,
                             style: googleFont.copyWith(color: colorText50),
                           ),
@@ -286,7 +283,7 @@ class _TabClimbState extends State<TabClimb> with TickerProviderStateMixin {
                                   width: 10.w,
                                 ),
                                 AppText(
-                                  LocaleKeys.turnOnLocation,
+                                  LocaleKeys.turnOnLocation.tr(),
                                   style:
                                       googleFont.copyWith(color: colorText20),
                                 ),

@@ -9,19 +9,19 @@ import 'package:base_bloc/components/app_text.dart';
 import 'package:base_bloc/data/globals.dart';
 import 'package:base_bloc/data/model/routes_model.dart';
 import 'package:base_bloc/gen/assets.gen.dart';
-import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/modules/routers_detail/routes_detail_cubit.dart';
 import 'package:base_bloc/modules/routers_detail/routes_detail_state.dart';
 import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/theme/colors.dart';
 import 'package:base_bloc/utils/app_utils.dart';
-import 'package:base_bloc/utils/log_utils.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../components/appbar_widget.dart';
+import '../../localization/locale_keys.dart';
 
 enum RoutesAction { INFO, SHARE, COPY, ADD_FAVOURITE, ADD_TO_PLAY_LIST }
 
@@ -269,21 +269,21 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
             Expanded(
                 child: itemInfoWidget(
                     context,
-                    AppLocalizations.of(context)!.author,
+                    LocaleKeys.author.tr(),
                     widget.model.authorGrade.toString(),
-                    (widget.model.hasConner ?? false) ? LocaleKeys.corner : '',
+                    (widget.model.hasConner ?? false) ? LocaleKeys.corner.tr() : '',
                     padding: EdgeInsets.only(left: contentPadding, bottom: 3))),
             Expanded(
                 child: itemInfoWidget(
                     context,
-                    AppLocalizations.of(context)!.user,
+                    LocaleKeys.user.tr(),
                     widget.model.userGrade.toString(),
                     '',
                     padding: const EdgeInsets.only(bottom: 3))),
             Expanded(
                 child: itemInfoWidget(
                     context,
-                    AppLocalizations.of(context)!.popularity,
+                    LocaleKeys.popularity.tr(),
                     '${widget.model.popurlarity}k',
                     '',
                     padding: EdgeInsets.only(right: contentPadding, bottom: 3)))
@@ -378,18 +378,18 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
           children: [
             Expanded(
                 child: itemActionWidget(
-                    LocaleKeys.info, Assets.svg.info, RoutesAction.INFO)),
+                    LocaleKeys.info.tr(), Assets.svg.info, RoutesAction.INFO)),
             Expanded(
                 child: itemActionWidget(
-                    LocaleKeys.share, Assets.svg.share, RoutesAction.SHARE)),
+                    LocaleKeys.share.tr(), Assets.svg.share, RoutesAction.SHARE)),
             Expanded(
                 child: itemActionWidget(
-                    LocaleKeys.copy, Assets.svg.copy, RoutesAction.COPY)),
+                    LocaleKeys.copy.tr(), Assets.svg.copy, RoutesAction.COPY)),
             Expanded(
-                child: itemActionWidget(LocaleKeys.add_favourite,
+                child: itemActionWidget(LocaleKeys.add_favourite.tr(),
                     Assets.svg.like, RoutesAction.ADD_FAVOURITE)),
             Expanded(
-                child: itemActionWidget(LocaleKeys.addToPlaylist,
+                child: itemActionWidget(LocaleKeys.addToPlaylist.tr(),
                     Assets.svg.addToPlayList, RoutesAction.ADD_TO_PLAY_LIST))
           ],
         ),

@@ -1,13 +1,10 @@
 import 'package:badges/badges.dart';
-import 'package:base_bloc/components/app_text.dart';
 import 'package:base_bloc/components/filter_widget.dart';
 import 'package:base_bloc/config/constant.dart';
 import 'package:base_bloc/data/globals.dart';
 import 'package:base_bloc/modules/history/history_cubit.dart';
 import 'package:base_bloc/modules/history/history_state.dart';
-import 'package:base_bloc/router/router_utils.dart';
-import 'package:base_bloc/theme/app_styles.dart';
-import 'package:base_bloc/theme/colors.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,9 +12,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../components/app_circle_loading.dart';
 import '../../components/item_feed_widget.dart';
-import '../../components/message_tab_routes.dart';
-import '../../localizations/app_localazations.dart';
-import '../filter_routes/filter_routes_page.dart';
+import '../../localization/locale_keys.dart';
 import '../tab_home/tab_home_state.dart';
 
 class HistoryPage extends StatefulWidget {
@@ -130,7 +125,7 @@ class _HistoryPageState extends State<HistoryPage>
 
   PreferredSizeWidget appBar(BuildContext context) => AppBar(
         backgroundColor: Colors.black,
-        title: Text(AppLocalizations.of(context)!.climb),
+        title: Text(LocaleKeys.climb.tr()),
         actions: [
           IconButton(
             onPressed: () {},

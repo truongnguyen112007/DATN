@@ -1,19 +1,17 @@
 import 'package:base_bloc/components/app_scalford.dart';
 import 'package:base_bloc/components/app_text.dart';
-import 'package:base_bloc/components/app_text_field.dart';
 import 'package:base_bloc/components/gradient_button.dart';
-import 'package:base_bloc/data/globals.dart';
-import 'package:base_bloc/localizations/app_localazations.dart';
-import 'package:base_bloc/modules/home/home_page.dart';
 import 'package:base_bloc/modules/login/login_cubit.dart';
 import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/theme/colors.dart';
 import 'package:base_bloc/utils/app_utils.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../base/base_state.dart';
+import '../../localization/locale_keys.dart';
 import 'login_state.dart';
 
 class Login extends StatefulWidget {
@@ -51,7 +49,7 @@ class _LoginState extends BasePopState<Login> with TickerProviderStateMixin {
       appbar: AppBar(
         backgroundColor: colorBlack,
         title: AppText(
-          LocaleKeys.login,
+          LocaleKeys.login.tr(),
           style: googleFont.copyWith(color: colorWhite),
         ),
       ),
@@ -96,11 +94,9 @@ class _LoginState extends BasePopState<Login> with TickerProviderStateMixin {
               },
               widget: Center(
                 child: AppText(
-                  LocaleKeys.login,
-                  style:
-                      googleFont.copyWith(color: colorWhite, fontSize: 15.sp),
-                ),
-              ),
+                LocaleKeys.login.tr(),
+                style: googleFont.copyWith(color: colorWhite, fontSize: 15.sp),
+              )),
               borderRadius: BorderRadius.circular(30),
             ),
             SizedBox(
