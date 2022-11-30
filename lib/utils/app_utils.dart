@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:base_bloc/base/hex_color.dart';
+import 'package:base_bloc/data/model/background_param.dart';
 import 'package:base_bloc/data/model/general_action_sheet_model.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -60,46 +61,218 @@ class Utils {
     return true;
   }
 
-  static List<Color> getBackgroundColor(String value) {
+  static BackgroundParam getBackgroundColor(int value) {
     switch (value) {
-      case '4':
-        return [HexColor('005926'), HexColor('005926')];
-      case '5A':
-        return [
-          HexColor('D17800'),
-          HexColor('D17800'),
-          HexColor('005926'),
-          HexColor('005926'),
-        ];
-      case '5':
-        return [colorOrange80, colorGreen70, colorGreen70];
-      case '6':
-        return [
-          HexColor('D17800'),
-          HexColor('D17800').withOpacity(0.6),
-          HexColor('005926'),
-          HexColor('005926')
-        ];
-      case '7':
-        return [HexColor('D11D00'), HexColor('D17800'), HexColor('D17800')];
-      case '8':
-        return [
+      case 0: // 4
+        return BackgroundParam([HexColor('005926')], [1]);
+      case 1: // 5A
+        return BackgroundParam(
+            [HexColor('746A11'), HexColor('005926'), HexColor('005926')],
+            [0, 0.2827, 1]);
+      case 2: // 5B
+        return BackgroundParam(
+            [HexColor('746A11'), HexColor('005926'), HexColor('005926')],
+            [0, 0.3994, 1]);
+      case 3: // 5C
+        return BackgroundParam([
           HexColor('D17800'),
           HexColor('D17800'),
           HexColor('005926'),
           HexColor('005926')
-        ];
-      case '5':
-        return [
-          HexColor('A77208'),
+        ], [
+          0,
+          0.0243,
+          0.5193,
+          1
+        ]);
+      case 4: // 6A
+        return BackgroundParam([
+          HexColor('D17800'),
+          HexColor('D17800'),
           HexColor('005926'),
+          HexColor('005926')
+        ], [
+          0,
+          0.1419,
+          0.6315,
+          1
+        ]);
+      case 5: //6A+
+        return BackgroundParam([
+          HexColor('D17800'),
+          HexColor('D17800'),
           HexColor('005926'),
-        ];
+          HexColor('005926')
+        ], [
+          0,
+          0.2518,
+          0.7525,
+          1
+        ]);
+      case 6: //6B
+        return BackgroundParam([
+          HexColor('D17800'),
+          HexColor('D17800'),
+          HexColor('005926'),
+          HexColor('005926')
+        ], [
+          0,
+          0.3736,
+          0.8711,
+          1
+        ]);
+      case 7: //6B+
+        return BackgroundParam([
+          HexColor('D17800'),
+          HexColor('D17800'),
+          HexColor('005926'),
+          HexColor('005926')
+        ], [
+          0,
+          0.4881,
+          0.9837,
+          1
+        ]);
+      case 8: //6C
+        return BackgroundParam([
+          HexColor('D15600'),
+          HexColor('D17800'),
+          HexColor('D17800'),
+          HexColor('2A5F1E')
+        ], [
+          0,
+          0.2715,
+          0.6058,
+          1
+        ]);
+      case 9: //6C+
+        return BackgroundParam([
+          HexColor('D14800'),
+          HexColor('D17800'),
+          HexColor('D17800'),
+          HexColor('5C6715')
+        ], [
+          0,
+          0.3928,
+          0.7265,
+          1
+        ]);
+      case 10: //7A
+        return BackgroundParam([
+          HexColor('D14800'),
+          HexColor('D17800'),
+          HexColor('CD7701'),
+          HexColor('8D6E0C')
+        ], [
+          0,
+          0.5033,
+          0.8421,
+          1
+        ]);
+      case 11: //7A+
+        return BackgroundParam([
+          HexColor('D12B00'),
+          HexColor('D17800'),
+          HexColor('CB7701'),
+          HexColor('BC7504')
+        ], [
+          0,
+          0.622,
+          0.9603,
+          1
+        ]);
+      case 12: //7B
+        return BackgroundParam(
+            [HexColor('D11D00'), HexColor('D17800'), HexColor('D17800')],
+            [0, 0.743, 1]);
+      case 13: //7B+
+        return BackgroundParam(
+            [HexColor('D11D00'), HexColor('D17800'), HexColor('D17800')],
+            [0, 0.859, 1]);
+      case 14: //7C
+        return BackgroundParam([
+          HexColor('D10B00'),
+          HexColor('D10C00'),
+          HexColor('D17800'),
+          HexColor('D17800')
+        ], [
+          0,
+          0.0895,
+          0.973,
+          1
+        ]);
+      case 15: //7C+
+        return BackgroundParam([
+          HexColor('D10B00'),
+          HexColor('D10C00'),
+          HexColor('D16D00'),
+        ], [
+          0,
+          0.2102,
+          1
+        ]);
+      case 16: //8A
+        return BackgroundParam([
+          HexColor('D10000'),
+          HexColor('D10000'),
+          HexColor('D15B00'),
+        ], [
+          0,
+          0.3276,
+          1
+        ]);
+      case 17: //8A+
+        return BackgroundParam([
+          HexColor('D10000'),
+          HexColor('D10000'),
+          HexColor('D14C00'),
+        ], [
+          0,
+          0.4413,
+          1
+        ]);
+      case 18: //8B
+        return BackgroundParam([
+          HexColor('D10000'),
+          HexColor('D10000'),
+          HexColor('D13B00'),
+        ], [
+          0,
+          0.5634,
+          1
+        ]);
+      case 19: //8B+
+        return BackgroundParam([
+          HexColor('D10000'),
+          HexColor('D10000'),
+          HexColor('D12B00'),
+        ], [
+          0,
+          0.6768,
+          1
+        ]);
+      case 20: //8C
+        return BackgroundParam([
+          HexColor('D10000'),
+          HexColor('D10000'),
+          HexColor('D11B00'),
+        ], [
+          0,
+          0.794,
+          1
+        ]);
+      case 21: //8C+
+        return BackgroundParam([
+          HexColor('D10000'),
+        ], [
+          1
+        ]);
       default:
-        return [
-          colorRed100,
-          colorRed100,
-        ];
+        return BackgroundParam([
+          HexColor('D10000'),
+        ], [
+          1
+        ]);
     }
   }
 

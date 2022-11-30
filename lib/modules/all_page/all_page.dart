@@ -152,11 +152,11 @@ class _AllPageState extends State<AllPage> {
 }
 
 Widget itemTopRoute(RoutesModel model) {
+  var infoBackground = Utils.getBackgroundColor(model.authorGrade ?? 0);
   return Container(
     width: 60.w,
     decoration: BoxDecoration(
-        gradient:   LinearGradient(
-    colors: Utils.getBackgroundColor(model.authorGrade.toString())),
+        gradient: LinearGradient(colors: infoBackground.colors),
         borderRadius: BorderRadius.circular(100)),
     child: Center(
       child: AppText(
