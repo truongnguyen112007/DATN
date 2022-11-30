@@ -67,7 +67,7 @@ class UserRepository extends BaseService{
           int height = 12,
           required List<int> lHold,
           required bool hasCorner,
-          required String authorGrade,
+          required int authorGrade,
           bool published = true,
           int visibility = 0}) async =>
       await POST('route', {
@@ -75,7 +75,7 @@ class UserRepository extends BaseService{
         ApiKey.height: height,
         ApiKey.holds: lHold,
         ApiKey.has_conner: hasCorner,
-        ApiKey.author_grade: int.parse(authorGrade.substring(0, 1)),
+        ApiKey.author_grade: authorGrade,
         ApiKey.published: published,
         ApiKey.visibility: visibility
       });
@@ -87,7 +87,7 @@ class UserRepository extends BaseService{
         int height = 12,
         required List<int> lHold,
         required bool hasCorner,
-        required String authorGrade,
+        required int authorGrade,
         bool published = true,
         int visibility = 0}) async =>
       await PUT('route/$routeId',body: {
@@ -95,7 +95,7 @@ class UserRepository extends BaseService{
         ApiKey.height: height,
         ApiKey.holds: lHold,
         ApiKey.has_conner: hasCorner,
-        ApiKey.author_grade: int.parse(authorGrade.substring(0, 1)),
+        ApiKey.author_grade: authorGrade,
         ApiKey.published: published,
         ApiKey.visibility: visibility
       });

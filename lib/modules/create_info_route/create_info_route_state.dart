@@ -2,7 +2,7 @@ import 'package:base_bloc/data/model/routes_model.dart';
 import 'package:equatable/equatable.dart';
 
 class CreateInfoRouteState extends Equatable {
-  final String grade;
+  final int grade;
   final int currentIndexGrade;
   final String errorRouteName;
   final bool isCorner;
@@ -11,7 +11,7 @@ class CreateInfoRouteState extends Equatable {
   final RoutesModel? model;
 
   const CreateInfoRouteState(
-      {this.grade = '6A',
+      {this.grade = 5,
       this.isEdit = false,
       this.model,
       this.isCorner = false,
@@ -20,7 +20,7 @@ class CreateInfoRouteState extends Equatable {
       this.errorRouteName = ''});
 
   CreateInfoRouteState copyOf(
-          {String? grade,
+          {int? grade,
           RoutesModel? model,
           bool? isEdit,
           bool? isCorner,

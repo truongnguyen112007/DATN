@@ -87,7 +87,7 @@ class ItemInfoRoutes extends StatelessWidget {
                             child: model.hasConner == false
                                 ? Center(
                               child: AppText(
-                                        getGrade(model.authorGrade ?? 0),
+                                        Utils.getGrade(model.authorGrade ?? 0),
                                         style: googleFont.copyWith(
                                             fontWeight: FontWeight.w700,
                                       color: colorText0,
@@ -99,8 +99,9 @@ class ItemInfoRoutes extends StatelessWidget {
                                   Padding(
                                     padding: EdgeInsets.only(bottom: 5.h),
                                           child: AppText(
-                                          getGrade(model.authorGrade ?? 0),
-                                          style: googleFont.copyWith(
+                                            Utils.getGrade(
+                                                model.authorGrade ?? 0),
+                                            style: googleFont.copyWith(
                                           fontWeight: FontWeight.w700,
                                           color: colorText0,
                                           fontSize: 31.sp),
@@ -203,52 +204,4 @@ class ItemInfoRoutes extends StatelessWidget {
     );
   }
 
-  String getGrade(int value) {
-    switch (value) {
-      case 0:
-        return '4';
-      case 1:
-        return "5A";
-      case 2:
-        return "5B";
-      case 3:
-        return "5C";
-      case 4:
-        return "6A";
-      case 5:
-        return "6A+";
-      case 6:
-        return "6B";
-      case 7:
-        return "6B+";
-      case 8:
-        return "6C";
-      case 9:
-        return "7A";
-      case 10:
-        return "7A+";
-      case 11:
-        return "7B";
-      case 12:
-        return "7B+";
-      case 13:
-        return "7C";
-      case 14:
-        return "7C+";
-      case 15:
-        return "8A";
-      case 16:
-        return "8A+";
-      case 17:
-        return "8B";
-      case 18:
-        return "8B+";
-      case 19:
-        return "8C";
-      case 20:
-        return "8C+";
-      default:
-        return '';
-    }
-  }
 }

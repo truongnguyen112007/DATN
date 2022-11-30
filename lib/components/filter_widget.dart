@@ -40,9 +40,11 @@ class _FilterWidgetState extends State<FilterWidget> {
   void initState() {
     _isSelectStream = Utils.eventBus.on<RefreshEvent>().listen((model) {
       if (model.type == RefreshType.FILTER) {
-        setState(() {
-          onClickSelect = false;
-        });
+        if (mounted) {
+          setState(() {
+            onClickSelect = false;
+          });
+        }
       }
     });
     super.initState();
