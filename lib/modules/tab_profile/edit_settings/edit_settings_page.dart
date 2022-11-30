@@ -2,16 +2,15 @@ import 'package:base_bloc/base/base_state.dart';
 import 'package:base_bloc/components/settings_item_widget.dart';
 import 'package:base_bloc/data/globals.dart';
 import 'package:base_bloc/data/model/settings_model.dart';
-import 'package:base_bloc/gen/assets.gen.dart';
-import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/theme/colors.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../components/app_scalford.dart';
 import '../../../components/app_text.dart';
-import '../../../components/appbar_widget.dart';
+import '../../../localization/locale_keys.dart';
 import 'edit_settings_cubit.dart';
 
 class EditSettingsPage extends StatefulWidget {
@@ -46,7 +45,7 @@ class _EditSettingsState extends BaseState<EditSettingsPage>
         appbar: AppBar(
           backgroundColor: colorBlack,
           title: AppText(
-            LocaleKeys.settings,
+            LocaleKeys.settings.tr(),
             style: googleFont.copyWith(color: colorWhite),
           ),
         ),

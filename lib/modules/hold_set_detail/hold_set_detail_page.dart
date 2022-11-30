@@ -2,12 +2,13 @@ import 'package:base_bloc/base/base_state.dart';
 import 'package:base_bloc/components/app_scalford.dart';
 import 'package:base_bloc/components/appbar_widget.dart';
 import 'package:base_bloc/config/constant.dart';
-import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/theme/colors.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:babylonjs_viewer/babylonjs_viewer.dart';
 
 import '../../gen/assets.gen.dart';
+import '../../localization/locale_keys.dart';
 
 class HoldSetDetailPage extends StatefulWidget {
   const HoldSetDetailPage({Key? key}) : super(key: key);
@@ -24,7 +25,7 @@ class _HoldSetDetailPageState extends BasePopState<HoldSetDetailPage> {
       body: BabylonJSViewer(
         src: Assets.td.boombox,
       ),
-      appbar: appBarWidget(context: context, titleStr: LocaleKeys.td),
+      appbar: appBarWidget(context: context, titleStr: LocaleKeys.td.tr()),
     );
   }
 

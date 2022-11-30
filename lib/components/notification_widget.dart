@@ -1,10 +1,9 @@
-import 'dart:ffi';
-
 import 'package:base_bloc/data/model/notification_model.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../data/globals.dart';
-import '../localizations/app_localazations.dart';
+import '../localization/locale_keys.dart';
 import '../theme/app_styles.dart';
 import '../theme/colors.dart';
 import '../utils/app_utils.dart';
@@ -73,7 +72,7 @@ Widget invitationActionsWidget({required Function onClickAddToFriends, required 
             child: TextButton(
                 child: Padding(
                   padding: EdgeInsets.only(left: 10.w, right: 10.w),
-                  child: Text(LocaleKeys.add_to_friends,
+                  child: Text(LocaleKeys.add_to_friends.tr(),
                       style: googleFont.copyWith(
                           color: colorMainText,
                           fontSize: 14.w,
@@ -89,7 +88,7 @@ Widget invitationActionsWidget({required Function onClickAddToFriends, required 
           child: TextButton(
               child: Padding(
                 padding: EdgeInsets.only(left: 10.w, right: 10.w),
-                child: Text(LocaleKeys.reject,
+                child: Text(LocaleKeys.reject.tr(),
                     style: googleFont.copyWith(
                         color: colorMainText,
                         fontSize: 14.w,

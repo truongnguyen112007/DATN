@@ -1,19 +1,17 @@
-import 'package:base_bloc/base/base_state.dart';
 import 'package:base_bloc/base/hex_color.dart';
-import 'package:base_bloc/components/app_button.dart';
 import 'package:base_bloc/components/app_scalford.dart';
 import 'package:base_bloc/components/app_slider.dart';
 import 'package:base_bloc/data/globals.dart';
-import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/router/router_utils.dart';
 import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/utils/app_utils.dart';
-import 'package:base_bloc/utils/log_utils.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_tags/flutter_tags.dart';
 
 import '../../components/app_text.dart';
+import '../../localization/locale_keys.dart';
 import '../../theme/colors.dart';
 
 class FilterRoutesPage extends StatefulWidget {
@@ -81,7 +79,7 @@ class _FilterRoutesPageState extends State<FilterRoutesPage> {
                 Padding(
                   padding: EdgeInsets.only(left: contentPadding),
                   child: AppText(
-                    " ${LocaleKeys.author}  ",
+                    " ${LocaleKeys.author.tr()}  ",
                     style: typoW400.copyWith(
                         color: colorText0.withOpacity(0.6),
                         fontSize: 12,
@@ -91,28 +89,28 @@ class _FilterRoutesPageState extends State<FilterRoutesPage> {
               ],
             ),
             itemSpace(),
-            itemTitle(LocaleKeys.status),
+            itemTitle(LocaleKeys.status.tr()),
             itemSpace(height: 9),
             statusWidget(),
             itemSpace(),
-            itemTitle(LocaleKeys.corners),
+            itemTitle(LocaleKeys.corners.tr()),
             itemSpace(height: 9),
             filterWidget(corners, selectedCorner,
                 (index) => setState(() => selectedCorner = index)),
             itemSpace(),
-            itemTitle(LocaleKeys.authorsGrade),
+            itemTitle(LocaleKeys.authorsGrade.tr()),
             rangeWidget(lowerAuthorGradeValue, upperAuthorGradeValue, (values) {
               lowerAuthorGradeValue = values[0];
               upperAuthorGradeValue = values[1];
               setState(() {});
             }),
-            itemTitle(LocaleKeys.userGrade),
+            itemTitle(LocaleKeys.userGrade.tr()),
             rangeWidget(lowerUserGradeValue, upperUserGradeValue, (values) {
               lowerUserGradeValue = values[0];
               upperUserGradeValue = values[1];
               setState(() {});
             }),
-            itemTitle(LocaleKeys.designedBy),
+            itemTitle(LocaleKeys.designedBy.tr()),
             itemSpace(height: 9),
             filterWidget(designs, selectedDesign,
                 (index) => setState(() => selectedDesign = index)),
@@ -129,7 +127,7 @@ class _FilterRoutesPageState extends State<FilterRoutesPage> {
                     borderRadius: BorderRadius.circular(30),
                     gradient: Utils.backgroundGradientOrangeButton()),
                 child: AppText(
-                  '${LocaleKeys.showResult}:  25',
+                  '${LocaleKeys.showResult.tr()}:  25',
                   style: typoW600.copyWith(color: colorText0, fontSize: 13.sp),
                 ),
               ),
@@ -208,7 +206,7 @@ class _FilterRoutesPageState extends State<FilterRoutesPage> {
                 RouterUtils.pop(context);
               },
               child: AppText(
-                LocaleKeys.removeFilter,
+                LocaleKeys.removeFilter.tr(),
                 style: typoW600.copyWith(
                     color: HexColor('FF5A00'), fontSize: 13.sp),
               ),

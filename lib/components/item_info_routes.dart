@@ -1,12 +1,10 @@
-import 'package:base_bloc/utils/log_utils.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../data/globals.dart';
 import '../data/model/routes_model.dart';
-import '../localizations/app_localazations.dart';
-import '../modules/playlist/playlist_cubit.dart';
+import '../localization/locale_keys.dart';
 import '../theme/app_styles.dart';
 import '../theme/colors.dart';
 import '../utils/app_utils.dart';
@@ -112,7 +110,7 @@ class ItemInfoRoutes extends StatelessWidget {
                                               child: Container(
                                             alignment: Alignment.bottomLeft,
                                             child: AppText(
-                                              " ${LocaleKeys.corner}",
+                                              " ${LocaleKeys.corner.tr()}",
                                               textAlign: TextAlign.start,
                                               style: typoW400.copyWith(
                                                   color: colorWhite
@@ -166,7 +164,7 @@ class ItemInfoRoutes extends StatelessWidget {
                                     Row(
                                       children: [
                                         AppText(
-                                          '${AppLocalizations.of(context)!.routes} ${model.height}m ',
+                                          '${LocaleKeys.routes.tr()} ${model.height}m ',
                                           style: googleFont.copyWith(
                                               color:
                                                   colorText0.withOpacity(0.6),

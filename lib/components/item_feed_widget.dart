@@ -3,17 +3,17 @@ import 'package:base_bloc/components/app_circle_image.dart';
 import 'package:base_bloc/components/app_video.dart';
 import 'package:base_bloc/components/thumbnail_app.dart';
 import 'package:base_bloc/data/globals.dart';
-import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/router/router_utils.dart';
 import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/utils/log_utils.dart';
-import 'package:base_bloc/utils/toast_utils.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../data/model/feed_model.dart';
 import '../gen/assets.gen.dart';
+import '../localization/locale_keys.dart';
 import '../theme/colors.dart';
 import 'app_like_button.dart';
 import 'app_text.dart';
@@ -138,7 +138,7 @@ class _ItemFeedState extends State<ItemFeed> {
                 const AppLikeButton(),
                 itemSpaceHorizontal(width: 20),
                 actionWidget(SvgPicture.asset(Assets.svg.comment),
-                    '10 ${LocaleKeys.comment}')
+                    '10 ${LocaleKeys.comment.tr()}')
               ],
             ),
           ),
@@ -180,7 +180,7 @@ class _ItemFeedState extends State<ItemFeed> {
                       InkWell(
                         onTap: () => handleAction(FeedAction.SHOW_MORE),
                         child: AppText(
-                          LocaleKeys.show_more,
+                          LocaleKeys.show_more.tr(),
                           style: typoSuperSmallTextRegular.copyWith(
                               fontSize: 13.sp,
                               color: colorText0.withOpacity(0.6)),

@@ -7,11 +7,11 @@ import 'package:base_bloc/components/gradient_button.dart';
 import 'package:base_bloc/data/globals.dart';
 import 'package:base_bloc/data/model/routes_model.dart';
 import 'package:base_bloc/extenstion/string_extension.dart';
-import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/modules/create_info_route/create_info_route_cubit.dart';
 import 'package:base_bloc/modules/create_info_route/create_info_route_state.dart';
 import 'package:base_bloc/theme/colors.dart';
 import 'package:base_bloc/utils/app_utils.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -19,6 +19,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../data/model/hold_set_model.dart';
 import '../../gen/assets.gen.dart';
+import '../../localization/locale_keys.dart';
 import '../../theme/app_styles.dart';
 
 class CreateInfoRoutePage extends StatefulWidget {
@@ -54,22 +55,22 @@ class _CreateInfoRoutePageState extends State<CreateInfoRoutePage> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          titleWidget(LocaleKeys.route_name),
+          titleWidget(LocaleKeys.route_name.tr()),
           routeNameWidget(),
           space(),
-          titleWidget(LocaleKeys.who_can_see_this_route),
+          titleWidget(LocaleKeys.who_can_see_this_route.tr()),
           space(height: 6),
           Row(
             children: [
               SvgPicture.asset(Assets.svg.friend),
               const SizedBox(width: 10),
-              AppText(LocaleKeys.friend, style: typoContent)
+              AppText(LocaleKeys.friend.tr(), style: typoContent)
             ],
           ),
           space(),
           line(),
           space(),
-          titleWidget(LocaleKeys.grade),
+          titleWidget(LocaleKeys.grade.tr()),
           space(),
           gradeWidget(context),
           space(),
@@ -86,7 +87,7 @@ class _CreateInfoRoutePageState extends State<CreateInfoRoutePage> {
   Widget cornerWidget() => Row(
         children: [
           AppText(
-            LocaleKeys.corner.toCapitalize(),
+            LocaleKeys.corner.tr().toCapitalize(),
             style: typoW400.copyWith(fontSize: 16),
           ),
           const Spacer(),
@@ -195,7 +196,7 @@ class _CreateInfoRoutePageState extends State<CreateInfoRoutePage> {
                 widget: Row(
                   children: [
                     const SizedBox(width: 5),
-                    AppText(LocaleKeys.publish, style: typoW400),
+                    AppText(LocaleKeys.publish.tr(), style: typoW400),
                     const SizedBox(width: 3),
                     SvgPicture.asset(Assets.svg.fly),
                     const SizedBox(width: 5),

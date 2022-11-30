@@ -1,10 +1,10 @@
 import 'package:base_bloc/base/base_state.dart';
 import 'package:base_bloc/base/hex_color.dart';
 import 'package:base_bloc/config/constant.dart';
-import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/modules/search/search_page_cubit.dart';
 import 'package:base_bloc/modules/search/search_page_state.dart';
 import 'package:base_bloc/theme/colors.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -14,10 +14,10 @@ import '../../components/app_scalford.dart';
 import '../../data/eventbus/search_home_event.dart';
 import '../../data/globals.dart';
 import '../../gen/assets.gen.dart';
+import '../../localization/locale_keys.dart';
 import '../../theme/app_styles.dart';
 import '../../utils/app_utils.dart';
 import '../all_page/all_page.dart';
-import '../home/home_state.dart';
 import '../persons_page/persons_page.dart';
 import '../places_page/place_page.dart';
 import '../routes_page/routes_page.dart';
@@ -169,7 +169,7 @@ class _SearchPageState extends BasePopState<SearchPage>
               cursorColor: colorOrange40,
               cursorHeight: 24.h,
               decoration: InputDecoration(
-                hintText: LocaleKeys.hinTextSearchHome,
+                hintText: LocaleKeys.hinTextSearchHome.tr(),
                 hintStyle:
                     googleFont.copyWith(fontSize: 16.sp,fontWeight:FontWeight.w400,color: colorSubText),
                 border: OutlineInputBorder(
@@ -210,10 +210,10 @@ class _SearchPageState extends BasePopState<SearchPage>
 
   Widget categoryWidget() {
     final List<String> search = [
-      LocaleKeys.all,
-      LocaleKeys.places,
-      LocaleKeys.routes,
-      LocaleKeys.persons
+      LocaleKeys.all.tr(),
+      LocaleKeys.places.tr(),
+      LocaleKeys.routes.tr(),
+      LocaleKeys.persons.tr()
     ];
 
     return SizedBox(

@@ -2,9 +2,9 @@ import 'package:base_bloc/base/base_state.dart';
 import 'package:base_bloc/components/app_text.dart';
 import 'package:base_bloc/data/globals.dart';
 import 'package:base_bloc/data/model/profile_model.dart';
-import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/theme/colors.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,6 +12,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../components/app_scalford.dart';
 import '../../../../components/appbar_widget.dart';
 import '../../../../gen/assets.gen.dart';
+import '../../../../localization/locale_keys.dart';
 import 'edit_account_cubit.dart';
 
 class EditAccountPage extends StatefulWidget {
@@ -46,7 +47,7 @@ class _EditAccountState extends BaseState<EditAccountPage>
         backgroundColor: colorGreyBackground,
         appbar: appBarWidget(
             context: context,
-            titleStr: LocaleKeys.settingsAccount),
+            titleStr: LocaleKeys.settingsAccount.tr()),
         body: editAccountListView());
   }
 
@@ -84,11 +85,6 @@ class _EditAccountState extends BaseState<EditAccountPage>
           ),
           SizedBox(width: 2.0*contentPadding),
           TextButton(
-              child: Padding(
-                padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                child: Text(LocaleKeys.account_change_photo,
-                    style: googleFont.copyWith(fontSize: 14.w, fontWeight: FontWeight.w400, color: colorMainText)),
-              ),
               style: TextButton.styleFrom(
                 primary: colorMainText,
                 onSurface: Colors.black,
@@ -96,7 +92,12 @@ class _EditAccountState extends BaseState<EditAccountPage>
                 shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(25.0))),
               ),
-              onPressed: () => {print('CHANGE PHOTO')})
+              onPressed: () => {print('CHANGE PHOTO')},
+              child: Padding(
+                padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+                child: Text(LocaleKeys.account_change_photo.tr(),
+                    style: googleFont.copyWith(fontSize: 14.w, fontWeight: FontWeight.w400, color: colorMainText)),
+              ))
         ],
       ),
     );

@@ -1,10 +1,11 @@
 import 'package:base_bloc/data/globals.dart';
 import 'package:base_bloc/data/model/profile_model.dart';
 import 'package:base_bloc/theme/app_styles.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../localizations/app_localazations.dart';
+import '../localization/locale_keys.dart';
 import '../theme/colors.dart';
 import 'app_text.dart';
 
@@ -79,7 +80,7 @@ class ProfileInfoWidget extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                AppText(AppLocalizations.of(context)!.countPassed,
+                AppText(LocaleKeys.countPassed.tr(),
                     style: googleFont.copyWith(
                         color: colorMainText,
                         fontSize: 10.w,
@@ -95,7 +96,7 @@ class ProfileInfoWidget extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                AppText(AppLocalizations.of(context)!.countDesigned,
+                AppText(LocaleKeys.countDesigned.tr(),
                     style: googleFont.copyWith(
                         color: colorMainText,
                         fontSize: 10.w,
@@ -111,7 +112,7 @@ class ProfileInfoWidget extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                AppText(AppLocalizations.of(context)!.countFriends,
+                AppText(LocaleKeys.countFriends.tr(),
                     style: googleFont.copyWith(
                         color: colorMainText,
                         fontSize: 10.w,
@@ -135,14 +136,6 @@ class ProfileInfoWidget extends StatelessWidget {
           left: 2 * contentPadding,
           right: 2 * contentPadding),
       child: TextButton(
-          child: Padding(
-            padding: EdgeInsets.only(left: 10.w, right: 10.w),
-            child: Text(AppLocalizations.of(context)!.editSettings,
-                style: googleFont.copyWith(
-                    color: colorMainText,
-                    fontSize: 14.w,
-                    fontWeight: FontWeight.w400)),
-          ),
           style: TextButton.styleFrom(
             primary: colorMainText,
             onSurface: colorMainBackground,
@@ -150,7 +143,15 @@ class ProfileInfoWidget extends StatelessWidget {
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(25.w))),
           ),
-          onPressed: () => onPressEditProfile()),
+          onPressed: () => onPressEditProfile(),
+          child: Padding(
+            padding: EdgeInsets.only(left: 10.w, right: 10.w),
+            child: Text(LocaleKeys.editSettings.tr(),
+                style: googleFont.copyWith(
+                    color: colorMainText,
+                    fontSize: 14.w,
+                    fontWeight: FontWeight.w400)),
+          )),
     );
   }
 }

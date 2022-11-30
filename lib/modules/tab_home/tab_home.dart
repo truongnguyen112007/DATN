@@ -1,11 +1,8 @@
-import 'package:base_bloc/base/hex_color.dart';
 import 'package:base_bloc/components/app_circle_loading.dart';
 import 'package:base_bloc/components/appbar_widget.dart';
-import 'package:base_bloc/components/gradient_button.dart';
 import 'package:base_bloc/components/item_loading.dart';
 import 'package:base_bloc/data/globals.dart';
 import 'package:base_bloc/data/model/reservation_model.dart';
-import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/modules/tab_home/tab_home_cubit.dart';
 import 'package:base_bloc/modules/tab_home/tab_home_state.dart';
 import 'package:base_bloc/router/router.dart';
@@ -13,12 +10,12 @@ import 'package:base_bloc/router/router_utils.dart';
 import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/theme/colors.dart';
 import 'package:base_bloc/utils/app_utils.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:badges/badges.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../components/app_scalford.dart';
@@ -27,6 +24,7 @@ import '../../components/check_login.dart';
 import '../../components/item_feed_widget.dart';
 import '../../config/constant.dart';
 import '../../gen/assets.gen.dart';
+import '../../localization/locale_keys.dart';
 
 class TabHome extends StatefulWidget {
   const TabHome({Key? key}) : super(key: key);
@@ -196,7 +194,7 @@ class _TabHomeState extends State<TabHome> with AutomaticKeepAliveClientMixin {
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: AppText(
-                            LocaleKeys.nextClimb.toUpperCase(),
+                            LocaleKeys.nextClimb.tr().toUpperCase(),
                             style: typoSuperSmallTextRegular.copyWith(
                                 fontSize: 9.sp,
                                 color: colorText0.withOpacity(0.87)),

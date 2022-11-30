@@ -3,22 +3,22 @@ import 'package:base_bloc/components/app_circle_loading.dart';
 import 'package:base_bloc/components/filter_widget.dart';
 import 'package:base_bloc/data/globals.dart';
 import 'package:base_bloc/data/model/places_model.dart';
-import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/modules/places_page/places_page_cubit.dart';
 import 'package:base_bloc/modules/places_page/places_page_state.dart';
 import 'package:base_bloc/modules/tab_home/tab_home_state.dart';
 import 'package:base_bloc/router/router_utils.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../components/app_text.dart';
-import '../../components/message_search.dart';
 import '../../data/eventbus/hide_map_event.dart';
 import '../../data/eventbus/search_home_event.dart';
 import '../../gen/assets.gen.dart';
+import '../../localization/locale_keys.dart';
 import '../../theme/app_styles.dart';
 import '../../theme/colors.dart';
 import '../../utils/app_utils.dart';
@@ -164,7 +164,7 @@ class _PlacesPageState extends State<PlacesPage>
                   visible: state.lLastPlace.isNotEmpty,
                   child: Row(
                     children: [
-                      titleWidget(LocaleKeys.last_visited_place),
+                      titleWidget(LocaleKeys.last_visited_place.tr()),
                       const Spacer(),
                       Padding(
                         padding: EdgeInsets.only(
@@ -181,7 +181,7 @@ class _PlacesPageState extends State<PlacesPage>
                   visible: state.lLastPlace.isNotEmpty,
                   child: lPlaceWidget(state.lLastPlace),
                 ),
-                titleWidget(LocaleKeys.the_nearest_place),
+                titleWidget(LocaleKeys.the_nearest_place.tr()),
                 lPlaceWidget(state.lPlayList)
               ],
             ),
@@ -237,7 +237,7 @@ class _PlacesPageState extends State<PlacesPage>
                       width: 10.w,
                     ),
                     AppText(
-                      AppLocalizations.of(context)!.list,
+                      LocaleKeys.list.tr(),
                       style: TextStyle(color: Colors.deepOrange),
                     )
                   ],
@@ -252,7 +252,7 @@ class _PlacesPageState extends State<PlacesPage>
                       width: 5.w,
                     ),
                     AppText(
-                      AppLocalizations.of(context)!.map,
+                      LocaleKeys.map.tr(),
                       style: TextStyle(color: Colors.deepOrange),
                     )
                   ],
@@ -384,20 +384,20 @@ class _PlacesPageState extends State<PlacesPage>
                         height: 15.h,
                         child: Center(
                             child: AppText(
-                          AppLocalizations.of(context)!.city,
+                          LocaleKeys.city.tr(),
                           style: TextStyle(color: Colors.white60),
                         )),
                       ),
                     )
                   ],
                 )),
-            titleFilter(AppLocalizations.of(context)!.wallHeight,
+            titleFilter(LocaleKeys.wallHeight.tr(),
                 selectedHeight, wallHeight, (index) {
               selectedHeight = index;
               setState(() {});
             }),
             titleFilter(
-                AppLocalizations.of(context)!.holdSet, selectedHold, holdSet,
+                LocaleKeys.holdSet.tr(), selectedHold, holdSet,
                 (index) {
               selectedHold = index;
               setState(() {});

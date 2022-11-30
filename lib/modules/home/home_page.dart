@@ -13,20 +13,16 @@ import 'package:base_bloc/modules/root/root_home_page.dart';
 import 'package:base_bloc/modules/root/root_profile_page.dart';
 import 'package:base_bloc/modules/root/root_reservation_page.dart';
 import 'package:base_bloc/router/router_utils.dart';
-import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/theme/colors.dart';
 import 'package:base_bloc/utils/app_utils.dart';
-import 'package:base_bloc/utils/log_utils.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../components/gradient_icon.dart';
-import '../../data/eventbus/hide_bottom_bar_event.dart';
 import '../../gen/assets.gen.dart';
-import '../../localizations/app_localazations.dart';
+import '../../localization/locale_keys.dart';
 import '../root/root_routes_page.dart';
 import 'home_cubit.dart';
 
@@ -83,7 +79,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    AppLocalizations.init(context);
     return AppScaffold(
       fullStatusBar: true,
       resizeToAvoidBottomInset: false,
@@ -208,24 +203,24 @@ class _HomePageState extends State<HomePage> {
           items: [
             itemBottomNavigationBarWidget(
                 index: BottomNavigationConstant.TAB_HOME,
-                label: AppLocalizations.of(context)!.home,
+                label: LocaleKeys.home.tr(),
                 icon: Assets.svg.home),
             itemBottomNavigationBarWidget(
                 index: BottomNavigationConstant.TAB_ROUTES,
-                label: AppLocalizations.of(context)!.routes,
+                label: LocaleKeys.routes.tr(),
                 icon: Assets.svg.routes),
             itemBottomNavigationBarWidget(
                 isTransparent: true,
                 index: BottomNavigationConstant.TAB_ROUTES,
-                label: AppLocalizations.of(context)!.climb,
+                label: LocaleKeys.climb.tr(),
                 icon: Assets.svg.climpOrange),
             itemBottomNavigationBarWidget(
                 index: BottomNavigationConstant.TAB_RESERVATIONS,
-                label: AppLocalizations.of(context)!.reservations,
+                label: LocaleKeys.reservations.tr(),
                 icon: Assets.svg.calendar),
             itemBottomNavigationBarWidget(
                 index: BottomNavigationConstant.TAB_PROFILE,
-                label: AppLocalizations.of(context)!.profile,
+                label: LocaleKeys.profile.tr(),
                 icon: Assets.svg.person),
           ],
           currentIndex: _currentIndex,

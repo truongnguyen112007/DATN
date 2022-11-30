@@ -1,8 +1,8 @@
 import 'package:base_bloc/base/base_state.dart';
 import 'package:base_bloc/components/notification_widget.dart';
-import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/theme/colors.dart';
 import 'package:base_bloc/utils/log_utils.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,10 +10,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../components/app_scalford.dart';
 import '../../../../components/appbar_widget.dart';
 import '../../components/app_circle_loading.dart';
-import '../../components/app_text.dart';
 import '../../data/globals.dart';
 import '../../data/model/notification_model.dart';
-import '../../theme/app_styles.dart';
+import '../../localization/locale_keys.dart';
 import 'notifications_cubit.dart';
 import 'notifications_state.dart';
 
@@ -48,7 +47,7 @@ class _NotificationsState extends BaseState<NotificationsPage>
         padding: EdgeInsets.only(top: contentPadding),
         backgroundColor: colorGreyBackground,
         appbar:
-            appBarWidget(context: context, titleStr: LocaleKeys.notifications),
+            appBarWidget(context: context, titleStr: LocaleKeys.notifications.tr()),
         body: RefreshIndicator(
           child: Stack(
             children: [
@@ -86,9 +85,9 @@ class _NotificationsState extends BaseState<NotificationsPage>
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                titleHeaderWidget(AppLocalizations.of(context)!.invitations),
+                titleHeaderWidget(LocaleKeys.invitations.tr()),
                 lNotificationsWidget(state.lInvitations, true),
-                titleHeaderWidget(AppLocalizations.of(context)!.activities),
+                titleHeaderWidget(LocaleKeys.activities.tr()),
                 lNotificationsWidget(state.lActivities, false),
                 const SizedBox(
                   height: 20,

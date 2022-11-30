@@ -1,18 +1,18 @@
 import 'package:base_bloc/base/base_state.dart';
 import 'package:base_bloc/components/app_scalford.dart';
 import 'package:base_bloc/data/model/places_model.dart';
-import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/modules/place_address/photos/photos.dart';
 import 'package:base_bloc/modules/place_address/schedule/schedule.dart';
 import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/theme/colors.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../components/app_text.dart';
-import '../../components/dynamic_sliver_appbar.dart';
 import '../../gen/assets.gen.dart';
+import '../../localization/locale_keys.dart';
 import '../../utils/log_utils.dart';
 import 'address/address.dart';
 
@@ -92,9 +92,9 @@ class _PlaceAddressState extends BasePopState<PlaceAddress>
                   indicatorColor: colorPrimary,
                   indicatorWeight: 2.5.w,
                   tabs: [
-                    Tab(text: LocaleKeys.address),
-                    Tab(text: LocaleKeys.schedule),
-                    Tab(text: LocaleKeys.photos),
+                    Tab(text: LocaleKeys.address.tr()),
+                    Tab(text: LocaleKeys.schedule.tr()),
+                    Tab(text: LocaleKeys.photos.tr()),
                   ],
                 ),
               ]

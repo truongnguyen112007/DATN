@@ -4,14 +4,11 @@ import 'package:base_bloc/components/dialogs.dart';
 import 'package:base_bloc/config/constant.dart';
 import 'package:base_bloc/data/eventbus/refresh_event.dart';
 import 'package:base_bloc/data/globals.dart' as globals;
-import 'package:base_bloc/data/model/user_model.dart';
-import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/modules/favourite/favourite_state.dart';
 import 'package:base_bloc/router/router_utils.dart';
 import 'package:base_bloc/utils/toast_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_tags/flutter_tags.dart';
 
 import '../../data/model/routes_model.dart';
 import '../../data/repository/user_repository.dart';

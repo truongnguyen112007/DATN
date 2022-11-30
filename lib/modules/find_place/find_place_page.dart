@@ -5,10 +5,10 @@ import 'package:base_bloc/components/app_button.dart';
 import 'package:base_bloc/components/app_circle_loading.dart';
 import 'package:base_bloc/components/app_scalford.dart';
 import 'package:base_bloc/config/constant.dart';
-import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/modules/find_place/find_place_cubit.dart';
 import 'package:base_bloc/modules/find_place/find_place_state.dart';
 import 'package:base_bloc/utils/app_utils.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -19,6 +19,7 @@ import '../../components/app_text.dart';
 import '../../components/app_text_field.dart';
 import '../../components/appbar_widget.dart';
 import '../../data/model/places_model.dart';
+import '../../localization/locale_keys.dart';
 import '../../theme/app_styles.dart';
 import '../../theme/colors.dart';
 
@@ -148,7 +149,7 @@ class _FindPlacePageState extends BasePopState<FindPlacePage> {
                   width: 5,
                 ),
                 AppText(
-                  !state.isShowMap ? LocaleKeys.map : LocaleKeys.list,
+                  !state.isShowMap ? LocaleKeys.map.tr() : LocaleKeys.list.tr(),
                   style: typoSmallTextRegular.copyWith(color: colorOrange100),
                 )
               ],
@@ -173,7 +174,7 @@ class _FindPlacePageState extends BasePopState<FindPlacePage> {
               width: 2,
             ),
             AppText(
-              LocaleKeys.filter,
+              LocaleKeys.filter.tr(),
               style: typoW400.copyWith(fontSize: 13.sp),
             )
           ],
@@ -202,7 +203,7 @@ class _FindPlacePageState extends BasePopState<FindPlacePage> {
               ),
               hintStyle: typoW400.copyWith(
                   fontSize: 14.5.sp, color: colorText0.withOpacity(0.6)),
-              hintText: LocaleKeys.find_place,
+              hintText: LocaleKeys.find_place.tr(),
               contentPadding: EdgeInsets.all(15.h),
               fillColor: colorBlack10,
               border: border,

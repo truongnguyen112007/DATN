@@ -5,17 +5,18 @@ import 'package:base_bloc/components/app_text.dart';
 import 'package:base_bloc/components/appbar_widget.dart';
 import 'package:base_bloc/components/gradient_button.dart';
 import 'package:base_bloc/config/constant.dart';
-import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/modules/hold_set/hold_set_cubit.dart';
 import 'package:base_bloc/modules/hold_set/hold_set_state.dart';
 import 'package:base_bloc/theme/colors.dart';
 import 'package:base_bloc/utils/app_utils.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../components/app_text_field.dart';
 import '../../data/globals.dart';
+import '../../localization/locale_keys.dart';
 import '../../theme/app_styles.dart';
 
 class HoldSetPage extends StatefulWidget {
@@ -62,7 +63,7 @@ class _HoldSetPageState extends BasePopState<HoldSetPage> {
                                 lColor: state.type == SelectType.ALL
                                     ? [colorOrange100, colorOrange40]
                                     : [colorBlack30, colorBlack30],
-                                title: LocaleKeys.all),
+                                title: LocaleKeys.all.tr()),
                             const SizedBox(
                               width: 10,
                             ),
@@ -72,7 +73,7 @@ class _HoldSetPageState extends BasePopState<HoldSetPage> {
                                 lColor: state.type == SelectType.FAVOURITE
                                     ? [colorOrange100, colorOrange40]
                                     : [colorBlack30, colorBlack30],
-                                title: LocaleKeys.favourite),
+                                title: LocaleKeys.favourite.tr()),
                           ],
                         )),
                 itemSpace(),
@@ -81,16 +82,16 @@ class _HoldSetPageState extends BasePopState<HoldSetPage> {
                     builder: (c, state) => textFieldWidget(
                             TextEditingController(
                                 text: state.type == SelectType.ALL
-                                    ? LocaleKeys.all
-                                    : LocaleKeys.favourite),
+                                    ? LocaleKeys.all.tr()
+                                    : LocaleKeys.favourite.tr()),
                             context,
-                            LocaleKeys.type, () {
+                            LocaleKeys.type.tr(), () {
                           Utils.hideKeyboard(context);
                         })),
                 itemSpace(),
                 InkWell(
                   child: AppText(
-                    LocaleKeys.double_tab_to_see_3d_preview,
+                    LocaleKeys.double_tab_to_see_3d_preview.tr(),
                     style: typoW400.copyWith(
                         fontSize: 12.sp, color: colorText0.withOpacity(0.6)),
                   ),
@@ -209,7 +210,7 @@ class _HoldSetPageState extends BasePopState<HoldSetPage> {
               gradient: Utils.backgroundGradientOrangeButton(),
               borderRadius: BorderRadius.circular(30)),
           onTap: () => onTab.call(),
-          widget: AppText(LocaleKeys.select,
+          widget: AppText(LocaleKeys.select.tr(),
               textAlign: TextAlign.center,
               style: typoW600.copyWith(color: colorText0, fontSize: 12.5.sp)),
           borderRadius: BorderRadius.circular(30));
@@ -242,7 +243,7 @@ class _HoldSetPageState extends BasePopState<HoldSetPage> {
 
   PreferredSizeWidget appbar(BuildContext context) => appBarWidget(
       context: context,
-      titleStr: LocaleKeys.select_hold,
+      titleStr: LocaleKeys.select_hold.tr(),
       isHideBottomBar: true);
 
   @override

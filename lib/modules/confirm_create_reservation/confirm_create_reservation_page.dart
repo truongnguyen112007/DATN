@@ -9,16 +9,17 @@ import 'package:base_bloc/config/constant.dart';
 import 'package:base_bloc/data/globals.dart';
 import 'package:base_bloc/data/model/address_model.dart';
 import 'package:base_bloc/data/model/places_model.dart';
-import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/modules/confirm_create_reservation/confirm_create_reservation_cubit.dart';
 import 'package:base_bloc/modules/confirm_create_reservation/confirm_create_reservation_state.dart';
 import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/theme/colors.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../components/app_text.dart';
+import '../../localization/locale_keys.dart';
 import '../../utils/app_utils.dart';
 
 class ConfirmCreateReservationPage extends StatefulWidget {
@@ -98,7 +99,7 @@ class _ConfirmCreateReservationPageState
                               3,
                               placeController,
                               context,
-                              LocaleKeys.place,
+                              LocaleKeys.place.tr(),
                               () => _bloc.placeOnclick(context));
                         },
                         bloc: _bloc,
@@ -112,7 +113,7 @@ class _ConfirmCreateReservationPageState
                               1,
                               wallController,
                               context,
-                              LocaleKeys.wall,
+                              LocaleKeys.wall.tr(),
                               () => _bloc.addressOnclick(context));
                         },
                         bloc: _bloc,
@@ -135,7 +136,7 @@ class _ConfirmCreateReservationPageState
                         colors: [HexColor('FF9300'), HexColor('FF5A00')],
                       )),
                   child: AppText(
-                    LocaleKeys.confirm_information,
+                    LocaleKeys.confirm_information.tr(),
                     style:
                         typoW600.copyWith(fontSize: 14.sp, color: colorText0),
                   ),
@@ -148,7 +149,7 @@ class _ConfirmCreateReservationPageState
   }
 
   PreferredSizeWidget appbar(BuildContext context) =>
-      appBarWidget(context: context, titleStr: LocaleKeys.newReservation);
+      appBarWidget(context: context, titleStr: LocaleKeys.newReservation.tr());
 
   Widget calendarWidget(BuildContext context) => Row(
         crossAxisAlignment: CrossAxisAlignment.start,

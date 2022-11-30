@@ -7,17 +7,20 @@ import 'package:base_bloc/components/appbar_widget.dart';
 import 'package:base_bloc/config/constant.dart';
 import 'package:base_bloc/data/globals.dart';
 import 'package:base_bloc/data/model/address_model.dart';
-import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/modules/filter_address/filter_addess_cubit.dart';
 import 'package:base_bloc/modules/filter_address/filter_address_state.dart';
 import 'package:base_bloc/modules/tab_reservation/tab_reservation_state.dart';
 import 'package:base_bloc/router/router_utils.dart';
 import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/theme/colors.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rxdart/rxdart.dart';
+
+import '../../localization/locale_keys.dart';
+
 
 class FilterAddressPage extends StatefulWidget {
   const FilterAddressPage({Key? key}) : super(key: key);
@@ -67,7 +70,7 @@ class _FilterAddressPageState extends BasePopState<FilterAddressPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               AppText(
-                LocaleKeys.reclimb_available_in.toUpperCase(),
+                LocaleKeys.reclimb_available_in.tr().toUpperCase(),
                 style: typoW600.copyWith(
                   fontSize: 11.sp,
                   color: colorText0.withOpacity(0.87),
@@ -187,7 +190,7 @@ class _FilterAddressPageState extends BasePopState<FilterAddressPage> {
               ),
               hintStyle: typoW400.copyWith(
                   color: colorText0.withOpacity(0.6), fontSize: 14.5.sp),
-              hintText: LocaleKeys.find_city,
+              hintText: LocaleKeys.find_city.tr(),
               contentPadding: EdgeInsets.all(15.h),
               fillColor: colorBlack10,
               border: border,

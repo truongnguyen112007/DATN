@@ -11,19 +11,18 @@ import 'package:base_bloc/router/router_utils.dart';
 import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/theme/colors.dart';
 import 'package:base_bloc/utils/app_utils.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 import '../../components/item_info_routes.dart';
 import '../../config/constant.dart';
 import '../../data/eventbus/refresh_event.dart';
 import '../../data/model/routes_model.dart';
-import '../../localizations/app_localazations.dart';
+import '../../localization/locale_keys.dart';
 import '../../router/router.dart';
-import '../../utils/log_utils.dart';
 
 class PlayListPage extends StatefulWidget {
   const PlayListPage({Key? key}) : super(key: key);
@@ -121,7 +120,7 @@ class _PlayListPageState extends State<PlayListPage>
               children: [
                 SpeedDialChild(
                   labelWidget: AppText(
-                    LocaleKeys.find_routes,
+                    LocaleKeys.find_routes.tr(),
                     style: typoW400.copyWith(
                         fontSize: 16, color: colorText0.withOpacity(0.87)),
                   ),
@@ -140,7 +139,7 @@ class _PlayListPageState extends State<PlayListPage>
                 ),
                 SpeedDialChild(
                   labelWidget: AppText(
-                    LocaleKeys.create_routes,
+                    LocaleKeys.create_routes.tr(),
                     style: typoW400.copyWith(
                         fontSize: 16, color: colorText0.withOpacity(0.87)),
                   ),

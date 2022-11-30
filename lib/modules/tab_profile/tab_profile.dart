@@ -1,13 +1,12 @@
-import 'package:badges/badges.dart';
+
 import 'package:base_bloc/components/app_text.dart';
 import 'package:base_bloc/components/appbar_widget.dart';
 import 'package:base_bloc/components/profile_info_widget.dart';
-import 'package:base_bloc/localizations/app_localazations.dart';
-import 'package:base_bloc/modules/tab_profile/edit_settings/edit_settings_page.dart';
 import 'package:base_bloc/modules/tab_profile/tab_profile_cubit.dart';
 import 'package:base_bloc/modules/tab_profile/tab_profile_post/tab_profile_post.dart';
 import 'package:base_bloc/modules/tab_profile/tab_profile_state.dart';
 import 'package:base_bloc/theme/app_styles.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,7 +15,7 @@ import '../../components/app_scalford.dart';
 import '../../components/check_login.dart';
 import '../../components/dynamic_sliver_appbar.dart';
 import '../../data/globals.dart';
-import '../../localizations/app_localazations.dart';
+import '../../localization/locale_keys.dart';
 import '../../theme/colors.dart';
 import '../designed/designed_page.dart';
 import '../history/history_page.dart';
@@ -62,7 +61,7 @@ class _TabProfileState extends State<TabProfile> {
           },
           onClickJumpToTop: () {},
           widget: AppText(
-            LocaleKeys.profile,
+            LocaleKeys.profile.tr(),
             style: googleFont.copyWith(color: colorWhite),
           )),
       body:
@@ -100,15 +99,9 @@ class _TabProfileState extends State<TabProfile> {
                                     indicatorColor: colorPrimary,
                                     indicatorWeight: 2.w,
                                     tabs: [
-                                      Tab(
-                                          text: AppLocalizations.of(context)!
-                                              .tabPosts),
-                                      Tab(
-                                          text: AppLocalizations.of(context)!
-                                              .tabHistory),
-                                      Tab(
-                                          text: AppLocalizations.of(context)!
-                                              .tabDesigned),
+                                      Tab(text: LocaleKeys.tabPosts.tr()),
+                                      Tab(text: LocaleKeys.tabHistory.tr()),
+                                      Tab(text: LocaleKeys.tabDesigned.tr()),
                                     ],
                                   ),
                                 ),

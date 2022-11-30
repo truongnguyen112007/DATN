@@ -6,13 +6,12 @@ import 'package:base_bloc/base/hex_color.dart';
 import 'package:base_bloc/components/app_scalford.dart';
 import 'package:base_bloc/components/app_text_field.dart';
 import 'package:base_bloc/components/appbar_widget.dart';
-import 'package:base_bloc/config/constant.dart';
 import 'package:base_bloc/data/globals.dart';
-import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/modules/create_reservation/create_reservation_cubit.dart';
 import 'package:base_bloc/modules/create_reservation/create_reservation_state.dart';
 import 'package:base_bloc/utils/app_utils.dart';
 import 'package:base_bloc/utils/log_utils.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,6 +20,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../components/app_slider.dart';
 import '../../components/app_text.dart';
 import '../../data/model/places_model.dart';
+import '../../localization/locale_keys.dart';
 import '../../theme/app_styles.dart';
 import '../../theme/colors.dart';
 
@@ -60,7 +60,7 @@ class _CreateReservationPageState extends BasePopState<CreateReservationPage> {
         padding: EdgeInsets.all(contentPadding),
         backgroundColor: colorGreyBackground,
         appbar:
-            appBarWidget(context: context, titleStr: LocaleKeys.newReservation),
+            appBarWidget(context: context, titleStr: LocaleKeys.newReservation.tr()),
         body: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,7 +70,7 @@ class _CreateReservationPageState extends BasePopState<CreateReservationPage> {
                   builder: (c, state) {
                     _cityController.text = state.addressModel?.city ?? '';
                     return textFieldWidget(_cityController, context,
-                        LocaleKeys.city, () => _bloc.addressOnclick(context));
+                        LocaleKeys.city.tr(), () => _bloc.addressOnclick(context));
                   }),
               itemSpace(),
               BlocBuilder<CreateReservationCubit, CreateReservationState>(
@@ -78,12 +78,12 @@ class _CreateReservationPageState extends BasePopState<CreateReservationPage> {
                   builder: (c, state) {
                     _placeController.text = state.placesModel?.namePlace ?? '';
                     return textFieldWidget(_placeController, context,
-                        LocaleKeys.place, () => _bloc.placeOnclick(context));
+                        LocaleKeys.place.tr(), () => _bloc.placeOnclick(context));
                   }),
               itemSpace(),
               itemSpace(),
               AppText(
-                LocaleKeys.hours,
+                LocaleKeys.hours.tr(),
                 style: typoW400.copyWith(
                     color: colorText0.withOpacity(0.87), fontSize: 14.5.sp),
               ),
@@ -111,11 +111,11 @@ class _CreateReservationPageState extends BasePopState<CreateReservationPage> {
                       child: Row(
                     children: [
                       Expanded(
-                          child: calendarWidget(context, LocaleKeys.today)),
+                          child: calendarWidget(context, LocaleKeys.today.tr())),
                       Expanded(
-                          child: calendarWidget(context, LocaleKeys.tomorrow)),
+                          child: calendarWidget(context, LocaleKeys.tomorrow.tr())),
                       Expanded(
-                          child: calendarWidget(context, LocaleKeys.friday))
+                          child: calendarWidget(context, LocaleKeys.friday.tr()))
                     ],
                   )),
                   InkWell(

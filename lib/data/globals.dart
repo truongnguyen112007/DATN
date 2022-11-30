@@ -14,6 +14,7 @@ String deviceName = '';
 String deviceModel = '';
 String userName = '';
 String playlistId = '';
+String languageCode = '';
 
 bool isLogin = false;
 bool isTokenExpired = false;

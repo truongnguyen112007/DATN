@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../config/constant.dart';
 import '../../data/eventbus/refresh_event.dart';
 import '../../data/model/routes_model.dart';
-import '../../localizations/app_localazations.dart';
 import '../../router/router_utils.dart';
 import '../../utils/app_utils.dart';
 import '../../utils/log_utils.dart';

@@ -1,7 +1,7 @@
-import 'package:base_bloc/localizations/app_localazations.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../data/model/notifications_settings_model.dart';
+import '../../../../localization/locale_keys.dart';
 import 'notifications_settings_state.dart';
 
 enum NotificationSettingItemType {
@@ -16,15 +16,15 @@ extension NotificationSettingItemTypeExtension on NotificationSettingItemType {
   String get title {
     switch (this) {
       case NotificationSettingItemType.RESERVATIONS:
-        return LocaleKeys.notif_reservations;
+        return LocaleKeys.notif_reservations.tr();
       case NotificationSettingItemType.INVITATION_TO_FRIENDS:
-        return LocaleKeys.notif_invitation_to_friends;
+        return LocaleKeys.notif_invitation_to_friends.tr();
       case NotificationSettingItemType.COMMENTS:
-        return LocaleKeys.notif_comments;
+        return LocaleKeys.notif_comments.tr();
       case NotificationSettingItemType.LIKES:
-        return LocaleKeys.notif_likes;
+        return LocaleKeys.notif_likes.tr();
       case NotificationSettingItemType.SHARING:
-        return LocaleKeys.notif_sharing;
+        return LocaleKeys.notif_sharing.tr();
     }
   }
 }

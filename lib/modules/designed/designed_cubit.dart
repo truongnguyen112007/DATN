@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:base_bloc/config/constant.dart';
-import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/modules/designed/designed_state.dart';
 import 'package:base_bloc/router/router_utils.dart';
 import 'package:base_bloc/utils/toast_utils.dart';

@@ -7,14 +7,12 @@ import 'package:base_bloc/data/model/routes_model.dart';
 import 'package:base_bloc/modules/create_routes/create_routes_state.dart';
 import 'package:base_bloc/modules/persons_page/persons_page_state.dart';
 import 'package:base_bloc/modules/zoom_routes/zoom_routes_page.dart';
-import 'package:base_bloc/utils/log_utils.dart';
 import 'package:base_bloc/utils/storage_utils.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:convert';
-
-import '../../gen/assets.gen.dart';
-import '../../localizations/app_localazations.dart';
+import '../../localization/locale_keys.dart';
 import '../../router/router_utils.dart';
 import '../../utils/toast_utils.dart';
 import '../create_info_route/create_info_route_page.dart';
@@ -57,7 +55,7 @@ class CreateRoutesCubit extends Cubit<CreateRoutesState> {
       }
     }
     if (lHoldSet.isEmpty) {
-      toast(LocaleKeys.please_input_hold_set);
+      toast(LocaleKeys.please_input_hold_set.tr());
     } else {
       RouterUtils.openNewPage(
           CreateInfoRoutePage(

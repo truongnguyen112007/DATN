@@ -3,9 +3,8 @@ import 'package:base_bloc/components/app_scalford.dart';
 import 'package:base_bloc/components/app_text.dart';
 import 'package:base_bloc/config/constant.dart';
 import 'package:base_bloc/data/globals.dart';
-import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/theme/app_styles.dart';
-import 'package:base_bloc/theme/colors.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,6 +12,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../components/appbar_widget.dart';
 import '../../gen/assets.gen.dart';
+import '../../localization/locale_keys.dart';
 
 class CreateReservationSuccessPage extends StatefulWidget {
   const CreateReservationSuccessPage({Key? key}) : super(key: key);
@@ -42,18 +42,18 @@ class _CreateReservationSuccessPageState
             ),
             itemPlace(height: 20),
             AppText(
-              LocaleKeys.check_your_email,
+              LocaleKeys.check_your_email.tr(),
               style: typoW700.copyWith(fontSize: 29.sp),
             ),
             itemPlace(),
             AppText(
-              LocaleKeys.it_is_not_reservation,
+              LocaleKeys.it_is_not_reservation.tr(),
               style: typoW400.copyWith(fontSize: 14.sp),
               textAlign: TextAlign.center,
             ),
             itemPlace(height: 20),
             AppText(
-              LocaleKeys.please_check_mail,
+              LocaleKeys.please_check_mail.tr(),
               style: typoW400.copyWith(fontSize: 14.sp),
             )
           ],
@@ -65,7 +65,7 @@ class _CreateReservationSuccessPageState
   SizedBox itemPlace({double? height}) => SizedBox(height: height ?? 10);
 
   PreferredSizeWidget appbar(BuildContext context) =>
-      appBarWidget(context: context, titleStr: LocaleKeys.newReservation);
+      appBarWidget(context: context, titleStr: LocaleKeys.newReservation.tr());
 
   @override
   int get tabIndex => BottomNavigationConstant.TAB_RESERVATIONS;
