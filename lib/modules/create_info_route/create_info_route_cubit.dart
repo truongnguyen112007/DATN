@@ -5,6 +5,7 @@ import 'package:base_bloc/modules/create_info_route/create_info_route_state.dart
 import 'package:base_bloc/modules/home/home_page.dart';
 import 'package:base_bloc/router/router_utils.dart';
 import 'package:base_bloc/utils/app_utils.dart';
+import 'package:base_bloc/utils/log_utils.dart';
 import 'package:base_bloc/utils/toast_utils.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
@@ -23,7 +24,7 @@ class CreateInfoRouteCubit extends Cubit<CreateInfoRouteState> {
     if (model != null) {
       var currentIndex = 0;
       for (int i = 0; i < lGrade.length; i++) {
-        if (lGrade[i].substring(0, 1) == model.authorGrade.toString()) {
+        if (lGrade[i] == model.authorGrade) {
           currentIndex = i;
           break;
         }
@@ -32,13 +33,13 @@ class CreateInfoRouteCubit extends Cubit<CreateInfoRouteState> {
           model: model,
           isCorner: model.hasConner ?? false,
           currentIndexGrade: currentIndex,
-          grade: '${model.authorGrade}',
+          grade: model.authorGrade,
           routeName: model.name ?? ''));
     }
   }
 
   void increase() {
-    if (state.currentIndexGrade == lGrade.length - 1) return;
+    if (state.currentIndexGrade == lGrade.length-1) return;
     emit(state.copyOf(
         grade: lGrade[state.currentIndexGrade + 1],
         currentIndexGrade: state.currentIndexGrade + 1));
@@ -83,23 +84,25 @@ class CreateInfoRouteCubit extends Cubit<CreateInfoRouteState> {
   }
 
   var lGrade = [
-    '4A',
-    '4B',
-    '4C',
-    '5A',
-    '5B',
-    '5C',
-    '6A',
-    '6B',
-    '6C',
-    '6C+',
-    '7A',
-    '7B',
-    '7C',
-    '7C+',
-    '8A',
-    '8B',
-    '8C',
-    '8C+'
-  ];
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20];
 }

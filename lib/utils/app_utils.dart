@@ -145,7 +145,7 @@ class Utils {
           0.6058,
           1
         ]);
-      case 9: //6C+
+    /*  case 9: //6C+
         return BackgroundParam([
           HexColor('D14800'),
           HexColor('D17800'),
@@ -156,8 +156,8 @@ class Utils {
           0.3928,
           0.7265,
           1
-        ]);
-      case 10: //7A
+        ]);*/
+      case 9: //7A
         return BackgroundParam([
           HexColor('D14800'),
           HexColor('D17800'),
@@ -169,7 +169,7 @@ class Utils {
           0.8421,
           1
         ]);
-      case 11: //7A+
+      case 10: //7A+
         return BackgroundParam([
           HexColor('D12B00'),
           HexColor('D17800'),
@@ -181,15 +181,15 @@ class Utils {
           0.9603,
           1
         ]);
-      case 12: //7B
+      case 11: //7B
         return BackgroundParam(
             [HexColor('D11D00'), HexColor('D17800'), HexColor('D17800')],
             [0, 0.743, 1]);
-      case 13: //7B+
+      case 12: //7B+
         return BackgroundParam(
             [HexColor('D11D00'), HexColor('D17800'), HexColor('D17800')],
             [0, 0.859, 1]);
-      case 14: //7C
+      case 13: //7C
         return BackgroundParam([
           HexColor('D10B00'),
           HexColor('D10C00'),
@@ -201,7 +201,7 @@ class Utils {
           0.973,
           1
         ]);
-      case 15: //7C+
+      case 14: //7C+
         return BackgroundParam([
           HexColor('D10B00'),
           HexColor('D10C00'),
@@ -211,7 +211,7 @@ class Utils {
           0.2102,
           1
         ]);
-      case 16: //8A
+      case 15: //8A
         return BackgroundParam([
           HexColor('D10000'),
           HexColor('D10000'),
@@ -221,7 +221,7 @@ class Utils {
           0.3276,
           1
         ]);
-      case 17: //8A+
+      case 16: //8A+
         return BackgroundParam([
           HexColor('D10000'),
           HexColor('D10000'),
@@ -231,7 +231,7 @@ class Utils {
           0.4413,
           1
         ]);
-      case 18: //8B
+      case 17: //8B
         return BackgroundParam([
           HexColor('D10000'),
           HexColor('D10000'),
@@ -241,7 +241,7 @@ class Utils {
           0.5634,
           1
         ]);
-      case 19: //8B+
+      case 18: //8B+
         return BackgroundParam([
           HexColor('D10000'),
           HexColor('D10000'),
@@ -251,7 +251,7 @@ class Utils {
           0.6768,
           1
         ]);
-      case 20: //8C
+      case 19: //8C
         return BackgroundParam([
           HexColor('D10000'),
           HexColor('D10000'),
@@ -261,7 +261,7 @@ class Utils {
           0.794,
           1
         ]);
-      case 21: //8C+
+      case 20: //8C+
         return BackgroundParam([
           HexColor('D10000'),
         ], [
@@ -273,6 +273,54 @@ class Utils {
         ], [
           1
         ]);
+    }
+  }
+  static String getGrade(int value) {
+    switch (value) {
+      case 0:
+        return '4';
+      case 1:
+        return "5A";
+      case 2:
+        return "5B";
+      case 3:
+        return "5C";
+      case 4:
+        return "6A";
+      case 5:
+        return "6A+";
+      case 6:
+        return "6B";
+      case 7:
+        return "6B+";
+      case 8:
+        return "6C";
+      case 9:
+        return "7A";
+      case 10:
+        return "7A+";
+      case 11:
+        return "7B";
+      case 12:
+        return "7B+";
+      case 13:
+        return "7C";
+      case 14:
+        return "7C+";
+      case 15:
+        return "8A";
+      case 16:
+        return "8A+";
+      case 17:
+        return "8B";
+      case 18:
+        return "8B+";
+      case 19:
+        return "8C";
+      case 20:
+        return "8C+";
+      default:
+        return '';
     }
   }
 

@@ -117,9 +117,8 @@ class _CreateInfoRoutePageState extends State<CreateInfoRoutePage> {
                         flex: 2,
                         child: InkWell(
                             onTap: () => _bloc.decrease(),
-                            child: Center(
-                                child: Icon(Icons.remove,
-                                    color: colorBlack.withOpacity(0.87))))),
+                            child: const Center(
+                                child: Icon(Icons.remove, color: colorWhite)))),
                     Container(
                         height: MediaQuery.of(context).size.height,
                         width: 1,
@@ -127,7 +126,7 @@ class _CreateInfoRoutePageState extends State<CreateInfoRoutePage> {
                     Expanded(
                         flex: 3,
                         child: Center(
-                            child: AppText(state.grade, style: typoContent))),
+                            child: AppText(Utils.getGrade(state.grade), style: typoContent))),
                     Container(
                         height: MediaQuery.of(context).size.height,
                         width: 1,
@@ -136,9 +135,8 @@ class _CreateInfoRoutePageState extends State<CreateInfoRoutePage> {
                         flex: 2,
                         child: InkWell(
                             onTap: () => _bloc.increase(),
-                            child: Center(
-                                child: Icon(Icons.add,
-                                    color: colorBlack.withOpacity(0.87)))))
+                            child: const Center(
+                                child: Icon(Icons.add, color: colorWhite))))
                   ],
                 ),
               )));
