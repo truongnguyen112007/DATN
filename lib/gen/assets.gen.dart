@@ -148,6 +148,12 @@ class $AssetsSvgGen {
   AssetGenImage get avatarTest =>
       const AssetGenImage('assets/svg/avatar_test.png');
 
+  /// File path: assets/svg/b_4.svg
+  String get b4 => 'assets/svg/b_4.svg';
+
+  /// File path: assets/svg/b_5B.svg
+  String get b5B => 'assets/svg/b_5B.svg';
+
   /// File path: assets/svg/back_button.svg
   String get backButton => 'assets/svg/back_button.svg';
 
@@ -327,6 +333,8 @@ class $AssetsSvgGen {
         addPlayList,
         addToPlayList,
         avatarTest,
+        b4,
+        b5B,
         backButton,
         backCircle,
         bluetooth,

@@ -1,143 +1,242 @@
+import 'package:base_bloc/base/base_state.dart';
 import 'package:base_bloc/base/hex_color.dart';
+import 'package:base_bloc/components/app_button.dart';
 import 'package:base_bloc/components/app_scalford.dart';
 import 'package:base_bloc/components/app_slider.dart';
 import 'package:base_bloc/data/globals.dart';
+import 'package:base_bloc/localizations/app_localazations.dart';
+import 'package:base_bloc/modules/filter_routes/filter_routes_page_state.dart';
 import 'package:base_bloc/router/router_utils.dart';
 import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/utils/app_utils.dart';
-import 'package:easy_localization/easy_localization.dart';
+import 'package:base_bloc/utils/log_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_tags/flutter_tags.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:rxdart/rxdart.dart';
 
 import '../../components/app_text.dart';
-import '../../localization/locale_keys.dart';
+import '../../data/model/filter_param.dart';
 import '../../theme/colors.dart';
+import 'filter_routes_page_cubit.dart';
 
 class FilterRoutesPage extends StatefulWidget {
+  final bool isFilterFav;
+  final Function(FilterParam) showResultButton;
 
-  const FilterRoutesPage({Key? key}) : super(key: key);
+
+  const FilterRoutesPage(
+      {Key? key, this.isFilterFav = false, required this.showResultButton})
+      : super(key: key);
 
   @override
   State<FilterRoutesPage> createState() => _FilterRoutesPageState();
 }
 
-final List<String> status = [
-  'Not tried',
-  'UF-Unfinished',
-  'SU-Supported',
-  'TR-Top-rope',
-  'RP-Red Point',
-  'OS-OnSight',
-];
+final Map<String, int> status = {
+  LocaleKeys.notTried: 0,
+  LocaleKeys.ufUnfinished: 1,
+  LocaleKeys.suSupported: 2,
+  LocaleKeys.trTopRope: 3,
+  LocaleKeys.rpRedPoint: 4,
+  LocaleKeys.osOnSight: 5,
+};
 
-final List<String> corners = ['With corners', 'Without corners'];
+final Map<String, String> corners = {
+  LocaleKeys.withCorner: "T",
+  LocaleKeys.withoutCorners: "F"
+};
 
-final List<String> designs = ["Route setter", 'Friends'];
+final Map<String, String> designs = {
+  LocaleKeys.routeSetter: "T",
+  LocaleKeys.friends: "F"
+};
 
 class _FilterRoutesPageState extends State<FilterRoutesPage> {
-  int selectedStatus = 0;
+  late FilterRoutesPageCubit _bloc;
 
-  int selectedCorner = 0;
+  final gradeChange = BehaviorSubject<List<dynamic>>();
 
-  int selectedDesign = 0;
+  @override
+  void initState() {
+    _bloc = FilterRoutesPageCubit();
 
-  var lowerAuthorGradeValue = 2.0;
-  var upperAuthorGradeValue = 5.0;
-  var lowerUserGradeValue = 2.0;
-  var upperUserGradeValue = 5.0;
+    gradeChange
+        .debounceTime(const Duration(seconds: 1))
+        .listen((value) => _bloc.getFavorite());
+
+    super.initState();
+  }
+
   var backgroundColor = HexColor('212121');
 
   @override
   Widget build(BuildContext context) {
-    return AppScaffold(
-      resizeToAvoidBottomInset: false,
-      isTabToHideKeyBoard: false,
-      padding: EdgeInsets.only(left: contentPadding, right: contentPadding),
-      appbar: appbar(context),
-      backgroundColor: backgroundColor,
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            itemSpace(),
-            Stack(
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(top: 9.h),
-                  child: TextField(
-                    style: typoSmallTextRegular.copyWith(
-                      color: colorText0,
-                    ),
-                    cursorColor: Colors.white60,
-                    decoration: decorTextField.copyWith(
-                        fillColor: Colors.transparent,
-                        contentPadding: const EdgeInsets.symmetric(
-                            vertical: 17.0, horizontal: 16)),
+    return BlocBuilder<FilterRoutesPageCubit, FilterRoutesPageState>(
+      bloc: _bloc,
+      builder: (c, state) {
+       return AppScaffold(
+          resizeToAvoidBottomInset: false,
+          isTabToHideKeyBoard: false,
+          padding: EdgeInsets.only(left: contentPadding, right: contentPadding),
+          appbar: appbar(context),
+          backgroundColor: backgroundColor,
+          body: Column(
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      itemSpace(),
+                      Visibility(
+                        visible: !widget.isFilterFav,
+                        child: Stack(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(top: 9.h),
+                              child: TextField(
+                                style: typoSmallTextRegular.copyWith(
+                                  color: colorText0,
+                                ),
+                                cursorColor: Colors.white60,
+                                decoration: decorTextField.copyWith(
+                                    fillColor: Colors.transparent,
+                                    contentPadding: const EdgeInsets.symmetric(
+                                        vertical: 17.0, horizontal: 16)),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(left: contentPadding),
+                              child: AppText(
+                                " ${LocaleKeys.author}  ",
+                                style: typoW400.copyWith(
+                                    color: colorText0.withOpacity(0.6),
+                                    fontSize: 12,
+                                    backgroundColor: backgroundColor),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      itemSpace(),
+                      itemTitle(LocaleKeys.status),
+                      itemSpace(height: 9),
+                      statusWidget(),
+                      itemSpace(),
+                      itemTitle(LocaleKeys.corners),
+                      itemSpace(height: 9),
+                      filterWidget(
+                          corners,
+                          state.filter!.conner,
+                          (value) => _bloc.setCorner(value),
+                          state.currentConnerIndex),
+                      itemSpace(),
+                      itemTitle(LocaleKeys.authorsGrade),
+                      rangeWidget(state.filter!.authorGradeFrom,
+                          state.filter!.authorGradeTo, (values) {
+                        gradeChange.add(values);
+                        _bloc.setAuthorGrade(values[0], values[1]);
+                      }),
+                      itemTitle(LocaleKeys.userGrade),
+                      rangeWidget(
+                          state.filter!.userGradeFrom, state.filter!.userGradeTo,
+                          (values) {
+                            gradeChange.add(values);
+                        _bloc.setUserGrade(values[0], values[1]);
+                      }),
+                      itemTitle(LocaleKeys.designedBy),
+                      itemSpace(height: 9),
+                      filterWidget(
+                          designs,
+                          state.filter!.designBy,
+                          (value) => _bloc.setDesignBy(value),
+                          state.currentDesignBy),
+                      const SizedBox(height: 50),
+                    ],
                   ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: contentPadding),
-                  child: AppText(
-                    " ${LocaleKeys.author.tr()}  ",
-                    style: typoW400.copyWith(
-                        color: colorText0.withOpacity(0.6),
-                        fontSize: 12,
-                        backgroundColor: backgroundColor),
-                  ),
-                )
-              ],
-            ),
-            itemSpace(),
-            itemTitle(LocaleKeys.status.tr()),
-            itemSpace(height: 9),
-            statusWidget(),
-            itemSpace(),
-            itemTitle(LocaleKeys.corners.tr()),
-            itemSpace(height: 9),
-            filterWidget(corners, selectedCorner,
-                (index) => setState(() => selectedCorner = index)),
-            itemSpace(),
-            itemTitle(LocaleKeys.authorsGrade.tr()),
-            rangeWidget(lowerAuthorGradeValue, upperAuthorGradeValue, (values) {
-              lowerAuthorGradeValue = values[0];
-              upperAuthorGradeValue = values[1];
-              setState(() {});
-            }),
-            itemTitle(LocaleKeys.userGrade.tr()),
-            rangeWidget(lowerUserGradeValue, upperUserGradeValue, (values) {
-              lowerUserGradeValue = values[0];
-              upperUserGradeValue = values[1];
-              setState(() {});
-            }),
-            itemTitle(LocaleKeys.designedBy.tr()),
-            itemSpace(height: 9),
-            filterWidget(designs, selectedDesign,
-                (index) => setState(() => selectedDesign = index)),
-            const SizedBox(height: 50),
-            line(),
-            InkWell(
-              highlightColor: Colors.transparent,
-              splashColor: Colors.transparent,
-              child: Container(
-                height: 40.h,
-                alignment: Alignment.center,
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
-                    gradient: Utils.backgroundGradientOrangeButton()),
-                child: AppText(
-                  '${LocaleKeys.showResult.tr()}:  25',
-                  style: typoW600.copyWith(color: colorText0, fontSize: 13.sp),
                 ),
               ),
-              onTap: () => RouterUtils.pop(context),
-            ),
-            itemSpace()
-          ],
-        ),
-      ),
+              line(),
+              InkWell(
+                  highlightColor: Colors.transparent,
+                  splashColor: Colors.transparent,
+                  child: Container(
+                    height: 40.h,
+                    alignment: Alignment.center,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30),
+                        gradient: Utils.backgroundGradientOrangeButton()),
+                    child: AppText(
+                      '${LocaleKeys.showResult}' +
+                          " : " +
+                          state.lPlayList!.length.toString(),
+                      style:
+                          typoW600.copyWith(color: colorText0, fontSize: 13.sp),
+                    ),
+                  ),
+                  onTap: () {
+                    widget.showResultButton(state.filter!);
+                    RouterUtils.pop(context);
+                  }),
+              itemSpace()
+            ],
+          ),
+        );
+      }
+
     );
+  }
+
+  String getGrade(int value) {
+    switch (value) {
+      case 0:
+        return '4';
+      case 1:
+        return "5A";
+      case 2:
+        return "5B";
+      case 3:
+        return "5C";
+      case 4:
+        return "6A";
+      case 5:
+        return "6A+";
+      case 6:
+        return "6B";
+      case 7:
+        return "6B+";
+      case 8:
+        return "6C";
+      case 9:
+        return "7A";
+      case 10:
+        return "7A+";
+      case 11:
+        return "7B";
+      case 12:
+        return "7B+";
+      case 13:
+        return "7C";
+      case 14:
+        return "7C+";
+      case 15:
+        return "8A";
+      case 16:
+        return "8A+";
+      case 17:
+        return "8B";
+      case 18:
+        return "8B+";
+      case 19:
+        return "8C";
+      case 20:
+        return "8C+";
+    }
+    return "0";
   }
 
   Widget rangeWidget(double lowerValue, double upperValue,
@@ -146,7 +245,7 @@ class _FilterRoutesPageState extends State<FilterRoutesPage> {
         mainAxisSize: MainAxisSize.min,
         children: [
           AppText(
-            '4 - 8C+',
+            '${getGrade(lowerValue.toInt())} - ${getGrade(upperValue.toInt())}',
             style: typoW400.copyWith(
                 fontSize: 13.sp, color: colorText0.withOpacity(0.87)),
           ),
@@ -165,7 +264,7 @@ class _FilterRoutesPageState extends State<FilterRoutesPage> {
               handlerWidth: 25,
               rangeSlider: true,
               values: [lowerValue, upperValue],
-              max: 10,
+              max: 20,
               min: 0,
               onDragging: (handlerIndex, lowerValue, upperValue) =>
                   callback([lowerValue, upperValue]))
@@ -206,7 +305,7 @@ class _FilterRoutesPageState extends State<FilterRoutesPage> {
                 RouterUtils.pop(context);
               },
               child: AppText(
-                LocaleKeys.removeFilter.tr(),
+                LocaleKeys.removeFilter,
                 style: typoW600.copyWith(
                     color: HexColor('FF5A00'), fontSize: 13.sp),
               ),
@@ -224,20 +323,21 @@ class _FilterRoutesPageState extends State<FilterRoutesPage> {
             color: colorText0.withOpacity(0.87), fontSize: 14.5.sp),
       );
 
-  Widget filterWidget(
-      List nameList, int selectIndex, Function(int) onCallBackSelect) {
+  Widget filterWidget(Map nameList, String currentValue,
+      Function(List<dynamic>) onCallBackSelect, int currentIndex) {
     return SizedBox(
       height: 27.h,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
-        itemCount: nameList.length,
+        itemCount: nameList.keys.length,
         itemBuilder: (context, index) {
           return itemListView(
               alignment: Alignment.center,
-              itemOnclick: () => onCallBackSelect(index),
+              itemOnclick: () => onCallBackSelect(
+                  [nameList[nameList.keys.elementAt(index)], index]),
               index: index,
-              text: nameList[index],
-              selectIndex: selectIndex);
+              text: nameList.keys.elementAt(index),
+              selectIndex: currentIndex);
         },
         separatorBuilder: (BuildContext context, int index) => const SizedBox(
           width: 12,
@@ -276,44 +376,22 @@ class _FilterRoutesPageState extends State<FilterRoutesPage> {
         onTap: () => itemOnclick.call(),
       );
 
-  Widget statusWidget() => Tags(
-      columns: 2,
-      itemCount: status.length,
-      alignment: WrapAlignment.start,
-      itemBuilder: (int index) => itemListView(
-          itemOnclick: () => setState(() => selectedStatus = index),
-          index: index,
-          text: status[index],
-          selectIndex: selectedStatus));
-
-  Widget itemCorners(
-          {required Function(int) onCallBackSelect,
-          required String content,
-          required int index,
-          required int selectIndex}) =>
-      GestureDetector(
-        onTap: () {
-          setState(() {
-            onCallBackSelect(index);
-          });
-        },
-        child: Container(
-          padding: EdgeInsets.only(left: 17.w, right: 17.w),
-          alignment: Alignment.center,
-          decoration: selectIndex == index
-              ? BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  gradient: Utils.backgroundGradientOrangeButton())
-              : BoxDecoration(
-                  borderRadius: BorderRadius.circular(20), color: colorBlack10),
-          child: Text(
-            content,
-            style: typoSmallTextRegular.copyWith(color: colorText45),
-          ),
-        ),
+  Widget statusWidget() =>
+      BlocBuilder<FilterRoutesPageCubit, FilterRoutesPageState>(
+        bloc: _bloc,
+        builder: (c, state) => Tags(
+            columns: 2,
+            itemCount: status.keys.length,
+            alignment: WrapAlignment.start,
+            itemBuilder: (int index) => itemListView(
+                itemOnclick: () {
+                  _bloc.setStatus(index);
+                },
+                index: index,
+                text: status.keys.elementAt(index),
+                selectIndex: state.filter!.status)),
       );
 
   @override
   bool get isNewPage => true;
-
 }
