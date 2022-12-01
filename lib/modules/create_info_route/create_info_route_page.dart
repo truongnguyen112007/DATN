@@ -5,12 +5,14 @@ import 'package:base_bloc/components/app_text_field.dart';
 import 'package:base_bloc/components/appbar_widget.dart';
 import 'package:base_bloc/components/gradient_button.dart';
 import 'package:base_bloc/data/globals.dart';
+import 'package:base_bloc/data/model/info_route_model.dart';
 import 'package:base_bloc/data/model/routes_model.dart';
 import 'package:base_bloc/extenstion/string_extension.dart';
 import 'package:base_bloc/modules/create_info_route/create_info_route_cubit.dart';
 import 'package:base_bloc/modules/create_info_route/create_info_route_state.dart';
 import 'package:base_bloc/theme/colors.dart';
 import 'package:base_bloc/utils/app_utils.dart';
+import 'package:base_bloc/utils/log_utils.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,12 +25,19 @@ import '../../localization/locale_keys.dart';
 import '../../theme/app_styles.dart';
 
 class CreateInfoRoutePage extends StatefulWidget {
-  final List<HoldSetModel> lHoldSet;
-  final RoutesModel? model;
+  final List<HoldSetModel>? lHoldSet;
+  final RoutesModel? routeModel;
   final bool isEdit;
+  final bool isPublish;
+  final InfoRouteModel? infoRouteModel;
 
   const CreateInfoRoutePage(
-      {Key? key, required this.lHoldSet, this.model, this.isEdit = false})
+      {Key? key,
+      this.lHoldSet,
+      this.infoRouteModel,
+      this.routeModel,
+      this.isEdit = false,
+      this.isPublish = true})
       : super(key: key);
 
   @override
@@ -42,8 +51,9 @@ class _CreateInfoRoutePageState extends State<CreateInfoRoutePage> {
   @override
   void initState() {
     _bloc = CreateInfoRouteCubit(widget.lHoldSet);
-    if(widget.model!=null) routeNameController.text = widget.model?.name??'';
-    _bloc.setData(widget.model);
+    if (widget.routeModel != null) routeNameController.text = widget.routeModel?.name ?? '';
+    if(widget.infoRouteModel!=null) routeNameController.text = widget.infoRouteModel?.routeName??'';
+    _bloc.setData(widget.routeModel, widget.infoRouteModel);
     super.initState();
   }
 
@@ -190,14 +200,19 @@ class _CreateInfoRoutePageState extends State<CreateInfoRoutePage> {
                 decoration: BoxDecoration(
                     gradient: Utils.backgroundGradientOrangeButton(),
                     borderRadius: BorderRadius.circular(20)),
-                onTap: () => _bloc.publishOnclick(routeNameController.text,context),
+                onTap: () => _bloc.publishOnclick(
+                    widget.isPublish, routeNameController.text, context),
                 widget: Row(
                   children: [
-                    const SizedBox(width: 5),
-                    AppText(LocaleKeys.publish.tr(), style: typoW400),
+                    const SizedBox(width: 15),
+                    AppText(
+                        widget.isPublish
+                            ? LocaleKeys.publish.tr()
+                            : LocaleKeys.next.tr(),
+                        style: typoW400),
                     const SizedBox(width: 3),
                     SvgPicture.asset(Assets.svg.fly),
-                    const SizedBox(width: 5),
+                    const SizedBox(width: 12),
                   ],
                 )))
       ]);

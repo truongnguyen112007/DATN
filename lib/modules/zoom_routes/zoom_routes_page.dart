@@ -20,6 +20,7 @@ import '../../components/measure_widget.dart';
 import '../../data/eventbus/hold_set_event.dart';
 import '../../data/globals.dart' as globals;
 import '../../data/model/hold_set_model.dart';
+import '../../data/model/info_route_model.dart';
 import '../../gen/assets.gen.dart';
 import '../../localization/locale_keys.dart';
 import '../../router/router_utils.dart';
@@ -37,9 +38,11 @@ class ZoomRoutesPage extends StatefulWidget {
   final double heightOffScreen;
   final bool isEdit;
   final RoutesModel? model;
+  final InfoRouteModel? infoRouteModel;
 
   const ZoomRoutesPage(
       {Key? key,
+        this.infoRouteModel,
       required this.currentIndex,
       this.isEdit = false,
       this.model,
@@ -391,8 +394,8 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
             isBackgroundCircle: false),
         svgButton(context, Assets.svg.fullScreen, () =>_bloc.setScale(),
                 isBackgroundCircle: false),
-            svgButton(
-                context, Assets.svg.more, () => _bloc.confirmOnclick(context),
+            svgButton(context, Assets.svg.more,
+                () => _bloc.confirmOnclick(context, widget.infoRouteModel),
                 isBackgroundCircle: false),
             SizedBox(width: globals.contentPadding)
           ]);

@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:base_bloc/data/eventbus/new_page_event.dart';
 import 'package:base_bloc/data/model/hold_set_model.dart';
+import 'package:base_bloc/data/model/info_route_model.dart';
 import 'package:base_bloc/data/model/routes_model.dart';
 import 'package:base_bloc/modules/create_routes/create_routes_state.dart';
 import 'package:base_bloc/modules/persons_page/persons_page_state.dart';
@@ -47,7 +48,7 @@ class CreateRoutesCubit extends Cubit<CreateRoutesState> {
         timeStamp: DateTime.now().microsecondsSinceEpoch));
   }
 
-  void confirmOnclick(BuildContext context) {
+  void confirmOnclick(BuildContext context, InfoRouteModel? infoRouteModel) {
     var lHoldSet = <HoldSetModel>[];
     for (int i = 0; i < state.lRoutes.length; i++) {
       if (state.lRoutes[i].holdSet.isNotEmpty) {
@@ -59,18 +60,22 @@ class CreateRoutesCubit extends Cubit<CreateRoutesState> {
     } else {
       RouterUtils.openNewPage(
           CreateInfoRoutePage(
-              lHoldSet: lHoldSet, model: state.model, isEdit: state.isEdit),
+              infoRouteModel: infoRouteModel,
+              lHoldSet: lHoldSet,
+              routeModel: state.model,
+              isEdit: state.isEdit),
           context);
     }
   }
 
-  void itemOnClick(int index, BuildContext context) {
+  void itemOnClick(int index, BuildContext context,InfoRouteModel? infoRouteModel) {
     /*   if (state.currentHoldSet.isNotEmpty) {
       state.lRoutes[index] = HoldSetModel(holdSet: state.currentHoldSet);
     }*/
     // emit(state.copyOf(selectIndex: index, lRoutes: state.lRoutes));
     RouterUtils.openNewPage(
         ZoomRoutesPage(
+          infoRouteModel: infoRouteModel,
           model: state.model,
           isEdit: state.isEdit,
           currentIndex: index,
@@ -83,13 +88,14 @@ class CreateRoutesCubit extends Cubit<CreateRoutesState> {
         context,
         type: NewPageType.ZOOM_ROUTES);
   }
-  void scaleOnClick(BuildContext context) {
+  void scaleOnClick(BuildContext context,InfoRouteModel? infoRouteModel) {
     /*   if (state.currentHoldSet.isNotEmpty) {
       state.lRoutes[index] = HoldSetModel(holdSet: state.currentHoldSet);
     }*/
     // emit(state.copyOf(selectIndex: index, lRoutes: state.lRoutes));
     RouterUtils.openNewPage(
         ZoomRoutesPage(
+          infoRouteModel: infoRouteModel,
             currentIndex: 0,
             row: state.row,
             lRoutes: state.lRoutes,
@@ -143,7 +149,7 @@ class CreateRoutesCubit extends Cubit<CreateRoutesState> {
     }
     Timer(
         const Duration(seconds: 1),
-        () => emit(state.copyOf(
+        () => emit(state.copyOf(isEdit: isEdit,
             isShowGuideline: !isGuideline,
             status: StatusType.success,
             column: column,

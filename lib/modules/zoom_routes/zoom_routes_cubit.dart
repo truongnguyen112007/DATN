@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:base_bloc/data/model/info_route_model.dart';
 import 'package:base_bloc/data/model/routes_model.dart';
 import 'package:base_bloc/modules/create_info_route/create_info_route_page.dart';
 import 'package:base_bloc/modules/zoom_routes/zoom_routes_state.dart';
@@ -78,7 +79,8 @@ class ZoomRoutesCubit extends Cubit<ZoomRoutesState> {
           {required int row,
           required bool isEdit,
           required int column,
-           RoutesModel? model,
+          RoutesModel? model,
+          InfoRouteModel? infoRouteModel,
           required double sizeHoldSet,
           required List<HoldSetModel>? lRoutes,
           required int currentIndex}) =>
@@ -107,7 +109,7 @@ class ZoomRoutesCubit extends Cubit<ZoomRoutesState> {
     }
   }
 
-  void confirmOnclick(BuildContext context) {
+  void confirmOnclick(BuildContext context,InfoRouteModel? infoRouteModel) {
     var lHoldSet = <HoldSetModel>[];
     for (int i = 0; i < state.lRoutes.length; i++) {
       if (state.lRoutes[i].holdSet.isNotEmpty) {
@@ -119,10 +121,10 @@ class ZoomRoutesCubit extends Cubit<ZoomRoutesState> {
     } else {
       RouterUtils.openNewPage(
           CreateInfoRoutePage(
-            lHoldSet: lHoldSet,
-            model: state.model,
-            isEdit: state.isEdit,
-          ),
+              infoRouteModel: infoRouteModel,
+              lHoldSet: lHoldSet,
+              routeModel: state.model,
+              isEdit: state.isEdit),
           context);
     }
   }

@@ -1,3 +1,4 @@
+import 'package:base_bloc/data/model/info_route_model.dart';
 import 'package:base_bloc/data/model/routes_model.dart';
 import 'package:equatable/equatable.dart';
 
@@ -16,9 +17,11 @@ class ZoomRoutesState extends Equatable {
   final String currentHoldSet;
   final double scale;
   final RoutesModel? model;
+  final InfoRouteModel? infoRouteModel;
 
   const ZoomRoutesState(
       {this.status = StatusType.initial,
+        this.infoRouteModel,
         this.model,
         this.currentHoldSet = '',
         this.timeStamp = 0,

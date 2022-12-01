@@ -10,12 +10,14 @@ import 'package:base_bloc/components/zoomer.dart';
 import 'package:base_bloc/config/constant.dart';
 import 'package:base_bloc/data/globals.dart' as globals;
 import 'package:base_bloc/data/model/hold_set_model.dart';
+import 'package:base_bloc/data/model/info_route_model.dart';
 import 'package:base_bloc/data/model/routes_model.dart';
 import 'package:base_bloc/modules/create_routes/create_routes_cubit.dart';
 import 'package:base_bloc/modules/create_routes/create_routes_state.dart';
 import 'package:base_bloc/modules/persons_page/persons_page_state.dart';
 import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/theme/colors.dart';
+import 'package:base_bloc/utils/log_utils.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,8 +35,11 @@ import '../../utils/app_utils.dart';
 class CreateRoutesPage extends StatefulWidget {
   final RoutesModel? model;
   final bool? isEdit;
+  final InfoRouteModel? infoRouteModel;
 
-  const CreateRoutesPage({Key? key, this.model, this.isEdit}) : super(key: key);
+  const CreateRoutesPage(
+      {Key? key, this.model, this.isEdit, this.infoRouteModel})
+      : super(key: key);
 
   @override
   State<CreateRoutesPage> createState() => _CreateRoutesPageState();
@@ -545,7 +550,8 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage>   with Ticke
               itemBuilder: (BuildContext context, int index) {
                 return GestureDetector(
                   onLongPress: () => _bloc.itemOnLongPress(index, context),
-                  onTap: () => _bloc.itemOnClick(index, context),
+                  onTap: () =>
+                      _bloc.itemOnClick(index, context, widget.infoRouteModel),
                   child: Container(
                     decoration: BoxDecoration(
                         border: Border.all(
@@ -641,10 +647,10 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage>   with Ticke
             Assets.svg.turnRight, () => _bloc.turnRightOnClick(context)),
         const SizedBox(width: 10),
         svgButton(context, Assets.svg.threeD, () {}, isBackgroundCircle: false),
-        svgButton(
-            context, Assets.svg.fullScreen, () => _bloc.scaleOnClick(context),
+        svgButton(context, Assets.svg.fullScreen,
+            () => _bloc.scaleOnClick(context, widget.infoRouteModel),
             isBackgroundCircle: false),
-        svgButton(context, Assets.svg.more, () => _bloc.confirmOnclick(context),
+        svgButton(context, Assets.svg.more, () => _bloc.confirmOnclick(context,widget.infoRouteModel),
             isBackgroundCircle: false),
         SizedBox(width: globals.contentPadding)
       ]);
