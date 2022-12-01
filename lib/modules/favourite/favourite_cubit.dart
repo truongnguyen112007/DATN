@@ -13,6 +13,7 @@ import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/modules/favourite/favourite_state.dart';
 import 'package:base_bloc/router/router_utils.dart';
 import 'package:base_bloc/utils/toast_utils.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_tags/flutter_tags.dart';
@@ -20,6 +21,7 @@ import 'package:flutter_tags/flutter_tags.dart';
 import '../../data/model/routes_model.dart';
 import '../../data/model/sort_param.dart';
 import '../../data/repository/user_repository.dart';
+import '../../localization/locale_keys.dart';
 import '../../utils/app_utils.dart';
 import '../../utils/log_utils.dart';
 import '../create_routes/create_routes_page.dart';
@@ -316,7 +318,7 @@ class FavouriteCubit extends Cubit<FavouriteState> {
     // await Future.delayed(const Duration(seconds: 1));
     // await Dialogs.hideLoadingDialog();
     // toast('Share post success');
-    toast(LocaleKeys.thisFeatureIsUnder);
+    toast(LocaleKeys.thisFeatureIsUnder.tr());
   }
 
   void copyRoutes(
@@ -325,5 +327,5 @@ class FavouriteCubit extends Cubit<FavouriteState> {
     int index,
   ) =>
       // RouterUtils.openNewPage(CreateRoutesPage(model: model), context);
-      toast(LocaleKeys.thisFeatureIsUnder);
+      toast(LocaleKeys.thisFeatureIsUnder.tr());
 }
