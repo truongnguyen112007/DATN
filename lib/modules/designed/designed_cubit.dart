@@ -122,8 +122,11 @@ class DesignedCubit extends Cubit<DesignedState> {
       /*toast(LocaleKeys.thisFeatureIsUnder)*/
       RouterUtils.openNewPage(const CreateRoutesPage(), context);
 
-  void filterOnclick(BuildContext context) =>
-      RouterUtils.openNewPage(const FilterRoutesPage(), context);
+  void filterOnclick(BuildContext context) => RouterUtils.openNewPage(
+      FilterRoutesPage(
+        showResultButton: (model) {},
+      ),
+      context);
 
   void selectOnclick(bool isShowAdd) async {
     for (int i = 0; i < state.lRoutes.length; i++) {

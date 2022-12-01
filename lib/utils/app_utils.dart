@@ -415,7 +415,12 @@ class Utils {
 
   static void showActionDialog(
       BuildContext context, Function(ItemAction) callBack,
-      {bool isPlaylist = false, bool isFavorite = false,bool isCopy = true,bool isDesigned = false,RoutesModel? model}) {
+      {bool isPlaylist = false,
+        bool checkPlaylists = false,
+      bool isFavorite = false,
+      bool isCopy = true,
+      bool isDesigned = false,
+      RoutesModel? model}) {
     // logE("{${model?.playlistIn},${isPlaylist}}");
     showModalBottomSheet(
         isScrollControlled: true,
@@ -442,7 +447,7 @@ class Utils {
                               ItemAction.MOVE_TO_TOP,
                               () => callBack.call(ItemAction.MOVE_TO_TOP))
                           : const SizedBox(),
-                      !isPlaylist && (!(model?.playlistIn ?? false))
+                      checkPlaylists && !isPlaylist && (!(model?.playlistIn ?? false))
                           ? itemAction(
                               Assets.svg.addToPlayList,
                               LocaleKeys.addToPlaylist.tr(),

@@ -35,6 +35,7 @@ class _FavouritePageState extends State<FavouritePage>
     with AutomaticKeepAliveClientMixin {
   late FavouriteCubit _bloc;
   var scrollController = ScrollController();
+  var filterController = FilterController();
   StreamSubscription<RefreshEvent>? _refreshStream;
 
   @override
@@ -42,7 +43,7 @@ class _FavouritePageState extends State<FavouritePage>
     _bloc = FavouriteCubit();
     paging();
     _refreshStream = Utils.eventBus.on<RefreshEvent>().listen((model) {
-      if(model.type == RefreshType.FAVORITE){
+      if (model.type == RefreshType.FAVORITE) {
         _bloc.refresh();
       }
     });
@@ -68,12 +69,13 @@ class _FavouritePageState extends State<FavouritePage>
           Column(
             children: [
               FilterWidget(
+                filterController: filterController,
                 isSelect: true,
                 selectCallBack: () {
                   _bloc.selectOnclick(false);
                 },
                 filterCallBack: () => _bloc.filterOnclick(context),
-                sortCallBack: () {},
+                sortCallBack: () => _bloc.sortOnclick(context),
                 unsSelectCallBack: () {
                   _bloc.selectOnclick(true);
                 },
@@ -127,7 +129,7 @@ class _FavouritePageState extends State<FavouritePage>
                             if (element.isSelect == true)
                               lSelectRadioButton.add(element);
                           }
-                          _bloc.itemOnLongClick(context, 0,
+                          _bloc.itemOnLongClick(context,0,filterController,
                               isMultiSelect: true);
                         },
                         widget: AppText(
@@ -220,7 +222,7 @@ class _FavouritePageState extends State<FavouritePage>
 
   Widget playlistWidget(BuildContext context, FavouriteState state) =>
       ListView.builder(
-        physics: const AlwaysScrollableScrollPhysics(),
+          physics: const AlwaysScrollableScrollPhysics(),
           controller: scrollController,
           padding: EdgeInsets.all(contentPadding),
           itemBuilder: (c, i) => i == state.lPlayList.length
@@ -238,7 +240,7 @@ class _FavouritePageState extends State<FavouritePage>
                   },
                   index: i,
                   onLongPress: (model) =>
-                      _bloc.itemOnLongClick(context, i, model: model),
+                      _bloc.itemOnLongClick(context,i,filterController, model: model),
                   detailCallBack: (RoutesModel action) =>
                       _bloc.itemOnclick(context, state.lPlayList[i]),
                 ),
@@ -246,9 +248,10 @@ class _FavouritePageState extends State<FavouritePage>
               !state.isReadEnd && state.lPlayList.isNotEmpty && state.isLoading
                   ? state.lPlayList.length + 1
                   : state.lPlayList.length);
+
   //
   // Widget itemAction(IconData icon, String text, ItemAction action,
-  //     VoidCallback filterCallBack) {
+  //     VoidCallback filterCallBack) {Ro
   //   return InkWell(
   //     child: Padding(
   //       padding: EdgeInsets.all(contentPadding),

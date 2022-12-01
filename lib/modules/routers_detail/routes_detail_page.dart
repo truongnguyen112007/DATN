@@ -227,15 +227,20 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
       ));
 
   PreferredSizeWidget appbarWidget(BuildContext context) => appBarWidget(
-      context: context,
-      action: [
-        userId == widget.model.userId ? InkWell(
-          child: Icon(Icons.more_vert, color: colorWhite.withOpacity(0.6)),
-          onTap: () => _bloc.editRouteOnclick(context, widget.model),
-        ) : const SizedBox(),
-        SizedBox(width: contentPadding)
-      ],
-      titleStr: widget.model.name);
+        context: context,
+        action: [
+          userId == widget.model.userId
+              ? InkWell(
+                  child:
+                      Icon(Icons.more_vert, color: colorWhite.withOpacity(0.6)),
+                  onTap: () => _bloc.editRouteOnclick(context, widget.model),
+                )
+              : const SizedBox(),
+          SizedBox(width: contentPadding)
+        ],
+        titleStr:
+            "${widget.model.name!}  ${Utils.convertTimeStampToYYYYMMYY(widget.model.created ?? 0)}",
+      );
 
   Widget boxNameWidget(BuildContext context) => Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,

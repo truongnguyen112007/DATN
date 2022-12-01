@@ -10,6 +10,16 @@ import '../theme/colors.dart';
 import '../utils/app_utils.dart';
 import 'app_text.dart';
 
+class FilterController {
+  void Function(bool)? _getSelect;
+
+  FilterController();
+
+  set setSelect(bool value) {
+    _getSelect!(value);
+  }
+}
+
 class FilterWidget extends StatefulWidget {
   final bool isSelect;
   final VoidCallback sortCallBack;
@@ -17,6 +27,7 @@ class FilterWidget extends StatefulWidget {
   final VoidCallback selectCallBack;
   final bool onClickSelect;
   final VoidCallback unsSelectCallBack;
+  final FilterController? filterController;
 
   const FilterWidget({
     Key? key,
@@ -26,6 +37,7 @@ class FilterWidget extends StatefulWidget {
     required this.selectCallBack,
     this.onClickSelect = false,
     required this.unsSelectCallBack,
+    this.filterController,
   }) : super(key: key);
 
   @override
@@ -38,6 +50,11 @@ class _FilterWidgetState extends State<FilterWidget> {
 
   @override
   void initState() {
+    widget.filterController?._getSelect = (value) {
+      setState(() {
+        onClickSelect = value;
+      });
+    };
     _isSelectStream = Utils.eventBus.on<RefreshEvent>().listen((model) {
       if (model.type == RefreshType.FILTER) {
         if (mounted) {
@@ -72,7 +89,6 @@ class _FilterWidgetState extends State<FilterWidget> {
             Colors.transparent,
             isShow: widget.isSelect,
             () => setState(() {
-              // onClickSelect = !onClickSelect;
               if (onClickSelect = !onClickSelect) {
                 widget.selectCallBack.call();
               } else {
