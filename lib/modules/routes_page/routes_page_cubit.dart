@@ -14,7 +14,6 @@ import '../playlist/playlist_cubit.dart';
 import '../routers_detail/routes_detail_page.dart';
 import '../tab_home/tab_home_state.dart';
 
-
 class RoutesPageCubit extends Cubit<RoutesPageState> {
   RoutesPageCubit() : super(const RoutesPageState()) {
     if (state.status == DesignStatus.initial) {
@@ -34,7 +33,7 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
       emit(state.copyWith(isLoading: true));
       Timer(
           const Duration(seconds: 1),
-              () => emit(state.copyWith(
+          () => emit(state.copyWith(
               isReadEnd: false,
               status: DesignStatus.success,
               lRoutes: state.lRoutes..addAll(fakeData()),
@@ -42,7 +41,7 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
     } else {
       Timer(
           const Duration(seconds: 1),
-              () => emit(state.copyWith(
+          () => emit(state.copyWith(
               status: DesignStatus.success,
               lRoutes: fakeData(),
               isLoading: false)));
@@ -62,7 +61,7 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
   void refresh() {
     Utils.fireEvent(RefreshEvent(RefreshType.FILTER));
     emit(
-       const RoutesPageState(status: DesignStatus.refresh),
+      const RoutesPageState(status: DesignStatus.refresh),
     );
     getRoutes();
   }
@@ -83,52 +82,51 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
           context);
 
   List<RoutesModel> fakeData() => [
-    RoutesModel(
-        name: 'Adam 2022-05-22',
-        height: 12,
-       ),
-    RoutesModel(
-      name: 'Adam 2022-05-22',
-      height: 122,
+        RoutesModel(
+          name: 'Adam 2022-05-22',
+          height: 12,
+        ),
+        RoutesModel(
+          name: 'Adam 2022-05-22',
+          height: 122,
+        ),
+        RoutesModel(
+          name: 'Adam 2022-05-22',
+          height: 11,
+        ),
+        RoutesModel(
+          name: 'Adam 2022-05-22',
+          height: 12,
+        ),
+        RoutesModel(
+          name: 'Adam 2022-05-22',
+          height: 122,
+        ),
+        RoutesModel(
+          name: 'Adam 2022-05-22',
+          height: 11,
+        ),
+        RoutesModel(
+          name: 'Adam 2022-05-22',
+          height: 11,
+        )
+      ];
 
-    ),
-    RoutesModel(
-      name: 'Adam 2022-05-22',
-      height: 11,
-
-    ),
-    RoutesModel(
-      name: 'Adam 2022-05-22',
-      height: 12,
-
-    ),
-    RoutesModel(
-        name: 'Adam 2022-05-22',
-        height: 122,
-      ),
-    RoutesModel(
-        name: 'Adam 2022-05-22',
-        height: 11,
-   ),
-    RoutesModel(
-        name: 'Adam 2022-05-22',
-        height: 11,
-       )
-  ];
-
-  void selectOnclick(bool isShowAdd) async{
-    for(int i =0;i<state.lRoutes.length;i++){
+  void selectOnclick(bool isShowAdd) async {
+    for (int i = 0; i < state.lRoutes.length; i++) {
       state.lRoutes[i].isSelect = false;
     }
-    emit(state.copyWith(timeStamp: DateTime.now().millisecondsSinceEpoch,isShowAdd: isShowAdd,isShowActionButton: false));
+    emit(state.copyWith(
+        timeStamp: DateTime.now().millisecondsSinceEpoch,
+        isShowAdd: isShowAdd,
+        isShowActionButton: false));
   }
 
   void itemOnLongPress(BuildContext context) =>
       Utils.showActionDialog(context, (p0) {});
 
   void filterOnclick(BuildContext context) => RouterUtils.openNewPage(
-      const FilterRoutesPage(),
-      context);
+      FilterRoutesPage(showResultButton: (model){},), context);
 
   void filterItemOnclick(int index) {
     state.lRoutes[index].isSelect = !state.lRoutes[index].isSelect;
@@ -144,7 +142,7 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
         isShowActionButton: isShowActionButton,
         lRoutes: state.lRoutes,
         timeStamp: DateTime.now().millisecondsSinceEpoch));
-}
+  }
 
   void search(String keySearch) {
     if (keySearch.isEmpty) {
