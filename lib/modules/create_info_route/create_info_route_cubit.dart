@@ -81,7 +81,8 @@ class CreateInfoRouteCubit extends Cubit<CreateInfoRouteState> {
               infoRouteModel: InfoRouteModel(
                   grade: state.grade,
                   routeName: routeName,
-                  isCorner: state.isCorner)),
+                  isCorner: state.isCorner,
+                  height: state.height)),
           context);
       return;
     }
@@ -118,6 +119,8 @@ class CreateInfoRouteCubit extends Cubit<CreateInfoRouteState> {
     }
     return true;
   }
+
+  void changeHeight(int value) => emit(state.copyOf(height: value));
 
   var lGrade = [
     0,

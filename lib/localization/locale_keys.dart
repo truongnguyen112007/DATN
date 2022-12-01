@@ -251,4 +251,5 @@ abstract class LocaleKeys {
       'touch_suface_for_extended_privod_of_time';
   static const touch_surface_with_two_fingers_and_bring_them_closer_together =
       'touch_surface_with_two_fingers_and_bring_them_closer_together';
+  static const height = 'height';
 }

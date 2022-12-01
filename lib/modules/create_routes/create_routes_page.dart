@@ -15,6 +15,7 @@ import 'package:base_bloc/data/model/routes_model.dart';
 import 'package:base_bloc/modules/create_routes/create_routes_cubit.dart';
 import 'package:base_bloc/modules/create_routes/create_routes_state.dart';
 import 'package:base_bloc/modules/persons_page/persons_page_state.dart';
+import 'package:base_bloc/modules/tab_climb/tab_climb_cubit.dart';
 import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/theme/colors.dart';
 import 'package:base_bloc/utils/log_utils.dart';
@@ -48,8 +49,8 @@ class CreateRoutesPage extends StatefulWidget {
 class _CreateRoutesPageState extends BasePopState<CreateRoutesPage>   with TickerProviderStateMixin {
   late CreateRoutesCubit _bloc;
   final ZoomerController _zoomController = ZoomerController(initialScale: 1.0);
-  final sizeHoldSet = 8.6.h;
-  final row = 47;
+  var sizeHoldSet = 8.6.h;
+  var row = 47;
   final column = 12;
   final List<String> lHoldSet = [
     Assets.svg.holdset1,
@@ -79,6 +80,7 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage>   with Ticke
   @override
   void initState() {
     _bloc = CreateRoutesCubit();
+    checkRow();
     _lHoldSetStream = Utils.eventBus
         .on<List<HoldSetModel>>()
         .listen((list) => _bloc.setHoldSets(list));
@@ -91,6 +93,25 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage>   with Ticke
         model: widget.model);
     Timer(const Duration(seconds: 1), () => _animationController1.forward());
     super.initState();
+  }
+
+  void checkRow() {
+    if (widget.infoRouteModel != null) {
+      row = widget.infoRouteModel!.height * 5;
+      switch (widget.infoRouteModel!.height) {
+        case 12:
+          sizeHoldSet = 8.h;
+          return;
+        case 9:
+          sizeHoldSet = 8.6.h;
+          return;
+        case 6:
+          sizeHoldSet = 9.h;
+          return;
+        case 3:
+          sizeHoldSet = 9.2.h;
+      }
+    }
   }
 
   @override
@@ -189,9 +210,8 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage>   with Ticke
                                                   ],
                                                 ),
                                                 SizedBox(
-                                                  height:
-                                                      state.sizeHoldSet * 1.5,
-                                                )
+                                                    height:
+                                                        state.sizeHoldSet * 1.5)
                                               ],
                                             ),
                                           ),
@@ -210,10 +230,7 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage>   with Ticke
                                                   5.5),
                                           child: SvgPicture.asset(
                                               Assets.svg.man,
-                                              height: state.row *
-                                                      state.sizeHoldSet /
-                                                      6 +
-                                                  2.h),
+                                              height: 60),
                                         ),
                                       ),
                                     ),
@@ -222,7 +239,7 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage>   with Ticke
                                 Align(
                                   alignment: Alignment.bottomCenter,
                                   child: Container(
-                                    height: 7.h,
+                                    height: 4.h,
                                     decoration: BoxDecoration(boxShadow: [
                                       BoxShadow(
                                         color: HexColor('6B6B6B')
@@ -372,7 +389,7 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage>   with Ticke
 
   Widget measureWidget() => Container(
       alignment: Alignment.bottomCenter,
-      padding: EdgeInsets.only(bottom: 7.h + 4.sp + sizeHoldSet * 1.5),
+      padding: EdgeInsets.only(bottom: 4.h + 4.sp + sizeHoldSet * 1.5),
       height: MediaQuery.of(context).size.height,
       width: 20.w,
       color: colorBlack,

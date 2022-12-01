@@ -23,7 +23,6 @@ import '../../data/model/hold_set_model.dart';
 import '../../gen/assets.gen.dart';
 import '../../localization/locale_keys.dart';
 import '../../theme/app_styles.dart';
-
 class CreateInfoRoutePage extends StatefulWidget {
   final List<HoldSetModel>? lHoldSet;
   final RoutesModel? routeModel;
@@ -88,6 +87,10 @@ class _CreateInfoRoutePageState extends State<CreateInfoRoutePage> {
           space(),
           cornerWidget(),
           space(),
+          line(),
+          space(),
+          heightWidget(),
+          space(),
           line()
         ],
       ),
@@ -98,7 +101,8 @@ class _CreateInfoRoutePageState extends State<CreateInfoRoutePage> {
         children: [
           AppText(
             LocaleKeys.corner.tr().toCapitalize(),
-            style: typoW400.copyWith(fontSize: 16),
+            style: typoW400.copyWith(
+                fontSize: 15.sp, color: colorText0.withOpacity(0.87)),
           ),
           const Spacer(),
           BlocBuilder<CreateInfoRouteCubit, CreateInfoRouteState>(
@@ -110,6 +114,47 @@ class _CreateInfoRoutePageState extends State<CreateInfoRoutePage> {
                   ))
         ],
       );
+
+  Widget heightWidget() => Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+            AppText(LocaleKeys.height.tr().toCapitalize(),
+                style: typoW400.copyWith(
+                    fontSize: 15.sp, color: colorText0.withOpacity(0.87))),
+            Row(mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+                const SizedBox(width: 10),
+                itemHeightWidget(3),
+                itemHeightWidget(6),
+                itemHeightWidget(9),
+                itemHeightWidget(12),
+                const SizedBox(width: 10),
+              ],
+        )
+      ]);
+
+  Widget itemHeightWidget(int value) =>
+      BlocBuilder<CreateInfoRouteCubit, CreateInfoRouteState>(
+          bloc: _bloc,
+          builder: (c, state) => Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Radio<int>(
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    activeColor: colorOrange100,
+                    fillColor: value != state.height
+                        ? MaterialStateProperty.all(colorWhite.withOpacity(0.6))
+                        : null,
+                    value: value,
+                    groupValue: state.height,
+                    onChanged: (int? value) => _bloc.changeHeight(value!),
+                  ),
+                  InkWell(
+                      child: AppText('${value}m', style: typoW400),
+                      onTap: () => _bloc.changeHeight(value))
+                ],
+              ));
 
   Widget gradeWidget(BuildContext context) =>
       BlocBuilder<CreateInfoRouteCubit, CreateInfoRouteState>(
