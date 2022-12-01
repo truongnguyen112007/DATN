@@ -10,6 +10,7 @@ import 'package:base_bloc/router/router_utils.dart';
 import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/utils/app_utils.dart';
 import 'package:base_bloc/utils/log_utils.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -19,6 +20,7 @@ import 'package:rxdart/rxdart.dart';
 
 import '../../components/app_text.dart';
 import '../../data/model/filter_param.dart';
+import '../../localization/locale_keys.dart';
 import '../../theme/colors.dart';
 import 'filter_routes_page_cubit.dart';
 
@@ -36,22 +38,22 @@ class FilterRoutesPage extends StatefulWidget {
 }
 
 final Map<String, int> status = {
-  LocaleKeys.notTried: 0,
-  LocaleKeys.ufUnfinished: 1,
-  LocaleKeys.suSupported: 2,
-  LocaleKeys.trTopRope: 3,
-  LocaleKeys.rpRedPoint: 4,
-  LocaleKeys.osOnSight: 5,
+  LocaleKeys.notTried.tr(): 0,
+  LocaleKeys.ufUnfinished.tr(): 1,
+  LocaleKeys.suSupported.tr(): 2,
+  LocaleKeys.trTopRope.tr(): 3,
+  LocaleKeys.rpRedPoint.tr(): 4,
+  LocaleKeys.osOnSight.tr(): 5,
 };
 
 final Map<String, String> corners = {
-  LocaleKeys.withCorner: "T",
-  LocaleKeys.withoutCorners: "F"
+  LocaleKeys.withCorner.tr(): "T",
+  LocaleKeys.withoutCorners.tr(): "F"
 };
 
 final Map<String, String> designs = {
-  LocaleKeys.routeSetter: "T",
-  LocaleKeys.friends: "F"
+  LocaleKeys.routeSetter.tr(): "T",
+  LocaleKeys.friends.tr(): "F"
 };
 
 class _FilterRoutesPageState extends State<FilterRoutesPage> {
@@ -111,7 +113,7 @@ class _FilterRoutesPageState extends State<FilterRoutesPage> {
                             Padding(
                               padding: EdgeInsets.only(left: contentPadding),
                               child: AppText(
-                                " ${LocaleKeys.author}  ",
+                                " ${LocaleKeys.author.tr()}  ",
                                 style: typoW400.copyWith(
                                     color: colorText0.withOpacity(0.6),
                                     fontSize: 12,
@@ -122,11 +124,11 @@ class _FilterRoutesPageState extends State<FilterRoutesPage> {
                         ),
                       ),
                       itemSpace(),
-                      itemTitle(LocaleKeys.status),
+                      itemTitle(LocaleKeys.status.tr()),
                       itemSpace(height: 9),
                       statusWidget(),
                       itemSpace(),
-                      itemTitle(LocaleKeys.corners),
+                      itemTitle(LocaleKeys.corners.tr()),
                       itemSpace(height: 9),
                       filterWidget(
                           corners,
@@ -134,20 +136,20 @@ class _FilterRoutesPageState extends State<FilterRoutesPage> {
                           (value) => _bloc.setCorner(value),
                           state.currentConnerIndex),
                       itemSpace(),
-                      itemTitle(LocaleKeys.authorsGrade),
+                      itemTitle(LocaleKeys.authorsGrade.tr()),
                       rangeWidget(state.filter!.authorGradeFrom,
                           state.filter!.authorGradeTo, (values) {
                         gradeChange.add(values);
                         _bloc.setAuthorGrade(values[0], values[1]);
                       }),
-                      itemTitle(LocaleKeys.userGrade),
+                      itemTitle(LocaleKeys.userGrade.tr()),
                       rangeWidget(
                           state.filter!.userGradeFrom, state.filter!.userGradeTo,
                           (values) {
                             gradeChange.add(values);
                         _bloc.setUserGrade(values[0], values[1]);
                       }),
-                      itemTitle(LocaleKeys.designedBy),
+                      itemTitle(LocaleKeys.designedBy.tr()),
                       itemSpace(height: 9),
                       filterWidget(
                           designs,
@@ -171,7 +173,7 @@ class _FilterRoutesPageState extends State<FilterRoutesPage> {
                         borderRadius: BorderRadius.circular(30),
                         gradient: Utils.backgroundGradientOrangeButton()),
                     child: AppText(
-                      '${LocaleKeys.showResult}' +
+                      '${LocaleKeys.showResult.tr()}' +
                           " : " +
                           state.lPlayList!.length.toString(),
                       style:
@@ -305,7 +307,7 @@ class _FilterRoutesPageState extends State<FilterRoutesPage> {
                 RouterUtils.pop(context);
               },
               child: AppText(
-                LocaleKeys.removeFilter,
+                LocaleKeys.removeFilter.tr(),
                 style: typoW600.copyWith(
                     color: HexColor('FF5A00'), fontSize: 13.sp),
               ),
