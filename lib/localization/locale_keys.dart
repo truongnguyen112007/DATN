@@ -251,4 +251,12 @@ abstract class LocaleKeys {
       'touch_suface_for_extended_privod_of_time';
   static const touch_surface_with_two_fingers_and_bring_them_closer_together =
       'touch_surface_with_two_fingers_and_bring_them_closer_together';
+
+  static const defaultArrangement = "defaultArrangement";
+  static const sortBy = "sortBy";
+  static const theRouteName ="theRouteName";
+  static const authorDes = "authorDes";
+  static const authorAsc = "authorAsc";
+  static const userDes = "userDes";
+  static const userAsc ="userAsc";
 }

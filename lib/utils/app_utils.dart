@@ -10,8 +10,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../components/app_text.dart';
+import '../components/sort_widget.dart';
 import '../data/globals.dart';
 import '../data/model/routes_model.dart';
+import '../data/model/sort_param.dart';
 import '../gen/assets.gen.dart';
 import '../localization/locale_keys.dart';
 import '../modules/playlist/playlist_cubit.dart';
@@ -59,6 +61,19 @@ class Utils {
       return false;
     }
     return true;
+  }
+
+  static void showSortDialog(BuildContext context, Function(SortParam) callBack,
+      SortParam? sortModel) {
+    showModalBottomSheet(
+      isScrollControlled: true,
+      backgroundColor: colorTransparent,
+      context: context,
+      builder: (x) => SortWidget(
+        callBack: (model) => callBack.call(model),
+        model: sortModel,
+      ),
+    );
   }
 
   static BackgroundParam getBackgroundColor(int value) {
