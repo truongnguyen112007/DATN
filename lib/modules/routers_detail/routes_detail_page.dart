@@ -56,7 +56,7 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
   @override
   void initState() {
     _bloc = RoutesDetailCubit(widget.model);
-    checkRow();
+    // checkRow();
     createRoutes();
     super.initState();
   }

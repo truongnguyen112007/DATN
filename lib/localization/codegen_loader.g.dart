@@ -209,6 +209,7 @@ class Applocalizations extends AssetLoader {
         'Touch surface for\nextended period of\ntime',
     "touch_surface_with_two_fingers_and_bring_them_closer_together":
         'Touch surface with two\nfingers and bring them\ncloser together',
+    "height": 'Height'
     "defaultArrangement": "Default arrangement",
     "sortBy": "SORT BY",
     "theRouteName": "The route’s name: A-Z",
@@ -407,6 +408,7 @@ class Applocalizations extends AssetLoader {
         'Touch surface for\nextended period of\ntime',
     "touch_surface_with_two_fingers_and_bring_them_closer_together":
         'Touch surface with two\nfingers and bring them\ncloser together',
+    "height": 'Height'
     "defaultArrangement": "Default arrangement",
     "sortBy": "SORT BY",
     "theRouteName": "The route’s name: A-Z",
