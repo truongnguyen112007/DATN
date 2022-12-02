@@ -51,14 +51,18 @@ class _CreateInfoRoutePageState extends State<CreateInfoRoutePage> {
   void initState() {
     _bloc = CreateInfoRouteCubit(widget.lHoldSet);
     if (widget.routeModel != null) routeNameController.text = widget.routeModel?.name ?? '';
-    if(widget.infoRouteModel!=null) routeNameController.text = widget.infoRouteModel?.routeName??'';
+    if(widget.infoRouteModel!=null){
+      routeNameController.text = widget.infoRouteModel?.routeName??'';
+    }else{
+      routeNameController.text = 'Fake name';
+    }
     _bloc.setData(widget.routeModel, widget.infoRouteModel);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return AppScaffold(
+    return AppScaffold(resizeToAvoidBottomInset: false,
       padding: EdgeInsets.only(top: contentPadding, left: contentPadding),
       appbar: appbar(context),
       body: Column(

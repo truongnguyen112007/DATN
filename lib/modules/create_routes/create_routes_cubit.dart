@@ -68,13 +68,13 @@ class CreateRoutesCubit extends Cubit<CreateRoutesState> {
     }
   }
 
-  void itemOnClick(int index, BuildContext context,InfoRouteModel? infoRouteModel) {
+  void itemOnClick(int index,int height, BuildContext context,InfoRouteModel? infoRouteModel) {
     /*   if (state.currentHoldSet.isNotEmpty) {
       state.lRoutes[index] = HoldSetModel(holdSet: state.currentHoldSet);
     }*/
     // emit(state.copyOf(selectIndex: index, lRoutes: state.lRoutes));
     RouterUtils.openNewPage(
-        ZoomRoutesPage(
+        ZoomRoutesPage(heightOfRoute: height,
           infoRouteModel: infoRouteModel,
           model: state.model,
           isEdit: state.isEdit,
@@ -88,13 +88,14 @@ class CreateRoutesCubit extends Cubit<CreateRoutesState> {
         context,
         type: NewPageType.ZOOM_ROUTES);
   }
-  void scaleOnClick(BuildContext context,InfoRouteModel? infoRouteModel) {
+  void scaleOnClick(BuildContext context, int height,InfoRouteModel? infoRouteModel) {
     /*   if (state.currentHoldSet.isNotEmpty) {
       state.lRoutes[index] = HoldSetModel(holdSet: state.currentHoldSet);
     }*/
     // emit(state.copyOf(selectIndex: index, lRoutes: state.lRoutes));
     RouterUtils.openNewPage(
         ZoomRoutesPage(
+          heightOfRoute: height,
           infoRouteModel: infoRouteModel,
             currentIndex: 0,
             row: state.row,

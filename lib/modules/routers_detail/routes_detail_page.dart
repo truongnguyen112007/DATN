@@ -56,7 +56,7 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
   @override
   void initState() {
     _bloc = RoutesDetailCubit(widget.model);
-    // checkRow();
+    checkRow();
     createRoutes();
     super.initState();
   }
@@ -66,19 +66,10 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
       row = widget.model.height! * 5;
       switch (widget.model.height) {
         case 12:
-          sizeHoldSet = 7.3.h;
-          return;
-        case 9:
-          sizeHoldSet = 8.6.h;
-          return;
-        case 6:
-          sizeHoldSet = 9.h;
-          return;
-        case 3:
-          sizeHoldSet = 9.2.h;
+          sizeHoldSet = 7.h;
           return;
         default:
-          sizeHoldSet = 7.3.h;
+          sizeHoldSet = 8.6.h;
       }
     }
   }

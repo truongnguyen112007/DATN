@@ -100,16 +100,15 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage>   with Ticke
       row = widget.infoRouteModel!.height * 5;
       switch (widget.infoRouteModel!.height) {
         case 12:
-          sizeHoldSet = 8.h;
+          sizeHoldSet = 7.5.h;
           return;
         case 9:
           sizeHoldSet = 8.6.h;
           return;
         case 6:
-          sizeHoldSet = 9.h;
-          return;
         case 3:
-          sizeHoldSet = 9.2.h;
+          sizeHoldSet = 8.8.h;
+          return;
       }
     }
   }
@@ -568,7 +567,7 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage>   with Ticke
                 return GestureDetector(
                   onLongPress: () => _bloc.itemOnLongPress(index, context),
                   onTap: () =>
-                      _bloc.itemOnClick(index, context, widget.infoRouteModel),
+                      _bloc.itemOnClick(index,widget.infoRouteModel!.height, context, widget.infoRouteModel),
                   child: Container(
                     decoration: BoxDecoration(
                         border: Border.all(
@@ -664,8 +663,11 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage>   with Ticke
             Assets.svg.turnRight, () => _bloc.turnRightOnClick(context)),
         const SizedBox(width: 10),
         svgButton(context, Assets.svg.threeD, () {}, isBackgroundCircle: false),
-        svgButton(context, Assets.svg.fullScreen,
-            () => _bloc.scaleOnClick(context, widget.infoRouteModel),
+        svgButton(
+            context,
+            Assets.svg.fullScreen,
+            () => _bloc.scaleOnClick(
+                context, widget.infoRouteModel!.height, widget.infoRouteModel),
             isBackgroundCircle: false),
         svgButton(context, Assets.svg.more, () => _bloc.confirmOnclick(context,widget.infoRouteModel),
             isBackgroundCircle: false),
