@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:base_bloc/components/app_not_data_widget.dart';
 import 'package:base_bloc/modules/routes_page/routes_page_cubit.dart';
 import 'package:base_bloc/modules/routes_page/routes_page_state.dart';
+import 'package:base_bloc/utils/log_utils.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -42,15 +44,18 @@ class _RoutesPageState extends State<RoutesPage>
   void initState() {
     _searchEvent = Utils.eventBus.on<SearchHomeEvent>().listen(
       (event) {
-        if (event.index == widget.index) {
-          keySearch = event.key;
-          _bloc.search(keySearch!);
-        }
+        if (event.index == widget.index) _bloc.search(event.key ?? '',1);
       },
     );
     _bloc = RoutesPageCubit();
     paging();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _searchEvent?.cancel();
+    super.dispose();
   }
 
   void paging() {
@@ -78,75 +83,25 @@ class _RoutesPageState extends State<RoutesPage>
           ),
           Expanded(
             child: RefreshIndicator(
-              child: Stack(
-                children: [
-                  SingleChildScrollView(
-                    controller: scrollController,
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    child: Column(
-                      children: [
-                        BlocBuilder<RoutesPageCubit, RoutesPageState>(
-                            bloc: _bloc,
-                            builder: (c, state) {
-                              if (state.status == FeedStatus.initial ||
-                                  state.status == FeedStatus.refresh) {
-                                return const SizedBox();
-                              } else if (state.status == DesignStatus.search) {}
-                              return routesWidget(context, state);
-                            }),
-                      ],
-                    ),
-                  ),
-                  BlocBuilder<RoutesPageCubit, RoutesPageState>(
-                    bloc: _bloc,
-                    builder: (BuildContext context, state) =>
-                        (state.status == FeedStatus.initial ||
-                                state.status == FeedStatus.refresh)
-                            ? const Center(
-                                child: AppCircleLoading(),
+              child: BlocBuilder<RoutesPageCubit, RoutesPageState>(
+                  bloc: _bloc,
+                  builder: (c, state) {
+                    return (state.status == RouteStatus.search ||
+                        state.status == RouteStatus.initial ||
+                        state.status == RouteStatus.refresh)
+                        ?  const Center(child: AppCircleLoading(),)
+                        : state.lRoutes.isEmpty
+                            ? Stack(
+                                children: [
+                                  const Center(child: AppNotDataWidget()),
+                                  ListView(
+                                      physics:
+                                          const AlwaysScrollableScrollPhysics())
+                                ],
                               )
-                            : const SizedBox(),
-                  ),
-                  BlocBuilder<RoutesPageCubit, RoutesPageState>(
-                    bloc: _bloc,
-                    builder: (c, state) => Positioned.fill(
-                      left: 10.w,
-                      bottom: 10.h,
-                      right: 5.w,
-                      child: state.isShowActionButton
-                          ? Align(
-                        alignment: Alignment.bottomRight,
-                        child: GradientButton(
-                          height: 36.h,
-                          isCenter: true,
-                          width: 170.w,
-                          decoration: BoxDecoration(
-                            gradient:
-                            Utils.backgroundGradientOrangeButton(),
-                            borderRadius: BorderRadius.circular(18),
-                          ),
-                          onTap: () {
-                            var lSelectRadioButton = <RoutesModel>[];
-                            for( var element in state.lRoutes) {
-                              if (element.isSelect == true) lSelectRadioButton.add(element);
-                            }
-                            return showActionDialog(
-                                lSelectRadioButton, (p0) {});
-                          },
-                          widget: AppText(
-                            'Action',
-                            style: googleFont.copyWith(
-                                color: colorWhite, fontSize: 15.sp),
-                          ),
-                          borderRadius: BorderRadius.circular(18),
-                        ),
-                      )
-                          : const SizedBox(),
-                    ),
-                  ),
-                ],
-              ),
-              onRefresh: () async => _bloc.refresh(),
+                            : routesWidget(context, state);
+                  }),
+              onRefresh: () async => _bloc.onRefresh(),
             ),
           ),
         ],
@@ -158,12 +113,10 @@ class _RoutesPageState extends State<RoutesPage>
       ListView.builder(
           padding: EdgeInsets.only(
               top: 10.h, left: contentPadding, right: contentPadding),
-          physics: const NeverScrollableScrollPhysics(),
+          physics: const AlwaysScrollableScrollPhysics(),
           shrinkWrap: true,
           itemBuilder: (c, i) => i == state.lRoutes.length
-              ? const Center(
-                  child: AppCircleLoading(),
-                )
+              ? const Center(child: AppCircleLoading())
               : ItemInfoRoutes(
                   isShowSelect: !state.isShowAdd,
                   key: Key('$i'),

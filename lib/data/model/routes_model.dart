@@ -5,6 +5,10 @@
 import 'dart:convert';
 
 
+List<RoutesModel> routeModelBySearchFromJson(List<dynamic> str) =>
+    List<RoutesModel>.from(
+        str.map((x) => RoutesModel.fromJson(x['_source']['after'])));
+
 List<RoutesModel> routeModelFromJson(List<dynamic> str) =>
     List<RoutesModel>.from(str.map((x) => RoutesModel.fromJson(x)));
 
@@ -53,19 +57,19 @@ class RoutesModel {
 
   factory RoutesModel.fromJson(Map<String, dynamic> json) => RoutesModel(
     // modified: json["modified"],
-    userGrade: json["user_grade"],
+    userGrade: json["user_grade"].toInt(),
     hasConner: json["has_conner"],
     name: json["name"],
     popurlarity: json["popurlarity"],
     userId: json["user_id"],
     published: json["published"],
-    userGradeCount: json["user_grade_count"],
+    userGradeCount: json["user_grade_count"].toInt(),
     // visibility: json["visibility"],
     height: json["height"],
     id: json["id"],
-    authorGrade: json["author_grade"],
+    authorGrade: json["author_grade"].toInt(),
     created: json["created"],
-    holds: json["holds"],
+    holds: json["holds"].toString(),
     isSelect: false,
     playlistIn: json["playlist_in"],
     favouriteIn: json["favourite_in"]
