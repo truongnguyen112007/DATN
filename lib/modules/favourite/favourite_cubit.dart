@@ -11,6 +11,7 @@ import 'package:base_bloc/data/model/user_model.dart';
 import 'package:base_bloc/gen/assets.gen.dart';
 import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/modules/favourite/favourite_state.dart';
+import 'package:base_bloc/modules/filter_routes/filter_routes_page_state.dart';
 import 'package:base_bloc/router/router_utils.dart';
 import 'package:base_bloc/utils/toast_utils.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -117,9 +118,10 @@ class FavouriteCubit extends Cubit<FavouriteState> {
 
   void filterOnclick(BuildContext context) => RouterUtils.openNewPage(
       FilterRoutesPage(
+        filter: state.filter,
         isFilterFav: true,
         showResultButton: (model) {
-          emit(FavouriteState(favType: FavType.Filter, filter: model));
+          emit(FavouriteState(favType: FavType.Filter, filter: model,));
           getFavourite();
         },
       ),

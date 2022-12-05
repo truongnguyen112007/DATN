@@ -15,15 +15,16 @@ class FilterRoutesPageCubit extends Cubit<FilterRoutesPageState> {
     state.filter = FilterParam(
         status: 0,
         conner: 'T',
-        authorGradeFrom: 5,
-        authorGradeTo: 15,
-        userGradeFrom: 5,
-        userGradeTo: 15,
+        authorGradeFrom: 0,
+        authorGradeTo: 20,
+        userGradeFrom: 0,
+        userGradeTo: 20,
         designBy: 'T');
   }
 
   void getFavorite() async {
-    var response = await userRepository.getFavorite(type: FavType.Filter,
+    var response = await userRepository.getFavorite(
+        type: FavType.Filter,
         nextPage: 1,
         status: state.filter?.status,
         hasConner: state.filter?.conner,
@@ -47,6 +48,18 @@ class FilterRoutesPageCubit extends Cubit<FilterRoutesPageState> {
     }
   }
 
+  void setData(FilterParam? filter) {
+    if (filter != null) {
+      emit(state.copyWith(
+        filter: filter,
+        currentStatus: filter.currentStatus,
+        currentConnerIndex: filter.currentConner,
+        currentDesignBy: filter.currentDesignedBy,
+      ));
+      getFavorite();
+    }
+  }
+
   void setStatus(int selectedStatus) {
     state.filter?.status = selectedStatus;
     getFavorite();
@@ -59,13 +72,13 @@ class FilterRoutesPageCubit extends Cubit<FilterRoutesPageState> {
     emit(state.copyWith(currentConnerIndex: value[1]));
   }
 
-  void setAuthorGrade(double authorGradeFrom,double authorGradeTo){
+  void setAuthorGrade(double authorGradeFrom, double authorGradeTo) {
     state.filter?.authorGradeFrom = authorGradeFrom;
     state.filter?.authorGradeTo = authorGradeTo;
     emit(state.copyWith(timeStamp: DateTime.now().microsecondsSinceEpoch));
   }
 
-  void setUserGrade(double userGradeFrom,double userGradeTo){
+  void setUserGrade(double userGradeFrom, double userGradeTo) {
     state.filter?.userGradeFrom = userGradeFrom;
     state.filter?.userGradeTo = userGradeTo;
     emit(state.copyWith(timeStamp: DateTime.now().microsecondsSinceEpoch));
@@ -75,5 +88,17 @@ class FilterRoutesPageCubit extends Cubit<FilterRoutesPageState> {
     state.filter?.designBy = value[0];
     getFavorite();
     emit(state.copyWith(currentDesignBy: value[1]));
+  }
+
+  void removeFilter() {
+    emit(FilterRoutesPageState(filter: FilterParam(
+        status: 0,
+        conner: 'T',
+        authorGradeFrom: 0,
+        authorGradeTo: 20,
+        userGradeFrom: 0,
+        userGradeTo: 20,
+        designBy: 'T')));
+    getFavorite();
   }
 }
