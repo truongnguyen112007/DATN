@@ -10,12 +10,15 @@ import 'package:base_bloc/components/zoomer.dart';
 import 'package:base_bloc/config/constant.dart';
 import 'package:base_bloc/data/globals.dart' as globals;
 import 'package:base_bloc/data/model/hold_set_model.dart';
+import 'package:base_bloc/data/model/info_route_model.dart';
 import 'package:base_bloc/data/model/routes_model.dart';
 import 'package:base_bloc/modules/create_routes/create_routes_cubit.dart';
 import 'package:base_bloc/modules/create_routes/create_routes_state.dart';
 import 'package:base_bloc/modules/persons_page/persons_page_state.dart';
+import 'package:base_bloc/modules/tab_climb/tab_climb_cubit.dart';
 import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/theme/colors.dart';
+import 'package:base_bloc/utils/log_utils.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,8 +36,11 @@ import '../../utils/app_utils.dart';
 class CreateRoutesPage extends StatefulWidget {
   final RoutesModel? model;
   final bool? isEdit;
+  final InfoRouteModel? infoRouteModel;
 
-  const CreateRoutesPage({Key? key, this.model, this.isEdit}) : super(key: key);
+  const CreateRoutesPage(
+      {Key? key, this.model, this.isEdit, this.infoRouteModel})
+      : super(key: key);
 
   @override
   State<CreateRoutesPage> createState() => _CreateRoutesPageState();
@@ -43,8 +49,8 @@ class CreateRoutesPage extends StatefulWidget {
 class _CreateRoutesPageState extends BasePopState<CreateRoutesPage>   with TickerProviderStateMixin {
   late CreateRoutesCubit _bloc;
   final ZoomerController _zoomController = ZoomerController(initialScale: 1.0);
-  final sizeHoldSet = 8.6.h;
-  final row = 47;
+  var sizeHoldSet = 8.6.h;
+  var row = 47;
   final column = 12;
   final List<String> lHoldSet = [
     Assets.svg.holdset1,
@@ -74,6 +80,7 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage>   with Ticke
   @override
   void initState() {
     _bloc = CreateRoutesCubit();
+    checkRow();
     _lHoldSetStream = Utils.eventBus
         .on<List<HoldSetModel>>()
         .listen((list) => _bloc.setHoldSets(list));
@@ -86,6 +93,24 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage>   with Ticke
         model: widget.model);
     Timer(const Duration(seconds: 1), () => _animationController1.forward());
     super.initState();
+  }
+
+  void checkRow() {
+    if (widget.infoRouteModel != null) {
+      row = widget.infoRouteModel!.height * 5;
+      switch (widget.infoRouteModel!.height) {
+        case 12:
+          sizeHoldSet = 7.5.h;
+          return;
+        case 9:
+          sizeHoldSet = 8.6.h;
+          return;
+        case 6:
+        case 3:
+          sizeHoldSet = 8.8.h;
+          return;
+      }
+    }
   }
 
   @override
@@ -184,9 +209,8 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage>   with Ticke
                                                   ],
                                                 ),
                                                 SizedBox(
-                                                  height:
-                                                      state.sizeHoldSet * 1.5,
-                                                )
+                                                    height:
+                                                        state.sizeHoldSet * 1.5)
                                               ],
                                             ),
                                           ),
@@ -205,10 +229,7 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage>   with Ticke
                                                   5.5),
                                           child: SvgPicture.asset(
                                               Assets.svg.man,
-                                              height: state.row *
-                                                      state.sizeHoldSet /
-                                                      6 +
-                                                  2.h),
+                                              height: 60),
                                         ),
                                       ),
                                     ),
@@ -217,7 +238,7 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage>   with Ticke
                                 Align(
                                   alignment: Alignment.bottomCenter,
                                   child: Container(
-                                    height: 7.h,
+                                    height: 4.h,
                                     decoration: BoxDecoration(boxShadow: [
                                       BoxShadow(
                                         color: HexColor('6B6B6B')
@@ -367,7 +388,7 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage>   with Ticke
 
   Widget measureWidget() => Container(
       alignment: Alignment.bottomCenter,
-      padding: EdgeInsets.only(bottom: 7.h + 4.sp + sizeHoldSet * 1.5),
+      padding: EdgeInsets.only(bottom: 4.h + 4.sp + sizeHoldSet * 1.5),
       height: MediaQuery.of(context).size.height,
       width: 20.w,
       color: colorBlack,
@@ -545,7 +566,8 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage>   with Ticke
               itemBuilder: (BuildContext context, int index) {
                 return GestureDetector(
                   onLongPress: () => _bloc.itemOnLongPress(index, context),
-                  onTap: () => _bloc.itemOnClick(index, context),
+                  onTap: () =>
+                      _bloc.itemOnClick(index,widget.infoRouteModel!.height, context, widget.infoRouteModel),
                   child: Container(
                     decoration: BoxDecoration(
                         border: Border.all(
@@ -642,9 +664,12 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage>   with Ticke
         const SizedBox(width: 10),
         svgButton(context, Assets.svg.threeD, () {}, isBackgroundCircle: false),
         svgButton(
-            context, Assets.svg.fullScreen, () => _bloc.scaleOnClick(context),
+            context,
+            Assets.svg.fullScreen,
+            () => _bloc.scaleOnClick(
+                context, widget.infoRouteModel!.height, widget.infoRouteModel),
             isBackgroundCircle: false),
-        svgButton(context, Assets.svg.more, () => _bloc.confirmOnclick(context),
+        svgButton(context, Assets.svg.more, () => _bloc.confirmOnclick(context,widget.infoRouteModel),
             isBackgroundCircle: false),
         SizedBox(width: globals.contentPadding)
       ]);

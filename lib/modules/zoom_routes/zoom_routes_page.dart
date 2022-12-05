@@ -6,6 +6,7 @@ import 'package:base_bloc/components/zoomer.dart';
 import 'package:base_bloc/data/model/routes_model.dart';
 import 'package:base_bloc/modules/zoom_routes/zoom_routes_cubit.dart';
 import 'package:base_bloc/modules/zoom_routes/zoom_routes_state.dart';
+import 'package:base_bloc/utils/log_utils.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,6 +21,7 @@ import '../../components/measure_widget.dart';
 import '../../data/eventbus/hold_set_event.dart';
 import '../../data/globals.dart' as globals;
 import '../../data/model/hold_set_model.dart';
+import '../../data/model/info_route_model.dart';
 import '../../gen/assets.gen.dart';
 import '../../localization/locale_keys.dart';
 import '../../router/router_utils.dart';
@@ -29,6 +31,7 @@ import '../../utils/app_utils.dart';
 import '../persons_page/persons_page_state.dart';
 
 class ZoomRoutesPage extends StatefulWidget {
+  final int heightOfRoute;
   final int row;
   final int column;
   final double sizeHoldSet;
@@ -37,16 +40,20 @@ class ZoomRoutesPage extends StatefulWidget {
   final double heightOffScreen;
   final bool isEdit;
   final RoutesModel? model;
+  final InfoRouteModel? infoRouteModel;
 
   const ZoomRoutesPage(
       {Key? key,
+      this.infoRouteModel,
+      required this.heightOfRoute,
       required this.currentIndex,
       this.isEdit = false,
       this.model,
       required this.row,
-        required this.lRoutes,
-        required this.column,
-        required this.sizeHoldSet, required this.heightOffScreen})
+      required this.lRoutes,
+      required this.column,
+      required this.sizeHoldSet,
+      required this.heightOffScreen})
       : super(key: key);
 
   @override
@@ -72,6 +79,8 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
 
   @override
   void initState() {
+    logE("TAG SIZE HOLDSET: ${widget.sizeHoldSet}");
+    logE("TAG HEIGHT OF ROUTE: ${widget.heightOfRoute}");
     _bloc = ZoomRoutesCubit();
     _zoomController = ZoomerController(initialScale: 4.0);
     _zoomMeasureNameController = ZoomerController(initialScale: 4.0);
@@ -99,7 +108,7 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
         .on<HoldSetEvent>()
         .listen((event) => _bloc.setHoldSet(event.holdSet));
     _lBoxController = ScrollController();
-    offset = _bloc.getOffset(widget.currentIndex, widget.heightOffScreen);
+    offset = _bloc.getOffset(widget.currentIndex, widget.heightOffScreen,widget.heightOfRoute);
     super.initState();
   }
 
@@ -214,6 +223,7 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
 
   Widget infoRouteWidget(BuildContext context, ZoomRoutesState state) =>
       zoomWidget(
+          heightOfRoute: widget.heightOfRoute,
           isRoute: true,
           offset: offset,
           context,
@@ -222,12 +232,10 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
           isLimitOffset: true,
           Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             Container(
+              alignment: Alignment.center,
               width: state.column * state.sizeHoldSet,
               decoration: BoxDecoration(gradient: gradientBackground()),
-              child: Align(
-                alignment: Alignment.center,
-                child: routeWidget(context),
-              ),
+              child: routeWidget(context),
             ),
           ]));
 
@@ -311,11 +319,13 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
   Widget zoomWidget(
       BuildContext context, ZoomerController controller, Widget widget,
       {bool isScaleByDx = true,
-        bool isLimitOffset = false,
+          int? heightOfRoute,
+          bool isLimitOffset = false,
         bool isRoute = false,
           Offset? offset,
           double scale = 4.0}) =>
       Zoomer(
+          heightOfRoute: heightOfRoute,
           isRoute: isRoute,
           offset: offset,
           isLimitOffset: isLimitOffset,
@@ -389,10 +399,10 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
         const SizedBox(width: 10),
         svgButton(context, Assets.svg.threeD, () {},
             isBackgroundCircle: false),
-        svgButton(context, Assets.svg.fullScreen, () =>_bloc.setScale(),
+        svgButton(context, Assets.svg.fullScreen, () =>_bloc.setScale(widget.heightOfRoute),
                 isBackgroundCircle: false),
-            svgButton(
-                context, Assets.svg.more, () => _bloc.confirmOnclick(context),
+            svgButton(context, Assets.svg.more,
+                () => _bloc.confirmOnclick(context, widget.infoRouteModel),
                 isBackgroundCircle: false),
             SizedBox(width: globals.contentPadding)
           ]);
