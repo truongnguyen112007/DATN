@@ -3,6 +3,7 @@ import 'package:base_bloc/base/hex_color.dart';
 import 'package:base_bloc/components/app_button.dart';
 import 'package:base_bloc/components/app_scalford.dart';
 import 'package:base_bloc/components/app_slider.dart';
+import 'package:base_bloc/data/eventbus/refresh_event.dart';
 import 'package:base_bloc/data/globals.dart';
 import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/modules/filter_routes/filter_routes_page_state.dart';
@@ -19,6 +20,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../components/app_text.dart';
+import '../../components/item_filter_widget.dart';
 import '../../data/model/filter_param.dart';
 import '../../localization/locale_keys.dart';
 import '../../theme/colors.dart';
@@ -61,7 +63,6 @@ final Map<String, String> designs = {
 
 class _FilterRoutesPageState extends State<FilterRoutesPage> {
   late FilterRoutesPageCubit _bloc;
-
   final gradeChange = BehaviorSubject<List<dynamic>>();
 
   @override
@@ -131,15 +132,11 @@ class _FilterRoutesPageState extends State<FilterRoutesPage> {
                         itemSpace(),
                         itemTitle(LocaleKeys.status.tr()),
                         itemSpace(height: 9),
-                        statusWidget(),
+                        statusWidget(status),
                         itemSpace(),
                         itemTitle(LocaleKeys.corners.tr()),
                         itemSpace(height: 9),
-                        filterWidget(
-                            corners,
-                            state.filter!.conner,
-                            (value) => _bloc.setCorner(value),
-                            state.currentConnerIndex),
+                        filterConner(corners),
                         itemSpace(),
                         itemTitle(LocaleKeys.authorsGrade.tr()),
                         rangeWidget(state.filter!.authorGradeFrom,
@@ -185,8 +182,6 @@ class _FilterRoutesPageState extends State<FilterRoutesPage> {
                       ),
                     ),
                     onTap: () {
-                      state.filter!.currentConner = state.currentConnerIndex;
-                      state.filter!.currentStatus = state.currentStatus;
                       state.filter!.currentDesignedBy = state.currentDesignBy;
                       logE(state.filter!.currentConner.toString());
                       widget.showResultButton(state.filter!);
@@ -312,6 +307,8 @@ class _FilterRoutesPageState extends State<FilterRoutesPage> {
               child: InkWell(
                 borderRadius: BorderRadius.circular(10),
                 onTap: () {
+                  Utils.fireEvent(RefreshEvent(RefreshType.FILTER));
+                  // lController.forEach((element) {element.setSelect =false;});
                   _bloc.removeFilter();
                 },
                 child: AppText(
@@ -357,6 +354,30 @@ class _FilterRoutesPageState extends State<FilterRoutesPage> {
     );
   }
 
+  Widget filterConner(Map<String,dynamic> nameList) {
+    return SizedBox(
+      height: 27.h,
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        itemCount: nameList.keys.length,
+        itemBuilder: (context, index) {
+          return ItemFilterWidget(
+            data: {
+              nameList.keys.elementAt(index):
+                  nameList[nameList.keys.elementAt(index)]
+            },
+            callback: (value) {
+              _bloc.setCorner(nameList,value);
+            },
+          );
+        },
+        separatorBuilder: (BuildContext context, int index) => const SizedBox(
+          width: 12,
+        ),
+      ),
+    );
+  }
+
   Widget itemListView(
           {required String text,
           required int selectIndex,
@@ -387,20 +408,23 @@ class _FilterRoutesPageState extends State<FilterRoutesPage> {
         onTap: () => itemOnclick.call(),
       );
 
-  Widget statusWidget() =>
+  Widget statusWidget(Map<String, dynamic> nameList) =>
       BlocBuilder<FilterRoutesPageCubit, FilterRoutesPageState>(
         bloc: _bloc,
         builder: (c, state) => Tags(
-            columns: 2,
-            itemCount: status.keys.length,
-            alignment: WrapAlignment.start,
-            itemBuilder: (int index) => itemListView(
-                itemOnclick: () {
-                  _bloc.setStatus(index);
-                },
-                index: index,
-                text: status.keys.elementAt(index),
-                selectIndex: state.filter!.status)),
+          columns: 2,
+          itemCount: status.keys.length,
+          alignment: WrapAlignment.start,
+          itemBuilder: (int index) => ItemFilterWidget(
+            data: {
+              nameList.keys.elementAt(index):
+                  nameList[nameList.keys.elementAt(index)]
+            },
+            callback: (value) {
+              _bloc.setStatus(nameList,value);
+            },
+          ),
+        ),
       );
 
   @override

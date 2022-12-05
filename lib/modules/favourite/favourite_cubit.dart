@@ -164,7 +164,6 @@ class FavouriteCubit extends Cubit<FavouriteState> {
         break;
       }
     }
-    logE("TAG IplaylistIn: ${ state.lPlayList[index].playlistIn}");
     emit(state.copyWith(
         isShowActionButton: isShowActionButton,
         lPlayList: state.lPlayList,
@@ -189,7 +188,7 @@ class FavouriteCubit extends Cubit<FavouriteState> {
     var response = await userRepository.getFavorite(
         type: state.favType,
         userId: globals.userId,
-        status: state.filter?.status,
+        status: state.filter?.status[0][state.filter?.status[0].keys.first],
         nextPage: state.nextPage,
         orderType: state.sort?.orderType,
         orderValue: state.sort?.orderValue,
@@ -197,7 +196,7 @@ class FavouriteCubit extends Cubit<FavouriteState> {
         authorGradeTo: state.filter?.authorGradeTo,
         userGradeFrom: state.filter?.userGradeFrom,
         userGardeTo: state.filter?.userGradeTo,
-        hasConner: state.filter?.conner,
+        hasConner: state.filter?.conner[0][state.filter?.conner[0].keys.first],
         setter: state.filter?.designBy);
     if (response.data != null && response.error == null) {
       try {

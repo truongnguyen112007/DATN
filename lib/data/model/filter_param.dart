@@ -1,7 +1,7 @@
 class FilterParam {
   final String? author;
-  int status;
-  String conner;
+  List<Map<String,dynamic>> status;
+  List<Map<String,dynamic>> conner;
   double authorGradeFrom;
   double authorGradeTo;
   double userGradeFrom;
