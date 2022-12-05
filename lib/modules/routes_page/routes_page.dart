@@ -115,32 +115,33 @@ class _RoutesPageState extends State<RoutesPage>
                       right: 5.w,
                       child: state.isShowActionButton
                           ? Align(
-                        alignment: Alignment.bottomRight,
-                        child: GradientButton(
-                          height: 36.h,
-                          isCenter: true,
-                          width: 170.w,
-                          decoration: BoxDecoration(
-                            gradient:
-                            Utils.backgroundGradientOrangeButton(),
-                            borderRadius: BorderRadius.circular(18),
-                          ),
-                          onTap: () {
-                            var lSelectRadioButton = <RoutesModel>[];
-                            for( var element in state.lRoutes) {
-                              if (element.isSelect == true) lSelectRadioButton.add(element);
-                            }
-                            return showActionDialog(
-                                lSelectRadioButton, (p0) {});
-                          },
-                          widget: AppText(
-                            'Action',
-                            style: googleFont.copyWith(
-                                color: colorWhite, fontSize: 15.sp),
-                          ),
-                          borderRadius: BorderRadius.circular(18),
-                        ),
-                      )
+                              alignment: Alignment.bottomRight,
+                              child: GradientButton(
+                                height: 36.h,
+                                isCenter: true,
+                                width: 170.w,
+                                decoration: BoxDecoration(
+                                  gradient:
+                                      Utils.backgroundGradientOrangeButton(),
+                                  borderRadius: BorderRadius.circular(18),
+                                ),
+                                onTap: () {
+                                  var lSelectRadioButton = <RoutesModel>[];
+                                  for (var element in state.lRoutes) {
+                                    if (element.isSelect == true)
+                                      lSelectRadioButton.add(element);
+                                  }
+                                  return showActionDialog(
+                                      lSelectRadioButton, (p0) {});
+                                },
+                                widget: AppText(
+                                  'Action',
+                                  style: googleFont.copyWith(
+                                      color: colorWhite, fontSize: 15.sp),
+                                ),
+                                borderRadius: BorderRadius.circular(18),
+                              ),
+                            )
                           : const SizedBox(),
                     ),
                   ),
@@ -154,37 +155,46 @@ class _RoutesPageState extends State<RoutesPage>
     );
   }
 
-  Widget routesWidget(BuildContext context, RoutesPageState state) =>
-      ListView.builder(
-          padding: EdgeInsets.only(
-              top: 10.h, left: contentPadding, right: contentPadding),
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemBuilder: (c, i) => i == state.lRoutes.length
-              ? const Center(
-                  child: AppCircleLoading(),
-                )
-              : ItemInfoRoutes(
-                  isShowSelect: !state.isShowAdd,
-                  key: Key('$i'),
-                  context: context,
-                  model: state.lRoutes[i],
-                  callBack: (model) {},
-                  index: i,
-                  onLongPress: (model) {
-                    _bloc.itemOnLongPress(context);
-                  },
-                  filterOnclick: () {
-                    _bloc.filterItemOnclick(i);
-                  },
-                  detailCallBack: (RoutesModel action) {
-                    _bloc.itemOnclick(context, state.lRoutes[i]);
-                  },
-                ),
-          itemCount:
-              !state.isReadEnd && state.lRoutes.isNotEmpty && state.isLoading
-                  ? state.lRoutes.length + 1
-                  : state.lRoutes.length);
+  Widget routesWidget(BuildContext context, RoutesPageState state) => Container(
+    height: MediaQuery.of(context).size.height,
+    child: Center(
+      child: AppText(
+        "No data",
+        style: googleFont.copyWith(color: colorBackgroundWhite),
+      ),
+    ),
+  );
+
+  // ListView.builder(
+  //     padding: EdgeInsets.only(
+  //         top: 10.h, left: contentPadding, right: contentPadding),
+  //     physics: const NeverScrollableScrollPhysics(),
+  //     shrinkWrap: true,
+  //     itemBuilder: (c, i) => i == state.lRoutes.length
+  //         ? const Center(
+  //             child: AppCircleLoading(),
+  //           )
+  //         : ItemInfoRoutes(
+  //             isShowSelect: !state.isShowAdd,
+  //             key: Key('$i'),
+  //             context: context,
+  //             model: state.lRoutes[i],
+  //             callBack: (model) {},
+  //             index: i,
+  //             onLongPress: (model) {
+  //               _bloc.itemOnLongPress(context);
+  //             },
+  //             filterOnclick: () {
+  //               _bloc.filterItemOnclick(i);
+  //             },
+  //             detailCallBack: (RoutesModel action) {
+  //               _bloc.itemOnclick(context, state.lRoutes[i]);
+  //             },
+  //           ),
+  //     itemCount:
+  //         !state.isReadEnd && state.lRoutes.isNotEmpty && state.isLoading
+  //             ? state.lRoutes.length + 1
+  //             : state.lRoutes.length);
 
   void showActionDialog(
       List<RoutesModel> model, Function(ItemAction) callBack) {
@@ -211,33 +221,33 @@ class _RoutesPageState extends State<RoutesPage>
                     Icons.thumb_up_alt,
                     LocaleKeys.moveToPlaylist.tr(),
                     ItemAction.MOVE_TO_TOP,
-                        () => callBack.call(ItemAction.MOVE_TO_TOP)),
+                    () => callBack.call(ItemAction.MOVE_TO_TOP)),
                 itemAction(
                     Icons.account_balance_rounded,
                     LocaleKeys.addToPlaylist.tr(),
                     ItemAction.ADD_TO_PLAYLIST,
-                        () => callBack.call(ItemAction.ADD_TO_PLAYLIST)),
+                    () => callBack.call(ItemAction.ADD_TO_PLAYLIST)),
                 itemAction(
                     Icons.add,
                     LocaleKeys.removeFromPlaylist.tr(),
                     ItemAction.REMOVE_FROM_PLAYLIST,
-                        () => callBack.call(ItemAction.REMOVE_FROM_PLAYLIST)),
+                    () => callBack.call(ItemAction.REMOVE_FROM_PLAYLIST)),
                 itemAction(
                     Icons.favorite,
                     LocaleKeys.addToFavourite.tr(),
                     ItemAction.ADD_TO_FAVOURITE,
-                        () => callBack.call(ItemAction.ADD_TO_FAVOURITE)),
+                    () => callBack.call(ItemAction.ADD_TO_FAVOURITE)),
                 itemAction(
                     Icons.remove_circle_outline,
                     LocaleKeys.removeFromFavorite.tr(),
                     ItemAction.REMOVE_FROM_PLAYLIST,
-                        () => callBack.call(ItemAction.REMOVE_FROM_PLAYLIST)),
-                itemAction(Icons.share, LocaleKeys.share.tr(),
-                    ItemAction.SHARE, () => callBack.call(ItemAction.SHARE)),
-                itemAction(Icons.copy, LocaleKeys.copy.tr(),
-                    ItemAction.COPY, () => callBack.call(ItemAction.COPY)),
-                itemAction(Icons.edit, LocaleKeys.edit.tr(),
-                    ItemAction.EDIT, () => callBack.call(ItemAction.EDIT)),
+                    () => callBack.call(ItemAction.REMOVE_FROM_PLAYLIST)),
+                itemAction(Icons.share, LocaleKeys.share.tr(), ItemAction.SHARE,
+                    () => callBack.call(ItemAction.SHARE)),
+                itemAction(Icons.copy, LocaleKeys.copy.tr(), ItemAction.COPY,
+                    () => callBack.call(ItemAction.COPY)),
+                itemAction(Icons.edit, LocaleKeys.edit.tr(), ItemAction.EDIT,
+                    () => callBack.call(ItemAction.EDIT)),
                 itemAction(Icons.delete, LocaleKeys.delete.tr(),
                     ItemAction.DELETE, () => callBack.call(ItemAction.DELETE)),
               ],
