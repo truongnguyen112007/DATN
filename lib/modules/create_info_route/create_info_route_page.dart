@@ -152,11 +152,17 @@ class _CreateInfoRoutePageState extends State<CreateInfoRoutePage> {
                         : null,
                     value: value,
                     groupValue: state.height,
-                    onChanged: (int? value) => _bloc.changeHeight(value!),
+                    onChanged: (int? value) {
+                      if (widget.isEdit || widget.isPublish) return;
+                      _bloc.changeHeight(value!);
+                    },
                   ),
                   InkWell(
                       child: AppText('${value}m', style: typoW400),
-                      onTap: () => _bloc.changeHeight(value))
+                      onTap: () {
+                        if (widget.isEdit || widget.isPublish) return;
+                        _bloc.changeHeight(value);
+                      })
                 ],
               ));
 

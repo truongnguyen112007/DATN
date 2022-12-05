@@ -47,6 +47,7 @@ class CreateInfoRouteCubit extends Cubit<CreateInfoRouteState> {
         }
       }
       emit(state.copyOf(
+          height: infoRouteModel.height,
           isCorner: infoRouteModel.isCorner,
           currentIndexGrade: currentIndex,
           grade: infoRouteModel.grade,
@@ -89,11 +90,13 @@ class CreateInfoRouteCubit extends Cubit<CreateInfoRouteState> {
     Dialogs.showLoadingDialog(context);
     var response = !state.isEdit
         ? await userRepository.createRoute(
+            height: state.height,
             name: routeName,
             lHold: lHoldSet!.map((e) => e.index).toList(),
             hasCorner: state.isCorner,
             authorGrade: state.grade)
         : await userRepository.editRoute(
+            height: state.height,
             name: routeName,
             lHold: lHoldSet!.map((e) => e.index).toList(),
             hasCorner: state.isCorner,
