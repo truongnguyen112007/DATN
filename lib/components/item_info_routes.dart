@@ -83,7 +83,7 @@ class ItemInfoRoutes extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Expanded(
-                            flex: 2,
+                            flex: 3,
                             child: model.hasConner == false
                                 ? Center(
                               child: AppText(
@@ -94,31 +94,24 @@ class ItemInfoRoutes extends StatelessWidget {
                                       fontSize: 31.sp)),
                             )
                                 : Center(
-                              child: Stack(
+                              child: Column(
                                 children: [
-                                  Padding(
-                                    padding: EdgeInsets.only(bottom: 5.h),
-                                          child: AppText(
-                                            Utils.getGrade(
-                                                model.authorGrade ?? 0),
-                                            style: googleFont.copyWith(
-                                          fontWeight: FontWeight.w700,
-                                          color: colorText0,
-                                          fontSize: 31.sp),
+                                  AppText(
+                                    Utils.getGrade(
+                                        model.authorGrade ?? 0),
+                                    style: googleFont.copyWith(
+                                  fontWeight: FontWeight.w700,
+                                  color: colorText0,
+                                  fontSize: 31.sp),
                                       textAlign: TextAlign.end,
                                     ),
-                                  ),
-                                  Positioned.fill(
-                                      child: Container(
-                                        alignment: Alignment.bottomLeft,
-                                        child: AppText(
-                                          " ${LocaleKeys.corner.tr()}",
-                                          textAlign: TextAlign.start,
-                                          style: typoW400.copyWith(
-                                              color: colorWhite
-                                                  .withOpacity(0.87)),
-                                        ),
-                                      ))
+                                  AppText(
+                                      " ${LocaleKeys.corner.tr()}",
+                                      textAlign: TextAlign.start,
+                                      style: typoW400.copyWith(
+                                          color: colorWhite
+                                              .withOpacity(0.87)),
+                                    ),
                                 ],
                               ),
                             ),

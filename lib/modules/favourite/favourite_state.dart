@@ -22,46 +22,49 @@ class FavouriteState extends Equatable {
   late SortParam? sort;
   late FilterParam? filter;
 
-  FavouriteState(
-      {this.favType = FavType.Default,
-      this.status = FeedStatus.initial,
-      this.lPlayList = const <RoutesModel>[],
-      this.isReadEnd = false,
-      this.timeStamp = 0,
-      this.isLoading = true,
-      this.isShowAdd = true,
-      this.isClickRadioButton = false,
-      this.isShowActionButton = false,
-      this.nextPage = 1,
-      this.sort,
-      this.filter});
+  FavouriteState({
+    this.favType = FavType.Default,
+    this.status = FeedStatus.initial,
+    this.lPlayList = const <RoutesModel>[],
+    this.isReadEnd = false,
+    this.timeStamp = 0,
+    this.isLoading = true,
+    this.isShowAdd = true,
+    this.isClickRadioButton = false,
+    this.isShowActionButton = false,
+    this.nextPage = 1,
+    this.sort,
+    this.filter,
+  });
 
-  FavouriteState copyWith(
-          {FavType? favType,
-          FeedStatus? status,
-          List<RoutesModel>? lPlayList,
-          int? timeStamp,
-          bool? isReadEnd,
-          bool? isLoading,
-          bool? isShowAdd,
-          bool? isClickRadioButton,
-          bool? isShowActionButton,
-          int? nextPage,
-          SortParam? sort,
-          FilterParam? filter}) =>
+  FavouriteState copyWith({
+    FavType? favType,
+    FeedStatus? status,
+    List<RoutesModel>? lPlayList,
+    int? timeStamp,
+    bool? isReadEnd,
+    bool? isLoading,
+    bool? isShowAdd,
+    bool? isClickRadioButton,
+    bool? isShowActionButton,
+    int? nextPage,
+    SortParam? sort,
+    FilterParam? filter,
+  }) =>
       FavouriteState(
-          favType: favType ?? this.favType,
-          timeStamp: timeStamp ?? this.timeStamp,
-          isLoading: isLoading ?? this.isLoading,
-          status: status ?? this.status,
-          lPlayList: lPlayList ?? this.lPlayList,
-          isReadEnd: isReadEnd ?? this.isReadEnd,
-          isShowAdd: isShowAdd ?? this.isShowAdd,
-          isClickRadioButton: isClickRadioButton ?? this.isClickRadioButton,
-          isShowActionButton: isShowActionButton ?? this.isShowActionButton,
-          nextPage: nextPage ?? this.nextPage,
-          sort: sort ?? this.sort,
-          filter: filter ?? this.filter);
+        favType: favType ?? this.favType,
+        timeStamp: timeStamp ?? this.timeStamp,
+        isLoading: isLoading ?? this.isLoading,
+        status: status ?? this.status,
+        lPlayList: lPlayList ?? this.lPlayList,
+        isReadEnd: isReadEnd ?? this.isReadEnd,
+        isShowAdd: isShowAdd ?? this.isShowAdd,
+        isClickRadioButton: isClickRadioButton ?? this.isClickRadioButton,
+        isShowActionButton: isShowActionButton ?? this.isShowActionButton,
+        nextPage: nextPage ?? this.nextPage,
+        sort: sort ?? this.sort,
+        filter: filter ?? this.filter,
+      );
 
   @override
   List<Object?> get props => [
@@ -76,6 +79,6 @@ class FavouriteState extends Equatable {
         timeStamp,
         nextPage,
         sort,
-        filter
+        filter,
       ];
 }

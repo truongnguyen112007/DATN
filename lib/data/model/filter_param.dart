@@ -7,17 +7,23 @@ class FilterParam {
   double userGradeFrom;
   double userGradeTo;
   String designBy;
+  int currentStatus;
+  int currentConner;
+  int currentDesignedBy;
 
   FilterParam(
-      {this.author,
+      {this.currentConner = 0,
+      this.currentStatus = 0,
+      this.currentDesignedBy = 0,
+      this.author,
       required this.status,
       required this.conner,
       required this.authorGradeFrom,
       required this.authorGradeTo,
       required this.userGradeFrom,
       required this.userGradeTo,
-      required this.designBy}
-      );
+      required this.designBy});
+
   @override
   String toString() {
     return super.toString();

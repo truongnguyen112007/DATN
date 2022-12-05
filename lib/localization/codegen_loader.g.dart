@@ -64,7 +64,7 @@ class Applocalizations extends AssetLoader {
     "trTopRope": 'TR-Top-rope',
     "ufUnfinished": 'UF-Unfinished',
     "userGrade": "User's Grade",
-    "withCorner": "With corners",
+    "withCorner": "With corners", 
     "withoutCorners": "Without Corners",
     "notItemSelect": 'Not item select, please try again.',
     "hinTextSearchHome": 'Find places, route, climbs',
