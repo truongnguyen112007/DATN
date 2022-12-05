@@ -51,22 +51,32 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
     Assets.svg.holdset5,
     Assets.svg.holdset6,
   ];
-  final lHeight = [0, 2, 4, 6, 8, 10, 12];
+  var lHeight = [2, 4, 6, 8, 10, 12];
 
   @override
   void initState() {
     _bloc = RoutesDetailCubit(widget.model);
-    // checkRow();
+    checkHeightOfRoute();
     createRoutes();
     super.initState();
   }
 
-  void checkRow() {
+  void checkHeightOfRoute() {
     if (widget.model.height != null) {
       row = widget.model.height! * 5;
       switch (widget.model.height) {
         case 12:
-          sizeHoldSet = 7.h;
+          lHeight = [2, 4, 6, 8, 10, 12];
+          sizeHoldSet = 7.2.h;
+          return;
+        case 9:
+          lHeight = [2, 4, 6, 8, 9];
+          return;
+        case 6:
+          lHeight = [2, 4, 6];
+          return;
+        case 3:
+          lHeight = [2, 3];
           return;
         default:
           sizeHoldSet = 8.6.h;
@@ -77,7 +87,7 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
   void createRoutes() {
     var random = Random();
     for (int i = 0; i < row * column; i++) {
-      _lRoutes.add('');
+        _lRoutes.add('');
     }
     List<int> lHoldSet = json.decode(widget.model.holds ?? '').cast<int>();
     for (var element in lHoldSet) {
@@ -113,7 +123,6 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
                               width: sizeHoldSet * column * 1.66,
                               child: Image.asset(Assets.png.tesst.path)),
                           Expanded(
-                              // flex: 15,
                               child: Stack(
                             children: [
                               Positioned.fill(
@@ -124,7 +133,7 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    lineGreyGradient(context, false),
+                                    wallWidget(context, false),
                                     Container(
                                       decoration: BoxDecoration(
                                           gradient: gradientBackground()),
@@ -153,9 +162,9 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
                                                         gradientBackground()),
                                                 child: Column(
                                                   children: [
-                                                    boxNameWidget(context),
+                                                    infoNameWidget(context),
                                                     routesWidget(context),
-                                                    boxNameWidget(context),
+                                                    infoNameWidget(context),
                                                   ],
                                                 ),
                                               ),
@@ -168,43 +177,38 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
                                         ],
                                       ),
                                     ),
-                                    lineGreyGradient(context, true),
+                                    wallWidget(context, true),
                                   ],
                                 ),
                               )),
                               Positioned(
                                 child: Align(
-                                  alignment: Alignment.bottomLeft,
-                                  child: Padding(
-                                    padding: EdgeInsets.only(
-                                        left:
-                                            MediaQuery.of(context).size.width /
-                                                5.5),
-                                    child: SvgPicture.asset(Assets.svg.man,
-                                        height: 60.h),
-                                  ),
-                                ),
-                              ),
+                                    alignment: Alignment.bottomLeft,
+                                    child: Padding(
+                                        padding: EdgeInsets.only(
+                                            left: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                5),
+                                        child: SvgPicture.asset(
+                                              Assets.svg.man,
+                                              height: 65.h)))),
                               Positioned.fill(
                                   child: Align(
                                 alignment: Alignment.bottomLeft,
-                                child: infoHeightWidget(context),
+                                child: measureHeightWidget(context),
                               ))
                             ],
                           )),
-                          Align(
-                            alignment: Alignment.bottomCenter,
-                            child: Container(
-                              height: 7.h,
-                              decoration: BoxDecoration(boxShadow: [
-                                BoxShadow(
+                          Container(
+                            height: 4.h,
+                            decoration: BoxDecoration(boxShadow: [
+                              BoxShadow(
                                   color: HexColor('6B6B6B').withOpacity(0.05),
                                   spreadRadius: 0,
                                   blurRadius: 10,
-                                  offset: const Offset(0, 0),
-                                )
-                              ]),
-                            ),
+                                  offset: const Offset(0, 0))
+                            ]),
                           ),
                           actionWidget()
                         ],
@@ -242,14 +246,12 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
             "${widget.model.name!}  ${Utils.convertTimeStampToYYYYMMYY(widget.model.created ?? 0)}",
       );
 
-  Widget boxNameWidget(BuildContext context) => Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          for (int i = 0; i < lHoldSetName.length; i++)
-            AppText(lHoldSetName[i],
-                style: typoW400.copyWith(fontSize: 4.sp, height: 1))
-        ],
-      );
+  Widget infoNameWidget(BuildContext context) =>
+      Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+        for (int i = 0; i < lHoldSetName.length; i++)
+          AppText(lHoldSetName[i],
+              style: typoW400.copyWith(fontSize: 4.sp, height: 1))
+      ]);
 
   Widget heightWidget(bool isLeft) => Container(
       width: 8.w,
@@ -264,22 +266,20 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
           itemBuilder: (BuildContext context, int index) => Container(
               alignment: !isLeft ? Alignment.centerLeft : Alignment.centerRight,
               height: sizeHoldSet,
-              child: AppText(' $index',
+              child: AppText(' ${index + 1}',
                   style: typoW400.copyWith(fontSize: 4.sp)))));
 
-  Widget lineGreyGradient(BuildContext context, bool isLeft) => Stack(
+  Widget wallWidget(BuildContext context, bool isLeft) => Stack(
         children: [
-          Container(
-            width: 22.w,
-            decoration: BoxDecoration(gradient: gradientBackground()),
-          ),
-          Positioned.fill(
+        Container(
+            width: widget.model.height == 12 ? 18.5.w : 22.w,
+            decoration: BoxDecoration(gradient: gradientBackground())),
+        Positioned.fill(
               child: Align(
-            alignment: isLeft ? Alignment.centerLeft : Alignment.centerRight,
-            child: Container(width: 5.w, color: HexColor('FF5A00')),
-          )),
-        ],
-      );
+                  alignment:
+                    isLeft ? Alignment.centerLeft : Alignment.centerRight,
+                child: Container(width: 5.w, color: HexColor('FF5A00'))))
+      ]);
 
   Widget infoRoutesWidget(BuildContext context) => Container(
         color: colorBlack,
@@ -369,23 +369,31 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
             }),
       );
 
-  Widget infoHeightWidget(BuildContext context) => Container(
-        margin: EdgeInsets.only(bottom: sizeHoldSet * 2),
-        height: row * sizeHoldSet,
-        width: MediaQuery.of(context).size.width / 3.9,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            for (int i = lHeight.length - 1; i >= 0; i--)
-              i == 0
-                  ? const SizedBox()
-                  : AppText('${lHeight[i]}m -------',
-                      style: typoW400.copyWith(
-                          fontSize: 14.sp, color: colorText0.withOpacity(0.6)))
-          ],
-        ),
-      );
+  Widget measureHeightWidget(BuildContext context) => Container(
+      margin: EdgeInsets.only(bottom: sizeHoldSet * 1.9),
+      alignment: Alignment.bottomLeft,
+      height: row * sizeHoldSet,
+      width: MediaQuery.of(context).size.width / 3.9,
+      child: ListView.builder(
+          reverse: true,
+          shrinkWrap: true,
+          itemBuilder: (s, i) => Container(
+              alignment: Alignment.topRight,
+              height: i == 0
+                  ? sizeHoldSet * 10
+                  : i == (lHeight.length - 1)
+                      ? (lHeight[i] - lHeight[i - 1] == 1
+                          ? sizeHoldSet * 5
+                          : sizeHoldSet * 10)
+                      : (lHeight[i] - lHeight[i - 1] == 1
+                          ? sizeHoldSet * 5
+                          : sizeHoldSet * 10),
+              child: AppText('${lHeight[i]}m -------',
+                  style: typoW400.copyWith(
+                      height: 1,
+                      fontSize: 14.sp,
+                      color: colorText0.withOpacity(0.6)))),
+          itemCount: lHeight.length));
 
   void _tapped(int index) {}
 
