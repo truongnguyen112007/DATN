@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:base_bloc/components/app_not_data_widget.dart';
 import 'package:base_bloc/modules/routes_page/routes_page_cubit.dart';
 import 'package:base_bloc/modules/routes_page/routes_page_state.dart';
+import 'package:base_bloc/utils/log_utils.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -42,15 +44,18 @@ class _RoutesPageState extends State<RoutesPage>
   void initState() {
     _searchEvent = Utils.eventBus.on<SearchHomeEvent>().listen(
       (event) {
-        if (event.index == widget.index) {
-          keySearch = event.key;
-          _bloc.search(keySearch!);
-        }
+        if (event.index == widget.index) _bloc.search(event.key ?? '',1);
       },
     );
     _bloc = RoutesPageCubit();
     paging();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _searchEvent?.cancel();
+    super.dispose();
   }
 
   void paging() {
@@ -78,76 +83,25 @@ class _RoutesPageState extends State<RoutesPage>
           ),
           Expanded(
             child: RefreshIndicator(
-              child: Stack(
-                children: [
-                  SingleChildScrollView(
-                    controller: scrollController,
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    child: Column(
-                      children: [
-                        BlocBuilder<RoutesPageCubit, RoutesPageState>(
-                            bloc: _bloc,
-                            builder: (c, state) {
-                              if (state.status == FeedStatus.initial ||
-                                  state.status == FeedStatus.refresh) {
-                                return const SizedBox();
-                              } else if (state.status == DesignStatus.search) {}
-                              return routesWidget(context, state);
-                            }),
-                      ],
-                    ),
-                  ),
-                  BlocBuilder<RoutesPageCubit, RoutesPageState>(
-                    bloc: _bloc,
-                    builder: (BuildContext context, state) =>
-                        (state.status == FeedStatus.initial ||
-                                state.status == FeedStatus.refresh)
-                            ? const Center(
-                                child: AppCircleLoading(),
+              child: BlocBuilder<RoutesPageCubit, RoutesPageState>(
+                  bloc: _bloc,
+                  builder: (c, state) {
+                    return (state.status == RouteStatus.search ||
+                        state.status == RouteStatus.initial ||
+                        state.status == RouteStatus.refresh)
+                        ?  const Center(child: AppCircleLoading(),)
+                        : state.lRoutes.isEmpty
+                            ? Stack(
+                                children: [
+                                  const Center(child: AppNotDataWidget()),
+                                  ListView(
+                                      physics:
+                                          const AlwaysScrollableScrollPhysics())
+                                ],
                               )
-                            : const SizedBox(),
-                  ),
-                  BlocBuilder<RoutesPageCubit, RoutesPageState>(
-                    bloc: _bloc,
-                    builder: (c, state) => Positioned.fill(
-                      left: 10.w,
-                      bottom: 10.h,
-                      right: 5.w,
-                      child: state.isShowActionButton
-                          ? Align(
-                              alignment: Alignment.bottomRight,
-                              child: GradientButton(
-                                height: 36.h,
-                                isCenter: true,
-                                width: 170.w,
-                                decoration: BoxDecoration(
-                                  gradient:
-                                      Utils.backgroundGradientOrangeButton(),
-                                  borderRadius: BorderRadius.circular(18),
-                                ),
-                                onTap: () {
-                                  var lSelectRadioButton = <RoutesModel>[];
-                                  for (var element in state.lRoutes) {
-                                    if (element.isSelect == true)
-                                      lSelectRadioButton.add(element);
-                                  }
-                                  return showActionDialog(
-                                      lSelectRadioButton, (p0) {});
-                                },
-                                widget: AppText(
-                                  'Action',
-                                  style: googleFont.copyWith(
-                                      color: colorWhite, fontSize: 15.sp),
-                                ),
-                                borderRadius: BorderRadius.circular(18),
-                              ),
-                            )
-                          : const SizedBox(),
-                    ),
-                  ),
-                ],
-              ),
-              onRefresh: () async => _bloc.refresh(),
+                            : routesWidget(context, state);
+                  }),
+              onRefresh: () async => _bloc.onRefresh(),
             ),
           ),
         ],
@@ -155,46 +109,35 @@ class _RoutesPageState extends State<RoutesPage>
     );
   }
 
-  Widget routesWidget(BuildContext context, RoutesPageState state) => Container(
-    height: MediaQuery.of(context).size.height,
-    child: Center(
-      child: AppText(
-        "No data",
-        style: googleFont.copyWith(color: colorBackgroundWhite),
-      ),
-    ),
-  );
-
-  // ListView.builder(
-  //     padding: EdgeInsets.only(
-  //         top: 10.h, left: contentPadding, right: contentPadding),
-  //     physics: const NeverScrollableScrollPhysics(),
-  //     shrinkWrap: true,
-  //     itemBuilder: (c, i) => i == state.lRoutes.length
-  //         ? const Center(
-  //             child: AppCircleLoading(),
-  //           )
-  //         : ItemInfoRoutes(
-  //             isShowSelect: !state.isShowAdd,
-  //             key: Key('$i'),
-  //             context: context,
-  //             model: state.lRoutes[i],
-  //             callBack: (model) {},
-  //             index: i,
-  //             onLongPress: (model) {
-  //               _bloc.itemOnLongPress(context);
-  //             },
-  //             filterOnclick: () {
-  //               _bloc.filterItemOnclick(i);
-  //             },
-  //             detailCallBack: (RoutesModel action) {
-  //               _bloc.itemOnclick(context, state.lRoutes[i]);
-  //             },
-  //           ),
-  //     itemCount:
-  //         !state.isReadEnd && state.lRoutes.isNotEmpty && state.isLoading
-  //             ? state.lRoutes.length + 1
-  //             : state.lRoutes.length);
+  Widget routesWidget(BuildContext context, RoutesPageState state) =>
+      ListView.builder(
+          padding: EdgeInsets.only(
+              top: 10.h, left: contentPadding, right: contentPadding),
+          physics: const AlwaysScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemBuilder: (c, i) => i == state.lRoutes.length
+              ? const Center(child: AppCircleLoading())
+              : ItemInfoRoutes(
+                  isShowSelect: !state.isShowAdd,
+                  key: Key('$i'),
+                  context: context,
+                  model: state.lRoutes[i],
+                  callBack: (model) {},
+                  index: i,
+                  onLongPress: (model) {
+                    _bloc.itemOnLongPress(context);
+                  },
+                  filterOnclick: () {
+                    _bloc.filterItemOnclick(i);
+                  },
+                  detailCallBack: (RoutesModel action) {
+                    _bloc.itemOnclick(context, state.lRoutes[i]);
+                  },
+                ),
+          itemCount:
+              !state.isReadEnd && state.lRoutes.isNotEmpty && state.isLoading
+                  ? state.lRoutes.length + 1
+                  : state.lRoutes.length);
 
   void showActionDialog(
       List<RoutesModel> model, Function(ItemAction) callBack) {
@@ -221,33 +164,33 @@ class _RoutesPageState extends State<RoutesPage>
                     Icons.thumb_up_alt,
                     LocaleKeys.moveToPlaylist.tr(),
                     ItemAction.MOVE_TO_TOP,
-                    () => callBack.call(ItemAction.MOVE_TO_TOP)),
+                        () => callBack.call(ItemAction.MOVE_TO_TOP)),
                 itemAction(
                     Icons.account_balance_rounded,
                     LocaleKeys.addToPlaylist.tr(),
                     ItemAction.ADD_TO_PLAYLIST,
-                    () => callBack.call(ItemAction.ADD_TO_PLAYLIST)),
+                        () => callBack.call(ItemAction.ADD_TO_PLAYLIST)),
                 itemAction(
                     Icons.add,
                     LocaleKeys.removeFromPlaylist.tr(),
                     ItemAction.REMOVE_FROM_PLAYLIST,
-                    () => callBack.call(ItemAction.REMOVE_FROM_PLAYLIST)),
+                        () => callBack.call(ItemAction.REMOVE_FROM_PLAYLIST)),
                 itemAction(
                     Icons.favorite,
                     LocaleKeys.addToFavourite.tr(),
                     ItemAction.ADD_TO_FAVOURITE,
-                    () => callBack.call(ItemAction.ADD_TO_FAVOURITE)),
+                        () => callBack.call(ItemAction.ADD_TO_FAVOURITE)),
                 itemAction(
                     Icons.remove_circle_outline,
                     LocaleKeys.removeFromFavorite.tr(),
                     ItemAction.REMOVE_FROM_PLAYLIST,
-                    () => callBack.call(ItemAction.REMOVE_FROM_PLAYLIST)),
-                itemAction(Icons.share, LocaleKeys.share.tr(), ItemAction.SHARE,
-                    () => callBack.call(ItemAction.SHARE)),
-                itemAction(Icons.copy, LocaleKeys.copy.tr(), ItemAction.COPY,
-                    () => callBack.call(ItemAction.COPY)),
-                itemAction(Icons.edit, LocaleKeys.edit.tr(), ItemAction.EDIT,
-                    () => callBack.call(ItemAction.EDIT)),
+                        () => callBack.call(ItemAction.REMOVE_FROM_PLAYLIST)),
+                itemAction(Icons.share, LocaleKeys.share.tr(),
+                    ItemAction.SHARE, () => callBack.call(ItemAction.SHARE)),
+                itemAction(Icons.copy, LocaleKeys.copy.tr(),
+                    ItemAction.COPY, () => callBack.call(ItemAction.COPY)),
+                itemAction(Icons.edit, LocaleKeys.edit.tr(),
+                    ItemAction.EDIT, () => callBack.call(ItemAction.EDIT)),
                 itemAction(Icons.delete, LocaleKeys.delete.tr(),
                     ItemAction.DELETE, () => callBack.call(ItemAction.DELETE)),
               ],

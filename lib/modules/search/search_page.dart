@@ -4,6 +4,7 @@ import 'package:base_bloc/config/constant.dart';
 import 'package:base_bloc/modules/search/search_page_cubit.dart';
 import 'package:base_bloc/modules/search/search_page_state.dart';
 import 'package:base_bloc/theme/colors.dart';
+import 'package:base_bloc/utils/log_utils.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,7 +36,7 @@ class _SearchPageState extends BasePopState<SearchPage>
     with TickerProviderStateMixin {
   var isShowMap = false;
 
-  int selectedIndex = 1;
+  int selectedIndex = SearchConstant.ROUTE;
 
   late SearchCubit _bloc;
 
@@ -62,9 +63,12 @@ class _SearchPageState extends BasePopState<SearchPage>
 
     itemOnChange
         .debounceTime(const Duration(seconds: 1))
-        .listen((value) => Utils.fireEvent(
-              SearchHomeEvent(selectedIndex, value),
-            ));
+        .listen((value){
+          logE("sdlfkjsd");
+      Utils.fireEvent(
+        SearchHomeEvent(selectedIndex, value),
+      );
+    });
 
     _bloc = SearchCubit();
 
@@ -110,15 +114,11 @@ class _SearchPageState extends BasePopState<SearchPage>
                     const AllPage(),
                     PlacesPage(
                       root: widget.index,
-                      index: 1,
+                      index: SearchConstant.PLACE,
                       onCallBackShowMap: (i) {},
                     ),
-                    const RoutesPage(
-                      index: 2,
-                    ),
-                    const PersonsPage(
-                      index: 3,
-                    ),
+                    const RoutesPage(index: SearchConstant.ROUTE),
+                    const PersonsPage(index: SearchConstant.PERSONS),
                   ],
                 ),
               ),
@@ -163,7 +163,9 @@ class _SearchPageState extends BasePopState<SearchPage>
           Expanded(
             child: TextField(
               style: const TextStyle(color: colorWhite),
-              onChanged: (str) => itemOnChange.add(str),
+              onChanged: (str){
+                itemOnChange.add(str);
+              },
               controller: textEditingController,
               autofocus: true,
               cursorColor: colorOrange40,

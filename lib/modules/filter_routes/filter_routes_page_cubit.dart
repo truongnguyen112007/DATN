@@ -40,12 +40,9 @@ class FilterRoutesPageCubit extends Cubit<FilterRoutesPageState> {
     if (response.data != null && response.error == null) {
       try {
         var lResponse = routeModelFromJson(response.data);
-        logE(lResponse.length.toString());
         emit(state.copyWith(lPlayList: lResponse));
       } catch (e) {
-        emit(
-          state.copyWith(lPlayList: []),
-        );
+        emit(state.copyWith(lPlayList: []));
       }
     } else {
       toast(response.error.toString());

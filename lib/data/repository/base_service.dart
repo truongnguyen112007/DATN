@@ -161,9 +161,11 @@ class BaseService {
       if (response.data != null) {
         var result = response.data;
         return ApiResult<dynamic>(
-            data: result['data'],
+            data: result['data'] ?? result['hits'],
             statusCode: response.statusCode,
-            message: response.data['meta']['message'] ?? '');
+            message: response.data['meta'] != null
+                ? response.data['meta']['message'] ?? ''
+                : '');
       } else {
         Logger().e(
             'Error ${response.statusCode} - ${response.statusMessage} - ${response.data}');
