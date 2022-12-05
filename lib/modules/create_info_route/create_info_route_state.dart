@@ -9,9 +9,11 @@ class CreateInfoRouteState extends Equatable {
   final String routeName;
   final bool isEdit;
   final RoutesModel? model;
+  final int height;
 
   const CreateInfoRouteState(
-      {this.grade = 5,
+      {this.height = 3,
+      this.grade = 5,
       this.isEdit = false,
       this.model,
       this.isCorner = false,
@@ -21,6 +23,7 @@ class CreateInfoRouteState extends Equatable {
 
   CreateInfoRouteState copyOf(
           {int? grade,
+          int? height,
           RoutesModel? model,
           bool? isEdit,
           bool? isCorner,
@@ -28,6 +31,7 @@ class CreateInfoRouteState extends Equatable {
           String? errorRouteName,
           int? currentIndexGrade}) =>
       CreateInfoRouteState(
+          height: height ?? this.height,
           model: model ?? this.model,
           isEdit: isEdit ?? this.isEdit,
           routeName: routeName ?? this.routeName,
@@ -38,5 +42,5 @@ class CreateInfoRouteState extends Equatable {
 
   @override
   List<Object?> get props =>
-      [grade, currentIndexGrade, errorRouteName, isCorner, isEdit];
+      [grade, currentIndexGrade, errorRouteName, isCorner, isEdit, height];
 }

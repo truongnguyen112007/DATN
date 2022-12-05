@@ -7,6 +7,7 @@ import 'package:base_bloc/data/eventbus/refresh_event.dart';
 import 'package:base_bloc/data/globals.dart' as globals;
 import 'package:base_bloc/data/model/playlist_model.dart';
 import 'package:base_bloc/data/repository/user_repository.dart';
+import 'package:base_bloc/modules/create_info_route/create_info_route_page.dart';
 import 'package:base_bloc/modules/create_routes/create_routes_page.dart';
 import 'package:base_bloc/modules/playlist/playlist_state.dart';
 import 'package:base_bloc/modules/tab_home/tab_home_state.dart';
@@ -156,7 +157,8 @@ class PlayListCubit extends Cubit<PlaylistState> {
           context);
 
   void createRoutesOnClick(BuildContext context) =>
-      RouterUtils.openNewPage(const CreateRoutesPage(), context);
+      RouterUtils.openNewPage(const CreateInfoRoutePage(isPublish: false), context);
+  /*RouterUtils.openNewPage(const CreateRoutesPage(), context);*/
 
   Future<void> checkPlaylistId() async {
     if (globals.isLogin) {

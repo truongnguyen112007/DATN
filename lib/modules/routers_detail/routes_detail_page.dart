@@ -14,6 +14,7 @@ import 'package:base_bloc/modules/routers_detail/routes_detail_state.dart';
 import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/theme/colors.dart';
 import 'package:base_bloc/utils/app_utils.dart';
+import 'package:base_bloc/utils/log_utils.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -38,9 +39,9 @@ class RoutesDetailPage extends StatefulWidget {
 
 class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
   late RoutesDetailCubit _bloc;
-  final sizeHoldSet = 8.6.h;
-  final row = 47;
-  final column = 12;
+  var sizeHoldSet = 8.6.h;
+  var row = 47;
+  var column = 12;
   final List<String> _lRoutes = [];
   final List<String> lHoldSetImage = [
     Assets.svg.holdset1,
@@ -55,8 +56,22 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
   @override
   void initState() {
     _bloc = RoutesDetailCubit(widget.model);
+    // checkRow();
     createRoutes();
     super.initState();
+  }
+
+  void checkRow() {
+    if (widget.model.height != null) {
+      row = widget.model.height! * 5;
+      switch (widget.model.height) {
+        case 12:
+          sizeHoldSet = 7.h;
+          return;
+        default:
+          sizeHoldSet = 8.6.h;
+      }
+    }
   }
 
   void createRoutes() {
@@ -166,7 +181,7 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
                                             MediaQuery.of(context).size.width /
                                                 5.5),
                                     child: SvgPicture.asset(Assets.svg.man,
-                                        height: row * sizeHoldSet / 6 + 2.h),
+                                        height: 60.h),
                                   ),
                                 ),
                               ),

@@ -90,10 +90,7 @@ class RoutesDetailCubit extends Cubit<RoutesDetailState> {
     }
     RouterUtils.openNewPage(
         CreateInfoRoutePage(
-          lHoldSet: lHoldSet,
-          isEdit: true,
-          model: model,
-        ),
+          lHoldSet: lHoldSet, isEdit: true, routeModel: model),
         context);
   }
 }

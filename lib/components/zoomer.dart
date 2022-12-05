@@ -85,10 +85,13 @@ class Zoomer extends StatefulWidget {
   final ZoomerController controller;
   final Function(double)? scaleCallBack;
   final bool isRoute;
+  final int? heightOfRoute;
 
-  Zoomer(
-      {required this.child,
+
+ const Zoomer(
+      {super.key, required this.child,
       this.scaleCallBack,
+      this.heightOfRoute,
       this.offset,
       this.isLimitOffset = false,
       required this.controller,
@@ -140,21 +143,19 @@ class _ZoomerState extends State<Zoomer> {
     double l = (1 + _scale);
     l = l < 0 ? (-_scale - 1) / 4 : l;
     _limitOffset = Offset(widget.width, widget.height) * l;
-    if (widget.controller != null) {
-      _scale = -widget.controller._initScale!;
-      widget.controller._getZoomerScale = () => getScale;
-      widget.controller._getZoomerAngle = () => getRotation;
-      widget.controller._getZoomerOffset = () => getOffset;
-      widget.controller._setZoomerScale = (value) {
-        setScale = value;
-      };
-      widget.controller._setZoomerAngle = (value) {
-        setRotation = value;
-      };
-      widget.controller._setZoomerOffset = (value) {
-        setOffset = value;
-      };
-    }
+    _scale = -widget.controller._initScale!;
+    widget.controller._getZoomerScale = () => getScale;
+    widget.controller._getZoomerAngle = () => getRotation;
+    widget.controller._getZoomerOffset = () => getOffset;
+    widget.controller._setZoomerScale = (value) {
+      setScale = value;
+    };
+    widget.controller._setZoomerAngle = (value) {
+      setRotation = value;
+    };
+    widget.controller._setZoomerOffset = (value) {
+      setOffset = value;
+    };
     if (widget.isRoute) {
       _scaleEnd(ScaleEndDetails(
           velocity: const Velocity(pixelsPerSecond: Offset(0.0, 0.0)),
@@ -217,7 +218,7 @@ class _ZoomerState extends State<Zoomer> {
       if (details.scale == 1.0 && widget.enableTranslation) {
         //Todo set limit _offset to wrap content screen.
         if (widget.isLimitOffset) {
-          double dx = widget.height >= 800 ? 14 : 17;
+        /*  double dx = widget.height >= 800 ? 14 : 17;
           double dy =3.7;
           dx = widget.height >= 800
               ? (scale == 4.0
@@ -236,6 +237,8 @@ class _ZoomerState extends State<Zoomer> {
           _offset = Offset(
               offset.dx.clamp(-_limitOffset.dx / dx, _limitOffset.dx / dx),
               offset.dy.clamp(-_limitOffset.dy / dy, _limitOffset.dy / dy));
+        */
+          _offset = getOffsetByHeightOfRoute(scale, offset);
         } else {
           _offset = Offset(offset.dx.clamp(-_limitOffset.dx, _limitOffset.dx),
               offset.dy.clamp(-_limitOffset.dy, _limitOffset.dy));
@@ -243,11 +246,70 @@ class _ZoomerState extends State<Zoomer> {
       }
     });
 
-    if (widget.controller != null) {
-      if (widget.controller._onZoomUpdate != null) {
-        widget.controller._onZoomUpdate!();
-      }
+    if (widget.controller._onZoomUpdate != null) {
+      widget.controller._onZoomUpdate!();
     }
+  }
+
+  Offset getOffsetByHeightOfRoute(double scale, Offset offset) {
+    Offset result;
+    double dx = widget.height >= 800 ? 14 : 17;
+    double dy =3.7;
+    dx = widget.height >= 800
+        ? (scale == 4.0 ? 13 : (scale == 3.0 ? 22 : (scale == 2.0 ? 12 : 9)))
+        : (scale == 4.0
+            ? 14
+            : (scale == 3.0 ? 28 : (scale == 2.0 ? 18 : 13)));
+    switch (widget.heightOfRoute) {
+      case 3:
+          dy = widget.height >= 800
+              ? (scale == 4.0
+                  ? 160
+                  : (scale == 3.0 ? 140 : (scale == 2.0 ? 140 : 10)))
+              : (scale == 4.0
+                  ? 110
+                  : (scale == 3.0 ? 140 : (scale == 2.0 ? 2.3 : 6)));
+          break;
+      case 6:
+        dy = widget.height >= 800
+            ? (scale == 4.0
+                ? 7.5
+                : (scale == 3.0 ? 7 : (scale == 2.0 ? 10 : 12)))
+            : (scale == 4.0
+                ? 7
+                : (scale == 3.0 ? 6.8 : (scale == 2.0 ? 10 : 6)));
+        break;
+      case 9:
+        dy = widget.height >= 800
+            ? (scale == 4.0
+            ? 3.95
+            : (scale == 3.0 ? 3.2 : (scale == 2.0 ? 2.6 : 7)))
+            : (scale == 4.0
+            ? 3.7
+            : (scale == 3.0 ? 2.9 : (scale == 2.0 ? 2.3 : 6)));
+        break;
+      case 12:
+        dy = widget.height >= 800
+            ? (scale == 4.0
+                ? 2.9
+                : (scale == 3.0 ? 3.2 : (scale == 2.0 ? 2.6 : 7)))
+            : (scale == 4.0
+                ? 3.1
+                : (scale == 3.0 ? 2.3 : (scale == 2.0 ? 1.6 : 6)));
+        break;
+      default:
+        dy = widget.height >= 800
+            ? (scale == 4.0
+                ? 3.77
+                : (scale == 3.0 ? 3 : (scale == 2.0 ? 2.5 : 5)))
+            : (scale == 4.0
+                ? 3.7
+                : (scale == 3.0 ? 2.9 : (scale == 2.0 ? 2.3 : 6)));
+    }
+    result = Offset(
+        offset.dx.clamp(-_limitOffset.dx / dx, _limitOffset.dx / dx),
+        offset.dy.clamp(-_limitOffset.dy / dy, _limitOffset.dy / dy));
+    return result;
   }
 
   @override

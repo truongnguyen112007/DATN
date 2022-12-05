@@ -5,12 +5,14 @@ import 'package:base_bloc/components/app_text_field.dart';
 import 'package:base_bloc/components/appbar_widget.dart';
 import 'package:base_bloc/components/gradient_button.dart';
 import 'package:base_bloc/data/globals.dart';
+import 'package:base_bloc/data/model/info_route_model.dart';
 import 'package:base_bloc/data/model/routes_model.dart';
 import 'package:base_bloc/extenstion/string_extension.dart';
 import 'package:base_bloc/modules/create_info_route/create_info_route_cubit.dart';
 import 'package:base_bloc/modules/create_info_route/create_info_route_state.dart';
 import 'package:base_bloc/theme/colors.dart';
 import 'package:base_bloc/utils/app_utils.dart';
+import 'package:base_bloc/utils/log_utils.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,14 +23,20 @@ import '../../data/model/hold_set_model.dart';
 import '../../gen/assets.gen.dart';
 import '../../localization/locale_keys.dart';
 import '../../theme/app_styles.dart';
-
 class CreateInfoRoutePage extends StatefulWidget {
-  final List<HoldSetModel> lHoldSet;
-  final RoutesModel? model;
+  final List<HoldSetModel>? lHoldSet;
+  final RoutesModel? routeModel;
   final bool isEdit;
+  final bool isPublish;
+  final InfoRouteModel? infoRouteModel;
 
   const CreateInfoRoutePage(
-      {Key? key, required this.lHoldSet, this.model, this.isEdit = false})
+      {Key? key,
+      this.lHoldSet,
+      this.infoRouteModel,
+      this.routeModel,
+      this.isEdit = false,
+      this.isPublish = true})
       : super(key: key);
 
   @override
@@ -42,14 +50,19 @@ class _CreateInfoRoutePageState extends State<CreateInfoRoutePage> {
   @override
   void initState() {
     _bloc = CreateInfoRouteCubit(widget.lHoldSet);
-    if(widget.model!=null) routeNameController.text = widget.model?.name??'';
-    _bloc.setData(widget.model);
+    if (widget.routeModel != null) routeNameController.text = widget.routeModel?.name ?? '';
+    if(widget.infoRouteModel!=null){
+      routeNameController.text = widget.infoRouteModel?.routeName??'';
+    }else{
+      routeNameController.text = 'Fake name';
+    }
+    _bloc.setData(widget.routeModel, widget.infoRouteModel);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return AppScaffold(
+    return AppScaffold(resizeToAvoidBottomInset: false,
       padding: EdgeInsets.only(top: contentPadding, left: contentPadding),
       appbar: appbar(context),
       body: Column(
@@ -78,6 +91,10 @@ class _CreateInfoRoutePageState extends State<CreateInfoRoutePage> {
           space(),
           cornerWidget(),
           space(),
+          line(),
+          space(),
+          heightWidget(),
+          space(),
           line()
         ],
       ),
@@ -88,7 +105,8 @@ class _CreateInfoRoutePageState extends State<CreateInfoRoutePage> {
         children: [
           AppText(
             LocaleKeys.corner.tr().toCapitalize(),
-            style: typoW400.copyWith(fontSize: 16),
+            style: typoW400.copyWith(
+                fontSize: 15.sp, color: colorText0.withOpacity(0.87)),
           ),
           const Spacer(),
           BlocBuilder<CreateInfoRouteCubit, CreateInfoRouteState>(
@@ -100,6 +118,53 @@ class _CreateInfoRoutePageState extends State<CreateInfoRoutePage> {
                   ))
         ],
       );
+
+  Widget heightWidget() => Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+            AppText(LocaleKeys.height.tr().toCapitalize(),
+                style: typoW400.copyWith(
+                    fontSize: 15.sp, color: colorText0.withOpacity(0.87))),
+            Row(mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+                const SizedBox(width: 10),
+                itemHeightWidget(3),
+                itemHeightWidget(6),
+                itemHeightWidget(9),
+                itemHeightWidget(12),
+                const SizedBox(width: 10),
+              ],
+        )
+      ]);
+
+  Widget itemHeightWidget(int value) =>
+      BlocBuilder<CreateInfoRouteCubit, CreateInfoRouteState>(
+          bloc: _bloc,
+          builder: (c, state) => Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Radio<int>(
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    activeColor: colorOrange100,
+                    fillColor: value != state.height
+                        ? MaterialStateProperty.all(colorWhite.withOpacity(0.6))
+                        : null,
+                    value: value,
+                    groupValue: state.height,
+                    onChanged: (int? value) {
+                      if (widget.isEdit || widget.isPublish) return;
+                      _bloc.changeHeight(value!);
+                    },
+                  ),
+                  InkWell(
+                      child: AppText('${value}m', style: typoW400),
+                      onTap: () {
+                        if (widget.isEdit || widget.isPublish) return;
+                        _bloc.changeHeight(value);
+                      })
+                ],
+              ));
 
   Widget gradeWidget(BuildContext context) =>
       BlocBuilder<CreateInfoRouteCubit, CreateInfoRouteState>(
@@ -190,14 +255,19 @@ class _CreateInfoRoutePageState extends State<CreateInfoRoutePage> {
                 decoration: BoxDecoration(
                     gradient: Utils.backgroundGradientOrangeButton(),
                     borderRadius: BorderRadius.circular(20)),
-                onTap: () => _bloc.publishOnclick(routeNameController.text,context),
+                onTap: () => _bloc.publishOnclick(
+                    widget.isPublish, routeNameController.text, context),
                 widget: Row(
                   children: [
-                    const SizedBox(width: 5),
-                    AppText(LocaleKeys.publish.tr(), style: typoW400),
+                    const SizedBox(width: 15),
+                    AppText(
+                        widget.isPublish
+                            ? LocaleKeys.publish.tr()
+                            : LocaleKeys.next.tr(),
+                        style: typoW400),
                     const SizedBox(width: 3),
                     SvgPicture.asset(Assets.svg.fly),
-                    const SizedBox(width: 5),
+                    const SizedBox(width: 12),
                   ],
                 )))
       ]);
