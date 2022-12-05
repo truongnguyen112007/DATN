@@ -209,7 +209,7 @@ class Applocalizations extends AssetLoader {
         'Touch surface for\nextended period of\ntime',
     "touch_surface_with_two_fingers_and_bring_them_closer_together":
         'Touch surface with two\nfingers and bring them\ncloser together',
-    "height": 'Height'
+    "height": 'Height',
     "defaultArrangement": "Default arrangement",
     "sortBy": "SORT BY",
     "theRouteName": "The route’s name: A-Z",
@@ -408,15 +408,14 @@ class Applocalizations extends AssetLoader {
         'Touch surface for\nextended period of\ntime',
     "touch_surface_with_two_fingers_and_bring_them_closer_together":
         'Touch surface with two\nfingers and bring them\ncloser together',
-    "height": 'Height'
+    "height": 'Height',
     "defaultArrangement": "Default arrangement",
     "sortBy": "SORT BY",
     "theRouteName": "The route’s name: A-Z",
     "authorDes": "The author’s grade: descending",
     "authorAsc": "The author’s grade: ascending",
     "userDes": "The user’s grade: descending",
-    "userAsc" : "The user’s grade: ascending"
-    "height": 'Height'
+    "userAsc" : "The user’s grade: ascending",
   };
 
   static const Map<String, Map<String, dynamic>> mapLocales = {

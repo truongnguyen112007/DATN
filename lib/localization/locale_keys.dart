@@ -260,5 +260,4 @@ abstract class LocaleKeys {
   static const authorAsc = "authorAsc";
   static const userDes = "userDes";
   static const userAsc ="userAsc";
-  static const height = 'height';
 }
