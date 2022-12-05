@@ -235,21 +235,18 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage>   with Ticke
                                     ),
                                   ],
                                 )),
-                                Align(
-                                  alignment: Alignment.bottomCenter,
-                                  child: Container(
-                                    height: 4.h,
-                                    decoration: BoxDecoration(boxShadow: [
-                                      BoxShadow(
-                                        color: HexColor('6B6B6B')
-                                            .withOpacity(0.05),
-                                        spreadRadius: 0,
-                                        blurRadius: 10,
-                                        offset: const Offset(0, 0),
-                                      )
-                                    ]),
-                                  ),
-                                ),
+                                Container(
+                                  height: 4.h,
+                                  decoration: BoxDecoration(boxShadow: [
+                                    BoxShadow(
+                                      color: HexColor('6B6B6B')
+                                          .withOpacity(0.05),
+                                      spreadRadius: 0,
+                                      blurRadius: 10,
+                                      offset: const Offset(0, 0),
+                                    )
+                                  ]),
+                                )
                               ],
                             )),
                             const SizedBox(width: 20)
