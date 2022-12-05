@@ -57,6 +57,13 @@ class BottomNavigationConstant{
   static const TAB_PROFILE = 4;
 }
 
+class SearchConstant {
+  static const ALL = 0;
+  static const PLACE = 1;
+  static const ROUTE = 2;
+  static const PERSONS = 3;
+}
+
 class BottomNavigationSearch{
   static const TAB_ALL = 0;
   static const TAB_PLACES = 1;

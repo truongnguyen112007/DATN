@@ -141,4 +141,8 @@ class UserRepository extends BaseService{
         ApiKey.published: published,
         ApiKey.visibility: visibility
       });
+
+  Future<ApiResult> searchRoute(String value, int nextPage) async => await POST(
+      'search/service/search?from=1&size=${ApiKey.limit_offset}&q=$value',
+      null);
 }

@@ -1,10 +1,10 @@
 import 'package:equatable/equatable.dart';
 import '../../data/model/routes_model.dart';
 
-enum DesignStatus { initial, success, failure, refresh, search }
+enum RouteStatus { initial, success, failure, refresh, search }
 
 class RoutesPageState extends Equatable {
-  final DesignStatus status;
+  final RouteStatus status;
   final List<RoutesModel> lRoutes;
   final bool isReadEnd;
   final bool isLoading;
@@ -12,28 +12,36 @@ class RoutesPageState extends Equatable {
   final bool isShowAdd;
   final bool isClickRadioButton;
   final bool isShowActionButton;
+  final String keySearch;
+  int nextPage;
 
-  const RoutesPageState({
-    this.status = DesignStatus.initial,
+  RoutesPageState({
+    this.keySearch = '',
+    this.status = RouteStatus.initial,
     this.lRoutes = const <RoutesModel>[],
     this.isReadEnd = false,
     this.isLoading = true,
     this.timeStamp = 0,
+    this.nextPage = 1,
     this.isShowAdd = true,
     this.isClickRadioButton = false,
     this.isShowActionButton = false,
   });
 
-  RoutesPageState copyWith(
-          {DesignStatus? status,
+  RoutesPageState copyWith({
+          RouteStatus? status,
+          String? keySearch,
           List<RoutesModel>? lRoutes,
           bool? isReadEnd,
+          int? nextPage,
           bool? isLoading,
           int? timeStamp,
           bool? isShowAdd,
           bool? isClickRadioButton,
           bool? isShowActionButton}) =>
       RoutesPageState(
+          keySearch: keySearch ?? this.keySearch,
+          nextPage: nextPage ?? this.nextPage,
           timeStamp: timeStamp,
           isLoading: isLoading ?? this.isLoading,
           status: status ?? this.status,

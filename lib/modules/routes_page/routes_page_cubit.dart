@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'package:base_bloc/data/repository/user_repository.dart';
+import 'package:base_bloc/modules/routers_detail/routes_detail_state.dart';
 import 'package:base_bloc/modules/routes_page/routes_page_state.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,39 +14,23 @@ import '../../utils/toast_utils.dart';
 import '../filter_routes/filter_routes_page.dart';
 import '../playlist/playlist_cubit.dart';
 import '../routers_detail/routes_detail_page.dart';
-import '../tab_home/tab_home_state.dart';
 
 class RoutesPageCubit extends Cubit<RoutesPageState> {
-  RoutesPageCubit() : super(const RoutesPageState()) {
-    if (state.status == DesignStatus.initial) {
+  var userRepository = UserRepository();
+  RoutesPageCubit() : super( RoutesPageState()) {
+    if (state.status == RouteStatus.initial) {
+      emit(state.copyWith(status: RouteStatus.success));
       getRoutes();
     }
   }
 
-  onRefresh() {
-    emit(const RoutesPageState(status: DesignStatus.refresh));
-    getRoutes();
-  }
-
   getRoutes({bool isPaging = false}) {
-    if (state.isReadEnd) return;
+    if (state.isReadEnd || state.isLoading) return;
     if (isPaging) {
-      if (state.isLoading) return;
       emit(state.copyWith(isLoading: true));
-      Timer(
-          const Duration(seconds: 1),
-          () => emit(state.copyWith(
-              isReadEnd: false,
-              status: DesignStatus.success,
-              lRoutes: state.lRoutes..addAll(fakeData()),
-              isLoading: false)));
+      search(state.keySearch, state.nextPage);
     } else {
-      Timer(
-          const Duration(seconds: 1),
-          () => emit(state.copyWith(
-              status: DesignStatus.success,
-              lRoutes: fakeData(),
-              isLoading: false)));
+      search(state.keySearch, state.nextPage);
     }
   }
 
@@ -58,11 +44,9 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
   void handleAction(ItemAction action, RoutesModel model) =>
       logE("TAG ACTION: $action");
 
-  void refresh() {
+  void onRefresh() {
     Utils.fireEvent(RefreshEvent(RefreshType.FILTER));
-    emit(
-      const RoutesPageState(status: DesignStatus.refresh),
-    );
+    emit(RoutesPageState(status: RouteStatus.refresh,keySearch: state.keySearch,isLoading: false,isReadEnd: false));
     getRoutes();
   }
 
@@ -80,37 +64,6 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
             model: model,
           ),
           context);
-
-  List<RoutesModel> fakeData() => [
-        RoutesModel(
-          name: 'Adam 2022-05-22',
-          height: 12,
-        ),
-        RoutesModel(
-          name: 'Adam 2022-05-22',
-          height: 122,
-        ),
-        RoutesModel(
-          name: 'Adam 2022-05-22',
-          height: 11,
-        ),
-        RoutesModel(
-          name: 'Adam 2022-05-22',
-          height: 12,
-        ),
-        RoutesModel(
-          name: 'Adam 2022-05-22',
-          height: 122,
-        ),
-        RoutesModel(
-          name: 'Adam 2022-05-22',
-          height: 11,
-        ),
-        RoutesModel(
-          name: 'Adam 2022-05-22',
-          height: 11,
-        )
-      ];
 
   void selectOnclick(bool isShowAdd) async {
     for (int i = 0; i < state.lRoutes.length; i++) {
@@ -137,18 +90,36 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
         break;
       }
     }
-    logE("TAG IS SHOW BUTON: ${isShowActionButton}");
     emit(state.copyWith(
         isShowActionButton: isShowActionButton,
         lRoutes: state.lRoutes,
         timeStamp: DateTime.now().millisecondsSinceEpoch));
   }
 
-  void search(String keySearch) {
-    if (keySearch.isEmpty) {
-      emit(state.copyWith(status: DesignStatus.success));
-    } else {
-      emit(state.copyWith(status: DesignStatus.search));
+  void search(String keySearch, int nextPage, {bool isPaging = false}) async {
+    emit(RoutesPageState(status: RouteStatus.search, isLoading: true));
+    try {
+      var response = await userRepository.searchRoute(keySearch, nextPage);
+      var lResponse = routeModelBySearchFromJson(response.data);
+      if (response.data != null) {
+        emit(state.copyWith(
+            keySearch: keySearch,
+            status: RouteStatus.success,
+            lRoutes: isPaging ? (state.lRoutes..addAll(lResponse)) : lResponse,
+            isLoading: false,
+            nextPage: nextPage++));
+      } else {
+        emit(state.copyWith(
+            isReadEnd: true, isLoading: false, status: RouteStatus.failure));
+        toast(response.error.toString());
+      }
+    } catch (ex) {
+      emit(state.copyWith(
+          status: state.lRoutes.isNotEmpty
+              ? RouteStatus.success
+              : RouteStatus.failure,
+          isReadEnd: true,
+          isLoading: true));
     }
   }
 }
