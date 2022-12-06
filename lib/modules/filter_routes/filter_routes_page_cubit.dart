@@ -66,7 +66,12 @@ class FilterRoutesPageCubit extends Cubit<FilterRoutesPageState> {
     if (isSelect) {
       state.filter!.status.add(value);
     } else {
-      state.filter!.status.remove(value);
+      for(int i =0;i<state.filter!.status.length;i++){
+        if(state.filter!.status[i].keys.first == value.keys.first){
+          state.filter!.status.removeAt(i);
+          break;
+        }
+      }
     }
     getFavorite();
     emit(state.copyWith(timeStamp: DateTime.now().microsecondsSinceEpoch));
@@ -76,8 +81,12 @@ class FilterRoutesPageCubit extends Cubit<FilterRoutesPageState> {
     if (isSelect) {
       state.filter!.corner.add(value);
     } else {
-      state.filter!.corner.remove(value);
-    }
+      for(int i =0;i<state.filter!.corner.length;i++){
+        if(state.filter!.corner[i].keys.first == value.keys.first){
+          state.filter!.corner.removeAt(i);
+          break;
+        }
+      }    }
     getFavorite();
     emit(state.copyWith(timeStamp: DateTime.now().microsecondsSinceEpoch));
   }
@@ -98,7 +107,12 @@ class FilterRoutesPageCubit extends Cubit<FilterRoutesPageState> {
     if (isSelect) {
       state.filter!.designBy.add(value);
     } else {
-      state.filter!.designBy.remove(value);
+      for(int i =0;i<state.filter!.designBy.length;i++){
+        if(state.filter!.designBy[i].keys.first == value.keys.first){
+          state.filter!.designBy.removeAt(i);
+          break;
+        }
+      }
     }
     getFavorite();
     emit(state.copyWith(timeStamp: DateTime.now().microsecondsSinceEpoch));

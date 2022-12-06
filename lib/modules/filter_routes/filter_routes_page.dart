@@ -45,28 +45,29 @@ class FilterRoutesPage extends StatefulWidget {
   State<FilterRoutesPage> createState() => _FilterRoutesPageState();
 }
 
-var status = [
-  FilterStatusModel(value: {LocaleKeys.notTried.tr(): 0}),
-  FilterStatusModel(value: {LocaleKeys.ufUnfinished.tr(): 1}),
-  FilterStatusModel(value: {LocaleKeys.suSupported.tr(): 2}),
-  FilterStatusModel(value: {LocaleKeys.trTopRope.tr(): 3}),
-  FilterStatusModel(value: {LocaleKeys.rpRedPoint.tr(): 4}),
-  FilterStatusModel(value: {LocaleKeys.osOnSight.tr(): 5}),
-];
-
-var corners = [
-  FilterCornerModel(value: {LocaleKeys.withCorner.tr(): "T"}),
-  FilterCornerModel(value: {LocaleKeys.withoutCorners.tr(): "F"})
-];
-
-var designs = [
-  FilterDesignModel(value: {LocaleKeys.routeSetter.tr(): "T"})
-  // LocaleKeys.friends.tr(): "F"
-];
 
 class _FilterRoutesPageState extends State<FilterRoutesPage> {
   late FilterRoutesPageCubit _bloc;
   final gradeChange = BehaviorSubject<List<dynamic>>();
+
+  var status = [
+    FilterStatusModel(value: {LocaleKeys.notTried.tr(): 0}),
+    FilterStatusModel(value: {LocaleKeys.ufUnfinished.tr(): 1}),
+    FilterStatusModel(value: {LocaleKeys.suSupported.tr(): 2}),
+    FilterStatusModel(value: {LocaleKeys.trTopRope.tr(): 3}),
+    FilterStatusModel(value: {LocaleKeys.rpRedPoint.tr(): 4}),
+    FilterStatusModel(value: {LocaleKeys.osOnSight.tr(): 5}),
+  ];
+
+  var corners = [
+    FilterCornerModel(value: {LocaleKeys.withCorner.tr(): "T"}),
+    FilterCornerModel(value: {LocaleKeys.withoutCorners.tr(): "F"})
+  ];
+
+  var designs = [
+    FilterDesignModel(value: {LocaleKeys.routeSetter.tr(): "T"})
+    // LocaleKeys.friends.tr(): "F"
+  ];
 
   @override
   void initState() {
