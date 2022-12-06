@@ -48,14 +48,14 @@ class FavouriteCubit extends Cubit<FavouriteState> {
 
   void itemOnLongClick(
       BuildContext context, int index, FilterController controller,
-      {bool isMultiSelect = false,
-      RoutesModel? model}) {
+      {bool isMultiSelect = false, RoutesModel? model}) {
     var countSelect = 0;
     for (var element in state.lPlayList) {
       if (element.isSelect) countSelect++;
     }
-    var isAddToPlaylist = false; // Cờ check xem có item nào đã add vào playlist chưa
-    var countNotAddToPlaylist=0; // Check số lượng item chưa add vào Playlist
+    var isAddToPlaylist =
+        false; // Cờ check xem có item nào đã add vào playlist chưa
+    var countNotAddToPlaylist = 0; // Check số lượng item chưa add vào Playlist
     for (var element in state.lPlayList) {
       if (element.isSelect) {
         if (element.playlistIn == true) {
@@ -93,9 +93,10 @@ class FavouriteCubit extends Cubit<FavouriteState> {
           return;
       }
     },
-        checkPlaylists: (!isAddToPlaylist || (isAddToPlaylist && countNotAddToPlaylist > 0))
-            ? true
-            : false,
+        checkPlaylists:
+            (!isAddToPlaylist || (isAddToPlaylist && countNotAddToPlaylist > 0))
+                ? true
+                : false,
         isFavorite: true,
         model: model,
         isCopy: !isMultiSelect ? true : (countSelect == 1 ? true : false));
@@ -121,7 +122,10 @@ class FavouriteCubit extends Cubit<FavouriteState> {
         filter: state.filter,
         isFilterFav: true,
         showResultButton: (model) {
-          emit(FavouriteState(favType: FavType.Filter, filter: model,));
+          emit(FavouriteState(
+            favType: FavType.Filter,
+            filter: model,
+          ));
           getFavourite();
         },
       ),
@@ -132,7 +136,7 @@ class FavouriteCubit extends Cubit<FavouriteState> {
       Navigator.pop(context);
       state.sort = type;
       state.favType = FavType.Sort;
-      emit(FavouriteState(sort: type));
+      emit(FavouriteState(sort: type,favType: FavType.Sort));
       getFavourite();
     }, state.sort);
   }
@@ -186,18 +190,26 @@ class FavouriteCubit extends Cubit<FavouriteState> {
       return;
     emit(state.copyWith(isLoading: true));
     var response = await userRepository.getFavorite(
-        type: state.favType,
-        userId: globals.userId,
-        status: state.filter?.status[0][state.filter?.status[0].keys.first],
-        nextPage: state.nextPage,
-        orderType: state.sort?.orderType,
-        orderValue: state.sort?.orderValue,
-        authorGradeFrom: state.filter?.authorGradeFrom,
-        authorGradeTo: state.filter?.authorGradeTo,
-        userGradeFrom: state.filter?.userGradeFrom,
-        userGardeTo: state.filter?.userGradeTo,
-        hasConner: state.filter?.conner[0][state.filter?.conner[0].keys.first],
-        setter: state.filter?.designBy);
+      type: state.favType,
+      userId: globals.userId,
+      status: state.filter?.status != null && state.filter!.status.isNotEmpty
+          ? state.filter?.status[0][state.filter?.status[0].keys.first]
+          : null,
+      nextPage: state.nextPage,
+      orderType: state.sort?.orderType,
+      orderValue: state.sort?.orderValue,
+      authorGradeFrom: state.filter?.authorGradeFrom,
+      authorGradeTo: state.filter?.authorGradeTo,
+      userGradeFrom: state.filter?.userGradeFrom,
+      userGardeTo: state.filter?.userGradeTo,
+      hasConner: state.filter?.corner != null && state.filter!.corner.isNotEmpty
+          ? state.filter?.corner[0][state.filter?.corner[0].keys.first]
+          : null,
+      setter:
+          state.filter?.designBy != null && state.filter!.designBy.isNotEmpty
+              ? state.filter?.designBy[0][state.filter?.designBy[0].keys.first]
+              : null,
+    );
     if (response.data != null && response.error == null) {
       try {
         var lResponse = routeModelFromJson(response.data);
@@ -212,7 +224,6 @@ class FavouriteCubit extends Cubit<FavouriteState> {
         emit(state.copyWith(
             isReadEnd: true, isLoading: false, status: FeedStatus.failure));
       }
-      logE(state.lPlayList.length.toString());
     } else {
       emit(
         state.copyWith(
@@ -278,7 +289,7 @@ class FavouriteCubit extends Cubit<FavouriteState> {
   }) async {
     Dialogs.showLoadingDialog(context);
     var lRoutes = <String>[];
-    var lIndex =[];
+    var lIndex = [];
     if (isMultiSelect) {
       for (int i = 0; i < state.lPlayList.length; i++) {
         if (state.lPlayList[i].isSelect) {

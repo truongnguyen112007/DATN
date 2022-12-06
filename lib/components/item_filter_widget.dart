@@ -13,8 +13,8 @@ import 'app_text.dart';
 class ItemFilterWidget extends StatefulWidget {
   final Map<String, dynamic> data;
   final Function(bool) callback;
-
-  const ItemFilterWidget({Key? key, required this.data, required this.callback})
+  final bool isSelect;
+  const ItemFilterWidget({Key? key, required this.data, required this.callback,this.isSelect = false})
       : super(key: key);
 
   @override
@@ -27,6 +27,7 @@ class _ItemFilterWidgetState extends State<ItemFilterWidget> {
   StreamSubscription<RefreshEvent>? _refreshStream;
   @override
   void initState() {
+    isSelect = widget.isSelect;
     _refreshStream = Utils.eventBus.on<RefreshEvent>().listen((event) {
       if(event.type == RefreshType.FILTER){
         setState(() {
@@ -34,9 +35,6 @@ class _ItemFilterWidgetState extends State<ItemFilterWidget> {
         });
       }
     });
-
-    logE("tagahdgjhb");
-
  /*   widget.filterController?._getSelect = (value) {
       setState(() {
         isSelect = value;

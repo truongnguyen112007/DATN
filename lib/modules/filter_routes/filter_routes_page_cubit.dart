@@ -14,29 +14,33 @@ class FilterRoutesPageCubit extends Cubit<FilterRoutesPageState> {
   FilterRoutesPageCubit() : super(FilterRoutesPageState()) {
     state.filter = FilterParam(
         status: [],
-        conner: [],
+        corner: [],
         authorGradeFrom: 0,
         authorGradeTo: 20,
         userGradeFrom: 0,
         userGradeTo: 20,
-        designBy: 'T');
+        designBy: []);
   }
 
   void getFavorite() async {
     var response = await userRepository.getFavorite(
-        type: FavType.Filter,
-        nextPage: 1,
-        status: state.filter?.status != null && state.filter!.status.length > 0
-            ? state.filter?.status[0][state.filter?.status[0].keys.first]
-            : '',
-        hasConner: state.filter?.conner != null && state.filter!.conner.length > 0
-            ? state.filter?.conner[0][state.filter?.conner[0].keys.first]
-            : '',
-        authorGradeFrom: state.filter?.authorGradeFrom,
-        authorGradeTo: state.filter?.authorGradeTo,
-        userGradeFrom: state.filter?.userGradeFrom,
-        userGardeTo: state.filter?.userGradeTo,
-        setter: state.filter?.designBy);
+      type: FavType.Filter,
+      nextPage: 1,
+      status: state.filter?.status != null && state.filter!.status.isNotEmpty
+          ? state.filter?.status[0][state.filter?.status[0].keys.first]
+          : null,
+      hasConner: state.filter?.corner != null && state.filter!.corner.isNotEmpty
+          ? state.filter?.corner[0][state.filter?.corner[0].keys.first]
+          : null,
+      authorGradeFrom: state.filter?.authorGradeFrom,
+      authorGradeTo: state.filter?.authorGradeTo,
+      userGradeFrom: state.filter?.userGradeFrom,
+      userGardeTo: state.filter?.userGradeTo,
+      setter:
+          state.filter?.designBy != null && state.filter!.designBy.isNotEmpty
+              ? state.filter?.designBy[0][state.filter?.designBy[0].keys.first]
+              : null,
+    );
     if (response.data != null && response.error == null) {
       try {
         var lResponse = routeModelFromJson(response.data);
@@ -53,9 +57,6 @@ class FilterRoutesPageCubit extends Cubit<FilterRoutesPageState> {
     if (filter != null) {
       emit(state.copyWith(
         filter: filter,
-        currentStatus: filter.currentStatus,
-        currentConnerIndex: filter.currentConner,
-        currentDesignBy: filter.currentDesignedBy,
       ));
       getFavorite();
     }
@@ -64,6 +65,8 @@ class FilterRoutesPageCubit extends Cubit<FilterRoutesPageState> {
   void setStatus(Map<String, dynamic> value, bool isSelect) {
     if (isSelect) {
       state.filter!.status.add(value);
+    } else {
+      state.filter!.status.remove(value);
     }
     getFavorite();
     emit(state.copyWith(timeStamp: DateTime.now().microsecondsSinceEpoch));
@@ -71,7 +74,9 @@ class FilterRoutesPageCubit extends Cubit<FilterRoutesPageState> {
 
   void setCorner(Map<String, dynamic> value, bool isSelect) {
     if (isSelect) {
-      state.filter!.conner.add(value);
+      state.filter!.corner.add(value);
+    } else {
+      state.filter!.corner.remove(value);
     }
     getFavorite();
     emit(state.copyWith(timeStamp: DateTime.now().microsecondsSinceEpoch));
@@ -89,10 +94,14 @@ class FilterRoutesPageCubit extends Cubit<FilterRoutesPageState> {
     emit(state.copyWith(timeStamp: DateTime.now().microsecondsSinceEpoch));
   }
 
-  void setDesignBy(List<dynamic> value) {
-    state.filter?.designBy = value[0];
+  void setDesignBy(Map<String, dynamic> value, bool isSelect) {
+    if (isSelect) {
+      state.filter!.designBy.add(value);
+    } else {
+      state.filter!.designBy.remove(value);
+    }
     getFavorite();
-    emit(state.copyWith(currentDesignBy: value[1]));
+    emit(state.copyWith(timeStamp: DateTime.now().microsecondsSinceEpoch));
   }
 
   void removeFilter() {
@@ -103,9 +112,9 @@ class FilterRoutesPageCubit extends Cubit<FilterRoutesPageState> {
           authorGradeTo: 20,
           userGradeFrom: 0,
           userGradeTo: 20,
-          designBy: 'T',
+          designBy: [],
           status: [],
-          conner: [],
+          corner: [],
         ),
       ),
     );

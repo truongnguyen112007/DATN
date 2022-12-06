@@ -6,10 +6,8 @@ class FilterRoutesPageState extends Equatable {
   late FilterParam? filter;
   late List<RoutesModel>? lPlayList;
   final int timeStamp;
-  final int currentDesignBy;
 
   FilterRoutesPageState({
-    this.currentDesignBy = 0,
     this.timeStamp = 0,
     this.lPlayList = const <RoutesModel>[],
     this.filter,
@@ -17,13 +15,10 @@ class FilterRoutesPageState extends Equatable {
 
   FilterRoutesPageState copyWith(
           {List<RoutesModel>? lPlayList,
-          int? currentDesignBy,
-          int? currentConnerIndex,
           FilterParam? filter,
           int? timeStamp,
-          int? currentStatus}) =>
+         }) =>
       FilterRoutesPageState(
-          currentDesignBy: currentDesignBy ?? this.currentDesignBy,
           lPlayList: lPlayList ?? this.lPlayList,
           filter: filter ?? this.filter,
           timeStamp: timeStamp ?? this.timeStamp,
@@ -34,6 +29,5 @@ class FilterRoutesPageState extends Equatable {
         filter,
         lPlayList,
         timeStamp,
-        currentDesignBy,
       ];
 }
