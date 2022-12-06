@@ -554,6 +554,9 @@ class Utils {
     );
   }
 
+  static String convertDateToYYYYMMDD(DateTime dateTime) =>
+      DateFormat('yyyy-MM-dd').format(dateTime);
+
   static String convertDateTimeToEEE(DateTime dateTime) =>
       DateFormat('EEE').format(dateTime);
 
