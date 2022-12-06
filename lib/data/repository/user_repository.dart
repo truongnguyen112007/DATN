@@ -5,7 +5,7 @@ import 'package:base_bloc/modules/favourite/favourite_state.dart';
 import '../globals.dart' as globals;
 import 'api_result.dart';
 
-class UserRepository extends BaseService{
+class UserRepository extends BaseService {
   static UserRepository instance = UserRepository._init();
 
   factory UserRepository() {
@@ -40,10 +40,9 @@ class UserRepository extends BaseService{
   Future<ApiResult> deleteRoute(String routeId) async =>
       await DELETE('route/$routeId');
 
-  Future<ApiResult> addToPlaylist(String playlistId,List<String> lRoute) async =>
-      await POST('playlistdetail/$playlistId',{
-        ApiKey.route_ids : lRoute
-      });
+  Future<ApiResult> addToPlaylist(
+          String playlistId, List<String> lRoute) async =>
+      await POST('playlistdetail/$playlistId', {ApiKey.route_ids: lRoute});
 
   Future<ApiResult> moveToTop(String playlistId, String routeId) async =>
       await PUT('playlistdetail/$playlistId', body: {ApiKey.route_id: routeId});
@@ -71,7 +70,7 @@ class UserRepository extends BaseService{
                   "favourite?start=$nextPage&count=${ApiKey.limit_offset}&order_type=$orderType");
         case FavType.Filter:
           return await GET(
-              "favourite?start=$nextPage&count=${ApiKey.limit_offset}&author_grade_from=${authorGradeFrom?.toInt()}&author_grade_to=${authorGradeTo?.toInt()}&user_grade_from=${userGradeFrom?.toInt()}&user_grade_to=${userGardeTo?.toInt()}&status=$status&has_conner=$hasConner&setter=$setter");
+              "favourite?start=$nextPage&count=${ApiKey.limit_offset}&author_grade_from=${authorGradeFrom?.toInt()}&author_grade_to=${authorGradeTo?.toInt()}&user_grade_from=${userGradeFrom?.toInt()}&user_grade_to=${userGardeTo?.toInt()}${status != null ? "&status=$status" : ""}${hasConner != null ? "&has_conner=$hasConner" : ""}${setter != null ? "&setter=$setter" : ""}");
         default:
           return await GET(
               "favourite?start=$nextPage&count=${ApiKey.limit_offset}");
@@ -79,29 +78,15 @@ class UserRepository extends BaseService{
     }
   }
 
-  Future<ApiResult> filterFavorite(
-          int nextPage,
-          int status,
-          int authorGradeFrom,
-          int authorGradeTo,
-          int userGradeFrom,
-          int userGardeTo,
-          bool hasConner,
-          bool setter) async =>
-      await GET(
-          "favourite?start=$nextPage&count=${ApiKey.limit_offset}&author_grade_from=$authorGradeFrom&author_grade_to=$authorGradeTo&user_grade_from=$userGradeFrom&user_grade_to=$userGardeTo&status=$status&has_conner=$hasConner&setter=$setter");
-
   Future<ApiResult> removeFromFavorite(String routeIds) async => await DELETE(
         'favourite?ids=$routeIds', /*body: {ApiKey.route_ids: routeId}*/
       );
 
   Future<ApiResult> addToFavorite(int userId, List<String> routeIds) async =>
-      await POST('favourite', {
-        ApiKey.route_ids: routeIds
-      });
+      await POST('favourite', {ApiKey.route_ids: routeIds});
 
   Future<ApiResult> removeFromPlaylist(
-      String playlistId, String routeId) async =>
+          String playlistId, String routeId) async =>
       await DELETE('playlistdetail/$playlistId?ids=$routeId');
 
   Future<ApiResult> createRoute(
@@ -123,16 +108,15 @@ class UserRepository extends BaseService{
       });
 
   Future<ApiResult> editRoute(
-      {
-        required String routeId,
-        required String name,
-        int height = 12,
-        required List<int> lHold,
-        required bool hasCorner,
-        required int authorGrade,
-        bool published = true,
-        int visibility = 0}) async =>
-      await PUT('route/$routeId',body: {
+          {required String routeId,
+          required String name,
+          int height = 12,
+          required List<int> lHold,
+          required bool hasCorner,
+          required int authorGrade,
+          bool published = true,
+          int visibility = 0}) async =>
+      await PUT('route/$routeId', body: {
         ApiKey.name: name,
         ApiKey.height: height,
         ApiKey.holds: lHold,

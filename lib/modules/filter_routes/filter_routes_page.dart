@@ -21,6 +21,9 @@ import 'package:rxdart/rxdart.dart';
 
 import '../../components/app_text.dart';
 import '../../components/item_filter_widget.dart';
+import '../../data/model/filter_corner_model.dart';
+import '../../data/model/filter_design_model.dart';
+import '../../data/model/filter_status_model.dart';
 import '../../data/model/filter_param.dart';
 import '../../localization/locale_keys.dart';
 import '../../theme/colors.dart';
@@ -42,38 +45,69 @@ class FilterRoutesPage extends StatefulWidget {
   State<FilterRoutesPage> createState() => _FilterRoutesPageState();
 }
 
-final Map<String, int> status = {
-  LocaleKeys.notTried.tr(): 0,
-  LocaleKeys.ufUnfinished.tr(): 1,
-  LocaleKeys.suSupported.tr(): 2,
-  LocaleKeys.trTopRope.tr(): 3,
-  LocaleKeys.rpRedPoint.tr(): 4,
-  LocaleKeys.osOnSight.tr(): 5,
-};
-
-final Map<String, String> corners = {
-  LocaleKeys.withCorner.tr(): "T",
-  LocaleKeys.withoutCorners.tr(): "F"
-};
-
-final Map<String, String> designs = {
-  LocaleKeys.routeSetter.tr(): "T",
-  LocaleKeys.friends.tr(): "F"
-};
 
 class _FilterRoutesPageState extends State<FilterRoutesPage> {
   late FilterRoutesPageCubit _bloc;
   final gradeChange = BehaviorSubject<List<dynamic>>();
 
+  var status = [
+    FilterStatusModel(value: {LocaleKeys.notTried.tr(): 0}),
+    FilterStatusModel(value: {LocaleKeys.ufUnfinished.tr(): 1}),
+    FilterStatusModel(value: {LocaleKeys.suSupported.tr(): 2}),
+    FilterStatusModel(value: {LocaleKeys.trTopRope.tr(): 3}),
+    FilterStatusModel(value: {LocaleKeys.rpRedPoint.tr(): 4}),
+    FilterStatusModel(value: {LocaleKeys.osOnSight.tr(): 5}),
+  ];
+
+  var corners = [
+    FilterCornerModel(value: {LocaleKeys.withCorner.tr(): "T"}),
+    FilterCornerModel(value: {LocaleKeys.withoutCorners.tr(): "F"})
+  ];
+
+  var designs = [
+    FilterDesignModel(value: {LocaleKeys.routeSetter.tr(): "T"})
+    // LocaleKeys.friends.tr(): "F"
+  ];
+
   @override
   void initState() {
     _bloc = FilterRoutesPageCubit();
+    checkDataStatus();
     _bloc.setData(widget.filter);
     gradeChange
         .debounceTime(const Duration(seconds: 1))
         .listen((value) => _bloc.getFavorite());
 
     super.initState();
+  }
+
+  void checkDataStatus() {
+    if (widget.filter != null) {
+      for (int j = 0; j < widget.filter!.status.length; j++) {
+        for (int i = 0; i < status.length; i++) {
+          if (status[i].value.keys.first ==
+              widget.filter!.status[j].keys.first) {
+            status[i].isSelect = true;
+          }
+        }
+      }
+      for (int j = 0; j < widget.filter!.corner.length; j++) {
+        for (int i = 0; i < corners.length; i++) {
+          if (corners[i].value.keys.first ==
+              widget.filter!.corner[j].keys.first) {
+            corners[i].isSelect = true;
+          }
+        }
+      }
+      for (int j = 0; j < widget.filter!.designBy.length; j++) {
+        for (int i = 0; i < designs.length; i++) {
+          if (designs[i].value.keys.first ==
+              widget.filter!.designBy[j].keys.first) {
+            designs[i].isSelect = true;
+          }
+        }
+      }
+    }
   }
 
   var backgroundColor = HexColor('212121');
@@ -152,11 +186,7 @@ class _FilterRoutesPageState extends State<FilterRoutesPage> {
                         }),
                         itemTitle(LocaleKeys.designedBy.tr()),
                         itemSpace(height: 9),
-                        filterWidget(
-                            designs,
-                            state.filter!.designBy,
-                            (value) => _bloc.setDesignBy(value),
-                            state.currentDesignBy),
+                        filterDesign(designs),
                         const SizedBox(height: 50),
                       ],
                     ),
@@ -182,8 +212,6 @@ class _FilterRoutesPageState extends State<FilterRoutesPage> {
                       ),
                     ),
                     onTap: () {
-                      state.filter!.currentDesignedBy = state.currentDesignBy;
-                      logE(state.filter!.currentConner.toString());
                       widget.showResultButton(state.filter!);
                       RouterUtils.pop(context);
                     }),
@@ -331,21 +359,23 @@ class _FilterRoutesPageState extends State<FilterRoutesPage> {
             color: colorText0.withOpacity(0.87), fontSize: 14.5.sp),
       );
 
-  Widget filterWidget(Map nameList, String currentValue,
-      Function(List<dynamic>) onCallBackSelect, int currentIndex) {
+  Widget filterDesign(List<FilterDesignModel> nameList) {
     return SizedBox(
       height: 27.h,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
-        itemCount: nameList.keys.length,
+        itemCount: nameList.length,
         itemBuilder: (context, index) {
-          return itemListView(
-              alignment: Alignment.center,
-              itemOnclick: () => onCallBackSelect(
-                  [nameList[nameList.keys.elementAt(index)], index]),
-              index: index,
-              text: nameList.keys.elementAt(index),
-              selectIndex: currentIndex);
+          return ItemFilterWidget(
+            isSelect: nameList[index].isSelect,
+            data: {
+              nameList[index].value.keys.first:
+              nameList[index].value[nameList[index].value.keys.first]
+            },
+            callback: (value) {
+              _bloc.setDesignBy(nameList[index].value, value);
+            },
+          );
         },
         separatorBuilder: (BuildContext context, int index) => const SizedBox(
           width: 12,
@@ -354,20 +384,21 @@ class _FilterRoutesPageState extends State<FilterRoutesPage> {
     );
   }
 
-  Widget filterConner(Map<String,dynamic> nameList) {
+  Widget filterConner(List<FilterCornerModel> nameList) {
     return SizedBox(
       height: 27.h,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
-        itemCount: nameList.keys.length,
+        itemCount: nameList.length,
         itemBuilder: (context, index) {
           return ItemFilterWidget(
+            isSelect: nameList[index].isSelect,
             data: {
-              nameList.keys.elementAt(index):
-                  nameList[nameList.keys.elementAt(index)]
+              nameList[index].value.keys.first:
+                  nameList[index].value[nameList[index].value.keys.first]
             },
             callback: (value) {
-              _bloc.setCorner(nameList,value);
+              _bloc.setCorner(nameList[index].value, value);
             },
           );
         },
@@ -408,20 +439,21 @@ class _FilterRoutesPageState extends State<FilterRoutesPage> {
         onTap: () => itemOnclick.call(),
       );
 
-  Widget statusWidget(Map<String, dynamic> nameList) =>
+  Widget statusWidget(List<FilterStatusModel> nameList) =>
       BlocBuilder<FilterRoutesPageCubit, FilterRoutesPageState>(
         bloc: _bloc,
         builder: (c, state) => Tags(
           columns: 2,
-          itemCount: status.keys.length,
+          itemCount: nameList.length,
           alignment: WrapAlignment.start,
           itemBuilder: (int index) => ItemFilterWidget(
+            isSelect: nameList[index].isSelect,
             data: {
-              nameList.keys.elementAt(index):
-                  nameList[nameList.keys.elementAt(index)]
+              nameList[index].value.keys.first:
+                  nameList[index].value[nameList[index].value.keys.first]
             },
             callback: (value) {
-              _bloc.setStatus(nameList,value);
+              _bloc.setStatus(nameList[index].value, value);
             },
           ),
         ),
