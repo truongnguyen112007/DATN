@@ -54,7 +54,8 @@ class _CreateInfoRoutePageState extends State<CreateInfoRoutePage> {
     if(widget.infoRouteModel!=null){
       routeNameController.text = widget.infoRouteModel?.routeName??'';
     }else{
-      routeNameController.text = 'Fake name';
+      routeNameController.text =
+          'Climber ${Utils.convertDateToYYYYMMDD(DateTime.now())}';
     }
     _bloc.setData(widget.routeModel, widget.infoRouteModel);
     super.initState();

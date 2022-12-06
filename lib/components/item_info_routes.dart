@@ -124,36 +124,15 @@ class ItemInfoRoutes extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        flex: 1,
-                                        child: AppText(
-                                          model.name ?? '',
-                                          style: googleFont.copyWith(
-                                              color: colorText0
-                                                  .withOpacity(0.87),
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 20.5.sp),
-                                          maxLine: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ),
-                                      SizedBox(width: 10.w,),
-                                      Expanded(
-                                        flex: 2,
-                                        child: AppText(
-                                          Utils.convertTimeStampToYYYYMMYY(
-                                              model.created ?? 0),
-                                          maxLine: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: googleFont.copyWith(
-                                              color: colorWhite,
-                                              fontSize: 20.sp,
-                                              fontWeight: FontWeight.w600),
-                                        ),
-                                      ),
-                                    ],
+                                  AppText(
+                                    model.name ?? '',
+                                    style: googleFont.copyWith(
+                                        color: colorText0
+                                            .withOpacity(0.87),
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 20.5.sp),
+                                    maxLine: 1,
+                                    overflow: TextOverflow.ellipsis,
                                   ),
                                   const SizedBox(height: 6),
                                   Row(
