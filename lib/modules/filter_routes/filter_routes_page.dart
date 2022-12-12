@@ -29,15 +29,19 @@ import '../../localization/locale_keys.dart';
 import '../../theme/colors.dart';
 import 'filter_routes_page_cubit.dart';
 
+enum FilterType { Favorite, Designed, SearchRoute }
+
 class FilterRoutesPage extends StatefulWidget {
-  final bool isFilterFav;
+  FilterType type;
   final Function(FilterParam) showResultButton;
   final FilterParam? filter;
+  final Function(FilterParam) removeFilterCallBack;
 
-  const FilterRoutesPage({
+  FilterRoutesPage({
     Key? key,
-    this.isFilterFav = false,
+    this.type = FilterType.Favorite,
     required this.showResultButton,
+    required this.removeFilterCallBack,
     this.filter,
   }) : super(key: key);
 
@@ -45,9 +49,9 @@ class FilterRoutesPage extends StatefulWidget {
   State<FilterRoutesPage> createState() => _FilterRoutesPageState();
 }
 
-
 class _FilterRoutesPageState extends State<FilterRoutesPage> {
   late FilterRoutesPageCubit _bloc;
+
   final gradeChange = BehaviorSubject<List<dynamic>>();
 
   var status = [
@@ -71,12 +75,12 @@ class _FilterRoutesPageState extends State<FilterRoutesPage> {
 
   @override
   void initState() {
-    _bloc = FilterRoutesPageCubit();
+    _bloc = FilterRoutesPageCubit(widget.type);
     checkDataStatus();
     _bloc.setData(widget.filter);
     gradeChange
         .debounceTime(const Duration(seconds: 1))
-        .listen((value) => _bloc.getFavorite());
+        .listen((value) => _bloc.setType());
 
     super.initState();
   }
@@ -133,7 +137,8 @@ class _FilterRoutesPageState extends State<FilterRoutesPage> {
                       children: [
                         itemSpace(),
                         Visibility(
-                          visible: !widget.isFilterFav,
+                          visible: widget.type == FilterType.Favorite &&
+                              widget.type == FilterType.SearchRoute,
                           child: Stack(
                             children: [
                               Padding(
@@ -213,6 +218,7 @@ class _FilterRoutesPageState extends State<FilterRoutesPage> {
                     ),
                     onTap: () {
                       widget.showResultButton(state.filter!);
+                      Utils.hideKeyboard(context);
                       RouterUtils.pop(context);
                     }),
                 itemSpace()
@@ -336,8 +342,8 @@ class _FilterRoutesPageState extends State<FilterRoutesPage> {
                 borderRadius: BorderRadius.circular(10),
                 onTap: () {
                   Utils.fireEvent(RefreshEvent(RefreshType.FILTER));
-                  // lController.forEach((element) {element.setSelect =false;});
-                  _bloc.removeFilter();
+                  _bloc.removeFilter(
+                      (model) => widget.removeFilterCallBack.call(model));
                 },
                 child: AppText(
                   LocaleKeys.removeFilter.tr(),
@@ -370,7 +376,7 @@ class _FilterRoutesPageState extends State<FilterRoutesPage> {
             isSelect: nameList[index].isSelect,
             data: {
               nameList[index].value.keys.first:
-              nameList[index].value[nameList[index].value.keys.first]
+                  nameList[index].value[nameList[index].value.keys.first]
             },
             callback: (value) {
               _bloc.setDesignBy(nameList[index].value, value);

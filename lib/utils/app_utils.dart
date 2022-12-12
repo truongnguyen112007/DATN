@@ -160,7 +160,7 @@ class Utils {
           0.6058,
           1
         ]);
-    /*  case 9: //6C+
+      /*  case 9: //6C+
         return BackgroundParam([
           HexColor('D14800'),
           HexColor('D17800'),
@@ -290,6 +290,7 @@ class Utils {
         ]);
     }
   }
+
   static String getGrade(int value) {
     switch (value) {
       case 0:
@@ -431,12 +432,12 @@ class Utils {
   static void showActionDialog(
       BuildContext context, Function(ItemAction) callBack,
       {bool isPlaylist = false,
-        bool checkPlaylists = false,
+      bool checkPlaylists = false,
       bool isFavorite = false,
       bool isCopy = true,
       bool isDesigned = false,
+      bool? isSearchRoute = false,
       RoutesModel? model}) {
-    // logE("{${model?.playlistIn},${isPlaylist}}");
     showModalBottomSheet(
         isScrollControlled: true,
         backgroundColor: Colors.transparent,
@@ -455,14 +456,16 @@ class Utils {
                   child: Column(
                     children: [
                       SizedBox(height: contentPadding),
-                      !isDesigned && !isFavorite
+                      !isDesigned && !isFavorite && !isSearchRoute!
                           ? itemAction(
                               Assets.svg.moveToTop,
                               LocaleKeys.moveToPlaylist.tr(),
                               ItemAction.MOVE_TO_TOP,
                               () => callBack.call(ItemAction.MOVE_TO_TOP))
                           : const SizedBox(),
-                      checkPlaylists && !isPlaylist && (!(model?.playlistIn ?? false))
+                      checkPlaylists &&
+                              !isPlaylist &&
+                              (!(model?.playlistIn ?? false))
                           ? itemAction(
                               Assets.svg.addToPlayList,
                               LocaleKeys.addToPlaylist.tr(),
@@ -484,7 +487,7 @@ class Utils {
                               ItemAction.ADD_TO_FAVOURITE,
                               () => callBack.call(ItemAction.ADD_TO_FAVOURITE))
                           : const SizedBox(),
-                      !isDesigned
+                      !isDesigned && ((model?.favouriteIn ?? true))
                           ? itemAction(
                               Assets.svg.like,
                               LocaleKeys.removeFromFavorite.tr(),
@@ -492,26 +495,26 @@ class Utils {
                               () => callBack
                                   .call(ItemAction.REMOVE_FROM_FAVORITE))
                           : const SizedBox(),
-                      itemAction(
+                      !isSearchRoute! ? itemAction(
                           Assets.svg.share,
                           LocaleKeys.share.tr(),
                           ItemAction.SHARE,
-                          () => callBack.call(ItemAction.SHARE)),
-                      isCopy
+                          () => callBack.call(ItemAction.SHARE)):const SizedBox(),
+                      isCopy && !isSearchRoute
                           ? itemAction(
                               Assets.svg.copy,
                               LocaleKeys.copy.tr(),
                               ItemAction.COPY,
                               () => callBack.call(ItemAction.COPY))
                           : const SizedBox(),
-                      (!isPlaylist && !isFavorite)
+                      (!isPlaylist && !isFavorite && !isSearchRoute)
                           ? itemAction(
                               Assets.svg.edit,
                               LocaleKeys.edit.tr(),
                               ItemAction.EDIT,
                               () => callBack.call(ItemAction.EDIT))
                           : const SizedBox(),
-                      (!isPlaylist && !isFavorite)
+                      (!isPlaylist && !isFavorite && !isSearchRoute)
                           ? itemAction(
                               Assets.svg.delete,
                               LocaleKeys.delete.tr(),

@@ -64,7 +64,6 @@ class _SearchPageState extends BasePopState<SearchPage>
     itemOnChange
         .debounceTime(const Duration(seconds: 1))
         .listen((value){
-          logE("sdlfkjsd");
       Utils.fireEvent(
         SearchHomeEvent(selectedIndex, value),
       );

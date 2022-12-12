@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import '../../data/model/filter_param.dart';
 import '../../data/model/routes_model.dart';
+import 'filter_routes_page.dart';
 
 class FilterRoutesPageState extends Equatable {
   late FilterParam? filter;

@@ -23,6 +23,7 @@ import '../../data/model/routes_model.dart';
 import '../../localization/locale_keys.dart';
 import '../../theme/app_styles.dart';
 import '../../utils/app_utils.dart';
+import '../../utils/log_utils.dart';
 
 class FavouritePage extends StatefulWidget {
   const FavouritePage({Key? key}) : super(key: key);
@@ -124,12 +125,14 @@ class _FavouritePageState extends State<FavouritePage>
                           borderRadius: BorderRadius.circular(18),
                         ),
                         onTap: () {
+                          logE("hskjdhkjsh");
                           var lSelectRadioButton = <RoutesModel>[];
                           for (var element in state.lPlayList) {
                             if (element.isSelect == true)
                               lSelectRadioButton.add(element);
                           }
-                          _bloc.itemOnLongClick(context,0,filterController,
+                          _bloc.itemOnLongClick(
+                              context,0,filterController,
                               isMultiSelect: true);
                         },
                         widget: AppText(

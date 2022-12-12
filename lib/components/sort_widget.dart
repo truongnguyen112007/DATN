@@ -70,7 +70,7 @@ class _SortWidgetState extends State<SortWidget> {
               ),
               itemSort(
                 LocaleKeys.theRouteName.tr(),
-                SortParam(name: LocaleKeys.theRouteName.tr(), orderType: 1),
+                SortParam(name: LocaleKeys.theRouteName.tr(), orderType: 1,orderValue: 1),
                 (action) => widget.callBack.call(action),
               ),
               itemSort(
