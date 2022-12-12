@@ -221,7 +221,7 @@ final boxShadowSelectBox = [
     blurRadius: 5,
     offset: const Offset(0, 4),
   ),
-];
+]; //ád
 final googleFont = GoogleFonts.nunito(letterSpacing: 0.3, color: colorMainText);
 final typoW400 = GoogleFonts.nunito(
     letterSpacing: 0.3, color: colorMainText, fontWeight: FontWeight.w400);
