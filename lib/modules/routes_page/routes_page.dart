@@ -14,6 +14,7 @@ import '../../components/app_text.dart';
 import '../../components/filter_widget.dart';
 import '../../components/gradient_button.dart';
 import '../../components/item_info_routes.dart';
+import '../../data/eventbus/refresh_event.dart';
 import '../../data/eventbus/search_home_event.dart';
 import '../../data/globals.dart';
 import '../../data/model/routes_model.dart';
@@ -38,6 +39,7 @@ class _RoutesPageState extends State<RoutesPage>
   String? keySearch = '';
   late RoutesPageCubit _bloc;
   var scrollController = ScrollController();
+  var filterController = FilterController();
   StreamSubscription<SearchHomeEvent>? _searchEvent;
 
   @override
@@ -75,10 +77,11 @@ class _RoutesPageState extends State<RoutesPage>
       child: Column(
         children: [
           FilterWidget(
+            filterController: filterController,
             isSelect: true,
             selectCallBack: () => _bloc.selectOnclick(false),
             filterCallBack: () => _bloc.filterOnclick(context),
-            sortCallBack: () {},
+            sortCallBack: () => _bloc.sortOnclick(context),
             unsSelectCallBack: () => _bloc.selectOnclick(true),
           ),
           Expanded(
@@ -125,7 +128,7 @@ class _RoutesPageState extends State<RoutesPage>
                   callBack: (model) {},
                   index: i,
                   onLongPress: (model) {
-                    _bloc.itemOnLongPress(context);
+                    _bloc.itemOnLongPress(context,i,filterController,isMultiSelect: true,model: model);
                   },
                   filterOnclick: () {
                     _bloc.filterItemOnclick(i);
@@ -138,68 +141,6 @@ class _RoutesPageState extends State<RoutesPage>
               !state.isReadEnd && state.lRoutes.isNotEmpty && state.isLoading
                   ? state.lRoutes.length + 1
                   : state.lRoutes.length);
-
-  void showActionDialog(
-      List<RoutesModel> model, Function(ItemAction) callBack) {
-    showModalBottomSheet(
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      context: context,
-      builder: (x) => Wrap(
-        children: [
-          Container(
-            decoration: const BoxDecoration(
-              color: Color(0xFF212121),
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20),
-                topRight: Radius.circular(20),
-              ),
-            ),
-            child: Column(
-              children: [
-                SizedBox(
-                  height: contentPadding,
-                ),
-                itemAction(
-                    Icons.thumb_up_alt,
-                    LocaleKeys.moveToPlaylist.tr(),
-                    ItemAction.MOVE_TO_TOP,
-                        () => callBack.call(ItemAction.MOVE_TO_TOP)),
-                itemAction(
-                    Icons.account_balance_rounded,
-                    LocaleKeys.addToPlaylist.tr(),
-                    ItemAction.ADD_TO_PLAYLIST,
-                        () => callBack.call(ItemAction.ADD_TO_PLAYLIST)),
-                itemAction(
-                    Icons.add,
-                    LocaleKeys.removeFromPlaylist.tr(),
-                    ItemAction.REMOVE_FROM_PLAYLIST,
-                        () => callBack.call(ItemAction.REMOVE_FROM_PLAYLIST)),
-                itemAction(
-                    Icons.favorite,
-                    LocaleKeys.addToFavourite.tr(),
-                    ItemAction.ADD_TO_FAVOURITE,
-                        () => callBack.call(ItemAction.ADD_TO_FAVOURITE)),
-                itemAction(
-                    Icons.remove_circle_outline,
-                    LocaleKeys.removeFromFavorite.tr(),
-                    ItemAction.REMOVE_FROM_PLAYLIST,
-                        () => callBack.call(ItemAction.REMOVE_FROM_PLAYLIST)),
-                itemAction(Icons.share, LocaleKeys.share.tr(),
-                    ItemAction.SHARE, () => callBack.call(ItemAction.SHARE)),
-                itemAction(Icons.copy, LocaleKeys.copy.tr(),
-                    ItemAction.COPY, () => callBack.call(ItemAction.COPY)),
-                itemAction(Icons.edit, LocaleKeys.edit.tr(),
-                    ItemAction.EDIT, () => callBack.call(ItemAction.EDIT)),
-                itemAction(Icons.delete, LocaleKeys.delete.tr(),
-                    ItemAction.DELETE, () => callBack.call(ItemAction.DELETE)),
-              ],
-            ),
-          )
-        ],
-      ),
-    );
-  }
 
   Widget itemAction(IconData icon, String text, ItemAction action,
       VoidCallback filterCallBack) {

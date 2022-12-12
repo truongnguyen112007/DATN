@@ -1,9 +1,14 @@
 import 'dart:async';
 import 'package:base_bloc/data/repository/user_repository.dart';
+import 'package:base_bloc/modules/favourite/favourite_state.dart';
+import 'package:base_bloc/modules/persons_page/persons_page.dart';
 import 'package:base_bloc/modules/routers_detail/routes_detail_state.dart';
 import 'package:base_bloc/modules/routes_page/routes_page_state.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_tags/flutter_tags.dart';
+import '../../components/dialogs.dart';
+import '../../components/filter_widget.dart';
 import '../../config/constant.dart';
 import '../../data/eventbus/refresh_event.dart';
 import '../../data/model/routes_model.dart';
@@ -14,10 +19,12 @@ import '../../utils/toast_utils.dart';
 import '../filter_routes/filter_routes_page.dart';
 import '../playlist/playlist_cubit.dart';
 import '../routers_detail/routes_detail_page.dart';
+import 'package:base_bloc/data/globals.dart' as globals;
 
 class RoutesPageCubit extends Cubit<RoutesPageState> {
   var userRepository = UserRepository();
-  RoutesPageCubit() : super( RoutesPageState()) {
+
+  RoutesPageCubit() : super(RoutesPageState()) {
     if (state.status == RouteStatus.initial) {
       emit(state.copyWith(status: RouteStatus.success));
       getRoutes();
@@ -46,7 +53,11 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
 
   void onRefresh() {
     Utils.fireEvent(RefreshEvent(RefreshType.FILTER));
-    emit(RoutesPageState(status: RouteStatus.refresh,keySearch: state.keySearch,isLoading: false,isReadEnd: false));
+    emit(RoutesPageState(
+        status: RouteStatus.refresh,
+        keySearch: state.keySearch,
+        isLoading: false,
+        isReadEnd: false));
     getRoutes();
   }
 
@@ -75,11 +86,65 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
         isShowActionButton: false));
   }
 
-  void itemOnLongPress(BuildContext context) =>
-      Utils.showActionDialog(context, (p0) {});
+  void itemOnLongPress(
+      BuildContext context, int index, FilterController controller,
+      {bool isMultiSelect = false, RoutesModel? model}) {
+    Utils.hideKeyboard(context);
+    var isAddToPlaylist = false;
+    var countNotAddToPlaylist = 0;
+    for (var element in state.lRoutes) {
+      if (element.isSelect) {
+        if (element.playlistIn == true) {
+          isAddToPlaylist = true;
+        } else {
+          countNotAddToPlaylist++;
+        }
+      }
+    }
+    Utils.showActionDialog(context, (type) {
+      Navigator.pop(context);
+      switch (type) {
+        case ItemAction.ADD_TO_PLAYLIST:
+          addToPlaylist(context, controller,
+              model: model, isMultiSelect: isMultiSelect);
+          return;
+        case ItemAction.REMOVE_FROM_PLAYLIST:
+          removeFromPlaylist(context, controller, index,
+              model: model, isMultiSelect: isMultiSelect);
+          return;
+        case ItemAction.ADD_TO_FAVOURITE:
+          addToFav(context, controller,
+              model: model, isMultiSelect: isMultiSelect);
+          return;
+        case ItemAction.REMOVE_FROM_FAVORITE:
+          removeFromFavourite(context, index, controller,
+              model: model, isMultiSelect: isMultiSelect);
+          return;
+      }
+    },
+        checkPlaylists:
+            (!isAddToPlaylist || (isAddToPlaylist && countNotAddToPlaylist > 0))
+                ? true
+                : false,
+        isSearchRoute: true);
+  }
 
   void filterOnclick(BuildContext context) => RouterUtils.openNewPage(
-      FilterRoutesPage(showResultButton: (model){},), context);
+      FilterRoutesPage(
+        filter: state.filter,
+        type: FilterType.SearchRoute,
+        showResultButton: (model) {
+          emit(RoutesPageState(
+              typeSearchRoute: SearchRouteType.Filter,
+              filter: model,
+              isLoading: false));
+          getRoutes();
+        },
+        removeFilterCallBack: (model) {
+          state.filter = model;
+        },
+      ),
+      context);
 
   void filterItemOnclick(int index) {
     state.lRoutes[index].isSelect = !state.lRoutes[index].isSelect;
@@ -96,10 +161,43 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
         timeStamp: DateTime.now().millisecondsSinceEpoch));
   }
 
+  void sortOnclick(BuildContext context) {
+    Utils.showSortDialog(context, (type) async {
+      Navigator.pop(context);
+      state.sort = type;
+      state.typeSearchRoute = SearchRouteType.Sort;
+      emit(RoutesPageState(
+          sort: type, typeSearchRoute: SearchRouteType.Sort, isLoading: false));
+      getRoutes();
+      Utils.hideKeyboard(context);
+    }, state.sort);
+  }
+
   void search(String keySearch, int nextPage, {bool isPaging = false}) async {
-    emit(RoutesPageState(status: RouteStatus.search, isLoading: true));
+    emit(state.copyWith(status: RouteStatus.search, isLoading: true));
     try {
-      var response = await userRepository.searchRoute(keySearch, nextPage);
+      var response = await userRepository.searchRoute(
+        value: keySearch,
+        nextPage: nextPage,
+        type: state.typeSearchRoute,
+        orderType: state.sort?.orderType,
+        orderValue: state.sort?.orderValue,
+        status: state.filter?.status != null && state.filter!.status.isNotEmpty
+            ? state.filter?.status[0][state.filter?.status[0].keys.first]
+            : null,
+        authorGradeFrom: state.filter?.authorGradeFrom,
+        authorGradeTo: state.filter?.authorGradeTo,
+        userGradeFrom: state.filter?.userGradeFrom,
+        userGardeTo: state.filter?.userGradeTo,
+        hasConner:
+            state.filter?.corner != null && state.filter!.corner.isNotEmpty
+                ? state.filter?.corner[0][state.filter?.corner[0].keys.first]
+                : null,
+        setter: state.filter?.designBy != null &&
+                state.filter!.designBy.isNotEmpty
+            ? state.filter?.designBy[0][state.filter?.designBy[0].keys.first]
+            : null,
+      );
       var lResponse = routeModelBySearchFromJson(response.data);
       if (response.data != null) {
         emit(state.copyWith(
@@ -114,12 +212,177 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
         toast(response.error.toString());
       }
     } catch (ex) {
+      logE((ex.toString()));
       emit(state.copyWith(
           status: state.lRoutes.isNotEmpty
               ? RouteStatus.success
               : RouteStatus.failure,
           isReadEnd: true,
-          isLoading: true));
+          isLoading: false));
+    }
+  }
+
+  void addToPlaylist(
+    BuildContext context,
+    FilterController controller, {
+    RoutesModel? model,
+    bool isMultiSelect = false,
+  }) async {
+    Dialogs.showLoadingDialog(context);
+    var lRoutes = <String>[];
+    var lIndex = [];
+    if (isMultiSelect) {
+      for (int i = 0; i < state.lRoutes.length; i++) {
+        if (state.lRoutes[i].isSelect) {
+          lRoutes.add(state.lRoutes[i].id ?? '');
+          lIndex.add(i);
+        }
+      }
+    } else {
+      lRoutes.add(model?.id ?? "");
+    }
+    var response =
+        await userRepository.addToPlaylist(globals.playlistId, lRoutes);
+    await Dialogs.hideLoadingDialog();
+    if (response.error == null) {
+      for (int i = 0; i < lIndex.length; i++) {
+        state.lRoutes[lIndex[i]].playlistIn = true;
+        state.lRoutes[lIndex[i]].isSelect = false;
+      }
+      toast(response.message);
+      model?.playlistIn = true;
+      emit(state.copyWith(
+          timeStamp: DateTime.now().microsecondsSinceEpoch,
+          isShowAdd: true,
+          isShowActionButton: false));
+      Utils.fireEvent(RefreshEvent(RefreshType.PLAYLIST));
+      controller.setSelect = false;
+    } else {
+      toast(response.error.toString());
+    }
+  }
+
+  void removeFromPlaylist(
+    BuildContext context,
+    FilterController controller,
+    int index, {
+    RoutesModel? model,
+    bool isMultiSelect = false,
+  }) async {
+    var lRoutes = "";
+    var lIndex = [];
+    if (isMultiSelect) {
+      for (int i = 0; i < state.lRoutes.length; i++) {
+        if (state.lRoutes[i].isSelect) {
+          lRoutes += (state.lRoutes[i].id ?? '') + ",";
+          lIndex.add(i);
+        }
+      }
+    } else {
+      lRoutes = model?.id ?? "";
+    }
+    Dialogs.showLoadingDialog(context);
+    var response =
+        await userRepository.removeFromPlaylist(globals.playlistId, lRoutes);
+    await Dialogs.hideLoadingDialog();
+    if (response.error == null) {
+      if (isMultiSelect) {
+        toast(response.message);
+        emit(
+          state.copyWith(
+              timeStamp: DateTime.now().microsecondsSinceEpoch,
+              isShowAdd: true,
+              isShowActionButton: false),
+        );
+      } else {
+        emit(state.copyWith(
+            timeStamp: DateTime.now().microsecondsSinceEpoch,
+            isShowAdd: true,
+            isShowActionButton: false));
+      }
+      Utils.fireEvent(RefreshEvent(RefreshType.PLAYLIST));
+      controller.setSelect = false;
+    } else {
+      toast(response.error.toString());
+    }
+  }
+
+  void addToFav(
+    BuildContext context,
+    FilterController controller, {
+    RoutesModel? model,
+    bool isMultiSelect = false,
+  }) async {
+    Dialogs.showLoadingDialog(context);
+    var lRoutes = <String>[];
+    var lIndex = [];
+    if (isMultiSelect) {
+      for (int i = 0; i < state.lRoutes.length; i++) {
+        if (state.lRoutes[i].isSelect) {
+          lRoutes.add(state.lRoutes[i].id ?? '');
+          lIndex.add(i);
+        }
+      }
+    } else {
+      lRoutes.add(model?.id ?? "");
+    }
+    var response = await userRepository.addToFavorite(globals.userId, lRoutes);
+    await Dialogs.hideLoadingDialog();
+    if (response.error == null) {
+      for (int i = 0; i < lIndex.length; i++) {
+        state.lRoutes[lIndex[i]].favouriteIn = true;
+        state.lRoutes[lIndex[i]].isSelect = false;
+      }
+      toast(response.message);
+      model?.favouriteIn = true;
+      emit(state.copyWith(
+          timeStamp: DateTime.now().microsecondsSinceEpoch,
+          isShowAdd: true,
+          isShowActionButton: false));
+      Utils.fireEvent(RefreshEvent(RefreshType.FAVORITE));
+      controller.setSelect = false;
+    } else {
+      toast(response.error.toString());
+    }
+  }
+
+  void removeFromFavourite(
+      BuildContext context, int index, FilterController controller,
+      {RoutesModel? model, bool isMultiSelect = false}) async {
+    Dialogs.showLoadingDialog(context);
+    var routeIds = '';
+    var lIndex = [];
+    if (isMultiSelect) {
+      for (int i = 0; i < state.lRoutes.length; i++) {
+        if (state.lRoutes[i].isSelect) {
+          routeIds += (state.lRoutes[i].id ?? '') + ",";
+          lIndex.add(i);
+        }
+      }
+    } else {
+      routeIds = model?.id ?? '';
+    }
+    var response = await userRepository.removeFromFavorite(routeIds);
+    await Dialogs.hideLoadingDialog();
+    if (response.error == null) {
+      if (isMultiSelect) {
+        toast(response.message);
+        emit(
+          state.copyWith(
+              timeStamp: DateTime.now().microsecondsSinceEpoch,
+              isShowAdd: true,
+              isShowActionButton: false),
+        );
+      } else {
+        emit(state.copyWith(
+            timeStamp: DateTime.now().microsecondsSinceEpoch,
+            isShowAdd: true,
+            isShowActionButton: false));
+      }
+      Utils.fireEvent(RefreshEvent(RefreshType.FAVORITE));
+      controller.setSelect = false;
+    } else {
+      toast(response.error.toString());
     }
   }
 }

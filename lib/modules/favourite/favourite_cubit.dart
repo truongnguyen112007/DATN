@@ -35,7 +35,6 @@ class FavouriteCubit extends Cubit<FavouriteState> {
   var userRepository = UserRepository();
 
   FavouriteCubit() : super(FavouriteState()) {
-    // state.sort = SortParam(name: LocaleKeys.defaultArrangement);
     if (state.status == FeedStatus.initial) {
       getFavourite();
     }
@@ -65,7 +64,6 @@ class FavouriteCubit extends Cubit<FavouriteState> {
         }
       }
     }
-
     Utils.showActionDialog(context, (type) {
       Navigator.pop(context);
       switch (type) {
@@ -120,13 +118,16 @@ class FavouriteCubit extends Cubit<FavouriteState> {
   void filterOnclick(BuildContext context) => RouterUtils.openNewPage(
       FilterRoutesPage(
         filter: state.filter,
-        isFilterFav: true,
+        type: FilterType.Favorite,
         showResultButton: (model) {
           emit(FavouriteState(
             favType: FavType.Filter,
             filter: model,
           ));
           getFavourite();
+        },
+        removeFilterCallBack: (model) {
+          state.filter = model;
         },
       ),
       context);
@@ -136,7 +137,7 @@ class FavouriteCubit extends Cubit<FavouriteState> {
       Navigator.pop(context);
       state.sort = type;
       state.favType = FavType.Sort;
-      emit(FavouriteState(sort: type,favType: FavType.Sort));
+      emit(FavouriteState(sort: type, favType: FavType.Sort));
       getFavourite();
     }, state.sort);
   }

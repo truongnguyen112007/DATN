@@ -22,6 +22,7 @@ class FavouriteState extends Equatable {
   late SortParam? sort;
   late FilterParam? filter;
 
+
   FavouriteState({
     this.favType = FavType.Default,
     this.status = FeedStatus.initial,

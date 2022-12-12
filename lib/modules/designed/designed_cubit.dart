@@ -64,11 +64,13 @@ class DesignedCubit extends Cubit<DesignedState> {
           return;
         case ItemAction.EDIT:
         case ItemAction.COPY:
-        if (isMultiSelect) return;
-        copyRoutes(context, model!, index);
+          if (isMultiSelect) return;
+          copyRoutes(context, model!, index);
           return;
       }
-    }, isCopy: !isMultiSelect ? true : (count == 1 ? true : false),isDesigned: true);
+    },
+        isCopy: !isMultiSelect ? true : (count == 1 ? true : false),
+        isDesigned: true);
   }
 
   void addToFavourite(BuildContext context,
@@ -84,8 +86,7 @@ class DesignedCubit extends Cubit<DesignedState> {
     } else {
       lIds.add(model!.id ?? "");
     }
-    var response =
-    await userRepository.addToFavorite(userId, lIds);
+    var response = await userRepository.addToFavorite(userId, lIds);
     await Dialogs.hideLoadingDialog();
     if (response.error == null) {
       toast(response.message);
@@ -93,7 +94,6 @@ class DesignedCubit extends Cubit<DesignedState> {
       toast(response.error.toString());
     }
   }
-
 
   void deleteRoute(BuildContext context, RoutesModel model, int index) async {
     Dialogs.showLoadingDialog(context);
@@ -125,6 +125,7 @@ class DesignedCubit extends Cubit<DesignedState> {
   void filterOnclick(BuildContext context) => RouterUtils.openNewPage(
       FilterRoutesPage(
         showResultButton: (model) {},
+        removeFilterCallBack: (model) {},
       ),
       context);
 
@@ -180,8 +181,7 @@ class DesignedCubit extends Cubit<DesignedState> {
             isReadEnd: true, isLoading: false, status: FeedStatus.failure));
       }
     } else {
-      emit(
-        state.copyWith(
+      emit(state.copyWith(
           status: state.lRoutes.isNotEmpty
               ? FeedStatus.success
               : FeedStatus.failure,
