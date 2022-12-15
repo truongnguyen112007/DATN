@@ -117,9 +117,10 @@ class FavouriteCubit extends Cubit<FavouriteState> {
 
   void filterOnclick(BuildContext context) => RouterUtils.openNewPage(
       FilterRoutesPage(
+        listRoute: state.lPlayList,
         filter: state.filter,
         type: FilterType.Favorite,
-        showResultButton: (model) {
+        showResultButton: (model){
           emit(FavouriteState(
             favType: FavType.Filter,
             filter: model,

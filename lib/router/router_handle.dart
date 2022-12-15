@@ -77,4 +77,3 @@ var routePlaceDetail = Handler(
           index: (c!.settings!.arguments as List)[0] as int,
           model: (c.settings!.arguments as List)[1] as PlacesModel,
         ));
-var routeSearchRoute = Handler(handlerFunc: (c,p) => RoutesPage(index: c!.settings!.arguments as int));

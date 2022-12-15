@@ -14,34 +14,41 @@ class ItemFilterWidget extends StatefulWidget {
   final Map<String, dynamic> data;
   final Function(bool) callback;
   final bool isSelect;
-  const ItemFilterWidget({Key? key, required this.data, required this.callback,this.isSelect = false})
+
+  const ItemFilterWidget(
+      {Key? key,
+      required this.data,
+      required this.callback,
+      this.isSelect = false})
       : super(key: key);
 
   @override
   State<ItemFilterWidget> createState() => _ItemFilterWidgetState();
 }
 
-
 class _ItemFilterWidgetState extends State<ItemFilterWidget> {
   var isSelect = false;
   StreamSubscription<RefreshEvent>? _refreshStream;
+
   @override
   void initState() {
     isSelect = widget.isSelect;
     _refreshStream = Utils.eventBus.on<RefreshEvent>().listen((event) {
-      if(event.type == RefreshType.FILTER){
-        setState(() {
-          isSelect = false;
-        });
+      if (event.type == RefreshType.FILTER) {
+        if (mounted)
+          setState(() {
+            isSelect = false;
+          });
       }
     });
- /*   widget.filterController?._getSelect = (value) {
+    /*   widget.filterController?._getSelect = (value) {
       setState(() {
         isSelect = value;
       });
     };*/
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -51,13 +58,13 @@ class _ItemFilterWidgetState extends State<ItemFilterWidget> {
         margin: const EdgeInsets.only(right: 8),
         decoration: isSelect
             ? BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          gradient: Utils.backgroundGradientOrangeButton(),
-        )
+                borderRadius: BorderRadius.circular(20),
+                gradient: Utils.backgroundGradientOrangeButton(),
+              )
             : BoxDecoration(
-            borderRadius: BorderRadius.circular(20), color: colorBlack10),
+                borderRadius: BorderRadius.circular(20), color: colorBlack10),
         padding:
-        EdgeInsets.only(left: 11.w, right: 11.w, top: 5.h, bottom: 5.h),
+            EdgeInsets.only(left: 11.w, right: 11.w, top: 5.h, bottom: 5.h),
         child: AppText(
           widget.data.keys.first,
           style: typoW600.copyWith(

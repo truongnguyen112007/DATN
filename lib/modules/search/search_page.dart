@@ -164,6 +164,7 @@ class _SearchPageState extends BasePopState<SearchPage>
               style: const TextStyle(color: colorWhite),
               onChanged: (str){
                 itemOnChange.add(str);
+                setState(() {});
               },
               controller: textEditingController,
               autofocus: true,
@@ -192,7 +193,7 @@ class _SearchPageState extends BasePopState<SearchPage>
                   ),
                 ),
                 suffixIconConstraints: BoxConstraints(maxWidth: 35.w),
-                suffixIcon: Padding(
+                suffixIcon: textEditingController!.text.isEmpty ? const SizedBox() : Padding(
                   padding: EdgeInsets.only(right: contentPadding),
                   child: InkWell(
                     onTap: () {

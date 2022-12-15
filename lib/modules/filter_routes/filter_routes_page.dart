@@ -25,6 +25,7 @@ import '../../data/model/filter_corner_model.dart';
 import '../../data/model/filter_design_model.dart';
 import '../../data/model/filter_status_model.dart';
 import '../../data/model/filter_param.dart';
+import '../../data/model/routes_model.dart';
 import '../../localization/locale_keys.dart';
 import '../../theme/colors.dart';
 import 'filter_routes_page_cubit.dart';
@@ -36,12 +37,13 @@ class FilterRoutesPage extends StatefulWidget {
   final Function(FilterParam) showResultButton;
   final FilterParam? filter;
   final Function(FilterParam) removeFilterCallBack;
-
+final List<RoutesModel>? listRoute;
   FilterRoutesPage({
     Key? key,
     this.type = FilterType.Favorite,
     required this.showResultButton,
     required this.removeFilterCallBack,
+    this.listRoute,
     this.filter,
   }) : super(key: key);
 
@@ -77,7 +79,8 @@ class _FilterRoutesPageState extends State<FilterRoutesPage> {
   void initState() {
     _bloc = FilterRoutesPageCubit(widget.type);
     checkDataStatus();
-    _bloc.setData(widget.filter);
+    logE(widget.listRoute!.length.toString());
+    _bloc.setData(widget.filter,widget.listRoute);
     gradeChange
         .debounceTime(const Duration(seconds: 1))
         .listen((value) => _bloc.setType());

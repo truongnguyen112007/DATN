@@ -18,6 +18,7 @@ import 'package:base_bloc/utils/toast_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/model/routes_model.dart';
+import '../../router/router.dart';
 import '../../utils/storage_utils.dart';
 import '../routers_detail/routes_detail_page.dart';
 
@@ -159,6 +160,11 @@ class PlayListCubit extends Cubit<PlaylistState> {
   void createRoutesOnClick(BuildContext context) =>
       RouterUtils.openNewPage(const CreateInfoRoutePage(isPublish: false), context);
   /*RouterUtils.openNewPage(const CreateRoutesPage(), context);*/
+
+  void findRoutes (BuildContext context) =>  RouterUtils.pushRoutes(
+      context: context,
+      route: RoutesRouters.search,
+      argument: BottomNavigationConstant.TAB_ROUTES);
 
   Future<void> checkPlaylistId() async {
     if (globals.isLogin) {

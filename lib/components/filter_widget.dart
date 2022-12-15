@@ -5,6 +5,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import '../data/globals.dart';
 import '../localization/locale_keys.dart';
+import '../modules/login/login.dart';
 import '../theme/app_styles.dart';
 import '../theme/colors.dart';
 import '../utils/app_utils.dart';
@@ -73,7 +74,18 @@ class _FilterWidgetState extends State<FilterWidget> {
       color: colorBlack,
       padding: EdgeInsets.only(
           left: contentPadding, right: contentPadding, top: 5, bottom: 5),
-      child: Row(
+      child: !isLogin ? Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          itemFilterWidget(Icons.swap_vert, LocaleKeys.sort.tr(),
+              colorWhite.withOpacity(0.87), () => widget.sortCallBack.call()),
+          itemFilterWidget(
+              Icons.filter_alt_outlined,
+              LocaleKeys.filter.tr(),
+              colorWhite.withOpacity(0.87),
+                  () => widget.filterCallBack.call()),
+        ],
+      ):Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           itemFilterWidget(Icons.swap_vert, LocaleKeys.sort.tr(),
@@ -97,7 +109,7 @@ class _FilterWidgetState extends State<FilterWidget> {
             }),
           ),
         ],
-      ),
+      ) ,
     );
   }
 

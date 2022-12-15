@@ -70,8 +70,11 @@ class UserRepository extends BaseService {
       logE(type.toString());
       switch (type) {
         case FavType.Sort:
-          return await GET(
-              "favourite?start=$nextPage&count=${ApiKey.limit_offset}&order_type=$orderType&order_value=$orderValue");
+          return (orderType == null && orderValue == null)
+              ? await GET(
+                  "favourite?start=$nextPage&count=${ApiKey.limit_offset}")
+              : await GET(
+                  "favourite?start=$nextPage&count=${ApiKey.limit_offset}&order_type=$orderType&order_value=$orderValue");
         case FavType.Filter:
           return await GET(
               "favourite?start=$nextPage&count=${ApiKey.limit_offset}&author_grade_from=${authorGradeFrom?.toInt()}&author_grade_to=${authorGradeTo?.toInt()}&user_grade_from=${userGradeFrom?.toInt()}&user_grade_to=${userGardeTo?.toInt()}${status != null ? "&status=$status" : ""}${hasConner != null ? "&has_conner=$hasConner" : ""}${setter != null ? "&setter=$setter" : ""}");
@@ -141,9 +144,13 @@ class UserRepository extends BaseService {
       String? setter}) async {
     switch (type) {
       case SearchRouteType.Sort:
-        return await POST(
-            "search/service/search?from=0&size=${ApiKey.limit_offset}&order_type=$orderType&order_value=$orderValue",
-            null);
+        return (orderType == null && orderValue == null)
+            ? await POST(
+                "search/service/search?from=0&size=${ApiKey.limit_offset}&q=$value",
+                null)
+            : await POST(
+                "search/service/search?from=0&size=${ApiKey.limit_offset}&order_type=$orderType&order_value=$orderValue",
+                null);
       case SearchRouteType.Filter:
         return await POST(
             "search/service/search?from=0&size=${ApiKey.limit_offset}&author_grade_from=${authorGradeFrom?.toInt()}&author_grade_to=${authorGradeTo?.toInt()}&user_grade_from=${userGradeFrom?.toInt()}&user_grade_to=${userGardeTo?.toInt()}${status != null ? "&status=$status" : ""}${hasConner != null ? "&has_conner=$hasConner" : ""}${setter != null ? "&setter=$setter" : ""}",

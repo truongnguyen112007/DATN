@@ -129,8 +129,11 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
         isSearchRoute: true);
   }
 
+  void none() {}
+
   void filterOnclick(BuildContext context) => RouterUtils.openNewPage(
       FilterRoutesPage(
+        listRoute: state.lRoutes,
         filter: state.filter,
         type: FilterType.SearchRoute,
         showResultButton: (model) {
@@ -138,6 +141,7 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
               typeSearchRoute: SearchRouteType.Filter,
               filter: model,
               isLoading: false));
+          Utils.hideKeyboard(context);
           getRoutes();
         },
         removeFilterCallBack: (model) {
@@ -163,6 +167,7 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
 
   void sortOnclick(BuildContext context) {
     Utils.showSortDialog(context, (type) async {
+      logE("djsfhjskhdfkshdf");
       Navigator.pop(context);
       state.sort = type;
       state.typeSearchRoute = SearchRouteType.Sort;
@@ -174,6 +179,10 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
   }
 
   void search(String keySearch, int nextPage, {bool isPaging = false}) async {
+    if (keySearch == null || keySearch.isEmpty && state.filter == null) {
+      emit(RoutesPageState(isLoading: false,isReadEnd: false,status: RouteStatus.success));
+      return;
+    }
     emit(state.copyWith(status: RouteStatus.search, isLoading: true));
     try {
       var response = await userRepository.searchRoute(
@@ -212,7 +221,6 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
         toast(response.error.toString());
       }
     } catch (ex) {
-      logE((ex.toString()));
       emit(state.copyWith(
           status: state.lRoutes.isNotEmpty
               ? RouteStatus.success
@@ -222,7 +230,7 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
     }
   }
 
-  void addToPlaylist(
+ /* void addToPlaylist(
     BuildContext context,
     FilterController controller, {
     RoutesModel? model,
@@ -255,8 +263,49 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
           timeStamp: DateTime.now().microsecondsSinceEpoch,
           isShowAdd: true,
           isShowActionButton: false));
-      Utils.fireEvent(RefreshEvent(RefreshType.PLAYLIST));
       controller.setSelect = false;
+      Utils.fireEvent(RefreshEvent(RefreshType.PLAYLIST));
+      // onRefresh();
+    } else {
+      toast(response.error.toString());
+    }
+  }*/
+
+  void addToPlaylist(
+      BuildContext context,
+      FilterController controller, {
+        RoutesModel? model,
+        bool isMultiSelect = false,
+      }) async {
+    Dialogs.showLoadingDialog(context);
+    var lRoutes = <String>[];
+    var lIndex = [];
+    if (isMultiSelect) {
+      for (int i = 0; i < state.lRoutes.length; i++) {
+        if (state.lRoutes[i].isSelect) {
+          lRoutes.add(state.lRoutes[i].id ?? '');
+          lIndex.add(i);
+        }
+      }
+    } else {
+      lRoutes.add(model!.id ?? "");
+    }
+    var response =
+    await userRepository.addToPlaylist(globals.playlistId, lRoutes);
+    await Dialogs.hideLoadingDialog();
+    if (response.error == null) {
+      for (int i = 0; i < lIndex.length; i++) {
+        state.lRoutes[lIndex[i]].playlistIn = true;
+        state.lRoutes[lIndex[i]].isSelect = false;
+      }
+      toast(response.message);
+      model?.playlistIn = true;
+      emit(state.copyWith(
+          timeStamp: DateTime.now().microsecondsSinceEpoch,
+          isShowAdd: true,
+          isShowActionButton: false));
+      controller.setSelect = false;
+      Utils.fireEvent(RefreshEvent(RefreshType.PLAYLIST));
     } else {
       toast(response.error.toString());
     }
