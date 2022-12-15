@@ -249,7 +249,6 @@ class ZoomRoutesCubit extends Cubit<ZoomRoutesState> {
         }
       }
     }
-    logE("TAG OFFSET: DX: $dx DY: $dy CURRENT INDEX: $currentIndex");
     return Offset(dx, dy);
   }
-}
+

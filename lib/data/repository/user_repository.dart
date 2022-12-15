@@ -154,4 +154,7 @@ class UserRepository extends BaseService {
             null);
     }
   }
+
+  Future<ApiResult> getAllHoldSet() async =>
+      await GET('hold?start=1&count=100');
 }

@@ -79,8 +79,6 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
 
   @override
   void initState() {
-    logE("TAG SIZE HOLDSET: ${widget.sizeHoldSet}");
-    logE("TAG HEIGHT OF ROUTE: ${widget.heightOfRoute}");
     _bloc = ZoomRoutesCubit();
     _zoomController = ZoomerController(initialScale: 4.0);
     _zoomMeasureNameController = ZoomerController(initialScale: 4.0);

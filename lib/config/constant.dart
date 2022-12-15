@@ -11,6 +11,7 @@ class StorageKey {
   static const String playlistId = 'playlistId';
   static const String isGuideline = 'isGuideline';
   static const String languageCode = 'languageCode';
+  static const String holdSet = 'holdSet';
 }
 
 class ConstantKey {
@@ -21,6 +22,7 @@ class ConstantKey {
   static const int WEEK_INDEX_OFFSET = 5200;
   static const String TOKEN_EXPIRED = 'token expired';
   static const String CONNECTION_TIMED_OUT = 'Connection timed out';
+  static const BASE_URL = 'http://83.171.249.207/api/v1/';
 }
 
 class MessageKey {

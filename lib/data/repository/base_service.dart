@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:logger/logger.dart';
+import '../../config/constant.dart';
 import '../../localization/locale_keys.dart';
 import '../../utils/connection_utils.dart';
 import '../globals.dart' as globals;
@@ -12,7 +13,7 @@ class BaseService {
   var baseUrl = '';
 
   void initProvider() {
-    baseUrl = 'http://83.171.249.207/api/v1/';
+    baseUrl = ConstantKey.BASE_URL/*'http://83.171.249.207/api/v1/'*/;
   }
 
   // ignore: non_constant_identifier_names
