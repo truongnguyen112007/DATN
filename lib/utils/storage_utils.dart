@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:base_bloc/config/constant.dart';
 import 'package:base_bloc/data/globals.dart' as globals;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get_storage/get_storage.dart';
+import '../data/model/hold_set_model.dart';
 import '../data/model/user_model.dart';
 
 class StorageUtils {
@@ -22,6 +25,17 @@ class StorageUtils {
     globals.userId = 0;
   }
 
+  static Future<void> saveHoldSet(List<HoldSetModel> lHoldSet) async{
+    GetStorage().remove(StorageKey.holdSet);
+    GetStorage().write(StorageKey.holdSet,
+        jsonEncode(lHoldSet.map((e) => e.toJson()).toList()));
+  }
+
+  static Future<List<HoldSetModel>> getHoldSet() async{
+    var response = await GetStorage().read(StorageKey.holdSet);
+    if(response ==null) return [];
+    return holdSetModelFromJson(json.decode(response));
+  }
   static Future<void> getInfo() async {
     var userStr = await GetStorage().read(StorageKey.userModel);
     try {

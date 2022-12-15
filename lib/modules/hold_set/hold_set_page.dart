@@ -1,10 +1,13 @@
 import 'package:base_bloc/base/base_state.dart';
 import 'package:base_bloc/base/hex_color.dart';
+import 'package:base_bloc/components/app_circle_loading.dart';
+import 'package:base_bloc/components/app_network_image.dart';
 import 'package:base_bloc/components/app_scalford.dart';
 import 'package:base_bloc/components/app_text.dart';
 import 'package:base_bloc/components/appbar_widget.dart';
 import 'package:base_bloc/components/gradient_button.dart';
 import 'package:base_bloc/config/constant.dart';
+import 'package:base_bloc/data/model/hold_set_model.dart';
 import 'package:base_bloc/modules/hold_set/hold_set_cubit.dart';
 import 'package:base_bloc/modules/hold_set/hold_set_state.dart';
 import 'package:base_bloc/theme/colors.dart';
@@ -44,19 +47,17 @@ class _HoldSetPageState extends BasePopState<HoldSetPage> {
         body: Column(
           children: [
             Expanded(
-                child: SingleChildScrollView(
-                    child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: 0.1,
-                  color: colorText45,
-                ),
-                itemSpace(),
-                BlocBuilder<HoldSetCubit, HoldSetState>(
-                    bloc: _bloc,
-                    builder: (c, state) => Row(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: 0.1,
+                        color: colorText45),
+                    itemSpace(),
+                    BlocBuilder<HoldSetCubit, HoldSetState>(
+                        bloc: _bloc,
+                        builder: (c, state) => Row(
                           children: [
                             filterButton(
                                 onTab: () => _bloc.setFilter(SelectType.ALL),
@@ -76,10 +77,10 @@ class _HoldSetPageState extends BasePopState<HoldSetPage> {
                                 title: LocaleKeys.favourite.tr()),
                           ],
                         )),
-                itemSpace(),
-                BlocBuilder<HoldSetCubit, HoldSetState>(
-                    bloc: _bloc,
-                    builder: (c, state) => textFieldWidget(
+                    itemSpace(),
+                    BlocBuilder<HoldSetCubit, HoldSetState>(
+                        bloc: _bloc,
+                        builder: (c, state) => textFieldWidget(
                             TextEditingController(
                                 text: state.type == SelectType.ALL
                                     ? LocaleKeys.all.tr()
@@ -88,25 +89,25 @@ class _HoldSetPageState extends BasePopState<HoldSetPage> {
                             LocaleKeys.type.tr(), () {
                           Utils.hideKeyboard(context);
                         })),
-                itemSpace(),
-                InkWell(
-                  child: AppText(
-                    LocaleKeys.double_tab_to_see_3d_preview.tr(),
-                    style: typoW400.copyWith(
-                        fontSize: 12.sp, color: colorText0.withOpacity(0.6)),
-                  ),
-                  onTap: () => _bloc.detailOnclick(context),
-                ),
-                itemSpace(),
-                holdSetWidget(context),
-                itemSpace(height: 20),
-              ],
-            ))),
+                    itemSpace(),
+                    InkWell(
+                      child: AppText(
+                        LocaleKeys.double_tab_to_see_3d_preview.tr(),
+                        style: typoW400.copyWith(
+                            fontSize: 12.sp, color: colorText0.withOpacity(0.6)),
+                      ),
+                      onTap: () => _bloc.detailOnclick(context),
+                    ),
+                    itemSpace(),
+                    Expanded(child: holdSetWidget(context)),
+                    itemSpace(height: 20),
+                  ],
+                )),
             BlocBuilder<HoldSetCubit, HoldSetState>(
               bloc: _bloc,
               builder: (c, state) => selectButton(
                 onTab: () => _bloc.selectOnClick(
-                    state.lHoldSet[state.currentIndex].hold2d, context),
+                    "state.lHoldSet[state.currentIndex].hold2d", context),
               ),
             ),
           ],
@@ -116,19 +117,19 @@ class _HoldSetPageState extends BasePopState<HoldSetPage> {
   Widget holdSetWidget(BuildContext context) =>
       BlocBuilder<HoldSetCubit, HoldSetState>(
           bloc: _bloc,
-          builder: (i, state) => GridView.builder(
-                shrinkWrap: true,
-                itemCount: state.lHoldSet.length,
-                physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                ),
-                itemBuilder: (c, i) => itemHoldSetWidget(
-                    context, i, state.lHoldSet[i], state.currentIndex),
-              ));
+          builder: (i, state) => state.status == HoldSetStatus.INITITAL
+              ? const Center(child: AppCircleLoading())
+              : GridView.builder(
+                  shrinkWrap: true,
+                  itemCount: state.lHoldSet.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3),
+                  itemBuilder: (c, i) => itemHoldSetWidget(
+                      context, i, state.lHoldSet[i], state.currentIndex),
+                ));
 
   Widget itemHoldSetWidget(
-          BuildContext context, int index, HoldModel model, int currentIndex) =>
+          BuildContext context, int index, HoldSetModel model, int currentIndex) =>
       Padding(
         padding: const EdgeInsets.all(1.8),
         child: InkWell(
@@ -145,8 +146,9 @@ class _HoldSetPageState extends BasePopState<HoldSetPage> {
                             : Colors.transparent),
                     color: currentIndex == index ? colorPink30 : colorWhite,
                     borderRadius: BorderRadius.circular(8)),
-                child: Image.asset(model.hold3d),
-              ),
+                  child: AppNetworkImage(
+                      source:
+                          '${ConstantKey.BASE_URL}hold/image/${model.fileName}')),
               Align(
                 alignment: Alignment.topRight,
                 child: Padding(
