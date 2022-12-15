@@ -43,11 +43,11 @@ class UserRepository extends BaseService {
       await DELETE('route/$routeId');
 
   Future<ApiResult> addToPlaylist(
-          String playlistId, List<String> lRoute) async =>
+      String playlistId, List<String> lRoute) async =>
       await POST('playlistdetail/$playlistId', {ApiKey.route_ids: lRoute});
 
   Future<ApiResult> removeFromPlaylist(
-          String playlistId, String routeId) async =>
+      String playlistId, String routeId) async =>
       await DELETE('playlistdetail/$playlistId?ids=$routeId');
 
   Future<ApiResult> moveToTop(String playlistId, String routeId) async =>
@@ -55,22 +55,25 @@ class UserRepository extends BaseService {
 
   Future<ApiResult> getFavorite(
       {FavType? type,
-      int? userId,
-      int? nextPage,
-      int? orderType,
-      int? orderValue,
-      double? authorGradeFrom,
-      double? authorGradeTo,
-      double? userGradeFrom,
-      double? userGardeTo,
-      String? hasConner,
-      int? status,
-      String? setter}) async {
+        int? userId,
+        int? nextPage,
+        int? orderType,
+        int? orderValue,
+        double? authorGradeFrom,
+        double? authorGradeTo,
+        double? userGradeFrom,
+        double? userGardeTo,
+        String? hasConner,
+        int? status,
+        String? setter}) async {
     {
       logE(type.toString());
       switch (type) {
         case FavType.Sort:
-          return await GET(
+          return (orderType == null && orderValue == null)
+              ? await GET(
+              "favourite?start=$nextPage&count=${ApiKey.limit_offset}")
+              : await GET(
               "favourite?start=$nextPage&count=${ApiKey.limit_offset}&order_type=$orderType&order_value=$orderValue");
         case FavType.Filter:
           return await GET(
@@ -83,20 +86,20 @@ class UserRepository extends BaseService {
   }
 
   Future<ApiResult> removeFromFavorite(String routeIds) async => await DELETE(
-        'favourite?ids=$routeIds', /*body: {ApiKey.route_ids: routeId}*/
-      );
+    'favourite?ids=$routeIds', /*body: {ApiKey.route_ids: routeId}*/
+  );
 
   Future<ApiResult> addToFavorite(int userId, List<String> routeIds) async =>
       await POST('favourite', {ApiKey.route_ids: routeIds});
 
   Future<ApiResult> createRoute(
-          {required String name,
-          int height = 12,
-          required List<int> lHold,
-          required bool hasCorner,
-          required int authorGrade,
-          bool published = true,
-          int visibility = 0}) async =>
+      {required String name,
+        int height = 12,
+        required List<int> lHold,
+        required bool hasCorner,
+        required int authorGrade,
+        bool published = true,
+        int visibility = 0}) async =>
       await POST('route', {
         ApiKey.name: name,
         ApiKey.height: height,
@@ -108,14 +111,14 @@ class UserRepository extends BaseService {
       });
 
   Future<ApiResult> editRoute(
-          {required String routeId,
-          required String name,
-          int height = 12,
-          required List<int> lHold,
-          required bool hasCorner,
-          required int authorGrade,
-          bool published = true,
-          int visibility = 0}) async =>
+      {required String routeId,
+        required String name,
+        int height = 12,
+        required List<int> lHold,
+        required bool hasCorner,
+        required int authorGrade,
+        bool published = true,
+        int visibility = 0}) async =>
       await PUT('route/$routeId', body: {
         ApiKey.name: name,
         ApiKey.height: height,
@@ -128,20 +131,24 @@ class UserRepository extends BaseService {
 
   Future<ApiResult> searchRoute(
       {String? value,
-      int? nextPage,
-      SearchRouteType? type,
-      int? orderType,
-      int? orderValue,
-      double? authorGradeFrom,
-      double? authorGradeTo,
-      double? userGradeFrom,
-      double? userGardeTo,
-      String? hasConner,
-      int? status,
-      String? setter}) async {
+        int? nextPage,
+        SearchRouteType? type,
+        int? orderType,
+        int? orderValue,
+        double? authorGradeFrom,
+        double? authorGradeTo,
+        double? userGradeFrom,
+        double? userGardeTo,
+        String? hasConner,
+        int? status,
+        String? setter}) async {
     switch (type) {
       case SearchRouteType.Sort:
-        return await POST(
+        return (orderType == null && orderValue == null)
+            ? await POST(
+            "search/service/search?from=0&size=${ApiKey.limit_offset}&q=$value",
+            null)
+            : await POST(
             "search/service/search?from=0&size=${ApiKey.limit_offset}&order_type=$orderType&order_value=$orderValue",
             null);
       case SearchRouteType.Filter:

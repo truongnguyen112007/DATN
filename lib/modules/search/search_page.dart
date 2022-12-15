@@ -164,6 +164,7 @@ class _SearchPageState extends BasePopState<SearchPage>
               style: const TextStyle(color: colorWhite),
               onChanged: (str){
                 itemOnChange.add(str);
+                setState(() {});
               },
               controller: textEditingController,
               autofocus: true,
@@ -172,7 +173,7 @@ class _SearchPageState extends BasePopState<SearchPage>
               decoration: InputDecoration(
                 hintText: LocaleKeys.hinTextSearchHome.tr(),
                 hintStyle:
-                    googleFont.copyWith(fontSize: 16.sp,fontWeight:FontWeight.w400,color: colorSubText),
+                googleFont.copyWith(fontSize: 16.sp,fontWeight:FontWeight.w400,color: colorSubText),
                 border: OutlineInputBorder(
                   borderSide: const BorderSide(color: colorTransparent),
                   borderRadius: BorderRadius.circular(28),
@@ -192,13 +193,13 @@ class _SearchPageState extends BasePopState<SearchPage>
                   ),
                 ),
                 suffixIconConstraints: BoxConstraints(maxWidth: 35.w),
-                suffixIcon: Padding(
+                suffixIcon: textEditingController!.text.isEmpty ? const SizedBox() : Padding(
                   padding: EdgeInsets.only(right: contentPadding),
                   child: InkWell(
-                    onTap: () {
-                      clearText();
-                    },
-                    child: SvgPicture.asset(Assets.svg.closeIcon,color: HexColor('#FFFFFF').withOpacity(0.87),)
+                      onTap: () {
+                        clearText();
+                      },
+                      child: SvgPicture.asset(Assets.svg.closeIcon,color: HexColor('#FFFFFF').withOpacity(0.87),)
                   ),
                 ),
               ),
@@ -234,15 +235,15 @@ class _SearchPageState extends BasePopState<SearchPage>
                 margin: EdgeInsets.only(left: 6.w),
                 alignment: Alignment.center,
                 decoration: (state is InitSearchState && index == BottomNavigationSearch.TAB_ROUTES) ||
-                        (state is ChangeTabState && state.index == index)
+                    (state is ChangeTabState && state.index == index)
                     ? BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        gradient:
-                        Utils.backgroundGradientOrangeButton()
-                      )
+                    borderRadius: BorderRadius.circular(20),
+                    gradient:
+                    Utils.backgroundGradientOrangeButton()
+                )
                     : BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: colorGreyBackground),
+                    borderRadius: BorderRadius.circular(20),
+                    color: colorGreyBackground),
                 child: Text(
                   search[index],
                   style: const TextStyle(color: colorWhite),

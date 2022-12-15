@@ -24,6 +24,7 @@ class FilterRoutesPageCubit extends Cubit<FilterRoutesPageState> {
         userGradeFrom: 0,
         userGradeTo: 20,
         designBy: []);
+    // setType();
   }
 
   void getFavorite() async {
@@ -41,9 +42,9 @@ class FilterRoutesPageCubit extends Cubit<FilterRoutesPageState> {
       userGradeFrom: state.filter?.userGradeFrom,
       userGardeTo: state.filter?.userGradeTo,
       setter:
-          state.filter?.designBy != null && state.filter!.designBy.isNotEmpty
-              ? state.filter?.designBy[0][state.filter?.designBy[0].keys.first]
-              : null,
+      state.filter?.designBy != null && state.filter!.designBy.isNotEmpty
+          ? state.filter?.designBy[0][state.filter?.designBy[0].keys.first]
+          : null,
     );
     if (response.data != null && response.error == null) {
       try {
@@ -57,8 +58,7 @@ class FilterRoutesPageCubit extends Cubit<FilterRoutesPageState> {
     }
   }
 
-
-  void getSearchRoute() async{
+  void getSearchRoute() async {
     var response = await userRepository.searchRoute(
       type: SearchRouteType.Filter,
       nextPage: 1,
@@ -89,12 +89,13 @@ class FilterRoutesPageCubit extends Cubit<FilterRoutesPageState> {
     }
   }
 
-  void setData(FilterParam? filter) {
+  void setData(FilterParam? filter, List<RoutesModel>? listRoute) {
     if (filter != null) {
-      emit(state.copyWith(
-        filter: filter,
-      ));
-      setType();
+      emit(state.copyWith(filter: filter));
+      // setType();
+    }
+    if (listRoute != null) {
+      emit(state.copyWith(filter: filter, lPlayList: listRoute));
     }
   }
 
@@ -109,7 +110,7 @@ class FilterRoutesPageCubit extends Cubit<FilterRoutesPageState> {
         }
       }
     }
-   setType();
+    setType();
     emit(state.copyWith(timeStamp: DateTime.now().microsecondsSinceEpoch));
   }
 
@@ -151,7 +152,7 @@ class FilterRoutesPageCubit extends Cubit<FilterRoutesPageState> {
         }
       }
     }
-   setType();
+    setType();
     emit(state.copyWith(timeStamp: DateTime.now().microsecondsSinceEpoch));
   }
 
@@ -169,6 +170,7 @@ class FilterRoutesPageCubit extends Cubit<FilterRoutesPageState> {
         ),
       ),
     );
+    setType();
     removeFilterCallBack.call(state.filter!);
   }
 

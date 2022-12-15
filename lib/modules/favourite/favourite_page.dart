@@ -19,6 +19,7 @@ import '../../components/app_text.dart';
 import '../../components/filter_widget.dart';
 import '../../components/item_info_routes.dart';
 import '../../data/eventbus/refresh_event.dart';
+import '../../data/model/filter_param.dart';
 import '../../data/model/routes_model.dart';
 import '../../localization/locale_keys.dart';
 import '../../theme/app_styles.dart';
@@ -26,7 +27,7 @@ import '../../utils/app_utils.dart';
 import '../../utils/log_utils.dart';
 
 class FavouritePage extends StatefulWidget {
-  const FavouritePage({Key? key}) : super(key: key);
+  const FavouritePage({Key? key,}) : super(key: key);
 
   @override
   State<FavouritePage> createState() => _FavouritePageState();
@@ -87,19 +88,19 @@ class _FavouritePageState extends State<FavouritePage>
                       bloc: _bloc,
                       builder: (c, state) {
                         return (state.status == FeedStatus.initial ||
-                                state.status == FeedStatus.refresh)
+                            state.status == FeedStatus.refresh)
                             ? const Center(child: AppCircleLoading())
                             : (state.status == FeedStatus.failure ||
-                                    state.lPlayList.isEmpty
-                                ? Center(
-                                    child: Stack(children: [
-                                    ListView(
-                                      physics:
-                                          const AlwaysScrollableScrollPhysics(),
-                                    ),
-                                    const AppNotDataWidget()
-                                  ]))
-                                : playlistWidget(context, state));
+                            state.lPlayList.isEmpty
+                            ? Center(
+                            child: Stack(children: [
+                              ListView(
+                                physics:
+                                const AlwaysScrollableScrollPhysics(),
+                              ),
+                              const AppNotDataWidget()
+                            ]))
+                            : playlistWidget(context, state));
                       }),
                   onRefresh: () async => _bloc.refresh(),
                 ),
@@ -115,34 +116,34 @@ class _FavouritePageState extends State<FavouritePage>
               right: 5.w,
               child: state.isShowActionButton
                   ? Align(
-                      alignment: Alignment.bottomRight,
-                      child: GradientButton(
-                        height: 36.h,
-                        isCenter: true,
-                        width: 170.w,
-                        decoration: BoxDecoration(
-                          gradient: Utils.backgroundGradientOrangeButton(),
-                          borderRadius: BorderRadius.circular(18),
-                        ),
-                        onTap: () {
-                          logE("hskjdhkjsh");
-                          var lSelectRadioButton = <RoutesModel>[];
-                          for (var element in state.lPlayList) {
-                            if (element.isSelect == true)
-                              lSelectRadioButton.add(element);
-                          }
-                          _bloc.itemOnLongClick(
-                              context,0,filterController,
-                              isMultiSelect: true);
-                        },
-                        widget: AppText(
-                          LocaleKeys.action.tr(),
-                          style: googleFont.copyWith(
-                              color: colorWhite, fontSize: 15.sp),
-                        ),
-                        borderRadius: BorderRadius.circular(18),
-                      ),
-                    )
+                alignment: Alignment.bottomRight,
+                child: GradientButton(
+                  height: 36.h,
+                  isCenter: true,
+                  width: 170.w,
+                  decoration: BoxDecoration(
+                    gradient: Utils.backgroundGradientOrangeButton(),
+                    borderRadius: BorderRadius.circular(18),
+                  ),
+                  onTap: () {
+                    logE("hskjdhkjsh");
+                    var lSelectRadioButton = <RoutesModel>[];
+                    for (var element in state.lPlayList) {
+                      if (element.isSelect == true)
+                        lSelectRadioButton.add(element);
+                    }
+                    _bloc.itemOnLongClick(
+                        context,0,filterController,
+                        isMultiSelect: true);
+                  },
+                  widget: AppText(
+                    LocaleKeys.action.tr(),
+                    style: googleFont.copyWith(
+                        color: colorWhite, fontSize: 15.sp),
+                  ),
+                  borderRadius: BorderRadius.circular(18),
+                ),
+              )
                   : const SizedBox(),
             ),
           ),
@@ -230,27 +231,27 @@ class _FavouritePageState extends State<FavouritePage>
           padding: EdgeInsets.all(contentPadding),
           itemBuilder: (c, i) => i == state.lPlayList.length
               ? const Center(
-                  child: AppCircleLoading(),
-                )
+            child: AppCircleLoading(),
+          )
               : ItemInfoRoutes(
-                  isShowSelect: !state.isShowAdd,
-                  key: Key('$i'),
-                  context: context,
-                  model: state.lPlayList[i],
-                  callBack: (model) {},
-                  filterOnclick: () {
-                    _bloc.filterItemOnclick(i);
-                  },
-                  index: i,
-                  onLongPress: (model) =>
-                      _bloc.itemOnLongClick(context,i,filterController, model: model),
-                  detailCallBack: (RoutesModel action) =>
-                      _bloc.itemOnclick(context, state.lPlayList[i]),
-                ),
+            isShowSelect: !state.isShowAdd,
+            key: Key('$i'),
+            context: context,
+            model: state.lPlayList[i],
+            callBack: (model) {},
+            filterOnclick: () {
+              _bloc.filterItemOnclick(i);
+            },
+            index: i,
+            onLongPress: (model) =>
+                _bloc.itemOnLongClick(context,i,filterController, model: model),
+            detailCallBack: (RoutesModel action) =>
+                _bloc.itemOnclick(context, state.lPlayList[i]),
+          ),
           itemCount:
-              !state.isReadEnd && state.lPlayList.isNotEmpty && state.isLoading
-                  ? state.lPlayList.length + 1
-                  : state.lPlayList.length);
+          !state.isReadEnd && state.lPlayList.isNotEmpty && state.isLoading
+              ? state.lPlayList.length + 1
+              : state.lPlayList.length);
 
   //
   // Widget itemAction(IconData icon, String text, ItemAction action,

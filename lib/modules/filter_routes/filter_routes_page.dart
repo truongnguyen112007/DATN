@@ -25,6 +25,7 @@ import '../../data/model/filter_corner_model.dart';
 import '../../data/model/filter_design_model.dart';
 import '../../data/model/filter_status_model.dart';
 import '../../data/model/filter_param.dart';
+import '../../data/model/routes_model.dart';
 import '../../localization/locale_keys.dart';
 import '../../theme/colors.dart';
 import 'filter_routes_page_cubit.dart';
@@ -36,12 +37,13 @@ class FilterRoutesPage extends StatefulWidget {
   final Function(FilterParam) showResultButton;
   final FilterParam? filter;
   final Function(FilterParam) removeFilterCallBack;
-
+  final List<RoutesModel>? listRoute;
   FilterRoutesPage({
     Key? key,
     this.type = FilterType.Favorite,
     required this.showResultButton,
     required this.removeFilterCallBack,
+    this.listRoute,
     this.filter,
   }) : super(key: key);
 
@@ -77,7 +79,8 @@ class _FilterRoutesPageState extends State<FilterRoutesPage> {
   void initState() {
     _bloc = FilterRoutesPageCubit(widget.type);
     checkDataStatus();
-    _bloc.setData(widget.filter);
+    logE(widget.listRoute!.length.toString());
+    _bloc.setData(widget.filter,widget.listRoute);
     gradeChange
         .debounceTime(const Duration(seconds: 1))
         .listen((value) => _bloc.setType());
@@ -125,7 +128,7 @@ class _FilterRoutesPageState extends State<FilterRoutesPage> {
             resizeToAvoidBottomInset: false,
             isTabToHideKeyBoard: false,
             padding:
-                EdgeInsets.only(left: contentPadding, right: contentPadding),
+            EdgeInsets.only(left: contentPadding, right: contentPadding),
             appbar: appbar(context),
             backgroundColor: backgroundColor,
             body: Column(
@@ -151,8 +154,8 @@ class _FilterRoutesPageState extends State<FilterRoutesPage> {
                                   decoration: decorTextField.copyWith(
                                       fillColor: Colors.transparent,
                                       contentPadding:
-                                          const EdgeInsets.symmetric(
-                                              vertical: 17.0, horizontal: 16)),
+                                      const EdgeInsets.symmetric(
+                                          vertical: 17.0, horizontal: 16)),
                                 ),
                               ),
                               Padding(
@@ -180,15 +183,15 @@ class _FilterRoutesPageState extends State<FilterRoutesPage> {
                         itemTitle(LocaleKeys.authorsGrade.tr()),
                         rangeWidget(state.filter!.authorGradeFrom,
                             state.filter!.authorGradeTo, (values) {
-                          gradeChange.add(values);
-                          _bloc.setAuthorGrade(values[0], values[1]);
-                        }),
+                              gradeChange.add(values);
+                              _bloc.setAuthorGrade(values[0], values[1]);
+                            }),
                         itemTitle(LocaleKeys.userGrade.tr()),
                         rangeWidget(state.filter!.userGradeFrom,
                             state.filter!.userGradeTo, (values) {
-                          gradeChange.add(values);
-                          _bloc.setUserGrade(values[0], values[1]);
-                        }),
+                              gradeChange.add(values);
+                              _bloc.setUserGrade(values[0], values[1]);
+                            }),
                         itemTitle(LocaleKeys.designedBy.tr()),
                         itemSpace(height: 9),
                         filterDesign(designs),
@@ -277,7 +280,7 @@ class _FilterRoutesPageState extends State<FilterRoutesPage> {
   }
 
   Widget rangeWidget(double lowerValue, double upperValue,
-          Function(List<double>) callback) =>
+      Function(List<double>) callback) =>
       Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -309,61 +312,61 @@ class _FilterRoutesPageState extends State<FilterRoutesPage> {
       );
 
   Widget line() => const Divider(
-        thickness: 1,
-        color: Colors.white24,
-      );
+    thickness: 1,
+    color: Colors.white24,
+  );
 
   Widget itemSpace({double height = 15.0}) => SizedBox(
-        height: height,
-      );
+    height: height,
+  );
 
   PreferredSizeWidget appbar(BuildContext context) => AppBar(
-        automaticallyImplyLeading: true,
-        leading: IconButton(
-          onPressed: () => RouterUtils.pop(context),
-          icon: const Icon(
-            Icons.arrow_back_outlined,
-            color: colorText45,
-          ),
-        ),
-        backgroundColor: backgroundColor,
-        flexibleSpace: Align(
-          alignment: Alignment.bottomCenter,
-          child: line(),
-        ),
-        toolbarHeight: 50.h,
-        actions: [
-          BlocBuilder<FilterRoutesPageCubit, FilterRoutesPageState>(
-            bloc: _bloc,
-            builder: (c, state) => Container(
-              height: MediaQuery.of(context).size.height,
-              alignment: Alignment.center,
-              child: InkWell(
-                borderRadius: BorderRadius.circular(10),
-                onTap: () {
-                  Utils.fireEvent(RefreshEvent(RefreshType.FILTER));
-                  _bloc.removeFilter(
+    automaticallyImplyLeading: true,
+    leading: IconButton(
+      onPressed: () => RouterUtils.pop(context),
+      icon: const Icon(
+        Icons.arrow_back_outlined,
+        color: colorText45,
+      ),
+    ),
+    backgroundColor: backgroundColor,
+    flexibleSpace: Align(
+      alignment: Alignment.bottomCenter,
+      child: line(),
+    ),
+    toolbarHeight: 50.h,
+    actions: [
+      BlocBuilder<FilterRoutesPageCubit, FilterRoutesPageState>(
+        bloc: _bloc,
+        builder: (c, state) => Container(
+          height: MediaQuery.of(context).size.height,
+          alignment: Alignment.center,
+          child: InkWell(
+            borderRadius: BorderRadius.circular(10),
+            onTap: () {
+              Utils.fireEvent(RefreshEvent(RefreshType.FILTER));
+              _bloc.removeFilter(
                       (model) => widget.removeFilterCallBack.call(model));
-                },
-                child: AppText(
-                  LocaleKeys.removeFilter.tr(),
-                  style: typoW600.copyWith(
-                      color: HexColor('FF5A00'), fontSize: 13.sp),
-                ),
-              ),
+            },
+            child: AppText(
+              LocaleKeys.removeFilter.tr(),
+              style: typoW600.copyWith(
+                  color: HexColor('FF5A00'), fontSize: 13.sp),
             ),
           ),
-          SizedBox(
-            width: contentPadding,
-          )
-        ],
-      );
+        ),
+      ),
+      SizedBox(
+        width: contentPadding,
+      )
+    ],
+  );
 
   Widget itemTitle(String text) => AppText(
-        text,
-        style: typoW400.copyWith(
-            color: colorText0.withOpacity(0.87), fontSize: 14.5.sp),
-      );
+    text,
+    style: typoW400.copyWith(
+        color: colorText0.withOpacity(0.87), fontSize: 14.5.sp),
+  );
 
   Widget filterDesign(List<FilterDesignModel> nameList) {
     return SizedBox(
@@ -376,7 +379,7 @@ class _FilterRoutesPageState extends State<FilterRoutesPage> {
             isSelect: nameList[index].isSelect,
             data: {
               nameList[index].value.keys.first:
-                  nameList[index].value[nameList[index].value.keys.first]
+              nameList[index].value[nameList[index].value.keys.first]
             },
             callback: (value) {
               _bloc.setDesignBy(nameList[index].value, value);
@@ -401,7 +404,7 @@ class _FilterRoutesPageState extends State<FilterRoutesPage> {
             isSelect: nameList[index].isSelect,
             data: {
               nameList[index].value.keys.first:
-                  nameList[index].value[nameList[index].value.keys.first]
+              nameList[index].value[nameList[index].value.keys.first]
             },
             callback: (value) {
               _bloc.setCorner(nameList[index].value, value);
@@ -416,11 +419,11 @@ class _FilterRoutesPageState extends State<FilterRoutesPage> {
   }
 
   Widget itemListView(
-          {required String text,
-          required int selectIndex,
-          required int index,
-          required VoidCallback itemOnclick,
-          AlignmentGeometry? alignment}) =>
+      {required String text,
+        required int selectIndex,
+        required int index,
+        required VoidCallback itemOnclick,
+        AlignmentGeometry? alignment}) =>
       InkWell(
         splashColor: Colors.transparent,
         highlightColor: Colors.transparent,
@@ -429,13 +432,13 @@ class _FilterRoutesPageState extends State<FilterRoutesPage> {
           margin: const EdgeInsets.only(right: 8),
           decoration: selectIndex == index
               ? BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  gradient: Utils.backgroundGradientOrangeButton(),
-                )
+            borderRadius: BorderRadius.circular(20),
+            gradient: Utils.backgroundGradientOrangeButton(),
+          )
               : BoxDecoration(
-                  borderRadius: BorderRadius.circular(20), color: colorBlack10),
+              borderRadius: BorderRadius.circular(20), color: colorBlack10),
           padding:
-              EdgeInsets.only(left: 11.w, right: 11.w, top: 5.h, bottom: 5.h),
+          EdgeInsets.only(left: 11.w, right: 11.w, top: 5.h, bottom: 5.h),
           child: AppText(
             text,
             style: typoW600.copyWith(
@@ -456,7 +459,7 @@ class _FilterRoutesPageState extends State<FilterRoutesPage> {
             isSelect: nameList[index].isSelect,
             data: {
               nameList[index].value.keys.first:
-                  nameList[index].value[nameList[index].value.keys.first]
+              nameList[index].value[nameList[index].value.keys.first]
             },
             callback: (value) {
               _bloc.setStatus(nameList[index].value, value);
