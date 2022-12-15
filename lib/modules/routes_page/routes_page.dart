@@ -173,9 +173,12 @@ class _RoutesPageState extends State<RoutesPage>
             callBack: (model) {},
             index: i,
             onLongPress: (model) {
-              !isLogin ? _bloc.none() : _bloc.itemOnLongPress(context,i,filterController,isMultiSelect: true,model: model);
-            },
-            filterOnclick: () {
+                    !isLogin
+                        ? _bloc.none()
+                        : _bloc.itemOnLongPress(context, i, filterController,
+                            model: model);
+                  },
+                  filterOnclick: () {
               _bloc.filterItemOnclick(i);
             },
             detailCallBack: (RoutesModel action) {
