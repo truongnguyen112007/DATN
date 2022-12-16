@@ -172,6 +172,7 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
       state.typeSearchRoute = SearchRouteType.Sort;
       emit(
         RoutesPageState(
+          keySearch: state.keySearch,
           sort: type,
           typeSearchRoute: SearchRouteType.Sort,
           isLoading: false,

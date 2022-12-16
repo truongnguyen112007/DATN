@@ -15,12 +15,13 @@ class ItemFilterWidget extends StatefulWidget {
   final Map<String, dynamic> data;
   final Function(bool) callback;
   final bool isSelect;
+  final bool isLoginFilter;
 
   const ItemFilterWidget(
       {Key? key,
         required this.data,
         required this.callback,
-        this.isSelect = false})
+        this.isSelect = false,required this.isLoginFilter})
       : super(key: key);
 
   @override
@@ -57,7 +58,7 @@ class _ItemFilterWidgetState extends State<ItemFilterWidget> {
       highlightColor: Colors.transparent,
       child: Container(
         margin: const EdgeInsets.only(right: 8),
-        decoration: isSelect && isLogin
+        decoration: isSelect && widget.isLoginFilter == false
             ? BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           gradient: Utils.backgroundGradientOrangeButton(),
