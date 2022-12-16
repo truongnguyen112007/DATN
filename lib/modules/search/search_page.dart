@@ -52,6 +52,8 @@ class _SearchPageState extends BasePopState<SearchPage>
     _bloc.jumToPage(selectedIndex);
   }
 
+  var keySearch = '';
+
   @override
   void initState() {
     pageController = PageController(initialPage: BottomNavigationSearch.TAB_ROUTES);
@@ -64,6 +66,8 @@ class _SearchPageState extends BasePopState<SearchPage>
     itemOnChange
         .debounceTime(const Duration(seconds: 1))
         .listen((value){
+      if (value == keySearch) return;
+      keySearch = value;
       Utils.fireEvent(
         SearchHomeEvent(selectedIndex, value),
       );
