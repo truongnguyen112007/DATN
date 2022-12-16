@@ -18,6 +18,7 @@ import 'package:base_bloc/utils/toast_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/model/routes_model.dart';
+import '../../router/router.dart';
 import '../../utils/storage_utils.dart';
 import '../routers_detail/routes_detail_page.dart';
 
@@ -76,6 +77,15 @@ class PlayListCubit extends Cubit<PlaylistState> {
             return;
         }
       }, isPlaylist: true, model: model);
+
+  void searchOnclick(BuildContext context) {
+    RouterUtils.pushRoutes(
+        context: context,
+        route: RoutesRouters.search,
+        argument: BottomNavigationConstant.TAB_ROUTES);
+  }
+
+  void showOverlay(bool isOverlay) => emit(state.copyWith(isOverlay: isOverlay));
 
   void removeOrDeleteRoutes(
     BuildContext context,

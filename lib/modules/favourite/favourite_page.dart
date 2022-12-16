@@ -162,6 +162,7 @@ class _FavouritePageState extends State<FavouritePage>
               child: Align(
                 alignment: Alignment.bottomRight,
                 child: SpeedDial(
+                  controller: SpeedDialController(),
                   overlayColor: colorBlack,
                   overlayOpacity: 0.8,
                   gradientBoxShape: BoxShape.circle,
