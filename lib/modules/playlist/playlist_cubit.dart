@@ -18,6 +18,7 @@ import 'package:base_bloc/utils/toast_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/model/routes_model.dart';
+import '../../router/router.dart';
 import '../../utils/storage_utils.dart';
 import '../routers_detail/routes_detail_page.dart';
 
@@ -42,7 +43,8 @@ class PlayListCubit extends Cubit<PlaylistState> {
   }
 
   onRefresh() {
-    emit(PlaylistState(status: FeedStatus.refresh));
+    // Utils.fireEvent(RefreshEvent(RefreshType.FILTER));
+    emit(PlaylistState(status: FeedStatus.refresh),);
     getPlayListById();
   }
 
@@ -78,20 +80,21 @@ class PlayListCubit extends Cubit<PlaylistState> {
       }, isPlaylist: true, model: model);
 
   void removeOrDeleteRoutes(
-    BuildContext context,
-    RoutesModel model,
-    int index,
-    bool isRemove,
-  ) async {
+      BuildContext context,
+      RoutesModel model,
+      int index,
+      bool isRemove,
+      ) async {
     Dialogs.showLoadingDialog(context);
     var response = isRemove
         ? await userRepository.removeFromPlaylist(
-            globals.playlistId, model.id ?? '')
+        globals.playlistId, model.id ?? '')
         : await userRepository.deleteRoute(model.id ?? '');
     await Dialogs.hideLoadingDialog();
     if (response.error == null) {
       state.lRoutes.removeAt(index);
       emit(state.copyWith(timeStamp: DateTime.now().microsecondsSinceEpoch));
+      Utils.fireEvent(RefreshEvent(RefreshType.FAVORITE));
     } else {
       toast(response.error.toString());
     }
@@ -125,7 +128,7 @@ class PlayListCubit extends Cubit<PlaylistState> {
   void moveItemToTop(BuildContext context, RoutesModel model, int index) async {
     Dialogs.showLoadingDialog(context);
     var response =
-        await userRepository.moveToTop(globals.playlistId, model.id ?? '');
+    await userRepository.moveToTop(globals.playlistId, model.id ?? '');
     await Dialogs.hideLoadingDialog();
     if (response.error == null) {
       state.lRoutes.removeAt(index);
@@ -160,6 +163,11 @@ class PlayListCubit extends Cubit<PlaylistState> {
       RouterUtils.openNewPage(const CreateInfoRoutePage(isPublish: false), context);
   /*RouterUtils.openNewPage(const CreateRoutesPage(), context);*/
 
+  void findRoutes (BuildContext context) =>  RouterUtils.pushRoutes(
+      context: context,
+      route: RoutesRouters.search,
+      argument: BottomNavigationConstant.TAB_ROUTES);
+
   Future<void> checkPlaylistId() async {
     if (globals.isLogin) {
       var playlistId = await StorageUtils.getPlaylistId();
@@ -193,7 +201,7 @@ class PlayListCubit extends Cubit<PlaylistState> {
             nextPage: state.nextPage + 1,
             isLoading: false,
             lRoutes:
-                isPaging ? (state.lRoutes..addAll(lResponse)) : lResponse));
+            isPaging ? (state.lRoutes..addAll(lResponse)) : lResponse));
       } else {
         emit(state.copyWith(
             isReadEnd: true, isLoading: false, status: FeedStatus.failure));

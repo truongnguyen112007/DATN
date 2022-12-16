@@ -129,8 +129,11 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
         isSearchRoute: true);
   }
 
+  void none() {}
+
   void filterOnclick(BuildContext context) => RouterUtils.openNewPage(
       FilterRoutesPage(
+        listRoute: state.lRoutes,
         filter: state.filter,
         type: FilterType.SearchRoute,
         showResultButton: (model) {
@@ -138,6 +141,7 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
               typeSearchRoute: SearchRouteType.Filter,
               filter: model,
               isLoading: false));
+          Utils.hideKeyboard(context);
           getRoutes();
         },
         removeFilterCallBack: (model) {
@@ -166,14 +170,24 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
       Navigator.pop(context);
       state.sort = type;
       state.typeSearchRoute = SearchRouteType.Sort;
-      emit(RoutesPageState(
-          sort: type, typeSearchRoute: SearchRouteType.Sort, isLoading: false));
-      getRoutes();
+      emit(
+        RoutesPageState(
+          sort: type,
+          typeSearchRoute: SearchRouteType.Sort,
+          isLoading: false,
+        ),
+      );
       Utils.hideKeyboard(context);
+        getRoutes();
     }, state.sort);
   }
 
   void search(String keySearch, int nextPage, {bool isPaging = false}) async {
+    if (keySearch.isEmpty || keySearch.isEmpty && state.filter == null && state.sort == null) {
+      emit(RoutesPageState(
+          isLoading: false, isReadEnd: false, status: RouteStatus.success));
+      return;
+    }
     emit(state.copyWith(status: RouteStatus.search, isLoading: true));
     try {
       var response = await userRepository.searchRoute(
@@ -212,7 +226,6 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
         toast(response.error.toString());
       }
     } catch (ex) {
-      logE((ex.toString()));
       emit(state.copyWith(
           status: state.lRoutes.isNotEmpty
               ? RouteStatus.success
@@ -239,7 +252,7 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
         }
       }
     } else {
-      lRoutes.add(model?.id ?? "");
+      lRoutes.add(model!.id ?? "");
     }
     var response =
         await userRepository.addToPlaylist(globals.playlistId, lRoutes);
@@ -255,8 +268,8 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
           timeStamp: DateTime.now().microsecondsSinceEpoch,
           isShowAdd: true,
           isShowActionButton: false));
-      Utils.fireEvent(RefreshEvent(RefreshType.PLAYLIST));
       controller.setSelect = false;
+      Utils.fireEvent(RefreshEvent(RefreshType.PLAYLIST));
     } else {
       toast(response.error.toString());
     }
@@ -295,6 +308,7 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
               isShowActionButton: false),
         );
       } else {
+        toast(response.message);
         emit(state.copyWith(
             timeStamp: DateTime.now().microsecondsSinceEpoch,
             isShowAdd: true,
@@ -374,6 +388,7 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
               isShowActionButton: false),
         );
       } else {
+        toast(response.message);
         emit(state.copyWith(
             timeStamp: DateTime.now().microsecondsSinceEpoch,
             isShowAdd: true,

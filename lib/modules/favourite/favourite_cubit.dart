@@ -53,7 +53,7 @@ class FavouriteCubit extends Cubit<FavouriteState> {
       if (element.isSelect) countSelect++;
     }
     var isAddToPlaylist =
-        false; // Cờ check xem có item nào đã add vào playlist chưa
+    false; // Cờ check xem có item nào đã add vào playlist chưa
     var countNotAddToPlaylist = 0; // Check số lượng item chưa add vào Playlist
     for (var element in state.lPlayList) {
       if (element.isSelect) {
@@ -92,9 +92,9 @@ class FavouriteCubit extends Cubit<FavouriteState> {
       }
     },
         checkPlaylists:
-            (!isAddToPlaylist || (isAddToPlaylist && countNotAddToPlaylist > 0))
-                ? true
-                : false,
+        (!isAddToPlaylist || (isAddToPlaylist && countNotAddToPlaylist > 0))
+            ? true
+            : false,
         isFavorite: true,
         model: model,
         isCopy: !isMultiSelect ? true : (countSelect == 1 ? true : false));
@@ -113,13 +113,14 @@ class FavouriteCubit extends Cubit<FavouriteState> {
 
   void createRoutesOnClick(BuildContext context) =>
       /*toast(LocaleKeys.thisFeatureIsUnder)*/
-      RouterUtils.openNewPage(const CreateRoutesPage(), context);
+  RouterUtils.openNewPage(const CreateRoutesPage(), context);
 
   void filterOnclick(BuildContext context) => RouterUtils.openNewPage(
       FilterRoutesPage(
+        listRoute: state.lPlayList,
         filter: state.filter,
         type: FilterType.Favorite,
-        showResultButton: (model) {
+        showResultButton: (model){
           emit(FavouriteState(
             favType: FavType.Filter,
             filter: model,
@@ -207,9 +208,9 @@ class FavouriteCubit extends Cubit<FavouriteState> {
           ? state.filter?.corner[0][state.filter?.corner[0].keys.first]
           : null,
       setter:
-          state.filter?.designBy != null && state.filter!.designBy.isNotEmpty
-              ? state.filter?.designBy[0][state.filter?.designBy[0].keys.first]
-              : null,
+      state.filter?.designBy != null && state.filter!.designBy.isNotEmpty
+          ? state.filter?.designBy[0][state.filter?.designBy[0].keys.first]
+          : null,
     );
     if (response.data != null && response.error == null) {
       try {
@@ -220,7 +221,7 @@ class FavouriteCubit extends Cubit<FavouriteState> {
             nextPage: state.nextPage + 1,
             isLoading: false,
             lPlayList:
-                isPaging ? (state.lPlayList..addAll(lResponse)) : lResponse));
+            isPaging ? (state.lPlayList..addAll(lResponse)) : lResponse));
       } catch (e) {
         emit(state.copyWith(
             isReadEnd: true, isLoading: false, status: FeedStatus.failure));
@@ -283,11 +284,11 @@ class FavouriteCubit extends Cubit<FavouriteState> {
   }
 
   void addToPlaylist(
-    BuildContext context,
-    FilterController controller, {
-    RoutesModel? model,
-    bool isMultiSelect = false,
-  }) async {
+      BuildContext context,
+      FilterController controller, {
+        RoutesModel? model,
+        bool isMultiSelect = false,
+      }) async {
     Dialogs.showLoadingDialog(context);
     var lRoutes = <String>[];
     var lIndex = [];
@@ -302,7 +303,7 @@ class FavouriteCubit extends Cubit<FavouriteState> {
       lRoutes.add(model!.id ?? "");
     }
     var response =
-        await userRepository.addToPlaylist(globals.playlistId, lRoutes);
+    await userRepository.addToPlaylist(globals.playlistId, lRoutes);
     await Dialogs.hideLoadingDialog();
     if (response.error == null) {
       for (int i = 0; i < lIndex.length; i++) {
@@ -335,10 +336,10 @@ class FavouriteCubit extends Cubit<FavouriteState> {
   }
 
   void copyRoutes(
-    BuildContext context,
-    RoutesModel? model,
-    int index,
-  ) =>
+      BuildContext context,
+      RoutesModel? model,
+      int index,
+      ) =>
       // RouterUtils.openNewPage(CreateRoutesPage(model: model), context);
-      toast(LocaleKeys.thisFeatureIsUnder.tr());
+  toast(LocaleKeys.thisFeatureIsUnder.tr());
 }
