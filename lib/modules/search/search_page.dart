@@ -48,6 +48,7 @@ class _SearchPageState extends BasePopState<SearchPage>
 
   void _jumpToPage(int index) {
     selectedIndex = index;
+    keySearch = "";
     pageController.jumpToPage(selectedIndex);
     _bloc.jumToPage(selectedIndex);
   }
@@ -139,6 +140,7 @@ class _SearchPageState extends BasePopState<SearchPage>
     Utils.fireEvent(
       SearchHomeEvent(selectedIndex, ''),
     );
+    keySearch = "";
     textEditingController?.text = '';
     setState(() {});
   }
