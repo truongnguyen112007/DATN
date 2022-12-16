@@ -5,6 +5,7 @@ import 'package:base_bloc/components/app_text_field.dart';
 import 'package:base_bloc/components/appbar_widget.dart';
 import 'package:base_bloc/components/gradient_button.dart';
 import 'package:base_bloc/data/globals.dart';
+import 'package:base_bloc/data/model/holds_param.dart';
 import 'package:base_bloc/data/model/info_route_model.dart';
 import 'package:base_bloc/data/model/routes_model.dart';
 import 'package:base_bloc/extenstion/string_extension.dart';
@@ -25,6 +26,7 @@ import '../../localization/locale_keys.dart';
 import '../../theme/app_styles.dart';
 class CreateInfoRoutePage extends StatefulWidget {
   final List<HoldSetModel>? lHoldSet;
+  final List<HoldParam>? lHoldParams;
   final RoutesModel? routeModel;
   final bool isEdit;
   final bool isPublish;
@@ -32,6 +34,7 @@ class CreateInfoRoutePage extends StatefulWidget {
 
   const CreateInfoRoutePage(
       {Key? key,
+      this.lHoldParams,
       this.lHoldSet,
       this.infoRouteModel,
       this.routeModel,
@@ -49,7 +52,8 @@ class _CreateInfoRoutePageState extends State<CreateInfoRoutePage> {
 
   @override
   void initState() {
-    _bloc = CreateInfoRouteCubit(widget.lHoldSet);
+    logE("TAG lHoldSet: ${widget.lHoldParams?.length}");
+    _bloc = CreateInfoRouteCubit(widget.lHoldSet, widget.lHoldParams);
     if (widget.routeModel != null) routeNameController.text = widget.routeModel?.name ?? '';
     if(widget.infoRouteModel!=null){
       routeNameController.text = widget.infoRouteModel?.routeName??'';

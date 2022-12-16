@@ -14,6 +14,7 @@ import '../../data/eventbus/new_page_event.dart';
 import '../../data/model/hold_set_model.dart';
 import '../../localization/locale_keys.dart';
 import '../../router/router_utils.dart';
+import '../../utils/app_utils.dart';
 import '../hold_set/hold_set_page.dart';
 import '../persons_page/persons_page_state.dart';
 
@@ -61,6 +62,7 @@ class ZoomRoutesCubit extends Cubit<ZoomRoutesState> {
 
   void turnLeftOnClick(BuildContext context) {
     var rotate = state.lRoutes[state.currentIndex!].rotate - 1;
+    logE("TAG ROTATE: $rotate");
     state.lRoutes[state.currentIndex!] =
         state.lRoutes[state.currentIndex!].copyOf(rotate: rotate);
     emit(state.copyOf(
@@ -72,6 +74,7 @@ class ZoomRoutesCubit extends Cubit<ZoomRoutesState> {
 
   void turnRightOnClick(BuildContext context) {
     var rotate = state.lRoutes[state.currentIndex!].rotate + 1;
+    logE("TAG ROTATE: $rotate");
     state.lRoutes[state.currentIndex!] =
         state.lRoutes[state.currentIndex!].copyOf(rotate: rotate);
     emit(state.copyOf(
@@ -120,7 +123,8 @@ class ZoomRoutesCubit extends Cubit<ZoomRoutesState> {
   void confirmOnclick(BuildContext context, InfoRouteModel? infoRouteModel) {
     var lHoldSet = <HoldSetModel>[];
     for (int i = 0; i < state.lRoutes.length; i++) {
-      if (state.lRoutes[i].holdSet.isNotEmpty) {
+      if (state.lRoutes[i].fileName != null &&
+          state.lRoutes[i].fileName!.isNotEmpty) {
         lHoldSet.add(state.lRoutes[i].copyOf(index: i));
       }
     }
@@ -129,6 +133,8 @@ class ZoomRoutesCubit extends Cubit<ZoomRoutesState> {
     } else {
       RouterUtils.openNewPage(
           CreateInfoRoutePage(
+              lHoldParams:
+                  Utils.getHoldsParam(state.lRoutes, state.row, state.column),
               infoRouteModel: infoRouteModel,
               lHoldSet: lHoldSet,
               routeModel: state.model,
