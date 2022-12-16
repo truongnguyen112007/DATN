@@ -23,6 +23,7 @@ class ConstantKey {
   static const String TOKEN_EXPIRED = 'token expired';
   static const String CONNECTION_TIMED_OUT = 'Connection timed out';
   static const BASE_URL = 'http://83.171.249.207/api/v1/';
+  static const IMAGE_URL = 'http://83.171.249.207/api/v1/hold/image/';
 }
 
 class MessageKey {

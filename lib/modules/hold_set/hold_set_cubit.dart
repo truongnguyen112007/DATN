@@ -19,12 +19,12 @@ class HoldSetCubit extends Cubit<HoldSetState> {
   }
 
   void getHoldSet() async {
-    var response = await userRepository.getAllHoldSet();
     var lCache = await StorageUtils.getHoldSet();
     if (lCache.isNotEmpty) {
       emit(state.copyOf(
           lHoldSet: lCache, isLoading: false, status: HoldSetStatus.SUCCESS));
     }
+    var response = await userRepository.getAllHoldSet();
     try {
       if (response.data != null && response.error == null) {
         var lResponse = holdSetModelFromJson(response.data);
@@ -43,7 +43,7 @@ class HoldSetCubit extends Cubit<HoldSetState> {
     }
   }
 
-  void selectOnClick(String icon, BuildContext context) =>
+  void selectOnClick(HoldSetModel icon, BuildContext context) =>
       RouterUtils.pop(context, result: icon, isHideBottomBar: true);
 
   void setIndex(int index) => emit(state.copyOf(currentIndex: index));
