@@ -1,3 +1,4 @@
+import 'package:base_bloc/data/globals.dart';
 import 'package:base_bloc/modules/favourite/favourite_state.dart';
 import 'package:base_bloc/modules/filter_routes/filter_routes_page.dart';
 import 'package:flutter/cupertino.dart';
@@ -101,7 +102,7 @@ class FilterRoutesPageCubit extends Cubit<FilterRoutesPageState> {
 
   void setStatus(Map<String, dynamic> value, bool isSelect) {
     if (isSelect) {
-      state.filter!.status.add(value);
+      !isLogin ? toast("You need to be logged in to use this function"): state.filter!.status.add(value);
     } else {
       for (int i = 0; i < state.filter!.status.length; i++) {
         if (state.filter!.status[i].keys.first == value.keys.first) {

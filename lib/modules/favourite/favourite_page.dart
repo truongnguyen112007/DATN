@@ -253,32 +253,6 @@ class _FavouritePageState extends State<FavouritePage>
               ? state.lPlayList.length + 1
               : state.lPlayList.length);
 
-  //
-  // Widget itemAction(IconData icon, String text, ItemAction action,
-  //     VoidCallback filterCallBack) {Ro
-  //   return InkWell(
-  //     child: Padding(
-  //       padding: EdgeInsets.all(contentPadding),
-  //       child: Row(
-  //         children: [
-  //           Icon(
-  //             icon,
-  //             color: Colors.white,
-  //           ),
-  //           SizedBox(
-  //             width: 40.w,
-  //           ),
-  //           AppText(
-  //             text,
-  //             style: typoSuperSmallTextRegular.copyWith(color: colorText0),
-  //           )
-  //         ],
-  //       ),
-  //     ),
-  //     onTap: () => filterCallBack.call(),
-  //   );
-  // }
-
   @override
   bool get wantKeepAlive => true;
 }

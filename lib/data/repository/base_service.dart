@@ -148,6 +148,7 @@ class BaseService {
         'Host': 'auth.com',
         'lang': globals.lang,
         'Content-Type': 'application/json',
+        'X-SUB': globals.userId,
       };
       final response = await Dio()
           .post(baseUrl + url,

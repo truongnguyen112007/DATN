@@ -123,9 +123,9 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
       }
     },
         checkPlaylists:
-        (!isAddToPlaylist || (isAddToPlaylist && countNotAddToPlaylist > 0))
-            ? true
-            : false,
+            (!isAddToPlaylist || (isAddToPlaylist && countNotAddToPlaylist > 0))
+                ? true
+                : false,
         isSearchRoute: true);
   }
 
@@ -170,16 +170,22 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
       Navigator.pop(context);
       state.sort = type;
       state.typeSearchRoute = SearchRouteType.Sort;
-      emit(RoutesPageState(
-          sort: type, typeSearchRoute: SearchRouteType.Sort, isLoading: false));
-      getRoutes();
+      emit(
+        RoutesPageState(
+          sort: type,
+          typeSearchRoute: SearchRouteType.Sort,
+          isLoading: false,
+        ),
+      );
       Utils.hideKeyboard(context);
+        getRoutes();
     }, state.sort);
   }
 
   void search(String keySearch, int nextPage, {bool isPaging = false}) async {
-    if (keySearch == null || keySearch.isEmpty && state.filter == null) {
-      emit(RoutesPageState(isLoading: false,isReadEnd: false,status: RouteStatus.success));
+    if (keySearch.isEmpty || keySearch.isEmpty && state.filter == null && state.sort == null) {
+      emit(RoutesPageState(
+          isLoading: false, isReadEnd: false, status: RouteStatus.success));
       return;
     }
     emit(state.copyWith(status: RouteStatus.search, isLoading: true));
@@ -198,11 +204,11 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
         userGradeFrom: state.filter?.userGradeFrom,
         userGardeTo: state.filter?.userGradeTo,
         hasConner:
-        state.filter?.corner != null && state.filter!.corner.isNotEmpty
-            ? state.filter?.corner[0][state.filter?.corner[0].keys.first]
-            : null,
+            state.filter?.corner != null && state.filter!.corner.isNotEmpty
+                ? state.filter?.corner[0][state.filter?.corner[0].keys.first]
+                : null,
         setter: state.filter?.designBy != null &&
-            state.filter!.designBy.isNotEmpty
+                state.filter!.designBy.isNotEmpty
             ? state.filter?.designBy[0][state.filter?.designBy[0].keys.first]
             : null,
       );
@@ -229,7 +235,7 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
     }
   }
 
-  /* void addToPlaylist(
+  void addToPlaylist(
     BuildContext context,
     FilterController controller, {
     RoutesModel? model,
@@ -246,51 +252,10 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
         }
       }
     } else {
-      lRoutes.add(model?.id ?? "");
-    }
-    var response =
-        await userRepository.addToPlaylist(globals.playlistId, lRoutes);
-    await Dialogs.hideLoadingDialog();
-    if (response.error == null) {
-      for (int i = 0; i < lIndex.length; i++) {
-        state.lRoutes[lIndex[i]].playlistIn = true;
-        state.lRoutes[lIndex[i]].isSelect = false;
-      }
-      toast(response.message);
-      model?.playlistIn = true;
-      emit(state.copyWith(
-          timeStamp: DateTime.now().microsecondsSinceEpoch,
-          isShowAdd: true,
-          isShowActionButton: false));
-      controller.setSelect = false;
-      Utils.fireEvent(RefreshEvent(RefreshType.PLAYLIST));
-      // onRefresh();
-    } else {
-      toast(response.error.toString());
-    }
-  }*/
-
-  void addToPlaylist(
-      BuildContext context,
-      FilterController controller, {
-        RoutesModel? model,
-        bool isMultiSelect = false,
-      }) async {
-    Dialogs.showLoadingDialog(context);
-    var lRoutes = <String>[];
-    var lIndex = [];
-    if (isMultiSelect) {
-      for (int i = 0; i < state.lRoutes.length; i++) {
-        if (state.lRoutes[i].isSelect) {
-          lRoutes.add(state.lRoutes[i].id ?? '');
-          lIndex.add(i);
-        }
-      }
-    } else {
       lRoutes.add(model!.id ?? "");
     }
     var response =
-    await userRepository.addToPlaylist(globals.playlistId, lRoutes);
+        await userRepository.addToPlaylist(globals.playlistId, lRoutes);
     await Dialogs.hideLoadingDialog();
     if (response.error == null) {
       for (int i = 0; i < lIndex.length; i++) {
@@ -311,12 +276,12 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
   }
 
   void removeFromPlaylist(
-      BuildContext context,
-      FilterController controller,
-      int index, {
-        RoutesModel? model,
-        bool isMultiSelect = false,
-      }) async {
+    BuildContext context,
+    FilterController controller,
+    int index, {
+    RoutesModel? model,
+    bool isMultiSelect = false,
+  }) async {
     var lRoutes = "";
     var lIndex = [];
     if (isMultiSelect) {
@@ -331,7 +296,7 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
     }
     Dialogs.showLoadingDialog(context);
     var response =
-    await userRepository.removeFromPlaylist(globals.playlistId, lRoutes);
+        await userRepository.removeFromPlaylist(globals.playlistId, lRoutes);
     await Dialogs.hideLoadingDialog();
     if (response.error == null) {
       if (isMultiSelect) {
@@ -343,6 +308,7 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
               isShowActionButton: false),
         );
       } else {
+        toast(response.message);
         emit(state.copyWith(
             timeStamp: DateTime.now().microsecondsSinceEpoch,
             isShowAdd: true,
@@ -356,11 +322,11 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
   }
 
   void addToFav(
-      BuildContext context,
-      FilterController controller, {
-        RoutesModel? model,
-        bool isMultiSelect = false,
-      }) async {
+    BuildContext context,
+    FilterController controller, {
+    RoutesModel? model,
+    bool isMultiSelect = false,
+  }) async {
     Dialogs.showLoadingDialog(context);
     var lRoutes = <String>[];
     var lIndex = [];
@@ -422,6 +388,7 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
               isShowActionButton: false),
         );
       } else {
+        toast(response.message);
         emit(state.copyWith(
             timeStamp: DateTime.now().microsecondsSinceEpoch,
             isShowAdd: true,

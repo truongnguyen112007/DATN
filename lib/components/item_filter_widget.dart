@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../data/eventbus/refresh_event.dart';
+import '../data/globals.dart';
 import '../theme/app_styles.dart';
 import '../theme/colors.dart';
 import '../utils/app_utils.dart';
@@ -56,7 +57,7 @@ class _ItemFilterWidgetState extends State<ItemFilterWidget> {
       highlightColor: Colors.transparent,
       child: Container(
         margin: const EdgeInsets.only(right: 8),
-        decoration: isSelect
+        decoration: isSelect && isLogin
             ? BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           gradient: Utils.backgroundGradientOrangeButton(),

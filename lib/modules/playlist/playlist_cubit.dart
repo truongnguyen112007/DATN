@@ -43,7 +43,8 @@ class PlayListCubit extends Cubit<PlaylistState> {
   }
 
   onRefresh() {
-    emit(PlaylistState(status: FeedStatus.refresh));
+    // Utils.fireEvent(RefreshEvent(RefreshType.FILTER));
+    emit(PlaylistState(status: FeedStatus.refresh),);
     getPlayListById();
   }
 
@@ -93,6 +94,7 @@ class PlayListCubit extends Cubit<PlaylistState> {
     if (response.error == null) {
       state.lRoutes.removeAt(index);
       emit(state.copyWith(timeStamp: DateTime.now().microsecondsSinceEpoch));
+      Utils.fireEvent(RefreshEvent(RefreshType.FAVORITE));
     } else {
       toast(response.error.toString());
     }
