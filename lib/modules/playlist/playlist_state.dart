@@ -28,6 +28,7 @@ class PlaylistState extends Equatable {
           List<RoutesModel>? lRoutes,
           List<PlaylistModel>? lPlaylist,
           bool? isReadEnd,
+          bool? isOverlay,
           int? timeStamp,
           bool? isOverlay,
           int? nextPage,
