@@ -107,7 +107,7 @@ class _HoldSetPageState extends BasePopState<HoldSetPage> {
               bloc: _bloc,
               builder: (c, state) => selectButton(
                 onTab: () => _bloc.selectOnClick(
-                    "state.lHoldSet[state.currentIndex].hold2d", context),
+                    state.lHoldSet[state.currentIndex], context),
               ),
             ),
           ],
@@ -148,7 +148,7 @@ class _HoldSetPageState extends BasePopState<HoldSetPage> {
                     borderRadius: BorderRadius.circular(8)),
                   child: AppNetworkImage(
                       source:
-                          '${ConstantKey.BASE_URL}hold/image/${model.fileName}')),
+                          '${ConstantKey.IMAGE_URL}${model.fileName}')),
               Align(
                 alignment: Alignment.topRight,
                 child: Padding(
