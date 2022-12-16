@@ -134,7 +134,9 @@ class BaseService {
 
   // ignore: non_constant_identifier_names
   Future<ApiResult> POST(String url, dynamic body,
-      {bool isMultipart = false, bool isNewFormat = false}) async {
+      {bool isMultipart = false,
+      bool isNewFormat = false,
+      bool isXSub = false}) async {
     if (await ConnectionUtils.isConnect() == false) {
       return ApiResult(error: LocaleKeys.network_error.tr());
     }
@@ -143,13 +145,20 @@ class BaseService {
     print("Bearer " + globals.accessToken);
     print('[PARAMS] ' + (!isMultipart ? json.encode(body) : body.toString()));
     try {
-      var headers = {
-        'Authorization': 'Bearer ${globals.accessToken}',
-        'Host': 'auth.com',
-        'lang': globals.lang,
-        'Content-Type': 'application/json',
-        'X-SUB': globals.userId,
-      };
+      var headers = isXSub
+          ? {
+              'Authorization': 'Bearer ${globals.accessToken}',
+              'Host': 'auth.com',
+              'lang': globals.lang,
+              'Content-Type': 'application/json',
+              'X-SUB': globals.userId
+            }
+          :{
+              'Authorization': 'Bearer ${globals.accessToken}',
+              'Host': 'auth.com',
+              'lang': globals.lang,
+              'Content-Type': 'application/json',
+            };
       final response = await Dio()
           .post(baseUrl + url,
               data: isMultipart ? body : jsonEncode(body),

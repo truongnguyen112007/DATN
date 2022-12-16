@@ -147,18 +147,18 @@ class UserRepository extends BaseService {
         return (orderType == null && orderValue == null)
             ? await POST(
             "search/service/search?from=0&size=${ApiKey.limit_offset}&q=$value",
-            null)
+            null,isXSub: true)
             : await POST(
-            "search/service/search?from=0&size=${ApiKey.limit_offset}&order_type=$orderType&order_value=$orderValue",
-            null);
+            "search/service/search?from=0&size=${ApiKey.limit_offset}&order_type=$orderType&order_value=$orderValue&q=$value",
+            null,isXSub: true);
       case SearchRouteType.Filter:
         return await POST(
-            "search/service/search?from=0&size=${ApiKey.limit_offset}&author_grade_from=${authorGradeFrom?.toInt()}&author_grade_to=${authorGradeTo?.toInt()}&user_grade_from=${userGradeFrom?.toInt()}&user_grade_to=${userGardeTo?.toInt()}${status != null ? "&status=$status" : ""}${hasConner != null ? "&has_conner=$hasConner" : ""}${setter != null ? "&setter=$setter" : ""}",
-            null);
+            "search/service/search?from=0&size=${ApiKey.limit_offset}&q=$value&author_grade_from=${authorGradeFrom?.toInt()}&author_grade_to=${authorGradeTo?.toInt()}&user_grade_from=${userGradeFrom?.toInt()}&user_grade_to=${userGardeTo?.toInt()}${status != null ? "&status=$status" : ""}${hasConner != null ? "&has_conner=$hasConner" : ""}${setter != null ? "&setter=$setter" : ""}",
+            null,isXSub: true);
       default:
         return await POST(
             "search/service/search?from=0&size=${ApiKey.limit_offset}&q=$value",
-            null);
+            null,isXSub: true);
     }
   }
 }
