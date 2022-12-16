@@ -57,7 +57,8 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
         status: RouteStatus.refresh,
         keySearch: state.keySearch,
         isLoading: false,
-        isReadEnd: false));
+        isReadEnd: false,
+    ));
     getRoutes();
   }
 
@@ -133,11 +134,13 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
 
   void filterOnclick(BuildContext context) => RouterUtils.openNewPage(
       FilterRoutesPage(
+        keySearch: state.keySearch,
         listRoute: state.lRoutes,
         filter: state.filter,
         type: FilterType.SearchRoute,
         showResultButton: (model) {
           emit(RoutesPageState(
+            keySearch: state.keySearch,
               typeSearchRoute: SearchRouteType.Filter,
               filter: model,
               isLoading: false));
@@ -184,7 +187,10 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
   }
 
   void search(String keySearch, int nextPage, {bool isPaging = false}) async {
-    if (keySearch.isEmpty || keySearch.isEmpty && state.filter == null && state.sort == null) {
+    // if(keySearch == state.keySearch){
+    //   return;
+    // }
+    if ((keySearch.isEmpty && state.typeSearchRoute == SearchRouteType.Sort) || keySearch.isEmpty && state.filter == null && state.sort == null) {
       emit(RoutesPageState(
           isLoading: false, isReadEnd: false, status: RouteStatus.success));
       return;

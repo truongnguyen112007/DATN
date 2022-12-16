@@ -38,6 +38,7 @@ class FilterRoutesPage extends StatefulWidget {
   final FilterParam? filter;
   final Function(FilterParam) removeFilterCallBack;
   final List<RoutesModel>? listRoute;
+  final String? keySearch;
 
   FilterRoutesPage({
     Key? key,
@@ -45,7 +46,7 @@ class FilterRoutesPage extends StatefulWidget {
     required this.showResultButton,
     required this.removeFilterCallBack,
     this.listRoute,
-    this.filter,
+    this.filter, this.keySearch,
   }) : super(key: key);
 
   @override
@@ -78,7 +79,8 @@ class _FilterRoutesPageState extends State<FilterRoutesPage> {
 
   @override
   void initState() {
-    _bloc = FilterRoutesPageCubit(widget.type);
+    logE("sddaasdasd: ${widget.keySearch}");
+    _bloc = FilterRoutesPageCubit(widget.type,widget.keySearch);
     checkDataStatus();
     logE(widget.listRoute!.length.toString());
     _bloc.setData(widget.filter, widget.listRoute);

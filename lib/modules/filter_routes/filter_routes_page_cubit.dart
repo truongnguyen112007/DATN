@@ -14,9 +14,10 @@ import 'filter_routes_page_state.dart';
 
 class FilterRoutesPageCubit extends Cubit<FilterRoutesPageState> {
   var userRepository = UserRepository();
+  final String? keySearch;
   final FilterType type;
 
-  FilterRoutesPageCubit(this.type) : super(FilterRoutesPageState()) {
+  FilterRoutesPageCubit(this.type, this.keySearch) : super(FilterRoutesPageState()) {
     state.filter = FilterParam(
         status: [],
         corner: [],
@@ -61,6 +62,7 @@ class FilterRoutesPageCubit extends Cubit<FilterRoutesPageState> {
 
   void getSearchRoute() async {
     var response = await userRepository.searchRoute(
+      value: keySearch,
       type: SearchRouteType.Filter,
       nextPage: 1,
       status: state.filter?.status != null && state.filter!.status.isNotEmpty
