@@ -1,4 +1,5 @@
 import 'package:base_bloc/components/dialogs.dart';
+import 'package:base_bloc/data/model/holds_param.dart';
 import 'package:base_bloc/data/model/routes_model.dart';
 import 'package:base_bloc/data/repository/user_repository.dart';
 import 'package:base_bloc/modules/create_info_route/create_info_route_state.dart';
@@ -18,9 +19,10 @@ import '../../localization/locale_keys.dart';
 
 class CreateInfoRouteCubit extends Cubit<CreateInfoRouteState> {
   final List<HoldSetModel>? lHoldSet;
+  final List<HoldParam>? lHoldParams;
   var userRepository = UserRepository();
 
-  CreateInfoRouteCubit(this.lHoldSet) : super(const CreateInfoRouteState());
+  CreateInfoRouteCubit(this.lHoldSet,this.lHoldParams) : super(const CreateInfoRouteState());
 
   void setData(RoutesModel? routesModel, InfoRouteModel? infoRouteModel) {
     if (routesModel != null) {
@@ -92,13 +94,13 @@ class CreateInfoRouteCubit extends Cubit<CreateInfoRouteState> {
         ? await userRepository.createRoute(
             height: state.height,
             name: routeName,
-            lHold: lHoldSet!.map((e) => e.index).toList(),
+            lHold: lHoldParams ?? [],
             hasCorner: state.isCorner,
             authorGrade: state.grade)
         : await userRepository.editRoute(
             height: state.height,
             name: routeName,
-            lHold: lHoldSet!.map((e) => e.index).toList(),
+            lHold: lHoldParams ?? [],
             hasCorner: state.isCorner,
             authorGrade: state.grade,
             routeId: state.model?.id ?? '');

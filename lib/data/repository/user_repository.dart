@@ -5,6 +5,7 @@ import 'package:base_bloc/modules/favourite/favourite_state.dart';
 import '../../modules/routes_page/routes_page_state.dart';
 import '../../utils/log_utils.dart';
 import '../globals.dart' as globals;
+import '../model/holds_param.dart';
 import 'api_result.dart';
 
 class UserRepository extends BaseService {
@@ -95,7 +96,7 @@ class UserRepository extends BaseService {
   Future<ApiResult> createRoute(
           {required String name,
           int height = 12,
-          required List<int> lHold,
+          required List<HoldParam> lHold,
           required bool hasCorner,
           required int authorGrade,
           bool published = true,
@@ -103,7 +104,7 @@ class UserRepository extends BaseService {
       await POST('route', {
         ApiKey.name: name,
         ApiKey.height: height,
-        ApiKey.holds: lHold,
+        ApiKey.holds: jsonEncode(lHold.map((e) => e.toJson()).toList()),
         ApiKey.has_conner: hasCorner,
         ApiKey.author_grade: authorGrade,
         ApiKey.published: published,
@@ -114,7 +115,7 @@ class UserRepository extends BaseService {
           {required String routeId,
           required String name,
           int height = 12,
-          required List<int> lHold,
+          required List<HoldParam> lHold,
           required bool hasCorner,
           required int authorGrade,
           bool published = true,
@@ -122,7 +123,7 @@ class UserRepository extends BaseService {
       await PUT('route/$routeId', body: {
         ApiKey.name: name,
         ApiKey.height: height,
-        ApiKey.holds: lHold,
+        ApiKey.holds: jsonEncode(lHold.map((e) => e.toJson()).toList()),
         ApiKey.has_conner: hasCorner,
         ApiKey.author_grade: authorGrade,
         ApiKey.published: published,

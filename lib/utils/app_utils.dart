@@ -9,9 +9,12 @@ import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:matrix2d/matrix2d.dart';
 import '../components/app_text.dart';
 import '../components/sort_widget.dart';
 import '../data/globals.dart';
+import '../data/model/hold_set_model.dart';
+import '../data/model/holds_param.dart';
 import '../data/model/routes_model.dart';
 import '../data/model/sort_param.dart';
 import '../gen/assets.gen.dart';
@@ -19,6 +22,7 @@ import '../localization/locale_keys.dart';
 import '../modules/playlist/playlist_cubit.dart';
 import '../theme/app_styles.dart';
 import '../theme/colors.dart';
+import 'log_utils.dart';
 
 class Utils {
   static var METHOD_CHANNEL = "METHOD_CALL_NATIVE";
@@ -579,6 +583,27 @@ class Utils {
             HexColor('FF5A00'),
             HexColor('FF5A00'),
           ]);
+
+  static List<HoldParam> getHoldsParam(List<HoldSetModel> lRoutes, int row, int column) {
+    var lHolds = <HoldParam>[];
+    var lRequest = [lRoutes].reshape(row, column);
+    for (int x = 0; x < lRequest.length; x++) {
+      for (int y = 0; y < lRequest[x].length; y++) {
+        if (lRequest[x][y].fileName != null) {
+          switch (lRequest[x][y].rotate) {
+            case 0:
+            case 1:
+            case 2:
+            case 3:
+          }
+          lHolds.add(HoldParam(x, y, lRequest[x][y].id ?? 0, 'N'));
+          logE("TAG  X: $x Y: $y FILE NAME: ${lRequest[x][y].fileName}");
+        }
+      }
+    }
+    return lHolds;
+  }
+
 }
 
 // Custom dialog action sheet for Settings screen
