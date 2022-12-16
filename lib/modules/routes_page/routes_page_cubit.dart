@@ -186,6 +186,11 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
     }, state.sort);
   }
 
+  void setKeySearch(String keySearch){
+    emit(RoutesPageState(keySearch: keySearch));
+    search(keySearch,1);
+  }
+
   void search(String keySearch, int nextPage, {bool isPaging = false}) async {
     // if(keySearch == state.keySearch){
     //   return;

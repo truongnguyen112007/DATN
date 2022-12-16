@@ -47,7 +47,7 @@ class _RoutesPageState extends State<RoutesPage>
   void initState() {
     _searchEvent = Utils.eventBus.on<SearchHomeEvent>().listen(
           (event) {
-        if (event.index == widget.index) _bloc.search(event.key ?? '',1);
+        if (event.index == widget.index) _bloc.setKeySearch(event.key ?? '');
       },
     );
     _bloc = RoutesPageCubit();
