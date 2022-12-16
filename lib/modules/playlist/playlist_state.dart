@@ -11,6 +11,7 @@ class PlaylistState extends Equatable {
   final bool isLoading;
   final int? timeStamp;
   final int nextPage;
+  final bool isOverlay;
 
   PlaylistState(
       {this.status = FeedStatus.initial,
@@ -18,6 +19,7 @@ class PlaylistState extends Equatable {
       this.lPlayList = const <PlaylistModel>[],
       this.isReadEnd = false,
       this.isLoading = true,
+      this.isOverlay = false,
       this.nextPage = 1,
       this.timeStamp});
 
@@ -27,9 +29,11 @@ class PlaylistState extends Equatable {
           List<PlaylistModel>? lPlaylist,
           bool? isReadEnd,
           int? timeStamp,
+          bool? isOverlay,
           int? nextPage,
           bool? isLoading}) =>
       PlaylistState(
+          isOverlay: isOverlay ?? this.isOverlay,
           nextPage: nextPage ?? this.nextPage,
           timeStamp: timeStamp ?? this.timeStamp,
           isLoading: isLoading ?? this.isLoading,
@@ -38,5 +42,6 @@ class PlaylistState extends Equatable {
           isReadEnd: isReadEnd ?? this.isReadEnd);
 
   @override
-  List<Object?> get props => [status, lRoutes, isReadEnd,isLoading,timeStamp];
+  List<Object?> get props =>
+      [status, lRoutes, isReadEnd, isLoading, timeStamp, isOverlay];
 }

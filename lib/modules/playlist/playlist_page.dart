@@ -36,6 +36,7 @@ class _PlayListPageState extends State<PlayListPage>
   late PlayListCubit _bloc;
   var scrollController = ScrollController();
   StreamSubscription<RefreshEvent>? _refreshStream;
+  var speedDialController = SpeedDialController();
 
   @override
   void initState() {
@@ -82,77 +83,94 @@ class _PlayListPageState extends State<PlayListPage>
                       : playlistWidget(context, state));
                 }),
             onRefresh: () async => _bloc.onRefresh()),
+        overLayWidget(),
         addWidget(context)
       ],
     );
   }
 
-  Widget addWidget(BuildContext context) => Positioned.fill(
-    child: Padding(
-      padding: const EdgeInsets.all(5),
-      child: Align(
-        alignment: Alignment.bottomRight,
-        child: SpeedDial(
-          overlayColor: colorBlack,
-          overlayOpacity: 0.8,
-          gradientBoxShape: BoxShape.circle,
-          gradient: Utils.backgroundGradientOrangeButton(),
-          icon: Icons.add,
-          backgroundColor: colorOrange100,
-          activeBackgroundColor: colorWhite,
-          activeIcon: Icons.close,
-          activeChild: const Icon(
-            Icons.close,
-            color: colorBlack,
-          ),
-          spacing: 3,
-          childPadding: const EdgeInsets.all(5),
-          spaceBetweenChildren: 4,
-          dialRoot: null,
-          buttonSize: const Size(56.0, 56.0),
-          childrenButtonSize: const Size(56.0, 56.0),
-          direction: SpeedDialDirection.up,
-          renderOverlay: true,
-          useRotationAnimation: true,
-          animationCurve: Curves.elasticInOut,
-          isOpenOnStart: false,
-          animationDuration: const Duration(milliseconds: 300),
-          children: [
-            SpeedDialChild(
-              labelWidget: AppText(
-                LocaleKeys.find_routes.tr(),
-                style: typoW400.copyWith(
-                    fontSize: 16, color: colorText0.withOpacity(0.87)),
-              ),
-              child: const Icon(
-                Icons.search,
-                color: colorBlack,
-              ),
-              backgroundColor: Colors.white,
-              foregroundColor: Colors.white,
+  Widget overLayWidget() => BlocBuilder<PlayListCubit, PlaylistState>(
+      bloc: _bloc,
+      builder: (c, state) => state.isOverlay
+          ? InkWell(
+              child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
+                  color: colorBlack.withOpacity(0.8)),
               onTap: () {
-                _bloc.findRoutes(context);
+                speedDialController.setToggle = true;
+                _bloc.showOverlay(false);
               },
-            ),
-            SpeedDialChild(
-              labelWidget: AppText(
-                LocaleKeys.create_routes.tr(),
-                style: typoW400.copyWith(
-                    fontSize: 16, color: colorText0.withOpacity(0.87)),
-              ),
-              child: const Icon(
-                Icons.add,
+            )
+          : const SizedBox());
+
+  Widget addWidget(BuildContext context) => Positioned.fill(
+        child: Padding(
+          padding: const EdgeInsets.all(5),
+          child: Align(
+            alignment: Alignment.bottomRight,
+            child: SpeedDial(
+              controller: speedDialController,
+              onOpen: () => _bloc.showOverlay(true),
+              onClose: () => _bloc.showOverlay(false),
+              overlayColor: colorBlack,
+              overlayOpacity: 0.8,
+              gradientBoxShape: BoxShape.circle,
+              gradient: Utils.backgroundGradientOrangeButton(),
+              icon: Icons.add,
+              backgroundColor: colorOrange100,
+              activeBackgroundColor: colorWhite,
+              activeIcon: Icons.close,
+              activeChild: const Icon(
+                Icons.close,
                 color: colorBlack,
               ),
-              backgroundColor: Colors.white,
-              foregroundColor: Colors.white,
-              onTap: () => _bloc.createRoutesOnClick(context),
+              spacing: 3,
+              childPadding: const EdgeInsets.all(5),
+              spaceBetweenChildren: 4,
+              dialRoot: null,
+              buttonSize: const Size(56.0, 56.0),
+              childrenButtonSize: const Size(56.0, 56.0),
+              direction: SpeedDialDirection.up,
+              renderOverlay: false,
+              useRotationAnimation: true,
+              animationCurve: Curves.elasticInOut,
+              isOpenOnStart: false,
+              animationDuration: const Duration(milliseconds: 300),
+              children: [
+                SpeedDialChild(
+                  labelWidget: AppText(
+                    LocaleKeys.find_routes.tr(),
+                    style: typoW400.copyWith(
+                        fontSize: 16, color: colorText0.withOpacity(0.87)),
+                  ),
+                  child: const Icon(
+                    Icons.search,
+                    color: colorBlack,
+                  ),
+                  backgroundColor: Colors.white,
+                  foregroundColor: Colors.white,
+                  onTap: () => _bloc.searchOnclick(context),
+                ),
+                SpeedDialChild(
+                  labelWidget: AppText(
+                    LocaleKeys.create_routes.tr(),
+                    style: typoW400.copyWith(
+                        fontSize: 16, color: colorText0.withOpacity(0.87)),
+                  ),
+                  child: const Icon(
+                    Icons.add,
+                    color: colorBlack,
+                  ),
+                  backgroundColor: Colors.white,
+                  foregroundColor: Colors.white,
+                  onTap: () => _bloc.createRoutesOnClick(context),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
-      ),
-    ),
-  );
+      );
 
   Widget playlistWidget(BuildContext context, PlaylistState state) =>
       ListView.builder(
