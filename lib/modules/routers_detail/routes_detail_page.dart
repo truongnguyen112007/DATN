@@ -346,8 +346,7 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
                             child: RotatedBox(
                                 quarterTurns: _lHoldSet[index].rotate,
                                 child: AppNetworkImage(
-                                    source: ConstantKey.IMAGE_URL +
-                                        _lHoldSet[index].imageUrl)))
+                                    source: _lHoldSet[index].imageUrl)))
                         : const SizedBox()));
           }));
 

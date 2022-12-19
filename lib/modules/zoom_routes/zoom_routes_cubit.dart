@@ -171,41 +171,41 @@ class ZoomRoutesCubit extends Cubit<ZoomRoutesState> {
       case 3:
         {
           if (currentIndex < 160) {
-            dy = heightOfScreen >= 800 ? 1 : 1;
-          } else {
             dy = heightOfScreen >= 800 ? -1 : -1;
+          } else {
+            dy = heightOfScreen >= 800 ? 1 : 1;
           }
           break;
         }
       case 6:
         {
           if (currentIndex <= 84) {
-            dy = heightOfScreen >= 800 ? 83 : 73;
+            dy = heightOfScreen >= 800 ? -83 : -73;
           } else if (currentIndex > 80 && currentIndex <= 150) {
-            dy = 83;
+            dy = 36;
           } else if (currentIndex > 150 && currentIndex < 250) {
             dy = 36;
           } else {
-            dy = heightOfScreen >= 800 ? -83 : -73;
+            dy = heightOfScreen >= 800 ? 83 : 73;
           }
           break;
         }
       case 9:
         {
           if (currentIndex <= 84) {
-            dy = heightOfScreen >= 800 ? 160 : 146;
+            dy = heightOfScreen >= 800 ? -166 : -146;
           } else if (currentIndex > 84 && currentIndex <= 156) {
-            dy = 89;
+            dy = -127;
           } else if (currentIndex > 156 && currentIndex < 252) {
-            dy = 36;
+            dy = -54;
           } else if (currentIndex > 252 && currentIndex < 324) {
             dy = 11;
           } else if (currentIndex > 324 && currentIndex < 396) {
-            dy = -54;
+            dy = 36;
           } else if (currentIndex > 396 && currentIndex < 468) {
-            dy = -127;
+            dy = 89;
           } else {
-            dy = heightOfScreen >= 800 ? -166 : -146;
+            dy = heightOfScreen >= 800 ? 160 : 146;
           }
           break;
         }
@@ -234,21 +234,21 @@ class ZoomRoutesCubit extends Cubit<ZoomRoutesState> {
         }
 
         if (currentIndex <= 80)
-          dy = heightOfScreen >= 800 ? 215 : 175;
+          dy = heightOfScreen >= 800 ? -215 : -175;
         else if (currentIndex > 80 && currentIndex <= 150)
-          dy = 200;
+          dy = -200;
         else if (currentIndex > 150 && currentIndex <= 250)
-          dy = 160;
-        else if (currentIndex > 250 && currentIndex <= 350)
-          dy = 70;
-        else if (currentIndex > 350 && currentIndex <= 450)
+        dy = -160;
+    else if (currentIndex > 250 && currentIndex <= 350)
+        dy = -80;
+    else if (currentIndex > 350 && currentIndex <= 450)
           dy = 20;
         else if (currentIndex > 450 && currentIndex <= 550)
-          dy = -80;
-        else if (currentIndex > 550 && currentIndex <= 650)
-          dy = -160;
-        else
-          dy = heightOfScreen >= 800 ? -215 : -175;
+        dy = 70;
+    else if (currentIndex > 550 && currentIndex <= 650)
+        dy = 160;
+    else
+          dy = heightOfScreen >= 800 ? 215 : 175;
         break;
       default:
         {
