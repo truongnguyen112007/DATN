@@ -24,6 +24,7 @@ import '../../data/model/hold_set_model.dart';
 import '../../gen/assets.gen.dart';
 import '../../localization/locale_keys.dart';
 import '../../theme/app_styles.dart';
+import '../persons_page/persons_page.dart';
 class CreateInfoRoutePage extends StatefulWidget {
   final List<HoldSetModel>? lHoldSet;
   final List<HoldParam>? lHoldParams;
@@ -81,7 +82,12 @@ class _CreateInfoRoutePageState extends State<CreateInfoRoutePage> {
             children: [
               SvgPicture.asset(Assets.svg.friend),
               const SizedBox(width: 10),
-              AppText(LocaleKeys.friend.tr(), style: typoContent)
+              BlocBuilder<CreateInfoRouteCubit, CreateInfoRouteState>(
+                  bloc: _bloc,
+                  builder: (c, state) => InkWell(
+                      child:
+                          AppText(state.visibilityType.name, style: typoContent),
+                      onTap: () => _bloc.visibilityOnClick(context)))
             ],
           ),
           space(),

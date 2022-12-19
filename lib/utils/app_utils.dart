@@ -647,7 +647,6 @@ class Utils {
       for (int i = 0; i < lResponse.length; i++) {
         lResponse[i].index = getPosition(lResponse[i].x, lResponse[i].y, 12);
         lResponse[i].imageUrl ='${ConstantKey.BASE_URL}hold/${lResponse[i].hid}/image';
-        logE("TAG lResponse[i].imageUrl : ${lResponse[i].imageUrl}");
         lResponse[i].rotate = getRotateByDirection(lResponse[i].d);
       }
       return lResponse;

@@ -25,7 +25,7 @@ class RoutesModel {
     this.userId,
     this.published,
     this.userGradeCount,
-    // this.visibility,
+    this.visibility,
     this.height,
     this.id,
     this.authorGrade,
@@ -44,7 +44,7 @@ class RoutesModel {
   int? userId;
   bool? published;
   int? userGradeCount;
-  // int? visibility;
+  int? visibility;
   int? height;
   String? id;
   int? authorGrade;
@@ -64,7 +64,7 @@ class RoutesModel {
     userId: json["user_id"],
     published: json["published"],
     userGradeCount: json["user_grade_count"].toInt(),
-    // visibility: json["visibility"],
+    visibility: json["visibility"],
     height: json["height"],
     id: json["id"],
     authorGrade: json["author_grade"].toInt(),
@@ -84,7 +84,7 @@ class RoutesModel {
     "user_id": userId,
     "published": published,
     "user_grade_count": userGradeCount,
-    // "visibility": visibility,
+    "visibility": visibility,
     "height": height,
     "id": id,
     "author_grade": authorGrade,

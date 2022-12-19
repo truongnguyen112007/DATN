@@ -24,6 +24,9 @@ class ConstantKey {
   static const String CONNECTION_TIMED_OUT = 'Connection timed out';
   static const BASE_URL = 'http://83.171.249.207/api/v1/';
   static const IMAGE_URL = 'http://83.171.249.207/api/v1/hold/image/';
+  static const PRIVATE = 0;
+  static const FRIENDS = 1;
+  static const PUBLIC = 2;
 }
 
 class MessageKey {
