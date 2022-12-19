@@ -349,22 +349,35 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
   ], begin: Alignment.topCenter, end: Alignment.bottomCenter);
 
   Widget svgButton(BuildContext context, String icon, VoidCallback onTab,
-      {bool isBackgroundCircle = true}) =>
+      {bool isBackgroundCircle = true, bool isDisable = false}) =>
       Padding(
           padding: const EdgeInsets.only(top: 10, bottom: 10, left: 10),
           child: AspectRatio(
               aspectRatio: 1 / 1,
-              child: InkWell(
-                  child: Container(
-                      padding: EdgeInsets.all(7.w),
+              child: Stack(children: [
+                InkWell(
+                    child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height,
+                        padding: EdgeInsets.all(7.w),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(100),
-                          color: isBackgroundCircle
-                              ? colorWhite
-                              : Colors.transparent),
-                      child: SvgPicture.asset(icon,
-                          color: isBackgroundCircle ? colorBlack : colorWhite)),
-                  onTap: () => onTab.call())));
+                            color: isDisable
+                                ? colorGrey80
+                                : (isBackgroundCircle
+                                    ? colorWhite
+                                    : Colors.transparent)),
+                        child: SvgPicture.asset(icon,
+                            color:
+                                isBackgroundCircle ? colorBlack : colorWhite)),
+                    onTap: () => onTab.call()),
+                isDisable
+                    ? Container(
+                        color: Colors.transparent,
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height)
+                    : const SizedBox()
+              ])));
 
   Widget spaceMenu() => const SizedBox(width: 30);
 
@@ -379,13 +392,19 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
                     ? Row(mainAxisSize: MainAxisSize.min,
                         children: [
                           svgButton(context, Assets.svg.turnLeft,
-                              () => _bloc.turnLeftOnClick(context)),
+                              () => _bloc.turnLeftOnClick(context),
+                              isDisable: state.lRoutes[state.currentIndex ?? 0]
+                                      .rotate ==
+                                  -4),
                           const SizedBox(width: 10),
                           svgButton(context, Assets.svg.delete,
                               () => _bloc.deleteOnclick()),
                           const SizedBox(width: 10),
                           svgButton(context, Assets.svg.turnRight,
-                              () => _bloc.turnRightOnClick(context))
+                              () => _bloc.turnRightOnClick(context),
+                              isDisable: state.lRoutes[state.currentIndex ?? 0]
+                                      .rotate ==
+                                  4)
                         ],
                       )
                     : const SizedBox(),

@@ -499,11 +499,13 @@ class Utils {
                               () => callBack
                                   .call(ItemAction.REMOVE_FROM_FAVORITE))
                           : const SizedBox(),
-                      !isSearchRoute! ? itemAction(
-                          Assets.svg.share,
-                          LocaleKeys.share.tr(),
-                          ItemAction.SHARE,
-                          () => callBack.call(ItemAction.SHARE)):const SizedBox(),
+                      !isSearchRoute!
+                          ? itemAction(
+                              Assets.svg.share,
+                              LocaleKeys.share.tr(),
+                              ItemAction.SHARE,
+                              () => callBack.call(ItemAction.SHARE))
+                          : const SizedBox(),
                       isCopy && !isSearchRoute
                           ? itemAction(
                               Assets.svg.copy,
@@ -584,20 +586,34 @@ class Utils {
             HexColor('FF5A00'),
           ]);
 
-  static List<HoldParam> getHoldsParam(List<HoldSetModel> lRoutes, int row, int column) {
+  static List<HoldParam> getHoldsParam(
+      List<HoldSetModel> lRoutes, int row, int column) {
     var lHolds = <HoldParam>[];
     var lRequest = [lRoutes].reshape(row, column);
     for (int x = 0; x < lRequest.length; x++) {
       for (int y = 0; y < lRequest[x].length; y++) {
         if (lRequest[x][y].fileName != null) {
+          var direction = '';
           switch (lRequest[x][y].rotate) {
             case 0:
+            case 4:
+            case -4:
+              direction = 'N'; //TREN
+              break;
             case 1:
+            case -1:
+              direction = 'E'; // TRAI
+              break;
             case 2:
+            case -2:
+              direction = 'S'; // DUOI
+              break;
             case 3:
+            case -3:
+              direction = 'M'; // PHAI
+              break;
           }
-          lHolds.add(HoldParam(x, y, lRequest[x][y].id ?? 0, 'N'));
-          logE("TAG  X: $x Y: $y FILE NAME: ${lRequest[x][y].fileName}");
+          lHolds.add(HoldParam(x, y, lRequest[x][y].id ?? 0, direction));
         }
       }
     }

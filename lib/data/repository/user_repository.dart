@@ -104,7 +104,7 @@ class UserRepository extends BaseService {
       await POST('route', {
         ApiKey.name: name,
         ApiKey.height: height,
-        ApiKey.holds: jsonEncode(lHold.map((e) => e.toJson()).toList()),
+        ApiKey.holds: List<dynamic>.from(lHold.map((x) => x.toJson())),
         ApiKey.has_conner: hasCorner,
         ApiKey.author_grade: authorGrade,
         ApiKey.published: published,
