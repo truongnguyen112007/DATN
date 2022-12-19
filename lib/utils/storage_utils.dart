@@ -25,17 +25,19 @@ class StorageUtils {
     globals.userId = 0;
   }
 
-  static Future<void> saveHoldSet(List<HoldSetModel> lHoldSet) async{
+  static Future<void> saveHoldSets(List<HoldSetModel> lHoldSet) async {
     GetStorage().remove(StorageKey.holdSet);
     GetStorage().write(StorageKey.holdSet,
         jsonEncode(lHoldSet.map((e) => e.toJson()).toList()));
   }
 
-  static Future<List<HoldSetModel>> getHoldSet() async{
+  static Future<List<HoldSetModel>> getHoldSet() async {
     var response = await GetStorage().read(StorageKey.holdSet);
-    if(response ==null) return [];
-    return holdSetModelFromJson(json.decode(response));
+    if (response == null) return [];
+    var result = holdSetModelFromJson(json.decode(response));
+    return result;
   }
+
   static Future<void> getInfo() async {
     var userStr = await GetStorage().read(StorageKey.userModel);
     try {

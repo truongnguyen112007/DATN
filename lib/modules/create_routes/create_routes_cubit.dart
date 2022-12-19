@@ -138,18 +138,18 @@ class CreateRoutesCubit extends Cubit<CreateRoutesState> {
       RoutesModel? model,
       required List<String> lHoldSetImage})  async{
     var isGuideline = await StorageUtils.getGuideline();
-    var lRoutes = <HoldSetModel>[];
+    var lHoldSet = <HoldSetModel>[];
     for (int i = 0; i < row * column; i++) {
-      lRoutes.add(HoldSetModel());
+      lHoldSet.add(HoldSetModel());
     }
     if (model != null) {
-      var random = Random();
-      List<int> lHoldSet = json.decode(model.holds ?? '').cast<int>();
-      for (var element in lHoldSet) {
-        if (element < lRoutes.length) {
-          lRoutes[element].holdSet =
-              lHoldSetImage[random.nextInt(lHoldSetImage.length)];
-        }
+      var lHoldParam = Utils.getHold(model.holds);
+      for (var element in lHoldParam) {
+        lHoldSet[element.index] =HoldSetModel(
+            index: element.index,
+            rotate: element.rotate,
+            fileName: element.imageUrl,
+            id: element.hid);
       }
     }
     Timer(
@@ -161,7 +161,7 @@ class CreateRoutesCubit extends Cubit<CreateRoutesState> {
             model: model,
             row: row,
             sizeHoldSet: sizeHoldSet,
-            lRoutes: lRoutes)));
+            lRoutes: lHoldSet)));
   }
 
   void holdSetOnClick(BuildContext context) =>

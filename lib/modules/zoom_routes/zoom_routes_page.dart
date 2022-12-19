@@ -282,6 +282,7 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
       BlocBuilder<ZoomRoutesCubit, ZoomRoutesState>(
           bloc: _bloc,
           builder: (c, state) => GridView.builder(
+              reverse: true,
               controller: _lBoxController,
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,

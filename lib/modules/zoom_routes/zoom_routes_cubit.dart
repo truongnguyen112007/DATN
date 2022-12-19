@@ -62,7 +62,6 @@ class ZoomRoutesCubit extends Cubit<ZoomRoutesState> {
 
   void turnLeftOnClick(BuildContext context) {
     var rotate = state.lRoutes[state.currentIndex!].rotate - 1;
-    logE("TAG ROTATE: $rotate");
     state.lRoutes[state.currentIndex!] =
         state.lRoutes[state.currentIndex!].copyOf(rotate: rotate);
     emit(state.copyOf(
@@ -74,7 +73,6 @@ class ZoomRoutesCubit extends Cubit<ZoomRoutesState> {
 
   void turnRightOnClick(BuildContext context) {
     var rotate = state.lRoutes[state.currentIndex!].rotate + 1;
-    logE("TAG ROTATE: $rotate");
     state.lRoutes[state.currentIndex!] =
         state.lRoutes[state.currentIndex!].copyOf(rotate: rotate);
     emit(state.copyOf(

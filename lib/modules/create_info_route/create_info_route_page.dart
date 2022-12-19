@@ -52,7 +52,6 @@ class _CreateInfoRoutePageState extends State<CreateInfoRoutePage> {
 
   @override
   void initState() {
-    logE("TAG lHoldSet: ${widget.lHoldParams?.length}");
     _bloc = CreateInfoRouteCubit(widget.lHoldSet, widget.lHoldParams);
     if (widget.routeModel != null) routeNameController.text = widget.routeModel?.name ?? '';
     if(widget.infoRouteModel!=null){

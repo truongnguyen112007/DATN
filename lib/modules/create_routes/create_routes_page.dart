@@ -556,6 +556,7 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage>   with Ticke
       BlocBuilder<CreateRoutesCubit, CreateRoutesState>(
           bloc: _bloc,
           builder: (c, state) => GridView.builder(
+              reverse: true,
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemCount: state.lRoutes.length,
@@ -564,8 +565,13 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage>   with Ticke
               itemBuilder: (BuildContext context, int index) {
                 return GestureDetector(
                   onLongPress: () => _bloc.itemOnLongPress(index, context),
-                  onTap: () =>
-                      _bloc.itemOnClick(index,widget.infoRouteModel!.height, context, widget.infoRouteModel),
+                  onTap: () => _bloc.itemOnClick(
+                      index,
+                      widget.infoRouteModel?.height ??
+                          widget.model?.height ??
+                          9,
+                      context,
+                      widget.infoRouteModel),
                   child: Container(
                     padding: const EdgeInsets.all(1),
                     decoration: BoxDecoration(

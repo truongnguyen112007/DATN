@@ -1,8 +1,11 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:base_bloc/base/hex_color.dart';
+import 'package:base_bloc/config/constant.dart';
 import 'package:base_bloc/data/model/background_param.dart';
 import 'package:base_bloc/data/model/general_action_sheet_model.dart';
+import 'package:base_bloc/utils/log_utils.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 import 'package:event_bus/event_bus.dart';
@@ -22,7 +25,6 @@ import '../localization/locale_keys.dart';
 import '../modules/playlist/playlist_cubit.dart';
 import '../theme/app_styles.dart';
 import '../theme/colors.dart';
-import 'log_utils.dart';
 
 class Utils {
   static var METHOD_CHANNEL = "METHOD_CALL_NATIVE";
@@ -73,10 +75,11 @@ class Utils {
       isScrollControlled: true,
       backgroundColor: colorTransparent,
       context: context,
-      builder: (x) => SortWidget(
-        callBack: (model) => callBack.call(model),
-        model: sortModel,
-      ),
+      builder: (x) =>
+          SortWidget(
+            callBack: (model) => callBack.call(model),
+            model: sortModel,
+          ),
     );
   }
 
@@ -164,7 +167,7 @@ class Utils {
           0.6058,
           1
         ]);
-      /*  case 9: //6C+
+    /*  case 9: //6C+
         return BackgroundParam([
           HexColor('D14800'),
           HexColor('D17800'),
@@ -363,12 +366,16 @@ class Utils {
 
   static String getFullTimeFromStr(String time) {
     var result = time.split(':');
-    return "${result[0]}:${(result[1].length == 1 ? "0" + result[1] : result[1])}";
+    return "${result[0]}:${(result[1].length == 1
+        ? "0" + result[1]
+        : result[1])}";
   }
 
   static String getFullHoursFromStr(String time) {
     var result = time.split(':');
-    return "${(result[0].length == 1 ? "0" + result[0] : result[0])}:${(result[1].length == 1 ? "0" + result[1] : result[1])}";
+    return "${(result[0].length == 1
+        ? "0" + result[0]
+        : result[0])}:${(result[1].length == 1 ? "0" + result[1] : result[1])}";
   }
 
   static String convertTimeToYYMMDDFromDateTime(DateTime time) =>
@@ -400,10 +407,14 @@ class Utils {
   static String convertHoursFromStr(String? input) {
     if (input == null || input.isEmpty) return '';
     var time = parseTimeOfDay(input);
-    var hour = time.hour.toString().length == 1
+    var hour = time.hour
+        .toString()
+        .length == 1
         ? "0" + time.hour.toString()
         : time.hour.toString();
-    var minute = time.minute.toString().length == 1
+    var minute = time.minute
+        .toString()
+        .length == 1
         ? "0" + time.minute.toString()
         : time.minute.toString();
     return "$hour:$minute";
@@ -433,20 +444,21 @@ class Utils {
 
   static String randomTag() => Random().nextInt(100).toString();
 
-  static void showActionDialog(
-      BuildContext context, Function(ItemAction) callBack,
+  static void showActionDialog(BuildContext context,
+      Function(ItemAction) callBack,
       {bool isPlaylist = false,
-      bool checkPlaylists = false,
-      bool isFavorite = false,
-      bool isCopy = true,
-      bool isDesigned = false,
-      bool? isSearchRoute = false,
-      RoutesModel? model}) {
+        bool checkPlaylists = false,
+        bool isFavorite = false,
+        bool isCopy = true,
+        bool isDesigned = false,
+        bool? isSearchRoute = false,
+        RoutesModel? model}) {
     showModalBottomSheet(
         isScrollControlled: true,
         backgroundColor: Colors.transparent,
         context: context,
-        builder: (x) => Wrap(
+        builder: (x) =>
+            Wrap(
               children: [
                 Container(
                   padding: EdgeInsets.all(contentPadding),
@@ -462,69 +474,71 @@ class Utils {
                       SizedBox(height: contentPadding),
                       !isDesigned && !isFavorite && !isSearchRoute!
                           ? itemAction(
-                              Assets.svg.moveToTop,
-                              LocaleKeys.moveToPlaylist.tr(),
-                              ItemAction.MOVE_TO_TOP,
+                          Assets.svg.moveToTop,
+                          LocaleKeys.moveToPlaylist.tr(),
+                          ItemAction.MOVE_TO_TOP,
                               () => callBack.call(ItemAction.MOVE_TO_TOP))
                           : const SizedBox(),
                       checkPlaylists &&
-                              !isPlaylist &&
-                              (!(model?.playlistIn ?? false))
+                          !isPlaylist &&
+                          (!(model?.playlistIn ?? false))
                           ? itemAction(
-                              Assets.svg.addToPlayList,
-                              LocaleKeys.addToPlaylist.tr(),
-                              ItemAction.ADD_TO_PLAYLIST,
+                          Assets.svg.addToPlayList,
+                          LocaleKeys.addToPlaylist.tr(),
+                          ItemAction.ADD_TO_PLAYLIST,
                               () => callBack.call(ItemAction.ADD_TO_PLAYLIST))
                           : const SizedBox(),
                       !isDesigned && !isFavorite
                           ? itemAction(
-                              Assets.svg.removeFromPlaylist,
-                              LocaleKeys.removeFromPlaylist.tr(),
-                              ItemAction.REMOVE_FROM_PLAYLIST,
-                              () => callBack
+                          Assets.svg.removeFromPlaylist,
+                          LocaleKeys.removeFromPlaylist.tr(),
+                          ItemAction.REMOVE_FROM_PLAYLIST,
+                              () =>
+                              callBack
                                   .call(ItemAction.REMOVE_FROM_PLAYLIST))
                           : const SizedBox(),
                       !isFavorite && (!(model?.favouriteIn ?? false))
                           ? itemAction(
-                              Assets.svg.liked,
-                              LocaleKeys.addToFavourite.tr(),
-                              ItemAction.ADD_TO_FAVOURITE,
+                          Assets.svg.liked,
+                          LocaleKeys.addToFavourite.tr(),
+                          ItemAction.ADD_TO_FAVOURITE,
                               () => callBack.call(ItemAction.ADD_TO_FAVOURITE))
                           : const SizedBox(),
                       !isDesigned && ((model?.favouriteIn ?? true))
                           ? itemAction(
-                              Assets.svg.like,
-                              LocaleKeys.removeFromFavorite.tr(),
-                              ItemAction.REMOVE_FROM_FAVORITE,
-                              () => callBack
+                          Assets.svg.like,
+                          LocaleKeys.removeFromFavorite.tr(),
+                          ItemAction.REMOVE_FROM_FAVORITE,
+                              () =>
+                              callBack
                                   .call(ItemAction.REMOVE_FROM_FAVORITE))
                           : const SizedBox(),
                       !isSearchRoute!
                           ? itemAction(
-                              Assets.svg.share,
-                              LocaleKeys.share.tr(),
-                              ItemAction.SHARE,
+                          Assets.svg.share,
+                          LocaleKeys.share.tr(),
+                          ItemAction.SHARE,
                               () => callBack.call(ItemAction.SHARE))
                           : const SizedBox(),
                       isCopy && !isSearchRoute
                           ? itemAction(
-                              Assets.svg.copy,
-                              LocaleKeys.copy.tr(),
-                              ItemAction.COPY,
+                          Assets.svg.copy,
+                          LocaleKeys.copy.tr(),
+                          ItemAction.COPY,
                               () => callBack.call(ItemAction.COPY))
                           : const SizedBox(),
                       (!isPlaylist && !isFavorite && !isSearchRoute)
                           ? itemAction(
-                              Assets.svg.edit,
-                              LocaleKeys.edit.tr(),
-                              ItemAction.EDIT,
+                          Assets.svg.edit,
+                          LocaleKeys.edit.tr(),
+                          ItemAction.EDIT,
                               () => callBack.call(ItemAction.EDIT))
                           : const SizedBox(),
                       (!isPlaylist && !isFavorite && !isSearchRoute)
                           ? itemAction(
-                              Assets.svg.delete,
-                              LocaleKeys.delete.tr(),
-                              ItemAction.DELETE,
+                          Assets.svg.delete,
+                          LocaleKeys.delete.tr(),
+                          ItemAction.DELETE,
                               () => callBack.call(ItemAction.DELETE))
                           : const SizedBox()
                     ],
@@ -576,7 +590,7 @@ class Utils {
       DateFormat('dd').format(dateTime);
 
   static LinearGradient backgroundGradientOrangeButton(
-          {AlignmentGeometry? begin, AlignmentGeometry? end}) =>
+      {AlignmentGeometry? begin, AlignmentGeometry? end}) =>
       LinearGradient(
           begin: begin ?? Alignment.topCenter,
           end: end ?? Alignment.bottomCenter,
@@ -586,8 +600,8 @@ class Utils {
             HexColor('FF5A00'),
           ]);
 
-  static List<HoldParam> getHoldsParam(
-      List<HoldSetModel> lRoutes, int row, int column) {
+  static List<HoldParam> getHoldsParam(List<HoldSetModel> lRoutes, int row,
+      int column) {
     var lHolds = <HoldParam>[];
     var lRequest = [lRoutes].reshape(row, column);
     for (int x = 0; x < lRequest.length; x++) {
@@ -613,13 +627,49 @@ class Utils {
               direction = 'M'; // PHAI
               break;
           }
-          lHolds.add(HoldParam(x, y, lRequest[x][y].id ?? 0, direction));
+          lHolds.add(HoldParam(y, x, lRequest[x][y].id ?? 0, direction));
         }
       }
     }
     return lHolds;
   }
 
+  static int getPosition(x, y, width) {
+    x += 1;
+    y += 1;
+    return x - 1 + (y - 1) * width;
+  }
+
+  static List<HoldParam> getHold(dynamic holds) {
+    try {
+      var lResponse =
+      holdParamFromJson(json.decode((holds).replaceAll("'", "\"")));
+      for (int i = 0; i < lResponse.length; i++) {
+        lResponse[i].index = getPosition(lResponse[i].x, lResponse[i].y, 12);
+        lResponse[i].imageUrl ='${ConstantKey.BASE_URL}hold/${lResponse[i].hid}/image';
+        logE("TAG lResponse[i].imageUrl : ${lResponse[i].imageUrl}");
+        lResponse[i].rotate = getRotateByDirection(lResponse[i].d);
+      }
+      return lResponse;
+    } catch (ex) {
+      return [];
+    }
+  }
+
+  static int getRotateByDirection(String value) {
+    switch (value) {
+      case 'N':
+        return 0;
+      case 'E':
+        return 1;
+      case 'S':
+        return 2;
+      case 'M':
+        return 3;
+      default:
+        return 0;
+    }
+  }
 }
 
 // Custom dialog action sheet for Settings screen

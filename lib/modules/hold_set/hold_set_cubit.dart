@@ -32,7 +32,7 @@ class HoldSetCubit extends Cubit<HoldSetState> {
             lHoldSet: lResponse,
             isLoading: false,
             status: HoldSetStatus.SUCCESS));
-        StorageUtils.saveHoldSet(lResponse);
+        StorageUtils.saveHoldSets(lResponse);
       } else {
         toast(response.error.toString());
         emit(state.copyOf(isLoading: false, status: HoldSetStatus.ERROR));

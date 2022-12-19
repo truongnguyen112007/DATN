@@ -13,7 +13,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../components/dialogs.dart';
 import '../../data/globals.dart' as globals;
+import '../../data/model/holds_param.dart';
 import '../../router/router_utils.dart';
+import '../../utils/app_utils.dart';
 import '../../utils/toast_utils.dart';
 import '../create_routes/create_routes_page.dart';
 
@@ -81,13 +83,18 @@ class RoutesDetailCubit extends Cubit<RoutesDetailState> {
 
   void editRouteOnclick(BuildContext context, RoutesModel model) async {
     var lHoldSet = <HoldSetModel>[];
-    var random = Random();
+   /* var random = Random();
     List<int> lHoldSetInt = json.decode(model.holds ?? '').cast<int>();
-    for (var element in lHoldSetInt) {
+   */
+    var lHoldParam = Utils.getHold(model.holds ?? '');
+    for (var element in lHoldParam) {
       lHoldSet.add(HoldSetModel(
-          holdSet: globals.lHoldSet[random.nextInt(globals.lHoldSet.length)],
-          index: element));
+          index: element.index,
+          rotate: element.rotate,
+          fileName: element.imageUrl,
+          id: element.hid));
     }
+
     RouterUtils.openNewPage(
         CreateInfoRoutePage(
           lHoldSet: lHoldSet, isEdit: true, routeModel: model),
