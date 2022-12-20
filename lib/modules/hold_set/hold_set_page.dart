@@ -147,8 +147,8 @@ class _HoldSetPageState extends BasePopState<HoldSetPage> {
                     color: currentIndex == index ? colorPink30 : colorWhite,
                     borderRadius: BorderRadius.circular(8)),
                   child: AppNetworkImage(
-                      source:
-                          '${ConstantKey.IMAGE_URL}${model.fileName}')),
+                      source: Utils.getUrlHoldSet(model.id??0)
+                  )),
               Align(
                 alignment: Alignment.topRight,
                 child: Padding(

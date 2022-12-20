@@ -627,6 +627,9 @@ class Utils {
     return x - 1 + (y - 1) * width;
   }
 
+  static String getUrlHoldSet(int id) =>
+      "${ConstantKey.BASE_URL}hold/${id}/image";
+
   static List<HoldParam> getHold(dynamic holds) {
     try {
       var lResponse =

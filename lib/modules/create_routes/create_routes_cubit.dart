@@ -146,7 +146,6 @@ class CreateRoutesCubit extends Cubit<CreateRoutesState> {
     if (model != null) {
       var lHoldParam = Utils.getHold(model.holds);
       for (var element in lHoldParam) {
-        logE("TAG element.imageUrl: ${element.imageUrl}");
         lHoldSet[element.index] =HoldSetModel(
             index: element.index,
             rotate: element.rotate,

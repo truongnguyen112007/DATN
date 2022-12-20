@@ -39,6 +39,7 @@ class CreateInfoRouteCubit extends Cubit<CreateInfoRouteState> {
       }
       emit(state.copyOf(isEdit: true,
           model: routesModel,
+          height: routesModel.height ?? 3,
           visibilityType: (routesModel.visibility ?? 0) == ConstantKey.PRIVATE
               ? VisibilityType.PRIVATE
               : (routesModel.visibility ?? 0) == ConstantKey.FRIENDS
