@@ -1,4 +1,6 @@
 import 'package:base_bloc/components/dialogs.dart';
+import 'package:base_bloc/components/visibility_route_widget.dart';
+import 'package:base_bloc/data/model/holds_param.dart';
 import 'package:base_bloc/data/model/routes_model.dart';
 import 'package:base_bloc/data/repository/user_repository.dart';
 import 'package:base_bloc/modules/create_info_route/create_info_route_state.dart';
@@ -10,17 +12,21 @@ import 'package:base_bloc/utils/log_utils.dart';
 import 'package:base_bloc/utils/toast_utils.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../config/constant.dart';
 import '../../data/model/hold_set_model.dart';
 import '../../data/model/info_route_model.dart';
 import '../../localization/locale_keys.dart';
+import '../../theme/colors.dart';
 
 class CreateInfoRouteCubit extends Cubit<CreateInfoRouteState> {
   final List<HoldSetModel>? lHoldSet;
+  final List<HoldParam>? lHoldParams;
   var userRepository = UserRepository();
 
-  CreateInfoRouteCubit(this.lHoldSet) : super(const CreateInfoRouteState());
+  CreateInfoRouteCubit(this.lHoldSet,this.lHoldParams) : super(const CreateInfoRouteState());
 
   void setData(RoutesModel? routesModel, InfoRouteModel? infoRouteModel) {
     if (routesModel != null) {
@@ -33,6 +39,11 @@ class CreateInfoRouteCubit extends Cubit<CreateInfoRouteState> {
       }
       emit(state.copyOf(isEdit: true,
           model: routesModel,
+          visibilityType: (routesModel.visibility ?? 0) == ConstantKey.PRIVATE
+              ? VisibilityType.PRIVATE
+              : (routesModel.visibility ?? 0) == ConstantKey.FRIENDS
+                  ? VisibilityType.FRIENDS
+                  : VisibilityType.PUBLIC,
           isCorner: routesModel.hasConner ?? false,
           currentIndexGrade: currentIndex,
           grade: routesModel.authorGrade,
@@ -90,15 +101,23 @@ class CreateInfoRouteCubit extends Cubit<CreateInfoRouteState> {
     Dialogs.showLoadingDialog(context);
     var response = !state.isEdit
         ? await userRepository.createRoute(
+            visibility: state.visibilityType == VisibilityType.PRIVATE
+                ? ConstantKey.PRIVATE
+                : (state.visibilityType == VisibilityType.FRIENDS
+                    ? ConstantKey.FRIENDS
+                    : ConstantKey.PUBLIC),
             height: state.height,
             name: routeName,
-            lHold: lHoldSet!.map((e) => e.index).toList(),
+            lHold: lHoldParams ?? [],
             hasCorner: state.isCorner,
             authorGrade: state.grade)
         : await userRepository.editRoute(
+            visibility: state.visibilityType == VisibilityType.PRIVATE
+                ? 0
+                : (state.visibilityType == VisibilityType.FRIENDS ? 1 : 2),
             height: state.height,
             name: routeName,
-            lHold: lHoldSet!.map((e) => e.index).toList(),
+            lHold: lHoldParams ?? [],
             hasCorner: state.isCorner,
             authorGrade: state.grade,
             routeId: state.model?.id ?? '');
@@ -124,6 +143,19 @@ class CreateInfoRouteCubit extends Cubit<CreateInfoRouteState> {
   }
 
   void changeHeight(int value) => emit(state.copyOf(height: value));
+
+  void visibilityOnClick(BuildContext context) {
+    showModalBottomSheet(
+        isScrollControlled: true,
+        backgroundColor: colorTransparent,
+        context: context,
+        builder: (x) => VisibilityRouteWidget(
+            itemOnClick: (type) {
+              emit(state.copyOf(visibilityType: type));
+              Navigator.pop(context);
+            },
+            type: state.visibilityType));
+  }
 
   var lGrade = [
     0,

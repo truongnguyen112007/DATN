@@ -5,6 +5,7 @@ import 'package:base_bloc/components/app_text_field.dart';
 import 'package:base_bloc/components/appbar_widget.dart';
 import 'package:base_bloc/components/gradient_button.dart';
 import 'package:base_bloc/data/globals.dart';
+import 'package:base_bloc/data/model/holds_param.dart';
 import 'package:base_bloc/data/model/info_route_model.dart';
 import 'package:base_bloc/data/model/routes_model.dart';
 import 'package:base_bloc/extenstion/string_extension.dart';
@@ -23,8 +24,10 @@ import '../../data/model/hold_set_model.dart';
 import '../../gen/assets.gen.dart';
 import '../../localization/locale_keys.dart';
 import '../../theme/app_styles.dart';
+import '../persons_page/persons_page.dart';
 class CreateInfoRoutePage extends StatefulWidget {
   final List<HoldSetModel>? lHoldSet;
+  final List<HoldParam>? lHoldParams;
   final RoutesModel? routeModel;
   final bool isEdit;
   final bool isPublish;
@@ -32,6 +35,7 @@ class CreateInfoRoutePage extends StatefulWidget {
 
   const CreateInfoRoutePage(
       {Key? key,
+      this.lHoldParams,
       this.lHoldSet,
       this.infoRouteModel,
       this.routeModel,
@@ -49,7 +53,7 @@ class _CreateInfoRoutePageState extends State<CreateInfoRoutePage> {
 
   @override
   void initState() {
-    _bloc = CreateInfoRouteCubit(widget.lHoldSet);
+    _bloc = CreateInfoRouteCubit(widget.lHoldSet, widget.lHoldParams);
     if (widget.routeModel != null) routeNameController.text = widget.routeModel?.name ?? '';
     if(widget.infoRouteModel!=null){
       routeNameController.text = widget.infoRouteModel?.routeName??'';
@@ -78,7 +82,12 @@ class _CreateInfoRoutePageState extends State<CreateInfoRoutePage> {
             children: [
               SvgPicture.asset(Assets.svg.friend),
               const SizedBox(width: 10),
-              AppText(LocaleKeys.friend.tr(), style: typoContent)
+              BlocBuilder<CreateInfoRouteCubit, CreateInfoRouteState>(
+                  bloc: _bloc,
+                  builder: (c, state) => InkWell(
+                      child:
+                          AppText(state.visibilityType.name, style: typoContent),
+                      onTap: () => _bloc.visibilityOnClick(context)))
             ],
           ),
           space(),

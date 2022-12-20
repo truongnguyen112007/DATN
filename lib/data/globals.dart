@@ -3,6 +3,7 @@ library app.globals;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../gen/assets.gen.dart';
+import 'model/hold_set_model.dart';
 
 String accessToken = '';
 String refreshToken = '';
@@ -16,6 +17,7 @@ String userName = '';
 String playlistId = '';
 String languageCode = '';
 
+var lHoldSet=<HoldSetModel>[];
 bool isLogin = false;
 bool isTokenExpired = false;
 int timePackageRemaining = 0;
@@ -23,13 +25,7 @@ int timeOut = 30;
 
 double contentPadding = 8.w;
 
-final List<String> lHoldSet = [
-  Assets.svg.holdset1,
-  Assets.svg.holdset2,
-  Assets.svg.holdset3,
-  Assets.svg.holdset4,
-  Assets.svg.holdset5
-];
+
 List<String> lHoldSetName = [
   'A',
   'B',

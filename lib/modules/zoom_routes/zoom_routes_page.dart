@@ -1,8 +1,10 @@
 import 'dart:async';
 
+import 'package:base_bloc/components/app_network_image.dart';
 import 'package:base_bloc/components/app_scalford.dart';
 import 'package:base_bloc/components/measure_name_widget.dart';
 import 'package:base_bloc/components/zoomer.dart';
+import 'package:base_bloc/config/constant.dart';
 import 'package:base_bloc/data/model/routes_model.dart';
 import 'package:base_bloc/modules/zoom_routes/zoom_routes_cubit.dart';
 import 'package:base_bloc/modules/zoom_routes/zoom_routes_state.dart';
@@ -79,8 +81,6 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
 
   @override
   void initState() {
-    logE("TAG SIZE HOLDSET: ${widget.sizeHoldSet}");
-    logE("TAG HEIGHT OF ROUTE: ${widget.heightOfRoute}");
     _bloc = ZoomRoutesCubit();
     _zoomController = ZoomerController(initialScale: 4.0);
     _zoomMeasureNameController = ZoomerController(initialScale: 4.0);
@@ -251,10 +251,10 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
               borderRadius: BorderRadius.circular(50)),
           title: LocaleKeys.cancel.tr(),
           height: 32.h,
-          textStyle: typoSmallTextRegular.copyWith(color: colorText0),
-          onPress: () => RouterUtils.pop(context),
-        ),
-        const Spacer(),
+              textStyle: typoSmallTextRegular.copyWith(color: colorText0),
+              onPress: () => _bloc.goBack(context),
+            ),
+            const Spacer(),
         Container(
           padding: EdgeInsets.only(
                   left: globals.contentPadding,
@@ -282,6 +282,7 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
       BlocBuilder<ZoomRoutesCubit, ZoomRoutesState>(
           bloc: _bloc,
           builder: (c, state) => GridView.builder(
+              reverse: true,
               controller: _lBoxController,
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
@@ -300,17 +301,16 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
                                 : colorGrey60,
                             width: state.currentIndex == index ? 1 : 0.5)),
                     child: Center(
-                        child: state.lRoutes[index].holdSet.isNotEmpty
+                        child: state.lRoutes[index].fileName != null &&
+                                state.lRoutes[index].fileName!.isNotEmpty
                             ? RotatedBox(
-                            quarterTurns: state.lRoutes[index].rotate,
-                            child: ShaderMask(
-                                child: SvgPicture.asset(
-                                    state.lRoutes[index].holdSet,
-                                    width: 10),
-                                shaderCallback: (Rect bounds) =>
-                                    Utils.backgroundGradientOrangeButton()
-                                        .createShader(const Rect.fromLTRB(
-                                        0, 0, 10, 10))))
+                                quarterTurns: state.lRoutes[index].rotate,
+                                child: SizedBox(
+                                    width: 8,
+                                    child: AppNetworkImage(
+                                        source: ConstantKey.IMAGE_URL +
+                                            state.lRoutes[index].fileName
+                                                .toString())))
                             : const SizedBox()),
                   ),
                 );
@@ -350,22 +350,35 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
   ], begin: Alignment.topCenter, end: Alignment.bottomCenter);
 
   Widget svgButton(BuildContext context, String icon, VoidCallback onTab,
-      {bool isBackgroundCircle = true}) =>
+      {bool isBackgroundCircle = true, bool isDisable = false}) =>
       Padding(
           padding: const EdgeInsets.only(top: 10, bottom: 10, left: 10),
           child: AspectRatio(
               aspectRatio: 1 / 1,
-              child: InkWell(
-                  child: Container(
-                      padding: EdgeInsets.all(7.w),
+              child: Stack(children: [
+                InkWell(
+                    child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height,
+                        padding: EdgeInsets.all(7.w),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(100),
-                          color: isBackgroundCircle
-                              ? colorWhite
-                              : Colors.transparent),
-                      child: SvgPicture.asset(icon,
-                          color: isBackgroundCircle ? colorBlack : colorWhite)),
-                  onTap: () => onTab.call())));
+                            color: isDisable
+                                ? colorGrey80
+                                : (isBackgroundCircle
+                                    ? colorWhite
+                                    : Colors.transparent)),
+                        child: SvgPicture.asset(icon,
+                            color:
+                                isBackgroundCircle ? colorBlack : colorWhite)),
+                    onTap: () => onTab.call()),
+                isDisable
+                    ? Container(
+                        color: Colors.transparent,
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height)
+                    : const SizedBox()
+              ])));
 
   Widget spaceMenu() => const SizedBox(width: 30);
 
@@ -373,29 +386,30 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
       context: context,
       onPressed: () => _bloc.goBack(context),
       action: [
-        BlocBuilder<ZoomRoutesCubit, ZoomRoutesState>(
-            builder: (c, state) => state.currentIndex != null &&
-                state.lRoutes[state.currentIndex!].holdSet.isNotEmpty
-                ? svgButton(context, Assets.svg.turnLeft,
-                    () => _bloc.turnLeftOnClick(context))
-                : const SizedBox(),
-            bloc: _bloc),
-        const SizedBox(width: 10),
-        BlocBuilder<ZoomRoutesCubit, ZoomRoutesState>(
-            builder: (c, state) => state.currentIndex != null &&
-                state.lRoutes[state.currentIndex!].holdSet.isNotEmpty
-                ? svgButton(
-                context, Assets.svg.delete, () => _bloc.deleteOnclick())
-                : const SizedBox(),
-            bloc: _bloc),
-        const SizedBox(width: 10),
-        BlocBuilder<ZoomRoutesCubit, ZoomRoutesState>(
-            builder: (c, state) => state.currentIndex != null &&
-                state.lRoutes[state.currentIndex!].holdSet.isNotEmpty
-                ? svgButton(context, Assets.svg.turnRight,
-                    () => _bloc.turnRightOnClick(context))
-                : const SizedBox(),
-            bloc: _bloc),
+            BlocBuilder<ZoomRoutesCubit, ZoomRoutesState>(
+                builder: (c, state) => state.currentIndex != null &&
+                        state.lRoutes[state.currentIndex!].fileName != null &&
+                        state.lRoutes[state.currentIndex!].fileName!.isNotEmpty
+                    ? Row(mainAxisSize: MainAxisSize.min,
+                        children: [
+                          svgButton(context, Assets.svg.turnLeft,
+                              () => _bloc.turnLeftOnClick(context),
+                              isDisable: state.lRoutes[state.currentIndex ?? 0]
+                                      .rotate ==
+                                  -4),
+                          const SizedBox(width: 10),
+                          svgButton(context, Assets.svg.delete,
+                              () => _bloc.deleteOnclick()),
+                          const SizedBox(width: 10),
+                          svgButton(context, Assets.svg.turnRight,
+                              () => _bloc.turnRightOnClick(context),
+                              isDisable: state.lRoutes[state.currentIndex ?? 0]
+                                      .rotate ==
+                                  4)
+                        ],
+                      )
+                    : const SizedBox(),
+                bloc: _bloc),
         const SizedBox(width: 10),
         svgButton(context, Assets.svg.threeD, () {},
             isBackgroundCircle: false),

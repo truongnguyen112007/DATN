@@ -1,21 +1,33 @@
-import 'package:base_bloc/modules/hold_set/hold_set_cubit.dart';
+import 'package:base_bloc/data/model/hold_set_model.dart';
 import 'package:equatable/equatable.dart';
 
 enum SelectType { ALL, FAVOURITE }
 
+enum HoldSetStatus { INITITAL, SUCCESS, ERROR }
+
 class HoldSetState extends Equatable {
+  final HoldSetStatus status;
   final int currentIndex;
   final SelectType type;
-  final List<HoldModel> lHoldSet;
+  final List<HoldSetModel> lHoldSet;
+  final bool isLoading;
 
   const HoldSetState(
       {this.currentIndex = 0,
+      this.status = HoldSetStatus.INITITAL,
+      this.isLoading = true,
       this.type = SelectType.ALL,
-      this.lHoldSet = const <HoldModel>[]});
+      this.lHoldSet = const <HoldSetModel>[]});
 
   HoldSetState copyOf(
-          {int? currentIndex, SelectType? type, List<HoldModel>? lHoldSet}) =>
+          {int? currentIndex,
+          HoldSetStatus? status,
+          SelectType? type,
+          List<HoldSetModel>? lHoldSet,
+          bool? isLoading}) =>
       HoldSetState(
+          status: status ?? this.status,
+          isLoading: isLoading ?? this.isLoading,
           lHoldSet: lHoldSet ?? this.lHoldSet,
           currentIndex: currentIndex ?? this.currentIndex,
           type: type ?? this.type);

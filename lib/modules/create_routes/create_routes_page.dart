@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:base_bloc/base/base_state.dart';
 import 'package:base_bloc/components/app_button.dart';
+import 'package:base_bloc/components/app_network_image.dart';
 import 'package:base_bloc/components/app_scalford.dart';
 import 'package:base_bloc/components/app_text.dart';
 import 'package:base_bloc/components/appbar_widget.dart';
@@ -555,6 +556,7 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage>   with Ticke
       BlocBuilder<CreateRoutesCubit, CreateRoutesState>(
           bloc: _bloc,
           builder: (c, state) => GridView.builder(
+              reverse: true,
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemCount: state.lRoutes.length,
@@ -563,9 +565,15 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage>   with Ticke
               itemBuilder: (BuildContext context, int index) {
                 return GestureDetector(
                   onLongPress: () => _bloc.itemOnLongPress(index, context),
-                  onTap: () =>
-                      _bloc.itemOnClick(index,widget.infoRouteModel!.height, context, widget.infoRouteModel),
+                  onTap: () => _bloc.itemOnClick(
+                      index,
+                      widget.infoRouteModel?.height ??
+                          widget.model?.height ??
+                          9,
+                      context,
+                      widget.infoRouteModel),
                   child: Container(
+                    padding: const EdgeInsets.all(1),
                     decoration: BoxDecoration(
                         border: Border.all(
                             color: state.selectIndex == index
@@ -573,18 +581,14 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage>   with Ticke
                                 : colorGrey60,
                             width: state.selectIndex == index ? 1 : 0.5)),
                     child: Center(
-                        child: state.lRoutes[index].holdSet.isNotEmpty
+                        child: state.lRoutes[index].fileName != null &&
+                                state.lRoutes[index].fileName!.isNotEmpty
                             ? RotatedBox(
                                 quarterTurns: state.lRoutes[index].rotate,
-                                child: ShaderMask(
-                                    child: SvgPicture.asset(
-                                        state.lRoutes[index].holdSet,
-                                        width: 10),
-                                    shaderCallback: (Rect bounds) =>
-                                        Utils.backgroundGradientOrangeButton()
-                                            .createShader(const Rect.fromLTRB(
-                                                0, 0, 10, 10))),
-                              )
+                                child: AppNetworkImage(
+                                    source: ConstantKey.IMAGE_URL +
+                                        state.lRoutes[index].fileName
+                                            .toString()))
                             : const SizedBox()),
                   ),
                 );

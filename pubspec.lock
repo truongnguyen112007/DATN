@@ -478,9 +478,11 @@ packages:
   flutter_speed_dial:
     dependency: "direct main"
     description:
-      name: flutter_speed_dial
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "."
+      ref: master
+      resolved-ref: "9fa894d87e7c38c79956bed5cd4330ceab504b22"
+      url: "git@github.com:NguyenXuanLoc/flutter_speed_dial.git"
+    source: git
     version: "6.2.0"
   flutter_svg:
     dependency: "direct main"
@@ -751,6 +753,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.5"
+  matrix2d:
+    dependency: "direct main"
+    description:
+      name: matrix2d
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.3"
   meta:
     dependency: transitive
     description:

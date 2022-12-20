@@ -4,9 +4,12 @@ import 'dart:math';
 import 'package:base_bloc/base/base_state.dart';
 import 'package:base_bloc/base/hex_color.dart';
 import 'package:base_bloc/components/app_circle_loading.dart';
+import 'package:base_bloc/components/app_network_image.dart';
 import 'package:base_bloc/components/app_scalford.dart';
 import 'package:base_bloc/components/app_text.dart';
+import 'package:base_bloc/config/constant.dart';
 import 'package:base_bloc/data/globals.dart';
+import 'package:base_bloc/data/model/holds_param.dart';
 import 'package:base_bloc/data/model/routes_model.dart';
 import 'package:base_bloc/gen/assets.gen.dart';
 import 'package:base_bloc/modules/routers_detail/routes_detail_cubit.dart';
@@ -23,6 +26,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../components/appbar_widget.dart';
 import '../../localization/locale_keys.dart';
+import 'package:base_bloc/data/globals.dart' as globals;
 
 enum RoutesAction { INFO, SHARE, COPY, ADD_FAVOURITE, ADD_TO_PLAY_LIST }
 
@@ -42,26 +46,18 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
   var sizeHoldSet = 8.6.h;
   var row = 47;
   var column = 12;
-  final List<String> _lRoutes = [];
-  final List<String> lHoldSetImage = [
-    Assets.svg.holdset1,
-    Assets.svg.holdset2,
-    Assets.svg.holdset3,
-    Assets.svg.holdset4,
-    Assets.svg.holdset5,
-    Assets.svg.holdset6,
-  ];
+  final List<dynamic> _lHoldSet = [];
   var lHeight = [2, 4, 6, 8, 10, 12];
 
   @override
   void initState() {
     _bloc = RoutesDetailCubit(widget.model);
-    checkHeightOfRoute();
-    createRoutes();
+    getHeightOfRoute();
+    getInfoRoutes();
     super.initState();
   }
 
-  void checkHeightOfRoute() {
+  void getHeightOfRoute() {
     if (widget.model.height != null) {
       row = widget.model.height! * 5;
       switch (widget.model.height) {
@@ -84,16 +80,11 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
     }
   }
 
-  void createRoutes() {
-    var random = Random();
-    for (int i = 0; i < row * column; i++) {
-        _lRoutes.add('');
-    }
-    List<int> lHoldSet = json.decode(widget.model.holds ?? '').cast<int>();
-    for (var element in lHoldSet) {
-      if (element < _lRoutes.length) {
-        _lRoutes[element] = lHoldSetImage[random.nextInt(lHoldSetImage.length)];
-      }
+  void getInfoRoutes() {
+    for (int i = 0; i < row * column; i++) _lHoldSet.add('');
+    var lResponse = Utils.getHold(widget.model.holds ?? []);
+    for (var element in lResponse) {
+      _lHoldSet[element.index] = element;
     }
   }
 
@@ -224,11 +215,10 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
           child: Align(
         alignment: Alignment.bottomCenter,
         child: Container(
-          height: 40,
-          decoration: const BoxDecoration(
-              boxShadow: [BoxShadow(color: colorWhite, blurRadius: 100)]),
-        ),
-      ));
+              height: 40,
+              decoration: const BoxDecoration(boxShadow: [
+                BoxShadow(color: colorWhite, blurRadius: 100)
+              ]))));
 
   PreferredSizeWidget appbarWidget(BuildContext context) => appBarWidget(
         context: context,
@@ -339,35 +329,28 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
 
   Widget routesWidget(BuildContext context) => SizedBox(
         width: column * sizeHoldSet,
-        child: GridView.builder(
-            shrinkWrap: true,
-            itemCount: _lRoutes.length,
+      child: GridView.builder(
+          reverse: true,
+          shrinkWrap: true,
+            itemCount: _lHoldSet.length,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: column, childAspectRatio: 1.0),
             itemBuilder: (BuildContext context, int index) {
-              return GestureDetector(
-                onTap: () => _tapped(index),
-                child: Container(
-                  decoration: BoxDecoration(
-                      border:
-                          Border.all(color: HexColor('8A8A8A'), width: 0.5)),
-                  child: Center(
-                      child: _lRoutes[index].isNotEmpty
-                          ? ShaderMask(
-                              child: SvgPicture.asset(
-                                _lRoutes[index],
-                                width: 10,
-                              ),
-                              shaderCallback: (Rect bounds) =>
-                                  Utils.backgroundGradientOrangeButton()
-                                      .createShader(
-                                          const Rect.fromLTRB(0, 0, 10, 10)),
-                            )
-                          : const SizedBox()),
-                ),
-              );
-            }),
-      );
+              return Container(
+                decoration: BoxDecoration(
+                    border: Border.all(color: HexColor('8A8A8A'), width: 0.5)),
+                child: Center(
+                    child: _lHoldSet[index] is HoldParam
+                        ? SizedBox(
+                            width: 8,
+                            child: RotatedBox(
+                                quarterTurns: _lHoldSet[index].rotate,
+                                child: AppNetworkImage(
+                                    errorSource:
+                                        '${ConstantKey.BASE_URL}hold/1/image',
+                                    source: _lHoldSet[index].imageUrl)))
+                        : const SizedBox()));
+          }));
 
   Widget measureHeightWidget(BuildContext context) => Container(
       margin: EdgeInsets.only(bottom: sizeHoldSet * 1.9),

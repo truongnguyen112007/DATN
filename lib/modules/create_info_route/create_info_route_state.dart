@@ -1,5 +1,7 @@
+import 'package:base_bloc/components/visibility_route_widget.dart';
 import 'package:base_bloc/data/model/routes_model.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 
 class CreateInfoRouteState extends Equatable {
   final int grade;
@@ -10,10 +12,12 @@ class CreateInfoRouteState extends Equatable {
   final bool isEdit;
   final RoutesModel? model;
   final int height;
+  final VisibilityType visibilityType;
 
   const CreateInfoRouteState(
       {this.height = 3,
       this.grade = 5,
+      this.visibilityType = VisibilityType.FRIENDS,
       this.isEdit = false,
       this.model,
       this.isCorner = false,
@@ -23,6 +27,7 @@ class CreateInfoRouteState extends Equatable {
 
   CreateInfoRouteState copyOf(
           {int? grade,
+          VisibilityType? visibilityType,
           int? height,
           RoutesModel? model,
           bool? isEdit,
@@ -31,6 +36,7 @@ class CreateInfoRouteState extends Equatable {
           String? errorRouteName,
           int? currentIndexGrade}) =>
       CreateInfoRouteState(
+          visibilityType: visibilityType ?? this.visibilityType,
           height: height ?? this.height,
           model: model ?? this.model,
           isEdit: isEdit ?? this.isEdit,
@@ -42,5 +48,5 @@ class CreateInfoRouteState extends Equatable {
 
   @override
   List<Object?> get props =>
-      [grade, currentIndexGrade, errorRouteName, isCorner, isEdit, height];
+      [grade, currentIndexGrade, errorRouteName, isCorner, isEdit, height,visibilityType];
 }

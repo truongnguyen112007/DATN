@@ -260,4 +260,7 @@ abstract class LocaleKeys {
   static const authorAsc = "authorAsc";
   static const userDes = "userDes";
   static const userAsc ="userAsc";
+  static const public ="public";
+  static const private ="private";
+  static const visibility ="visibility";
 }
