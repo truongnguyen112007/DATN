@@ -15,6 +15,7 @@ import '../../data/model/routes_model.dart';
 import '../../data/repository/user_repository.dart';
 import '../../utils/app_utils.dart';
 import '../../utils/log_utils.dart';
+import '../create_info_route/create_info_route_page.dart';
 import '../create_routes/create_routes_page.dart';
 import '../filter_routes/filter_routes_page.dart';
 import '../playlist/playlist_cubit.dart';
@@ -120,7 +121,8 @@ class DesignedCubit extends Cubit<DesignedState> {
 
   void createRoutesOnClick(BuildContext context) =>
       /*toast(LocaleKeys.thisFeatureIsUnder)*/
-      RouterUtils.openNewPage(const CreateRoutesPage(), context);
+      RouterUtils.openNewPage(
+          const CreateInfoRoutePage(isPublish: false), context);
 
   void filterOnclick(BuildContext context) => RouterUtils.openNewPage(
       FilterRoutesPage(
