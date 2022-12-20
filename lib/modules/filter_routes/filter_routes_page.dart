@@ -79,10 +79,9 @@ class _FilterRoutesPageState extends State<FilterRoutesPage> {
 
   @override
   void initState() {
-    logE("sddaasdasd: ${widget.keySearch}");
     _bloc = FilterRoutesPageCubit(widget.type,widget.keySearch);
     checkDataStatus();
-    logE(widget.listRoute!.length.toString());
+    // logE(widget.listRoute!.length.toString());
     _bloc.setData(widget.filter, widget.listRoute);
     gradeChange
         .debounceTime(const Duration(seconds: 1))
