@@ -308,9 +308,15 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
                                 child: SizedBox(
                                     width: 8,
                                     child: AppNetworkImage(
-                                        source: ConstantKey.IMAGE_URL +
-                                            state.lRoutes[index].fileName
-                                                .toString())))
+                                        source: (state.lRoutes[index]
+                                                        .fileName ??
+                                                    '')
+                                                .startsWith('http')
+                                            ? (state.lRoutes[index].fileName ??
+                                                '')
+                                            : ConstantKey.IMAGE_URL +
+                                                state.lRoutes[index].fileName
+                                                    .toString())))
                             : const SizedBox()),
                   ),
                 );

@@ -586,9 +586,13 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage>   with Ticke
                             ? RotatedBox(
                                 quarterTurns: state.lRoutes[index].rotate,
                                 child: AppNetworkImage(
-                                    source: ConstantKey.IMAGE_URL +
-                                        state.lRoutes[index].fileName
-                                            .toString()))
+                                    source: (state.lRoutes[index].fileName ??
+                                                '')
+                                            .startsWith('http')
+                                        ? (state.lRoutes[index].fileName ?? '')
+                                        : ConstantKey.IMAGE_URL +
+                                            state.lRoutes[index].fileName
+                                                .toString()))
                             : const SizedBox()),
                   ),
                 );
@@ -668,7 +672,9 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage>   with Ticke
             context,
             Assets.svg.fullScreen,
             () => _bloc.scaleOnClick(
-                context, widget.infoRouteModel!.height, widget.infoRouteModel),
+                context,
+                widget.model?.height ?? widget.infoRouteModel!.height,
+                widget.infoRouteModel),
             isBackgroundCircle: false),
         svgButton(context, Assets.svg.more, () => _bloc.confirmOnclick(context,widget.infoRouteModel),
             isBackgroundCircle: false),
