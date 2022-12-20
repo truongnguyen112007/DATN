@@ -169,6 +169,8 @@ class UserRepository extends BaseService {
     }
   }
 
+  Future<ApiResult> getRouteDetail(String routeId) async => GET('route/$routeId');
+
   Future<ApiResult> getAllHoldSet() async =>
       await GET('hold?start=1&count=100');
 }

@@ -400,18 +400,18 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
                         children: [
                           svgButton(context, Assets.svg.turnLeft,
                               () => _bloc.turnLeftOnClick(context),
-                              isDisable: state.lRoutes[state.currentIndex ?? 0]
+                          /*    isDisable: state.lRoutes[state.currentIndex ?? 0]
                                       .rotate ==
-                                  -4),
+                                  -4*/),
                           const SizedBox(width: 10),
                           svgButton(context, Assets.svg.delete,
                               () => _bloc.deleteOnclick()),
                           const SizedBox(width: 10),
                           svgButton(context, Assets.svg.turnRight,
                               () => _bloc.turnRightOnClick(context),
-                              isDisable: state.lRoutes[state.currentIndex ?? 0]
+                            /*  isDisable: state.lRoutes[state.currentIndex ?? 0]
                                       .rotate ==
-                                  4)
+                                  4*/)
                         ],
                       )
                     : const SizedBox(),
