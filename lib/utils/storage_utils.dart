@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:base_bloc/config/constant.dart';
 import 'package:base_bloc/data/globals.dart' as globals;
+import 'package:base_bloc/data/model/user_profile_model.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get_storage/get_storage.dart';
@@ -17,11 +18,14 @@ class StorageUtils {
   }
 
   static void logout() {
+    GetStorage().remove(StorageKey.userProfile);
     GetStorage().remove(StorageKey.playlistId);
     GetStorage().remove(StorageKey.userModel);
     globals.isLogin = false;
     globals.accessToken = '';
     globals.playlistId = '';
+    globals.lastName = '';
+    globals.firstName = '';
     globals.userId = 0;
   }
 
@@ -50,6 +54,23 @@ class StorageUtils {
       globals.accessToken = '';
       globals.userId = 0;
     }
+  }
+
+  static Future<void> saveUserProfile(UserProfileModel model) async {
+    globals.lastName = model.lastName ?? '';
+    globals.firstName = model.firstName ?? '';
+    await GetStorage().write(StorageKey.userProfile, model.toJson());
+  }
+
+  static Future<UserProfileModel?> getUserProfile() async {
+    var profileStr = GetStorage().read(StorageKey.userProfile) ?? "";
+    if (profileStr.isNotEmpty) {
+      var profileModel = UserProfileModel.fromJson(profileStr);
+      globals.lastName = profileModel.lastName??'';
+      globals.firstName = profileModel.firstName??'';
+      return profileModel;
+    }
+    return null;
   }
 
   static Future<void> savePlaylistId(String playlistId) =>

@@ -4,7 +4,7 @@ import 'package:base_bloc/components/app_text.dart';
 import 'package:base_bloc/components/app_text_field.dart';
 import 'package:base_bloc/components/appbar_widget.dart';
 import 'package:base_bloc/components/gradient_button.dart';
-import 'package:base_bloc/data/globals.dart';
+import 'package:base_bloc/data/globals.dart' as globals;
 import 'package:base_bloc/data/model/holds_param.dart';
 import 'package:base_bloc/data/model/info_route_model.dart';
 import 'package:base_bloc/data/model/routes_model.dart';
@@ -59,7 +59,7 @@ class _CreateInfoRoutePageState extends State<CreateInfoRoutePage> {
       routeNameController.text = widget.infoRouteModel?.routeName??'';
     }else{
       routeNameController.text =
-          'Climber ${Utils.convertDateToYYYYMMDD(DateTime.now())}';
+          '${globals.firstName} ${globals.lastName} ${Utils.convertDateToYYYYMMDD(DateTime.now())}';
     }
     _bloc.setData(widget.routeModel, widget.infoRouteModel);
     super.initState();
@@ -68,7 +68,8 @@ class _CreateInfoRoutePageState extends State<CreateInfoRoutePage> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(resizeToAvoidBottomInset: false,
-      padding: EdgeInsets.only(top: contentPadding, left: contentPadding),
+      padding: EdgeInsets.only(
+          top: globals.contentPadding, left: globals.contentPadding),
       appbar: appbar(context),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -238,7 +239,7 @@ class _CreateInfoRoutePageState extends State<CreateInfoRoutePage> {
                   prefixIconConstraints:
                       const BoxConstraints(maxWidth: 40, maxHeight: 40),
                   isDense: true,
-                  contentPadding: EdgeInsets.only(bottom: contentPadding),
+                  contentPadding: EdgeInsets.only(bottom: globals.contentPadding),
                   filled: true,
                   enabled: true,
                   enabledBorder: border,
@@ -258,7 +259,7 @@ class _CreateInfoRoutePageState extends State<CreateInfoRoutePage> {
   PreferredSizeWidget appbar(BuildContext context) =>
       appBarWidget(context: context, action: [
         Padding(
-            padding: EdgeInsets.all(contentPadding),
+            padding: EdgeInsets.all(globals.contentPadding),
             child: GradientButton(
                 height: 20.h,
                 borderRadius: BorderRadius.circular(20),
@@ -277,7 +278,7 @@ class _CreateInfoRoutePageState extends State<CreateInfoRoutePage> {
                         style: typoW400),
                     const SizedBox(width: 3),
                     SvgPicture.asset(Assets.svg.fly),
-                    const SizedBox(width: 12),
+                    const SizedBox(width: 12)
                   ],
                 )))
       ]);

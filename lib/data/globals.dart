@@ -16,7 +16,8 @@ String deviceModel = '';
 String userName = '';
 String playlistId = '';
 String languageCode = '';
-
+String firstName = '';
+String lastName = '';
 var lHoldSet=<HoldSetModel>[];
 bool isLogin = false;
 bool isTokenExpired = false;
