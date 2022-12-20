@@ -54,10 +54,10 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
   void onRefresh() {
     Utils.fireEvent(RefreshEvent(RefreshType.FILTER));
     emit(RoutesPageState(
-        status: RouteStatus.refresh,
-        keySearch: state.keySearch,
-        isLoading: false,
-        isReadEnd: false,
+      status: RouteStatus.refresh,
+      keySearch: state.keySearch,
+      isLoading: false,
+      isReadEnd: false,
     ));
     getRoutes();
   }
@@ -139,11 +139,13 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
         filter: state.filter,
         type: FilterType.SearchRoute,
         showResultButton: (model) {
-          emit(RoutesPageState(
-            keySearch: state.keySearch,
+          emit(state.copyWith(
+              keySearch: state.keySearch,
               typeSearchRoute: SearchRouteType.Filter,
               filter: model,
-              isLoading: false));
+              isLoading: false,
+              isReadEnd: false,
+              lRoutes: []));
           Utils.hideKeyboard(context);
           getRoutes();
         },
@@ -174,28 +176,29 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
       state.sort = type;
       state.typeSearchRoute = SearchRouteType.Sort;
       emit(
-        RoutesPageState(
-          keySearch: state.keySearch,
-          sort: type,
-          typeSearchRoute: SearchRouteType.Sort,
-          isLoading: false,
-        ),
+        state.copyWith(
+            keySearch: state.keySearch,
+            sort: type,
+            typeSearchRoute: SearchRouteType.Sort,
+            isLoading: false,
+            isReadEnd: false),
       );
       Utils.hideKeyboard(context);
-        getRoutes();
+      getRoutes();
     }, state.sort);
   }
 
-  void setKeySearch(String keySearch){
+  void setKeySearch(String keySearch) {
     emit(RoutesPageState(keySearch: keySearch));
-    search(keySearch,1);
+    search(keySearch, 1);
   }
 
   void search(String keySearch, int nextPage, {bool isPaging = false}) async {
     // if(keySearch == state.keySearch){
     //   return;
     // }
-    if ((keySearch.isEmpty && state.typeSearchRoute == SearchRouteType.Sort) || keySearch.isEmpty && state.filter == null && state.sort == null) {
+    if ((keySearch.isEmpty && state.typeSearchRoute == SearchRouteType.Sort) ||
+        keySearch.isEmpty && state.filter == null && state.sort == null) {
       emit(RoutesPageState(
           isLoading: false, isReadEnd: false, status: RouteStatus.success));
       return;
@@ -214,7 +217,7 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
         authorGradeFrom: state.filter?.authorGradeFrom,
         authorGradeTo: state.filter?.authorGradeTo,
         userGradeFrom: state.filter?.userGradeFrom,
-        userGardeTo: state.filter?.userGradeTo,
+        userGradeTo: state.filter?.userGradeTo,
         hasConner:
             state.filter?.corner != null && state.filter!.corner.isNotEmpty
                 ? state.filter?.corner[0][state.filter?.corner[0].keys.first]

@@ -43,11 +43,11 @@ class UserRepository extends BaseService {
       await DELETE('route/$routeId');
 
   Future<ApiResult> addToPlaylist(
-      String playlistId, List<String> lRoute) async =>
+          String playlistId, List<String> lRoute) async =>
       await POST('playlistdetail/$playlistId', {ApiKey.route_ids: lRoute});
 
   Future<ApiResult> removeFromPlaylist(
-      String playlistId, String routeId) async =>
+          String playlistId, String routeId) async =>
       await DELETE('playlistdetail/$playlistId?ids=$routeId');
 
   Future<ApiResult> moveToTop(String playlistId, String routeId) async =>
@@ -55,29 +55,29 @@ class UserRepository extends BaseService {
 
   Future<ApiResult> getFavorite(
       {FavType? type,
-        int? userId,
-        int? nextPage,
-        int? orderType,
-        int? orderValue,
-        double? authorGradeFrom,
-        double? authorGradeTo,
-        double? userGradeFrom,
-        double? userGardeTo,
-        String? hasConner,
-        int? status,
-        String? setter}) async {
+      int? userId,
+      int? nextPage,
+      int? orderType,
+      int? orderValue,
+      double? authorGradeFrom,
+      double? authorGradeTo,
+      double? userGradeFrom,
+      double? userGradeTo,
+      String? hasConner,
+      int? status,
+      String? setter}) async {
     {
       logE(type.toString());
       switch (type) {
         case FavType.Sort:
           return (orderType == null && orderValue == null)
               ? await GET(
-              "favourite?start=$nextPage&count=${ApiKey.limit_offset}")
+                  "favourite?start=$nextPage&count=${ApiKey.limit_offset}${authorGradeFrom != null ? "&author_grade_from=${authorGradeFrom?.toInt()}" : ""}${authorGradeTo != null ? "&author_grade_to=${authorGradeTo?.toInt()}" : ""}${userGradeFrom != null ? "&user_grade_from=${userGradeFrom?.toInt()}" : ""}${userGradeTo != null ? "&user_grade_to=${userGradeTo?.toInt()}" : ""}${status != null ? "&status=$status" : ""}${hasConner != null ? "&has_conner=$hasConner" : ""}${setter != null ? "&setter=$setter" : ""}")
               : await GET(
-              "favourite?start=$nextPage&count=${ApiKey.limit_offset}&order_type=$orderType&order_value=$orderValue");
+                  "favourite?start=$nextPage&count=${ApiKey.limit_offset}&order_type=$orderType&order_value=$orderValue${authorGradeFrom != null ? "&author_grade_from=${authorGradeFrom?.toInt()}" : ""}${authorGradeTo != null ? "&author_grade_to=${authorGradeTo?.toInt()}" : ""}${userGradeFrom != null ? "&user_grade_from=${userGradeFrom?.toInt()}" : ""}${userGradeTo != null ? "&user_grade_to=${userGradeTo?.toInt()}" : ""}${status != null ? "&status=$status" : ""}${hasConner != null ? "&has_conner=$hasConner" : ""}${setter != null ? "&setter=$setter" : ""}");
         case FavType.Filter:
           return await GET(
-              "favourite?start=$nextPage&count=${ApiKey.limit_offset}&author_grade_from=${authorGradeFrom?.toInt()}&author_grade_to=${authorGradeTo?.toInt()}&user_grade_from=${userGradeFrom?.toInt()}&user_grade_to=${userGardeTo?.toInt()}${status != null ? "&status=$status" : ""}${hasConner != null ? "&has_conner=$hasConner" : ""}${setter != null ? "&setter=$setter" : ""}");
+              "favourite?start=$nextPage&count=${ApiKey.limit_offset}${orderValue != null ? "&order_value=$orderValue" : ""}${orderType != null ? "&order_type=$orderType" : ""}&author_grade_from=${authorGradeFrom?.toInt()}&author_grade_to=${authorGradeTo?.toInt()}&user_grade_from=${userGradeFrom?.toInt()}&user_grade_to=${userGradeTo?.toInt()}${status != null ? "&status=$status" : ""}${hasConner != null ? "&has_conner=$hasConner" : ""}${setter != null ? "&setter=$setter" : ""}");
         default:
           return await GET(
               "favourite?start=$nextPage&count=${ApiKey.limit_offset}");
@@ -86,21 +86,21 @@ class UserRepository extends BaseService {
   }
 
   Future<ApiResult> removeFromFavorite(String routeIds) async => await DELETE(
-    'favourite?ids=$routeIds', /*body: {ApiKey.route_ids: routeId}*/
-  );
+        'favourite?ids=$routeIds', /*body: {ApiKey.route_ids: routeId}*/
+      );
 
   Future<ApiResult> addToFavorite(int userId, List<String> routeIds) async =>
       await POST('favourite', {ApiKey.route_ids: routeIds});
 
   Future<ApiResult> createRoute(
-      {required String name,
-        int height = 12,
-        required List<int> lHold,
-        required bool hasCorner,
-        required int authorGrade,
-        bool published = true,
-        int visibility = 0}) async =>
-      await POST('route',{
+          {required String name,
+          int height = 12,
+          required List<int> lHold,
+          required bool hasCorner,
+          required int authorGrade,
+          bool published = true,
+          int visibility = 0}) async =>
+      await POST('route', {
         ApiKey.name: name,
         ApiKey.height: height,
         ApiKey.holds: lHold,
@@ -111,14 +111,14 @@ class UserRepository extends BaseService {
       });
 
   Future<ApiResult> editRoute(
-      {required String routeId,
-        required String name,
-        int height = 12,
-        required List<int> lHold,
-        required bool hasCorner,
-        required int authorGrade,
-        bool published = true,
-        int visibility = 0}) async =>
+          {required String routeId,
+          required String name,
+          int height = 12,
+          required List<int> lHold,
+          required bool hasCorner,
+          required int authorGrade,
+          bool published = true,
+          int visibility = 0}) async =>
       await PUT('route/$routeId', body: {
         ApiKey.name: name,
         ApiKey.height: height,
@@ -131,34 +131,38 @@ class UserRepository extends BaseService {
 
   Future<ApiResult> searchRoute(
       {String? value,
-        int? nextPage,
-        SearchRouteType? type,
-        int? orderType,
-        int? orderValue,
-        double? authorGradeFrom,
-        double? authorGradeTo,
-        double? userGradeFrom,
-        double? userGardeTo,
-        String? hasConner,
-        int? status,
-        String? setter}) async {
+      int? nextPage,
+      SearchRouteType? type,
+      int? orderType,
+      int? orderValue,
+      double? authorGradeFrom,
+      double? authorGradeTo,
+      double? userGradeFrom,
+      double? userGradeTo,
+      String? hasConner,
+      int? status,
+      String? setter}) async {
     switch (type) {
       case SearchRouteType.Sort:
         return (orderType == null && orderValue == null)
             ? await POST(
-            "search/service/search?from=0&size=${ApiKey.limit_offset}&q=$value",
-            null,isXSub: true)
+                "search/service/search?from=0&size=${ApiKey.limit_offset}&q=$value${authorGradeFrom != null ? "&author_grade_from=${authorGradeFrom?.toInt()}" : ""}${authorGradeTo != null ? "&author_grade_to=${authorGradeTo?.toInt()}" : ""}${userGradeFrom != null ? "&user_grade_from=${userGradeFrom?.toInt()}" : ""}${userGradeTo != null ? "&user_grade_to=${userGradeTo?.toInt()}" : ""}${status != null ? "&status=$status" : ""}${hasConner != null ? "&has_conner=$hasConner" : ""}${setter != null ? "&setter=$setter" : ""}",
+                null,
+                isXSub: true)
             : await POST(
-            "search/service/search?from=0&size=${ApiKey.limit_offset}&order_type=$orderType&order_value=$orderValue&q=$value",
-            null,isXSub: true);
+                "search/service/search?from=0&size=${ApiKey.limit_offset}&q=$value&order_type=$orderType&order_value=$orderValue${authorGradeFrom != null ? "&author_grade_from=${authorGradeFrom?.toInt()}" : ""}${authorGradeTo != null ? "&author_grade_to=${authorGradeTo?.toInt()}" : ""}${userGradeFrom != null ? "&user_grade_from=${userGradeFrom?.toInt()}" : ""}${userGradeTo != null ? "&user_grade_to=${userGradeTo?.toInt()}" : ""}${status != null ? "&status=$status" : ""}${hasConner != null ? "&has_conner=$hasConner" : ""}${setter != null ? "&setter=$setter" : ""}",
+                null,
+                isXSub: true);
       case SearchRouteType.Filter:
         return await POST(
-            "search/service/search?from=0&size=${ApiKey.limit_offset}${value != null ? "&q=$value" : "" }&author_grade_from=${authorGradeFrom?.toInt()}&author_grade_to=${authorGradeTo?.toInt()}&user_grade_from=${userGradeFrom?.toInt()}&user_grade_to=${userGardeTo?.toInt()}${status != null ? "&status=$status" : ""}${hasConner != null ? "&has_conner=$hasConner" : ""}${setter != null ? "&setter=$setter" : ""}",
-            null,isXSub: true);
+            "search/service/search?from=0&size=${ApiKey.limit_offset}${value != null ? "&q=$value" : ""}${orderValue != null ? "&order_value=$orderValue" : ""}${orderType != null ? "&order_type=$orderType" : ""}&author_grade_from=${authorGradeFrom?.toInt()}&author_grade_to=${authorGradeTo?.toInt()}&user_grade_from=${userGradeFrom?.toInt()}&user_grade_to=${userGradeTo?.toInt()}${status != null ? "&status=$status" : ""}${hasConner != null ? "&has_conner=$hasConner" : ""}${setter != null ? "&setter=$setter" : ""}",
+            null,
+            isXSub: true);
       default:
         return await POST(
             "search/service/search?from=0&size=${ApiKey.limit_offset}&q=$value",
-            null,isXSub: true);
+            null,
+            isXSub: true);
     }
   }
 }
