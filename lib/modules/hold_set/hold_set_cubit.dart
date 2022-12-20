@@ -51,7 +51,7 @@ class HoldSetCubit extends Cubit<HoldSetState> {
   void setFilter(SelectType type) => emit(state.copyOf(
       currentIndex: 0,
       type: type,
-      lHoldSet: type == SelectType.ALL ? [] : []));
+   /*   lHoldSet: type == SelectType.ALL ? [] : [])*/));
 
   void detailOnclick(context) =>
       RouterUtils.openNewPage(const HoldSetDetailPage(), context);

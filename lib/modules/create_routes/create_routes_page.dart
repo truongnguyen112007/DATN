@@ -97,6 +97,21 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage>   with Ticke
   }
 
   void checkRow() {
+    if(widget.model!=null){
+      row = widget.model!.height! * 5;
+      switch (widget.model!.height) {
+        case 12:
+          sizeHoldSet = 7.5.h;
+          return;
+        case 9:
+          sizeHoldSet = 8.6.h;
+          return;
+        case 6:
+        case 3:
+          sizeHoldSet = 8.8.h;
+          return;
+      }
+    }
     if (widget.infoRouteModel != null) {
       row = widget.infoRouteModel!.height * 5;
       switch (widget.infoRouteModel!.height) {
@@ -591,7 +606,7 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage>   with Ticke
                                             .startsWith('http')
                                         ? (state.lRoutes[index].fileName ?? '')
                                         : ConstantKey.IMAGE_URL +
-                                            state.lRoutes[index].fileName
+                                            state.lRoutes[index].id
                                                 .toString()))
                             : const SizedBox()),
                   ),
