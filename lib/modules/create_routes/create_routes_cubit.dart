@@ -8,6 +8,7 @@ import 'package:base_bloc/data/model/routes_model.dart';
 import 'package:base_bloc/modules/create_routes/create_routes_state.dart';
 import 'package:base_bloc/modules/persons_page/persons_page_state.dart';
 import 'package:base_bloc/modules/zoom_routes/zoom_routes_page.dart';
+import 'package:base_bloc/utils/log_utils.dart';
 import 'package:base_bloc/utils/storage_utils.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -145,6 +146,7 @@ class CreateRoutesCubit extends Cubit<CreateRoutesState> {
     if (model != null) {
       var lHoldParam = Utils.getHold(model.holds);
       for (var element in lHoldParam) {
+        logE("TAG element.imageUrl: ${element.imageUrl}");
         lHoldSet[element.index] =HoldSetModel(
             index: element.index,
             rotate: element.rotate,
