@@ -605,9 +605,10 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage>   with Ticke
                                                 '')
                                             .startsWith('http')
                                         ? (state.lRoutes[index].fileName ?? '')
-                                        : ConstantKey.IMAGE_URL +
+                                        : Utils.getUrlHoldSet(state.lRoutes[index].id??0)
+                                          /*ConstantKey.IMAGE_URL +
                                             state.lRoutes[index].id
-                                                .toString()))
+                                                .toString()*/))
                             : const SizedBox()),
                   ),
                 );
