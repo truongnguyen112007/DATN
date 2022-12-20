@@ -30,7 +30,6 @@ class PlaylistState extends Equatable {
           bool? isReadEnd,
           bool? isOverlay,
           int? timeStamp,
-          bool? isOverlay,
           int? nextPage,
           bool? isLoading}) =>
       PlaylistState(

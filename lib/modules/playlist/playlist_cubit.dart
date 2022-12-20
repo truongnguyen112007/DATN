@@ -225,13 +225,5 @@ class PlayListCubit extends Cubit<PlaylistState> {
           isLoading: false));
     }
   }
-  void searchOnclick(BuildContext context) {
-    RouterUtils.pushRoutes(
-        context: context,
-        route: RoutesRouters.search,
-        argument: BottomNavigationConstant.TAB_ROUTES);
-  }
-
-  void showOverlay(bool isOverlay) => emit(state.copyWith(isOverlay: isOverlay));
 
 }

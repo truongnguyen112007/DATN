@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:base_bloc/config/constant.dart';
 import 'package:base_bloc/data/repository/base_service.dart';
 import 'package:base_bloc/modules/favourite/favourite_state.dart';
