@@ -1,10 +1,12 @@
 import 'package:base_bloc/components/dialogs.dart';
 import 'package:base_bloc/data/model/user_model.dart';
+import 'package:base_bloc/data/model/user_profile_model.dart';
 import 'package:base_bloc/data/repository/user_repository.dart';
 import 'package:base_bloc/modules/home/home_page.dart';
 import 'package:base_bloc/modules/login/login_state.dart';
 import 'package:base_bloc/router/router_utils.dart';
 import 'package:base_bloc/utils/app_utils.dart';
+import 'package:base_bloc/utils/log_utils.dart';
 import 'package:base_bloc/utils/storage_utils.dart';
 import 'package:base_bloc/utils/toast_utils.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -33,6 +35,7 @@ class LoginCubit extends Cubit<LoginState> {
       } else {
         var userModel = UserModel.fromJson(response.data);
         StorageUtils.login(UserModel.fromJson(response.data));
+        await getUserProfile(userModel);
         await checkPlaylistId(userModel);
         await Dialogs.hideLoadingDialog();
         toast(LocaleKeys.login_success.tr());
@@ -46,6 +49,14 @@ class LoginCubit extends Cubit<LoginState> {
     await userRepository.createPlaylist('', userModel.userId ?? 0);
     if (userResponse.data != null && userResponse.error == null) {
       checkPlaylistId(userModel);
+    }
+  }
+
+  Future<void> getUserProfile(UserModel userModel) async{
+    var response = await userRepository.getUserProfile(userModel.userId??0);
+    if(response.error==null && response.data!=null){
+      var userProfile = UserProfileModel.fromJson(response.data);
+      StorageUtils.saveUserProfile(userProfile);
     }
   }
 

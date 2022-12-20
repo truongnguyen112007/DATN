@@ -12,6 +12,7 @@ class StorageKey {
   static const String isGuideline = 'isGuideline';
   static const String languageCode = 'languageCode';
   static const String holdSet = 'holdSet';
+  static const String userProfile = 'userProfile';
 }
 
 class ConstantKey {

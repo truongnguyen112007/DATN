@@ -59,6 +59,7 @@ class CreateInfoRouteCubit extends Cubit<CreateInfoRouteState> {
         }
       }
       emit(state.copyOf(
+          visibilityType: infoRouteModel.type,
           height: infoRouteModel.height,
           isCorner: infoRouteModel.isCorner,
           currentIndexGrade: currentIndex,
@@ -95,7 +96,8 @@ class CreateInfoRouteCubit extends Cubit<CreateInfoRouteState> {
                   grade: state.grade,
                   routeName: routeName,
                   isCorner: state.isCorner,
-                  height: state.height)),
+                  height: state.height,
+                  type: state.visibilityType)),
           context);
       return;
     }
