@@ -64,6 +64,8 @@ class DesignedCubit extends Cubit<DesignedState> {
           shareRoutes(context, model!, index);
           return;
         case ItemAction.EDIT:
+          editRoutes(context, model!, index);
+          return;
         case ItemAction.COPY:
           if (isMultiSelect) return;
           copyRoutes(context, model!, index);
@@ -262,10 +264,19 @@ class DesignedCubit extends Cubit<DesignedState> {
     toast('Share post success');
   }
 
+  void editRoutes(
+      BuildContext context,
+      RoutesModel model,
+      int index,
+      ) =>
+      RouterUtils.openNewPage(
+          CreateRoutesPage(model: model, isEdit: true), context);
+
   void copyRoutes(
     BuildContext context,
     RoutesModel model,
     int index,
   ) =>
-      RouterUtils.openNewPage(CreateRoutesPage(model: model), context);
+      RouterUtils.openNewPage(
+          CreateRoutesPage(model: model, isEdit: false), context);
 }

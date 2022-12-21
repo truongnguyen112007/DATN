@@ -57,14 +57,12 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
   var sizeHoldSet = 8.6.h;
   var row = 47;
   var column = 12;
-  final List<dynamic> _lHoldSet = [];
   var lHeight = [2, 4, 6, 8, 10, 12];
 
   @override
   void initState() {
-    _bloc = RoutesDetailCubit(widget.model, widget.isSaveDraft);
     getHeightOfRoute();
-    getInfoRoutes();
+    _bloc = RoutesDetailCubit(widget.model, widget.isSaveDraft,row,column);
     super.initState();
   }
 
@@ -88,14 +86,6 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
         default:
           sizeHoldSet = 8.6.h;
       }
-    }
-  }
-
-  void getInfoRoutes() {
-    for (int i = 0; i < row * column; i++) _lHoldSet.add('');
-    var lResponse = Utils.getHold(widget.model.holds ?? []);
-    for (var element in lResponse) {
-      _lHoldSet[element.index] = element;
     }
   }
 
@@ -168,7 +158,7 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
                                                     child: Column(
                                                       children: [
                                                         infoNameWidget(context),
-                                                        routesWidget(context),
+                                                        routesWidget(context,state),
                                                         infoNameWidget(context),
                                                       ],
                                                     ),
@@ -369,28 +359,28 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
         ),
       );
 
-  Widget routesWidget(BuildContext context) => SizedBox(
+  Widget routesWidget(BuildContext context,RoutesDetailState state) => SizedBox(
         width: column * sizeHoldSet,
       child: GridView.builder(
           reverse: true,
           shrinkWrap: true,
-            itemCount: _lHoldSet.length,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              itemCount: state.lHoldSet.length,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: column, childAspectRatio: 1.0),
             itemBuilder: (BuildContext context, int index) {
               return Container(
                 decoration: BoxDecoration(
                     border: Border.all(color: HexColor('8A8A8A'), width: 0.5)),
                 child: Center(
-                    child: _lHoldSet[index] is HoldParam
+                    child: state.lHoldSet[index] is HoldParam
                         ? SizedBox(
                             width: 8,
                             child: RotatedBox(
-                                quarterTurns: _lHoldSet[index].rotate,
+                                quarterTurns: state.lHoldSet[index].rotate,
                                 child: AppNetworkImage(
                                     errorSource:
                                         '${ConstantKey.BASE_URL}hold/1/image',
-                                    source: _lHoldSet[index].imageUrl)))
+                                    source: state.lHoldSet[index].imageUrl)))
                         : const SizedBox()));
           }));
 

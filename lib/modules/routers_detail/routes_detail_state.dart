@@ -7,9 +7,9 @@ class RoutesDetailState extends Equatable {
   final RoutesStatus status;
   final RoutesModel model;
   final int? timeStamp;
-  final List<dynamic> lHoldSet;
+   List<dynamic> lHoldSet;
 
-  const RoutesDetailState(
+   RoutesDetailState(
       {this.status = RoutesStatus.initial,
       required this.model,
       this.lHoldSet = const <dynamic>[],

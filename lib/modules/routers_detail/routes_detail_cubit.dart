@@ -26,24 +26,36 @@ import '../create_routes/create_routes_page.dart';
 class RoutesDetailCubit extends Cubit<RoutesDetailState> {
   var userRepository = UserRepository();
   final bool isSaveDraft;
+  final int row, column;
 
-  RoutesDetailCubit(RoutesModel model, this.isSaveDraft)
+  RoutesDetailCubit(RoutesModel model, this.isSaveDraft, this.row, this.column)
       : super(RoutesDetailState(status: RoutesStatus.initial, model: model)) {
     getRouteDetail(model);
   }
 
-  void getRouteDetail(RoutesModel model) async {
+  Future<void> getRouteDetail(RoutesModel model) async {
     var response = await userRepository.getRouteDetail(model.id ?? '');
     if (response.data != null && response.error == null) {
-      Timer(
-          const Duration(seconds: 1),
-          () => emit(state.copyOf(
-              status: RoutesStatus.success,
-              model: RoutesModel.fromJson(response.data))));
+     getInfoHoldSet(RoutesModel.fromJson(response.data));
     } else {
       toast(response.error.toString());
       emit(state.copyOf(status: RoutesStatus.failure));
     }
+  }
+
+  void getInfoHoldSet(RoutesModel model) {
+    var lHoldSet =[];
+    for (int i = 0; i < row * column; i++) {
+      lHoldSet.add('');
+    }
+    var lResponse = Utils.getHold(model.holds ?? []);
+    for (var element in lResponse) {
+      lHoldSet[element.index] = element;
+    }
+    Timer(
+        const Duration(seconds: 1),
+        () => emit(state.copyOf(
+            status: RoutesStatus.success, model: model, lHoldSet: lHoldSet)));
   }
 
   void handleAction(RoutesAction action, BuildContext context, VoidCallback? publishCallback) {
@@ -69,7 +81,8 @@ class RoutesDetailCubit extends Cubit<RoutesDetailState> {
   }
 
   void copyRoutes(BuildContext context, RoutesModel model) =>
-      RouterUtils.openNewPage(CreateRoutesPage(model: model), context);
+      RouterUtils.openNewPage(
+          CreateRoutesPage(model: model, isEdit: false), context);
 
   void shareRoutes(BuildContext context, RoutesModel model) async {
     Dialogs.showLoadingDialog(context);

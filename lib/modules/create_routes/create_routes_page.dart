@@ -86,6 +86,7 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage>   with Ticke
         .on<List<HoldSetModel>>()
         .listen((list) => _bloc.setHoldSets(list));
     _bloc.setData(
+        infoRouteModel: widget.infoRouteModel,
         row: row,
         isEdit: widget.isEdit,
         column: column,
@@ -565,7 +566,7 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage>   with Ticke
                 ),
               ),
                 onTap: () =>
-                    _bloc.saveDaftOnClick(context, widget.infoRouteModel!))
+                    _bloc.saveDaftOnClick(context, widget.infoRouteModel,widget.model))
           ],
         ),
       );

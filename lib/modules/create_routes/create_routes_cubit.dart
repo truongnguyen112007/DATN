@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:base_bloc/components/visibility_route_widget.dart';
 import 'package:base_bloc/data/eventbus/new_page_event.dart';
 import 'package:base_bloc/data/model/hold_set_model.dart';
 import 'package:base_bloc/data/model/info_route_model.dart';
@@ -130,7 +131,7 @@ class CreateRoutesCubit extends Cubit<CreateRoutesState> {
       required int column,
       required double sizeHoldSet,
       RoutesModel? model,
-      required List<String> lHoldSetImage})  async{
+      required List<String> lHoldSetImage,required InfoRouteModel? infoRouteModel})  async{
     var isGuideline = await StorageUtils.getGuideline();
     var lHoldSet = <HoldSetModel>[];
     for (int i = 0; i < row * column; i++) {
@@ -175,11 +176,21 @@ class CreateRoutesCubit extends Cubit<CreateRoutesState> {
     emit(state.copyOf(isShowGuideline: isShow));
     StorageUtils.saveGuideline(true);
   }
-  void saveDaftOnClick(
-      BuildContext context, InfoRouteModel infoRouteModel) async {
+  void saveDaftOnClick(BuildContext context,
+      InfoRouteModel? infoRouteModel,RoutesModel? routesModel) async {
     var routeModel = await Utils.saveDraft(
         context: context,
-        infoRouteModel: infoRouteModel,
+        infoRouteModel: infoRouteModel ??
+            InfoRouteModel(
+                grade: routesModel?.authorGrade ?? 0,
+                routeName: routesModel?.name ?? '',
+                isCorner: routesModel?.hasConner ?? false,
+                height: routesModel?.height ?? 9,
+                type: (routesModel?.visibility ?? 0) == ConstantKey.PRIVATE
+                    ? VisibilityType.PRIVATE
+                    : (routesModel?.visibility ?? 0) == ConstantKey.PUBLIC
+                        ? VisibilityType.PUBLIC
+                        : VisibilityType.FRIENDS),
         lHoldSet: state.lHoldSet,
         row: state.row,
         column: state.column);
