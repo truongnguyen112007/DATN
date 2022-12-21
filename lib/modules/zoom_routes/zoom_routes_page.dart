@@ -37,7 +37,7 @@ class ZoomRoutesPage extends StatefulWidget {
   final int row;
   final int column;
   final double sizeHoldSet;
-  final List<HoldSetModel> lRoutes;
+  final List<HoldSetModel> lHoldSet;
   final int currentIndex;
   final double heightOffScreen;
   final bool isEdit;
@@ -52,7 +52,7 @@ class ZoomRoutesPage extends StatefulWidget {
       this.isEdit = false,
       this.model,
       required this.row,
-      required this.lRoutes,
+      required this.lHoldSet,
       required this.column,
       required this.sizeHoldSet,
       required this.heightOffScreen})
@@ -103,7 +103,7 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
         row: row,
         column: column,
         sizeHoldSet: sizeHoldSet,
-        lRoutes: widget.lRoutes);
+        lHoldSet: widget.lHoldSet);
     _holdSetStream = Utils.eventBus
         .on<HoldSetEvent>()
         .listen((event) => _bloc.setHoldSet(event.holdSet));
@@ -255,27 +255,30 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
               onPress: () => _bloc.goBack(context),
             ),
             const Spacer(),
-        Container(
-          padding: EdgeInsets.only(
-                  left: globals.contentPadding,
-                  right: globals.contentPadding,
-                  top: 5,
-                  bottom: 5),
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [colorOrange100, colorOrange50]),
-              borderRadius: BorderRadius.circular(50)),
-          height: 32.h,
-          child: AppText(
-            LocaleKeys.save_daft.tr(),
-            style: typoSmallTextRegular.copyWith(color: colorText0),
-          ),
-        )
-      ],
-    ),
+            InkWell(
+                child: Container(
+                  padding: EdgeInsets.only(
+                      left: globals.contentPadding,
+                      right: globals.contentPadding,
+                      top: 5,
+                      bottom: 5),
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [colorOrange100, colorOrange50]),
+                      borderRadius: BorderRadius.circular(50)),
+                  height: 32.h,
+                  child: AppText(
+                    LocaleKeys.save_daft.tr(),
+                    style: typoSmallTextRegular.copyWith(color: colorText0),
+                  ),
+                ),
+                onTap: () =>
+                    _bloc.saveDaftOnClick(context, widget.infoRouteModel!))
+          ],
+        ),
   );
 
   Widget routeWidget(BuildContext context) =>
@@ -286,7 +289,7 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
               controller: _lBoxController,
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              itemCount: state.lRoutes.length,
+              itemCount: state.lHoldSet.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: state.column, childAspectRatio: 1.0),
               itemBuilder: (BuildContext context, int index) {
@@ -301,21 +304,21 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
                                 : colorGrey60,
                             width: state.currentIndex == index ? 1 : 0.5)),
                     child: Center(
-                        child: state.lRoutes[index].fileName != null &&
-                                state.lRoutes[index].fileName!.isNotEmpty
+                        child: state.lHoldSet[index].fileName != null &&
+                                state.lHoldSet[index].fileName!.isNotEmpty
                             ? RotatedBox(
-                                quarterTurns: state.lRoutes[index].rotate,
+                                quarterTurns: state.lHoldSet[index].rotate,
                                 child: SizedBox(
                                     width: 8,
                                     child: AppNetworkImage(
-                                        source: Utils.getUrlHoldSet(state.lRoutes[index].id ??0) /*(state.lRoutes[index]
+                                        source: Utils.getUrlHoldSet(state.lHoldSet[index].id ??0) /*(state.lHoldSet[index]
                                                         .fileName ??
                                                     '')
                                                 .startsWith('http')
-                                            ? (state.lRoutes[index].fileName ??
+                                            ? (state.lHoldSet[index].fileName ??
                                                 '')
                                             : ConstantKey.IMAGE_URL +
-                                                state.lRoutes[index].fileName
+                                                state.lHoldSet[index].fileName
                                                     .toString()*/)))
                             : const SizedBox()),
                   ),
@@ -394,13 +397,13 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
       action: [
             BlocBuilder<ZoomRoutesCubit, ZoomRoutesState>(
                 builder: (c, state) => state.currentIndex != null &&
-                        state.lRoutes[state.currentIndex!].fileName != null &&
-                        state.lRoutes[state.currentIndex!].fileName!.isNotEmpty
+                        state.lHoldSet[state.currentIndex!].fileName != null &&
+                        state.lHoldSet[state.currentIndex!].fileName!.isNotEmpty
                     ? Row(mainAxisSize: MainAxisSize.min,
                         children: [
                           svgButton(context, Assets.svg.turnLeft,
                               () => _bloc.turnLeftOnClick(context),
-                          /*    isDisable: state.lRoutes[state.currentIndex ?? 0]
+                          /*    isDisable: state.lHoldSet[state.currentIndex ?? 0]
                                       .rotate ==
                                   -4*/),
                           const SizedBox(width: 10),
@@ -409,7 +412,7 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
                           const SizedBox(width: 10),
                           svgButton(context, Assets.svg.turnRight,
                               () => _bloc.turnRightOnClick(context),
-                            /*  isDisable: state.lRoutes[state.currentIndex ?? 0]
+                            /*  isDisable: state.lHoldSet[state.currentIndex ?? 0]
                                       .rotate ==
                                   4*/)
                         ],

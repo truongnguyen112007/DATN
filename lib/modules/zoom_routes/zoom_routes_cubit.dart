@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:base_bloc/components/dialogs.dart';
 import 'package:base_bloc/data/model/info_route_model.dart';
 import 'package:base_bloc/data/model/routes_model.dart';
+import 'package:base_bloc/data/repository/user_repository.dart';
 import 'package:base_bloc/modules/create_info_route/create_info_route_page.dart';
 import 'package:base_bloc/modules/zoom_routes/zoom_routes_state.dart';
 import 'package:base_bloc/utils/log_utils.dart';
@@ -10,6 +12,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../components/visibility_route_widget.dart';
+import '../../config/constant.dart';
 import '../../data/eventbus/new_page_event.dart';
 import '../../data/model/hold_set_model.dart';
 import '../../localization/locale_keys.dart';
@@ -19,10 +23,11 @@ import '../hold_set/hold_set_page.dart';
 import '../persons_page/persons_page_state.dart';
 
 class ZoomRoutesCubit extends Cubit<ZoomRoutesState> {
+  var userRepository = UserRepository();
   ZoomRoutesCubit() : super(const ZoomRoutesState());
 
   Future<bool> goBack(BuildContext context) async {
-    RouterUtils.pop(context, result: state.lRoutes);
+    RouterUtils.pop(context, result: state.lHoldSet);
     return false;
   }
 
@@ -39,11 +44,11 @@ class ZoomRoutesCubit extends Cubit<ZoomRoutesState> {
     var result = await RouterUtils.openNewPage(const HoldSetPage(), context,
         type: NewPageType.HOLD_SET);
     if (result != null) {
-      state.lRoutes[index] =
-          HoldSetModel(holdSet: result, rotate: state.lRoutes[index].rotate);
+      state.lHoldSet[index] =
+          HoldSetModel(holdSet: result, rotate: state.lHoldSet[index].rotate);
       emit(state.copyOf(
           currentHoldSet: result,
-          lRoutes: state.lRoutes,
+          lHoldSet: state.lHoldSet,
           timeStamp: DateTime
               .now()
               .microsecondsSinceEpoch));
@@ -51,8 +56,8 @@ class ZoomRoutesCubit extends Cubit<ZoomRoutesState> {
   }
 
   void setHoldSet(HoldSetModel holdSet) {
-    state.lRoutes[state.currentIndex ?? 0] =
-        holdSet.copyOf(rotate: state.lRoutes[state.currentIndex ?? 0].rotate);
+    state.lHoldSet[state.currentIndex ?? 0] =
+        holdSet.copyOf(rotate: state.lHoldSet[state.currentIndex ?? 0].rotate);
     emit(state.copyOf(
         currentHoldSet: "", timeStamp: DateTime.now().microsecondsSinceEpoch));
   }
@@ -61,27 +66,27 @@ class ZoomRoutesCubit extends Cubit<ZoomRoutesState> {
       emit(state.copyOf(currentIndex: index));
 
   void turnLeftOnClick(BuildContext context) {
-    var rotate = state.lRoutes[state.currentIndex!].rotate - 1;
+    var rotate = state.lHoldSet[state.currentIndex!].rotate - 1;
     if (rotate == -4) rotate = 0;
-    state.lRoutes[state.currentIndex!] =
-        state.lRoutes[state.currentIndex!].copyOf(rotate: rotate);
+    state.lHoldSet[state.currentIndex!] =
+        state.lHoldSet[state.currentIndex!].copyOf(rotate: rotate);
     emit(state.copyOf(
         timeStamp: DateTime
             .now()
             .microsecondsSinceEpoch,
-        lRoutes: state.lRoutes));
+        lHoldSet: state.lHoldSet));
   }
 
   void turnRightOnClick(BuildContext context) {
-    var rotate = state.lRoutes[state.currentIndex!].rotate + 1;
+    var rotate = state.lHoldSet[state.currentIndex!].rotate + 1;
     if (rotate == 4) rotate = 0;
-    state.lRoutes[state.currentIndex!] =
-        state.lRoutes[state.currentIndex!].copyOf(rotate: rotate);
+    state.lHoldSet[state.currentIndex!] =
+        state.lHoldSet[state.currentIndex!].copyOf(rotate: rotate);
     emit(state.copyOf(
         timeStamp: DateTime
             .now()
             .microsecondsSinceEpoch,
-        lRoutes: state.lRoutes));
+        lHoldSet: state.lHoldSet));
   }
 
   void setData({required int row,
@@ -90,7 +95,7 @@ class ZoomRoutesCubit extends Cubit<ZoomRoutesState> {
     RoutesModel? model,
     InfoRouteModel? infoRouteModel,
     required double sizeHoldSet,
-    required List<HoldSetModel>? lRoutes,
+    required List<HoldSetModel>? lHoldSet,
     required int currentIndex}) =>
       Timer(
           const Duration(seconds: 1),
@@ -103,17 +108,17 @@ class ZoomRoutesCubit extends Cubit<ZoomRoutesState> {
                   column: column,
                   row: row,
                   sizeHoldSet: sizeHoldSet,
-                  lRoutes: lRoutes)));
+                  lHoldSet: lHoldSet)));
 
   void holdSetOnClick(BuildContext context) =>
       RouterUtils.openNewPage(const HoldSetPage(), context);
 
   void deleteOnclick() {
     if (state.currentIndex != null) {
-      state.lRoutes[state.currentIndex!] = HoldSetModel(holdSet: '');
+      state.lHoldSet[state.currentIndex!] = HoldSetModel(holdSet: '');
       emit(state.copyOf(
           currentHoldSet: '',
-          lRoutes: state.lRoutes,
+          lHoldSet: state.lHoldSet,
           timeStamp: DateTime
               .now()
               .microsecondsSinceEpoch));
@@ -122,10 +127,10 @@ class ZoomRoutesCubit extends Cubit<ZoomRoutesState> {
 
   void confirmOnclick(BuildContext context, InfoRouteModel? infoRouteModel) {
     var lHoldSet = <HoldSetModel>[];
-    for (int i = 0; i < state.lRoutes.length; i++) {
-      if (state.lRoutes[i].fileName != null &&
-          state.lRoutes[i].fileName!.isNotEmpty) {
-        lHoldSet.add(state.lRoutes[i].copyOf(index: i));
+    for (int i = 0; i < state.lHoldSet.length; i++) {
+      if (state.lHoldSet[i].fileName != null &&
+          state.lHoldSet[i].fileName!.isNotEmpty) {
+        lHoldSet.add(state.lHoldSet[i].copyOf(index: i));
       }
     }
     if (lHoldSet.isEmpty) {
@@ -134,7 +139,7 @@ class ZoomRoutesCubit extends Cubit<ZoomRoutesState> {
       RouterUtils.openNewPage(
           CreateInfoRoutePage(
               lHoldParams:
-                  Utils.getHoldsParam(state.lRoutes, state.row, state.column),
+                  Utils.getHoldsParam(state.lHoldSet, state.row, state.column),
               infoRouteModel: infoRouteModel,
               lHoldSet: lHoldSet,
               routeModel: state.model,
@@ -272,5 +277,17 @@ class ZoomRoutesCubit extends Cubit<ZoomRoutesState> {
         }
     }
     return Offset(dx, dy);
+  }
+
+  void saveDaftOnClick(
+      BuildContext context, InfoRouteModel infoRouteModel) async {
+    var routeModel = await Utils.saveDraft(
+        context: context,
+        infoRouteModel: infoRouteModel,
+        lHoldSet: state.lHoldSet,
+        row: state.row,
+        column: state.column);
+    //TODO
+    if (routeModel != null) logE("TAG ROUTEMODEL: ${routeModel.toJson()}");
   }
 }

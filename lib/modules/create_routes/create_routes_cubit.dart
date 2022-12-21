@@ -29,33 +29,33 @@ class CreateRoutesCubit extends Cubit<CreateRoutesState> {
     var result = await RouterUtils.openNewPage(const HoldSetPage(), context,
         type: NewPageType.HOLD_SET);
     if (result != null) {
-      state.lRoutes[index] =
-          HoldSetModel(holdSet: result, rotate: state.lRoutes[index].rotate);
+      state.lHoldSet[index] =
+          HoldSetModel(holdSet: result, rotate: state.lHoldSet[index].rotate);
       emit(state.copyOf(
           currentHoldSet: result,
-          lRoutes: state.lRoutes,
+          lHoldSet: state.lHoldSet,
           timeStamp: DateTime.now().microsecondsSinceEpoch));
     }*/
   }
 
   void setHoldSets(List<HoldSetModel> list) =>
-      emit(state.copyOf(lRoutes: list,timeStamp: DateTime.now().microsecondsSinceEpoch));
+      emit(state.copyOf(lHoldSet: list,timeStamp: DateTime.now().microsecondsSinceEpoch));
 
   void setHoldSet(String holdSet) {
-    state.lRoutes[state.selectIndex ?? 0] = HoldSetModel(
-        holdSet: holdSet, rotate: state.lRoutes[state.selectIndex ?? 0].rotate);
+    state.lHoldSet[state.selectIndex ?? 0] = HoldSetModel(
+        holdSet: holdSet, rotate: state.lHoldSet[state.selectIndex ?? 0].rotate);
     emit(state.copyOf(
         currentHoldSet: holdSet,
-        lRoutes: state.lRoutes,
+        lHoldSet: state.lHoldSet,
         timeStamp: DateTime.now().microsecondsSinceEpoch));
   }
 
   void confirmOnclick(BuildContext context, InfoRouteModel? infoRouteModel) {
     var lHoldSet = <HoldSetModel>[];
-    for (int i = 0; i < state.lRoutes.length; i++) {
-      if (state.lRoutes[i].fileName != null &&
-          state.lRoutes[i].fileName!.isNotEmpty) {
-        lHoldSet.add(state.lRoutes[i].copyOf(index: i));
+    for (int i = 0; i < state.lHoldSet.length; i++) {
+      if (state.lHoldSet[i].fileName != null &&
+          state.lHoldSet[i].fileName!.isNotEmpty) {
+        lHoldSet.add(state.lHoldSet[i].copyOf(index: i));
       }
     }
     if (lHoldSet.isEmpty) {
@@ -64,7 +64,7 @@ class CreateRoutesCubit extends Cubit<CreateRoutesState> {
       RouterUtils.openNewPage(
           CreateInfoRoutePage(
               lHoldParams:
-                  Utils.getHoldsParam(state.lRoutes, state.row, state.column),
+                  Utils.getHoldsParam(state.lHoldSet, state.row, state.column),
               infoRouteModel: infoRouteModel,
               lHoldSet: lHoldSet,
               routeModel: state.model,
@@ -74,10 +74,6 @@ class CreateRoutesCubit extends Cubit<CreateRoutesState> {
   }
 
   void itemOnClick(int index,int height, BuildContext context,InfoRouteModel? infoRouteModel) {
-    /*   if (state.currentHoldSet.isNotEmpty) {
-      state.lRoutes[index] = HoldSetModel(holdSet: state.currentHoldSet);
-    }*/
-    // emit(state.copyOf(selectIndex: index, lRoutes: state.lRoutes));
     RouterUtils.openNewPage(
         ZoomRoutesPage(heightOfRoute: height,
           infoRouteModel: infoRouteModel,
@@ -85,7 +81,7 @@ class CreateRoutesCubit extends Cubit<CreateRoutesState> {
           isEdit: state.isEdit,
           currentIndex: index,
           row: state.row,
-            lRoutes: state.lRoutes,
+            lHoldSet: state.lHoldSet,
             column: state.column,
           sizeHoldSet: state.sizeHoldSet,
           heightOffScreen: MediaQuery.of(context).size.height,
@@ -94,17 +90,13 @@ class CreateRoutesCubit extends Cubit<CreateRoutesState> {
         type: NewPageType.ZOOM_ROUTES);
   }
   void scaleOnClick(BuildContext context, int height,InfoRouteModel? infoRouteModel) {
-    /*   if (state.currentHoldSet.isNotEmpty) {
-      state.lRoutes[index] = HoldSetModel(holdSet: state.currentHoldSet);
-    }*/
-    // emit(state.copyOf(selectIndex: index, lRoutes: state.lRoutes));
     RouterUtils.openNewPage(
         ZoomRoutesPage(
           heightOfRoute: height,
           infoRouteModel: infoRouteModel,
             currentIndex: 0,
             row: state.row,
-            lRoutes: state.lRoutes,
+            lHoldSet: state.lHoldSet,
             column: state.column,
           sizeHoldSet: state.sizeHoldSet,
           heightOffScreen: MediaQuery.of(context).size.height,
@@ -114,21 +106,21 @@ class CreateRoutesCubit extends Cubit<CreateRoutesState> {
   }
 
   void turnLeftOnClick(BuildContext context) {
-    var rotate = state.lRoutes[state.selectIndex!].rotate - 1;
-    state.lRoutes[state.selectIndex!] =
-        state.lRoutes[state.selectIndex!].copyOf(rotate: rotate);
+    var rotate = state.lHoldSet[state.selectIndex!].rotate - 1;
+    state.lHoldSet[state.selectIndex!] =
+        state.lHoldSet[state.selectIndex!].copyOf(rotate: rotate);
     emit(state.copyOf(
         timeStamp: DateTime.now().microsecondsSinceEpoch,
-        lRoutes: state.lRoutes));
+        lHoldSet: state.lHoldSet));
   }
 
   void turnRightOnClick(BuildContext context) {
-    var rotate = state.lRoutes[state.selectIndex!].rotate + 1;
-    state.lRoutes[state.selectIndex!] =
-        state.lRoutes[state.selectIndex!].copyOf(rotate: rotate);
+    var rotate = state.lHoldSet[state.selectIndex!].rotate + 1;
+    state.lHoldSet[state.selectIndex!] =
+        state.lHoldSet[state.selectIndex!].copyOf(rotate: rotate);
     emit(state.copyOf(
         timeStamp: DateTime.now().microsecondsSinceEpoch,
-        lRoutes: state.lRoutes));
+        lHoldSet: state.lHoldSet));
   }
 
   void setData(
@@ -162,7 +154,7 @@ class CreateRoutesCubit extends Cubit<CreateRoutesState> {
             model: model,
             row: row,
             sizeHoldSet: sizeHoldSet,
-            lRoutes: lHoldSet)));
+            lHoldSet: lHoldSet)));
   }
 
   void holdSetOnClick(BuildContext context) =>
@@ -170,10 +162,10 @@ class CreateRoutesCubit extends Cubit<CreateRoutesState> {
 
   void deleteOnclick() {
     if (state.selectIndex != null) {
-      state.lRoutes[state.selectIndex!] = HoldSetModel(holdSet: '');
+      state.lHoldSet[state.selectIndex!] = HoldSetModel(holdSet: '');
       emit(state.copyOf(
           currentHoldSet: '',
-          lRoutes: state.lRoutes,
+          lHoldSet: state.lHoldSet,
           timeStamp: DateTime.now().microsecondsSinceEpoch));
     }
   }
@@ -181,4 +173,14 @@ class CreateRoutesCubit extends Cubit<CreateRoutesState> {
   void showGuideline(bool isShow) {
     emit(state.copyOf(isShowGuideline: isShow));
     StorageUtils.saveGuideline(true);
-  }}
+  }
+  void saveDaftOnClick(
+      BuildContext context, InfoRouteModel infoRouteModel) async {
+    var routeModel = await Utils.saveDraft(
+        context: context,
+        infoRouteModel: infoRouteModel,
+        lHoldSet: state.lHoldSet,
+        row: state.row,
+        column: state.column);
+  }
+}
