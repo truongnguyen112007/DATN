@@ -690,7 +690,7 @@ class Utils {
         lHold: lHold,
         hasCorner: infoRouteModel.isCorner,
         authorGrade: infoRouteModel.grade);
-    Dialogs.hideLoadingDialog();
+   await Dialogs.hideLoadingDialog();
     if (response.data != null && response.error == null) {
       return RoutesModel.fromJson(response.data);
     } else {

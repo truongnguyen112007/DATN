@@ -141,13 +141,21 @@ class DesignedCubit extends Cubit<DesignedState> {
         isShowActionButton: false));
   }
 
-  void itemOnclick(BuildContext context, RoutesModel model) =>
+  void itemOnclick(BuildContext context, RoutesModel model,int index) =>
       RouterUtils.openNewPage(
           RoutesDetailPage(
+            publishCallback: () => publishRoute(index),
             index: BottomNavigationConstant.TAB_ROUTES,
             model: model,
           ),
           context);
+
+  void publishRoute(int index) {
+    state.lRoutes[index].published = true;
+    emit(state.copyWith(timeStamp: DateTime
+        .now()
+        .microsecondsSinceEpoch));
+  }
 
   void filterItemOnclick(int index) {
     state.lRoutes[index].isSelect = !state.lRoutes[index].isSelect;

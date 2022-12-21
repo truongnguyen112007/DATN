@@ -235,9 +235,8 @@ class _DesignedPageState extends State<DesignedPage>
             index: i,
             onLongPress: (model) =>
                 _bloc.itemOnLongClick(context, i, model: model),
-            detailCallBack: (RoutesModel action) =>
-                _bloc.itemOnclick(context, state.lRoutes[i]),
-          ),
+                  detailCallBack: (RoutesModel action) =>
+                      _bloc.itemOnclick(context, state.lRoutes[i], i)),
           itemCount:
           !state.isReadEnd && state.lRoutes.isNotEmpty && state.isLoading
               ? state.lRoutes.length + 1

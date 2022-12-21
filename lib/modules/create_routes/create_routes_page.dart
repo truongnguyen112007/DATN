@@ -604,6 +604,8 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage>   with Ticke
                             ? RotatedBox(
                                 quarterTurns: state.lHoldSet[index].rotate,
                                 child: AppNetworkImage(
+                                    errorSource:
+                                        '${ConstantKey.BASE_URL}hold/1/image',
                                     source: (state.lHoldSet[index].fileName ??
                                                 '')
                                             .startsWith('http')

@@ -13,13 +13,14 @@ import 'package:base_bloc/utils/storage_utils.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'dart:convert';
+import '../../config/constant.dart';
 import '../../localization/locale_keys.dart';
 import '../../router/router_utils.dart';
 import '../../utils/app_utils.dart';
 import '../../utils/toast_utils.dart';
 import '../create_info_route/create_info_route_page.dart';
 import '../hold_set/hold_set_page.dart';
+import '../routers_detail/routes_detail_page.dart';
 
 class CreateRoutesCubit extends Cubit<CreateRoutesState> {
   CreateRoutesCubit() : super(const CreateRoutesState());
@@ -182,5 +183,11 @@ class CreateRoutesCubit extends Cubit<CreateRoutesState> {
         lHoldSet: state.lHoldSet,
         row: state.row,
         column: state.column);
+    if (routeModel != null) {
+      RouterUtils.openNewPage(
+          RoutesDetailPage(isSaveDraft: true,
+              index: BottomNavigationConstant.TAB_ROUTES, model: routeModel),
+          context);
+    }
   }
 }

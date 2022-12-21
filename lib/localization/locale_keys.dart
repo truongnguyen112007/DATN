@@ -263,4 +263,6 @@ abstract class LocaleKeys {
   static const public ="public";
   static const private ="private";
   static const visibility ="visibility";
+  static const draft = 'draft';
+  static const publish_routes_success = 'publish_routes_success';
 }

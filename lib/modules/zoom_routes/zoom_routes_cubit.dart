@@ -21,6 +21,7 @@ import '../../router/router_utils.dart';
 import '../../utils/app_utils.dart';
 import '../hold_set/hold_set_page.dart';
 import '../persons_page/persons_page_state.dart';
+import '../routers_detail/routes_detail_page.dart';
 
 class ZoomRoutesCubit extends Cubit<ZoomRoutesState> {
   var userRepository = UserRepository();
@@ -287,7 +288,13 @@ class ZoomRoutesCubit extends Cubit<ZoomRoutesState> {
         lHoldSet: state.lHoldSet,
         row: state.row,
         column: state.column);
-    //TODO
-    if (routeModel != null) logE("TAG ROUTEMODEL: ${routeModel.toJson()}");
+    if (routeModel != null) {
+      RouterUtils.openNewPage(
+          RoutesDetailPage(
+              isSaveDraft: true,
+              index: BottomNavigationConstant.TAB_ROUTES,
+              model: routeModel),
+          context);
+    }
   }
 }
