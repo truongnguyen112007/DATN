@@ -24,9 +24,11 @@ import '../../theme/colors.dart';
 class CreateInfoRouteCubit extends Cubit<CreateInfoRouteState> {
   final List<HoldSetModel>? lHoldSet;
   final List<HoldParam>? lHoldParams;
+  final bool isEdit;
   var userRepository = UserRepository();
 
-  CreateInfoRouteCubit(this.lHoldSet,this.lHoldParams) : super(const CreateInfoRouteState());
+  CreateInfoRouteCubit(this.lHoldSet, this.lHoldParams, this.isEdit)
+      : super(const CreateInfoRouteState()) {}
 
   void setData(RoutesModel? routesModel, InfoRouteModel? infoRouteModel) {
     if (routesModel != null) {
@@ -85,7 +87,7 @@ class CreateInfoRouteCubit extends Cubit<CreateInfoRouteState> {
   void setCorner() => emit(state.copyOf(isCorner: !state.isCorner));
 
   void publishOnclick(
-      bool isPublish, String routeName, BuildContext context) async {
+      bool isPublish, String routeName, BuildContext context,RoutesModel? routesModel) async {
     if(!isValid(routeName)) return;
     Utils.hideKeyboard(context);
     if (!isPublish) {
@@ -102,7 +104,7 @@ class CreateInfoRouteCubit extends Cubit<CreateInfoRouteState> {
       return;
     }
     Dialogs.showLoadingDialog(context);
-    var response = !state.isEdit
+    var response = !isEdit
         ? await userRepository.createRoute(
             visibility: state.visibilityType == VisibilityType.PRIVATE
                 ? ConstantKey.PRIVATE
@@ -111,7 +113,7 @@ class CreateInfoRouteCubit extends Cubit<CreateInfoRouteState> {
                     : ConstantKey.PUBLIC),
             height: state.height,
             name: routeName,
-            lHold: lHoldParams ?? [],
+            lHold: lHoldParams ?? Utils.getHold(routesModel?.holds ?? ''),
             hasCorner: state.isCorner,
             authorGrade: state.grade)
         : await userRepository.editRoute(
@@ -120,7 +122,7 @@ class CreateInfoRouteCubit extends Cubit<CreateInfoRouteState> {
                 : (state.visibilityType == VisibilityType.FRIENDS ? 1 : 2),
             height: state.height,
             name: routeName,
-            lHold: lHoldParams ?? [],
+            lHold: lHoldParams ?? Utils.getHold(routesModel?.holds ?? ''),
             hasCorner: state.isCorner,
             authorGrade: state.grade,
             routeId: state.model?.id ?? '');

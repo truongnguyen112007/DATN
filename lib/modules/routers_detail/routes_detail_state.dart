@@ -6,14 +6,25 @@ enum RoutesStatus { initial, success, failure, refresh }
 class RoutesDetailState extends Equatable {
   final RoutesStatus status;
   final RoutesModel model;
+  final int? timeStamp;
+   List<dynamic> lHoldSet;
 
-  const RoutesDetailState(
-      {this.status = RoutesStatus.initial, required this.model});
+   RoutesDetailState(
+      {this.status = RoutesStatus.initial,
+      required this.model,
+      this.lHoldSet = const <dynamic>[],
+      this.timeStamp});
 
-  RoutesDetailState copyOf({RoutesStatus? status, RoutesModel? model}) =>
+  RoutesDetailState copyOf(
+          {RoutesStatus? status, RoutesModel? model,
+          int? timeStamp,
+          List<dynamic>? lHoldSet}) =>
       RoutesDetailState(
-          status: status ?? this.status, model: model ?? this.model);
+          lHoldSet: lHoldSet ?? this.lHoldSet,
+          timeStamp: timeStamp ?? this.timeStamp,
+          status: status ?? this.status,
+          model: model ?? this.model);
 
   @override
-  List<Object?> get props => [status];
+  List<Object?> get props => [status, model, timeStamp, lHoldSet];
 }

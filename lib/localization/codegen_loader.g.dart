@@ -220,6 +220,8 @@ class Applocalizations extends AssetLoader {
     "public" : "Publish",
     "private" : "Private",
     "visibility" : "Visibility",
+    "draft": "Draft",
+    "publish_routes_success": "Publish route success",
   };
 
   static const Map<String, Map<String, dynamic>> mapLocales = {

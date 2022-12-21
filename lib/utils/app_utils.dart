@@ -5,7 +5,10 @@ import 'package:base_bloc/base/hex_color.dart';
 import 'package:base_bloc/config/constant.dart';
 import 'package:base_bloc/data/model/background_param.dart';
 import 'package:base_bloc/data/model/general_action_sheet_model.dart';
+import 'package:base_bloc/data/model/info_route_model.dart';
+import 'package:base_bloc/data/repository/user_repository.dart';
 import 'package:base_bloc/utils/log_utils.dart';
+import 'package:base_bloc/utils/toast_utils.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 import 'package:event_bus/event_bus.dart';
@@ -14,12 +17,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:matrix2d/matrix2d.dart';
 import '../components/app_text.dart';
+import '../components/dialogs.dart';
 import '../components/sort_widget.dart';
+import '../components/visibility_route_widget.dart';
 import '../data/globals.dart';
 import '../data/model/hold_set_model.dart';
 import '../data/model/holds_param.dart';
 import '../data/model/routes_model.dart';
 import '../data/model/sort_param.dart';
+import '../data/repository/api_result.dart';
 import '../gen/assets.gen.dart';
 import '../localization/locale_keys.dart';
 import '../modules/playlist/playlist_cubit.dart';
@@ -657,6 +663,39 @@ class Utils {
         return 3;
       default:
         return 0;
+    }
+  }
+
+  static Future<RoutesModel?> saveDraft(
+      {required BuildContext context,
+      required InfoRouteModel infoRouteModel,
+      required List<HoldSetModel> lHoldSet,
+      required int row,
+      required int column}) async {
+    var lHold = getHoldsParam(lHoldSet, row, column);
+    if (lHold.isEmpty) {
+      toast(LocaleKeys.please_input_hold_set.tr());
+      return null;
+    }
+    Dialogs.showLoadingDialog(context);
+    var response = await UserRepository().createRoute(
+        visibility: infoRouteModel.type == VisibilityType.PRIVATE
+            ? ConstantKey.PRIVATE
+            : (infoRouteModel.type == VisibilityType.FRIENDS
+                ? ConstantKey.FRIENDS
+                : ConstantKey.PUBLIC),
+        height: infoRouteModel.height,
+        published: false,
+        name: infoRouteModel.routeName,
+        lHold: lHold,
+        hasCorner: infoRouteModel.isCorner,
+        authorGrade: infoRouteModel.grade);
+   await Dialogs.hideLoadingDialog();
+    if (response.data != null && response.error == null) {
+      return RoutesModel.fromJson(response.data);
+    } else {
+      toast(response.error.toString());
+      return null;
     }
   }
 }

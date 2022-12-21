@@ -86,6 +86,7 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage>   with Ticke
         .on<List<HoldSetModel>>()
         .listen((list) => _bloc.setHoldSets(list));
     _bloc.setData(
+        infoRouteModel: widget.infoRouteModel,
         row: row,
         isEdit: widget.isEdit,
         column: column,
@@ -543,26 +544,29 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage>   with Ticke
               onPress: () => RouterUtils.pop(context),
             ),
             const Spacer(),
-            Container(
-              padding: EdgeInsets.only(
-                  left: globals.contentPadding,
-                  right: globals.contentPadding,
-                  top: 5,
-                  bottom: 5),
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [colorOrange100, colorOrange50]),
-                  color: Colors.cyan,
-                  borderRadius: BorderRadius.circular(50)),
-              height: 32.h,
-              child: AppText(
-                LocaleKeys.save_daft.tr(),
-                style: typoSmallTextRegular.copyWith(color: colorText0),
+            InkWell(
+              child: Container(
+                padding: EdgeInsets.only(
+                    left: globals.contentPadding,
+                    right: globals.contentPadding,
+                    top: 5,
+                    bottom: 5),
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [colorOrange100, colorOrange50]),
+                    color: Colors.cyan,
+                    borderRadius: BorderRadius.circular(50)),
+                height: 32.h,
+                child: AppText(
+                  LocaleKeys.save_daft.tr(),
+                  style: typoSmallTextRegular.copyWith(color: colorText0),
+                ),
               ),
-            )
+                onTap: () =>
+                    _bloc.saveDaftOnClick(context, widget.infoRouteModel,widget.model))
           ],
         ),
       );
@@ -574,7 +578,7 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage>   with Ticke
               reverse: true,
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              itemCount: state.lRoutes.length,
+              itemCount: state.lHoldSet.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: state.column, childAspectRatio: 1.0),
               itemBuilder: (BuildContext context, int index) {
@@ -596,19 +600,19 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage>   with Ticke
                                 : colorGrey60,
                             width: state.selectIndex == index ? 1 : 0.5)),
                     child: Center(
-                        child: state.lRoutes[index].fileName != null &&
-                                state.lRoutes[index].fileName!.isNotEmpty
+                        child: state.lHoldSet[index].fileName != null &&
+                                state.lHoldSet[index].fileName!.isNotEmpty
                             ? RotatedBox(
-                                quarterTurns: state.lRoutes[index].rotate,
+                                quarterTurns: state.lHoldSet[index].rotate,
                                 child: AppNetworkImage(
-                                    source: (state.lRoutes[index].fileName ??
+                                    errorSource:
+                                        '${ConstantKey.BASE_URL}hold/1/image',
+                                    source: (state.lHoldSet[index].fileName ??
                                                 '')
                                             .startsWith('http')
-                                        ? (state.lRoutes[index].fileName ?? '')
-                                        : Utils.getUrlHoldSet(state.lRoutes[index].id??0)
-                                          /*ConstantKey.IMAGE_URL +
-                                            state.lRoutes[index].id
-                                                .toString()*/))
+                                        ? (state.lHoldSet[index].fileName ?? '')
+                                        : Utils.getUrlHoldSet(
+                                            state.lHoldSet[index].id ?? 0)))
                             : const SizedBox()),
                   ),
                 );
@@ -666,7 +670,7 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage>   with Ticke
   Widget editRotateWidget(String icon, VoidCallback callback) =>
       BlocBuilder<CreateRoutesCubit, CreateRoutesState>(
         builder: (c, state) => state.selectIndex != null &&
-                state.lRoutes[state.selectIndex!].holdSet.isNotEmpty
+                state.lHoldSet[state.selectIndex!].holdSet.isNotEmpty
             ? svgButton(context, Assets.svg.turnLeft,
                 () => _bloc.turnLeftOnClick(context))
             : const SizedBox(),

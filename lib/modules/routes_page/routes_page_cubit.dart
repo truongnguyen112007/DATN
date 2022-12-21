@@ -70,21 +70,12 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
   }
 
   void itemOnclick(BuildContext context, RoutesModel model) async {
-    Dialogs.showLoadingDialog(context);
-    var response = await userRepository.getRouteDetail(model.id ?? '');
-    await Dialogs.hideLoadingDialog();
-    if (response.data != null && response.error == null) {
-      RouterUtils.openNewPage(
-          RoutesDetailPage(
-              index: BottomNavigationConstant.TAB_ROUTES,
-              model: RoutesModel.fromJson(response.data)),
-          context);
-    } else {
-      toast(response.error.toString());
-    }
-
+    Utils.hideKeyboard(context);
+    RouterUtils.openNewPage(
+        RoutesDetailPage(
+            index: BottomNavigationConstant.TAB_ROUTES, model: model),
+        context);
   }
-
 
   void selectOnclick(bool isShowAdd) async {
     for (int i = 0; i < state.lRoutes.length; i++) {

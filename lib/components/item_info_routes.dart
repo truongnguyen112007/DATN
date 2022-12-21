@@ -135,34 +135,62 @@ class ItemInfoRoutes extends StatelessWidget {
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                   const SizedBox(height: 6),
-                                  Row(
-                                    children: [
-                                      AppText(
-                                        '${LocaleKeys.routes.tr()} ${model.height}m ',
-                                        style: googleFont.copyWith(
-                                            color:
-                                            colorText0.withOpacity(0.6),
-                                            fontSize: 13.sp),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                            left: 5.w, right: 5.w),
-                                        child: const Icon(
-                                          Icons.circle_sharp,
-                                          size: 6,
-                                          color: colorWhite,
-                                        ),
-                                      ),
-                                      Expanded(
-                                          child: AppText(" ${model.name}",
-                                              overflow: TextOverflow.ellipsis,
-                                              maxLine: 1,
+                                  (model.published ?? true)
+                                      ? Row(
+                                          children: [
+                                            AppText(
+                                              '${LocaleKeys.routes.tr()} ${model.height}m ',
                                               style: googleFont.copyWith(
                                                   color: colorText0
                                                       .withOpacity(0.6),
-                                                  fontSize: 13.sp) ))
-                                    ],
-                                  )
+                                                  fontSize: 13.sp),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.only(
+                                                  left: 5.w, right: 5.w),
+                                              child: const Icon(
+                                                Icons.circle_sharp,
+                                                size: 6,
+                                                color: colorWhite,
+                                              ),
+                                            ),
+                                            Expanded(
+                                                child: AppText(" ${model.name}",
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    maxLine: 1,
+                                                    style: googleFont.copyWith(
+                                                        color: colorText0
+                                                            .withOpacity(0.6),
+                                                        fontSize: 13.sp)))
+                                          ],
+                                        )
+                                      : Row(
+                                          children: [
+                                            AppText(
+                                              '${LocaleKeys.routes.tr()} ${model.height}m ',
+                                              style: googleFont.copyWith(
+                                                  color: colorText0
+                                                      .withOpacity(0.6),
+                                                  fontSize: 13.sp),
+                                            ),
+                                            SizedBox(width: contentPadding),
+                                          Container(
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(20),
+                                                  color: colorWhite),
+                                              padding: const EdgeInsets.only(
+                                                  left: 7,
+                                                  right: 7,
+                                                  top: 2,
+                                                  bottom: 2),
+                                              child: AppText(
+                                                  LocaleKeys.draft.tr(),
+                                                  style: typoW400.copyWith(
+                                                      fontSize: 11.sp,
+                                                      color: colorText90)))
+                                        ])
                                 ],
                               ))
                         ],

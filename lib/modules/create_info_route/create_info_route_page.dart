@@ -24,7 +24,6 @@ import '../../data/model/hold_set_model.dart';
 import '../../gen/assets.gen.dart';
 import '../../localization/locale_keys.dart';
 import '../../theme/app_styles.dart';
-import '../persons_page/persons_page.dart';
 class CreateInfoRoutePage extends StatefulWidget {
   final List<HoldSetModel>? lHoldSet;
   final List<HoldParam>? lHoldParams;
@@ -53,11 +52,13 @@ class _CreateInfoRoutePageState extends State<CreateInfoRoutePage> {
 
   @override
   void initState() {
-    _bloc = CreateInfoRouteCubit(widget.lHoldSet, widget.lHoldParams);
-    if (widget.routeModel != null) routeNameController.text = widget.routeModel?.name ?? '';
-    if(widget.infoRouteModel!=null){
-      routeNameController.text = widget.infoRouteModel?.routeName??'';
-    }else{
+    _bloc = CreateInfoRouteCubit(
+        widget.lHoldSet, widget.lHoldParams, widget.isEdit);
+    if (widget.routeModel != null) {
+      routeNameController.text = widget.routeModel?.name ?? '';
+    } else if (widget.infoRouteModel != null) {
+      routeNameController.text = widget.infoRouteModel?.routeName ?? '';
+    } else{
       routeNameController.text =
           '${globals.firstName} ${globals.lastName} ${Utils.convertDateToYYYYMMDD(DateTime.now())}';
     }
@@ -267,7 +268,7 @@ class _CreateInfoRoutePageState extends State<CreateInfoRoutePage> {
                     gradient: Utils.backgroundGradientOrangeButton(),
                     borderRadius: BorderRadius.circular(20)),
                 onTap: () => _bloc.publishOnclick(
-                    widget.isPublish, routeNameController.text, context),
+                    widget.isPublish, routeNameController.text, context,widget.routeModel),
                 widget: Row(
                   children: [
                     const SizedBox(width: 15),
