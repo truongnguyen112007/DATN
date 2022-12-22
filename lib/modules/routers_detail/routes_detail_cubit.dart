@@ -93,6 +93,8 @@ class RoutesDetailCubit extends Cubit<RoutesDetailState> {
       case RoutesAction.PUBLISH:
         publishOnClick(state.model, context, publishCallback);
         return;
+      case RoutesAction.EDIT:
+        editRoutes(context, state.model);
     }
   }
 
@@ -133,6 +135,13 @@ class RoutesDetailCubit extends Cubit<RoutesDetailState> {
       toast(response.error.toString());
     }
   }
+
+  void editRoutes(
+      BuildContext context,
+      RoutesModel model,
+      ) =>
+      RouterUtils.openNewPage(
+          CreateRoutesPage(model: model, isEdit: true), context);
 
   void addOrRemoveFavorite(
       BuildContext context, RoutesModel model, bool isAdd) async {

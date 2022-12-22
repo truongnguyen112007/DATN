@@ -11,7 +11,7 @@ import 'package:base_bloc/utils/toast_utils.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:base_bloc/data/globals.dart' as globals;
 import '../../components/visibility_route_widget.dart';
 import '../../config/constant.dart';
 import '../../data/eventbus/new_page_event.dart';
@@ -282,6 +282,8 @@ class ZoomRoutesCubit extends Cubit<ZoomRoutesState> {
   void saveDaftOnClick(BuildContext context,
       InfoRouteModel? infoRouteModel,RoutesModel? routesModel) async {
     var routeModel = await Utils.saveDraft(
+        isEdit: (routesModel != null && routesModel.userId == globals.userId),
+        routeModel: routesModel,
         context: context,
         infoRouteModel: infoRouteModel ??
             InfoRouteModel(

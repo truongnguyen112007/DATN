@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:base_bloc/components/visibility_route_widget.dart';
 import 'package:base_bloc/data/eventbus/new_page_event.dart';
+import 'package:base_bloc/data/globals.dart' as globals;
 import 'package:base_bloc/data/model/hold_set_model.dart';
 import 'package:base_bloc/data/model/info_route_model.dart';
 import 'package:base_bloc/data/model/routes_model.dart';
@@ -179,9 +180,10 @@ class CreateRoutesCubit extends Cubit<CreateRoutesState> {
   void saveDaftOnClick(BuildContext context,
       InfoRouteModel? infoRouteModel,RoutesModel? routesModel) async {
     var routeModel = await Utils.saveDraft(
+        routeModel: routesModel,
         context: context,
         infoRouteModel: infoRouteModel ??
-            InfoRouteModel(
+            InfoRouteModel (
                 grade: routesModel?.authorGrade ?? 0,
                 routeName: routesModel?.name ?? '',
                 isCorner: routesModel?.hasConner ?? false,
@@ -193,11 +195,14 @@ class CreateRoutesCubit extends Cubit<CreateRoutesState> {
                         : VisibilityType.FRIENDS),
         lHoldSet: state.lHoldSet,
         row: state.row,
-        column: state.column);
+        column: state.column,
+        isEdit: (routesModel != null && routesModel.userId == globals.userId));
     if (routeModel != null) {
       RouterUtils.openNewPage(
-          RoutesDetailPage(isSaveDraft: true,
-              index: BottomNavigationConstant.TAB_ROUTES, model: routeModel),
+          RoutesDetailPage(
+              isSaveDraft: true,
+              index: BottomNavigationConstant.TAB_ROUTES,
+              model: routeModel),
           context);
     }
   }
