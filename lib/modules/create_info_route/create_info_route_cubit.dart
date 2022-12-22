@@ -84,10 +84,14 @@ class CreateInfoRouteCubit extends Cubit<CreateInfoRouteState> {
         currentIndexGrade: state.currentIndexGrade - 1));
   }
 
-  void setCorner() => emit(state.copyOf(isCorner: !state.isCorner));
+  void setCorner(BuildContext context) {
+    Utils.hideKeyboard(context);
+    emit(state.copyOf(isCorner: !state.isCorner));
+  }
 
   void publishOnclick(
       bool isPublish, String routeName, BuildContext context,RoutesModel? routesModel) async {
+    Utils.hideKeyboard(context);
     if(!isValid(routeName)) return;
     Utils.hideKeyboard(context);
     if (!isPublish) {
@@ -147,15 +151,20 @@ class CreateInfoRouteCubit extends Cubit<CreateInfoRouteState> {
     return true;
   }
 
-  void changeHeight(int value) => emit(state.copyOf(height: value));
+  void changeHeight(int value,BuildContext context){
+    Utils.hideKeyboard(context);
+    emit(state.copyOf(height: value));
+  }
 
   void visibilityOnClick(BuildContext context) {
+    Utils.hideKeyboard(context);
     showModalBottomSheet(
         isScrollControlled: true,
         backgroundColor: colorTransparent,
         context: context,
         builder: (x) => VisibilityRouteWidget(
             itemOnClick: (type) {
+              Utils.hideKeyboard(context);
               emit(state.copyOf(visibilityType: type));
               Navigator.pop(context);
             },
