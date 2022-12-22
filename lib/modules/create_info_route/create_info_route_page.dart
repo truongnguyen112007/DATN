@@ -68,49 +68,53 @@ class _CreateInfoRoutePageState extends State<CreateInfoRoutePage> {
 
   @override
   Widget build(BuildContext context) {
-    return AppScaffold(resizeToAvoidBottomInset: false,
-      padding: EdgeInsets.only(
-          top: globals.contentPadding, left: globals.contentPadding),
-      appbar: appbar(context),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          titleWidget(LocaleKeys.route_name.tr()),
-          routeNameWidget(),
-          space(),
-          titleWidget(LocaleKeys.who_can_see_this_route.tr()),
-          space(height: 6),
-          Row(
+    return GestureDetector(
+        child: AppScaffold(
+          resizeToAvoidBottomInset: false,
+          isTabToHideKeyBoard: true,
+          padding: EdgeInsets.only(
+              top: globals.contentPadding, left: globals.contentPadding),
+          appbar: appbar(context),
+          body: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SvgPicture.asset(Assets.svg.friend),
-              const SizedBox(width: 10),
-              BlocBuilder<CreateInfoRouteCubit, CreateInfoRouteState>(
-                  bloc: _bloc,
-                  builder: (c, state) => InkWell(
-                      child:
-                          AppText(state.visibilityType.name, style: typoContent),
-                      onTap: () => _bloc.visibilityOnClick(context)))
+              titleWidget(LocaleKeys.route_name.tr()),
+              routeNameWidget(),
+              space(),
+              titleWidget(LocaleKeys.who_can_see_this_route.tr()),
+              space(height: 6),
+              Row(
+                children: [
+                  SvgPicture.asset(Assets.svg.friend),
+                  const SizedBox(width: 10),
+                  BlocBuilder<CreateInfoRouteCubit, CreateInfoRouteState>(
+                      bloc: _bloc,
+                      builder: (c, state) => InkWell(
+                          child: AppText(state.visibilityType.name,
+                              style: typoContent),
+                          onTap: () => _bloc.visibilityOnClick(context)))
+                ],
+              ),
+              space(),
+              line(),
+              space(),
+              titleWidget(LocaleKeys.grade.tr()),
+              space(),
+              gradeWidget(context),
+              space(),
+              line(),
+              space(),
+              cornerWidget(),
+              space(),
+              line(),
+              space(),
+              heightWidget(),
+              space(),
+              line()
             ],
           ),
-          space(),
-          line(),
-          space(),
-          titleWidget(LocaleKeys.grade.tr()),
-          space(),
-          gradeWidget(context),
-          space(),
-          line(),
-          space(),
-          cornerWidget(),
-          space(),
-          line(),
-          space(),
-          heightWidget(),
-          space(),
-          line()
-        ],
-      ),
-    );
+        ),
+        onTap: () => Utils.hideKeyboard(context));
   }
 
   Widget cornerWidget() => Row(
@@ -126,7 +130,7 @@ class _CreateInfoRoutePageState extends State<CreateInfoRoutePage> {
               builder: (c, state) => Switch(
                     value: state.isCorner,
                     activeColor: HexColor('FF6B00'),
-                    onChanged: (bool value) => _bloc.setCorner(),
+                    onChanged: (bool value) => _bloc.setCorner(context),
                   ))
         ],
       );
@@ -166,14 +170,14 @@ class _CreateInfoRoutePageState extends State<CreateInfoRoutePage> {
                     groupValue: state.height,
                     onChanged: (int? value) {
                       if (widget.isEdit || widget.isPublish) return;
-                      _bloc.changeHeight(value!);
+                      _bloc.changeHeight(value!,context);
                     },
                   ),
                   InkWell(
                       child: AppText('${value}m', style: typoW400),
                       onTap: () {
                         if (widget.isEdit || widget.isPublish) return;
-                        _bloc.changeHeight(value);
+                        _bloc.changeHeight(value,context);
                       })
                 ],
               ));
@@ -230,6 +234,7 @@ class _CreateInfoRoutePageState extends State<CreateInfoRoutePage> {
       BlocBuilder<CreateInfoRouteCubit, CreateInfoRouteState>(
           bloc: _bloc,
           builder: (c, state) => AppTextField(
+              autofocus: true,
               errorStyle: typoW400.copyWith(
                   color: colorSemanticRed100, fontSize: 10.sp),
               errorText: state.errorRouteName,
