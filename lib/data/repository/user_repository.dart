@@ -169,7 +169,11 @@ class UserRepository extends BaseService {
     }
   }
 
-  Future<ApiResult> getRouteDetail(String routeId) async => GET('route/$routeId');
+  Future<ApiResult> getRouteDetail(String routeId) async =>
+      GET('route/$routeId');
+
+  Future<ApiResult> getRouteDetailAno(String routeId) async =>
+      GET('route/public/$routeId');
 
   Future<ApiResult> getUserProfile(int userId) async =>
       await GET('kuser/profile/$userId');

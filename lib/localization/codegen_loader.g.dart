@@ -222,6 +222,7 @@ class Applocalizations extends AssetLoader {
     "visibility" : "Visibility",
     "draft": "Draft",
     "publish_routes_success": "Publish route success",
+    "you_need_login_to_use_this_service": "You need login to use this service",
   };
 
   static const Map<String, Map<String, dynamic>> mapLocales = {

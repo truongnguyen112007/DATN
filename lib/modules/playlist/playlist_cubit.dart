@@ -53,10 +53,10 @@ class PlayListCubit extends Cubit<PlaylistState> {
         Navigator.pop(context);
         switch (type) {
           case ItemAction.REMOVE_FROM_PLAYLIST:
-            removeOrDeleteRoutes(context, model, index, true);
+            removeOrAddToPlaylistRoutes(context, model, index, true);
             return;
           case ItemAction.DELETE:
-            removeOrDeleteRoutes(context, model, index, false);
+            removeOrAddToPlaylistRoutes(context, model, index, false);
             return;
           case ItemAction.ADD_TO_FAVOURITE:
             addOrRemoveFavorite(context, model, index, true);
@@ -88,7 +88,7 @@ class PlayListCubit extends Cubit<PlaylistState> {
 
   void showOverlay(bool isOverlay) => emit(state.copyWith(isOverlay: isOverlay));
 
-  void removeOrDeleteRoutes(
+  void removeOrAddToPlaylistRoutes(
       BuildContext context,
       RoutesModel model,
       int index,
@@ -98,7 +98,8 @@ class PlayListCubit extends Cubit<PlaylistState> {
     var response = isRemove
         ? await userRepository.removeFromPlaylist(
         globals.playlistId, model.id ?? '')
-        : await userRepository.deleteRoute(model.id ?? '');
+        : await userRepository
+            .addToPlaylist(globals.playlistId, [model.id ?? '']);
     await Dialogs.hideLoadingDialog();
     if (response.error == null) {
       state.lRoutes.removeAt(index);

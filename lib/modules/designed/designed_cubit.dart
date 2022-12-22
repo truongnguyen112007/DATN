@@ -93,9 +93,15 @@ class DesignedCubit extends Cubit<DesignedState> {
     await Dialogs.hideLoadingDialog();
     if (response.error == null) {
       toast(response.message);
+      refreshRouteTab();
     } else {
       toast(response.error.toString());
     }
+  }
+
+  void refreshRouteTab() {
+    Utils.fireEvent(RefreshEvent(RefreshType.PLAYLIST));
+    Utils.fireEvent(RefreshEvent(RefreshType.FAVORITE));
   }
 
   void deleteRoute(BuildContext context, RoutesModel model, int index) async {
@@ -104,6 +110,7 @@ class DesignedCubit extends Cubit<DesignedState> {
     await Dialogs.hideLoadingDialog();
     if (response.error == null) {
       state.lRoutes.removeAt(index);
+      refreshRouteTab();
       emit(state.copyWith(timeStamp: DateTime.now().microsecondsSinceEpoch));
     } else {
       toast(response.error.toString());
@@ -230,6 +237,7 @@ class DesignedCubit extends Cubit<DesignedState> {
         state.lRoutes.removeAt(index);
         emit(state.copyWith(timeStamp: DateTime.now().microsecondsSinceEpoch));
       }
+      refreshRouteTab();
     } else {
       toast(response.error.toString());
     }
@@ -252,6 +260,7 @@ class DesignedCubit extends Cubit<DesignedState> {
     await Dialogs.hideLoadingDialog();
     if (response.error == null) {
       toast(response.message);
+      refreshRouteTab();
     } else {
       toast(response.error.toString());
     }

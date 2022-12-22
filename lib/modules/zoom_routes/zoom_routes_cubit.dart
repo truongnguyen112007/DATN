@@ -11,7 +11,7 @@ import 'package:base_bloc/utils/toast_utils.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:base_bloc/data/globals.dart' as globals;
 import '../../components/visibility_route_widget.dart';
 import '../../config/constant.dart';
 import '../../data/eventbus/new_page_event.dart';
@@ -279,21 +279,30 @@ class ZoomRoutesCubit extends Cubit<ZoomRoutesState> {
     }
     return Offset(dx, dy);
   }
-
-  void saveDaftOnClick(
-      BuildContext context, InfoRouteModel infoRouteModel) async {
+  void saveDaftOnClick(BuildContext context,
+      InfoRouteModel? infoRouteModel,RoutesModel? routesModel) async {
     var routeModel = await Utils.saveDraft(
+        isEdit: (routesModel != null && routesModel.userId == globals.userId),
+        routeModel: routesModel,
         context: context,
-        infoRouteModel: infoRouteModel,
+        infoRouteModel: infoRouteModel ??
+            InfoRouteModel(
+                grade: routesModel?.authorGrade ?? 0,
+                routeName: routesModel?.name ?? '',
+                isCorner: routesModel?.hasConner ?? false,
+                height: routesModel?.height ?? 9,
+                type: (routesModel?.visibility ?? 0) == ConstantKey.PRIVATE
+                    ? VisibilityType.PRIVATE
+                    : (routesModel?.visibility ?? 0) == ConstantKey.PUBLIC
+                    ? VisibilityType.PUBLIC
+                    : VisibilityType.FRIENDS),
         lHoldSet: state.lHoldSet,
         row: state.row,
         column: state.column);
     if (routeModel != null) {
       RouterUtils.openNewPage(
-          RoutesDetailPage(
-              isSaveDraft: true,
-              index: BottomNavigationConstant.TAB_ROUTES,
-              model: routeModel),
+          RoutesDetailPage(isSaveDraft: true,
+              index: BottomNavigationConstant.TAB_ROUTES, model: routeModel),
           context);
     }
   }

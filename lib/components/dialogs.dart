@@ -1,5 +1,6 @@
 import 'package:base_bloc/components/app_button.dart';
 import 'package:base_bloc/components/gradient_button.dart';
+import 'package:base_bloc/components/login_dialog.dart';
 import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/theme/colors.dart';
 import 'package:base_bloc/utils/app_utils.dart';
@@ -104,6 +105,29 @@ class Dialogs {
                     )
                   ],
                 ),
+              ],
+            ),
+          );
+        });
+  }
+
+  static Future<void>? showLogInDiaLog(BuildContext context,
+      {required VoidCallback loginOnClick}) {
+    return showDialog<void>(
+        context: context,
+        barrierColor: colorBlack.withOpacity(0.85),
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return WillPopScope(
+            onWillPop: () async => false,
+            child: SimpleDialog(
+              key: _keyLoader,
+              backgroundColor: Colors.transparent,
+              children:  <Widget>[
+                LoginDialog(loginOnClick: () async {
+                  await Dialogs.hideLoadingDialog();
+                  loginOnClick.call();
+                }),
               ],
             ),
           );

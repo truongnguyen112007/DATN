@@ -14,16 +14,18 @@ import '../../base/base_state.dart';
 import '../../localization/locale_keys.dart';
 import 'login_state.dart';
 
-class Login extends StatefulWidget {
+class LoginPage extends StatefulWidget {
   final int index;
+  final bool isGoBack;
 
-  const Login({Key? key, required this.index}) : super(key: key);
+  const LoginPage({Key? key, required this.index, this.isGoBack = false})
+      : super(key: key);
 
   @override
   _LoginState createState() => _LoginState();
 }
 
-class _LoginState extends BasePopState<Login> with TickerProviderStateMixin {
+class _LoginState extends BasePopState<LoginPage> with TickerProviderStateMixin {
   bool _obscureText = true;
   final emailController = TextEditingController();
   final passWordController = TextEditingController();
@@ -37,7 +39,7 @@ class _LoginState extends BasePopState<Login> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    _bloc = LoginCubit();
+    _bloc = LoginCubit(widget.isGoBack);
     super.initState();
   }
 

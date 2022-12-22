@@ -671,26 +671,43 @@ class Utils {
       required InfoRouteModel infoRouteModel,
       required List<HoldSetModel> lHoldSet,
       required int row,
-      required int column}) async {
+      required int column,
+      required bool isEdit,
+      RoutesModel? routeModel}) async {
+    var userRepository =UserRepository();
     var lHold = getHoldsParam(lHoldSet, row, column);
     if (lHold.isEmpty) {
       toast(LocaleKeys.please_input_hold_set.tr());
       return null;
     }
     Dialogs.showLoadingDialog(context);
-    var response = await UserRepository().createRoute(
-        visibility: infoRouteModel.type == VisibilityType.PRIVATE
-            ? ConstantKey.PRIVATE
-            : (infoRouteModel.type == VisibilityType.FRIENDS
-                ? ConstantKey.FRIENDS
-                : ConstantKey.PUBLIC),
-        height: infoRouteModel.height,
-        published: false,
-        name: infoRouteModel.routeName,
-        lHold: lHold,
-        hasCorner: infoRouteModel.isCorner,
-        authorGrade: infoRouteModel.grade);
-   await Dialogs.hideLoadingDialog();
+    var response = !isEdit
+        ? await userRepository.createRoute(
+            visibility: infoRouteModel.type == VisibilityType.PRIVATE
+                ? ConstantKey.PRIVATE
+                : (infoRouteModel.type == VisibilityType.FRIENDS
+                    ? ConstantKey.FRIENDS
+                    : ConstantKey.PUBLIC),
+            height: infoRouteModel.height,
+            published: false,
+            name: infoRouteModel.routeName,
+            lHold: lHold,
+            hasCorner: infoRouteModel.isCorner,
+            authorGrade: infoRouteModel.grade)
+        : await userRepository.editRoute(
+            routeId: routeModel?.id ?? '',
+            visibility: infoRouteModel.type == VisibilityType.PRIVATE
+                ? ConstantKey.PRIVATE
+                : (infoRouteModel.type == VisibilityType.FRIENDS
+                    ? ConstantKey.FRIENDS
+                    : ConstantKey.PUBLIC),
+            height: infoRouteModel.height,
+            published: false,
+            name: infoRouteModel.routeName,
+            lHold: lHold,
+            hasCorner: infoRouteModel.isCorner,
+            authorGrade: infoRouteModel.grade);
+    await Dialogs.hideLoadingDialog();
     if (response.data != null && response.error == null) {
       return RoutesModel.fromJson(response.data);
     } else {
