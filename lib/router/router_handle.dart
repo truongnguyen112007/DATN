@@ -41,7 +41,7 @@ var routeSearchHome = Handler(
 var routeNotifications =
     Handler(handlerFunc: (c, p) => const NotificationsPage());
 var routeLogin = Handler(
-    handlerFunc: (c, p) => Login(
+    handlerFunc: (c, p) => LoginPage(
           index: c!.settings!.arguments as int,
         ));
 var routeTabClimb = Handler(handlerFunc: (c, p) => const TabClimb());

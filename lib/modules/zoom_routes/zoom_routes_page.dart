@@ -276,7 +276,7 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
                   ),
                 ),
                 onTap: () =>
-                    _bloc.saveDaftOnClick(context, widget.infoRouteModel!))
+                    _bloc.saveDaftOnClick(context, widget.infoRouteModel,widget.model))
           ],
         ),
   );

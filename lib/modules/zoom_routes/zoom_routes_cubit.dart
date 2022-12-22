@@ -279,21 +279,28 @@ class ZoomRoutesCubit extends Cubit<ZoomRoutesState> {
     }
     return Offset(dx, dy);
   }
-
-  void saveDaftOnClick(
-      BuildContext context, InfoRouteModel infoRouteModel) async {
+  void saveDaftOnClick(BuildContext context,
+      InfoRouteModel? infoRouteModel,RoutesModel? routesModel) async {
     var routeModel = await Utils.saveDraft(
         context: context,
-        infoRouteModel: infoRouteModel,
+        infoRouteModel: infoRouteModel ??
+            InfoRouteModel(
+                grade: routesModel?.authorGrade ?? 0,
+                routeName: routesModel?.name ?? '',
+                isCorner: routesModel?.hasConner ?? false,
+                height: routesModel?.height ?? 9,
+                type: (routesModel?.visibility ?? 0) == ConstantKey.PRIVATE
+                    ? VisibilityType.PRIVATE
+                    : (routesModel?.visibility ?? 0) == ConstantKey.PUBLIC
+                    ? VisibilityType.PUBLIC
+                    : VisibilityType.FRIENDS),
         lHoldSet: state.lHoldSet,
         row: state.row,
         column: state.column);
     if (routeModel != null) {
       RouterUtils.openNewPage(
-          RoutesDetailPage(
-              isSaveDraft: true,
-              index: BottomNavigationConstant.TAB_ROUTES,
-              model: routeModel),
+          RoutesDetailPage(isSaveDraft: true,
+              index: BottomNavigationConstant.TAB_ROUTES, model: routeModel),
           context);
     }
   }

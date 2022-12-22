@@ -31,7 +31,9 @@ enum RoutesAction {
   ADD_FAVOURITE,
   ADD_TO_PLAY_LIST,
   EDIT,
-  PUBLISH
+  PUBLISH,
+  REMOVE_FROM_PLAYLIST,
+  REOMVE_FROM_FAV
 }
 
 class RoutesDetailPage extends StatefulWidget {
@@ -206,7 +208,7 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
                                       offset: const Offset(0, 0))
                                 ]),
                               ),
-                              actionWidget()
+                              actionWidget(state)
                             ],
                           ),
                 bloc: _bloc,
@@ -412,7 +414,7 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
 
   void _tapped(int index) {}
 
-  Widget actionWidget() => Container(
+  Widget actionWidget(RoutesDetailState state) => Container(
         height: 45.h,
         color: colorBlack,
         child: Row(
@@ -425,22 +427,29 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
             Expanded(
                 child: itemActionWidget(
                     LocaleKeys.share.tr(), Assets.svg.share, RoutesAction.SHARE)),
-            (widget.model.published ?? true) ?  Expanded(
-                child: itemActionWidget(
-                    LocaleKeys.copy.tr(), Assets.svg.copy, RoutesAction.COPY))
+            (state.model.published ?? true)
+                ? Expanded(
+                    child: itemActionWidget(LocaleKeys.copy.tr(),
+                        Assets.svg.copy, RoutesAction.COPY))
                 : Expanded(
                     child: itemActionWidget(LocaleKeys.edit.tr(),
                         Assets.svg.edit, RoutesAction.EDIT)),
-            (widget.model.published ?? true)
+            (state.model.published ?? true)
                 ? Expanded(
-                    child: itemActionWidget(LocaleKeys.add_favourite.tr(),
-                        Assets.svg.like, RoutesAction.ADD_FAVOURITE))
+                    child: !(state.model.favouriteIn ?? false)
+                        ? itemActionWidget(LocaleKeys.add_favourite.tr(),
+                            Assets.svg.like, RoutesAction.ADD_FAVOURITE)
+                        : itemActionWidget(LocaleKeys.removeFromFavorite.tr(),
+                            Assets.svg.liked, RoutesAction.REOMVE_FROM_FAV))
                 : Expanded(
                     child: itemActionWidget(LocaleKeys.publish.tr(),
                         Assets.svg.fly, RoutesAction.PUBLISH)),
             Expanded(
-                child: itemActionWidget(LocaleKeys.addToPlaylist.tr(),
-                    Assets.svg.addToPlayList, RoutesAction.ADD_TO_PLAY_LIST))
+                child: !(state.model.playlistIn ?? false)
+                    ? itemActionWidget(LocaleKeys.addToPlaylist.tr(),
+                        Assets.svg.addToPlayList, RoutesAction.ADD_TO_PLAY_LIST)
+                    : itemActionWidget(LocaleKeys.removeFromPlaylist.tr(),
+                        Assets.svg.removepl, RoutesAction.REMOVE_FROM_PLAYLIST))
           ],
         ),
       );

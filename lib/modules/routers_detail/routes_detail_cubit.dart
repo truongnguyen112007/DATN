@@ -8,6 +8,7 @@ import 'package:base_bloc/data/repository/user_repository.dart';
 import 'package:base_bloc/localization/locale_keys.dart';
 import 'package:base_bloc/modules/create_info_route/create_info_route_page.dart';
 import 'package:base_bloc/modules/home/home_page.dart';
+import 'package:base_bloc/modules/login/login.dart';
 import 'package:base_bloc/modules/routers_detail/routes_detail_page.dart';
 import 'package:base_bloc/modules/routers_detail/routes_detail_state.dart';
 import 'package:base_bloc/utils/log_utils.dart';
@@ -16,6 +17,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../components/dialogs.dart';
+import '../../data/eventbus/refresh_event.dart';
 import '../../data/globals.dart' as globals;
 import '../../data/model/holds_param.dart';
 import '../../router/router_utils.dart';
@@ -34,7 +36,9 @@ class RoutesDetailCubit extends Cubit<RoutesDetailState> {
   }
 
   Future<void> getRouteDetail(RoutesModel model) async {
-    var response = await userRepository.getRouteDetail(model.id ?? '');
+    var response = globals.isLogin
+        ? await userRepository.getRouteDetail(model.id ?? '')
+        : await userRepository.getRouteDetailAno(model.id ?? '');
     if (response.data != null && response.error == null) {
      getInfoHoldSet(RoutesModel.fromJson(response.data));
     } else {
@@ -59,6 +63,12 @@ class RoutesDetailCubit extends Cubit<RoutesDetailState> {
   }
 
   void handleAction(RoutesAction action, BuildContext context, VoidCallback? publishCallback) {
+    if(!globals.isLogin){
+      Dialogs.showLogInDiaLog(context,
+          loginOnClick: () async => RouterUtils.openNewPage(
+              const LoginPage(index: 0, isGoBack: true), context));
+      return;
+    }
     switch (action) {
       case RoutesAction.INFO:
         return;
@@ -69,13 +79,19 @@ class RoutesDetailCubit extends Cubit<RoutesDetailState> {
         shareRoutes(context, state.model);
         return;
       case RoutesAction.ADD_FAVOURITE:
-        addToFavorite(context, state.model);
+        addOrRemoveFavorite(context, state.model, true);
+        return;
+      case RoutesAction.REOMVE_FROM_FAV:
+        addOrRemoveFavorite(context, state.model, false);
         return;
       case RoutesAction.ADD_TO_PLAY_LIST:
-        addToPlaylist(context, state.model);
+        addOrRemoveToPlaylist(context, state.model, true);
+        return;
+      case RoutesAction.REMOVE_FROM_PLAYLIST:
+        addOrRemoveToPlaylist(context, state.model, false);
         return;
       case RoutesAction.PUBLISH:
-        publishOnClick(state.model, context,publishCallback);
+        publishOnClick(state.model, context, publishCallback);
         return;
     }
   }
@@ -91,30 +107,6 @@ class RoutesDetailCubit extends Cubit<RoutesDetailState> {
     toast('Share post success');
   }
 
-  void addToFavorite(BuildContext context, RoutesModel model) async {
-    Dialogs.showLoadingDialog(context);
-    var response =
-        await userRepository.addToFavorite(globals.userId, [model.id ?? '']);
-    await Dialogs.hideLoadingDialog();
-    if (response.error == null) {
-      toast(response.message);
-    } else {
-      toast(response.error.toString());
-    }
-  }
-
-  void addToPlaylist(BuildContext context, RoutesModel model) async {
-    Dialogs.showLoadingDialog(context);
-    var response =
-        await userRepository.addToFavorite(globals.userId, [model.id ?? '']);
-    await Dialogs.hideLoadingDialog();
-    if (response.error == null) {
-      toast(response.message);
-    } else {
-      toast(response.error.toString());
-    }
-  }
-
   void publishOnClick(RoutesModel model, BuildContext context,
       VoidCallback? publishCallback) async {
     Dialogs.showLoadingDialog(context);
@@ -128,7 +120,7 @@ class RoutesDetailCubit extends Cubit<RoutesDetailState> {
         authorGrade: model.authorGrade ?? 0);
     await Dialogs.hideLoadingDialog();
     if (response.statusCode == 200 && response.error == null) {
-      if (isSaveDraft) {
+      if (isSaveDraft) {// save draft khi tao route.
         RouterUtils.openNewPage(HomePage(), context, isReplace: true);
         return;
       }
@@ -137,10 +129,51 @@ class RoutesDetailCubit extends Cubit<RoutesDetailState> {
       toast(LocaleKeys.publish_routes_success.tr());
       emit(state.copyOf(
           model: model, timeStamp: DateTime.now().microsecondsSinceEpoch));
-
     } else {
       toast(response.error.toString());
     }
+  }
+
+  void addOrRemoveFavorite(
+      BuildContext context, RoutesModel model, bool isAdd) async {
+    Dialogs.showLoadingDialog(context);
+    var response = isAdd
+        ? await userRepository.addToFavorite(globals.userId, [model.id ?? ''])
+        : await userRepository.removeFromFavorite(model.id ?? '');
+    await Dialogs.hideLoadingDialog();
+    if (response.error == null) {
+      state.model.favouriteIn = isAdd;
+      emit(state.copyOf(timeStamp: DateTime.now().microsecondsSinceEpoch));
+      toast(response.message);
+      refreshRouteTab();
+    } else {
+      toast(response.error.toString());
+    }
+  }
+  void addOrRemoveToPlaylist(
+      BuildContext context,
+      RoutesModel model,
+      bool isAdd,
+      ) async {
+    Dialogs.showLoadingDialog(context);
+    var response = isAdd
+        ? await userRepository
+            .addToPlaylist(globals.playlistId, [model.id ?? ''])
+        : await userRepository.removeFromPlaylist(
+            globals.playlistId, model.id ?? '');
+    await Dialogs.hideLoadingDialog();
+    if (response.error == null) {
+      state.model.playlistIn =isAdd;
+      emit(state.copyOf(timeStamp: DateTime.now().microsecondsSinceEpoch));
+      refreshRouteTab();
+    } else {
+      toast(response.error.toString());
+    }
+  }
+
+  void refreshRouteTab() {
+    Utils.fireEvent(RefreshEvent(RefreshType.FAVORITE));
+    Utils.fireEvent(RefreshEvent(RefreshType.PLAYLIST));
   }
 
   void editRouteOnclick(BuildContext context, RoutesModel model) async {

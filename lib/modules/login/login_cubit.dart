@@ -20,8 +20,8 @@ import '../../localization/locale_keys.dart';
 
 class LoginCubit extends Cubit<LoginState> {
   var userRepository = UserRepository();
-
-  LoginCubit() : super(const LoginState(errorEmail: '', errorPassword: ''));
+  final bool isGoBack;
+  LoginCubit(this.isGoBack) : super(const LoginState(errorEmail: '', errorPassword: ''));
 
   void onClickLogin(String email, String password, BuildContext context) async {
     bool isValidEmail = checkValidEmail(email);
@@ -38,8 +38,13 @@ class LoginCubit extends Cubit<LoginState> {
         await getUserProfile(userModel);
         await checkPlaylistId(userModel);
         await Dialogs.hideLoadingDialog();
+        Utils.hideKeyboard(context);
         toast(LocaleKeys.login_success.tr());
-        RouterUtils.openNewPage(const HomePage(), context, isReplace: true);
+        if(isGoBack) {
+          RouterUtils.pop(context);
+        } else {
+          RouterUtils.openNewPage(const HomePage(), context, isReplace: true);
+        }
       }
     }
   }
