@@ -47,6 +47,7 @@ class ItemInfoRoutes extends StatelessWidget {
           key: Key('$index'),
           padding: const EdgeInsets.only(bottom: 10),
           child: InkWell(
+            onDoubleTap: () => doubleTapCallBack?.call(model),
               // onLongPress: () => onLongPress?.call(model),
               onTap: () => isShowSelect
                   ? filterOnclick?.call()
