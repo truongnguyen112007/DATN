@@ -48,7 +48,37 @@ class PlayListCubit extends Cubit<PlaylistState> {
     getPlayListById();
   }
 
-  void itemOnLongClick(BuildContext context, RoutesModel model, int index) =>
+  void doubleTabItemClick(BuildContext context, RoutesModel model, int index) =>  Utils.showActionDialog(context, (type) {
+    Navigator.pop(context);
+    switch (type) {
+      case ItemAction.REMOVE_FROM_PLAYLIST:
+        removeOrDeleteRoutes(context, model, index, true);
+        return;
+      case ItemAction.DELETE:
+        removeOrDeleteRoutes(context, model, index, false);
+        return;
+      case ItemAction.ADD_TO_FAVOURITE:
+        addOrRemoveFavorite(context, model, index, true);
+        return;
+      case ItemAction.REMOVE_FROM_FAVORITE:
+        addOrRemoveFavorite(context, model, index, false);
+        return;
+      case ItemAction.MOVE_TO_TOP:
+        moveItemToTop(context, model, index);
+        return;
+      case ItemAction.SHARE:
+        shareRoutes(context, model, index);
+        return;
+      case ItemAction.COPY:
+        copyRoutes(context, model, index);
+        return;
+      case ItemAction.EDIT:
+        editRoute(context, model, index);
+        return;
+    }
+  }, isPlaylist: true, model: model);
+
+  void itemDoubleClick(BuildContext context, RoutesModel model, int index) =>
       Utils.showActionDialog(context, (type) {
         Navigator.pop(context);
         switch (type) {
@@ -148,6 +178,8 @@ class PlayListCubit extends Cubit<PlaylistState> {
     }
   }
 
+
+
   void shareRoutes(BuildContext context, RoutesModel model, int index) async {
     Dialogs.showLoadingDialog(context);
     await Future.delayed(const Duration(seconds: 1));
@@ -226,4 +258,10 @@ class PlayListCubit extends Cubit<PlaylistState> {
     }
   }
 
+  void dragItem (int oldIndex, int newIndex,) {
+      if(newIndex > oldIndex) newIndex--;
+      var model = state.lRoutes.removeAt(oldIndex);
+      state.lRoutes.insert(newIndex, model);
+      emit(state.copyWith(timeStamp: DateTime.now().microsecondsSinceEpoch));
+  }
 }

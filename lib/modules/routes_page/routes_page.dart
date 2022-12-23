@@ -98,7 +98,7 @@ class _RoutesPageState extends State<RoutesPage>
                             state.status == RouteStatus.initial ||
                             state.status == RouteStatus.refresh)
                             ?  const Center(child: AppCircleLoading(),)
-                            : state.lRoutes.isEmpty
+                            : (state.status == FeedStatus.failure || state.lRoutes.isEmpty
                             ? Stack(
                           children: [
                             const Center(child: AppNotDataWidget()),
@@ -107,7 +107,7 @@ class _RoutesPageState extends State<RoutesPage>
                                 const AlwaysScrollableScrollPhysics())
                           ],
                         )
-                            : routesWidget(context, state);
+                            : routesWidget(context, state));
                       }),
                   onRefresh: () async => _bloc.onRefresh(),
                 ),
@@ -137,7 +137,7 @@ class _RoutesPageState extends State<RoutesPage>
                       if (element.isSelect == true)
                         lSelectRadioButton.add(element);
                     }
-                    _bloc.itemOnLongPress(
+                    _bloc.itemOnDoubleClick(
                         context,0,filterController,
                         isMultiSelect: true);
                   },
@@ -159,6 +159,7 @@ class _RoutesPageState extends State<RoutesPage>
 
   Widget routesWidget(BuildContext context, RoutesPageState state) =>
       ListView.builder(
+        controller: scrollController,
           padding: EdgeInsets.only(
               top: 10.h, left: contentPadding, right: contentPadding),
           physics: const AlwaysScrollableScrollPhysics(),
@@ -172,10 +173,10 @@ class _RoutesPageState extends State<RoutesPage>
             model: state.lRoutes[i],
             callBack: (model) {},
             index: i,
-            onLongPress: (model) {
+            doubleTapCallBack: (model) {
                     !isLogin
                         ? _bloc.none()
-                        : _bloc.itemOnLongPress(context, i, filterController,
+                        : _bloc.itemOnDoubleClick(context, i, filterController,
                             model: model);
                   },
                   filterOnclick: () {

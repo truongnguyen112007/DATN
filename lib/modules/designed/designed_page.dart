@@ -233,7 +233,7 @@ class _DesignedPageState extends State<DesignedPage>
               _bloc.filterItemOnclick(i);
             },
             index: i,
-            onLongPress: (model) =>
+            doubleTapCallBack: (model) =>
                 _bloc.itemOnLongClick(context, i, model: model),
             detailCallBack: (RoutesModel action) =>
                 _bloc.itemOnclick(context, state.lRoutes[i]),

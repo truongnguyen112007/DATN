@@ -472,14 +472,14 @@ class Utils {
                           : const SizedBox(),
                       checkPlaylists &&
                               !isPlaylist &&
-                              (!(model?.playlistIn ?? false))
+                              !((model?.playlistIn ?? false))
                           ? itemAction(
                               Assets.svg.addToPlayList,
                               LocaleKeys.addToPlaylist.tr(),
                               ItemAction.ADD_TO_PLAYLIST,
                               () => callBack.call(ItemAction.ADD_TO_PLAYLIST))
                           : const SizedBox(),
-                      !isDesigned && !isFavorite
+                      !isDesigned && (model?.playlistIn ?? false)
                           ? itemAction(
                               Assets.svg.removeFromPlaylist,
                               LocaleKeys.removeFromPlaylist.tr(),

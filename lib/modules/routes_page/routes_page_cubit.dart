@@ -34,8 +34,7 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
   getRoutes({bool isPaging = false}) {
     if (state.isReadEnd || state.isLoading) return;
     if (isPaging) {
-      emit(state.copyWith(isLoading: true));
-      search(state.keySearch, state.nextPage);
+      search(state.keySearch, state.nextPage, isPaging: true);
     } else {
       search(state.keySearch, state.nextPage);
     }
@@ -82,9 +81,7 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
     } else {
       toast(response.error.toString());
     }
-
   }
-
 
   void selectOnclick(bool isShowAdd) async {
     for (int i = 0; i < state.lRoutes.length; i++) {
@@ -96,7 +93,7 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
         isShowActionButton: false));
   }
 
-  void itemOnLongPress(
+  void itemOnDoubleClick(
       BuildContext context, int index, FilterController controller,
       {bool isMultiSelect = false, RoutesModel? model}) {
     Utils.hideKeyboard(context);
@@ -104,7 +101,7 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
     var countNotAddToPlaylist = 0;
     for (var element in state.lRoutes) {
       if (element.isSelect) {
-        if (element.playlistIn == true) {
+        if (element.playlistIn == true || element.favouriteIn == true) {
           isAddToPlaylist = true;
         } else {
           countNotAddToPlaylist++;
@@ -136,7 +133,8 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
             (!isAddToPlaylist || (isAddToPlaylist && countNotAddToPlaylist > 0))
                 ? true
                 : false,
-        isSearchRoute: true);
+        isSearchRoute: true,
+        model: model);
   }
 
   void none() {}
@@ -149,6 +147,7 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
         type: FilterType.SearchRoute,
         showResultButton: (model) {
           emit(state.copyWith(
+              nextPage: 1,
               keySearch: state.keySearch,
               typeSearchRoute: SearchRouteType.Filter,
               filter: model,
@@ -198,21 +197,21 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
   }
 
   void setKeySearch(String keySearch) {
-    emit(RoutesPageState(keySearch: keySearch));
+    emit(RoutesPageState(keySearch: keySearch, nextPage: 1));
     search(keySearch, 1);
   }
 
   void search(String keySearch, int nextPage, {bool isPaging = false}) async {
-    // if(keySearch == state.keySearch){
-    //   return;
-    // }
+    nextPage;
     if ((keySearch.isEmpty && state.typeSearchRoute == SearchRouteType.Sort) ||
         keySearch.isEmpty && state.filter == null && state.sort == null) {
       emit(RoutesPageState(
           isLoading: false, isReadEnd: false, status: RouteStatus.success));
       return;
     }
-    emit(state.copyWith(status: RouteStatus.search, isLoading: true));
+    emit(state.copyWith(
+        status: isPaging ? RouteStatus.success : RouteStatus.search,
+        isLoading: true));
     try {
       var response = await userRepository.searchRoute(
         value: keySearch,
@@ -237,13 +236,14 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
             : null,
       );
       var lResponse = routeModelBySearchFromJson(response.data);
-      if (response.data != null) {
+      if (response.data != null && response.error == null) {
         emit(state.copyWith(
             keySearch: keySearch,
             status: RouteStatus.success,
+            isReadEnd: lResponse.isEmpty,
             lRoutes: isPaging ? (state.lRoutes..addAll(lResponse)) : lResponse,
             isLoading: false,
-            nextPage: nextPage++));
+            nextPage: nextPage + 1));
       } else {
         emit(state.copyWith(
             isReadEnd: true, isLoading: false, status: RouteStatus.failure));
@@ -259,12 +259,10 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
     }
   }
 
-  void addToPlaylist(
-    BuildContext context,
-    FilterController controller, {
-    RoutesModel? model,
-    bool isMultiSelect = false,
-  }) async {
+  void addToPlaylist(BuildContext context, FilterController controller,
+      {RoutesModel? model,
+      bool isMultiSelect = false,
+      bool isAdd = false}) async {
     Dialogs.showLoadingDialog(context);
     var lRoutes = <String>[];
     var lIndex = [];
@@ -333,6 +331,7 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
         );
       } else {
         toast(response.message);
+        model?.playlistIn = false;
         emit(state.copyWith(
             timeStamp: DateTime.now().microsecondsSinceEpoch,
             isShowAdd: true,
@@ -413,6 +412,7 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
         );
       } else {
         toast(response.message);
+        model?.favouriteIn =false;
         emit(state.copyWith(
             timeStamp: DateTime.now().microsecondsSinceEpoch,
             isShowAdd: true,

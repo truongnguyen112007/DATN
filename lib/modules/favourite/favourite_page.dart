@@ -25,6 +25,7 @@ import '../../localization/locale_keys.dart';
 import '../../theme/app_styles.dart';
 import '../../utils/app_utils.dart';
 import '../../utils/log_utils.dart';
+import '../playlist/playlist_cubit.dart';
 
 class FavouritePage extends StatefulWidget {
   const FavouritePage({Key? key,}) : super(key: key);
@@ -39,6 +40,7 @@ class _FavouritePageState extends State<FavouritePage>
   var scrollController = ScrollController();
   var filterController = FilterController();
   StreamSubscription<RefreshEvent>? _refreshStream;
+  var speedDialController = SpeedDialController();
 
   @override
   void initState() {
@@ -107,6 +109,7 @@ class _FavouritePageState extends State<FavouritePage>
               ),
             ],
           ),
+          overLayWidget(),
           addWidget(context),
           BlocBuilder<FavouriteCubit, FavouriteState>(
             bloc: _bloc,
@@ -132,7 +135,7 @@ class _FavouritePageState extends State<FavouritePage>
                       if (element.isSelect == true)
                         lSelectRadioButton.add(element);
                     }
-                    _bloc.itemOnLongClick(
+                    _bloc.doubleOnClick(
                         context,0,filterController,
                         isMultiSelect: true);
                   },
@@ -152,6 +155,21 @@ class _FavouritePageState extends State<FavouritePage>
     );
   }
 
+  Widget overLayWidget() => BlocBuilder<FavouriteCubit, FavouriteState>(
+      bloc: _bloc,
+      builder: (c, state) => state.isOverlay
+          ? InkWell(
+        child: Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            color: colorBlack.withOpacity(0.8)),
+        onTap: () {
+          speedDialController.setToggle = true;
+          _bloc.showOverlay(false);
+        },
+      )
+          : const SizedBox());
+
   Widget addWidget(BuildContext context) =>
       BlocBuilder<FavouriteCubit, FavouriteState>(
         bloc: _bloc,
@@ -163,7 +181,9 @@ class _FavouritePageState extends State<FavouritePage>
               child: Align(
                 alignment: Alignment.bottomRight,
                 child: SpeedDial(
-                  controller: SpeedDialController(),
+                  onOpen: () => _bloc.showOverlay(true),
+                  onClose: () => _bloc.showOverlay(false),
+                  controller: speedDialController,
                   overlayColor: colorBlack,
                   overlayOpacity: 0.8,
                   gradientBoxShape: BoxShape.circle,
@@ -183,7 +203,7 @@ class _FavouritePageState extends State<FavouritePage>
                   buttonSize: const Size(56.0, 56.0),
                   childrenButtonSize: const Size(56.0, 56.0),
                   direction: SpeedDialDirection.up,
-                  renderOverlay: true,
+                  renderOverlay: false,
                   useRotationAnimation: true,
                   animationCurve: Curves.elasticInOut,
                   isOpenOnStart: false,
@@ -201,7 +221,9 @@ class _FavouritePageState extends State<FavouritePage>
                       ),
                       backgroundColor: Colors.white,
                       foregroundColor: Colors.white,
-                      onTap: () {},
+                      onTap: () {
+                        _bloc.searchOnclick(context);
+                      },
                     ),
                     SpeedDialChild(
                       labelWidget: AppText(
@@ -244,8 +266,8 @@ class _FavouritePageState extends State<FavouritePage>
               _bloc.filterItemOnclick(i);
             },
             index: i,
-            onLongPress: (model) =>
-                _bloc.itemOnLongClick(context,i,filterController, model: model),
+            doubleTapCallBack: (model) =>
+                _bloc.doubleOnClick(context,i,filterController, model: model),
             detailCallBack: (RoutesModel action) =>
                 _bloc.itemOnclick(context, state.lPlayList[i]),
           ),

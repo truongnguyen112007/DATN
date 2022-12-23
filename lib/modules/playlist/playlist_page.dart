@@ -13,8 +13,10 @@ import 'package:base_bloc/theme/colors.dart';
 import 'package:base_bloc/utils/app_utils.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 import '../../components/item_info_routes.dart';
@@ -43,7 +45,7 @@ class _PlayListPageState extends State<PlayListPage>
     _bloc = PlayListCubit();
     paging();
     _refreshStream = Utils.eventBus.on<RefreshEvent>().listen((event) {
-      if(event.type == RefreshType.PLAYLIST){
+      if (event.type == RefreshType.PLAYLIST) {
         _bloc.onRefresh();
       }
     });
@@ -65,24 +67,24 @@ class _PlayListPageState extends State<PlayListPage>
     return Stack(
       children: [
         RefreshIndicator(
-            child: BlocBuilder<PlayListCubit, PlaylistState>(
-                bloc: _bloc,
-                builder: (c, state) {
-                  return state.status == FeedStatus.initial ||
-                      state.status == FeedStatus.refresh
-                      ? const Center(child: AppCircleLoading())
-                      : (state.status == FeedStatus.failure ||
-                      state.lRoutes.isEmpty
-                      ? Center(
-                      child: Stack(children: [
-                        ListView(
-                            physics:
-                            const AlwaysScrollableScrollPhysics()),
-                        const AppNotDataWidget()
-                      ]))
-                      : playlistWidget(context, state));
-                }),
-            onRefresh: () async => _bloc.onRefresh()),
+          child: BlocBuilder<PlayListCubit, PlaylistState>(
+              bloc: _bloc,
+              builder: (c, state) {
+                return state.status == FeedStatus.initial ||
+                        state.status == FeedStatus.refresh
+                    ? const Center(child: AppCircleLoading())
+                    : (state.status == FeedStatus.failure ||
+                            state.lRoutes.isEmpty
+                        ? Center(
+                            child: Stack(children: [
+                            ListView(
+                                physics: const AlwaysScrollableScrollPhysics()),
+                            const AppNotDataWidget()
+                          ]))
+                        : playlistWidget(context, state));
+              }),
+          onRefresh: () async => _bloc.onRefresh(),
+        ),
         overLayWidget(),
         addWidget(context)
       ],
@@ -173,29 +175,34 @@ class _PlayListPageState extends State<PlayListPage>
       );
 
   Widget playlistWidget(BuildContext context, PlaylistState state) =>
-      ListView.builder(
-          controller: scrollController,
-          physics: const AlwaysScrollableScrollPhysics(),
-          padding: EdgeInsets.all(contentPadding),
-          itemBuilder: (c, i) => i == state.lRoutes.length
-              ? const Center(
-            child: AppCircleLoading(),
-          )
-              : ItemInfoRoutes(
-            key: Key('$i'),
-            context: context,
-            model: state.lRoutes[i],
-            callBack: (model) {},
-            index: i,
-            onLongPress: (model) =>
-                _bloc.itemOnLongClick(context, model, i),
-            detailCallBack: (RoutesModel action) =>
-                _bloc.itemOnclick(context, state.lRoutes[i]),
-          ),
-          itemCount:
-          !state.isReadEnd && state.lRoutes.isNotEmpty && state.isLoading
-              ? state.lRoutes.length + 1
-              : state.lRoutes.length);
+      ReorderableListView.builder(
+        scrollController: scrollController,
+        physics: const AlwaysScrollableScrollPhysics(),
+        padding:  EdgeInsets.only(left: 10.w,right: 10.w),
+        itemBuilder: (c, i) => i == state.lRoutes.length
+            ? Center(
+                key: Key("$i"),
+                child: const AppCircleLoading(),
+              )
+            : ItemInfoRoutes(
+                key: Key("$i"),
+                context: context,
+                model: state.lRoutes[i],
+                callBack: (model) {},
+                index: i,
+                doubleTapCallBack: (model) =>
+                    _bloc.itemDoubleClick(context, model, i),
+                detailCallBack: (RoutesModel action) =>
+                    _bloc.itemOnclick(context, state.lRoutes[i]),
+              ),
+        itemCount:
+            !state.isReadEnd && state.lRoutes.isNotEmpty && state.isLoading
+                ? state.lRoutes.length + 1
+                : state.lRoutes.length,
+        onReorder: (int oldIndex, int newIndex) {
+          _bloc.dragItem(oldIndex, newIndex);
+        },
+      );
 
   @override
   bool get wantKeepAlive => true;
