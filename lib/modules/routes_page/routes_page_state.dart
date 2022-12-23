@@ -20,7 +20,7 @@ class RoutesPageState extends Equatable {
   final String keySearch;
   SearchRouteType typeSearchRoute;
   late SortParam? sort;
-  int nextPage;
+  final int nextPage;
   late FilterParam? filter;
 
   RoutesPageState({

@@ -48,7 +48,7 @@ class PlayListCubit extends Cubit<PlaylistState> {
     getPlayListById();
   }
 
-  void itemOnLongClick(BuildContext context, RoutesModel model, int index) =>
+  void itemDoubleClick(BuildContext context, RoutesModel model, int index) =>
       Utils.showActionDialog(context, (type) {
         Navigator.pop(context);
         switch (type) {
@@ -149,6 +149,8 @@ class PlayListCubit extends Cubit<PlaylistState> {
     }
   }
 
+
+
   void shareRoutes(BuildContext context, RoutesModel model, int index) async {
     Dialogs.showLoadingDialog(context);
     await Future.delayed(const Duration(seconds: 1));
@@ -227,4 +229,10 @@ class PlayListCubit extends Cubit<PlaylistState> {
     }
   }
 
+  void dragItem (int oldIndex, int newIndex,) {
+      if(newIndex > oldIndex) newIndex--;
+      var model = state.lRoutes.removeAt(oldIndex);
+      state.lRoutes.insert(newIndex, model);
+      emit(state.copyWith(timeStamp: DateTime.now().microsecondsSinceEpoch));
+  }
 }

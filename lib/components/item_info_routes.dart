@@ -16,9 +16,10 @@ class ItemInfoRoutes extends StatelessWidget {
   final bool isShowSelect;
   final Function(RoutesModel model) callBack;
   final Function(RoutesModel action) detailCallBack;
-  final Function(RoutesModel model)? onLongPress;
+  // final Function(RoutesModel model)? onLongPress;
   final Function(RoutesModel model)? removeSelectCallBack;
   final VoidCallback? filterOnclick;
+  final Function(RoutesModel model)? doubleTapCallBack;
   final int index;
 
   const ItemInfoRoutes(
@@ -29,9 +30,10 @@ class ItemInfoRoutes extends StatelessWidget {
       required this.index,
       required this.detailCallBack,
       this.filterOnclick,
-      this.onLongPress,
+      // this.onLongPress,
       this.removeSelectCallBack,
-      this.isShowSelect = false})
+      this.isShowSelect = false,
+      this.doubleTapCallBack})
       : super(key: key);
 
   @override
@@ -45,7 +47,7 @@ class ItemInfoRoutes extends StatelessWidget {
           key: Key('$index'),
           padding: const EdgeInsets.only(bottom: 10),
           child: InkWell(
-              onLongPress: () => onLongPress?.call(model),
+              // onLongPress: () => onLongPress?.call(model),
               onTap: () => isShowSelect
                   ? filterOnclick?.call()
                   : detailCallBack.call(model),
@@ -87,9 +89,9 @@ class ItemInfoRoutes extends StatelessWidget {
                             child: model.hasConner == false
                                 ? Center(
                               child: AppText(
-                                        Utils.getGrade(model.authorGrade ?? 0),
-                                        style: googleFont.copyWith(
-                                            fontWeight: FontWeight.w700,
+                                  Utils.getGrade(model.authorGrade ?? 0),
+                                  style: googleFont.copyWith(
+                                      fontWeight: FontWeight.w700,
                                       color: colorText0,
                                       fontSize: 31.sp)),
                             )
@@ -100,18 +102,18 @@ class ItemInfoRoutes extends StatelessWidget {
                                     Utils.getGrade(
                                         model.authorGrade ?? 0),
                                     style: googleFont.copyWith(
-                                  fontWeight: FontWeight.w700,
-                                  color: colorText0,
-                                  fontSize: 31.sp),
-                                      textAlign: TextAlign.end,
-                                    ),
+                                        fontWeight: FontWeight.w700,
+                                        color: colorText0,
+                                        fontSize: 31.sp),
+                                    textAlign: TextAlign.end,
+                                  ),
                                   AppText(
-                                      " ${LocaleKeys.corner.tr()}",
-                                      textAlign: TextAlign.start,
-                                      style: typoW400.copyWith(
-                                          color: colorWhite
-                                              .withOpacity(0.87)),
-                                    ),
+                                    " ${LocaleKeys.corner.tr()}",
+                                    textAlign: TextAlign.start,
+                                    style: typoW400.copyWith(
+                                        color: colorWhite
+                                            .withOpacity(0.87)),
+                                  ),
                                 ],
                               ),
                             ),
@@ -137,60 +139,60 @@ class ItemInfoRoutes extends StatelessWidget {
                                   const SizedBox(height: 6),
                                   (model.published ?? true)
                                       ? Row(
-                                          children: [
-                                            AppText(
-                                              '${LocaleKeys.routes.tr()} ${model.height}m ',
+                                    children: [
+                                      AppText(
+                                        '${LocaleKeys.routes.tr()} ${model.height}m ',
+                                        style: googleFont.copyWith(
+                                            color: colorText0
+                                                .withOpacity(0.6),
+                                            fontSize: 13.sp),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            left: 5.w, right: 5.w),
+                                        child: const Icon(
+                                          Icons.circle_sharp,
+                                          size: 6,
+                                          color: colorWhite,
+                                        ),
+                                      ),
+                                      Expanded(
+                                          child: AppText(" ${model.name}",
+                                              overflow:
+                                              TextOverflow.ellipsis,
+                                              maxLine: 1,
                                               style: googleFont.copyWith(
                                                   color: colorText0
                                                       .withOpacity(0.6),
-                                                  fontSize: 13.sp),
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsets.only(
-                                                  left: 5.w, right: 5.w),
-                                              child: const Icon(
-                                                Icons.circle_sharp,
-                                                size: 6,
-                                                color: colorWhite,
-                                              ),
-                                            ),
-                                            Expanded(
-                                                child: AppText(" ${model.name}",
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    maxLine: 1,
-                                                    style: googleFont.copyWith(
-                                                        color: colorText0
-                                                            .withOpacity(0.6),
-                                                        fontSize: 13.sp)))
-                                          ],
-                                        )
+                                                  fontSize: 13.sp)))
+                                    ],
+                                  )
                                       : Row(
-                                          children: [
-                                            AppText(
-                                              '${LocaleKeys.routes.tr()} ${model.height}m ',
-                                              style: googleFont.copyWith(
-                                                  color: colorText0
-                                                      .withOpacity(0.6),
-                                                  fontSize: 13.sp),
-                                            ),
-                                            SizedBox(width: contentPadding),
-                                          Container(
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(20),
-                                                  color: colorWhite),
-                                              padding: const EdgeInsets.only(
-                                                  left: 7,
-                                                  right: 7,
-                                                  top: 2,
-                                                  bottom: 2),
-                                              child: AppText(
-                                                  LocaleKeys.draft.tr(),
-                                                  style: typoW400.copyWith(
-                                                      fontSize: 11.sp,
-                                                      color: colorText90)))
-                                        ])
+                                      children: [
+                                        AppText(
+                                          '${LocaleKeys.routes.tr()} ${model.height}m ',
+                                          style: googleFont.copyWith(
+                                              color: colorText0
+                                                  .withOpacity(0.6),
+                                              fontSize: 13.sp),
+                                        ),
+                                        SizedBox(width: contentPadding),
+                                        Container(
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                BorderRadius.circular(20),
+                                                color: colorWhite),
+                                            padding: const EdgeInsets.only(
+                                                left: 7,
+                                                right: 7,
+                                                top: 2,
+                                                bottom: 2),
+                                            child: AppText(
+                                                LocaleKeys.draft.tr(),
+                                                style: typoW400.copyWith(
+                                                    fontSize: 11.sp,
+                                                    color: colorText90)))
+                                      ])
                                 ],
                               ))
                         ],
