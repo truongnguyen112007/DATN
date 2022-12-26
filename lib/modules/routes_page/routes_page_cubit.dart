@@ -197,8 +197,8 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
   }
 
   void setKeySearch(String keySearch) {
-    emit(RoutesPageState(keySearch: keySearch, nextPage: 1));
-    search(keySearch, 1);
+    emit(RoutesPageState(keySearch: keySearch, nextPage: 0));
+    search(keySearch, 0);
   }
 
   void search(String keySearch, int nextPage, {bool isPaging = false}) async {
