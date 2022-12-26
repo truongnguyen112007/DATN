@@ -45,7 +45,7 @@ class ItemInfoRoutes extends StatelessWidget {
           height: 72.h,
           color: colorGreyBackground,
           key: Key('$index'),
-          padding: const EdgeInsets.only(bottom: 10),
+          padding: const EdgeInsets.only(bottom: 5,top:5),
           child: InkWell(
             onDoubleTap: () => doubleTapCallBack?.call(model),
               // onLongPress: () => onLongPress?.call(model),
