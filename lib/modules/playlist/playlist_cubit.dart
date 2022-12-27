@@ -233,6 +233,22 @@ class PlayListCubit extends Cubit<PlaylistState> {
       if(newIndex > oldIndex) newIndex--;
       var model = state.lRoutes.removeAt(oldIndex);
       state.lRoutes.insert(newIndex, model);
-      emit(state.copyWith(timeStamp: DateTime.now().microsecondsSinceEpoch));
+      emit(state.copyWith(timeStamp: DateTime.now().microsecondsSinceEpoch,isChooseDragDrop: true));
   }
+
+  void closeDragDrop () {
+    emit(state.copyWith(
+      isChooseDragDrop: false
+    ));
+  }
+
+  void saveDragDrop () {
+    emit(state.copyWith(
+      isChooseDragDrop: false
+    ));
+  }
+
+
+
+
 }

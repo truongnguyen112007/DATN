@@ -68,6 +68,7 @@ class _RoutesPageState extends State<RoutesPage>
       if (maxScroll - currentScroll <= 200) {
         _bloc.getRoutes(isPaging: true);
       }
+      Utils.hideKeyboard(context);
     });
   }
 

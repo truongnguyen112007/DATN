@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../data/model/profile_model.dart';
 import '../../../../localization/locale_keys.dart';
+import '../../../../utils/storage_utils.dart';
 import 'edit_account_state.dart';
 
 enum AccountFieldType {
@@ -40,20 +41,23 @@ class EditAccountCubit extends Cubit<EditAccountState> {
   EditAccountCubit()
       : super(const EditAccountState(status: EditAccountStatus.initial)) {
     if (state.status == EditAccountStatus.initial) {}
+    getData();
+  }
+
+  void getData()async{
+    var userModel = await StorageUtils.getUserProfile();
+    emit(EditAccountState(model: userModel));
   }
 
   Map<AccountFieldType, String?> commonFieldList(BuildContext context) => {
-        AccountFieldType.NICKNAME: getCurrentUser().nickname,
-        AccountFieldType.NAME: getCurrentUser().name,
-        AccountFieldType.SURNAME: getCurrentUser().surname,
-        AccountFieldType.TYPE: getCurrentUser().type,
-        AccountFieldType.HEIGHT: getCurrentUser().height,
+        AccountFieldType.NICKNAME:state.model?.username,
+        AccountFieldType.NAME: state.model?.firstName,
+        AccountFieldType.SURNAME: state.model?.lastName,
+        AccountFieldType.TYPE: state.model?.role,
+        AccountFieldType.HEIGHT: "170",
         AccountFieldType.FAVORITE_ROUTE_GRADE:
-            getCurrentUser().favoriteRouteGrade,
-        AccountFieldType.EMAIL: getCurrentUser().email,
+            "5A+",
+        AccountFieldType.EMAIL: state.model?.email,
       };
 
-  ProfileModel getCurrentUser() {
-    return ProfileModel.fakeCurrentUser();
-  }
 }

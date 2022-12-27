@@ -25,6 +25,7 @@ import '../../data/eventbus/refresh_event.dart';
 import '../../data/model/routes_model.dart';
 import '../../localization/locale_keys.dart';
 import '../../router/router.dart';
+import '../../utils/log_utils.dart';
 
 class PlayListPage extends StatefulWidget {
   const PlayListPage({Key? key}) : super(key: key);
@@ -66,24 +67,32 @@ class _PlayListPageState extends State<PlayListPage>
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        RefreshIndicator(
-          child: BlocBuilder<PlayListCubit, PlaylistState>(
-              bloc: _bloc,
-              builder: (c, state) {
-                return state.status == FeedStatus.initial ||
-                        state.status == FeedStatus.refresh
-                    ? const Center(child: AppCircleLoading())
-                    : (state.status == FeedStatus.failure ||
-                            state.lRoutes.isEmpty
-                        ? Center(
-                            child: Stack(children: [
-                            ListView(
-                                physics: const AlwaysScrollableScrollPhysics()),
-                            const AppNotDataWidget()
-                          ]))
-                        : playlistWidget(context, state));
-              }),
-          onRefresh: () async => _bloc.onRefresh(),
+        Column(
+          children: [
+            chooseDragDrop(),
+            Expanded(
+              child: RefreshIndicator(
+                child: BlocBuilder<PlayListCubit, PlaylistState>(
+                    bloc: _bloc,
+                    builder: (c, state) {
+                      return state.status == FeedStatus.initial ||
+                              state.status == FeedStatus.refresh
+                          ? const Center(child: AppCircleLoading())
+                          : (state.status == FeedStatus.failure ||
+                                  state.lRoutes.isEmpty
+                              ? Center(
+                                  child: Stack(children: [
+                                  ListView(
+                                      physics:
+                                          const AlwaysScrollableScrollPhysics()),
+                                  const AppNotDataWidget()
+                                ]))
+                              : playlistWidget(context, state));
+                    }),
+                onRefresh: () async => _bloc.onRefresh(),
+              ),
+            ),
+          ],
         ),
         overLayWidget(),
         addWidget(context)
@@ -178,7 +187,7 @@ class _PlayListPageState extends State<PlayListPage>
       ReorderableListView.builder(
         scrollController: scrollController,
         physics: const AlwaysScrollableScrollPhysics(),
-        padding:  EdgeInsets.only(left: 10.w,right: 10.w),
+        padding: EdgeInsets.only(left: 10.w, right: 10.w),
         itemBuilder: (c, i) => i == state.lRoutes.length
             ? Center(
                 key: Key("$i"),
@@ -203,6 +212,41 @@ class _PlayListPageState extends State<PlayListPage>
           _bloc.dragItem(oldIndex, newIndex);
         },
       );
+
+  Widget chooseDragDrop() {
+    return BlocBuilder<PlayListCubit, PlaylistState>(
+      bloc: _bloc,
+      builder: (c, s) => Visibility(
+        visible: s.isChooseDragDrop,
+        child: Container(
+          height: 30.h,
+          color: colorBlack,
+          child: Padding(
+            padding: EdgeInsets.only(left: 10.w, right: 10.w),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                InkWell(
+                  onTap: () => _bloc.closeDragDrop(),
+                  child: const Icon(
+                    Icons.close,
+                    color: colorWhite,
+                  ),
+                ),
+                InkWell(
+                  onTap: () => _bloc.saveDragDrop(),
+                  child: const Icon(
+                    Icons.check,
+                    color: colorWhite,
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 
   @override
   bool get wantKeepAlive => true;

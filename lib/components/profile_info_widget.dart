@@ -1,5 +1,6 @@
 import 'package:base_bloc/data/globals.dart';
 import 'package:base_bloc/data/model/profile_model.dart';
+import 'package:base_bloc/data/model/user_profile_model.dart';
 import 'package:base_bloc/theme/app_styles.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,7 +11,7 @@ import '../theme/colors.dart';
 import 'app_text.dart';
 
 class ProfileInfoWidget extends StatelessWidget {
-  final ProfileModel profileModel;
+  final UserProfileModel profileModel;
   final VoidCallback onPressEditProfile;
   static double _avatarSize = 56.w;
 
@@ -37,7 +38,7 @@ class ProfileInfoWidget extends StatelessWidget {
                   backgroundColor: Colors.transparent,
                   child: ClipOval(
                       child: Image.network(
-                    profileModel.avatar ?? '',
+                    profileModel.photo ?? '',
                     fit: BoxFit.cover,
                     width: _avatarSize,
                     height: _avatarSize,
@@ -45,12 +46,21 @@ class ProfileInfoWidget extends StatelessWidget {
                 ),
                 SizedBox(width: 2 * contentPadding),
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  AppText(profileModel.name ?? '',
-                      style: googleFont.copyWith(
-                          color: colorMainText,
-                          fontSize: 22.w,
-                          fontWeight: FontWeight.w600)),
-                  AppText(profileModel.type ?? '',
+                  Row(
+                    children: [
+                      AppText(profileModel.firstName ?? '',
+                          style: googleFont.copyWith(
+                              color: colorMainText,
+                              fontSize: 22.w,
+                              fontWeight: FontWeight.w600)),
+                      AppText(profileModel.lastName ?? '',
+                          style: googleFont.copyWith(
+                              color: colorMainText,
+                              fontSize: 22.w,
+                              fontWeight: FontWeight.w600)),
+                    ],
+                  ),
+                  AppText(profileModel.role ?? '',
                       style: googleFont.copyWith(
                           color: colorSubText,
                           fontSize: 14.w,
@@ -85,7 +95,7 @@ class ProfileInfoWidget extends StatelessWidget {
                         color: colorMainText,
                         fontSize: 10.w,
                         fontWeight: FontWeight.w600)),
-                AppText(profileModel.passed.toString(),
+                AppText("32",
                     style: googleFont.copyWith(
                         color: colorMainText,
                         fontSize: 24.w,
@@ -101,7 +111,7 @@ class ProfileInfoWidget extends StatelessWidget {
                         color: colorMainText,
                         fontSize: 10.w,
                         fontWeight: FontWeight.w600)),
-                AppText(profileModel.designed.toString(),
+                AppText("12",
                     style: googleFont.copyWith(
                         color: colorMainText,
                         fontSize: 24.w,
@@ -117,7 +127,7 @@ class ProfileInfoWidget extends StatelessWidget {
                         color: colorMainText,
                         fontSize: 10.w,
                         fontWeight: FontWeight.w600)),
-                AppText(profileModel.friends.toString(),
+                AppText("24",
                     style: googleFont.copyWith(
                         color: colorMainText,
                         fontSize: 24.w,

@@ -3,15 +3,23 @@ import 'package:base_bloc/modules/tab_profile/edit_settings/edit_settings_page.d
 import 'package:base_bloc/modules/tab_profile/tab_profile.dart';
 import 'package:base_bloc/modules/tab_profile/tab_profile_state.dart';
 import 'package:base_bloc/router/router_utils.dart';
+import 'package:base_bloc/utils/storage_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../config/constant.dart';
+import '../../data/model/user_profile_model.dart';
 import '../../router/router.dart';
 
 class TabProfileCubit extends Cubit<TabProfileState> {
-  TabProfileCubit() : super(const TabProfileState());
+  TabProfileCubit() : super( TabProfileState()){
+    getData();
+  }
 
+  void getData() async{
+    var userModel = await StorageUtils.getUserProfile();
+    emit(TabProfileState(model: userModel ));
+  }
   void didPressEditProfile(BuildContext context) {
     RouterUtils.openNewPage(const EditSettingsPage(), context);
   }
@@ -33,8 +41,4 @@ class TabProfileCubit extends Cubit<TabProfileState> {
       context: context,
       route: ProfileRouters.notifications,
       argument: BottomNavigationConstant.TAB_PROFILE);
-
-  ProfileModel getCurrentUser() {
-    return ProfileModel.fakeCurrentUser();
-  }
 }
