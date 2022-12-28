@@ -32,7 +32,7 @@ Future<void> configApp() async {
   HttpOverrides.global = MyHttpOverrides();
   configOrientation();
   await GetStorage.init();
-  await StorageUtils.getInfo();
+  await StorageUtils.getUser();
   await StorageUtils.getUserProfile();
   await DeviceUtils.getInfo();
   // await dotenv.load(fileName: '.env.dev');
