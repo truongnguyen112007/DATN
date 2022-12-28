@@ -84,7 +84,7 @@ class RouterUtils {
           {dynamic result, bool isHideBottomBar = false}) =>
       Navigator.pop(context, result);
 
-  static dynamic openNewPage(Widget newPage, BuildContext context,
+  static dynamic openNewPage(Widget newPage, BuildContext? context,
       {NewPageType? type, bool isReplace = false}) async {
     Utils.fireEvent(NewPageEvent(newPage, type: type, isReplace: isReplace));
   }

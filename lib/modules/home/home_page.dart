@@ -8,6 +8,7 @@ import 'package:base_bloc/data/eventbus/hold_set_event.dart';
 import 'package:base_bloc/data/eventbus/new_page_event.dart';
 import 'package:base_bloc/data/eventbus/switch_tab_event.dart';
 import 'package:base_bloc/modules/home/home_state.dart';
+import 'package:base_bloc/modules/login/login.dart';
 import 'package:base_bloc/modules/root/root_climb_page.dart';
 import 'package:base_bloc/modules/root/root_home_page.dart';
 import 'package:base_bloc/modules/root/root_profile_page.dart';
@@ -15,6 +16,7 @@ import 'package:base_bloc/modules/root/root_reservation_page.dart';
 import 'package:base_bloc/router/router_utils.dart';
 import 'package:base_bloc/theme/colors.dart';
 import 'package:base_bloc/utils/app_utils.dart';
+import 'package:base_bloc/utils/log_utils.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,7 +29,9 @@ import '../root/root_routes_page.dart';
 import 'home_cubit.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  final bool isLogin;
+
+  const HomePage({Key? key, this.isLogin = false}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -66,6 +70,14 @@ class _HomePageState extends State<HomePage> {
         }
       }
     });
+    if (widget.isLogin) {
+      Timer(const Duration(seconds: 1), () {
+        RouterUtils.pushTo(
+            context,
+            const LoginPage(
+                index: BottomNavigationConstant.TAB_HOME, isGoBack: true));
+      });
+    }
     super.initState();
   }
 

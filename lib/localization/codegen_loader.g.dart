@@ -223,6 +223,7 @@ class Applocalizations extends AssetLoader {
     "draft": "Draft",
     "publish_routes_success": "Publish route success",
     "you_need_login_to_use_this_service": "You need login to use this service",
+    'token_expired_please_login': "Session expired please login again"
   };
 
   static const Map<String, Map<String, dynamic>> mapLocales = {

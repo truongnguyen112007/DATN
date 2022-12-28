@@ -266,4 +266,5 @@ abstract class LocaleKeys {
   static const draft = 'draft';
   static const publish_routes_success = 'publish_routes_success';
   static const you_need_login_to_use_this_service = 'you_need_login_to_use_this_service';
+  static const token_expired_please_login = 'token_expired_please_login';
 }
