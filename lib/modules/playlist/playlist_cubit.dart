@@ -238,7 +238,8 @@ class PlayListCubit extends Cubit<PlaylistState> {
 
   void closeDragDrop () {
     emit(state.copyWith(
-      isChooseDragDrop: false
+      isChooseDragDrop: false,
+      isDrag: false
     ));
   }
 
@@ -248,7 +249,9 @@ class PlayListCubit extends Cubit<PlaylistState> {
     ));
   }
 
-
-
+  void setDrag(bool isDrag){
+    if(isDrag && state.isDrag) return;
+    emit(state.copyWith(isDrag: isDrag));
+  }
 
 }

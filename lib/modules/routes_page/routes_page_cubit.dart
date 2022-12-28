@@ -147,7 +147,7 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
         type: FilterType.SearchRoute,
         showResultButton: (model) {
           emit(state.copyWith(
-              nextPage: 1,
+              nextPage: 0,
               keySearch: state.keySearch,
               typeSearchRoute: SearchRouteType.Filter,
               filter: model,

@@ -11,15 +11,17 @@ class PlaylistState extends Equatable {
   final bool isLoading;
   final int? timeStamp;
   final int nextPage;
+  final bool isDrag;
   final bool isOverlay;
   final bool isChooseDragDrop;
 
-   PlaylistState(
+  PlaylistState(
       {this.status = FeedStatus.initial,
       this.lRoutes = const <RoutesModel>[],
       this.lPlayList = const <PlaylistModel>[],
       this.isReadEnd = false,
       this.isLoading = true,
+      this.isDrag = false,
       this.isOverlay = false,
       this.nextPage = 1,
       this.timeStamp,
@@ -33,6 +35,7 @@ class PlaylistState extends Equatable {
           bool? isOverlay,
           int? timeStamp,
           int? nextPage,
+          bool? isDrag,
           bool? isLoading,
           bool? isChooseDragDrop}) =>
       PlaylistState(
@@ -41,11 +44,20 @@ class PlaylistState extends Equatable {
           timeStamp: timeStamp ?? this.timeStamp,
           isLoading: isLoading ?? this.isLoading,
           status: status ?? this.status,
+          isDrag: isDrag ?? this.isDrag,
           lRoutes: lRoutes ?? this.lRoutes,
           isReadEnd: isReadEnd ?? this.isReadEnd,
-         isChooseDragDrop: isChooseDragDrop ?? this.isChooseDragDrop);
+          isChooseDragDrop: isChooseDragDrop ?? this.isChooseDragDrop);
 
   @override
-  List<Object?> get props =>
-      [status, lRoutes, isReadEnd, isLoading, timeStamp, isOverlay,isChooseDragDrop];
+  List<Object?> get props => [
+        status,
+        lRoutes,
+        isReadEnd,
+        isLoading,
+        timeStamp,
+        isOverlay,
+        isChooseDragDrop,
+        isDrag
+      ];
 }

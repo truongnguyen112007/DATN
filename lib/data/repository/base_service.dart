@@ -13,7 +13,7 @@ class BaseService {
   var baseUrl = '';
 
   void initProvider() {
-    baseUrl = ConstantKey.BASE_URL/*'http://83.171.249.207/api/v1/'*/;
+    baseUrl = ConstantKey.BASE_URL /*'http://83.171.249.207/api/v1/'*/;
   }
 
   // ignore: non_constant_identifier_names
@@ -136,6 +136,7 @@ class BaseService {
   // ignore: non_constant_identifier_names
   Future<ApiResult> POST(String url, dynamic body,
       {bool isMultipart = false,
+      bool isFullResponse = false,
       bool isNewFormat = false,
       bool isXSub = false}) async {
     if (await ConnectionUtils.isConnect() == false) {
@@ -154,7 +155,7 @@ class BaseService {
               'Content-Type': 'application/json',
               'X-SUB': globals.userId
             }
-          :{
+          : {
               'Authorization': 'Bearer ${globals.accessToken}',
               'Host': 'auth.com',
               'lang': globals.lang,
@@ -172,7 +173,7 @@ class BaseService {
       if (response.data != null) {
         var result = response.data;
         return ApiResult<dynamic>(
-            data: result['data'] ?? result['hits'],
+            data: isFullResponse ? result : result['data'] ?? result['hits'],
             statusCode: response.statusCode,
             message: response.data['meta'] != null
                 ? response.data['meta']['message'] ?? ''

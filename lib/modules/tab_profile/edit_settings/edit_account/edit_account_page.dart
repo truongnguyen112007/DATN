@@ -128,35 +128,39 @@ class _EditAccountState extends BaseState<EditAccountPage>
                   fontSize: 10.w,
                   fontWeight: FontWeight.w500,
                   color: colorSubText)),
-          Row(
-            children: [
-              Expanded(
-                  child: TextField(
-                controller: textEditingController,
-                style: googleFont.copyWith(
-                    fontSize: 22.w,
-                    fontWeight: FontWeight.w600,
-                    color: colorMainText),
-                cursorColor: colorMainText,
-                decoration: InputDecoration(
-                  hintText: '',
-                  border: InputBorder.none,
+          BlocBuilder<EditAccountCubit, EditAccountState>(
+            bloc: _bloc,
+            builder: (c,s) =>
+             Row(
+              children: [
+                Expanded(
+                    child: TextField(
+                  controller: textEditingController,
+                  style: googleFont.copyWith(
+                      fontSize: 22.w,
+                      fontWeight: FontWeight.w600,
+                      color: colorMainText),
+                  cursorColor: colorMainText,
+                  decoration: InputDecoration(
+                    hintText: s.model?.username,
+                    border: InputBorder.none,
+                  ),
+                )),
+                Transform.scale(
+                  scale: 0.7,
+                  child: IconButton(
+                    onPressed: () {},
+                    splashRadius: 24.w,
+                    icon: index % 2 == 0
+                        ? Assets.png.icFriends.image(color: Colors.white70)
+                        : index % 3 == 0
+                            ? Assets.png.icPrivate.image(color: Colors.white70)
+                            : Assets.png.icPublic.image(color: Colors.white70),
+                  ),
                 ),
-              )),
-              Transform.scale(
-                scale: 0.7,
-                child: IconButton(
-                  onPressed: () {},
-                  splashRadius: 24.w,
-                  icon: index % 2 == 0
-                      ? Assets.png.icFriends.image(color: Colors.white70)
-                      : index % 3 == 0
-                          ? Assets.png.icPrivate.image(color: Colors.white70)
-                          : Assets.png.icPublic.image(color: Colors.white70),
-                ),
-              ),
-              SizedBox(width: 8.w)
-            ],
+                SizedBox(width: 8.w)
+              ],
+            ),
           ),
           Divider(
             color: colorDivider,

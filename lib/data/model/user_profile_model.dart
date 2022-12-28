@@ -26,6 +26,7 @@ class UserProfileModel {
     this.description,
     this.modified,
     this.created,
+    this.height
   });
 
   int? id;
@@ -44,6 +45,8 @@ class UserProfileModel {
   dynamic? description;
   DateTime? modified;
   DateTime? created;
+  dynamic? height;
+
 
   factory UserProfileModel.fromJson(Map<String, dynamic> json) => UserProfileModel(
         id: json["id"],
@@ -62,6 +65,7 @@ class UserProfileModel {
         description: json["description"],
         modified: DateTime.parse(json["modified"]),
         created: DateTime.parse(json["created"]),
+        height: json["height"]
       );
 
   Map<String, dynamic> toJson() => {
@@ -81,5 +85,7 @@ class UserProfileModel {
         "description": description,
         "modified": modified?.toIso8601String(),
         "created": created?.toIso8601String(),
+        "height" : height
       };
 }
+
