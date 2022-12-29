@@ -56,6 +56,8 @@ class UserRepository extends BaseService {
   Future<ApiResult> moveToTop(String playlistId, String routeId) async =>
       await PUT('playlistdetail/$playlistId', body: {ApiKey.route_id: routeId});
 
+  Future<ApiResult> dragAndDrop(String playlistId,List<String> listId) async => await PUT("playlistdetail/$playlistId",body: listId);
+
   Future<ApiResult> getFavorite(
       {FavType? type,
       int? userId,

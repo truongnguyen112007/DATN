@@ -51,7 +51,7 @@ class ItemInfoRoutes extends StatelessWidget {
           padding: const EdgeInsets.only(bottom: 5, top: 5),
           child: !isDrag
               ? InkWell(
-                  onLongPress: onLongPressCallBack?.call(model),
+                  onLongPress: () => onLongPressCallBack?.call(model),
                   onDoubleTap: () => doubleTapCallBack?.call(model),
                   onTap: () => isShowSelect
                       ? filterOnclick?.call()

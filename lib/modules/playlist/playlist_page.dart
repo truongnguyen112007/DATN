@@ -183,7 +183,6 @@ class _PlayListPageState extends State<PlayListPage>
       );
 
   Widget playlistWidget(BuildContext context, PlaylistState state){
-    logE("Ddgf ${state.isDrag}");
    return ReorderableListView.builder(
       scrollController: scrollController,
       physics: const AlwaysScrollableScrollPhysics(),
@@ -237,7 +236,7 @@ class _PlayListPageState extends State<PlayListPage>
                   ),
                 ),
                 InkWell(
-                  onTap: () => _bloc.saveDragDrop(),
+                  onTap: () => _bloc.saveDragDrop(context),
                   child: const Icon(
                     Icons.check,
                     color: colorWhite,
