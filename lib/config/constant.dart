@@ -54,6 +54,7 @@ class ApiKey {
   static const author_grade = 'author_grade';
   static const published = 'published';
   static const visibility = 'visibility';
+  static const border = 'border';
 }
 
 class BottomNavigationConstant{

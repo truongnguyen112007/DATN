@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:base_bloc/utils/log_utils.dart';
+import 'package:base_bloc/utils/storage_utils.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:logger/logger.dart';
@@ -212,7 +214,9 @@ class BaseService {
     }
     print('============================================================');
     print('[PUT] ' + baseUrl + url);
-    print('[PARAMS] ' + body.toString());
+    print("Bearer " + globals.accessToken);
+    print('[PARAMS] ' + jsonEncode(body).toString());
+   var userCache =await StorageUtils.getInfo();
     try {
       final response = await Dio()
           .put(baseUrl + url,

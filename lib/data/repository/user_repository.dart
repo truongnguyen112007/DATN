@@ -40,7 +40,7 @@ class UserRepository extends BaseService {
       await GET('playlist/$id?start=$nextPage&count=${ApiKey.limit_offset}');
 
   Future<ApiResult> getRoute({int nextPage = 0}) async =>
-      await GET('route?start=$nextPage&count=${ApiKey.limit_offset}');
+      await GET('route?start=$nextPage&count=100000');
 
   Future<ApiResult> deleteRoute(String routeId) async =>
       await DELETE('route/$routeId');
@@ -56,7 +56,10 @@ class UserRepository extends BaseService {
   Future<ApiResult> moveToTop(String playlistId, String routeId) async =>
       await PUT('playlistdetail/$playlistId', body: {ApiKey.route_id: routeId});
 
-  Future<ApiResult> dragAndDrop(String playlistId,List<String> listId) async => await PUT("playlistdetail/$playlistId",body: listId);
+  Future<ApiResult> dragAndDrop(
+          String playlistId, String endId, List<String> listId) async =>
+      await PUT("playlistdetail/$playlistId",
+          body: {ApiKey.border: endId, ApiKey.route_ids: listId});
 
   Future<ApiResult> getFavorite(
       {FavType? type,

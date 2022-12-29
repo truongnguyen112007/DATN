@@ -272,9 +272,19 @@ class PlayListCubit extends Cubit<PlaylistState> {
     for (int i = state.startIndex; i <= state.endIndex; i++) {
       lId.add(state.lRoutes[i].id ?? "");
     }
-    var response = await userRepository.dragAndDrop(globals.playlistId, lId);
+    var response = await userRepository.dragAndDrop(
+        globals.playlistId,
+        state.endIndex == state.lRoutes.length
+            ? (state.lRoutes.last.id ?? '')
+            : state.lRoutes[state.endIndex].id ?? '',
+        lId);
     Dialogs.hideLoadingDialog();
-    emit(state.copyWith(isChooseDragDrop: false, isDrag: false));
+    emit(state.copyWith(
+      isChooseDragDrop: false,
+      isDrag: false,
+      startIndex: 1000000,
+      endIndex: 0,
+    ));
   }
 
   void setDrag(bool isDrag) {
