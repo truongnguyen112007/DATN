@@ -6,6 +6,7 @@ import 'package:equatable/equatable.dart';
 class PlaylistState extends Equatable {
   final FeedStatus status;
   final List<RoutesModel> lRoutes;
+  final List<RoutesModel> lRoutesCache;
   final List<PlaylistModel> lPlayList;
   final bool isReadEnd;
   final bool isLoading;
@@ -20,6 +21,7 @@ class PlaylistState extends Equatable {
   PlaylistState(
       {this.status = FeedStatus.initial,
       this.lRoutes = const <RoutesModel>[],
+      this.lRoutesCache = const <RoutesModel>[],
       this.lPlayList = const <PlaylistModel>[],
       this.isReadEnd = false,
       this.isLoading = true,
@@ -34,6 +36,7 @@ class PlaylistState extends Equatable {
   PlaylistState copyWith(
           {FeedStatus? status,
           List<RoutesModel>? lRoutes,
+          List<RoutesModel>? lRoutesCache,
           List<PlaylistModel>? lPlaylist,
           bool? isReadEnd,
           bool? isOverlay,
@@ -52,6 +55,7 @@ class PlaylistState extends Equatable {
           status: status ?? this.status,
           isDrag: isDrag ?? this.isDrag,
           lRoutes: lRoutes ?? this.lRoutes,
+          lRoutesCache: lRoutesCache ?? this.lRoutesCache,
           isReadEnd: isReadEnd ?? this.isReadEnd,
           isChooseDragDrop: isChooseDragDrop ?? this.isChooseDragDrop,
           startIndex: startIndex ?? this.startIndex,
@@ -68,6 +72,7 @@ class PlaylistState extends Equatable {
         isChooseDragDrop,
         isDrag,
         startIndex,
-        endIndex
+        endIndex,
+        lRoutesCache
       ];
 }

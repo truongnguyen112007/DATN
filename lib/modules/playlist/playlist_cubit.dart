@@ -219,8 +219,10 @@ class PlayListCubit extends Cubit<PlaylistState> {
             isReadEnd: lResponse.isEmpty,
             nextPage: state.nextPage + 1,
             isLoading: false,
+            lRoutesCache:
+               isPaging ? (state.lRoutesCache..addAll(lResponse)) : lResponse,
             lRoutes:
-            isPaging ? (state.lRoutes..addAll(lResponse)) : lResponse));
+                isPaging ? (state.lRoutes..addAll(lResponse)) : lResponse));
       } else {
         emit(state.copyWith(
             isReadEnd: true, isLoading: false, status: FeedStatus.failure));
@@ -251,19 +253,21 @@ class PlayListCubit extends Cubit<PlaylistState> {
     if (state.endIndex < oldIndex) {
       state.endIndex = oldIndex;
     }
-    logE("Start: ${state.startIndex}    End: ${state.endIndex}");
+    final lCache = <RoutesModel>[];
+    lCache.addAll(state.lRoutesCache);
     var model = state.lRoutes.removeAt(oldIndex);
     state.lRoutes.insert(newIndex, model);
     emit(state.copyWith(
-      timeStamp: DateTime
-          .now()
-          .microsecondsSinceEpoch,
-      isChooseDragDrop: true,
-    ));
+        timeStamp: DateTime.now().microsecondsSinceEpoch,
+        isChooseDragDrop: true,
+        lRoutesCache: lCache));
   }
 
   void closeDragDrop() {
-    emit(state.copyWith(isChooseDragDrop: false, isDrag: false,));
+    emit(state.copyWith(
+        isChooseDragDrop: false,
+        isDrag: false,
+        lRoutes: state.lRoutesCache));
   }
 
   void saveDragDrop(BuildContext context) async{
