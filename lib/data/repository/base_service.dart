@@ -216,7 +216,6 @@ class BaseService {
     print('[PUT] ' + baseUrl + url);
     print("Bearer " + globals.accessToken);
     print('[PARAMS] ' + jsonEncode(body).toString());
-   var userCache =await StorageUtils.getInfo();
     try {
       final response = await Dio()
           .put(baseUrl + url,
