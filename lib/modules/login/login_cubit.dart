@@ -21,7 +21,9 @@ import '../../localization/locale_keys.dart';
 class LoginCubit extends Cubit<LoginState> {
   var userRepository = UserRepository();
   final bool isGoBack;
-  LoginCubit(this.isGoBack) : super(const LoginState(errorEmail: '', errorPassword: ''));
+  LoginCubit(this.isGoBack) : super(const LoginState(errorEmail: '', errorPassword: '')){
+    globals.isTokenExpired = false;
+  }
 
   void onClickLogin(String email, String password, BuildContext context) async {
     bool isValidEmail = checkValidEmail(email);

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:base_bloc/config/constant.dart';
 import 'package:base_bloc/data/globals.dart' as globals;
 import 'package:base_bloc/data/model/user_profile_model.dart';
+import 'package:base_bloc/utils/log_utils.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get_storage/get_storage.dart';
@@ -14,7 +15,9 @@ class StorageUtils {
     GetStorage().write(StorageKey.userModel, model.toJson());
     globals.isLogin = true;
     globals.accessToken = model.token ?? '';
+    globals.refreshToken = model.refreshToken ?? '';
     globals.userId = model.userId ?? 0;
+    globals.isTokenExpired = false;
   }
 
   static void logout() {
@@ -42,18 +45,21 @@ class StorageUtils {
     return result;
   }
 
-  static Future<void> getInfo() async {
+  static Future<UserModel?> getUser() async {
     var userStr = await GetStorage().read(StorageKey.userModel);
     try {
       var userModel = UserModel.fromJson(userStr);
       globals.accessToken = userModel.token ?? '';
       globals.isLogin = true;
+      globals.refreshToken = userModel.refreshToken??'';
       globals.userId = userModel.userId ?? 0;
+      return userModel;
     } catch (ex) {
       globals.isLogin = false;
       globals.accessToken = '';
       globals.userId = 0;
     }
+    return null;
   }
 
   static Future<void> saveUserProfile(UserProfileModel model) async {
@@ -66,8 +72,8 @@ class StorageUtils {
     var profileStr = GetStorage().read(StorageKey.userProfile) ?? "";
     if (profileStr.isNotEmpty) {
       var profileModel = UserProfileModel.fromJson(profileStr);
-      globals.lastName = profileModel.lastName??'';
-      globals.firstName = profileModel.firstName??'';
+      globals.lastName = profileModel.lastName ?? '';
+      globals.firstName = profileModel.firstName ?? '';
       return profileModel;
     }
     return null;

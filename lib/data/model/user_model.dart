@@ -21,8 +21,16 @@ class UserModel {
   String? refreshToken;
   String? token;
 
+  UserModel copyOf(
+          {int? userId, String? role, String? refreshToken, String? token}) =>
+      UserModel(
+          userId: userId ?? this.userId,
+          role: role ?? this.role,
+          refreshToken: refreshToken ?? this.refreshToken,
+          token: token ?? this.token);
+
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
-    userId: json["user_id"],
+        userId: json["user_id"],
     role: json["role"],
     refreshToken: json["refresh_token"],
     token: json["token"],
