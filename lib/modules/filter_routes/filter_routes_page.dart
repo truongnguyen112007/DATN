@@ -79,9 +79,8 @@ class _FilterRoutesPageState extends State<FilterRoutesPage> {
 
   @override
   void initState() {
-    _bloc = FilterRoutesPageCubit(widget.type,widget.keySearch);
+    _bloc = FilterRoutesPageCubit(widget.type,widget.keySearch,widget.filter);
     checkDataStatus();
-    // logE(widget.listRoute!.length.toString());
     _bloc.setData(widget.filter, widget.listRoute);
     gradeChange
         .debounceTime(const Duration(seconds: 1))
@@ -214,9 +213,8 @@ class _FilterRoutesPageState extends State<FilterRoutesPage> {
                           borderRadius: BorderRadius.circular(30),
                           gradient: Utils.backgroundGradientOrangeButton()),
                       child: AppText(
-                        '${LocaleKeys.showResult.tr()}' +
-                            " : " +
-                            state.lPlayList!.length.toString(),
+                        "${LocaleKeys.showResult.tr()} : ${widget.type == FilterType.Favorite
+                            ? state.lPlayList!.length.toString() : state.count.toString()}",
                         style: typoW600.copyWith(
                             color: colorText0, fontSize: 13.sp),
                       ),

@@ -31,7 +31,7 @@ class RoutesPageState extends Equatable {
     this.isReadEnd = false,
     this.isLoading = true,
     this.timeStamp = 0,
-    this.nextPage = 1,
+    this.nextPage = 0,
     this.isShowAdd = true,
     this.sort,
     this.isClickRadioButton = false,

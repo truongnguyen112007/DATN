@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../data/model/profile_model.dart';
 import '../../../../localization/locale_keys.dart';
+import '../../../../utils/log_utils.dart';
 import '../../../../utils/storage_utils.dart';
 import 'edit_account_state.dart';
 
@@ -54,10 +55,9 @@ class EditAccountCubit extends Cubit<EditAccountState> {
         AccountFieldType.NAME: state.model?.firstName,
         AccountFieldType.SURNAME: state.model?.lastName,
         AccountFieldType.TYPE: state.model?.role,
-        AccountFieldType.HEIGHT: "170",
+        AccountFieldType.HEIGHT: "${state.model?.height} cm",
         AccountFieldType.FAVORITE_ROUTE_GRADE:
             "5A+",
         AccountFieldType.EMAIL: state.model?.email,
       };
-
 }

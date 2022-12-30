@@ -16,17 +16,22 @@ class FilterRoutesPageCubit extends Cubit<FilterRoutesPageState> {
   var userRepository = UserRepository();
   final String? keySearch;
   final FilterType type;
+  final FilterParam? filterParam;
 
-  FilterRoutesPageCubit(this.type, this.keySearch) : super(FilterRoutesPageState()) {
-    state.filter = FilterParam(
-        status: [],
-        corner: [],
-        authorGradeFrom: 0,
-        authorGradeTo: 20,
-        userGradeFrom: 0,
-        userGradeTo: 20,
-        designBy: []);
-    // setType();
+  FilterRoutesPageCubit(this.type, this.keySearch,this.filterParam) : super(FilterRoutesPageState()) {
+    if(filterParam == null) {
+      state.filter = FilterParam(
+          status: [],
+          corner: [],
+          authorGradeFrom: 0,
+          authorGradeTo: 20,
+          userGradeFrom: 0,
+          userGradeTo: 20,
+          designBy: []);
+    }else {
+      state.filter = filterParam;
+    }
+    setType();
   }
 
   void getFavorite() async {
@@ -61,10 +66,11 @@ class FilterRoutesPageCubit extends Cubit<FilterRoutesPageState> {
   }
 
   void getSearchRoute() async {
+    logE(state.filter!.authorGradeTo.toString());
     var response = await userRepository.searchRoute(
       value: keySearch,
       type: SearchRouteType.Filter,
-      nextPage: 1,
+      nextPage: 0,
       status: state.filter?.status != null && state.filter!.status.isNotEmpty
           ? state.filter?.status[0][state.filter?.status[0].keys.first]
           : null,
@@ -79,11 +85,12 @@ class FilterRoutesPageCubit extends Cubit<FilterRoutesPageState> {
       state.filter?.designBy != null && state.filter!.designBy.isNotEmpty
           ? state.filter?.designBy[0][state.filter?.designBy[0].keys.first]
           : null,
+      isFullResponse: true
     );
     if (response.data != null && response.error == null) {
       try {
-        var lResponse = routeModelBySearchFromJson(response.data);
-        emit(state.copyWith(lPlayList: lResponse));
+        // var lResponse = routeModelBySearchFromJson(response.data);
+        emit(state.copyWith(count: response.data['total']['value']));
       } catch (e) {
         emit(state.copyWith(lPlayList: []));
       }

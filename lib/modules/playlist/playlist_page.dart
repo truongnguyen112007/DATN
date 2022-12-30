@@ -18,7 +18,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-
 import '../../components/item_info_routes.dart';
 import '../../config/constant.dart';
 import '../../data/eventbus/refresh_event.dart';
@@ -183,35 +182,38 @@ class _PlayListPageState extends State<PlayListPage>
         ),
       );
 
-  Widget playlistWidget(BuildContext context, PlaylistState state) =>
-      ReorderableListView.builder(
-        scrollController: scrollController,
-        physics: const AlwaysScrollableScrollPhysics(),
-        padding: EdgeInsets.only(left: 10.w, right: 10.w),
-        itemBuilder: (c, i) => i == state.lRoutes.length
-            ? Center(
-                key: Key("$i"),
-                child: const AppCircleLoading(),
-              )
-            : ItemInfoRoutes(
-                key: Key("$i"),
-                context: context,
-                model: state.lRoutes[i],
-                callBack: (model) {},
-                index: i,
-                doubleTapCallBack: (model) =>
-                    _bloc.itemDoubleClick(context, model, i),
-                detailCallBack: (RoutesModel action) =>
-                    _bloc.itemOnclick(context, state.lRoutes[i]),
-              ),
-        itemCount:
-            !state.isReadEnd && state.lRoutes.isNotEmpty && state.isLoading
-                ? state.lRoutes.length + 1
-                : state.lRoutes.length,
-        onReorder: (int oldIndex, int newIndex) {
-          _bloc.dragItem(oldIndex, newIndex);
-        },
-      );
+  Widget playlistWidget(BuildContext context, PlaylistState state){
+   return ReorderableListView.builder(
+      scrollController: scrollController,
+      physics: const AlwaysScrollableScrollPhysics(),
+      padding: EdgeInsets.only(left: 10.w, right: 10.w),
+      itemBuilder: (c, i) => i == state.lRoutes.length
+          ? Center(
+        key: Key("$i"),
+        child: const AppCircleLoading(),
+      )
+          : ItemInfoRoutes(
+        isDrag: state.isDrag,
+        key: Key("$i"),
+        context: context,
+        model: state.lRoutes[i],
+        callBack: (model) {},
+        index: i,
+        onLongPressCallBack: (model) => _bloc.setDrag(true),
+        doubleTapCallBack: (model) =>
+            _bloc.itemDoubleClick(context, model, i),
+        detailCallBack: (RoutesModel action) =>
+            _bloc.itemOnclick(context, state.lRoutes[i]),
+      ),
+      itemCount:
+      !state.isReadEnd && state.lRoutes.isNotEmpty && state.isLoading
+          ? state.lRoutes.length + 1
+          : state.lRoutes.length,
+      onReorder: (int oldIndex, int newIndex) {
+        _bloc.dragItem(oldIndex, newIndex);
+      },
+    );
+  }
 
   Widget chooseDragDrop() {
     return BlocBuilder<PlayListCubit, PlaylistState>(
@@ -234,7 +236,7 @@ class _PlayListPageState extends State<PlayListPage>
                   ),
                 ),
                 InkWell(
-                  onTap: () => _bloc.saveDragDrop(),
+                  onTap: () => _bloc.saveDragDrop(context),
                   child: const Icon(
                     Icons.check,
                     color: colorWhite,

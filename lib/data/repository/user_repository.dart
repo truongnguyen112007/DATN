@@ -40,7 +40,7 @@ class UserRepository extends BaseService {
       await GET('playlist/$id?start=$nextPage&count=${ApiKey.limit_offset}');
 
   Future<ApiResult> getRoute({int nextPage = 0}) async =>
-      await GET('route?start=$nextPage&count=${ApiKey.limit_offset}');
+      await GET('route?start=$nextPage&count=100000');
 
   Future<ApiResult> deleteRoute(String routeId) async =>
       await DELETE('route/$routeId');
@@ -56,6 +56,11 @@ class UserRepository extends BaseService {
   Future<ApiResult> moveToTop(String playlistId, String routeId) async =>
       await PUT('playlistdetail/$playlistId', body: {ApiKey.route_id: routeId});
 
+  Future<ApiResult> dragAndDrop(
+          String playlistId, String endId, List<String> listId) async =>
+      await PUT("playlistdetail/$playlistId",
+          body: {ApiKey.border: endId, ApiKey.route_ids: listId});
+
   Future<ApiResult> getFavorite(
       {FavType? type,
       int? userId,
@@ -70,7 +75,6 @@ class UserRepository extends BaseService {
       int? status,
       String? setter}) async {
     {
-      logE(type.toString());
       switch (type) {
         case FavType.Sort:
           return (orderType == null && orderValue == null)
@@ -144,6 +148,7 @@ class UserRepository extends BaseService {
       double? userGradeTo,
       String? hasConner,
       int? status,
+      bool isFullResponse = false,
       String? setter}) async {
     switch (type) {
       case SearchRouteType.Sort:
@@ -151,21 +156,25 @@ class UserRepository extends BaseService {
             ? await POST(
                 "search/service/search?from=$nextPage&size=${ApiKey.limit_offset}&q=$value${authorGradeFrom != null ? "&author_grade_from=${authorGradeFrom?.toInt()}" : ""}${authorGradeTo != null ? "&author_grade_to=${authorGradeTo?.toInt()}" : ""}${userGradeFrom != null ? "&user_grade_from=${userGradeFrom?.toInt()}" : ""}${userGradeTo != null ? "&user_grade_to=${userGradeTo?.toInt()}" : ""}${status != null ? "&status=$status" : ""}${hasConner != null ? "&has_conner=$hasConner" : ""}${setter != null ? "&setter=$setter" : ""}",
                 null,
-                isXSub: true)
+                isXSub: true,
+                isFullResponse: isFullResponse)
             : await POST(
                 "search/service/search?from=$nextPage&size=${ApiKey.limit_offset}&q=$value&order_type=$orderType&order_value=$orderValue${authorGradeFrom != null ? "&author_grade_from=${authorGradeFrom?.toInt()}" : ""}${authorGradeTo != null ? "&author_grade_to=${authorGradeTo?.toInt()}" : ""}${userGradeFrom != null ? "&user_grade_from=${userGradeFrom?.toInt()}" : ""}${userGradeTo != null ? "&user_grade_to=${userGradeTo?.toInt()}" : ""}${status != null ? "&status=$status" : ""}${hasConner != null ? "&has_conner=$hasConner" : ""}${setter != null ? "&setter=$setter" : ""}",
                 null,
-                isXSub: true);
+                isXSub: true,
+                isFullResponse: isFullResponse);
       case SearchRouteType.Filter:
         return await POST(
             "search/service/search?from=$nextPage&size=${ApiKey.limit_offset}${value != null ? "&q=$value" : ""}${orderValue != null ? "&order_value=$orderValue" : ""}${orderType != null ? "&order_type=$orderType" : ""}&author_grade_from=${authorGradeFrom?.toInt()}&author_grade_to=${authorGradeTo?.toInt()}&user_grade_from=${userGradeFrom?.toInt()}&user_grade_to=${userGradeTo?.toInt()}${status != null ? "&status=$status" : ""}${hasConner != null ? "&has_conner=$hasConner" : ""}${setter != null ? "&setter=$setter" : ""}",
             null,
-            isXSub: true);
+            isXSub: true,
+            isFullResponse: isFullResponse);
       default:
         return await POST(
             "search/service/search?from=$nextPage&size=${ApiKey.limit_offset}&q=$value",
             null,
-            isXSub: true);
+            isXSub: true,
+            isFullResponse: isFullResponse);
     }
   }
 
