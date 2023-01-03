@@ -31,7 +31,7 @@ import '../../theme/app_styles.dart';
 import '../../theme/colors.dart';
 import '../../utils/app_utils.dart';
 import '../persons_page/persons_page_state.dart';
-
+import 'dart:io';
 class ZoomRoutesPage extends StatefulWidget {
   final int heightOfRoute;
   final int row;
@@ -77,8 +77,8 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
   Offset? offset;
   StreamSubscription<HoldSetEvent>? _holdSetStream;
   late ScrollController _lBoxController;
-  var dxMeasureHeight =-10.5;
-  var dyMeasureBoxName =-9.0;
+  var dxMeasureHeight =Platform.isAndroid ?-10.5 : -11.0;
+  var dyMeasureBoxName =Platform.isAndroid ?-9.0: -10.0;
 
   @override
   void initState() {
@@ -118,7 +118,7 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
     _scale = scale;
     _zoomController.setScale = scale;
     _zoomController.setOffset = const Offset(0.0, 0.0);
-    _zoomMeasureNameController.setOffset = const Offset(0, -9);
+    _zoomMeasureNameController.setOffset =  Offset(0,Platform.isAndroid ? -9: -10);
     _measureNameBoxController.setScale = scale;
     _measureHeightController.setScale = scale;
     _zoomMeasureController.setScale = scale;
@@ -189,7 +189,7 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
               controller: _measureNameBoxController,
               lBox: globals.lHoldSetName,
               sizeHoldSet: sizeHoldSet),
-          offset: Offset(offset!.dx, -8));
+          offset: Offset(offset!.dx, dyMeasureBoxName));
   
   Widget measureHeightWidget(BuildContext context,ZoomRoutesState state)=> Container(
       height: MediaQuery.of(context).size.height,

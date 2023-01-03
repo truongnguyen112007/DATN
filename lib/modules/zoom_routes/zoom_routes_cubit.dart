@@ -23,10 +23,11 @@ import '../../utils/app_utils.dart';
 import '../hold_set/hold_set_page.dart';
 import '../persons_page/persons_page_state.dart';
 import '../routers_detail/routes_detail_page.dart';
+import 'dart:io';
 
 class ZoomRoutesCubit extends Cubit<ZoomRoutesState> {
   var userRepository = UserRepository();
-  ZoomRoutesCubit() : super( ZoomRoutesState());
+  ZoomRoutesCubit() : super(ZoomRoutesState());
 
   Future<bool> goBack(BuildContext context) async {
     RouterUtils.pop(context,
@@ -34,11 +35,10 @@ class ZoomRoutesCubit extends Cubit<ZoomRoutesState> {
     return false;
   }
 
-  void setScale(int heightOfRoute) =>
-      emit(state.copyOf(
-          scale: (state.scale == 1.2 || state.scale == 1.1)
-              ? 2
-              : (state.scale == 2
+  void setScale(int heightOfRoute) => emit(state.copyOf(
+      scale: (state.scale == 1.2 || state.scale == 1.1)
+          ? 2
+          : (state.scale == 2
               ? 3
               : (state.scale == 3 ? 4 : (heightOfRoute == 12 ? 1.1 : 1.2)))));
 
@@ -53,9 +53,7 @@ class ZoomRoutesCubit extends Cubit<ZoomRoutesState> {
       emit(state.copyOf(
           currentHoldSet: result,
           lHoldSet: state.lHoldSet,
-          timeStamp: DateTime
-              .now()
-              .microsecondsSinceEpoch));
+          timeStamp: DateTime.now().microsecondsSinceEpoch));
     }
   }
 
@@ -77,9 +75,7 @@ class ZoomRoutesCubit extends Cubit<ZoomRoutesState> {
     state.lHoldSet[state.currentIndex!] =
         state.lHoldSet[state.currentIndex!].copyOf(rotate: rotate);
     emit(state.copyOf(
-        timeStamp: DateTime
-            .now()
-            .microsecondsSinceEpoch,
+        timeStamp: DateTime.now().microsecondsSinceEpoch,
         lHoldSet: state.lHoldSet));
   }
 
@@ -89,33 +85,32 @@ class ZoomRoutesCubit extends Cubit<ZoomRoutesState> {
     state.lHoldSet[state.currentIndex!] =
         state.lHoldSet[state.currentIndex!].copyOf(rotate: rotate);
     emit(state.copyOf(
-        timeStamp: DateTime
-            .now()
-            .microsecondsSinceEpoch,
+        timeStamp: DateTime.now().microsecondsSinceEpoch,
         lHoldSet: state.lHoldSet));
   }
 
-  void setData({required int row,
-    required bool isEdit,
-    required int column,
-    int holdSetIndex=0,
-    RoutesModel? model,
-    InfoRouteModel? infoRouteModel,
-    required double sizeHoldSet,
-    required List<HoldSetModel>? lHoldSet,
-    required int currentIndex}) =>
+  void setData(
+          {required int row,
+          required bool isEdit,
+          required int column,
+          int holdSetIndex = 0,
+          RoutesModel? model,
+          InfoRouteModel? infoRouteModel,
+          required double sizeHoldSet,
+          required List<HoldSetModel>? lHoldSet,
+          required int currentIndex}) =>
       Timer(
           const Duration(seconds: 1),
-              () => emit(state.copyOf(
+          () => emit(state.copyOf(
               holdSetIndex: holdSetIndex,
-                  model: model,
-                  isEdit: isEdit,
-                  currentIndex: currentIndex,
-                  status: StatusType.success,
-                  column: column,
-                  row: row,
-                  sizeHoldSet: sizeHoldSet,
-                  lHoldSet: lHoldSet)));
+              model: model,
+              isEdit: isEdit,
+              currentIndex: currentIndex,
+              status: StatusType.success,
+              column: column,
+              row: row,
+              sizeHoldSet: sizeHoldSet,
+              lHoldSet: lHoldSet)));
 
   void holdSetOnClick(BuildContext context) => RouterUtils.openNewPage(
       HoldSetPage(holdSetIndex: state.holdSetIndex), context);
@@ -126,9 +121,7 @@ class ZoomRoutesCubit extends Cubit<ZoomRoutesState> {
       emit(state.copyOf(
           currentHoldSet: '',
           lHoldSet: state.lHoldSet,
-          timeStamp: DateTime
-              .now()
-              .microsecondsSinceEpoch));
+          timeStamp: DateTime.now().microsecondsSinceEpoch));
     }
   }
 
@@ -169,7 +162,13 @@ class ZoomRoutesCubit extends Cubit<ZoomRoutesState> {
         currentIndex % 12 == 3 ||
         currentIndex % 12 == 4 ||
         currentIndex % 12 == 5) {
-      dx = heightOfScreen >= 800 ? 21 : 18;
+      dx = Platform.isAndroid
+          ? heightOfScreen >= 800
+              ? 21
+              : 18
+          : heightOfScreen >= 800
+              ? 25
+              : 22;
     } else if (currentIndex == 12 ||
         currentIndex == 11 ||
         currentIndex == 10 ||
@@ -178,36 +177,73 @@ class ZoomRoutesCubit extends Cubit<ZoomRoutesState> {
         currentIndex % 12 == 9 ||
         currentIndex % 12 == 8 ||
         currentIndex % 12 == 7) {
-      dx = heightOfScreen >= 800 ? -21 : -18;
+      dx = Platform.isAndroid
+          ? heightOfScreen >= 800
+              ? -21
+              : -18
+          : heightOfScreen >= 800
+              ? -25
+              : -22;
     }
 
     switch (heightOfRoute) {
       case 3:
         {
           if (currentIndex < 160) {
-            dy = heightOfScreen >= 800 ? -1 : -1;
+            dy = Platform.isAndroid
+                ? heightOfScreen >= 800
+                    ? -1
+                    : -1
+                : heightOfScreen >= 800
+                    ? -3
+                    : -3;
           } else {
-            dy = heightOfScreen >= 800 ? 1 : 1;
+            dy = Platform.isAndroid
+                ? heightOfScreen >= 800
+                    ? 1
+                    : 1
+                : heightOfScreen >= 800
+                    ? 3
+                    : 3;
           }
           break;
         }
       case 6:
         {
           if (currentIndex <= 84) {
-            dy = heightOfScreen >= 800 ? -83 : -73;
+            dy = Platform.isAndroid
+                ? heightOfScreen >= 800
+                    ? -83
+                    : -73
+                : heightOfScreen >= 800
+                    ? -93
+                    : -83;
+            ;
           } else if (currentIndex > 80 && currentIndex <= 150) {
             dy = 36;
           } else if (currentIndex > 150 && currentIndex < 250) {
             dy = 36;
           } else {
-            dy = heightOfScreen >= 800 ? 83 : 73;
+            dy = Platform.isAndroid
+                ? heightOfScreen >= 800
+                    ? 83
+                    : 73
+                : heightOfScreen >= 800
+                    ? 93
+                    : 83;
           }
           break;
         }
       case 9:
         {
           if (currentIndex <= 84) {
-            dy = heightOfScreen >= 800 ? -166 : -146;
+            dy = Platform.isAndroid
+                ? heightOfScreen >= 800
+                    ? -166
+                    : -146
+                : heightOfScreen >= 800
+                    ? -175
+                    : -155;
           } else if (currentIndex > 84 && currentIndex <= 156) {
             dy = -127;
           } else if (currentIndex > 156 && currentIndex < 252) {
@@ -219,7 +255,13 @@ class ZoomRoutesCubit extends Cubit<ZoomRoutesState> {
           } else if (currentIndex > 396 && currentIndex < 468) {
             dy = 89;
           } else {
-            dy = heightOfScreen >= 800 ? 160 : 146;
+            dy = Platform.isAndroid
+                ? heightOfScreen >= 800
+                    ? 160
+                    : 146
+                : heightOfScreen >= 800
+                    ? 175
+                    : 155;
           }
           break;
         }
@@ -235,7 +277,13 @@ class ZoomRoutesCubit extends Cubit<ZoomRoutesState> {
             currentIndex % 12 == 3 ||
             currentIndex % 12 == 4 ||
             currentIndex % 12 == 5) {
-          dx = heightOfScreen >= 800 ? 26 : 14;
+          dx = Platform.isAndroid
+              ? heightOfScreen >= 800
+                  ? 26
+                  : 14
+              : heightOfScreen >= 800
+                  ? 16
+                  : 24;
         } else if (currentIndex == 12 ||
             currentIndex == 11 ||
             currentIndex == 10 ||
@@ -244,25 +292,43 @@ class ZoomRoutesCubit extends Cubit<ZoomRoutesState> {
             currentIndex % 12 == 9 ||
             currentIndex % 12 == 8 ||
             currentIndex % 12 == 7) {
-          dx = heightOfScreen >= 800 ? -26 : -14;
+          dx = Platform.isAndroid
+              ? heightOfScreen >= 800
+                  ? -26
+                  : -14
+              : heightOfScreen >= 800
+                  ? -16
+                  : -24;
         }
 
         if (currentIndex <= 80)
-          dy = heightOfScreen >= 800 ? -215 : -175;
+          dy = Platform.isAndroid
+              ? heightOfScreen >= 800
+                  ? -215
+                  : -175
+              : heightOfScreen >= 800
+                  ? -220
+                  : -180;
         else if (currentIndex > 80 && currentIndex <= 150)
           dy = -200;
         else if (currentIndex > 150 && currentIndex <= 250)
-        dy = -160;
-    else if (currentIndex > 250 && currentIndex <= 350)
-        dy = -80;
-    else if (currentIndex > 350 && currentIndex <= 450)
+          dy = -160;
+        else if (currentIndex > 250 && currentIndex <= 350)
+          dy = -80;
+        else if (currentIndex > 350 && currentIndex <= 450)
           dy = 20;
         else if (currentIndex > 450 && currentIndex <= 550)
-        dy = 70;
-    else if (currentIndex > 550 && currentIndex <= 650)
-        dy = 160;
-    else
-          dy = heightOfScreen >= 800 ? 215 : 175;
+          dy = 70;
+        else if (currentIndex > 550 && currentIndex <= 650)
+          dy = 160;
+        else
+          dy = Platform.isAndroid
+              ? heightOfScreen >= 800
+                  ? 215
+                  : 175
+              : heightOfScreen >= 800
+                  ? 220
+                  : 180;
         break;
       default:
         {
@@ -285,8 +351,9 @@ class ZoomRoutesCubit extends Cubit<ZoomRoutesState> {
     }
     return Offset(dx, dy);
   }
-  void saveDaftOnClick(BuildContext context,
-      InfoRouteModel? infoRouteModel,RoutesModel? routesModel) async {
+
+  void saveDaftOnClick(BuildContext context, InfoRouteModel? infoRouteModel,
+      RoutesModel? routesModel) async {
     var routeModel = await Utils.saveDraft(
         isEdit: (routesModel != null && routesModel.userId == globals.userId),
         routeModel: routesModel,
@@ -300,15 +367,17 @@ class ZoomRoutesCubit extends Cubit<ZoomRoutesState> {
                 type: (routesModel?.visibility ?? 0) == ConstantKey.PRIVATE
                     ? VisibilityType.PRIVATE
                     : (routesModel?.visibility ?? 0) == ConstantKey.PUBLIC
-                    ? VisibilityType.PUBLIC
-                    : VisibilityType.FRIENDS),
+                        ? VisibilityType.PUBLIC
+                        : VisibilityType.FRIENDS),
         lHoldSet: state.lHoldSet,
         row: state.row,
         column: state.column);
     if (routeModel != null) {
       RouterUtils.openNewPage(
-          RoutesDetailPage(isSaveDraft: true,
-              index: BottomNavigationConstant.TAB_ROUTES, model: routeModel),
+          RoutesDetailPage(
+              isSaveDraft: true,
+              index: BottomNavigationConstant.TAB_ROUTES,
+              model: routeModel),
           context);
     }
   }
