@@ -217,7 +217,7 @@ class Applocalizations extends AssetLoader {
     "authorAsc": "The author’s grade: ascending",
     "userDes": "The user’s grade: descending",
     "userAsc" : "The user’s grade: ascending",
-    "public" : "Publish",
+    "public" : "Public",
     "private" : "Private",
     "visibility" : "Visibility",
     "draft": "Draft",
