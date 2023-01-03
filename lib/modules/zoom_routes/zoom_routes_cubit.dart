@@ -14,6 +14,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:base_bloc/data/globals.dart' as globals;
 import '../../components/visibility_route_widget.dart';
 import '../../config/constant.dart';
+import '../../data/eventbus/list_hold_set_event.dart';
 import '../../data/eventbus/new_page_event.dart';
 import '../../data/model/hold_set_model.dart';
 import '../../localization/locale_keys.dart';
@@ -25,10 +26,11 @@ import '../routers_detail/routes_detail_page.dart';
 
 class ZoomRoutesCubit extends Cubit<ZoomRoutesState> {
   var userRepository = UserRepository();
-  ZoomRoutesCubit() : super(const ZoomRoutesState());
+  ZoomRoutesCubit() : super( ZoomRoutesState());
 
   Future<bool> goBack(BuildContext context) async {
-    RouterUtils.pop(context, result: state.lHoldSet);
+    RouterUtils.pop(context,
+        result: ListHoldSetEvent(state.lHoldSet, state.holdSetIndex ?? 0));
     return false;
   }
 
@@ -42,7 +44,8 @@ class ZoomRoutesCubit extends Cubit<ZoomRoutesState> {
 
   void itemOnLongPress(int index, BuildContext context) async {
     emit(state.copyOf(currentIndex: index));
-    var result = await RouterUtils.openNewPage(const HoldSetPage(), context,
+    var result = await RouterUtils.openNewPage(
+        HoldSetPage(holdSetIndex: state.holdSetIndex), context,
         type: NewPageType.HOLD_SET);
     if (result != null) {
       state.lHoldSet[index] =
@@ -56,11 +59,13 @@ class ZoomRoutesCubit extends Cubit<ZoomRoutesState> {
     }
   }
 
-  void setHoldSet(HoldSetModel holdSet) {
+  void setHoldSet(HoldSetModel holdSet, int holdSetIndex) {
     state.lHoldSet[state.currentIndex ?? 0] =
         holdSet.copyOf(rotate: state.lHoldSet[state.currentIndex ?? 0].rotate);
     emit(state.copyOf(
-        currentHoldSet: "", timeStamp: DateTime.now().microsecondsSinceEpoch));
+        holdSetIndex: holdSetIndex,
+        currentHoldSet: "",
+        timeStamp: DateTime.now().microsecondsSinceEpoch));
   }
 
   void itemOnClick(int index, BuildContext context) =>
@@ -93,6 +98,7 @@ class ZoomRoutesCubit extends Cubit<ZoomRoutesState> {
   void setData({required int row,
     required bool isEdit,
     required int column,
+    int holdSetIndex=0,
     RoutesModel? model,
     InfoRouteModel? infoRouteModel,
     required double sizeHoldSet,
@@ -100,8 +106,8 @@ class ZoomRoutesCubit extends Cubit<ZoomRoutesState> {
     required int currentIndex}) =>
       Timer(
           const Duration(seconds: 1),
-              () =>
-              emit(state.copyOf(
+              () => emit(state.copyOf(
+              holdSetIndex: holdSetIndex,
                   model: model,
                   isEdit: isEdit,
                   currentIndex: currentIndex,
@@ -111,8 +117,8 @@ class ZoomRoutesCubit extends Cubit<ZoomRoutesState> {
                   sizeHoldSet: sizeHoldSet,
                   lHoldSet: lHoldSet)));
 
-  void holdSetOnClick(BuildContext context) =>
-      RouterUtils.openNewPage(const HoldSetPage(), context);
+  void holdSetOnClick(BuildContext context) => RouterUtils.openNewPage(
+      HoldSetPage(holdSetIndex: state.holdSetIndex), context);
 
   void deleteOnclick() {
     if (state.currentIndex != null) {

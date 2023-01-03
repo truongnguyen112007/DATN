@@ -43,9 +43,10 @@ class ZoomRoutesPage extends StatefulWidget {
   final bool isEdit;
   final RoutesModel? model;
   final InfoRouteModel? infoRouteModel;
-
+  final int? holdSetIndex;
   const ZoomRoutesPage(
       {Key? key,
+      this.holdSetIndex = 0,
       this.infoRouteModel,
       required this.heightOfRoute,
       required this.currentIndex,
@@ -97,6 +98,7 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
           Offset(_zoomController.offset.dx, dyMeasureBoxName);
     });
     _bloc.setData(
+        holdSetIndex: widget.holdSetIndex ?? 0,
         model: widget.model,
         isEdit: widget.isEdit,
         currentIndex: widget.currentIndex,
@@ -106,7 +108,7 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
         lHoldSet: widget.lHoldSet);
     _holdSetStream = Utils.eventBus
         .on<HoldSetEvent>()
-        .listen((event) => _bloc.setHoldSet(event.holdSet));
+        .listen((event) => _bloc.setHoldSet(event.holdSet,event.holdSetIndex));
     _lBoxController = ScrollController();
     offset = _bloc.getOffset(widget.currentIndex, widget.heightOffScreen,widget.heightOfRoute);
     super.initState();

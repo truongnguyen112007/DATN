@@ -16,10 +16,12 @@ class CreateRoutesState extends Equatable {
   final bool isEdit;
   final RoutesModel? model;
   final bool isShowGuideline;
+  final int? holdSetIndex;
 
   const CreateRoutesState(
       {this.status = StatusType.initial,
       this.model,
+      this.holdSetIndex = 0,
       this.isShowGuideline = true,
       this.isEdit = false,
       this.currentHoldSet = '',
@@ -33,6 +35,7 @@ class CreateRoutesState extends Equatable {
   CreateRoutesState copyOf(
           {StatusType? status,
           RoutesModel? model,
+          int? holdSetIndex,
           int? column,
           bool? isEdit,
           int? selectIndex,
@@ -43,6 +46,7 @@ class CreateRoutesState extends Equatable {
           List<HoldSetModel>? lHoldSet,
           int? timeStamp}) =>
       CreateRoutesState(
+          holdSetIndex: holdSetIndex ?? this.holdSetIndex,
           isShowGuideline: isShowGuideline ?? this.isShowGuideline,
           model: model ?? this.model,
           isEdit: isEdit ?? this.isEdit,

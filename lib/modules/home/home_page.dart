@@ -61,7 +61,7 @@ class _HomePageState extends State<HomePage> {
       if (result != null && event.type != null) {
         switch (event.type) {
           case NewPageType.HOLD_SET:
-            Utils.fireEvent(HoldSetEvent(result));
+            Utils.fireEvent(HoldSetEvent(result[0],result[1]));
             return;
           case NewPageType.FILL_PLACE:
           case NewPageType.ZOOM_ROUTES:
