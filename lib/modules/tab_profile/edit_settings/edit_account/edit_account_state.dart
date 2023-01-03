@@ -6,11 +6,23 @@ enum EditAccountStatus { initial, success, failure }
 class EditAccountState extends Equatable {
   final EditAccountStatus status;
   final UserProfileModel? model;
+  final bool? isOnChangeInfo;
 
-  const EditAccountState(
-      {this.status = EditAccountStatus.initial,this.model, });
+  const EditAccountState({
+    this.status = EditAccountStatus.initial,
+    this.model,
+    this.isOnChangeInfo = false,
+  });
+
+  EditAccountState copyWith(
+          {EditAccountStatus? status,
+          UserProfileModel? model,
+          bool? isOnChangeInfo}) =>
+      EditAccountState(
+          status: status ?? this.status,
+          model: model ?? this.model,
+          isOnChangeInfo: isOnChangeInfo ?? this.isOnChangeInfo);
 
   @override
-  List<Object?> get props => [status,model];
-
+  List<Object?> get props => [status, model, isOnChangeInfo];
 }

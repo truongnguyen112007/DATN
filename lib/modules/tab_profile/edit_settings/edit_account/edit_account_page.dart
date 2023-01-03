@@ -5,15 +5,18 @@ import 'package:base_bloc/data/model/profile_model.dart';
 import 'package:base_bloc/modules/tab_profile/edit_settings/edit_account/edit_account_state.dart';
 import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/theme/colors.dart';
+import 'package:base_bloc/utils/log_utils.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:rxdart/rxdart.dart';
 import '../../../../components/app_scalford.dart';
 import '../../../../components/appbar_widget.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../localization/locale_keys.dart';
+import '../../../../utils/app_utils.dart';
 import 'edit_account_cubit.dart';
 
 class EditAccountPage extends StatefulWidget {
@@ -27,7 +30,13 @@ class _EditAccountState extends BaseState<EditAccountPage>
     with AutomaticKeepAliveClientMixin {
   final _scrollController = ScrollController();
   late final EditAccountCubit _bloc;
-  static double _avatarSize = 56.w;
+  final nickname = TextEditingController();
+  final name = TextEditingController();
+  final surname = TextEditingController();
+  final type = TextEditingController();
+  final height = TextEditingController();
+  final favorite = TextEditingController();
+  final email = TextEditingController();
 
   @override
   void initState() {
@@ -45,127 +54,135 @@ class _EditAccountState extends BaseState<EditAccountPage>
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-        backgroundColor: colorGreyBackground,
-        appbar: appBarWidget(
-            context: context, titleStr: LocaleKeys.settingsAccount.tr()),
-        body: editAccountListView());
-  }
-
-  Widget editAccountListView() {
-    return BlocBuilder<EditAccountCubit, EditAccountState>(
-      bloc: _bloc,
-      builder: (BuildContext context, state) {
-        return ListView.builder(
-          padding: EdgeInsets.only(
-              top: 2.0 * contentPadding,
-              left: 2.0 * contentPadding,
-              bottom: 50.w),
-          itemCount: _bloc.commonFieldList(context).length + 1,
-          itemBuilder: (context, index) {
-            return index == 0
-                ? changeAvatarView()
-                : commonEditProfileView(index - 1);
-          },
-        );
-      },
+      backgroundColor: colorGreyBackground,
+      appbar: appBarWidget(
+          context: context,
+          titleStr: LocaleKeys.settingsAccount.tr(),
+          action: [
+            BlocBuilder<EditAccountCubit, EditAccountState>(
+              bloc: _bloc,
+              builder: (c, s) => s.isOnChangeInfo!
+                  ? IconButton(
+                      onPressed: () {
+                        _bloc.saveInfo();
+                      },
+                      icon: const Icon(Icons.check_circle_outline, size: 30),
+                      splashRadius: 20,
+                    )
+                  : const SizedBox(),
+            )
+          ]),
+      body: BlocBuilder<EditAccountCubit, EditAccountState>(
+        bloc: _bloc,
+        builder: (c, s) {
+          logE(s.model?.height??"dsds");
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                changeAvatarView(),
+                textField(LocaleKeys.account_nickname.tr(), nickname,
+                    s.model?.username??"", Icons.public),
+                textField(LocaleKeys.account_name.tr(), name,
+                    s.model?.firstName??"", Icons.people_alt_outlined),
+                textField(LocaleKeys.account_surname.tr(), surname,
+                    s.model?.lastName??"", Icons.people_alt_outlined),
+                textField(LocaleKeys.account_type.tr(), type, s.model?.role??"",
+                    Icons.public),
+                textField(LocaleKeys.account_height.tr(), height, s.model?.height?? "0", Icons.lock_outline),
+                textField(LocaleKeys.account_favorite_route_grade.tr(),
+                    favorite, "5A+", Icons.lock_outline),
+                textField(LocaleKeys.account_email.tr(), email, s.model?.email??"",
+                    Icons.lock_outline),
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 
   Widget changeAvatarView() {
-    return Container(
-      child: BlocBuilder<EditAccountCubit, EditAccountState>(
-        bloc: _bloc,
-        builder: (c, s) => Row(
+    return BlocBuilder<EditAccountCubit, EditAccountState>(
+      bloc: _bloc,
+      builder: (c, s) => Padding(
+        padding: EdgeInsets.only(top: 10.h, left: 10.w, bottom: 10.h),
+        child: Row(
           children: [
-            CircleAvatar(
-              radius: _avatarSize / 2.0,
-              backgroundColor: Colors.transparent,
-              child: ClipOval(
-                  child: Image.network(
+            ClipRRect(
+              borderRadius: BorderRadius.circular(100),
+              child: Image.network(
                 s.model?.photo ?? '',
                 fit: BoxFit.cover,
-                width: _avatarSize,
-                height: _avatarSize,
-              )),
+                width: 80.w,
+                height: 80.h,
+              ),
             ),
             SizedBox(width: 2.0 * contentPadding),
             TextButton(
-                style: TextButton.styleFrom(
-                  primary: colorMainText,
-                  onSurface: Colors.black,
-                  side: BorderSide(color: colorMainText, width: 1.w),
-                  shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(25.0))),
-                ),
-                onPressed: () => {print('CHANGE PHOTO')},
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                  child: Text(LocaleKeys.account_change_photo.tr(),
-                      style: googleFont.copyWith(
-                          fontSize: 14.w,
-                          fontWeight: FontWeight.w400,
-                          color: colorMainText)),
-                ))
+              style: TextButton.styleFrom(
+                primary: colorMainText,
+                onSurface: Colors.black,
+                side: BorderSide(color: colorMainText, width: 1.w),
+                shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(25.0))),
+              ),
+              onPressed: () {},
+              child: Padding(
+                padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+                child: Text(LocaleKeys.account_change_photo.tr(),
+                    style: googleFont.copyWith(
+                        fontSize: 14.w,
+                        fontWeight: FontWeight.w400,
+                        color: colorMainText)),
+              ),
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget commonEditProfileView(int index) {
-    AccountFieldType fieldType =
-        _bloc.commonFieldList(context).keys.elementAt(index);
-    String? value = _bloc.commonFieldList(context).values.elementAt(index);
-    final textEditingController = TextEditingController(text: value);
-
-    return Container(
-      padding: EdgeInsets.only(top: contentPadding),
+  Widget textField(String headline, TextEditingController controller,
+      String value, IconData icon) {
+    if (controller.text.isEmpty) {
+      controller.text = value ?? "";
+    }
+    return Padding(
+      padding: EdgeInsets.only(bottom: 15.h,left: 15.w),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          AppText(fieldType.title,
-              style: googleFont.copyWith(
-                  fontSize: 10.w,
-                  fontWeight: FontWeight.w500,
-                  color: colorSubText)),
-          BlocBuilder<EditAccountCubit, EditAccountState>(
-            bloc: _bloc,
-            builder: (c,s) =>
-             Row(
-              children: [
-                Expanded(
-                    child: TextField(
-                  controller: textEditingController,
-                  style: googleFont.copyWith(
-                      fontSize: 22.w,
-                      fontWeight: FontWeight.w600,
-                      color: colorMainText),
-                  cursorColor: colorMainText,
-                  decoration: InputDecoration(
-                    hintText: s.model?.username,
-                    border: InputBorder.none,
-                  ),
-                )),
-                Transform.scale(
-                  scale: 0.7,
-                  child: IconButton(
-                    onPressed: () {},
-                    splashRadius: 24.w,
-                    icon: index % 2 == 0
-                        ? Assets.png.icFriends.image(color: Colors.white70)
-                        : index % 3 == 0
-                            ? Assets.png.icPrivate.image(color: Colors.white70)
-                            : Assets.png.icPublic.image(color: Colors.white70),
-                  ),
-                ),
-                SizedBox(width: 8.w)
-              ],
+          AppText(
+            headline,
+            style: googleFont.copyWith(
+                fontSize: 10.w,
+                fontWeight: FontWeight.w500,
+                color: colorSubText),
+          ),
+          TextField(
+            onChanged: (text) {
+              _bloc.onChangeInfo();
+            },
+            controller: controller,
+
+            style: googleFont.copyWith(
+                fontSize: 22.w,
+                fontWeight: FontWeight.w600,
+                color: colorMainText),
+            cursorColor: colorMainText,
+            decoration: InputDecoration(
+              suffixIcon: Icon(
+                icon,
+                color: colorGrey20,
+              ),
+              border: const UnderlineInputBorder(
+                borderSide: BorderSide(color: colorWhite,)
+              ),
+              focusedBorder: const UnderlineInputBorder(borderSide: BorderSide(color:colorText65)),
+              // disabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: colorWhite)),
+              enabledBorder: const UnderlineInputBorder(borderSide: BorderSide(color: colorText65)),
             ),
           ),
-          Divider(
-            color: colorDivider,
-            thickness: 1.0.w,
-          )
         ],
       ),
     );

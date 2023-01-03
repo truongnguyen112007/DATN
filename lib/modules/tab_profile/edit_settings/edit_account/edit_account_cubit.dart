@@ -17,26 +17,26 @@ enum AccountFieldType {
   EMAIL
 }
 
-extension AccountFieldTypeExtension on AccountFieldType {
-  String get title {
-    switch (this) {
-      case AccountFieldType.NICKNAME:
-        return LocaleKeys.account_nickname.tr();
-      case AccountFieldType.NAME:
-        return LocaleKeys.account_name.tr();
-      case AccountFieldType.SURNAME:
-        return LocaleKeys.account_surname.tr();
-      case AccountFieldType.TYPE:
-        return LocaleKeys.account_type.tr();
-      case AccountFieldType.HEIGHT:
-        return LocaleKeys.account_height.tr();
-      case AccountFieldType.FAVORITE_ROUTE_GRADE:
-        return LocaleKeys.account_favorite_route_grade.tr();
-      case AccountFieldType.EMAIL:
-        return LocaleKeys.account_email.tr();
-    }
-  }
-}
+// extension AccountFieldTypeExtension on AccountFieldType {
+//   String get title {
+//     switch (this) {
+//       case AccountFieldType.NICKNAME:
+//         return LocaleKeys.account_nickname.tr();
+//       case AccountFieldType.NAME:
+//         return LocaleKeys.account_name.tr();
+//       case AccountFieldType.SURNAME:
+//         return LocaleKeys.account_surname.tr();
+//       case AccountFieldType.TYPE:
+//         return LocaleKeys.account_type.tr();
+//       case AccountFieldType.HEIGHT:
+//         return LocaleKeys.account_height.tr();
+//       case AccountFieldType.FAVORITE_ROUTE_GRADE:
+//         return LocaleKeys.account_favorite_route_grade.tr();
+//       case AccountFieldType.EMAIL:
+//         return LocaleKeys.account_email.tr();
+//     }
+//   }
+// }
 
 class EditAccountCubit extends Cubit<EditAccountState> {
   EditAccountCubit()
@@ -50,14 +50,22 @@ class EditAccountCubit extends Cubit<EditAccountState> {
     emit(EditAccountState(model: userModel));
   }
 
-  Map<AccountFieldType, String?> commonFieldList(BuildContext context) => {
-        AccountFieldType.NICKNAME:state.model?.username,
-        AccountFieldType.NAME: state.model?.firstName,
-        AccountFieldType.SURNAME: state.model?.lastName,
-        AccountFieldType.TYPE: state.model?.role,
-        AccountFieldType.HEIGHT: "${state.model?.height} cm",
-        AccountFieldType.FAVORITE_ROUTE_GRADE:
-            "5A+",
-        AccountFieldType.EMAIL: state.model?.email,
-      };
+  void saveInfo () {
+
+  }
+
+  void onChangeInfo () {
+    emit(state.copyWith(isOnChangeInfo: true));
+  }
+
+  // Map<AccountFieldType, String?> commonFieldList(BuildContext context) => {
+  //       AccountFieldType.NICKNAME:state.model?.username,
+  //       AccountFieldType.NAME: state.model?.firstName,
+  //       AccountFieldType.SURNAME: state.model?.lastName,
+  //       AccountFieldType.TYPE: state.model?.role,
+  //       AccountFieldType.HEIGHT: "${state.model?.height ?? 0} cm",
+  //       AccountFieldType.FAVORITE_ROUTE_GRADE:
+  //           "5A+",
+  //       AccountFieldType.EMAIL: state.model?.email,
+  //     };
 }
