@@ -41,8 +41,11 @@ class CreateRoutesCubit extends Cubit<CreateRoutesState> {
     }*/
   }
 
-  void setHoldSets(List<HoldSetModel> list) =>
-      emit(state.copyOf(lHoldSet: list,timeStamp: DateTime.now().microsecondsSinceEpoch));
+  void setHoldSets(List<HoldSetModel> list, int holdSetIndex) =>
+      emit(state.copyOf(
+          lHoldSet: list,
+          holdSetIndex: holdSetIndex,
+          timeStamp: DateTime.now().microsecondsSinceEpoch));
 
   void setHoldSet(String holdSet) {
     state.lHoldSet[state.selectIndex ?? 0] = HoldSetModel(
@@ -80,6 +83,7 @@ class CreateRoutesCubit extends Cubit<CreateRoutesState> {
     RouterUtils.openNewPage(
         ZoomRoutesPage(heightOfRoute: height,
           infoRouteModel: infoRouteModel,
+          holdSetIndex: state.holdSetIndex,
           model: state.model,
           isEdit: state.isEdit,
           currentIndex: index,
@@ -95,6 +99,7 @@ class CreateRoutesCubit extends Cubit<CreateRoutesState> {
   void scaleOnClick(BuildContext context, int height,InfoRouteModel? infoRouteModel) {
     RouterUtils.openNewPage(
         ZoomRoutesPage(
+          holdSetIndex: state.holdSetIndex,
           heightOfRoute: height,
           infoRouteModel: infoRouteModel,
             currentIndex: 0,
@@ -159,9 +164,6 @@ class CreateRoutesCubit extends Cubit<CreateRoutesState> {
             sizeHoldSet: sizeHoldSet,
             lHoldSet: lHoldSet)));
   }
-
-  void holdSetOnClick(BuildContext context) =>
-      RouterUtils.openNewPage(const HoldSetPage(), context);
 
   void deleteOnclick() {
     if (state.selectIndex != null) {

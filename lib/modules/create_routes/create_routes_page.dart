@@ -28,6 +28,7 @@ import 'package:flutter_svg/svg.dart';
 
 import '../../base/hex_color.dart';
 import '../../components/app_circle_loading.dart';
+import '../../data/eventbus/list_hold_set_event.dart';
 import '../../data/globals.dart';
 import '../../gen/assets.gen.dart';
 import '../../localization/locale_keys.dart';
@@ -61,7 +62,7 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage>   with Ticke
     Assets.svg.holdset5,
     Assets.svg.holdset6,
   ];
-  StreamSubscription<List<HoldSetModel>>? _lHoldSetStream;
+  StreamSubscription<ListHoldSetEvent>? _lHoldSetStream;
   late final AnimationController _animationController1 =
       AnimationController(duration: const Duration(milliseconds: 1200), vsync: this);
   late final Animation<double> _animation1 =
@@ -82,9 +83,8 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage>   with Ticke
   void initState() {
     _bloc = CreateRoutesCubit();
     checkRow();
-    _lHoldSetStream = Utils.eventBus
-        .on<List<HoldSetModel>>()
-        .listen((list) => _bloc.setHoldSets(list));
+    _lHoldSetStream = Utils.eventBus.on<ListHoldSetEvent>().listen(
+        (model) => _bloc.setHoldSets(model.holdSet, model.holdSetIndex));
     _bloc.setData(
         infoRouteModel: widget.infoRouteModel,
         row: row,

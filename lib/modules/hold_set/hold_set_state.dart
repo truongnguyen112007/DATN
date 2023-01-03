@@ -7,12 +7,12 @@ enum HoldSetStatus { INITITAL, SUCCESS, ERROR }
 
 class HoldSetState extends Equatable {
   final HoldSetStatus status;
-  final int currentIndex;
+  int currentIndex;
   final SelectType type;
   final List<HoldSetModel> lHoldSet;
   final bool isLoading;
 
-  const HoldSetState(
+   HoldSetState(
       {this.currentIndex = 0,
       this.status = HoldSetStatus.INITITAL,
       this.isLoading = true,

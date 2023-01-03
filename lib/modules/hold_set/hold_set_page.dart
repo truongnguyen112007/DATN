@@ -23,7 +23,9 @@ import '../../localization/locale_keys.dart';
 import '../../theme/app_styles.dart';
 
 class HoldSetPage extends StatefulWidget {
-  const HoldSetPage({Key? key}) : super(key: key);
+  final int? holdSetIndex;
+
+  const HoldSetPage({Key? key, this.holdSetIndex = 0}) : super(key: key);
 
   @override
   State<HoldSetPage> createState() => _HoldSetPageState();
@@ -34,7 +36,7 @@ class _HoldSetPageState extends BasePopState<HoldSetPage> {
 
   @override
   void initState() {
-    _bloc = HoldSetCubit();
+    _bloc = HoldSetCubit(widget.holdSetIndex ?? 0);
     super.initState();
   }
 
