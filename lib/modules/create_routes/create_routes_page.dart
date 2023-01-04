@@ -284,64 +284,70 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage>   with Ticke
   }
 
   Widget guidelineWidget(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.only(left: 30.w),
-      color: colorBlack.withOpacity(0.7),
-      height: MediaQuery.of(context).size.height,
-      width: MediaQuery.of(context).size.width,
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Center(
-            child: Padding(
-                padding: EdgeInsets.only(right: 30.w),
-                child: FadeTransition(
-                  opacity: _animation1,
-                  child: AppText(LocaleKeys.edit_route.tr(),
-                      style: typoW700.copyWith(fontSize: 29.sp)),
-                )),
+    return InkWell(
+        child: Container(
+          padding: EdgeInsets.only(left: 30.w),
+          color: colorBlack.withOpacity(0.7),
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Padding(
+                    padding: EdgeInsets.only(right: 30.w),
+                    child: FadeTransition(
+                      opacity: _animation1,
+                      child: AppText(LocaleKeys.edit_route.tr(),
+                          style: typoW700.copyWith(fontSize: 29.sp)),
+                    )),
+              ),
+              const Spacer(),
+              space(),
+              itemGuideline(
+                  LocaleKeys.tab_on_cell_to_select_hold.tr(),
+                  LocaleKeys.briefly_touch_surface_with_fingertip.tr(),
+                  Assets.svg.hand,
+                  animation: _animation1),
+              space(height: 30),
+              itemGuideline(
+                  LocaleKeys.press_cell_with_hold_to_move_it_or_rotate_it.tr(),
+                  LocaleKeys.touch_suface_for_extended_privod_of_time.tr(),
+                  Assets.svg.hand,
+                  animation: _animation2),
+              space(height: 30),
+              itemGuideline(
+                  LocaleKeys.pinch_to_scale_down_and_up.tr(),
+                  LocaleKeys
+                      .touch_surface_with_two_fingers_and_bring_them_closer_together
+                      .tr(),
+                  Assets.svg.doubleHands,
+                  iconWidth: 98.w,
+                  animation: _animation3),
+              const Spacer(),
+              const Spacer(),
+              const Spacer(),
+              Align(
+                  alignment: Alignment.centerRight,
+                  child: Container(
+                      margin: EdgeInsets.only(
+                          right: contentPadding, bottom: contentPadding + 5),
+                      child: GradientButton(
+                          height: 30,
+                          width: 80,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(color: colorWhite)),
+                          onTap: () => _bloc.showGuideline(false),
+                          widget: AppText(
+                            ' ${LocaleKeys.skip.tr()} >> ',
+                            style: typoW400.copyWith(fontSize: 13.sp),
+                          ),
+                          isCenter: true)))
+            ],
           ),
-          const Spacer(),
-          space(),
-          itemGuideline(LocaleKeys.tab_on_cell_to_select_hold.tr(),
-              LocaleKeys.briefly_touch_surface_with_fingertip.tr(), Assets.svg.hand,
-              animation: _animation1),
-          space(height: 30),
-          itemGuideline(
-              LocaleKeys.press_cell_with_hold_to_move_it_or_rotate_it.tr(),
-              LocaleKeys.touch_suface_for_extended_privod_of_time.tr(),
-              Assets.svg.hand,
-              animation: _animation2),
-          space(height: 30),
-          itemGuideline(
-              LocaleKeys.pinch_to_scale_down_and_up.tr(),
-              LocaleKeys
-                  .touch_surface_with_two_fingers_and_bring_them_closer_together.tr(),
-              Assets.svg.doubleHands,
-              iconWidth: 98.w,
-              animation: _animation3),
-          const Spacer(),
-          const Spacer(),
-          const Spacer(),
-          Align(
-              alignment: Alignment.centerRight,
-              child: Container(
-                  margin: EdgeInsets.only(
-                      right: contentPadding, bottom: contentPadding + 5),
-                  child: GradientButton(
-                      height: 30,
-                      width: 80,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: colorWhite)),
-                      onTap: () => nextStep(),
-                      widget: AppText(
-                        ' ${LocaleKeys.next.tr()} >> ',
-                        style: typoW400.copyWith(fontSize: 13.sp),
-                      ),
-                      isCenter: true)))
-        ],
-      ),
-    );
+        ),
+        onTap: () => nextStep());
   }
 
   void nextStep() {

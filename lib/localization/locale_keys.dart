@@ -240,6 +240,7 @@ abstract class LocaleKeys {
   static const grade = 'grade';
   static const please_input_hold_set = 'please_input_hold_set';
   static const next = 'next';
+  static const skip = 'skip';
   static const edit_route = 'edit_route';
   static const tab_on_cell_to_select_hold = 'tab_on_cell_to_select_hold';
   static const briefly_touch_surface_with_fingertip =

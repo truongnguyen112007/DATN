@@ -221,6 +221,7 @@ class Applocalizations extends AssetLoader {
     "private" : "Private",
     "visibility" : "Visibility",
     "draft": "Draft",
+    "skip": "Skip",
     "publish_routes_success": "Publish route success",
     "you_need_login_to_use_this_service": "You need login to use this service",
     'token_expired_please_login': "Session expired please login again"
