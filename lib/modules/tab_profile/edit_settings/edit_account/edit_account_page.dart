@@ -2,6 +2,7 @@ import 'package:base_bloc/base/base_state.dart';
 import 'package:base_bloc/components/app_text.dart';
 import 'package:base_bloc/data/globals.dart';
 import 'package:base_bloc/data/model/profile_model.dart';
+import 'package:base_bloc/data/model/user_profile_model.dart';
 import 'package:base_bloc/modules/tab_profile/edit_settings/edit_account/edit_account_state.dart';
 import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/theme/colors.dart';
@@ -20,7 +21,9 @@ import '../../../../utils/app_utils.dart';
 import 'edit_account_cubit.dart';
 
 class EditAccountPage extends StatefulWidget {
-  const EditAccountPage({Key? key}) : super(key: key);
+  final UserProfileModel model;
+  final VoidCallback editAccountCallBack;
+  const EditAccountPage({Key? key, required this.model, required this.editAccountCallBack}) : super(key: key);
 
   @override
   State<EditAccountPage> createState() => _EditAccountState();
@@ -30,17 +33,24 @@ class _EditAccountState extends BaseState<EditAccountPage>
     with AutomaticKeepAliveClientMixin {
   final _scrollController = ScrollController();
   late final EditAccountCubit _bloc;
-  final nickname = TextEditingController();
-  final name = TextEditingController();
-  final surname = TextEditingController();
-  final type = TextEditingController();
-  final height = TextEditingController();
-  final favorite = TextEditingController();
-  final email = TextEditingController();
+  final nicknameController = TextEditingController();
+  final nameController = TextEditingController();
+  final surnameController = TextEditingController();
+  final typeController = TextEditingController();
+  final heightController = TextEditingController();
+  final favoriteController = TextEditingController();
+  final emailController = TextEditingController();
 
   @override
   void initState() {
-    _bloc = EditAccountCubit();
+    _bloc = EditAccountCubit(widget.editAccountCallBack);
+    nicknameController.text = widget.model.username ?? "";
+    nameController.text = widget.model.firstName ?? "";
+    surnameController.text = widget.model.lastName ?? "";
+    typeController.text = widget.model.role ?? "";
+    heightController.text = widget.model.height ?? "";
+    favoriteController.text = "5A+";
+    emailController.text = widget.model.email ?? "";
     super.initState();
   }
 
@@ -54,6 +64,7 @@ class _EditAccountState extends BaseState<EditAccountPage>
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
+      isTabToHideKeyBoard: true,
       backgroundColor: colorGreyBackground,
       appbar: appBarWidget(
           context: context,
@@ -61,38 +72,93 @@ class _EditAccountState extends BaseState<EditAccountPage>
           action: [
             BlocBuilder<EditAccountCubit, EditAccountState>(
               bloc: _bloc,
-              builder: (c, s) => s.isOnChangeInfo!
+              builder: (c, s) =>
+              s.isOnChangeInfo!
                   ? IconButton(
-                      onPressed: () {
-                        _bloc.saveInfo();
-                      },
-                      icon: const Icon(Icons.check_circle_outline, size: 30),
-                      splashRadius: 20,
-                    )
+                onPressed: () {
+                  _bloc.saveInfo(
+                      c,
+                      nameController.text,
+                      surnameController.text,
+                      typeController.text,
+                      heightController.text,
+                      emailController.text);
+                },
+                icon: const Icon(Icons.check, size: 30),
+                splashRadius: 20,
+              )
                   : const SizedBox(),
             )
           ]),
       body: BlocBuilder<EditAccountCubit, EditAccountState>(
         bloc: _bloc,
         builder: (c, s) {
-          logE(s.model?.height??"dsds");
           return SingleChildScrollView(
             child: Column(
               children: [
                 changeAvatarView(),
-                textField(LocaleKeys.account_nickname.tr(), nickname,
-                    s.model?.username??"", Icons.public),
-                textField(LocaleKeys.account_name.tr(), name,
-                    s.model?.firstName??"", Icons.people_alt_outlined),
-                textField(LocaleKeys.account_surname.tr(), surname,
-                    s.model?.lastName??"", Icons.people_alt_outlined),
-                textField(LocaleKeys.account_type.tr(), type, s.model?.role??"",
-                    Icons.public),
-                textField(LocaleKeys.account_height.tr(), height, s.model?.height?? "0", Icons.lock_outline),
-                textField(LocaleKeys.account_favorite_route_grade.tr(),
-                    favorite, "5A+", Icons.lock_outline),
-                textField(LocaleKeys.account_email.tr(), email, s.model?.email??"",
-                    Icons.lock_outline),
+                SizedBox(
+                  height: 10.h,
+                ),
+                textField(
+                    LocaleKeys.account_nickname.tr(),
+                    nicknameController,
+                    widget.model.username,
+                    Icons.public,
+                    TextInputType.text,
+                    null),
+                textField(
+                    LocaleKeys.account_name.tr(),
+                    nameController,
+                    widget.model.firstName,
+                    Icons.people_alt_outlined,
+                    TextInputType.text,
+                    s.errorName != null && s.errorName!.isNotEmpty
+                        ? s.errorName
+                        : null),
+                textField(
+                    LocaleKeys.account_surname.tr(),
+                    surnameController,
+                    widget.model.lastName,
+                    Icons.people_alt_outlined,
+                    TextInputType.text,
+                    s.errorSurname != null && s.errorSurname!.isNotEmpty
+                        ? s.errorSurname
+                        : null),
+                textField(
+                    LocaleKeys.account_type.tr(),
+                    typeController,
+                    widget.model.role,
+                    Icons.public,
+                    TextInputType.text,
+                    s.errorType != null && s.errorType!.isNotEmpty
+                        ? s.errorType
+                        : null),
+                textField(
+                    LocaleKeys.account_height.tr(),
+                    heightController,
+                    widget.model.height ?? '0',
+                    Icons.lock_outline,
+                    TextInputType.number,
+                    s.errorHeight != null && s.errorHeight!.isNotEmpty
+                        ? s.errorHeight
+                        : null),
+                textField(
+                    LocaleKeys.account_favorite_route_grade.tr(),
+                    favoriteController,
+                    "5A+",
+                    Icons.lock_outline,
+                    TextInputType.text,
+                    null),
+                textField(
+                    LocaleKeys.account_email.tr(),
+                    emailController,
+                    widget.model.email,
+                    Icons.lock_outline,
+                    TextInputType.text,
+                    s.errorEmail != null && s.errorEmail!.isNotEmpty
+                        ? s.errorEmail
+                        : null),
               ],
             ),
           );
@@ -104,51 +170,56 @@ class _EditAccountState extends BaseState<EditAccountPage>
   Widget changeAvatarView() {
     return BlocBuilder<EditAccountCubit, EditAccountState>(
       bloc: _bloc,
-      builder: (c, s) => Padding(
-        padding: EdgeInsets.only(top: 10.h, left: 10.w, bottom: 10.h),
-        child: Row(
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(100),
-              child: Image.network(
-                s.model?.photo ?? '',
-                fit: BoxFit.cover,
-                width: 80.w,
-                height: 80.h,
-              ),
+      builder: (c, s) =>
+          Padding(
+            padding: EdgeInsets.only(top: 10.h, left: 10.w, bottom: 10.h),
+            child: Row(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(100),
+                  child: Image.network(
+                    widget.model.photo ?? '',
+                    fit: BoxFit.cover,
+                    width: 80.w,
+                    height: 80.h,
+                  ),
+                ),
+                SizedBox(width: 2.0 * contentPadding),
+                TextButton(
+                  style: TextButton.styleFrom(
+                    primary: colorMainText,
+                    onSurface: Colors.black,
+                    side: BorderSide(color: colorMainText, width: 1.w),
+                    shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(25.0))),
+                  ),
+                  onPressed: () {},
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+                    child: Text(LocaleKeys.account_change_photo.tr(),
+                        style: googleFont.copyWith(
+                            fontSize: 14.w,
+                            fontWeight: FontWeight.w400,
+                            color: colorMainText)),
+                  ),
+                ),
+              ],
             ),
-            SizedBox(width: 2.0 * contentPadding),
-            TextButton(
-              style: TextButton.styleFrom(
-                primary: colorMainText,
-                onSurface: Colors.black,
-                side: BorderSide(color: colorMainText, width: 1.w),
-                shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(25.0))),
-              ),
-              onPressed: () {},
-              child: Padding(
-                padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                child: Text(LocaleKeys.account_change_photo.tr(),
-                    style: googleFont.copyWith(
-                        fontSize: 14.w,
-                        fontWeight: FontWeight.w400,
-                        color: colorMainText)),
-              ),
-            ),
-          ],
-        ),
-      ),
+          ),
     );
   }
 
-  Widget textField(String headline, TextEditingController controller,
-      String value, IconData icon) {
-    if (controller.text.isEmpty) {
-      controller.text = value ?? "";
-    }
+  Widget textField(String headline,
+      TextEditingController controller,
+      String? value,
+      IconData icon,
+      TextInputType inputType,
+      String? errorText) {
+    // if (controller.text.isEmpty && value != null || controller.text == "0") {
+    //   controller.text = value ?? '';
+    // }
     return Padding(
-      padding: EdgeInsets.only(bottom: 15.h,left: 15.w),
+      padding: EdgeInsets.only(bottom: 15.h, left: 15.w),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -161,26 +232,36 @@ class _EditAccountState extends BaseState<EditAccountPage>
           ),
           TextField(
             onChanged: (text) {
-              _bloc.onChangeInfo();
+              _bloc.onChangeInfo(
+                  nameController.text,
+                  surnameController.text,
+                  typeController.text,
+                  heightController.text,
+                  emailController.text);
             },
             controller: controller,
-
+            keyboardType: inputType,
             style: googleFont.copyWith(
                 fontSize: 22.w,
                 fontWeight: FontWeight.w600,
                 color: colorMainText),
             cursorColor: colorMainText,
             decoration: InputDecoration(
+              errorText: errorText,
+              errorStyle: typoW400.copyWith(color: Colors.red),
               suffixIcon: Icon(
                 icon,
                 color: colorGrey20,
               ),
               border: const UnderlineInputBorder(
-                borderSide: BorderSide(color: colorWhite,)
-              ),
-              focusedBorder: const UnderlineInputBorder(borderSide: BorderSide(color:colorText65)),
+                  borderSide: BorderSide(
+                    color: colorWhite,
+                  )),
+              focusedBorder: const UnderlineInputBorder(
+                  borderSide: BorderSide(color: colorText65)),
               // disabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: colorWhite)),
-              enabledBorder: const UnderlineInputBorder(borderSide: BorderSide(color: colorText65)),
+              enabledBorder: const UnderlineInputBorder(
+                  borderSide: BorderSide(color: colorText65)),
             ),
           ),
         ],

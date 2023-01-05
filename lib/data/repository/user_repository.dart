@@ -178,6 +178,24 @@ class UserRepository extends BaseService {
     }
   }
 
+  Future<ApiResult> updateUserProfile(
+          {
+          required String first_name,
+          required String last_name,
+          required String role,
+          required dynamic height,
+          // required String photo,
+          required String email}) async =>
+      await PUT("kuser/profile/", body: {
+        ApiKey.account_id: globals.accountId,
+        ApiKey.first_name: first_name,
+        ApiKey.last_name: last_name,
+        ApiKey.role: role,
+        ApiKey.height: height,
+        // ApiKey.photo: photo,
+        ApiKey.email: email
+      });
+
   Future<ApiResult> getRouteDetail(String routeId) async =>
       GET('route/$routeId');
 

@@ -55,6 +55,15 @@ class ApiKey {
   static const published = 'published';
   static const visibility = 'visibility';
   static const border = 'border';
+  static const account_id = "account_id";
+  static const first_name = "first_name";
+  static const last_name = "last_name";
+  static const gender = "gender";
+  static const role = "role";
+  static const birth_date = "birth_date";
+  static const favorite_route_grade = "favorite_route_grade";
+  static const photo = "photo";
+  static const phone = "phone";
 }
 
 class BottomNavigationConstant{

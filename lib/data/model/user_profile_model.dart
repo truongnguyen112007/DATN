@@ -45,7 +45,7 @@ class UserProfileModel {
   dynamic? description;
   DateTime? modified;
   DateTime? created;
-  String? height;
+  dynamic? height;
 
 
   factory UserProfileModel.fromJson(Map<String, dynamic> json) => UserProfileModel(
