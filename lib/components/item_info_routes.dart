@@ -1,4 +1,3 @@
-import 'package:base_bloc/data/model/user_profile_model.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,8 +14,6 @@ import 'app_text.dart';
 class ItemInfoRoutes extends StatelessWidget {
   final BuildContext context;
   final RoutesModel model;
-
-  // final UserProfileModel userModel;
   final bool isShowSelect;
   final bool isDrag;
   final Function(RoutesModel model)? onLongPressCallBack;
@@ -39,8 +36,7 @@ class ItemInfoRoutes extends StatelessWidget {
       this.filterOnclick,
       this.removeSelectCallBack,
       this.isShowSelect = false,
-      this.doubleTapCallBack,
-      /*required this.userModel*/})
+      this.doubleTapCallBack})
       : super(key: key);
 
   @override
@@ -184,7 +180,10 @@ class ItemInfoRoutes extends StatelessWidget {
                                     ),
                                   ),
                                   Expanded(
-                                      child: AppText(" ${model.name} ${model.name}",
+                                      child: AppText(
+                                          model.userProfile != null
+                                              ? " ${model.userProfile?.firstName} ${model.userProfile?.lastName}"
+                                              : " ${model.authorFirstName} ${model.authorLastName}",
                                           overflow: TextOverflow.ellipsis,
                                           maxLine: 1,
                                           style: googleFont.copyWith(
