@@ -63,10 +63,13 @@ class UserProfileModel {
         role: json["role"],
         profileType: json["profile_type"],
         description: json["description"],
-        modified: DateTime.parse(json["modified"]),
-        created: DateTime.parse(json["created"]),
-        height: json["height"]
-      );
+          modified: json["modified"] != null
+              ? DateTime.parse(json["modified"])
+              : DateTime.now(),
+          created: json["created"] != null
+              ? DateTime.parse(json["created"])
+              : DateTime.now(),
+          height: json["height"]);
 
   Map<String, dynamic> toJson() => {
         "id": id,

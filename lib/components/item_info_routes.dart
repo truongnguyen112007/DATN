@@ -180,7 +180,10 @@ class ItemInfoRoutes extends StatelessWidget {
                                     ),
                                   ),
                                   Expanded(
-                                      child: AppText(" ${model.name}",
+                                      child: AppText(
+                                          model.userProfile != null
+                                              ? " ${model.userProfile?.firstName} ${model.userProfile?.lastName}"
+                                              : " ${model.authorFirstName} ${model.authorLastName}",
                                           overflow: TextOverflow.ellipsis,
                                           maxLine: 1,
                                           style: googleFont.copyWith(

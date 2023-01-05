@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:base_bloc/data/model/user_profile_model.dart';
+
 
 List<RoutesModel> routeModelBySearchFromJson(List<dynamic> str) =>
     List<RoutesModel>.from(
@@ -34,12 +36,17 @@ class RoutesModel {
     this.isSelect = false,
     this.playlistIn,
     this.favouriteIn,
+    this.userProfile,
+    this.authorFirstName,
+    this.authorLastName
   });
 
   // int? modified;
   int? userGrade;
   bool? hasConner;
   String? name;
+  String? authorFirstName;
+  String? authorLastName;
   int? popurlarity;
   int? userId;
   bool? published;
@@ -53,7 +60,7 @@ class RoutesModel {
   bool isSelect;
   bool? playlistIn;
   bool? favouriteIn;
-
+  UserProfileModel? userProfile;
 
   factory RoutesModel.fromJson(Map<String, dynamic> json) => RoutesModel(
     // modified: json["modified"],
@@ -72,8 +79,12 @@ class RoutesModel {
     holds: json["holds"].toString(),
     isSelect: false,
     playlistIn: json["playlist_in"],
-    favouriteIn: json["favourite_in"]
-  );
+    authorLastName: json["author_last_name"],
+    authorFirstName: json["author_first_name"],
+    favouriteIn: json["favourite_in"],
+    userProfile: json["user_profile"] != null
+          ? UserProfileModel.fromJson(json["user_profile"])
+          : null);
 
   Map<String, dynamic> toJson() => {
     // "modified": modified,
