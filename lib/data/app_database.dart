@@ -52,23 +52,6 @@ CREATE TABLE $tableDoctor (
     await db.insert(tableDoctor, model.toJson());
   }
 
-  Future<PlacesModel?> readDoctor(int id) async {
-    final db = await instance.database;
-
-    final maps = await db.query(
-      tableDoctor,
-      columns: PlaceField.values,
-      where: '${PlaceField.id} = ?',
-      whereArgs: [id],
-    );
-
-    if (maps.isNotEmpty) {
-      return PlacesModel.fromJson(maps.first);
-    } else {
-      throw Exception('ID $id not found');
-    }
-  }
-
   Future<void> removeAllData() async {
     final db = await instance.database;
     db.rawDelete('DELETE FROM $tableDoctor');

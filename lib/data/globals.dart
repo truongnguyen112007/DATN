@@ -11,6 +11,7 @@ String lang = '';
 String avatar = '';
 String deviceId = '';
 int userId = 0;
+int accountId = 0;
 String deviceName = '';
 String deviceModel = '';
 String userName = '';

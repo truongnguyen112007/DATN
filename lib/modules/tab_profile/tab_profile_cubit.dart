@@ -10,18 +10,25 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../config/constant.dart';
 import '../../data/model/user_profile_model.dart';
 import '../../router/router.dart';
+import '../../utils/log_utils.dart';
 
 class TabProfileCubit extends Cubit<TabProfileState> {
-  TabProfileCubit() : super( TabProfileState()){
+  TabProfileCubit() : super(TabProfileState()) {
     getData();
   }
 
-  void getData() async{
+  void getData() async {
     var userModel = await StorageUtils.getUserProfile();
-    emit(TabProfileState(model: userModel ));
+    emit(TabProfileState(
+        model: userModel, timeStamp: DateTime.now().microsecondsSinceEpoch));
   }
+
   void didPressEditProfile(BuildContext context) {
-    RouterUtils.openNewPage(const EditSettingsPage(), context);
+    RouterUtils.openNewPage(EditSettingsPage(
+      editSettingCallBack: () {
+        getData();
+      },
+    ), context);
   }
 
   void onClickSearch(BuildContext context) => RouterUtils.pushProfile(

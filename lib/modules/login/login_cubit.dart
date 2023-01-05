@@ -95,6 +95,10 @@ bool checkValidEmail(String email) {
   return isValid;
 }
 
+// bool checkUpdateProfile (String text) {
+//
+// }
+
 bool checkValidPassword(String password) {
   bool isValid = false;
   if (password.isEmpty) {

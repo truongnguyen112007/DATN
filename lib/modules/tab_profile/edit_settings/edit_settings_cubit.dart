@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../components/dialogs.dart';
 import '../../../localization/locale_keys.dart';
+import '../../../utils/log_utils.dart';
 import '../../../utils/storage_utils.dart';
 import '../../../utils/toast_utils.dart';
 import 'edit_settings_state.dart';
@@ -51,7 +52,8 @@ extension SettingsItemTypeExtension on SettingsItemType {
 }
 
 class EditSettingsCubit extends Cubit<EditSettingsState> {
-  EditSettingsCubit()
+  final VoidCallback editSettingCallBack;
+  EditSettingsCubit(this.editSettingCallBack)
       : super(const EditSettingsState(status: EditSettingsStatus.initial)) {
     if (state.status == EditSettingsStatus.initial) {}
   }
@@ -75,8 +77,10 @@ class EditSettingsCubit extends Cubit<EditSettingsState> {
         )
       ];
 
-  void openAccountPage(BuildContext context) {
-    RouterUtils.openNewPage(EditAccountPage(), context);
+  void openAccountPage(BuildContext context,VoidCallback editAccountCallBack) async{
+    var userModel = await StorageUtils.getUserProfile();
+    RouterUtils.openNewPage(EditAccountPage(model: userModel!,editAccountCallBack: (){editSettingCallBack.call();
+    }), context);
   }
 
   void openNotificationsSettingsPage(BuildContext context) {

@@ -48,6 +48,70 @@ class Dialogs {
             .pop());
   }
 
+  static Future<void>? showWidgetDialog(BuildContext context,{required VoidCallback callback,String? text}) {
+    return showDialog<void>(
+        context: context,
+        barrierColor: colorBlack.withOpacity(0.85),
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return WillPopScope(
+            onWillPop: () async => false,
+            child: SimpleDialog(
+              key: _keyLoader,
+              backgroundColor: Colors.transparent,
+              children: <Widget>[
+                Column(
+                  children: [
+                    AppText(
+                      text!,
+                      style:
+                      typoW600.copyWith(color: colorWhite, fontSize: 18.sp),
+                    ),
+                    SizedBox(
+                      height: 10.h,
+                    ),
+                    Row(
+                      children: [
+                        GradientButton(
+                            height: 36.h,
+                            width: 130.w,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(18),
+                                gradient:
+                                Utils.backgroundGradientOrangeButton()),
+                            onTap: callback,
+                            widget: Center(
+                                child: AppText(
+                                  'Yes',
+                                  style: typoW600.copyWith(color: colorBlack,fontSize: 15.sp),
+                                )),
+                            borderRadius: BorderRadius.circular(18)),
+                        SizedBox(
+                          width: 20.w,
+                        ),
+                        AppButton(
+                          title: 'Cancel',
+                          textStyle: typoW600.copyWith(
+                              color: colorBlack, fontSize: 15.sp),
+                          onPress: () {
+                            hideLoadingDialog();
+                          },
+                          width: 130.w,
+                          height: 36.h,
+                          backgroundColor: colorWhite,
+                          borderRadius: 18,
+                        )
+                      ],
+                    )
+                  ],
+                ),
+              ],
+            ),
+          );
+        });
+  }
+
+
   static Future<void>? showLogOutDiaLog(BuildContext context,{required VoidCallback callback}) {
     return showDialog<void>(
         context: context,

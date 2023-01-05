@@ -14,7 +14,8 @@ import '../../../localization/locale_keys.dart';
 import 'edit_settings_cubit.dart';
 
 class EditSettingsPage extends StatefulWidget {
-  const EditSettingsPage({Key? key}) : super(key: key);
+  final VoidCallback editSettingCallBack;
+  const EditSettingsPage({Key? key, required this.editSettingCallBack}) : super(key: key);
 
   @override
   State<EditSettingsPage> createState() => _EditSettingsState();
@@ -27,7 +28,7 @@ class _EditSettingsState extends BaseState<EditSettingsPage>
 
   @override
   void initState() {
-    _bloc = EditSettingsCubit();
+    _bloc = EditSettingsCubit(widget.editSettingCallBack);
     super.initState();
   }
 
@@ -70,7 +71,7 @@ class _EditSettingsState extends BaseState<EditSettingsPage>
                   SettingsModel item = _bloc.settingsList(context)[index];
                   switch (item.type) {
                     case SettingsItemType.ACCOUNT:
-                      _bloc.openAccountPage(context);
+                      _bloc.openAccountPage(context,widget.editSettingCallBack);
                       break;
                     case SettingsItemType.NOTIFICATIONS:
                       _bloc.openNotificationsSettingsPage(context);

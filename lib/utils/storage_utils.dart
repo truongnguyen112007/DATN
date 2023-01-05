@@ -74,7 +74,8 @@ class StorageUtils {
       var profileModel = UserProfileModel.fromJson(profileStr);
       globals.lastName = profileModel.lastName ?? '';
       globals.firstName = profileModel.firstName ?? '';
-      return profileModel;
+      globals.accountId = profileModel.accountId ?? 0;
+    return profileModel;
     }
     return null;
   }
