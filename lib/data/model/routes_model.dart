@@ -4,6 +4,7 @@
 
 import 'dart:convert';
 
+import 'package:base_bloc/data/model/user_profile_model.dart';
 
 List<RoutesModel> routeModelBySearchFromJson(List<dynamic> str) =>
     List<RoutesModel>.from(
@@ -16,25 +17,26 @@ String routeModelToJson(List<RoutesModel> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class RoutesModel {
-  RoutesModel({
-    // this.modified,
-    this.userGrade,
-    this.hasConner,
-    this.name,
-    this.popurlarity,
-    this.userId,
-    this.published,
-    this.userGradeCount,
-    this.visibility,
-    this.height,
-    this.id,
-    this.authorGrade,
-    this.created,
-    this.holds,
-    this.isSelect = false,
-    this.playlistIn,
-    this.favouriteIn,
-  });
+  RoutesModel(
+      {
+      // this.modified,
+      this.userGrade,
+      this.hasConner,
+      this.name,
+      this.popurlarity,
+      this.userId,
+      this.published,
+      this.userGradeCount,
+      this.visibility,
+      this.height,
+      this.id,
+      this.authorGrade,
+      this.created,
+      this.holds,
+      this.isSelect = false,
+      this.playlistIn,
+      this.favouriteIn,
+      /*this.userProfile*/});
 
   // int? modified;
   int? userGrade;
@@ -53,45 +55,45 @@ class RoutesModel {
   bool isSelect;
   bool? playlistIn;
   bool? favouriteIn;
-
+  // UserProfileModel? userProfile;
 
   factory RoutesModel.fromJson(Map<String, dynamic> json) => RoutesModel(
-    // modified: json["modified"],
-    userGrade: json["user_grade"].toInt(),
-    hasConner: json["has_conner"],
-    name: json["name"],
-    popurlarity: json["popurlarity"],
-    userId: json["user_id"],
-    published: json["published"],
-    userGradeCount: json["user_grade_count"].toInt(),
-    visibility: json["visibility"],
-    height: json["height"],
-    id: json["id"],
-    authorGrade: json["author_grade"].toInt(),
-    created: json["created"],
-    holds: json["holds"].toString(),
-    isSelect: false,
-    playlistIn: json["playlist_in"],
-    favouriteIn: json["favourite_in"]
-  );
+      // modified: json["modified"],
+      userGrade: json["user_grade"].toInt(),
+      hasConner: json["has_conner"],
+      name: json["name"],
+      popurlarity: json["popurlarity"],
+      userId: json["user_id"],
+      published: json["published"],
+      userGradeCount: json["user_grade_count"].toInt(),
+      visibility: json["visibility"],
+      height: json["height"],
+      id: json["id"],
+      authorGrade: json["author_grade"].toInt(),
+      created: json["created"],
+      holds: json["holds"].toString(),
+      isSelect: false,
+      playlistIn: json["playlist_in"],
+      favouriteIn: json["favourite_in"],
+      /*userProfile: UserProfileModel.fromJson(json["user_profile"])*/);
 
   Map<String, dynamic> toJson() => {
-    // "modified": modified,
-    "user_grade": userGrade,
-    "has_conner": hasConner,
-    "name": name,
-    "popurlarity": popurlarity,
-    "user_id": userId,
-    "published": published,
-    "user_grade_count": userGradeCount,
-    "visibility": visibility,
-    "height": height,
-    "id": id,
-    "author_grade": authorGrade,
-    "created": created,
-    "holds": holds,
-    "playlist_in" : playlistIn,
-    "favourite_in" : favouriteIn,
-  };
+        // "modified": modified,
+        "user_grade": userGrade,
+        "has_conner": hasConner,
+        "name": name,
+        "popurlarity": popurlarity,
+        "user_id": userId,
+        "published": published,
+        "user_grade_count": userGradeCount,
+        "visibility": visibility,
+        "height": height,
+        "id": id,
+        "author_grade": authorGrade,
+        "created": created,
+        "holds": holds,
+        "playlist_in": playlistIn,
+        "favourite_in": favouriteIn,
+      /*  "user_profile": userProfile*/
+      };
 }
-
