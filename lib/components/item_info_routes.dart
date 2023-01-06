@@ -199,13 +199,21 @@ class ItemInfoRoutes extends StatelessWidget {
                                       color: colorText0.withOpacity(0.6),
                                       fontSize: 13.sp),
                                 ),
-                                SizedBox(width: contentPadding),
+                                Padding(
+                                  padding:
+                                      EdgeInsets.only(right: 5.w),
+                                  child: const Icon(
+                                    Icons.circle_sharp,
+                                    size: 6,
+                                    color: colorWhite,
+                                  ),
+                                ),
                                 Container(
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(20),
                                         color: colorWhite),
-                                    padding: const EdgeInsets.only(
-                                        left: 7, right: 7, top: 2, bottom: 2),
+                                    padding: EdgeInsets.only(
+                                        left: 7.w, right: 7.w, top: 2.h, bottom: 2.h),
                                     child: AppText(LocaleKeys.draft.tr(),
                                         style: typoW400.copyWith(
                                             fontSize: 11.sp,
