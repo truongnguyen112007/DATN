@@ -129,7 +129,6 @@ class _FavouritePageState extends State<FavouritePage>
                     borderRadius: BorderRadius.circular(18),
                   ),
                   onTap: () {
-                    logE("hskjdhkjsh");
                     var lSelectRadioButton = <RoutesModel>[];
                     for (var element in state.lPlayList) {
                       if (element.isSelect == true)

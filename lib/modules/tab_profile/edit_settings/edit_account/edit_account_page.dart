@@ -67,6 +67,9 @@ class _EditAccountState extends BaseState<EditAccountPage>
       isTabToHideKeyBoard: true,
       backgroundColor: colorGreyBackground,
       appbar: appBarWidget(
+        onPressed: (){
+          Utils.showActionDialog(context, (p0) => null);
+        },
           context: context,
           titleStr: LocaleKeys.settingsAccount.tr(),
           action: [

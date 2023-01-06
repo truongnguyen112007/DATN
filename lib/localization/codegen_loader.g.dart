@@ -58,7 +58,7 @@ class Applocalizations extends AssetLoader {
     "removeFilter": 'Remove Filter',
     "routeSetter": 'Route Setter',
     "rpRedPoint": 'RP-Red Point',
-    "showResult": 'Show Result',
+    "showResult": 'Show results',
     "status": 'Status',
     "suSupported": 'SU-Supported',
     "trTopRope": 'TR-Top-rope',

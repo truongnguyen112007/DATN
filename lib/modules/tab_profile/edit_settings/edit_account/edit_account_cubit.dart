@@ -41,6 +41,10 @@ class EditAccountCubit extends Cubit<EditAccountState> {
     // emit(EditAccountState(model: userModel));
   }
 
+  void backButton () {
+
+  }
+
   void saveInfo(BuildContext context, String firstname, String lastName,
       String role, String height, String email) {
     Dialogs.showWidgetDialog(context, callback: () async {

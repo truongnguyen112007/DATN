@@ -70,7 +70,7 @@ class _ItemFilterWidgetState extends State<ItemFilterWidget> {
         child: AppText(
           widget.data.keys.first,
           style: typoW600.copyWith(
-              color: colorText0.withOpacity(0.87), fontSize: 12.sp),
+              color: colorText0.withOpacity(0.87), fontSize: 13.2.sp),
         ),
       ),
       onTap: () => itemOnclick.call(),

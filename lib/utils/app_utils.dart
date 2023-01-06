@@ -470,6 +470,11 @@ class Utils {
                   ),
                   child: Column(
                     children: [
+                      Container(
+                        width: 70.w,
+                        height: 2.h,
+                        color: colorWhite,
+                      ),
                       SizedBox(height: contentPadding),
                       !isDesigned && !isFavorite && !isSearchRoute!
                           ? itemAction(
@@ -551,8 +556,8 @@ class Utils {
         child: Row(
           children: [
             SizedBox(
-              width: 22.w,
-              height: 22.w,
+              width: 18.w,
+              height: 18.w,
               child: SvgPicture.asset(icon),
             ),
             SizedBox(

@@ -148,9 +148,9 @@ class _SearchPageState extends BasePopState<SearchPage>
   Widget appBar() {
     return Padding(
       padding: EdgeInsets.only(
-          top: MediaQuery.of(context).padding.top,
+          top: 10.h,
           right: contentPadding,
-          left: contentPadding),
+          left: contentPadding +4),
       child: Row(
         children: [
           InkWell(
@@ -237,7 +237,7 @@ class _SearchPageState extends BasePopState<SearchPage>
                 _jumpToPage(index);
               },
               child: Container(
-                padding: EdgeInsets.only(left: 15.w, right: 15.w),
+                padding: EdgeInsets.only(left: 18.w, right: 18.w),
                 margin: EdgeInsets.only(left: 6.w),
                 alignment: Alignment.center,
                 decoration: (state is InitSearchState && index == BottomNavigationSearch.TAB_ROUTES) ||
