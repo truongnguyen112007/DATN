@@ -26,6 +26,7 @@ import '../../localization/locale_keys.dart';
 import '../../router/router.dart';
 import '../../utils/app_utils.dart';
 import '../../utils/log_utils.dart';
+import '../create_info_route/create_info_route_page.dart';
 import '../create_routes/create_routes_page.dart';
 import '../filter_routes/filter_routes_page.dart';
 import '../playlist/playlist_cubit.dart';
@@ -58,7 +59,7 @@ class FavouriteCubit extends Cubit<FavouriteState> {
     var countNotAddToPlaylist = 0; // Check số lượng item chưa add vào Playlist
     for (var element in state.lPlayList) {
       if (element.isSelect) {
-        if (element.playlistIn == true || element.favouriteIn == true) {
+        if (element.playlistIn == true) {
           isAddToPlaylist = true;
         } else {
           countNotAddToPlaylist++;
@@ -66,7 +67,7 @@ class FavouriteCubit extends Cubit<FavouriteState> {
       }
     }
     Utils.showActionDialog(context, (type) {
-      Navigator.pop(context);
+      Navigator.of(context, rootNavigator: true).pop();
       switch (type) {
         case ItemAction.ADD_TO_PLAYLIST:
           addToPlaylist(
@@ -85,13 +86,8 @@ class FavouriteCubit extends Cubit<FavouriteState> {
               isMultiSelect: isMultiSelect);
           return;
         case ItemAction.REMOVE_FROM_PLAYLIST:
-          removeFromPlaylist(
-            context,
-            controller,
-            index,
-            isMultiSelect: isMultiSelect,
-            model: model
-          );
+          removeFromPlaylist(context, controller, index,
+              isMultiSelect: isMultiSelect, model: model);
           return;
         case ItemAction.SHARE:
           shareRoutes(context, model, index);
@@ -123,7 +119,8 @@ class FavouriteCubit extends Cubit<FavouriteState> {
 
   void createRoutesOnClick(BuildContext context) =>
       /*toast(LocaleKeys.thisFeatureIsUnder)*/
-      RouterUtils.openNewPage(const CreateRoutesPage(), context);
+      RouterUtils.openNewPage(
+          const CreateInfoRoutePage(isPublish: false), context);
 
   void filterOnclick(BuildContext context) => RouterUtils.openNewPage(
       FilterRoutesPage(
@@ -149,7 +146,7 @@ class FavouriteCubit extends Cubit<FavouriteState> {
 
   void sortOnclick(BuildContext context) {
     Utils.showSortDialog(context, (type) async {
-      Navigator.pop(context);
+      Navigator.of(context, rootNavigator: true).pop();
       state.sort = type;
       state.favType = FavType.Sort;
       emit(state.copyWith(
@@ -262,12 +259,12 @@ class FavouriteCubit extends Cubit<FavouriteState> {
   }
 
   void removeFromPlaylist(
-      BuildContext context,
-      FilterController controller,
-      int index, {
-        RoutesModel? model,
-        bool isMultiSelect = false,
-      }) async {
+    BuildContext context,
+    FilterController controller,
+    int index, {
+    RoutesModel? model,
+    bool isMultiSelect = false,
+  }) async {
     var lRoutes = "";
     var lIndex = [];
     if (isMultiSelect) {
@@ -282,10 +279,15 @@ class FavouriteCubit extends Cubit<FavouriteState> {
     }
     Dialogs.showLoadingDialog(context);
     var response =
-    await userRepository.removeFromPlaylist(globals.playlistId, lRoutes);
+        await userRepository.removeFromPlaylist(globals.playlistId, lRoutes);
     await Dialogs.hideLoadingDialog();
     if (response.error == null) {
       if (isMultiSelect) {
+        for (int i = 0; i < state.lPlayList.length; i++) {
+          if (state.lPlayList[i].isSelect) {
+            state.lPlayList[i].playlistIn = false;
+          }
+        }
         toast(response.message);
         emit(
           state.copyWith(
@@ -328,7 +330,7 @@ class FavouriteCubit extends Cubit<FavouriteState> {
     await Dialogs.hideLoadingDialog();
     if (response.error == null) {
       if (isMultiSelect) {
-        for (int i = lIndex.length - 1; i >= 0; i--) {
+        for (int i = 0; i < state.lPlayList.length; i++) {
           state.lPlayList.removeAt(lIndex[i]);
         }
         emit(
@@ -352,12 +354,8 @@ class FavouriteCubit extends Cubit<FavouriteState> {
     }
   }
 
-  void addToPlaylist(
-    BuildContext context,
-    FilterController controller, {
-    RoutesModel? model,
-    bool isMultiSelect = false,
-  }) async {
+  void addToPlaylist(BuildContext context, FilterController controller,
+      {RoutesModel? model, bool isMultiSelect = false, int index = 0}) async {
     Dialogs.showLoadingDialog(context);
     var lRoutes = <String>[];
     var lIndex = [];
@@ -378,6 +376,9 @@ class FavouriteCubit extends Cubit<FavouriteState> {
       for (int i = 0; i < lIndex.length; i++) {
         state.lPlayList[lIndex[i]].playlistIn = true;
         state.lPlayList[lIndex[i]].isSelect = false;
+      }
+      if (model != null) {
+        state.lPlayList[index].playlistIn = true;
       }
       toast(response.message);
       model?.playlistIn = true;

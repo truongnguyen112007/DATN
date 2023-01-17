@@ -91,21 +91,31 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
     Utils.hideKeyboard(context);
     var isAddToPlaylist = false;
     var countNotAddToPlaylist = 0;
-    for (var element in state.lRoutes) {
-      if (element.isSelect) {
-        if (element.playlistIn == true || element.favouriteIn == true) {
-          isAddToPlaylist = true;
-        } else {
-          countNotAddToPlaylist++;
+    var isAddToFav = false;
+    var countNotAddToFav = 0;
+    if (model == null) {
+      for (var element in state.lRoutes) {
+        if (element.isSelect) {
+          if (element.favouriteIn == true) {
+            isAddToFav = true;
+          } else {
+            countNotAddToFav++;
+          }
+          if (element.playlistIn == true) {
+            isAddToPlaylist = true;
+          } else {
+            countNotAddToPlaylist++;
+          }
         }
       }
     }
+
     Utils.showActionDialog(context, (type) {
-      Navigator.pop(context);
+      Navigator.of(context, rootNavigator: true).pop();
       switch (type) {
         case ItemAction.ADD_TO_PLAYLIST:
           addToPlaylist(context, controller,
-              model: model, isMultiSelect: isMultiSelect);
+              model: model, isMultiSelect: isMultiSelect,index: index);
           return;
         case ItemAction.REMOVE_FROM_PLAYLIST:
           removeFromPlaylist(context, controller, index,
@@ -122,9 +132,12 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
       }
     },
         checkPlaylists:
-            (!isAddToPlaylist || (isAddToPlaylist && countNotAddToPlaylist > 0))
+        (!isAddToPlaylist || (isAddToPlaylist && countNotAddToPlaylist > 0))
                 ? true
                 : false,
+        checkFav: (!isAddToFav || (isAddToFav && countNotAddToFav > 0))
+            ? true
+            : false,
         isSearchRoute: true,
         model: model);
   }
@@ -254,7 +267,8 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
   void addToPlaylist(BuildContext context, FilterController controller,
       {RoutesModel? model,
       bool isMultiSelect = false,
-      bool isAdd = false}) async {
+      bool isAdd = false,
+      int index = 0}) async {
     Dialogs.showLoadingDialog(context);
     var lRoutes = <String>[];
     var lIndex = [];
@@ -275,6 +289,9 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
       for (int i = 0; i < lIndex.length; i++) {
         state.lRoutes[lIndex[i]].playlistIn = true;
         state.lRoutes[lIndex[i]].isSelect = false;
+      }
+      if (model != null) {
+        state.lRoutes[index].playlistIn = true;
       }
       toast(response.message);
       model?.playlistIn = true;
@@ -314,6 +331,11 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
     await Dialogs.hideLoadingDialog();
     if (response.error == null) {
       if (isMultiSelect) {
+        for (int i = 0; i < state.lRoutes.length; i++) {
+          if (state.lRoutes[i].isSelect) {
+            state.lRoutes[i].playlistIn = false;
+          }
+        }
         toast(response.message);
         emit(
           state.copyWith(
@@ -341,6 +363,7 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
     FilterController controller, {
     RoutesModel? model,
     bool isMultiSelect = false,
+        int index = 0
   }) async {
     Dialogs.showLoadingDialog(context);
     var lRoutes = <String>[];
@@ -361,6 +384,9 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
       for (int i = 0; i < lIndex.length; i++) {
         state.lRoutes[lIndex[i]].favouriteIn = true;
         state.lRoutes[lIndex[i]].isSelect = false;
+      }
+      if (model != null) {
+        state.lRoutes[index].favouriteIn = true;
       }
       toast(response.message);
       model?.favouriteIn = true;
@@ -395,6 +421,11 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
     await Dialogs.hideLoadingDialog();
     if (response.error == null) {
       if (isMultiSelect) {
+        for (int i = 0; i < state.lRoutes.length; i++) {
+          if (state.lRoutes[i].isSelect) {
+            state.lRoutes[i].favouriteIn = false;
+          }
+        }
         toast(response.message);
         emit(
           state.copyWith(

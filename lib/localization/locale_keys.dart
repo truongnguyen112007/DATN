@@ -19,6 +19,20 @@ abstract class LocaleKeys {
   static const filter = 'filter';
   static const moveToPlaylist = 'moveToPlaylist';
   static const addToPlaylist = 'addToPlaylist';
+  static const forgotPassword = "forgotPassword";
+
+  static const cancelDialog = "cancelDialog";
+  static const yesDialog = "yesDialog";
+  static const backDialog = "backDialog";
+
+  static const updateSuccess = "updateSuccess";
+  static const askWantToSaveInfo = "askWantToSaveInfo";
+  static const changeWillNotSave = "changeWillNotSave";
+  static const mustFillInfo = "mustFillInfo";
+
+  static const userTypeProfile = "userTypeProfile";
+  static const routeSetterProfile = "routeSetterProfile";
+  static const trainerProfile = "trainerProfile";
 
   static const addToFavourite = 'addToFavourite';
 

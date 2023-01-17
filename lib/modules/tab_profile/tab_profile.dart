@@ -83,7 +83,8 @@ class _TabProfileState extends State<TabProfile> {
                         appBar: PreferredSize(
                             preferredSize: Size.fromHeight(
                                 MediaQuery.of(context).size.height),
-                            child: NestedScrollView(
+                            child:
+                            NestedScrollView(
                               headerSliverBuilder: (context, value) {
                                 return [
                                   DynamicSliverAppBar(
@@ -94,8 +95,8 @@ class _TabProfileState extends State<TabProfile> {
                                   SliverPersistentHeader(
                                     pinned: true,
                                     delegate: SliverAppBarDelegate(
-                                      minHeight: 44.w,
-                                      maxHeight: 44.w,
+                                      minHeight: 46.w,
+                                      maxHeight: 46.w,
                                       child: TabBar(
                                         labelColor: colorPrimary,
                                         labelStyle: googleFont.copyWith(

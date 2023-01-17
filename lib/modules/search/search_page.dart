@@ -167,7 +167,7 @@ class _SearchPageState extends BasePopState<SearchPage>
           ),
           Expanded(
             child: TextField(
-              style: const TextStyle(color: colorWhite),
+              style:  TextStyle(color: colorWhite,fontSize: 18.sp),
               onChanged: (str){
                 itemOnChange.add(str);
                 setState(() {});

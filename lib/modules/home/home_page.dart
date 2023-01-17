@@ -61,7 +61,7 @@ class _HomePageState extends State<HomePage> {
       if (result != null && event.type != null) {
         switch (event.type) {
           case NewPageType.HOLD_SET:
-            Utils.fireEvent(HoldSetEvent(result[0],result[1]));
+            Utils.fireEvent(HoldSetEvent(result[0], result[1]));
             return;
           case NewPageType.FILL_PLACE:
           case NewPageType.ZOOM_ROUTES:
@@ -169,7 +169,7 @@ class _HomePageState extends State<HomePage> {
           child: Container(
             padding: EdgeInsets.only(top: 17.h),
             height: 50.h,
-            margin: EdgeInsets.only(bottom: 28),
+            margin: const EdgeInsets.only(bottom: 28),
             decoration: const BoxDecoration(
               color: colorBlack,
               borderRadius: BorderRadius.only(
@@ -208,7 +208,7 @@ class _HomePageState extends State<HomePage> {
           backgroundColor: Colors.black,
           iconSize: 11,
           type: BottomNavigationBarType.fixed,
-          selectedItemColor: HexColor('FF9300'),
+          selectedItemColor: colorPrimary,
           selectedFontSize: 11.sp,
           unselectedFontSize: 11.sp,
           enableFeedback: false,
@@ -219,7 +219,7 @@ class _HomePageState extends State<HomePage> {
                 icon: Assets.svg.home),
             itemBottomNavigationBarWidget(
                 index: BottomNavigationConstant.TAB_ROUTES,
-                label: LocaleKeys.routes.tr(),
+                label: LocaleKeys.routes.tr() + "s",
                 icon: Assets.svg.routes),
             itemBottomNavigationBarWidget(
                 isTransparent: true,

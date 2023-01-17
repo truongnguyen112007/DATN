@@ -52,7 +52,7 @@ class _LoginState extends BasePopState<LoginPage> with TickerProviderStateMixin 
         backgroundColor: colorBlack,
         title: AppText(
           LocaleKeys.login.tr(),
-          style: googleFont.copyWith(color: colorWhite),
+          style: googleFont.copyWith(color: colorWhite,fontSize: 21.sp),
         ),
       ),
       body: 
@@ -97,7 +97,7 @@ class _LoginState extends BasePopState<LoginPage> with TickerProviderStateMixin 
               widget: Center(
                 child: AppText(
                 LocaleKeys.login.tr(),
-                style: googleFont.copyWith(color: colorWhite, fontSize: 15.sp),
+                style: googleFont.copyWith(color: colorWhite, fontSize: 17.sp),
               )),
               borderRadius: BorderRadius.circular(30),
             ),
@@ -105,8 +105,8 @@ class _LoginState extends BasePopState<LoginPage> with TickerProviderStateMixin 
               height: 25.h,
             ),
             AppText(
-              'Forgot your password?',
-              style: googleFont.copyWith(color: colorOrange90),
+              LocaleKeys.forgotPassword.tr(),
+              style: googleFont.copyWith(color: colorPrimaryOrange100,fontSize: 15.5.sp),
             )
           ],
         ),
@@ -129,7 +129,7 @@ class _LoginState extends BasePopState<LoginPage> with TickerProviderStateMixin 
       decoration: InputDecoration(
           errorText: errorText.isEmpty ? null : errorText,
           labelText: labelText,
-          labelStyle: googleFont.copyWith(color: errorText.isEmpty ? colorSubText: colorSemanticRed100),
+          labelStyle: googleFont.copyWith(color: errorText.isEmpty ? colorSubText: colorSemanticRed100,fontSize: 18.sp),
           suffixIcon: InkWell(
             splashColor: colorTransparent,
             hoverColor: colorTransparent,

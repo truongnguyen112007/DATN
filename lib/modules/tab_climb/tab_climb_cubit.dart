@@ -7,6 +7,7 @@ import 'package:geolocator/geolocator.dart';
 
 import '../../config/constant.dart';
 import '../../data/model/places_model.dart';
+import '../../data/model/wall_model.dart';
 import '../../router/router_utils.dart';
 
 class TabClimbCubit extends Cubit<TabClimbState> {
@@ -77,3 +78,9 @@ List<PlacesModel> fakeData() => [
           lat: 21.079085115322442,
           lng: 105.8124170251354),
     ];
+
+List<WallModel> fakeDataWall() => [
+  WallModel("Murall", 3, "7A+"),
+  WallModel("Next to Window", 0, "5A"),
+  WallModel("Murall", 2, "6A+"),
+];

@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
+import '../theme/colors.dart';
+
 class DynamicSliverAppBar extends StatefulWidget {
   Widget child;
   final double maxHeight;
@@ -37,6 +39,7 @@ class _DynamicSliverAppBarState extends State<DynamicSliverAppBar> {
     });
 
     return SliverAppBar(
+      backgroundColor: colorBlack,
         elevation: 0.0,
         toolbarHeight: isHeightCalculated ? height : widget.maxHeight,
         floating: false,

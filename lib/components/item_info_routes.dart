@@ -92,7 +92,7 @@ class ItemInfoRoutes extends StatelessWidget {
         Expanded(
           child: Container(
             padding: EdgeInsets.only(
-                left: contentPadding, right: contentPadding + 10),
+                left: contentPadding, right: contentPadding + 5),
             height: 72.h,
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
@@ -101,7 +101,6 @@ class ItemInfoRoutes extends StatelessWidget {
                     stops: infoBackground.stops,
                     colors: infoBackground.colors)),
             child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Visibility(
                   visible: isDrag,
@@ -112,38 +111,41 @@ class ItemInfoRoutes extends StatelessWidget {
                         color: colorWhite,
                       )),
                 ),
+                SizedBox(
+                  width: 15.w,
+                ),
                 Expanded(
-                  flex: 3,
+                  flex: !isDrag ? 3 : 4,
                   child: model.hasConner == false
-                      ? Center(
-                          child: AppText(Utils.getGrade(model.authorGrade ?? 0),
-                              style: googleFont.copyWith(
-                                  fontWeight: FontWeight.w700,
-                                  color: colorText0,
-                                  fontSize: 31.sp)),
-                        )
-                      : Center(
-                          child: Column(
+                      ? AppText(Utils.getGrade(model.authorGrade ?? 0),
+                          style: googleFont.copyWith(
+                              fontWeight: FontWeight.w700,
+                              color: colorText0,
+                              fontSize: 31.sp))
+                      : Padding(
+                        padding:  EdgeInsets.only(top: 5.h),
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               AppText(
                                 Utils.getGrade(model.authorGrade ?? 0),
                                 style: googleFont.copyWith(
+                                  height: 1,
                                     fontWeight: FontWeight.w700,
                                     color: colorText0,
-                                    fontSize: 31.sp),
-                                textAlign: TextAlign.end,
+                                    fontSize: 29.sp),
                               ),
                               AppText(
                                 " ${LocaleKeys.corner.tr()}",
-                                textAlign: TextAlign.start,
                                 style: typoW400.copyWith(
-                                    color: colorWhite.withOpacity(0.87)),
+                                  height: 1,
+                                    color: colorWhite.withOpacity(0.87),fontSize: 12.7.sp),
                               ),
                             ],
                           ),
-                        ),
+                      ),
                 ),
-                const SizedBox(width: 10),
                 Expanded(
                     flex: 8,
                     child: Column(
@@ -160,7 +162,7 @@ class ItemInfoRoutes extends StatelessWidget {
                           maxLine: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
-                        const SizedBox(height: 6),
+                        const SizedBox(height: 3),
                         (model.published ?? true)
                             ? Row(
                                 children: [
@@ -173,10 +175,10 @@ class ItemInfoRoutes extends StatelessWidget {
                                   Padding(
                                     padding:
                                         EdgeInsets.only(left: 5.w, right: 5.w),
-                                    child: const Icon(
+                                    child: Icon(
                                       Icons.circle_sharp,
                                       size: 6,
-                                      color: colorWhite,
+                                      color: colorText0.withOpacity(0.6),
                                     ),
                                   ),
                                   Expanded(
@@ -200,12 +202,11 @@ class ItemInfoRoutes extends StatelessWidget {
                                       fontSize: 13.sp),
                                 ),
                                 Padding(
-                                  padding:
-                                      EdgeInsets.only(right: 5.w),
-                                  child: const Icon(
+                                  padding: EdgeInsets.only(right: 5.w),
+                                  child: Icon(
                                     Icons.circle_sharp,
                                     size: 6,
-                                    color: colorWhite,
+                                    color: colorText0.withOpacity(0.6),
                                   ),
                                 ),
                                 Container(
@@ -213,7 +214,10 @@ class ItemInfoRoutes extends StatelessWidget {
                                         borderRadius: BorderRadius.circular(20),
                                         color: colorWhite),
                                     padding: EdgeInsets.only(
-                                        left: 7.w, right: 7.w, top: 2.h, bottom: 2.h),
+                                        left: 7.w,
+                                        right: 7.w,
+                                        top: 2.h,
+                                        bottom: 2.h),
                                     child: AppText(LocaleKeys.draft.tr(),
                                         style: typoW400.copyWith(
                                             fontSize: 11.sp,

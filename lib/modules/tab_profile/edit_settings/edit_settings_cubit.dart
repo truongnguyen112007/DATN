@@ -77,10 +77,16 @@ class EditSettingsCubit extends Cubit<EditSettingsState> {
         )
       ];
 
-  void openAccountPage(BuildContext context,VoidCallback editAccountCallBack) async{
+  void openAccountPage(
+      BuildContext context, VoidCallback editAccountCallBack) async {
     var userModel = await StorageUtils.getUserProfile();
-    RouterUtils.openNewPage(EditAccountPage(model: userModel!,editAccountCallBack: (){editSettingCallBack.call();
-    }), context);
+    RouterUtils.openNewPage(
+        EditAccountPage(
+            model: userModel!,
+            editAccountCallBack: () {
+              editSettingCallBack.call();
+            }),
+        context);
   }
 
   void openNotificationsSettingsPage(BuildContext context) {
