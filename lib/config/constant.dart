@@ -64,6 +64,8 @@ class ApiKey {
   static const favorite_route_grade = "favorite_route_grade";
   static const photo = "photo";
   static const phone = "phone";
+  static const refresh_token = 'refresh_token';
+
 }
 
 class BottomNavigationConstant{
