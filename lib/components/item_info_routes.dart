@@ -174,7 +174,7 @@ class ItemInfoRoutes extends StatelessWidget {
                                   ),
                                   Padding(
                                     padding:
-                                        EdgeInsets.only(left: 5.w, right: 5.w),
+                                        EdgeInsets.only(left: 3.w, right: 3.w),
                                     child: Icon(
                                       Icons.circle_sharp,
                                       size: 6,

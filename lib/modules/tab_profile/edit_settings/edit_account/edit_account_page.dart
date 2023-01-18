@@ -244,7 +244,7 @@ class _EditAccountState extends BaseState<EditAccountPage>
                 textAlign: TextAlign.center,
                 decoration:  InputDecoration(
                   suffixIcon: Padding(
-                    padding:  EdgeInsets.only(top: 8.h),
+                    padding:  EdgeInsets.only(top: 5.h),
                     child: Text(
                       "cm",
                       style: googleFont.copyWith(

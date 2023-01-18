@@ -53,7 +53,7 @@ class _TabRoutesState extends State<TabRoutes>
         },
             onClickJumpToTop: () {},
             widget: AppText(
-              LocaleKeys.routes.tr(),
+              LocaleKeys.routes.tr() + "s",
               style: googleFont.copyWith(color: colorWhite,fontSize: 20.sp),
             )),
         backgroundColor: colorGreyBackground,

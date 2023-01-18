@@ -562,12 +562,12 @@ class Utils {
         child: Row(
           children: [
             SizedBox(
-              width: 18.w,
-              height: 18.w,
+              width: 20.w,
+              height: 20.w,
               child: SvgPicture.asset(icon),
             ),
             SizedBox(
-              width: 40.w,
+              width: 25.w,
             ),
             AppText(
               text,

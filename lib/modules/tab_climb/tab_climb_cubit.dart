@@ -1,3 +1,4 @@
+
 import 'package:base_bloc/modules/tab_climb/tab_climb_state.dart';
 import 'package:base_bloc/router/router.dart';
 import 'package:flutter/cupertino.dart';
@@ -78,6 +79,12 @@ List<PlacesModel> fakeData() => [
           lat: 21.079085115322442,
           lng: 105.8124170251354),
     ];
+
+// List<WallModel> fakeDataWall() => [
+//   WallModel("Murall", "3", "6A"),
+//   WallModel("Next to Window", "0", "5A"),
+//   WallModel("Murall", "2", "6A")
+// ];
 
 List<WallModel> fakeDataWall() => [
   WallModel("Murall", 3, "7A+"),

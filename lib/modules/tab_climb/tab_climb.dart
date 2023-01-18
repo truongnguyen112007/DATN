@@ -409,4 +409,88 @@ class _TabClimbState extends State<TabClimb> with TickerProviderStateMixin {
       ],
     );
   }
+
+  Widget listWallLogin() {
+    return ListView.separated(
+      physics: const NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      padding: const EdgeInsets.only(top: 10),
+      itemBuilder: (BuildContext context, int index) {
+        return itemNearestPlace(fakeData()[index]);
+      },
+      separatorBuilder: (BuildContext context, int index) =>
+          SizedBox(
+            height: 10.h,
+          ),
+      itemCount: fakeData().length,
+    );
+  }
+
+  // Widget itemWallLogIn (WallModel model) {
+  //   return Padding(
+  //     padding: EdgeInsets.only(left: 8.w, right: 8.w),
+  //     child: Container(
+  //       height: 69.h,
+  //       decoration: BoxDecoration(
+  //           color: Colors.black, borderRadius: BorderRadius.circular(20)),
+  //       child: Padding(
+  //         padding: EdgeInsets.only(left: 25.w),
+  //         child: Row(
+  //           children: [
+  //             Container(
+  //               height: 55.h,
+  //               width: 55.h,
+  //               decoration: BoxDecoration(
+  //                   borderRadius: BorderRadius.circular(100),
+  //                   color: Colors.yellow),
+  //             ),
+  //             SizedBox(
+  //               width: 20.w,
+  //             ),
+  //             Column(
+  //               crossAxisAlignment: CrossAxisAlignment.start,
+  //               mainAxisAlignment: MainAxisAlignment.center,
+  //               children: [
+  //                 Text(
+  //                   model.namePlace,
+  //                   style: const TextStyle(color: Colors.white, fontSize: 25),
+  //                 ),
+  //                 Row(
+  //                   children: [
+  //                     Text(
+  //                       model.nameCity,
+  //                       style: const TextStyle(
+  //                           color: Colors.white54, fontSize: 17),
+  //                     ),
+  //                     SizedBox(
+  //                       width: 5.w,
+  //                     ),
+  //                     const Icon(
+  //                       Icons.brightness_1_rounded,
+  //                       color: Colors.white54,
+  //                       size: 8,
+  //                     ),
+  //                     SizedBox(
+  //                       width: 5.w,
+  //                     ),
+  //                     Text(
+  //                       model.distance.toString(),
+  //                       style: const TextStyle(
+  //                           color: Colors.white54, fontSize: 17),
+  //                     ),
+  //                     const AppText(
+  //                       'km',
+  //                       style: TextStyle(color: Colors.white54, fontSize: 17),
+  //                     )
+  //                   ],
+  //                 ),
+  //               ],
+  //             ),
+  //           ],
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
+
 }

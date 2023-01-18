@@ -267,7 +267,7 @@ class PlayListCubit extends Cubit<PlaylistState> {
 
   void closeDragDrop() {
     emit(state.copyWith(
-        isChooseDragDrop: false, lRoutes: state.lRoutesCache));
+        isChooseDragDrop: false, lRoutes: state.lRoutesCache,isDrag: false));
   }
 
   void saveDragDrop(BuildContext context) async {
