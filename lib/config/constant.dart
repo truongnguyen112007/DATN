@@ -67,6 +67,8 @@ class ApiKey {
   static const user = "user";
   static const route_setter = "route_setter";
   static const trainer = "trainer";
+  static const refresh_token = 'refresh_token';
+
 }
 
 class BottomNavigationConstant{
