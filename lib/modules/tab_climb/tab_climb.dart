@@ -16,6 +16,7 @@ import '../../components/check_login.dart';
 import '../../components/gradient_button.dart';
 import '../../data/globals.dart';
 import '../../data/model/places_model.dart';
+import '../../data/model/wall_model.dart';
 import '../../gen/assets.gen.dart';
 import '../../localization/locale_keys.dart';
 import '../../theme/colors.dart';
@@ -398,7 +399,7 @@ class _TabClimbState extends State<TabClimb> with TickerProviderStateMixin {
           shrinkWrap: true,
           padding: const EdgeInsets.only(top: 10),
           itemBuilder: (BuildContext context, int index) {
-            return itemNearestPlace(fakeData()[index]);
+            return itemWallLogIn(fakeDataWall()[index]);
           },
           separatorBuilder: (BuildContext context, int index) =>
               SizedBox(
@@ -416,7 +417,7 @@ class _TabClimbState extends State<TabClimb> with TickerProviderStateMixin {
       shrinkWrap: true,
       padding: const EdgeInsets.only(top: 10),
       itemBuilder: (BuildContext context, int index) {
-        return itemNearestPlace(fakeData()[index]);
+        return itemWallLogIn(fakeDataWall()[index]);
       },
       separatorBuilder: (BuildContext context, int index) =>
           SizedBox(
@@ -426,71 +427,67 @@ class _TabClimbState extends State<TabClimb> with TickerProviderStateMixin {
     );
   }
 
-  // Widget itemWallLogIn (WallModel model) {
-  //   return Padding(
-  //     padding: EdgeInsets.only(left: 8.w, right: 8.w),
-  //     child: Container(
-  //       height: 69.h,
-  //       decoration: BoxDecoration(
-  //           color: Colors.black, borderRadius: BorderRadius.circular(20)),
-  //       child: Padding(
-  //         padding: EdgeInsets.only(left: 25.w),
-  //         child: Row(
-  //           children: [
-  //             Container(
-  //               height: 55.h,
-  //               width: 55.h,
-  //               decoration: BoxDecoration(
-  //                   borderRadius: BorderRadius.circular(100),
-  //                   color: Colors.yellow),
-  //             ),
-  //             SizedBox(
-  //               width: 20.w,
-  //             ),
-  //             Column(
-  //               crossAxisAlignment: CrossAxisAlignment.start,
-  //               mainAxisAlignment: MainAxisAlignment.center,
-  //               children: [
-  //                 Text(
-  //                   model.namePlace,
-  //                   style: const TextStyle(color: Colors.white, fontSize: 25),
-  //                 ),
-  //                 Row(
-  //                   children: [
-  //                     Text(
-  //                       model.nameCity,
-  //                       style: const TextStyle(
-  //                           color: Colors.white54, fontSize: 17),
-  //                     ),
-  //                     SizedBox(
-  //                       width: 5.w,
-  //                     ),
-  //                     const Icon(
-  //                       Icons.brightness_1_rounded,
-  //                       color: Colors.white54,
-  //                       size: 8,
-  //                     ),
-  //                     SizedBox(
-  //                       width: 5.w,
-  //                     ),
-  //                     Text(
-  //                       model.distance.toString(),
-  //                       style: const TextStyle(
-  //                           color: Colors.white54, fontSize: 17),
-  //                     ),
-  //                     const AppText(
-  //                       'km',
-  //                       style: TextStyle(color: Colors.white54, fontSize: 17),
-  //                     )
-  //                   ],
-  //                 ),
-  //               ],
-  //             ),
-  //           ],
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
+  Widget itemWallLogIn (WallModel model) {
+    return Padding(
+      padding: EdgeInsets.only(left: 8.w, right: 8.w),
+      child: Container(
+        height: 70.h,
+        decoration: BoxDecoration(
+            color: Colors.black, borderRadius: BorderRadius.circular(20)),
+        child: Padding(
+          padding: EdgeInsets.only(left: 25.w),
+          child: Row(
+            children: [
+              Container(
+                height: 55.h,
+                width: 55.h,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(100),
+                    color: Colors.yellow),
+              ),
+              SizedBox(
+                width: 20.w,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    model.name,
+                    style: const TextStyle(color: Colors.white, fontSize: 20),
+                  ),
+                  Row(
+                    children: [
+                      AppText(
+                        model.numberPlayer.toString() + " climbers",
+                        style: TextStyle(
+                            color: Colors.white54, fontSize: 14.sp),
+                      ),
+                      SizedBox(
+                        width: 20.w,
+                      ),
+                      const Icon(
+                        Icons.brightness_1_rounded,
+                        color: Colors.white54,
+                        size: 8,
+                      ),
+                      SizedBox(
+                        width: 5.w,
+                      ),
+                      Text(
+                        model.rank,
+                        style: const TextStyle(
+                            color: Colors.white54, fontSize: 17),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 
 }

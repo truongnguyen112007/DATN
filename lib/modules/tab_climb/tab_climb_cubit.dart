@@ -80,12 +80,6 @@ List<PlacesModel> fakeData() => [
           lng: 105.8124170251354),
     ];
 
-// List<WallModel> fakeDataWall() => [
-//   WallModel("Murall", "3", "6A"),
-//   WallModel("Next to Window", "0", "5A"),
-//   WallModel("Murall", "2", "6A")
-// ];
-
 List<WallModel> fakeDataWall() => [
   WallModel("Murall", 3, "7A+"),
   WallModel("Next to Window", 0, "5A"),
