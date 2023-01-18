@@ -79,6 +79,7 @@ class Utils {
   static void showSortDialog(BuildContext context, Function(SortParam) callBack,
       SortParam? sortModel) {
     showModalBottomSheet(
+      useRootNavigator: true,
       isScrollControlled: true,
       backgroundColor: colorTransparent,
       context: context,
