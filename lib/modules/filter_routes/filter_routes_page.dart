@@ -46,7 +46,8 @@ class FilterRoutesPage extends StatefulWidget {
     required this.showResultButton,
     required this.removeFilterCallBack,
     this.listRoute,
-    this.filter, this.keySearch,
+    this.filter,
+    this.keySearch,
   }) : super(key: key);
 
   @override
@@ -79,7 +80,7 @@ class _FilterRoutesPageState extends State<FilterRoutesPage> {
 
   @override
   void initState() {
-    _bloc = FilterRoutesPageCubit(widget.type,widget.keySearch,widget.filter);
+    _bloc = FilterRoutesPageCubit(widget.type, widget.keySearch, widget.filter);
     checkDataStatus();
     _bloc.setData(widget.filter, widget.listRoute);
     gradeChange
@@ -213,8 +214,7 @@ class _FilterRoutesPageState extends State<FilterRoutesPage> {
                           borderRadius: BorderRadius.circular(30),
                           gradient: Utils.backgroundGradientOrangeButton()),
                       child: AppText(
-                        "${LocaleKeys.showResult.tr()} : ${widget.type == FilterType.Favorite
-                            ? state.lPlayList!.length.toString() : state.count.toString()}",
+                        "${LocaleKeys.showResult.tr()} : ${widget.type == FilterType.Favorite ? state.lPlayList!.length.toString() : state.count.toString()}",
                         style: typoW600.copyWith(
                             color: colorText0, fontSize: 13.sp),
                       ),
@@ -284,10 +284,31 @@ class _FilterRoutesPageState extends State<FilterRoutesPage> {
       Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          AppText(
-            '${getGrade(lowerValue.toInt())} - ${getGrade(upperValue.toInt())}',
-            style: typoW400.copyWith(
-                fontSize: 13.sp, color: colorText0.withOpacity(0.87)),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+            Expanded(child:   AppText(
+              textAlign: TextAlign.end,
+              getGrade(lowerValue.toInt()),
+              style: typoW400.copyWith(
+                  fontSize: 13.sp, color: colorText0.withOpacity(0.87)),
+            ),),
+               Padding(
+                 padding:  EdgeInsets.only(left: 5.w,right: 5.w),
+                 child:  const Center(
+                    child: AppText(
+                      "-",
+                      style: TextStyle(color: colorWhite),
+                    )),
+               ),
+              Expanded(
+                child: AppText(
+                  getGrade(upperValue.toInt()),
+                  style: typoW400.copyWith(
+                      fontSize: 13.sp, color: colorText0.withOpacity(0.87)),
+                ),
+              )
+            ],
           ),
           AppSlider(
               rightHandler: AppSliderHandler(

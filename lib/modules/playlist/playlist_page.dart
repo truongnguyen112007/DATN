@@ -11,6 +11,7 @@ import 'package:base_bloc/router/router_utils.dart';
 import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/theme/colors.dart';
 import 'package:base_bloc/utils/app_utils.dart';
+import 'package:drag_and_drop_lists/drag_and_drop_lists.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
@@ -55,7 +56,7 @@ class _PlayListPageState extends State<PlayListPage>
   void paging() {
     scrollController.addListener(() {
       var maxScroll = scrollController.position.maxScrollExtent;
-      var currentScroll = scrollController.position.pixels;
+      var currentScroll = scrollController.position.pixels; 
       if (maxScroll - currentScroll <= 200) {
         _bloc.getPlayListById(isPaging: true);
       }
@@ -139,7 +140,7 @@ class _PlayListPageState extends State<PlayListPage>
               childPadding: const EdgeInsets.all(5),
               spaceBetweenChildren: 4,
               dialRoot: null,
-              buttonSize: const Size(56.0, 56.0),
+              buttonSize: const Size(62.0, 62.0),
               childrenButtonSize: const Size(56.0, 56.0),
               direction: SpeedDialDirection.up,
               renderOverlay: false,
@@ -183,35 +184,47 @@ class _PlayListPageState extends State<PlayListPage>
       );
 
   Widget playlistWidget(BuildContext context, PlaylistState state){
-   return ReorderableListView.builder(
-      scrollController: scrollController,
-      physics: const AlwaysScrollableScrollPhysics(),
-      padding: EdgeInsets.only(left: 10.w, right: 10.w),
-      itemBuilder: (c, i) => i == state.lRoutes.length
-          ? Center(
-        key: Key("$i"),
-        child: const AppCircleLoading(),
-      )
-          : ItemInfoRoutes(
-        isDrag: state.isDrag,
-        key: Key("$i"),
-        context: context,
-        model: state.lRoutes[i],
-        callBack: (model) {},
-        index: i,
-        onLongPressCallBack: (model) => _bloc.setDrag(true),
-        doubleTapCallBack: (model) =>
-            _bloc.itemDoubleClick(context, model, i),
-        detailCallBack: (RoutesModel action) =>
-            _bloc.itemOnclick(context, state.lRoutes[i]),
-      ),
-      itemCount:
-      !state.isReadEnd && state.lRoutes.isNotEmpty && state.isLoading
-          ? state.lRoutes.length + 1
-          : state.lRoutes.length,
-      onReorder: (int oldIndex, int newIndex) {
-        _bloc.dragItem(oldIndex, newIndex);
-      },
+    return Padding(
+      padding:  const EdgeInsets.only(top:8.0),
+      child: DragAndDropLists(
+          scrollController: scrollController,
+          onItemReorder: (int oldItemIndex, int oldListIndex, int newItemIndex,
+              int newListIndex) {
+            _bloc.dragItem(oldItemIndex, newItemIndex);
+          },
+          onListReorder: (int oldListIndex, int newListIndex) {},
+          children: [
+            DragAndDropList(
+                children: [
+              for (int i = 0;
+                  i <
+                      (!state.isReadEnd &&
+                              state.lRoutes.isNotEmpty &&
+                              state.isLoading
+                          ? state.lRoutes.length + 1
+                          : state.lRoutes.length);
+                  i++)
+                DragAndDropItem(
+                    child: i == state.lRoutes.length
+                        ? const Center(child: AppCircleLoading())
+                        : Padding(
+                            padding: EdgeInsets.only(left: 10.w, right: 10.w),
+                            child: ItemInfoRoutes(
+                              isDrag: state.isDrag,
+                              key: Key("$i"),
+                              context: context,
+                              model: state.lRoutes[i],
+                              callBack: (model) {},
+                    index: i,
+                    onLongPressCallBack: (model) => _bloc.setDrag(true),
+                  doubleTapCallBack: (model) =>
+                        _bloc.itemDoubleClick(context, model, i),
+                  detailCallBack: (RoutesModel action) =>
+                        _bloc.itemOnclick(context, state.lRoutes[i]),
+                ),
+                    ))
+            ])
+          ]),
     );
   }
 

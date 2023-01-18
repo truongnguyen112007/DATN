@@ -7,6 +7,7 @@ import 'package:base_bloc/data/model/background_param.dart';
 import 'package:base_bloc/data/model/general_action_sheet_model.dart';
 import 'package:base_bloc/data/model/info_route_model.dart';
 import 'package:base_bloc/data/repository/user_repository.dart';
+import 'package:base_bloc/router/router_utils.dart';
 import 'package:base_bloc/utils/log_utils.dart';
 import 'package:base_bloc/utils/toast_utils.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -448,12 +449,15 @@ class Utils {
       BuildContext context, Function(ItemAction) callBack,
       {bool isPlaylist = false,
       bool checkPlaylists = false,
+      bool checkFav = false,
       bool isFavorite = false,
       bool isCopy = true,
       bool isDesigned = false,
       bool? isSearchRoute = false,
       RoutesModel? model}) {
+    logE("checkFav:${checkPlaylists}");
     showModalBottomSheet(
+        useRootNavigator: true,
         isScrollControlled: true,
         backgroundColor: Colors.transparent,
         context: context,
@@ -485,14 +489,14 @@ class Utils {
                           : const SizedBox(),
                       checkPlaylists &&
                               !isPlaylist &&
-                              !((model?.playlistIn ?? false))
+                              (model?.playlistIn ?? false) == false
                           ? itemAction(
                               Assets.svg.addToPlayList,
                               LocaleKeys.addToPlaylist.tr(),
                               ItemAction.ADD_TO_PLAYLIST,
                               () => callBack.call(ItemAction.ADD_TO_PLAYLIST))
                           : const SizedBox(),
-                      !isDesigned && (model?.playlistIn ?? false)
+                      !checkPlaylists && !isDesigned || (model?.playlistIn ?? false)
                           ? itemAction(
                               Assets.svg.removeFromPlaylist,
                               LocaleKeys.removeFromPlaylist.tr(),
@@ -500,14 +504,16 @@ class Utils {
                               () => callBack
                                   .call(ItemAction.REMOVE_FROM_PLAYLIST))
                           : const SizedBox(),
-                      !isFavorite && (!(model?.favouriteIn ?? false))
+                      checkFav &&
+                              !isFavorite &&
+                              (model?.favouriteIn ?? false) == false
                           ? itemAction(
                               Assets.svg.liked,
                               LocaleKeys.addToFavourite.tr(),
                               ItemAction.ADD_TO_FAVOURITE,
                               () => callBack.call(ItemAction.ADD_TO_FAVOURITE))
                           : const SizedBox(),
-                      !isDesigned && ((model?.favouriteIn ?? true))
+                    !checkFav || isFavorite || !isDesigned && (model?.favouriteIn ?? false)
                           ? itemAction(
                               Assets.svg.like,
                               LocaleKeys.removeFromFavorite.tr(),
@@ -556,12 +562,12 @@ class Utils {
         child: Row(
           children: [
             SizedBox(
-              width: 18.w,
-              height: 18.w,
+              width: 20.w,
+              height: 20.w,
               child: SvgPicture.asset(icon),
             ),
             SizedBox(
-              width: 40.w,
+              width: 25.w,
             ),
             AppText(
               text,

@@ -49,9 +49,12 @@ class PlayListCubit extends Cubit<PlaylistState> {
     getPlayListById();
   }
 
-  void itemDoubleClick(BuildContext context, RoutesModel model, int index) =>
+  void itemDoubleClick(BuildContext context, RoutesModel model, int index) {
+    logE("TAGA  state.lRoutes[index].favouriteIn : ${ state.lRoutes[index].favouriteIn }");
+
+
       Utils.showActionDialog(context, (type) {
-        Navigator.pop(context);
+        Navigator.of(context, rootNavigator: true).pop();
         switch (type) {
           case ItemAction.REMOVE_FROM_PLAYLIST:
             removeOrAddToPlaylistRoutes(context, model, index, true);
@@ -78,8 +81,8 @@ class PlayListCubit extends Cubit<PlaylistState> {
             editRoute(context, model, index);
             return;
         }
-      }, isPlaylist: true, model: model);
-
+      }, isPlaylist: true, model: model,checkFav: true);
+  }
   void searchOnclick(BuildContext context) {
     RouterUtils.pushRoutes(
         context: context,
@@ -90,30 +93,30 @@ class PlayListCubit extends Cubit<PlaylistState> {
   void showOverlay(bool isOverlay) =>
       emit(state.copyWith(isOverlay: isOverlay));
 
-  void removeOrAddToPlaylistRoutes(BuildContext context,
-      RoutesModel model,
-      int index,
-      bool isRemove,) async {
+  void removeOrAddToPlaylistRoutes(
+    BuildContext context,
+    RoutesModel model,
+    int index,
+    bool isRemove,
+  ) async {
     Dialogs.showLoadingDialog(context);
     var response = isRemove
         ? await userRepository.removeFromPlaylist(
-        globals.playlistId, model.id ?? '')
+            globals.playlistId, model.id ?? '')
         : await userRepository
-        .addToPlaylist(globals.playlistId, [model.id ?? '']);
+            .addToPlaylist(globals.playlistId, [model.id ?? '']);
     await Dialogs.hideLoadingDialog();
     if (response.error == null) {
       state.lRoutes.removeAt(index);
-      emit(state.copyWith(timeStamp: DateTime
-          .now()
-          .microsecondsSinceEpoch));
+      emit(state.copyWith(timeStamp: DateTime.now().microsecondsSinceEpoch));
       Utils.fireEvent(RefreshEvent(RefreshType.FAVORITE));
     } else {
       toast(response.error.toString());
     }
   }
 
-  void addOrRemoveFavorite(BuildContext context, RoutesModel model, int index,
-      bool isAdd) async {
+  void addOrRemoveFavorite(
+      BuildContext context, RoutesModel model, int index, bool isAdd) async {
     Dialogs.showLoadingDialog(context);
     var response = isAdd
         ? await userRepository.addToFavorite(globals.userId, [model.id ?? ''])
@@ -121,12 +124,13 @@ class PlayListCubit extends Cubit<PlaylistState> {
     await Dialogs.hideLoadingDialog();
     if (response.error == null) {
       toast(response.message);
-      isAdd ? (model.favouriteIn = true) : (model.favouriteIn = false);
+      state.lRoutes[index].favouriteIn = isAdd;
+      logE("TAGA  state.lRoutes[index].favouriteIn : ${ state.lRoutes[index].favouriteIn }");
+      // isAdd ? (model.favouriteIn = true) : (model.favouriteIn = false);
+      logE(model.favouriteIn.toString());
       emit(
         state.copyWith(
-          timeStamp: DateTime
-              .now()
-              .microsecondsSinceEpoch,
+          timeStamp: DateTime.now().microsecondsSinceEpoch,
         ),
       );
       refreshFav();
@@ -142,14 +146,12 @@ class PlayListCubit extends Cubit<PlaylistState> {
   void moveItemToTop(BuildContext context, RoutesModel model, int index) async {
     Dialogs.showLoadingDialog(context);
     var response =
-    await userRepository.moveToTop(globals.playlistId, model.id ?? '');
+        await userRepository.moveToTop(globals.playlistId, model.id ?? '');
     await Dialogs.hideLoadingDialog();
     if (response.error == null) {
       state.lRoutes.removeAt(index);
       state.lRoutes.insert(0, model);
-      emit(state.copyWith(timeStamp: DateTime
-          .now()
-          .microsecondsSinceEpoch));
+      emit(state.copyWith(timeStamp: DateTime.now().microsecondsSinceEpoch));
     } else {
       toast(response.data.toString());
     }
@@ -175,17 +177,15 @@ class PlayListCubit extends Cubit<PlaylistState> {
               index: BottomNavigationConstant.TAB_ROUTES, model: model),
           context);
 
-  void createRoutesOnClick(BuildContext context) =>
-      RouterUtils.openNewPage(
-          const CreateInfoRoutePage(isPublish: false), context);
+  void createRoutesOnClick(BuildContext context) => RouterUtils.openNewPage(
+      const CreateInfoRoutePage(isPublish: false), context);
 
   /*RouterUtils.openNewPage(const CreateRoutesPage(), context);*/
 
-  void findRoutes(BuildContext context) =>
-      RouterUtils.pushRoutes(
-          context: context,
-          route: RoutesRouters.search,
-          argument: BottomNavigationConstant.TAB_ROUTES);
+  void findRoutes(BuildContext context) => RouterUtils.pushRoutes(
+      context: context,
+      route: RoutesRouters.search,
+      argument: BottomNavigationConstant.TAB_ROUTES);
 
   Future<void> checkPlaylistId() async {
     if (globals.isLogin) {
@@ -220,7 +220,7 @@ class PlayListCubit extends Cubit<PlaylistState> {
             nextPage: state.nextPage + 1,
             isLoading: false,
             lRoutesCache:
-               isPaging ? (state.lRoutesCache..addAll(lResponse)) : lResponse,
+                isPaging ? (state.lRoutesCache..addAll(lResponse)) : lResponse,
             lRoutes:
                 isPaging ? (state.lRoutes..addAll(lResponse)) : lResponse));
       } else {
@@ -238,9 +238,11 @@ class PlayListCubit extends Cubit<PlaylistState> {
     }
   }
 
-  void dragItem(int oldIndex,
-      int newIndex,) {
-    if (newIndex > oldIndex) newIndex--;
+  void dragItem(
+    int oldIndex,
+    int newIndex,
+  ) {
+    if (newIndex > oldIndex) newIndex - 1;
     if (state.startIndex > oldIndex) {
       state.startIndex = oldIndex;
     }
@@ -260,17 +262,15 @@ class PlayListCubit extends Cubit<PlaylistState> {
     emit(state.copyWith(
         timeStamp: DateTime.now().microsecondsSinceEpoch,
         isChooseDragDrop: true,
-        lRoutesCache: lCache));
+        lRoutesCache: lCache,));
   }
 
   void closeDragDrop() {
     emit(state.copyWith(
-        isChooseDragDrop: false,
-        isDrag: false,
-        lRoutes: state.lRoutesCache));
+        isChooseDragDrop: false, lRoutes: state.lRoutesCache,isDrag: false));
   }
 
-  void saveDragDrop(BuildContext context) async{
+  void saveDragDrop(BuildContext context) async {
     Dialogs.showLoadingDialog(context);
     var lId = <String>[];
     for (int i = state.startIndex; i <= state.endIndex; i++) {
@@ -293,6 +293,6 @@ class PlayListCubit extends Cubit<PlaylistState> {
 
   void setDrag(bool isDrag) {
     if (isDrag && state.isDrag) return;
-    emit(state.copyWith(isDrag: isDrag, isChooseDragDrop: true));
+    emit(state.copyWith(isDrag: isDrag,isChooseDragDrop: true));
   }
 }

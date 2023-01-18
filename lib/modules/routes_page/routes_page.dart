@@ -173,18 +173,25 @@ class _RoutesPageState extends State<RoutesPage>
             context: context,
             model: state.lRoutes[i],
             callBack: (model) {},
-            index: i,
-            doubleTapCallBack: (model) {
+                  index: i,
+                  doubleTapCallBack: (model) {
+                    int count = 0;
+                    for (var element in state.lRoutes) {
+                      if (element.isSelect == true) {
+                        count++;
+                      }
+                    }
                     !isLogin
                         ? _bloc.none()
-                        : _bloc.itemOnDoubleClick(context, i, filterController,
-                            model: model);
+                        : (count <=1) ? _bloc.itemOnDoubleClick(context, i, filterController,
+                        model: model): _bloc.itemOnDoubleClick(context, 0, filterController,
+                        isMultiSelect: true);
                   },
                   filterOnclick: () {
-              _bloc.filterItemOnclick(i);
-            },
-            detailCallBack: (RoutesModel action) {
-              _bloc.itemOnclick(context, state.lRoutes[i]);
+                    _bloc.filterItemOnclick(i);
+                  },
+                  detailCallBack: (RoutesModel action) {
+                    _bloc.itemOnclick(context, state.lRoutes[i]);
             },
           ),
           itemCount:

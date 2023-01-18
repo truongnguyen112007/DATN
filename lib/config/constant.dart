@@ -64,6 +64,9 @@ class ApiKey {
   static const favorite_route_grade = "favorite_route_grade";
   static const photo = "photo";
   static const phone = "phone";
+  static const user = "user";
+  static const route_setter = "route_setter";
+  static const trainer = "trainer";
   static const refresh_token = 'refresh_token';
 
 }

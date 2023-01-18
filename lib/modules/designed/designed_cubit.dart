@@ -43,7 +43,7 @@ class DesignedCubit extends Cubit<DesignedState> {
       if (element.isSelect) count++;
     }
     Utils.showActionDialog(context, (type) {
-      Navigator.pop(context);
+      Navigator.of(context, rootNavigator: true).pop();
       switch (type) {
         case ItemAction.ADD_TO_FAVOURITE:
           addToFavourite(context, model: model, isMultiSelect: isMultiSelect);

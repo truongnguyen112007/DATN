@@ -139,7 +139,7 @@ class _SortWidgetState extends State<SortWidget> {
                     ),
                   ),
                 ),
-                SizedBox(width: 50.w,),
+                SizedBox(width: 65.w,),
                 AppText(
                   text,
                   style: typoW400.copyWith(

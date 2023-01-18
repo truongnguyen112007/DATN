@@ -53,8 +53,8 @@ class _TabRoutesState extends State<TabRoutes>
         },
             onClickJumpToTop: () {},
             widget: AppText(
-              LocaleKeys.routes.tr(),
-              style: googleFont.copyWith(color: colorWhite),
+              LocaleKeys.routes.tr() + "s",
+              style: googleFont.copyWith(color: colorWhite,fontSize: 20.sp),
             )),
         backgroundColor: colorGreyBackground,
         body: BlocBuilder(
@@ -93,14 +93,14 @@ class _TabRoutesState extends State<TabRoutes>
               indicatorWeight: 3,
               indicatorColor: HexColor('FF5A00'),
               labelColor: HexColor('FF5A00'),
-              unselectedLabelColor: colorText0.withOpacity(0.6),
+              unselectedLabelColor: colorGrey40,
               tabs: [
                 Tab(text: LocaleKeys.playlist.tr()),
                 Tab(text: LocaleKeys.history.tr()),
                 Tab(text: LocaleKeys.favourite.tr()),
                 Tab(text: LocaleKeys.designed.tr()),
               ],
-              labelStyle: typoW400.copyWith(fontSize: 12.sp),
+              labelStyle: typoW400.copyWith(fontSize: 13.sp),
             ),
           ),
           Positioned.fill(

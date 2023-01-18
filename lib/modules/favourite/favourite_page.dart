@@ -129,11 +129,6 @@ class _FavouritePageState extends State<FavouritePage>
                     borderRadius: BorderRadius.circular(18),
                   ),
                   onTap: () {
-                    var lSelectRadioButton = <RoutesModel>[];
-                    for (var element in state.lPlayList) {
-                      if (element.isSelect == true)
-                        lSelectRadioButton.add(element);
-                    }
                     _bloc.doubleOnClick(
                         context,0,filterController,
                         isMultiSelect: true);
@@ -199,7 +194,7 @@ class _FavouritePageState extends State<FavouritePage>
                   childPadding: const EdgeInsets.all(5),
                   spaceBetweenChildren: 4,
                   dialRoot: null,
-                  buttonSize: const Size(56.0, 56.0),
+                  buttonSize: const Size(62.0, 62.0),
                   childrenButtonSize: const Size(56.0, 56.0),
                   direction: SpeedDialDirection.up,
                   renderOverlay: false,
@@ -265,9 +260,22 @@ class _FavouritePageState extends State<FavouritePage>
               _bloc.filterItemOnclick(i);
             },
             index: i,
-            doubleTapCallBack: (model) =>
-                _bloc.doubleOnClick(context,i,filterController, model: model),
-            detailCallBack: (RoutesModel action) =>
+            doubleTapCallBack: (model){
+                    int count = 0;
+                    for (var element in state.lPlayList) {
+                      if (element.isSelect == true) {
+                        count++;
+                      }
+                    }
+                    if (count <=1) {
+                      _bloc.doubleOnClick(context, i, filterController,
+                          model: model);
+                    } else {
+                      _bloc.doubleOnClick(context, 0, filterController,
+                          isMultiSelect: true);
+                    }
+                  },
+                  detailCallBack: (RoutesModel action) =>
                 _bloc.itemOnclick(context, state.lPlayList[i]),
           ),
           itemCount:

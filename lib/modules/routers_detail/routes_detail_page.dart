@@ -240,7 +240,7 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
           SizedBox(width: contentPadding)
         ],
         titleStr:
-            "${widget.model.name!}  ${Utils.convertTimeStampToYYYYMMYY(widget.model.created ?? 0)}",
+            "${widget.model.name!}",
       );
 
   Widget infoNameWidget(BuildContext context) =>

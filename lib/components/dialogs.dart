@@ -4,9 +4,11 @@ import 'package:base_bloc/components/login_dialog.dart';
 import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/theme/colors.dart';
 import 'package:base_bloc/utils/app_utils.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../localization/locale_keys.dart';
 import '../modules/home/home_page.dart';
 import '../modules/tab_profile/edit_settings/edit_settings_state.dart';
 import '../router/router_utils.dart';
@@ -48,7 +50,7 @@ class Dialogs {
             .pop());
   }
 
-  static Future<void>? showWidgetDialog(BuildContext context,{required VoidCallback callback,String? text}) {
+  static Future<void>? showWidgetDialog(BuildContext context,{required VoidCallback callback,String? text,String? textButton}) {
     return showDialog<void>(
         context: context,
         barrierColor: colorBlack.withOpacity(0.85),
@@ -82,7 +84,7 @@ class Dialogs {
                             onTap: callback,
                             widget: Center(
                                 child: AppText(
-                                  'Yes',
+                                  textButton!,
                                   style: typoW600.copyWith(color: colorBlack,fontSize: 15.sp),
                                 )),
                             borderRadius: BorderRadius.circular(18)),
@@ -90,7 +92,7 @@ class Dialogs {
                           width: 20.w,
                         ),
                         AppButton(
-                          title: 'Cancel',
+                          title: LocaleKeys.cancelDialog.tr(),
                           textStyle: typoW600.copyWith(
                               color: colorBlack, fontSize: 15.sp),
                           onPress: () {
