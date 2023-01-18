@@ -67,10 +67,10 @@ class TabHomeCubit extends Cubit<TabHomeState> {
       ];
 
   Future<void> checkLocationPermission() async {
-    LocationPermission permission;
+    /*LocationPermission permission;
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       await Geolocator.requestPermission();
-    }
+    }*/
   }
 }
