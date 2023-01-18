@@ -327,23 +327,34 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage>   with Ticke
               const Spacer(),
               const Spacer(),
               const Spacer(),
-              Align(
+              Container(
                   alignment: Alignment.centerRight,
-                  child: Container(
-                      margin: EdgeInsets.only(
-                          right: contentPadding, bottom: contentPadding + 5),
-                      child: GradientButton(
-                          height: 30,
-                          width: 80,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(color: colorWhite)),
+                  child: Row(
+                      mainAxisSize: MainAxisSize
+                          .min,
+                      children: [
+                        InkWell(
+                            child: Container(margin: EdgeInsets.only(bottom: 10,right: contentPadding),
+                              padding: EdgeInsets.only(
+                                  left: globals.contentPadding,
+                            right: globals.contentPadding,
+                            top: 5,
+                            bottom: 5),
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            color: colorBlack,
+                            borderRadius: BorderRadius.circular(50),
+                            border: Border.all(color: colorWhite)),
+                              height: 32.h,
+                              child: AppText(
+                               "   "+ LocaleKeys.skip.tr()+' >> ',
+                                style: typoSmallTextRegular.copyWith(
+                                    color: colorText0),
+                              ),
+                            ),
                           onTap: () => _bloc.showGuideline(false),
-                          widget: AppText(
-                            ' ${LocaleKeys.skip.tr()} >> ',
-                            style: typoW400.copyWith(fontSize: 13.sp),
-                          ),
-                          isCenter: true)))
+                        )
+                      ]))
             ],
           ),
         ),
