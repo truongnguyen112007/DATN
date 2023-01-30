@@ -34,6 +34,8 @@ abstract class LocaleKeys {
   static const routeSetterProfile = "routeSetterProfile";
   static const trainerProfile = "trainerProfile";
 
+  static const climbers = "climbers";
+
   static const addToFavourite = 'addToFavourite';
 
   static const removeFromPlaylist = 'removeFromPlaylist';

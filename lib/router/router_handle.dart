@@ -3,6 +3,7 @@ import 'package:base_bloc/data/model/address_model.dart';
 import 'package:base_bloc/data/model/places_model.dart';
 import 'package:base_bloc/data/model/reservation_model.dart';
 import 'package:base_bloc/data/model/routes_model.dart';
+import 'package:base_bloc/data/model/wall_model.dart';
 import 'package:base_bloc/modules/confirm_create_reservation/confirm_create_reservation_page.dart';
 import 'package:base_bloc/modules/create_reservation/create_reservation_page.dart';
 import 'package:base_bloc/modules/create_reservation_success/create_reservation_success_page.dart';
@@ -23,6 +24,7 @@ import 'package:base_bloc/modules/tab_routes/tab_routes.dart';
 import 'package:fluro/fluro.dart';
 
 import '../modules/login/login.dart';
+import '../modules/login_to_wall/login_to_wall.dart';
 import '../modules/search/search_page.dart';
 
 import '../modules/routers_detail/routes_detail_page.dart';
@@ -36,8 +38,7 @@ var routeSplash = Handler(handlerFunc: (c, p) => const SplashPage());
 var routeHome = Handler(handlerFunc: (c, p) => const HomePage());
 var routeTabHome = Handler(handlerFunc: (c, p) => const TabHome());
 var routeSearchHome = Handler(
-    handlerFunc: (c, p) =>
-        SearchPage(index: c!.settings!.arguments as int));
+    handlerFunc: (c, p) => SearchPage(index: c!.settings!.arguments as int));
 var routeNotifications =
     Handler(handlerFunc: (c, p) => const NotificationsPage());
 var routeLogin = Handler(
@@ -59,6 +60,14 @@ var routeCreateReservationPage = Handler(
     index: c!.settings!.arguments as int,
   ),
 );
+
+var routeLoginToWall = Handler(
+    handlerFunc: (c, p) => LoginToWall(
+          routePage: (c!.settings!.arguments as List)[0] as int,
+          model: (c.settings!.arguments as List)[1] as WallModel,
+          currentIndex: (c.settings!.arguments as List)[2] as String,
+        ));
+
 var routeFilterAddress =
     Handler(handlerFunc: (c, p) => const FilterAddressPage());
 var routeFindPlace = Handler(handlerFunc: (c, p) => const FindPlacePage());
@@ -77,4 +86,5 @@ var routePlaceDetail = Handler(
           index: (c!.settings!.arguments as List)[0] as int,
           model: (c.settings!.arguments as List)[1] as PlacesModel,
         ));
-var routeSearchRoute = Handler(handlerFunc: (c,p) => RoutesPage(index: c!.settings!.arguments as int));
+var routeSearchRoute = Handler(
+    handlerFunc: (c, p) => RoutesPage(index: c!.settings!.arguments as int));
