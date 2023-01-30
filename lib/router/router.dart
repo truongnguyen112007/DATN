@@ -76,6 +76,7 @@ class ClimbRouters {
   static String notifications = '/notifications';
   static String placeDetail = '/placeDetail';
   static String routesCreateReservationPage = '/createReservationPage';
+  static String routesLoginToWall = "/routesLoginToWall";
 
   static configureRouter(FluroRouter router) {
     router.notFoundHandler = Handler(handlerFunc: (c, x) {
@@ -88,6 +89,7 @@ class ClimbRouters {
     router.define(placeDetail, handler: routePlaceDetail);
     router.define(routesCreateReservationPage,
         handler: routeCreateReservationPage);
+    router.define(routesLoginToWall, handler: routeLoginToWall);
   }
 }
 

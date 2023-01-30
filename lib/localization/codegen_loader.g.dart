@@ -60,6 +60,7 @@ class Applocalizations extends AssetLoader {
     "rpRedPoint": 'RP-Red Point',
     "showResult": 'Show results',
     "userTypeProfile": "User",
+    "climbers" : 'climbers',
     "routeSetterProfile":"Route_setter",
     "trainerProfile":"Trainer",
     "status": 'Status',

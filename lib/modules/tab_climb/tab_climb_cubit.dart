@@ -10,6 +10,7 @@ import '../../config/constant.dart';
 import '../../data/model/places_model.dart';
 import '../../data/model/wall_model.dart';
 import '../../router/router_utils.dart';
+import '../../utils/toast_utils.dart';
 
 class TabClimbCubit extends Cubit<TabClimbState> {
   TabClimbCubit() : super(const TabClimbState()) {
@@ -53,6 +54,14 @@ class TabClimbCubit extends Cubit<TabClimbState> {
         argument: BottomNavigationConstant.TAB_CLIMB);
     emit(TabClimbState(timeStamp: DateTime.now().microsecondsSinceEpoch));
   }
+
+  void onClickItemWallLogin(BuildContext context,WallModel model,String index) {
+    RouterUtils.pushClimb(
+        context: context,
+        route: ClimbRouters.routesLoginToWall,
+        argument: [BottomNavigationConstant.TAB_CLIMB ,model,index]);
+  }
+
 }
 
 Future<bool> checkTurnOnGps() async =>
@@ -80,14 +89,8 @@ List<PlacesModel> fakeData() => [
           lng: 105.8124170251354),
     ];
 
-// List<WallModel> fakeDataWall() => [
-//   WallModel("Murall", "3", "6A"),
-//   WallModel("Next to Window", "0", "5A"),
-//   WallModel("Murall", "2", "6A")
-// ];
-
 List<WallModel> fakeDataWall() => [
   WallModel("Murall", 3, "7A+"),
   WallModel("Next to Window", 0, "5A"),
-  WallModel("Murall", 2, "6A+"),
+  WallModel("Murall", 2, "6A",reservation: "10:00 - 10:30"),
 ];

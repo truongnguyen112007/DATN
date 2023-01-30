@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 
+import '../../data/model/wall_model.dart';
+
 class TabClimbState extends Equatable {
   final bool isBluetooth;
   final bool isGps;
@@ -14,8 +16,9 @@ class TabClimbState extends Equatable {
   TabClimbState copyOf({bool? isBluetooth, bool? isGps}) => TabClimbState(
       isBluetooth: isBluetooth ?? this.isBluetooth,
       isGps: isGps ?? this.isGps,
-      timeStamp: timeStamp ?? timeStamp);
+      timeStamp: timeStamp ?? timeStamp,
+     );
 
   @override
-  List<Object?> get props => [isBluetooth, isGps, timeStamp];
+  List<Object?> get props => [isBluetooth, isGps, timeStamp,];
 }
