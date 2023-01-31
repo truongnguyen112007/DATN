@@ -51,6 +51,12 @@ dependencies:
     git:
       url: git@github.com:NguyenXuanLoc/flutter_speed_dial.git
       ref: master
+
+  beacons_plugin:
+    git:
+      url: git@github.com:NguyenXuanLoc/simple_beacons_flutter.git
+      ref: master
+
   permission_handler: ^10.1.0
 #  weekly_date_picker: ^1.3.0
   babylonjs_viewer: ^1.1.0

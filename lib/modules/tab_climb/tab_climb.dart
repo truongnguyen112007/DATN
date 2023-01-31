@@ -21,10 +21,8 @@ import '../../data/model/places_model.dart';
 import '../../data/model/wall_model.dart';
 import '../../gen/assets.gen.dart';
 import '../../localization/locale_keys.dart';
-import '../../router/router_utils.dart';
 import '../../theme/colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:location/location.dart';
 
 class TabClimb extends StatefulWidget {
   const TabClimb({Key? key}) : super(key: key);
@@ -72,14 +70,16 @@ class _TabClimbState extends State<TabClimb>
             ? CheckLogin(
                 loginCallBack: () {
                   _bloc.onClickLogin(context);
-                },
+                }
               )
             : /*const FeatureUnderWidget()*/
             BlocBuilder<TabClimbCubit, TabClimbState>(
                 bloc: _bloc,
                 builder: (BuildContext context, state) {
                   return state.isBluetooth
-                      ? checkGps() /*logInToWall()*/
+                      ? state.lWall.isNotEmpty && state.isGps
+                          ? logInToWall()
+                          : checkGps()
                       : notBluetooth();
                 }),
       ),
@@ -295,7 +295,7 @@ class _TabClimbState extends State<TabClimb>
                                     Utils.backgroundGradientOrangeButton(),
                                 borderRadius: BorderRadius.circular(20)),
                             onTap: () {
-                              Location().requestService();
+                              _bloc.checkLocation();
                             },
                             borderRadius: BorderRadius.circular(20),
                           )
@@ -387,22 +387,19 @@ class _TabClimbState extends State<TabClimb>
             style: googleFont.copyWith(color: colorWhite),
           ),
         ),
-        BlocBuilder<TabClimbCubit, TabClimbState>(
-          bloc: _bloc,
-          builder: (c, s) => ListView.separated(
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            padding: const EdgeInsets.only(top: 10),
-            itemBuilder: (BuildContext context, int index) {
-              return itemWallLogIn(fakeDataWall()[index],
-                  stt: (index + 1).toString());
-            },
-            separatorBuilder: (BuildContext context, int index) => SizedBox(
-              height: 10.h,
-            ),
-            itemCount: fakeDataWall().length,
-          ),
-        )
+        Expanded(
+            child: BlocBuilder<TabClimbCubit, TabClimbState>(
+                bloc: _bloc,
+                builder: (c, s) => ListView.separated(
+                    shrinkWrap: true,
+                    padding: const EdgeInsets.only(top: 10),
+                    itemBuilder: (BuildContext context, int index) {
+                      return itemWallLogIn(s.lWall[index],
+                          stt: (index + 1).toString());
+                    },
+                    separatorBuilder: (BuildContext context, int index) =>
+                        SizedBox(height: 10.h),
+                    itemCount: s.lWall.length)))
       ],
     );
   }
@@ -446,9 +443,8 @@ class _TabClimbState extends State<TabClimb>
                         child: AppText(
                           maxLine: 1,
                           overflow: TextOverflow.ellipsis,
-                          model.name,
-                          style:
-                              const TextStyle(color: Colors.white, fontSize: 21),
+                          (model.name ?? '') + model.deviceId,
+                          style: const TextStyle(color: Colors.white, fontSize: 21),
                         ),
                       ),
                       Row(
@@ -468,9 +464,8 @@ class _TabClimbState extends State<TabClimb>
                             width: 5.w,
                           ),
                           Text(
-                            model.rank,
-                            style:
-                                TextStyle(color: Colors.white54, fontSize: 14.sp),
+                            model.rank ?? '9A',
+                            style: TextStyle(color: Colors.white54, fontSize: 14.sp),
                           ),
                         ],
                       ),

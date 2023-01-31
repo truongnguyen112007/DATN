@@ -249,9 +249,8 @@ class _LoginToWallState extends BasePopState<LoginToWall> {
                     child: AppText(
                       maxLine: 1,
                       overflow: TextOverflow.ellipsis,
-                      model.name,
-                      style:
-                      const TextStyle(color: Colors.white, fontSize: 21),
+                      (model.name ?? '') + model.deviceId,
+                      style: const TextStyle(color: Colors.white, fontSize: 21),
                     ),
                   ),
                   Row(
@@ -273,7 +272,7 @@ class _LoginToWallState extends BasePopState<LoginToWall> {
                         width: 5.w,
                       ),
                       Text(
-                        model.rank,
+                        model.rank??'A',
                         style:
                         TextStyle(color: Colors.white54, fontSize: 14.sp),
                       ),

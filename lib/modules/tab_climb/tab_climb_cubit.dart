@@ -1,21 +1,33 @@
 
+import 'dart:async';
+
 import 'package:base_bloc/modules/tab_climb/tab_climb_state.dart';
 import 'package:base_bloc/router/router.dart';
+import 'package:base_bloc/utils/log_utils.dart';
+import 'package:beacons_plugin/beacons_plugin.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_blue_elves/flutter_blue_elves.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../../config/constant.dart';
 import '../../data/model/places_model.dart';
 import '../../data/model/wall_model.dart';
 import '../../router/router_utils.dart';
-import '../../utils/toast_utils.dart';
+import '../../utils/permission_utils.dart';
 
 class TabClimbCubit extends Cubit<TabClimbState> {
-  TabClimbCubit() : super(const TabClimbState()) {
+  final StreamController<String> beaconEventsController =
+      StreamController<String>.broadcast();
+  final StreamController<String> eddyEventsController =
+      StreamController<String>.broadcast();
+
+  TabClimbCubit()
+      : super(TabClimbState(lWall: List<WallModel>.empty(growable: true))) {
     iosGetBlueState(const Duration(seconds: 0));
     androidGetBlueLack(const Duration(seconds: 0));
+    refreshBeacon();
   }
 
   void iosGetBlueState(timer) {
@@ -23,19 +35,25 @@ class TabClimbCubit extends Cubit<TabClimbState> {
         state.copyOf(
             isBluetooth: value == IosBluetoothState.poweredOn ? true : false)));
   }
-
+  bool isBeaconStream = false;
   void androidGetBlueLack(timer) {
     FlutterBlueElves.instance.androidCheckBlueLackWhat().then((values) async {
       if (values.contains(AndroidBluetoothLack.bluetoothFunction)) {
-        emit(state.copyOf(isBluetooth: false));
+        isBeaconStream = false;
+        emit(state.copyOf(isBluetooth: false,lWall: []));
       } else {
         emit(state.copyOf(isBluetooth: true));
+        var isLocationPermission = await PermissionUtils.isRequestPermission(Permission.location);
         var isGps = await checkTurnOnGps();
-        emit(state.copyOf(isGps: isGps));
+          if (isLocationPermission && isGps && !isBeaconStream) {
+          beaconStream();
+          isBeaconStream = true;
+        }
+        emit(state.copyOf(isGps: isGps, lWall: state.isGps ? state.lWall : []));
       }
     });
   }
-  void onClickNotification(BuildContext context) => /*toast(LocaleKeys.thisFeatureIsUnder);*/
+  void onClickNotification(BuildContext context) =>
       RouterUtils.pushClimb(
       context: context,
       route: ClimbRouters.notifications,
@@ -62,11 +80,53 @@ class TabClimbCubit extends Cubit<TabClimbState> {
         argument: [BottomNavigationConstant.TAB_CLIMB ,model,index]);
   }
 
+  void beaconStream() async {
+    await BeaconsPlugin.startMonitoring();
+    BeaconsPlugin.clearRegions();
+    BeaconsPlugin.scanEddyStone();
+    BeaconsPlugin.listenToScanEddyStone(eddyEventsController);
+    eddyEventsController.stream.listen((data) {
+      if (data.contains('.cl')) {
+        var deviceId =
+            RegExp(r'(?<=//)(.*)(?=.cl)').firstMatch(data)?.group(0).toString();
+        for (int i = 0; i < state.lWall.length; i++) {
+          if (deviceId == state.lWall[i].deviceId) {
+            return;
+          }
+        }
+        if(state.isRefreshBeacon) state.lWall.clear();
+        state.lWall.add(WallModel(deviceId ?? ''));
+        emit(state.copyOf(isRefreshBeacon: false,
+            timeStamp: DateTime.now().microsecondsSinceEpoch));
+      }
+    });
+  }
+
+  void refreshBeacon() {
+    Timer.periodic(const Duration(seconds: 20), (timer) {
+      beaconStream();
+      emit(state.copyOf(isRefreshBeacon: true));
+    });
+  }
+
+  void checkLocation() async {
+    var isLocationPermission = await PermissionUtils.isRequestPermission(
+        Permission.location,
+        isRequest: true);
+    if (!isLocationPermission) return;
+    var isGps = await Geolocator.isLocationServiceEnabled();
+    if (!isGps) {
+      FlutterBlueElves.instance.androidOpenLocationService((isOk) {
+        if (isOk) beaconStream();
+      });
+    } else {
+      beaconStream();
+    }
+  }
 }
 
 Future<bool> checkTurnOnGps() async =>
     await Geolocator.isLocationServiceEnabled();
-
 
 List<PlacesModel> fakeData() => [
       PlacesModel(
@@ -88,9 +148,3 @@ List<PlacesModel> fakeData() => [
           lat: 21.079085115322442,
           lng: 105.8124170251354),
     ];
-
-List<WallModel> fakeDataWall() => [
-  WallModel("Murall", 3, "7A+"),
-  WallModel("Next to Window", 0, "5A"),
-  WallModel("Murall", 2, "6A",reservation: "10:00 - 10:30"),
-];
