@@ -23,24 +23,36 @@ class TabClimbCubit extends Cubit<TabClimbState> {
       StreamController<String>.broadcast();
   final StreamController<String> eddyEventsController =
       StreamController<String>.broadcast();
+  bool isBeaconStream = false;
 
   TabClimbCubit()
       : super(TabClimbState(lWall: List<WallModel>.empty(growable: true))) {
     Platform.isAndroid ? androidGetBlueLack(const Duration(seconds: 0)):
     iosGetBlueState(const Duration(seconds: 0));
     beaconStream();
-    // refreshBeacon();
+    refreshBeacon();
   }
 
   void iosGetBlueState(timer) {
-    FlutterBlueElves.instance.iosCheckBluetoothState().then((value){
-      // print("TAG BLUETOOTH: $value");
+    FlutterBlueElves.instance.iosCheckBluetoothState().then((value) async{
+      isBeaconStream = false;
       emit(
           state.copyOf(
               isBluetooth: value == IosBluetoothState.poweredOn ? true : false));
+      if(value == IosBluetoothState.poweredOn){
+        emit(state.copyOf(isBluetooth: true));
+        var isGps = await checkTurnOnGps();
+        if (isGps && !isBeaconStream) {
+          beaconStream();
+          isBeaconStream = true;
+        }
+        emit(state.copyOf(isGps: isGps, lWall: state.isGps ? state.lWall : []));
+      }else{
+        isBeaconStream = false;
+        emit(state.copyOf(isBluetooth: false,lWall: []));
+      }
     });
   }
-  bool isBeaconStream = false;
   void androidGetBlueLack(timer) {
     FlutterBlueElves.instance.androidCheckBlueLackWhat().then((values) async {
       if (values.contains(AndroidBluetoothLack.bluetoothFunction)) {
@@ -118,13 +130,14 @@ class TabClimbCubit extends Cubit<TabClimbState> {
     var isLocationPermission = await PermissionUtils.isRequestPermission(
         Permission.location,
         isRequest: true);
-    if (!isLocationPermission) return;
+    if (Platform.isAndroid &&!isLocationPermission) return;
     var isGps = await Geolocator.isLocationServiceEnabled();
     if (!isGps) {
     Platform.isAndroid ?  FlutterBlueElves.instance.androidOpenLocationService((isOk) {
         if (isOk) beaconStream();
       }):
     Settings.AppSettings.openWIFISettings();} else {
+      emit(state.copyOf(isGps: true));
       beaconStream();
     }
   }
