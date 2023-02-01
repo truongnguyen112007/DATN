@@ -23,6 +23,8 @@ import '../../gen/assets.gen.dart';
 import '../../localization/locale_keys.dart';
 import '../../theme/colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:app_settings/app_settings.dart' as Settings;
+import 'package:beacons_plugin/beacons_plugin.dart';
 
 class TabClimb extends StatefulWidget {
   const TabClimb({Key? key}) : super(key: key);
@@ -126,11 +128,9 @@ class _TabClimbState extends State<TabClimb>
               ),
             ),
             onPressed: () {
+              Platform.isAndroid ?
               FlutterBlueElves.instance.androidOpenBluetoothService((isOk) {
-                print(isOk
-                    ? "The user agrees to turn on the Bluetooth function"
-                    : "The user does not agree to enable the Bluetooth function");
-              });
+              }) : Settings.AppSettings.openWIFISettings();
             },
             child: Row(
               mainAxisSize: MainAxisSize.min,

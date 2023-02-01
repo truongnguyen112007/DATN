@@ -10,13 +10,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_blue_elves/flutter_blue_elves.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:app_settings/app_settings.dart' as Settings;
 
 import '../../config/constant.dart';
 import '../../data/model/places_model.dart';
 import '../../data/model/wall_model.dart';
 import '../../router/router_utils.dart';
 import '../../utils/permission_utils.dart';
-
+import 'dart:io';
 class TabClimbCubit extends Cubit<TabClimbState> {
   final StreamController<String> beaconEventsController =
       StreamController<String>.broadcast();
@@ -25,15 +26,18 @@ class TabClimbCubit extends Cubit<TabClimbState> {
 
   TabClimbCubit()
       : super(TabClimbState(lWall: List<WallModel>.empty(growable: true))) {
+    Platform.isAndroid ? androidGetBlueLack(const Duration(seconds: 0)):
     iosGetBlueState(const Duration(seconds: 0));
-    androidGetBlueLack(const Duration(seconds: 0));
-    refreshBeacon();
+    // refreshBeacon();
   }
 
   void iosGetBlueState(timer) {
-    FlutterBlueElves.instance.iosCheckBluetoothState().then((value) => emit(
-        state.copyOf(
-            isBluetooth: value == IosBluetoothState.poweredOn ? true : false)));
+    FlutterBlueElves.instance.iosCheckBluetoothState().then((value){
+      // print("TAG BLUETOOTH: $value");
+      emit(
+          state.copyOf(
+              isBluetooth: value == IosBluetoothState.poweredOn ? true : false));
+    });
   }
   bool isBeaconStream = false;
   void androidGetBlueLack(timer) {
@@ -116,10 +120,10 @@ class TabClimbCubit extends Cubit<TabClimbState> {
     if (!isLocationPermission) return;
     var isGps = await Geolocator.isLocationServiceEnabled();
     if (!isGps) {
-      FlutterBlueElves.instance.androidOpenLocationService((isOk) {
+    Platform.isAndroid ?  FlutterBlueElves.instance.androidOpenLocationService((isOk) {
         if (isOk) beaconStream();
-      });
-    } else {
+      }):
+    Settings.AppSettings.openWIFISettings();} else {
       beaconStream();
     }
   }

@@ -1,3 +1,4 @@
+import 'package:base_bloc/utils/log_utils.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class PermissionUtils {
