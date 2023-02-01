@@ -31,11 +31,6 @@ import CoreBluetooth
 
     private func configChannel() {
         flutterChannelManager = FlutterChannelManager()
-
-        configBeaConScanner()
     }
 
-    private func configBeaConScanner() {
-        flutterChannelManager?.configBeaconScanner()
-    }
 }

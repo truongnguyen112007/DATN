@@ -28,6 +28,7 @@ class TabClimbCubit extends Cubit<TabClimbState> {
       : super(TabClimbState(lWall: List<WallModel>.empty(growable: true))) {
     Platform.isAndroid ? androidGetBlueLack(const Duration(seconds: 0)):
     iosGetBlueState(const Duration(seconds: 0));
+    beaconStream();
     // refreshBeacon();
   }
 
@@ -85,7 +86,7 @@ class TabClimbCubit extends Cubit<TabClimbState> {
   }
 
   void beaconStream() async {
-    await BeaconsPlugin.startMonitoring();
+    BeaconsPlugin.startMonitoring();
     BeaconsPlugin.clearRegions();
     BeaconsPlugin.scanEddyStone();
     BeaconsPlugin.listenToScanEddyStone(eddyEventsController);

@@ -29,22 +29,26 @@ class BeaconScannerManager {
     public func stopScanning() {
         self.beaconScanner.stopScanning()
     }
+    
+    public func clearRegions() {
+        beaconURLs = []
+    }
 }
 
 extension BeaconScannerManager: BeaconScannerDelegate {
     func didFindBeacon(beaconScanner: BeaconScanner, beaconInfo: BeaconInfo) {
         didFindBeacon?(beaconInfo)
-        NSLog("FIND: %@", beaconInfo.description)
+        //NSLog("FIND: %@", beaconInfo.description)
     }
     
     func didLoseBeacon(beaconScanner: BeaconScanner, beaconInfo: BeaconInfo) {
         didLoseBeacon?(beaconInfo)
-        NSLog("LOST: %@", beaconInfo.description)
+        //NSLog("LOST: %@", beaconInfo.description)
     }
     
     func didUpdateBeacon(beaconScanner: BeaconScanner, beaconInfo: BeaconInfo) {
         didUpdateBeacon?(beaconInfo)
-        NSLog("UPDATE: %@", beaconInfo.description)
+        //NSLog("UPDATE: %@", beaconInfo.description)
     }
     
     func didObserveURLBeacon(beaconScanner: BeaconScanner, URL: NSURL, RSSI: Int) {
@@ -52,8 +56,8 @@ extension BeaconScannerManager: BeaconScannerDelegate {
             if !beaconURLs.contains(urlString) {
                 beaconURLs.append(urlString)
                 didObserveURLBeacon?(urlString)
+                NSLog("URL SEEN: %@, RSSI: %d", URL, RSSI)
             }
         }
-        NSLog("URL SEEN: %@, RSSI: %d", URL, RSSI)
     }
 }
