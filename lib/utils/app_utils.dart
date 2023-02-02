@@ -600,7 +600,7 @@ class Utils {
           {AlignmentGeometry? begin, AlignmentGeometry? end}) =>
       LinearGradient(
           begin: begin ?? Alignment.topCenter,
-          end: end ?? Alignment.bottomCenter,
+          end: end ?? Alignment.bottomCenter,stops: const [0,0.67,1],
           colors: [
             HexColor('FF9300'),
             HexColor('FF5A00'),

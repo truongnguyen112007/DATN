@@ -17,14 +17,14 @@ import '../../../../data/model/privacy_settings_model.dart';
 import '../../../../localization/locale_keys.dart';
 
 class PrivacySettingsPage extends StatefulWidget {
-  const PrivacySettingsPage({Key? key}) : super(key: key);
+  final int routePage;
+  const PrivacySettingsPage({Key? key, required this.routePage}) : super(key: key);
 
   @override
   State<PrivacySettingsPage> createState() => _PrivacySettingsState();
 }
 
-class _PrivacySettingsState extends BaseState<PrivacySettingsPage>
-    with AutomaticKeepAliveClientMixin {
+class _PrivacySettingsState extends BasePopState<PrivacySettingsPage> {
   final _scrollController = ScrollController();
   late final PrivacySettingsCubit _bloc;
 
@@ -42,7 +42,7 @@ class _PrivacySettingsState extends BaseState<PrivacySettingsPage>
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget buildWidget(BuildContext context) {
     return AppScaffold(
         backgroundColor: colorGreyBackground,
         appbar: appBarWidget(
@@ -50,9 +50,6 @@ class _PrivacySettingsState extends BaseState<PrivacySettingsPage>
             titleStr: LocaleKeys.settingsPrivacy.tr()),
         body: privacySettingsListView(context));
   }
-
-  @override
-  bool get wantKeepAlive => true;
 
   Widget privacySettingsListView(BuildContext context) {
     return BlocBuilder<PrivacySettingsCubit, PrivacySettingsState>(
@@ -115,4 +112,7 @@ class _PrivacySettingsState extends BaseState<PrivacySettingsPage>
           );
         });
   }
+
+  @override
+  int get tabIndex => widget.routePage;
 }

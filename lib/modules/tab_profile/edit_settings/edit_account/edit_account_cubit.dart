@@ -34,9 +34,8 @@ enum AccountFieldType {
 
 class EditAccountCubit extends Cubit<EditAccountState> {
   var userRepository = UserRepository();
-  final VoidCallback editAccountCallBack;
 
-  EditAccountCubit(this.editAccountCallBack,TypeProfile roleType)
+  EditAccountCubit(TypeProfile roleType)
       : super( EditAccountState(status: EditAccountStatus.initial)) {
     if (state.status == EditAccountStatus.initial) {}
     state.typeProfile = roleType;
@@ -70,7 +69,6 @@ class EditAccountCubit extends Cubit<EditAccountState> {
         await getUserProfile();
       }
       await Dialogs.hideLoadingDialog();
-      editAccountCallBack.call();
       toast(response.message);
       emit(state.copyWith(isOnChangeInfo: false,));
     }, text: LocaleKeys.askWantToSaveInfo.tr());

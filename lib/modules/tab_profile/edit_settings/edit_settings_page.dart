@@ -14,15 +14,15 @@ import '../../../localization/locale_keys.dart';
 import 'edit_settings_cubit.dart';
 
 class EditSettingsPage extends StatefulWidget {
+  final int routePage;
   final VoidCallback editSettingCallBack;
-  const EditSettingsPage({Key? key, required this.editSettingCallBack}) : super(key: key);
+  const EditSettingsPage({Key? key, required this.editSettingCallBack, required this.routePage,}) : super(key: key);
 
   @override
   State<EditSettingsPage> createState() => _EditSettingsState();
 }
 
-class _EditSettingsState extends BaseState<EditSettingsPage>
-    with AutomaticKeepAliveClientMixin {
+class _EditSettingsState extends BasePopState<EditSettingsPage> {
   final _scrollController = ScrollController();
   late final EditSettingsCubit _bloc;
 
@@ -40,7 +40,7 @@ class _EditSettingsState extends BaseState<EditSettingsPage>
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget buildWidget(BuildContext context) {
     return AppScaffold(
         backgroundColor: colorGreyBackground,
         appbar: AppBar(
@@ -53,9 +53,6 @@ class _EditSettingsState extends BaseState<EditSettingsPage>
         // appBarWidget(context: context, titleStr: LocaleKeys.settings,),
         body: settingsListView());
   }
-
-  @override
-  bool get wantKeepAlive => true;
 
   Widget settingsListView() {
     return BlocBuilder(
@@ -94,4 +91,7 @@ class _EditSettingsState extends BaseState<EditSettingsPage>
       },
     );
   }
+
+  @override
+  int get tabIndex => widget.routePage;
 }

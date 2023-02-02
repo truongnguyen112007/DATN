@@ -170,7 +170,7 @@ class Applocalizations extends AssetLoader {
         "Please turn on Bluetooth to connect to the \n nearest ReClimb wall",
     "turnOnBluetooth": "Turn on Bluetooth",
     "cantFind":
-        "I can't find any ReClimb wall near you.\n Please turn on location to get more precise\n result ",
+        "I can't find any ReClimb wall near your.\n Please turn on location to get more precise\n result ",
     "connectToTheReClimb":
         'To connect to the ReClimb wall, move closer \n than 10 meters.',
     "getCloser": 'Get closer',
@@ -185,7 +185,7 @@ class Applocalizations extends AssetLoader {
     "add_to_friends": 'Add to friends',
     "reject": 'Reject',
     "login": 'Log in',
-    "youNeedLogin": 'You need to login to use\n this service',
+    "youNeedLogin": 'You need to log in to use\n this service',
     "logOut": 'LogOut',
     "please_input_email": 'Please enter your Email',
     "please_input_pass": 'Please enter your Password',

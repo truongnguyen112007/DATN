@@ -15,15 +15,16 @@ import '../../../../localization/locale_keys.dart';
 import 'notifications_settings_cubit.dart';
 
 class NotificationsSettingsPage extends StatefulWidget {
-  const NotificationsSettingsPage({Key? key}) : super(key: key);
+  final int routePage;
+  const NotificationsSettingsPage({Key? key, required this.routePage}) : super(key: key);
 
   @override
   State<NotificationsSettingsPage> createState() =>
       _NotificationsSettingsState();
 }
 
-class _NotificationsSettingsState extends BaseState<NotificationsSettingsPage>
-    with AutomaticKeepAliveClientMixin {
+class _NotificationsSettingsState extends BasePopState<NotificationsSettingsPage>
+ {
   final _scrollController = ScrollController();
   late final NotificationsSettingsCubit _bloc;
 
@@ -41,7 +42,7 @@ class _NotificationsSettingsState extends BaseState<NotificationsSettingsPage>
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget buildWidget(BuildContext context) {
     return AppScaffold(
         backgroundColor: colorGreyBackground,
         appbar: appBarWidget(
@@ -49,9 +50,6 @@ class _NotificationsSettingsState extends BaseState<NotificationsSettingsPage>
             titleStr: LocaleKeys.settingsNotifications.tr()),
         body: notificationsSettingsListView(context));
   }
-
-  @override
-  bool get wantKeepAlive => true;
 
   Widget notificationsSettingsListView(BuildContext context) {
     return BlocBuilder<NotificationsSettingsCubit, NotificationsSettingsState>(
@@ -114,4 +112,7 @@ class _NotificationsSettingsState extends BaseState<NotificationsSettingsPage>
           );
         });
   }
+
+  @override
+  int get tabIndex => widget.routePage;
 }

@@ -98,7 +98,7 @@ class _LoginToWallState extends BasePopState<LoginToWall> {
     return Stack(
       children: [
         Padding(
-          padding: EdgeInsets.only(left: 8.w, right: 8.w),
+          padding: EdgeInsets.only(left: model.icon != null ? 8.w : 10.w, right: model.icon !=null ? 8.w:10.w),
           child: Container(
             height: 70.h,
             decoration: BoxDecoration(
@@ -207,7 +207,7 @@ class _LoginToWallState extends BasePopState<LoginToWall> {
         Visibility(
           visible: model.icon == null,
           child: Container(
-              margin: EdgeInsets.only(left: 8.w, right: 8.w),
+              margin: EdgeInsets.only(left: model.icon != null ? 8.w : 10.w, right: model.icon !=null ? 8.w:10.w),
               height: 70.h,
               decoration: BoxDecoration(
                   color: colorBlack.withOpacity(0.35),
@@ -261,12 +261,12 @@ class _LoginToWallState extends BasePopState<LoginToWall> {
                         TextStyle(color: Colors.white54, fontSize: 14.sp),
                       ),
                       SizedBox(
-                        width: 35.w,
+                        width: 5.w,
                       ),
                       const Icon(
                         Icons.brightness_1_rounded,
                         color: Colors.white54,
-                        size: 8,
+                        size: 7,
                       ),
                       SizedBox(
                         width: 5.w,
@@ -300,7 +300,7 @@ class _LoginToWallState extends BasePopState<LoginToWall> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       AppText(
-                        "Reversion",
+                        "Reservation",
                         style: googleFont.copyWith(
                             color: colorWhite, fontSize: 15.sp),
                       ),
