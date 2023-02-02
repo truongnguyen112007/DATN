@@ -170,19 +170,10 @@ class _TabClimbState extends State<TabClimb>
             SizedBox(
               height: 20.h,
             ),
-            BlocBuilder<TabClimbCubit,TabClimbState>(
-              bloc: _bloc,
-              builder: (c,s) =>
-               InkWell(
-                onTap: () {
-                   _bloc.fakeLoginToWall();
-                },
-                child: SvgPicture.asset(
-                  Assets.svg.notlocation,
-                  height: 45.sp,
-                  color: colorWhite,
-                ),
-              ),
+            SvgPicture.asset(
+              Assets.svg.notlocation,
+              height: 45.sp,
+              color: colorWhite,
             ),
             SizedBox(
               height: 20.h,
@@ -395,14 +386,9 @@ class _TabClimbState extends State<TabClimb>
           children: [
             Padding(
               padding: const EdgeInsets.all(16),
-              child: InkWell(
-                onTap: (){
-                  _bloc.checkLoginToWall();
-                },
-                child: AppText(
-                  "Log in to wall",
-                  style: googleFont.copyWith(color: colorWhite),
-                ),
+              child: AppText(
+                "Log in to wall",
+                style: googleFont.copyWith(color: colorWhite),
               ),
             ),
             BlocBuilder<TabClimbCubit, TabClimbState>(
