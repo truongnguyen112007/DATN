@@ -185,19 +185,23 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
 
   void sortOnclick(BuildContext context) {
     Utils.showSortDialog(context, (type) async {
-      Navigator.pop(context);
+      Navigator.of(context, rootNavigator: true).pop();
       state.sort = type;
       state.typeSearchRoute = SearchRouteType.Sort;
-      emit(
-        state.copyWith(
-            keySearch: state.keySearch,
-            sort: type,
-            typeSearchRoute: SearchRouteType.Sort,
-            isLoading: false,
-            isReadEnd: false),
-      );
-      Utils.hideKeyboard(context);
-      getRoutes();
+      try{
+        emit(state.copyWith(
+              keySearch: state.keySearch,
+              sort: type,
+              typeSearchRoute: SearchRouteType.Sort,
+              isLoading: false,
+              isReadEnd: false),
+        );
+        Utils.hideKeyboard(context);
+        getRoutes();
+      }catch(ex){
+        logE("TAG EX: $ex");
+      }
+
     }, state.sort);
   }
 
@@ -210,7 +214,7 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
     nextPage;
     if ((keySearch.isEmpty && state.typeSearchRoute == SearchRouteType.Sort) ||
         keySearch.isEmpty && state.filter == null && state.sort == null) {
-      emit(RoutesPageState(
+      emit(RoutesPageState(sort: state.sort,
           isLoading: false, isReadEnd: false, status: RouteStatus.success));
       return;
     }

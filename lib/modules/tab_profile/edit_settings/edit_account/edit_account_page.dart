@@ -26,18 +26,17 @@ import 'edit_account_cubit.dart';
 
 class EditAccountPage extends StatefulWidget {
   final UserProfileModel model;
-  final VoidCallback editAccountCallBack;
+  final int routePage;
 
   const EditAccountPage(
-      {Key? key, required this.model, required this.editAccountCallBack})
+      {Key? key, required this.model, required this.routePage})
       : super(key: key);
 
   @override
   State<EditAccountPage> createState() => _EditAccountState();
 }
 
-class _EditAccountState extends BaseState<EditAccountPage>
-    with AutomaticKeepAliveClientMixin {
+class _EditAccountState extends BasePopState<EditAccountPage> {
   final _scrollController = ScrollController();
   late final EditAccountCubit _bloc;
   final nicknameController = TextEditingController();
@@ -58,7 +57,7 @@ class _EditAccountState extends BaseState<EditAccountPage>
       case ApiKey.trainer:
         role = TypeProfile.TRAINER;
     }
-    _bloc = EditAccountCubit(widget.editAccountCallBack,role);
+    _bloc = EditAccountCubit(role);
     nicknameController.text = widget.model.username ?? "";
     nameController.text = widget.model.firstName ?? "";
     surnameController.text = widget.model.lastName ?? "";
@@ -76,7 +75,7 @@ class _EditAccountState extends BaseState<EditAccountPage>
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget buildWidget(BuildContext context) {
     return AppScaffold(
       isTabToHideKeyBoard: true,
       backgroundColor: colorGreyBackground,
@@ -89,19 +88,20 @@ class _EditAccountState extends BaseState<EditAccountPage>
           action: [
             BlocBuilder<EditAccountCubit, EditAccountState>(
               bloc: _bloc,
-              builder: (c, s) => s.isOnChangeInfo!
+              builder: (c, s) =>
+              s.isOnChangeInfo!
                   ? IconButton(
-                      onPressed: () {
-                        _bloc.saveInfo(
-                            c,
-                            nameController.text,
-                            surnameController.text,
-                            heightController.text,
-                            emailController.text);
-                      },
-                      icon: const Icon(Icons.check, size: 30),
-                      splashRadius: 20,
-                    )
+                onPressed: () {
+                  _bloc.saveInfo(
+                      c,
+                      nameController.text,
+                      surnameController.text,
+                      heightController.text,
+                      emailController.text);
+                },
+                icon: const Icon(Icons.check, size: 30),
+                splashRadius: 20,
+              )
                   : const SizedBox(),
             )
           ]),
@@ -225,7 +225,7 @@ class _EditAccountState extends BaseState<EditAccountPage>
 
   Widget heightWidget() {
     return Positioned.fill(
-      left: 15.w,
+        left: 15.w,
         child: Align(
           alignment: Alignment.centerLeft,
           child: IntrinsicWidth(
@@ -243,6 +243,7 @@ class _EditAccountState extends BaseState<EditAccountPage>
                 keyboardType: TextInputType.number,
                 textAlign: TextAlign.center,
                 decoration:  InputDecoration(
+                 // isCollapsed: true,
                   suffixIcon: Padding(
                     padding:  EdgeInsets.only(top: 5.h),
                     child: Text(
@@ -265,7 +266,7 @@ class _EditAccountState extends BaseState<EditAccountPage>
   }
 
   Widget textField(String headline, TextEditingController? controller,
-      String? value, IconData icon, TextInputType inputType, String? errorText, 
+      String? value, IconData icon, TextInputType inputType, String? errorText,
       {bool isReadOnly = false, VoidCallback? callback,}) {
     return Padding(
       padding: EdgeInsets.only(bottom: 15.h, left: 15.w),
@@ -305,8 +306,8 @@ class _EditAccountState extends BaseState<EditAccountPage>
               ),
               border: const UnderlineInputBorder(
                   borderSide: BorderSide(
-                color: colorWhite,
-              )),
+                    color: colorWhite,
+                  )),
               focusedBorder: const UnderlineInputBorder(
                   borderSide: BorderSide(color: colorText65)),
               enabledBorder: const UnderlineInputBorder(
@@ -317,7 +318,7 @@ class _EditAccountState extends BaseState<EditAccountPage>
       ),
     );
   }
-  
+
   Widget test(String headline, TextEditingController? controller,
       String? value, IconData icon, TextInputType inputType, String? errorText,
       {bool isReadOnly = false, VoidCallback? callback,}) {
@@ -329,7 +330,8 @@ class _EditAccountState extends BaseState<EditAccountPage>
             nameController.text,
             surnameController.text,
             heightController.text,
-            emailController.text);
+            emailController.text
+        );
       },
       controller: controller,
       keyboardType: inputType,
@@ -402,6 +404,6 @@ class _EditAccountState extends BaseState<EditAccountPage>
   }
 
   @override
-  bool get wantKeepAlive => true;
+  int get tabIndex => widget.routePage;
   }
 

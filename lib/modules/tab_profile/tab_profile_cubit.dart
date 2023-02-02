@@ -23,12 +23,13 @@ class TabProfileCubit extends Cubit<TabProfileState> {
         model: userModel, timeStamp: DateTime.now().microsecondsSinceEpoch));
   }
 
-  void didPressEditProfile(BuildContext context) {
-    RouterUtils.openNewPage(EditSettingsPage(
-      editSettingCallBack: () {
+  void didPressEditProfile(BuildContext context) async{
+   await RouterUtils.pushProfile(context: context, route: ProfileRouters.routesEditSetting,argument: BottomNavigationConstant.TAB_PROFILE);
+    // RouterUtils.openNewPage(EditSettingsPage(
+    //   editSettingCallBack: () {
         getData();
-      },
-    ), context);
+    //   },
+    // ), context);
   }
 
   void onClickSearch(BuildContext context) => RouterUtils.pushProfile(

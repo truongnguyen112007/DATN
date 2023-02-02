@@ -1,8 +1,10 @@
+import 'package:base_bloc/config/constant.dart';
 import 'package:base_bloc/data/model/settings_model.dart';
 import 'package:base_bloc/gen/assets.gen.dart';
 import 'package:base_bloc/modules/home/home_page.dart';
 import 'package:base_bloc/modules/tab_profile/edit_settings/edit_account/edit_account_page.dart';
 import 'package:base_bloc/modules/tab_profile/edit_settings/privacy_settings/privacy_settings_page.dart';
+import 'package:base_bloc/router/router.dart';
 import 'package:base_bloc/router/router_utils.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
@@ -80,28 +82,31 @@ class EditSettingsCubit extends Cubit<EditSettingsState> {
   void openAccountPage(
       BuildContext context, VoidCallback editAccountCallBack) async {
     var userModel = await StorageUtils.getUserProfile();
-    RouterUtils.openNewPage(
-        EditAccountPage(
-            model: userModel!,
-            editAccountCallBack: () {
-              editSettingCallBack.call();
-            }),
-        context);
+    // RouterUtils.openNewPage(
+    //     EditAccountPage(
+    //         model: userModel!,
+    //         editAccountCallBack: () {
+    //           editSettingCallBack.call();
+    //         }),
+    //     context);
+     await RouterUtils.pushProfile(context: context, route: ProfileRouters.routersAccount,argument: [userModel,BottomNavigationConstant.TAB_PROFILE]);
+    // editSettingCallBack.call();
   }
 
   void openNotificationsSettingsPage(BuildContext context) {
     /*toast(LocaleKeys.thisFeatureIsUnder);*/
-    RouterUtils.openNewPage(NotificationsSettingsPage(), context);
+    RouterUtils.pushProfile(context: context, route: ProfileRouters.routersNotification,argument: BottomNavigationConstant.TAB_PROFILE);
   }
 
   void openPrivacySettingsPage(BuildContext context) {
     /*toast(LocaleKeys.thisFeatureIsUnder);*/
-    RouterUtils.openNewPage(PrivacySettingsPage(), context);
+    RouterUtils.pushProfile(context: context, route: ProfileRouters.routersNotification,argument: BottomNavigationConstant.TAB_PROFILE);
   }
 
   void openGeneralSettingsPage(BuildContext context) {
    /* toast(LocaleKeys.thisFeatureIsUnder);*/
-    RouterUtils.openNewPage(GeneralSettingsPage(), context);
+    // // RouterUtils.openNewPage(GeneralSettingsPage(), context);
+    RouterUtils.pushProfile(context: context, route: ProfileRouters.routersGeneral,argument: BottomNavigationConstant.TAB_PROFILE);
   }
 
   void logOut(BuildContext context) {

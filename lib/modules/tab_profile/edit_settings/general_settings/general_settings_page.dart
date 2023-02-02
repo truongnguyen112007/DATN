@@ -15,14 +15,14 @@ import 'general_settings_cubit.dart';
 import 'general_settings_state.dart';
 
 class GeneralSettingsPage extends StatefulWidget {
-  const GeneralSettingsPage({Key? key}) : super(key: key);
+  final int routePage;
+  const GeneralSettingsPage({Key? key, required this.routePage}) : super(key: key);
 
   @override
   State<GeneralSettingsPage> createState() => _GeneralSettingsState();
 }
 
-class _GeneralSettingsState extends BaseState<GeneralSettingsPage>
-    with AutomaticKeepAliveClientMixin {
+class _GeneralSettingsState extends BasePopState<GeneralSettingsPage> {
   final _scrollController = ScrollController();
   late final GeneralSettingsCubit _bloc;
 
@@ -40,16 +40,13 @@ class _GeneralSettingsState extends BaseState<GeneralSettingsPage>
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget buildWidget(BuildContext context) {
     return AppScaffold(
         backgroundColor: colorGreyBackground,
         appbar: appBarWidget(
             context: context, titleStr: LocaleKeys.settingsGeneral.tr()),
         body: generalSettingsListView(context));
   }
-
-  @override
-  bool get wantKeepAlive => true;
 
   Widget generalSettingsListView(BuildContext context) {
     return BlocBuilder<GeneralSettingsCubit, GeneralSettingsState>(
@@ -105,4 +102,8 @@ class _GeneralSettingsState extends BaseState<GeneralSettingsPage>
           );
         });
   }
+
+
+  @override
+  int get tabIndex => widget.routePage;
 }

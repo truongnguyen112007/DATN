@@ -62,6 +62,14 @@ class TabClimbCubit extends Cubit<TabClimbState> {
         argument: [BottomNavigationConstant.TAB_CLIMB ,model,index]);
   }
 
+  void fakeLoginToWall () {
+    emit(state.copyOf(isLoginToWall: true));
+  }
+
+  void checkLoginToWall () {
+    emit(state.copyOf(isLoginToWall: false));
+  }
+
 }
 
 Future<bool> checkTurnOnGps() async =>

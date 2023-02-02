@@ -79,7 +79,7 @@ class _TabClimbState extends State<TabClimb>
                 bloc: _bloc,
                 builder: (BuildContext context, state) {
                   return state.isBluetooth
-                      ? checkGps() /*logInToWall()*/
+                      ? (!state.isLoginToWall! ? checkGps() : logInToWall())
                       : notBluetooth();
                 }),
       ),
@@ -95,7 +95,7 @@ class _TabClimbState extends State<TabClimb>
           SvgPicture.asset(
             Assets.svg.bluetooth,
             color: colorWhite,
-            height: 33.h,
+            height: 40.h,
           ),
           SizedBox(
             height: 10.h,
@@ -104,7 +104,7 @@ class _TabClimbState extends State<TabClimb>
             LocaleKeys.bluetooth.tr(),
             style: typoLargeTextBold.copyWith(
                 color: colorWhite,
-                fontSize: 29.sp,
+                fontSize: 32.sp,
                 fontWeight: FontWeight.w700),
           ),
           Padding(
@@ -113,32 +113,32 @@ class _TabClimbState extends State<TabClimb>
             child: AppText(
               LocaleKeys.pleaseTurnOnBl.tr(),
               style: typoExtraSmallTextRegular.copyWith(
-                  color: colorWhite, fontSize: 13.sp),
+                  color: colorWhite, fontSize: 16.sp),
               textAlign: TextAlign.center,
             ),
           ),
-          MaterialButton(
-            color: Colors.deepOrange,
-            height: 33.h,
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(30),
-              ),
-            ),
-            onPressed: () {
+          GradientButton(
+            height: 36.h,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(30),
+                gradient: Utils.backgroundGradientOrangeButton()),
+            onTap: () {
               FlutterBlueElves.instance.androidOpenBluetoothService((isOk) {
                 print(isOk
                     ? "The user agrees to turn on the Bluetooth function"
                     : "The user does not agree to enable the Bluetooth function");
               });
             },
-            child: Row(
+            widget: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
+                SizedBox(
+                  width: 10.w,
+                ),
                 SvgPicture.asset(
                   Assets.svg.bluetooth,
                   color: colorWhite,
-                  height: 16.sp,
+                  height: 20.sp,
                 ),
                 SizedBox(
                   width: 5.w,
@@ -146,13 +146,14 @@ class _TabClimbState extends State<TabClimb>
                 AppText(
                   LocaleKeys.turnOnBluetooth.tr(),
                   style: typoExtraSmallTextRegular.copyWith(
-                      color: colorWhite, fontSize: 11.sp),
+                      color: colorWhite, fontSize: 14.sp),
                 ),
                 SizedBox(
-                  width: 5.w,
+                  width: 10.w,
                 ),
               ],
             ),
+            borderRadius: BorderRadius.circular(30),
           ),
         ],
       ),
@@ -169,10 +170,19 @@ class _TabClimbState extends State<TabClimb>
             SizedBox(
               height: 20.h,
             ),
-            SvgPicture.asset(
-              Assets.svg.notlocation,
-              height: 33.sp,
-              color: colorWhite,
+            BlocBuilder<TabClimbCubit,TabClimbState>(
+              bloc: _bloc,
+              builder: (c,s) =>
+               InkWell(
+                onTap: () {
+                   _bloc.fakeLoginToWall();
+                },
+                child: SvgPicture.asset(
+                  Assets.svg.notlocation,
+                  height: 45.sp,
+                  color: colorWhite,
+                ),
+              ),
             ),
             SizedBox(
               height: 20.h,
@@ -180,7 +190,7 @@ class _TabClimbState extends State<TabClimb>
             AppText(
               LocaleKeys.getCloser.tr(),
               style: googleFont.copyWith(
-                  fontSize: 28.sp,
+                  fontSize: 32.sp,
                   color: colorWhite,
                   fontWeight: FontWeight.w700),
             ),
@@ -189,7 +199,7 @@ class _TabClimbState extends State<TabClimb>
             ),
             AppText(
               LocaleKeys.connectToTheReClimb.tr(),
-              style: googleFont.copyWith(color: colorText50, fontSize: 13.sp),
+              style: googleFont.copyWith(color: colorText20, fontSize: 16.sp),
               textAlign: TextAlign.center,
             ),
             BlocBuilder<TabClimbCubit, TabClimbState>(
@@ -199,12 +209,12 @@ class _TabClimbState extends State<TabClimb>
                       children: [
                         Padding(
                           padding: EdgeInsets.only(top: 30.h, left: 5.w),
-                          child: Container(
+                          child: SizedBox(
                             width: MediaQuery.of(context).size.width,
                             child: AppText(
                               LocaleKeys.theNearest.tr(),
                               style: googleFont.copyWith(
-                                  color: colorGrey60, fontSize: 8.sp),
+                                  color: colorWhite, fontSize: 11.sp),
                             ),
                           ),
                         ),
@@ -224,7 +234,7 @@ class _TabClimbState extends State<TabClimb>
                         Padding(
                           padding: const EdgeInsets.all(9),
                           child: MaterialButton(
-                            height: 33.h,
+                            height: 36.h,
                             color: colorBlack,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(18)),
@@ -233,7 +243,7 @@ class _TabClimbState extends State<TabClimb>
                               child: AppText(
                                 LocaleKeys.seeAll.tr(),
                                 style: googleFont.copyWith(
-                                    color: colorRed70, fontSize: 15),
+                                    color: colorPrimary, fontSize: 15),
                               ),
                             ),
                           ),
@@ -241,12 +251,12 @@ class _TabClimbState extends State<TabClimb>
                       ],
                     )
                   : Padding(
-                      padding: EdgeInsets.only(top: 30.h),
+                      padding: EdgeInsets.only(top: 65.h),
                       child: Column(
                         children: [
                           SvgPicture.asset(
                             Assets.svg.notlocation,
-                            height: 33.sp,
+                            height: 45.sp,
                             color: colorWhite,
                           ),
                           SizedBox(
@@ -265,28 +275,25 @@ class _TabClimbState extends State<TabClimb>
                           AppText(
                             LocaleKeys.cantFind.tr(),
                             textAlign: TextAlign.center,
-                            style: googleFont.copyWith(color: colorText50),
+                            style: googleFont.copyWith(color: colorText20),
                           ),
                           SizedBox(
                             height: 20.h,
                           ),
                           GradientButton(
-                            height: 35.h,
+                            height: 36.h,
                             width: 160.w,
                             widget: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                const Icon(
-                                  Icons.add_location_alt,
-                                  color: colorText20,
-                                ),
+                                SvgPicture.asset(Assets.svg.checkLocation,height: 19),
                                 SizedBox(
                                   width: 10.w,
                                 ),
                                 AppText(
                                   LocaleKeys.turnOnLocation.tr(),
                                   style:
-                                      googleFont.copyWith(color: colorText20),
+                                      googleFont.copyWith(color: colorWhite),
                                 ),
                               ],
                             ),
@@ -295,7 +302,7 @@ class _TabClimbState extends State<TabClimb>
                                     Utils.backgroundGradientOrangeButton(),
                                 borderRadius: BorderRadius.circular(20)),
                             onTap: () {
-                              Location().requestService();
+                              FlutterBlueElves.instance.androidOpenLocationService((isOk) {});
                             },
                             borderRadius: BorderRadius.circular(20),
                           )
@@ -336,14 +343,15 @@ class _TabClimbState extends State<TabClimb>
                 children: [
                   Text(
                     model.namePlace,
-                    style: const TextStyle(color: Colors.white, fontSize: 25),
+                    style:  TextStyle(color: Colors.white, fontSize: 22.sp),
                   ),
+                  SizedBox(height: 3.h,),
                   Row(
                     children: [
                       Text(
                         model.nameCity,
-                        style: const TextStyle(
-                            color: Colors.white54, fontSize: 17),
+                        style:  TextStyle(
+                            color: Colors.white54, fontSize: 15.sp),
                       ),
                       SizedBox(
                         width: 5.w,
@@ -351,15 +359,15 @@ class _TabClimbState extends State<TabClimb>
                       const Icon(
                         Icons.brightness_1_rounded,
                         color: Colors.white54,
-                        size: 8,
+                        size: 7,
                       ),
                       SizedBox(
                         width: 5.w,
                       ),
                       Text(
                         model.distance.toString(),
-                        style: const TextStyle(
-                            color: Colors.white54, fontSize: 17),
+                        style:  TextStyle(
+                            color: Colors.white54, fontSize: 15.sp),
                       ),
                       const AppText(
                         'km',
@@ -377,33 +385,45 @@ class _TabClimbState extends State<TabClimb>
   }
 
   Widget logInToWall() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(16),
-          child: AppText(
-            "Log in to wall",
-            style: googleFont.copyWith(color: colorWhite),
-          ),
-        ),
-        BlocBuilder<TabClimbCubit, TabClimbState>(
-          bloc: _bloc,
-          builder: (c, s) => ListView.separated(
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            padding: const EdgeInsets.only(top: 10),
-            itemBuilder: (BuildContext context, int index) {
-              return itemWallLogIn(fakeDataWall()[index],
-                  stt: (index + 1).toString());
-            },
-            separatorBuilder: (BuildContext context, int index) => SizedBox(
-              height: 10.h,
+    return BlocBuilder<TabClimbCubit,TabClimbState>(
+      bloc: _bloc,
+      builder: (c,s) =>
+       Visibility(
+         visible: s.isLoginToWall!,
+         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: InkWell(
+                onTap: (){
+                  _bloc.checkLoginToWall();
+                },
+                child: AppText(
+                  "Log in to wall",
+                  style: googleFont.copyWith(color: colorWhite),
+                ),
+              ),
             ),
-            itemCount: fakeDataWall().length,
-          ),
-        )
-      ],
+            BlocBuilder<TabClimbCubit, TabClimbState>(
+              bloc: _bloc,
+              builder: (c, s) => ListView.separated(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                padding: const EdgeInsets.only(top: 10),
+                itemBuilder: (BuildContext context, int index) {
+                  return itemWallLogIn(fakeDataWall()[index],
+                      stt: (index + 1).toString());
+                },
+                separatorBuilder: (BuildContext context, int index) => SizedBox(
+                  height: 10.h,
+                ),
+                itemCount: fakeDataWall().length,
+              ),
+            )
+          ],
+      ),
+       ),
     );
   }
 
@@ -496,7 +516,7 @@ class _TabClimbState extends State<TabClimb>
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           AppText(
-                            "Reversion",
+                            "Reservation",
                             style: googleFont.copyWith(
                                 color: colorWhite, fontSize: 15.sp),
                           ),
@@ -521,3 +541,4 @@ class _TabClimbState extends State<TabClimb>
   @override
   bool get wantKeepAlive => true;
 }
+

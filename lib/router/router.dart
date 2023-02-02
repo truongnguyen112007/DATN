@@ -136,6 +136,11 @@ class ProfileRouters {
   static String notifications = '/notifications';
   static String placeDetail = '/placeDetail';
   static String routesCreateReservationPage = '/createReservationPage';
+  static String routesEditSetting = "/routesEditSetting";
+  static String routersNotification = "/routersNotification";
+  static String routersPrivacy = "/routersPrivacy";
+  static String routersGeneral = "/routersGeneral";
+  static String routersAccount = "/routersAccount";
 
   static configureProfileRouter(FluroRouter router) {
     router.notFoundHandler = Handler(handlerFunc: (c, x) {
@@ -148,5 +153,10 @@ class ProfileRouters {
     router.define(placeDetail, handler: routePlaceDetail);
     router.define(routesCreateReservationPage,
         handler: routeCreateReservationPage);
+    router.define(routesEditSetting, handler: routeEditSetting);
+    router.define(routersNotification, handler: routeNotification);
+    router.define(routersPrivacy, handler: routePrivacy);
+    router.define(routersGeneral, handler: routeGeneral);
+    router.define(routersAccount, handler: routerAccount);
   }
 }

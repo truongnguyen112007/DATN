@@ -220,7 +220,7 @@ class _SearchPageState extends BasePopState<SearchPage>
     final List<String> search = [
       LocaleKeys.all.tr(),
       LocaleKeys.places.tr(),
-      LocaleKeys.routes.tr(),
+      "${LocaleKeys.routes.tr()}s",
       LocaleKeys.persons.tr()
     ];
 

@@ -48,8 +48,7 @@ class ProfileInfoWidget extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                       AppText(
-                          (profileModel.firstName ?? '') +
-                              (profileModel.lastName ?? ''),
+                          "${profileModel.firstName ?? ''} ${profileModel.lastName ?? ''}",
                           maxLine: 1,
                           style: googleFont.copyWith(
                               color: colorMainText,

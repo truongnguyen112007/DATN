@@ -148,12 +148,6 @@ class $AssetsSvgGen {
   AssetGenImage get avatarTest =>
       const AssetGenImage('assets/svg/avatar_test.png');
 
-  /// File path: assets/svg/b_4.svg
-  String get b4 => 'assets/svg/b_4.svg';
-
-  /// File path: assets/svg/b_5B.svg
-  String get b5B => 'assets/svg/b_5B.svg';
-
   /// File path: assets/svg/back_button.svg
   String get backButton => 'assets/svg/back_button.svg';
 
@@ -168,6 +162,9 @@ class $AssetsSvgGen {
 
   /// File path: assets/svg/calendar_1.svg
   String get calendar1 => 'assets/svg/calendar_1.svg';
+
+  /// File path: assets/svg/check_location.svg
+  String get checkLocation => 'assets/svg/check_location.svg';
 
   /// File path: assets/svg/climp_orange.svg
   String get climpOrange => 'assets/svg/climp_orange.svg';
@@ -333,13 +330,12 @@ class $AssetsSvgGen {
         addPlayList,
         addToPlayList,
         avatarTest,
-        b4,
-        b5B,
         backButton,
         backCircle,
         bluetooth,
         calendar,
         calendar1,
+        checkLocation,
         climpOrange,
         closeIcon,
         comment,

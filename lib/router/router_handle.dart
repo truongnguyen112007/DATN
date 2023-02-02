@@ -3,6 +3,7 @@ import 'package:base_bloc/data/model/address_model.dart';
 import 'package:base_bloc/data/model/places_model.dart';
 import 'package:base_bloc/data/model/reservation_model.dart';
 import 'package:base_bloc/data/model/routes_model.dart';
+import 'package:base_bloc/data/model/user_profile_model.dart';
 import 'package:base_bloc/data/model/wall_model.dart';
 import 'package:base_bloc/modules/confirm_create_reservation/confirm_create_reservation_page.dart';
 import 'package:base_bloc/modules/create_reservation/create_reservation_page.dart';
@@ -18,6 +19,8 @@ import 'package:base_bloc/modules/routes_page/routes_page.dart';
 import 'package:base_bloc/modules/splash/splash_page.dart';
 import 'package:base_bloc/modules/tab_climb/tab_climb.dart';
 import 'package:base_bloc/modules/tab_home/tab_home.dart';
+import 'package:base_bloc/modules/tab_profile/edit_settings/edit_settings_state.dart';
+import 'package:base_bloc/modules/tab_profile/edit_settings/general_settings/general_settings_page.dart';
 import 'package:base_bloc/modules/tab_profile/tab_profile.dart';
 import 'package:base_bloc/modules/tab_reservation/tab_reservation.dart';
 import 'package:base_bloc/modules/tab_routes/tab_routes.dart';
@@ -28,6 +31,10 @@ import '../modules/login_to_wall/login_to_wall.dart';
 import '../modules/search/search_page.dart';
 
 import '../modules/routers_detail/routes_detail_page.dart';
+import '../modules/tab_profile/edit_settings/edit_account/edit_account_page.dart';
+import '../modules/tab_profile/edit_settings/edit_settings_page.dart';
+import '../modules/tab_profile/edit_settings/notifications_settings/notifications_settings_page.dart';
+import '../modules/tab_profile/edit_settings/privacy_settings/privacy_settings_page.dart';
 
 var routeRoutesDetail = Handler(
     handlerFunc: (c, p) => RoutesDetailPage(
@@ -60,6 +67,16 @@ var routeCreateReservationPage = Handler(
     index: c!.settings!.arguments as int,
   ),
 );
+
+var routeEditSetting = Handler(handlerFunc: (c,p) => EditSettingsPage(editSettingCallBack: () {}, routePage: (c!.settings!.arguments as int),));
+
+var routeNotification = Handler(handlerFunc: (c,p) => NotificationsSettingsPage(routePage: (c!.settings!.arguments as int),));
+
+var routePrivacy = Handler(handlerFunc: (c,p) => PrivacySettingsPage(routePage: c!.settings!.arguments as int));
+
+var routeGeneral = Handler(handlerFunc: (c,p) => GeneralSettingsPage(routePage: c!.settings!.arguments as int));
+
+var routerAccount = Handler(handlerFunc: (c,p)=> EditAccountPage(model: (c!.settings!.arguments as List)[0] as UserProfileModel , routePage: (c.settings!.arguments as List)[1] as int,));
 
 var routeLoginToWall = Handler(
     handlerFunc: (c, p) => LoginToWall(
