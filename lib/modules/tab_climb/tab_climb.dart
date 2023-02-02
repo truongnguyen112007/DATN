@@ -119,20 +119,16 @@ class _TabClimbState extends State<TabClimb>
               textAlign: TextAlign.center,
             ),
           ),
-          MaterialButton(
-            color: Colors.deepOrange,
+          GradientButton(
+            borderRadius: BorderRadius.circular(30),
             height: 33.h,
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(30),
-              ),
-            ),
-            onPressed: () {
-              Platform.isAndroid ?
-              FlutterBlueElves.instance.androidOpenBluetoothService((isOk) {
-              }) : Settings.AppSettings.openWIFISettings();
-            },
-            child: Row(
+            decoration: BoxDecoration(
+              gradient: Utils.backgroundGradientOrangeButton(),
+                borderRadius: BorderRadius.circular(30)),
+            onTap: () {  Platform.isAndroid ?
+            FlutterBlueElves.instance.androidOpenBluetoothService((isOk) {
+            }) : Settings.AppSettings.openWIFISettings(); },
+            widget: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 SizedBox(
@@ -156,7 +152,6 @@ class _TabClimbState extends State<TabClimb>
                 ),
               ],
             ),
-            borderRadius: BorderRadius.circular(30),
           ),
         ],
       ),
