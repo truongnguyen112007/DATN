@@ -33,10 +33,12 @@
 	<true/>
 	<key>NSBluetoothAlwaysUsageDescription</key>
 	<string>Need BLE permission</string>
-	<key>NSBluetoothPeripheralUsageDescription</key>
-	<string>Need BLE permission</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>This app needs access to location when in the background.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>App needs location permissions to scan nearby beacons.</string>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>App needs location permissions to scan nearby beacons.</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>App needs location permissions to scan nearby beacons.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>This app needs access to location when open.</string>
 	<key>UILaunchStoryboardName</key>
@@ -60,5 +62,6 @@
 	<false/>
 	<key>io.flutter.embedded_views_preview</key>
 	<true/>
+
 </dict>
 </plist>

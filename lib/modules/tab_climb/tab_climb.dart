@@ -21,10 +21,10 @@ import '../../data/model/places_model.dart';
 import '../../data/model/wall_model.dart';
 import '../../gen/assets.gen.dart';
 import '../../localization/locale_keys.dart';
-import '../../router/router_utils.dart';
 import '../../theme/colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:location/location.dart';
+import 'package:app_settings/app_settings.dart' as Settings;
+import 'package:beacons_plugin/beacons_plugin.dart';
 
 class TabClimb extends StatefulWidget {
   const TabClimb({Key? key}) : super(key: key);
@@ -72,14 +72,16 @@ class _TabClimbState extends State<TabClimb>
             ? CheckLogin(
                 loginCallBack: () {
                   _bloc.onClickLogin(context);
-                },
+                }
               )
             : /*const FeatureUnderWidget()*/
             BlocBuilder<TabClimbCubit, TabClimbState>(
                 bloc: _bloc,
                 builder: (BuildContext context, state) {
                   return state.isBluetooth
-                      ? (!state.isLoginToWall! ? checkGps() : logInToWall())
+                      ? state.lWall.isNotEmpty && state.isGps
+                          ? logInToWall()
+                          : checkGps()
                       : notBluetooth();
                 }),
       ),
@@ -117,19 +119,20 @@ class _TabClimbState extends State<TabClimb>
               textAlign: TextAlign.center,
             ),
           ),
-          GradientButton(
-            height: 36.h,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30),
-                gradient: Utils.backgroundGradientOrangeButton()),
-            onTap: () {
+          MaterialButton(
+            color: Colors.deepOrange,
+            height: 33.h,
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(30),
+              ),
+            ),
+            onPressed: () {
+              Platform.isAndroid ?
               FlutterBlueElves.instance.androidOpenBluetoothService((isOk) {
-                print(isOk
-                    ? "The user agrees to turn on the Bluetooth function"
-                    : "The user does not agree to enable the Bluetooth function");
-              });
+              }) : Settings.AppSettings.openWIFISettings();
             },
-            widget: Row(
+            child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 SizedBox(
@@ -293,7 +296,7 @@ class _TabClimbState extends State<TabClimb>
                                     Utils.backgroundGradientOrangeButton(),
                                 borderRadius: BorderRadius.circular(20)),
                             onTap: () {
-                              FlutterBlueElves.instance.androidOpenLocationService((isOk) {});
+                              _bloc.checkLocation();
                             },
                             borderRadius: BorderRadius.circular(20),
                           )
@@ -376,40 +379,30 @@ class _TabClimbState extends State<TabClimb>
   }
 
   Widget logInToWall() {
-    return BlocBuilder<TabClimbCubit,TabClimbState>(
-      bloc: _bloc,
-      builder: (c,s) =>
-       Visibility(
-         visible: s.isLoginToWall!,
-         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: AppText(
-                "Log in to wall",
-                style: googleFont.copyWith(color: colorWhite),
-              ),
-            ),
-            BlocBuilder<TabClimbCubit, TabClimbState>(
-              bloc: _bloc,
-              builder: (c, s) => ListView.separated(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                padding: const EdgeInsets.only(top: 10),
-                itemBuilder: (BuildContext context, int index) {
-                  return itemWallLogIn(fakeDataWall()[index],
-                      stt: (index + 1).toString());
-                },
-                separatorBuilder: (BuildContext context, int index) => SizedBox(
-                  height: 10.h,
-                ),
-                itemCount: fakeDataWall().length,
-              ),
-            )
-          ],
-      ),
-       ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(16),
+          child: AppText(
+            "Log in to wall",
+            style: googleFont.copyWith(color: colorWhite),
+          ),
+        ),
+        Expanded(
+            child: BlocBuilder<TabClimbCubit, TabClimbState>(
+                bloc: _bloc,
+                builder: (c, s) => ListView.separated(
+                    shrinkWrap: true,
+                    padding: const EdgeInsets.only(top: 10),
+                    itemBuilder: (BuildContext context, int index) {
+                      return itemWallLogIn(s.lWall[index],
+                          stt: (index + 1).toString());
+                    },
+                    separatorBuilder: (BuildContext context, int index) =>
+                        SizedBox(height: 10.h),
+                    itemCount: s.lWall.length)))
+      ],
     );
   }
 
@@ -452,9 +445,8 @@ class _TabClimbState extends State<TabClimb>
                         child: AppText(
                           maxLine: 1,
                           overflow: TextOverflow.ellipsis,
-                          model.name,
-                          style:
-                              const TextStyle(color: Colors.white, fontSize: 21),
+                          (model.name ?? '') + model.deviceId,
+                          style: const TextStyle(color: Colors.white, fontSize: 21),
                         ),
                       ),
                       Row(
@@ -474,9 +466,8 @@ class _TabClimbState extends State<TabClimb>
                             width: 5.w,
                           ),
                           Text(
-                            model.rank,
-                            style:
-                                TextStyle(color: Colors.white54, fontSize: 14.sp),
+                            model.rank ?? '9A',
+                            style: TextStyle(color: Colors.white54, fontSize: 14.sp),
                           ),
                         ],
                       ),
@@ -527,4 +518,3 @@ class _TabClimbState extends State<TabClimb>
   @override
   bool get wantKeepAlive => true;
 }
-
