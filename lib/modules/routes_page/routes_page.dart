@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:base_bloc/components/app_not_data_widget.dart';
+import 'package:base_bloc/components/app_scalford.dart';
 import 'package:base_bloc/modules/routes_page/routes_page_cubit.dart';
 import 'package:base_bloc/modules/routes_page/routes_page_state.dart';
 import 'package:flutter/cupertino.dart';
@@ -38,8 +39,8 @@ class _RoutesPageState extends State<RoutesPage>
   @override
   void initState() {
     _searchEvent = Utils.eventBus.on<SearchHomeEvent>().listen(
-      (event) {
-        if (event.index == widget.index) _bloc.search(event.key ?? '',1);
+          (event) {
+        if (event.index == widget.index) _bloc.setKeySearch(event.key ?? '');
       },
     );
     _bloc = RoutesPageCubit();
@@ -60,44 +61,89 @@ class _RoutesPageState extends State<RoutesPage>
       if (maxScroll - currentScroll <= 200) {
         _bloc.getRoutes(isPaging: true);
       }
+      Utils.hideKeyboard(context);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: colorGreyBackground,
-      child: Column(
+    return AppScaffold(
+      resizeToAvoidBottomInset: false,
+      backgroundColor: colorGreyBackground,
+      body:
+      Stack(
         children: [
-          FilterWidget(
-            filterController: filterController,
-            isSelect: true,
-            selectCallBack: () => _bloc.selectOnclick(false),
-            filterCallBack: () => _bloc.filterOnclick(context),
-            sortCallBack: () => _bloc.sortOnclick(context),
-            unsSelectCallBack: () => _bloc.selectOnclick(true),
-          ),
-          Expanded(
-            child: RefreshIndicator(
-              child: BlocBuilder<RoutesPageCubit, RoutesPageState>(
-                  bloc: _bloc,
-                  builder: (c, state) {
-                    return (state.status == RouteStatus.search ||
-                        state.status == RouteStatus.initial ||
-                        state.status == RouteStatus.refresh)
-                        ?  const Center(child: AppCircleLoading(),)
-                        : state.lRoutes.isEmpty
+          Column(
+            children: [
+              FilterWidget(
+                filterController: filterController,
+                isSelect: true,
+                selectCallBack: () => _bloc.selectOnclick(false),
+                filterCallBack: () => _bloc.filterOnclick(context),
+                sortCallBack: () => _bloc.sortOnclick(context),
+                unsSelectCallBack: () => _bloc.selectOnclick(true),
+              ),
+              Expanded(
+                child: RefreshIndicator(
+                  child: BlocBuilder<RoutesPageCubit, RoutesPageState>(
+                      bloc: _bloc,
+                      builder: (c, state) {
+                        return (state.status == RouteStatus.search ||
+                            state.status == RouteStatus.initial ||
+                            state.status == RouteStatus.refresh)
+                            ?  const Center(child: AppCircleLoading(),)
+                            : (state.status == FeedStatus.failure || state.lRoutes.isEmpty
                             ? Stack(
-                                children: [
-                                  const Center(child: AppNotDataWidget()),
-                                  ListView(
-                                      physics:
-                                          const AlwaysScrollableScrollPhysics())
-                                ],
-                              )
-                            : routesWidget(context, state);
-                  }),
-              onRefresh: () async => _bloc.onRefresh(),
+                          children: [
+                            const Center(child: AppNotDataWidget()),
+                            ListView(
+                                physics:
+                                const AlwaysScrollableScrollPhysics())
+                          ],
+                        )
+                            : routesWidget(context, state));
+                      }),
+                  onRefresh: () async => _bloc.onRefresh(),
+                ),
+              ),
+            ],
+          ),
+          BlocBuilder<RoutesPageCubit, RoutesPageState>(
+            bloc: _bloc,
+            builder: (c, state) => Positioned.fill(
+              left: 10.w,
+              bottom: 10.h,
+              right: 5.w,
+              child: state.isShowActionButton
+                  ? Align(
+                alignment: Alignment.bottomRight,
+                child: GradientButton(
+                  height: 36.h,
+                  isCenter: true,
+                  width: 170.w,
+                  decoration: BoxDecoration(
+                    gradient: Utils.backgroundGradientOrangeButton(),
+                    borderRadius: BorderRadius.circular(18),
+                  ),
+                  onTap: () {
+                    var lSelectRadioButton = <RoutesModel>[];
+                    for (var element in state.lRoutes) {
+                      if (element.isSelect == true)
+                        lSelectRadioButton.add(element);
+                    }
+                    _bloc.itemOnDoubleClick(
+                        context,0,filterController,
+                        isMultiSelect: true);
+                  },
+                  widget: AppText(
+                    LocaleKeys.action.tr(),
+                    style: googleFont.copyWith(
+                        color: colorWhite, fontSize: 15.sp),
+                  ),
+                  borderRadius: BorderRadius.circular(18),
+                ),
+              )
+                  : const SizedBox(),
             ),
           ),
         ],
@@ -107,6 +153,7 @@ class _RoutesPageState extends State<RoutesPage>
 
   Widget routesWidget(BuildContext context, RoutesPageState state) =>
       ListView.builder(
+        controller: scrollController,
           padding: EdgeInsets.only(
               top: 10.h, left: contentPadding, right: contentPadding),
           physics: const AlwaysScrollableScrollPhysics(),
@@ -114,26 +161,36 @@ class _RoutesPageState extends State<RoutesPage>
           itemBuilder: (c, i) => i == state.lRoutes.length
               ? const Center(child: AppCircleLoading())
               : ItemInfoRoutes(
-                  isShowSelect: !state.isShowAdd,
-                  key: Key('$i'),
-                  context: context,
-                  model: state.lRoutes[i],
-                  callBack: (model) {},
+            isShowSelect: !state.isShowAdd,
+            key: Key('$i'),
+            context: context,
+            model: state.lRoutes[i],
+            callBack: (model) {},
                   index: i,
-                  onLongPress: (model) {
-                    _bloc.itemOnLongPress(context,i,filterController,isMultiSelect: true,model: model);
+                  doubleTapCallBack: (model) {
+                    int count = 0;
+                    for (var element in state.lRoutes) {
+                      if (element.isSelect == true) {
+                        count++;
+                      }
+                    }
+                    !isLogin
+                        ? _bloc.none()
+                        : (count <=1) ? _bloc.itemOnDoubleClick(context, i, filterController,
+                        model: model): _bloc.itemOnDoubleClick(context, 0, filterController,
+                        isMultiSelect: true);
                   },
                   filterOnclick: () {
                     _bloc.filterItemOnclick(i);
                   },
                   detailCallBack: (RoutesModel action) {
                     _bloc.itemOnclick(context, state.lRoutes[i]);
-                  },
-                ),
+            },
+          ),
           itemCount:
-              !state.isReadEnd && state.lRoutes.isNotEmpty && state.isLoading
-                  ? state.lRoutes.length + 1
-                  : state.lRoutes.length);
+          !state.isReadEnd && state.lRoutes.isNotEmpty && state.isLoading
+              ? state.lRoutes.length + 1
+              : state.lRoutes.length);
 
   Widget itemAction(IconData icon, String text, ItemAction action,
       VoidCallback filterCallBack) {

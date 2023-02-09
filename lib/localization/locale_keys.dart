@@ -19,6 +19,22 @@ abstract class LocaleKeys {
   static const filter = 'filter';
   static const moveToPlaylist = 'moveToPlaylist';
   static const addToPlaylist = 'addToPlaylist';
+  static const forgotPassword = "forgotPassword";
+
+  static const cancelDialog = "cancelDialog";
+  static const yesDialog = "yesDialog";
+  static const backDialog = "backDialog";
+
+  static const updateSuccess = "updateSuccess";
+  static const askWantToSaveInfo = "askWantToSaveInfo";
+  static const changeWillNotSave = "changeWillNotSave";
+  static const mustFillInfo = "mustFillInfo";
+
+  static const userTypeProfile = "userTypeProfile";
+  static const routeSetterProfile = "routeSetterProfile";
+  static const trainerProfile = "trainerProfile";
+
+  static const climbers = "climbers";
 
   static const addToFavourite = 'addToFavourite';
 
@@ -240,6 +256,7 @@ abstract class LocaleKeys {
   static const grade = 'grade';
   static const please_input_hold_set = 'please_input_hold_set';
   static const next = 'next';
+  static const skip = 'skip';
   static const edit_route = 'edit_route';
   static const tab_on_cell_to_select_hold = 'tab_on_cell_to_select_hold';
   static const briefly_touch_surface_with_fingertip =
@@ -260,4 +277,11 @@ abstract class LocaleKeys {
   static const authorAsc = "authorAsc";
   static const userDes = "userDes";
   static const userAsc ="userAsc";
+  static const public ="public";
+  static const private ="private";
+  static const visibility ="visibility";
+  static const draft = 'draft';
+  static const publish_routes_success = 'publish_routes_success';
+  static const you_need_login_to_use_this_service = 'you_need_login_to_use_this_service';
+  static const token_expired_please_login = 'token_expired_please_login';
 }

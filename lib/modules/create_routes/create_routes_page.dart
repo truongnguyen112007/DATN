@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:base_bloc/base/base_state.dart';
 import 'package:base_bloc/components/app_button.dart';
+import 'package:base_bloc/components/app_network_image.dart';
 import 'package:base_bloc/components/app_scalford.dart';
 import 'package:base_bloc/components/app_text.dart';
 import 'package:base_bloc/components/appbar_widget.dart';
@@ -23,6 +24,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../base/hex_color.dart';
 import '../../components/app_circle_loading.dart';
+import '../../data/eventbus/list_hold_set_event.dart';
 import '../../data/globals.dart';
 import '../../gen/assets.gen.dart';
 import '../../localization/locale_keys.dart';
@@ -56,7 +58,7 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage>   with Ticke
     Assets.svg.holdset5,
     Assets.svg.holdset6,
   ];
-  StreamSubscription<List<HoldSetModel>>? _lHoldSetStream;
+  StreamSubscription<ListHoldSetEvent>? _lHoldSetStream;
   late final AnimationController _animationController1 =
       AnimationController(duration: const Duration(milliseconds: 1200), vsync: this);
   late final Animation<double> _animation1 =
@@ -77,10 +79,10 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage>   with Ticke
   void initState() {
     _bloc = CreateRoutesCubit();
     checkRow();
-    _lHoldSetStream = Utils.eventBus
-        .on<List<HoldSetModel>>()
-        .listen((list) => _bloc.setHoldSets(list));
+    _lHoldSetStream = Utils.eventBus.on<ListHoldSetEvent>().listen(
+        (model) => _bloc.setHoldSets(model.holdSet, model.holdSetIndex));
     _bloc.setData(
+        infoRouteModel: widget.infoRouteModel,
         row: row,
         isEdit: widget.isEdit,
         column: column,
@@ -92,6 +94,21 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage>   with Ticke
   }
 
   void checkRow() {
+    if(widget.model!=null){
+      row = widget.model!.height! * 5;
+      switch (widget.model!.height) {
+        case 12:
+          sizeHoldSet = 7.5.h;
+          return;
+        case 9:
+          sizeHoldSet = 8.6.h;
+          return;
+        case 6:
+        case 3:
+          sizeHoldSet = 8.8.h;
+          return;
+      }
+    }
     if (widget.infoRouteModel != null) {
       row = widget.infoRouteModel!.height * 5;
       switch (widget.infoRouteModel!.height) {
@@ -263,64 +280,81 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage>   with Ticke
   }
 
   Widget guidelineWidget(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.only(left: 30.w),
-      color: colorBlack.withOpacity(0.7),
-      height: MediaQuery.of(context).size.height,
-      width: MediaQuery.of(context).size.width,
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Center(
-            child: Padding(
-                padding: EdgeInsets.only(right: 30.w),
-                child: FadeTransition(
-                  opacity: _animation1,
-                  child: AppText(LocaleKeys.edit_route.tr(),
-                      style: typoW700.copyWith(fontSize: 29.sp)),
-                )),
+    return InkWell(
+        child: Container(
+          padding: EdgeInsets.only(left: 30.w),
+          color: colorBlack.withOpacity(0.7),
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Padding(
+                    padding: EdgeInsets.only(right: 30.w),
+                    child: FadeTransition(
+                      opacity: _animation1,
+                      child: AppText(LocaleKeys.edit_route.tr(),
+                          style: typoW700.copyWith(fontSize: 29.sp)),
+                    )),
+              ),
+              const Spacer(),
+              space(),
+              itemGuideline(
+                  LocaleKeys.tab_on_cell_to_select_hold.tr(),
+                  LocaleKeys.briefly_touch_surface_with_fingertip.tr(),
+                  Assets.svg.hand,
+                  animation: _animation1),
+              space(height: 30),
+              itemGuideline(
+                  LocaleKeys.press_cell_with_hold_to_move_it_or_rotate_it.tr(),
+                  LocaleKeys.touch_suface_for_extended_privod_of_time.tr(),
+                  Assets.svg.hand,
+                  animation: _animation2),
+              space(height: 30),
+              itemGuideline(
+                  LocaleKeys.pinch_to_scale_down_and_up.tr(),
+                  LocaleKeys
+                      .touch_surface_with_two_fingers_and_bring_them_closer_together
+                      .tr(),
+                  Assets.svg.doubleHands,
+                  iconWidth: 98.w,
+                  animation: _animation3),
+              const Spacer(),
+              const Spacer(),
+              const Spacer(),
+              Container(
+                  alignment: Alignment.centerRight,
+                  child: Row(
+                      mainAxisSize: MainAxisSize
+                          .min,
+                      children: [
+                        InkWell(
+                            child: Container(margin: EdgeInsets.only(bottom: 10,right: contentPadding),
+                              padding: EdgeInsets.only(
+                                  left: globals.contentPadding,
+                            right: globals.contentPadding,
+                            top: 5,
+                            bottom: 5),
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            color: colorBlack,
+                            borderRadius: BorderRadius.circular(50),
+                            border: Border.all(color: colorWhite)),
+                              height: 32.h,
+                              child: AppText(
+                               "   "+ LocaleKeys.skip.tr()+' >> ',
+                                style: typoSmallTextRegular.copyWith(
+                                    color: colorText0),
+                              ),
+                            ),
+                          onTap: () => _bloc.showGuideline(false),
+                        )
+                      ]))
+            ],
           ),
-          const Spacer(),
-          space(),
-          itemGuideline(LocaleKeys.tab_on_cell_to_select_hold.tr(),
-              LocaleKeys.briefly_touch_surface_with_fingertip.tr(), Assets.svg.hand,
-              animation: _animation1),
-          space(height: 30),
-          itemGuideline(
-              LocaleKeys.press_cell_with_hold_to_move_it_or_rotate_it.tr(),
-              LocaleKeys.touch_suface_for_extended_privod_of_time.tr(),
-              Assets.svg.hand,
-              animation: _animation2),
-          space(height: 30),
-          itemGuideline(
-              LocaleKeys.pinch_to_scale_down_and_up.tr(),
-              LocaleKeys
-                  .touch_surface_with_two_fingers_and_bring_them_closer_together.tr(),
-              Assets.svg.doubleHands,
-              iconWidth: 98.w,
-              animation: _animation3),
-          const Spacer(),
-          const Spacer(),
-          const Spacer(),
-          Align(
-              alignment: Alignment.centerRight,
-              child: Container(
-                  margin: EdgeInsets.only(
-                      right: contentPadding, bottom: contentPadding + 5),
-                  child: GradientButton(
-                      height: 30,
-                      width: 80,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: colorWhite)),
-                      onTap: () => nextStep(),
-                      widget: AppText(
-                        ' ${LocaleKeys.next.tr()} >> ',
-                        style: typoW400.copyWith(fontSize: 13.sp),
-                      ),
-                      isCenter: true)))
-        ],
-      ),
-    );
+        ),
+        onTap: () => nextStep());
   }
 
   void nextStep() {
@@ -523,26 +557,29 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage>   with Ticke
               onPress: () => RouterUtils.pop(context),
             ),
             const Spacer(),
-            Container(
-              padding: EdgeInsets.only(
-                  left: globals.contentPadding,
-                  right: globals.contentPadding,
-                  top: 5,
-                  bottom: 5),
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [colorOrange100, colorOrange50]),
-                  color: Colors.cyan,
-                  borderRadius: BorderRadius.circular(50)),
-              height: 32.h,
-              child: AppText(
-                LocaleKeys.save_daft.tr(),
-                style: typoSmallTextRegular.copyWith(color: colorText0),
+            InkWell(
+              child: Container(
+                padding: EdgeInsets.only(
+                    left: globals.contentPadding,
+                    right: globals.contentPadding,
+                    top: 5,
+                    bottom: 5),
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [colorOrange100, colorOrange50]),
+                    color: Colors.cyan,
+                    borderRadius: BorderRadius.circular(50)),
+                height: 32.h,
+                child: AppText(
+                  LocaleKeys.save_daft.tr(),
+                  style: typoSmallTextRegular.copyWith(color: colorText0),
+                ),
               ),
-            )
+                onTap: () =>
+                    _bloc.saveDaftOnClick(context, widget.infoRouteModel,widget.model))
           ],
         ),
       );
@@ -551,17 +588,24 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage>   with Ticke
       BlocBuilder<CreateRoutesCubit, CreateRoutesState>(
           bloc: _bloc,
           builder: (c, state) => GridView.builder(
+              reverse: true,
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              itemCount: state.lRoutes.length,
+              itemCount: state.lHoldSet.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: state.column, childAspectRatio: 1.0),
               itemBuilder: (BuildContext context, int index) {
                 return GestureDetector(
                   onLongPress: () => _bloc.itemOnLongPress(index, context),
-                  onTap: () =>
-                      _bloc.itemOnClick(index,widget.infoRouteModel!.height, context, widget.infoRouteModel),
+                  onTap: () => _bloc.itemOnClick(
+                      index,
+                      widget.infoRouteModel?.height ??
+                          widget.model?.height ??
+                          9,
+                      context,
+                      widget.infoRouteModel),
                   child: Container(
+                    padding: const EdgeInsets.all(1),
                     decoration: BoxDecoration(
                         border: Border.all(
                             color: state.selectIndex == index
@@ -569,18 +613,19 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage>   with Ticke
                                 : colorGrey60,
                             width: state.selectIndex == index ? 1 : 0.5)),
                     child: Center(
-                        child: state.lRoutes[index].holdSet.isNotEmpty
+                        child: state.lHoldSet[index].fileName != null &&
+                                state.lHoldSet[index].fileName!.isNotEmpty
                             ? RotatedBox(
-                                quarterTurns: state.lRoutes[index].rotate,
-                                child: ShaderMask(
-                                    child: SvgPicture.asset(
-                                        state.lRoutes[index].holdSet,
-                                        width: 10),
-                                    shaderCallback: (Rect bounds) =>
-                                        Utils.backgroundGradientOrangeButton()
-                                            .createShader(const Rect.fromLTRB(
-                                                0, 0, 10, 10))),
-                              )
+                                quarterTurns: state.lHoldSet[index].rotate,
+                                child: AppNetworkImage(
+                                    errorSource:
+                                        '${ConstantKey.BASE_URL}hold/1/image',
+                                    source: (state.lHoldSet[index].fileName ??
+                                                '')
+                                            .startsWith('http')
+                                        ? (state.lHoldSet[index].fileName ?? '')
+                                        : Utils.getUrlHoldSet(
+                                            state.lHoldSet[index].id ?? 0)))
                             : const SizedBox()),
                   ),
                 );
@@ -638,7 +683,7 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage>   with Ticke
   Widget editRotateWidget(String icon, VoidCallback callback) =>
       BlocBuilder<CreateRoutesCubit, CreateRoutesState>(
         builder: (c, state) => state.selectIndex != null &&
-                state.lRoutes[state.selectIndex!].holdSet.isNotEmpty
+                state.lHoldSet[state.selectIndex!].holdSet.isNotEmpty
             ? svgButton(context, Assets.svg.turnLeft,
                 () => _bloc.turnLeftOnClick(context))
             : const SizedBox(),
@@ -660,7 +705,9 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage>   with Ticke
             context,
             Assets.svg.fullScreen,
             () => _bloc.scaleOnClick(
-                context, widget.infoRouteModel!.height, widget.infoRouteModel),
+                context,
+                widget.model?.height ?? widget.infoRouteModel!.height,
+                widget.infoRouteModel),
             isBackgroundCircle: false),
         svgButton(context, Assets.svg.more, () => _bloc.confirmOnclick(context,widget.infoRouteModel),
             isBackgroundCircle: false),

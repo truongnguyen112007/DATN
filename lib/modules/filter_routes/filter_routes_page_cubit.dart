@@ -1,3 +1,4 @@
+import 'package:base_bloc/data/globals.dart';
 import 'package:base_bloc/modules/favourite/favourite_state.dart';
 import 'package:base_bloc/modules/filter_routes/filter_routes_page.dart';
 import 'package:flutter/cupertino.dart';
@@ -13,17 +14,24 @@ import 'filter_routes_page_state.dart';
 
 class FilterRoutesPageCubit extends Cubit<FilterRoutesPageState> {
   var userRepository = UserRepository();
+  final String? keySearch;
   final FilterType type;
+  final FilterParam? filterParam;
 
-  FilterRoutesPageCubit(this.type) : super(FilterRoutesPageState()) {
-    state.filter = FilterParam(
-        status: [],
-        corner: [],
-        authorGradeFrom: 0,
-        authorGradeTo: 20,
-        userGradeFrom: 0,
-        userGradeTo: 20,
-        designBy: []);
+  FilterRoutesPageCubit(this.type, this.keySearch,this.filterParam) : super(FilterRoutesPageState()) {
+    if(filterParam == null) {
+      state.filter = FilterParam(
+          status: [],
+          corner: [],
+          authorGradeFrom: 0,
+          authorGradeTo: 20,
+          userGradeFrom: 0,
+          userGradeTo: 20,
+          designBy: []);
+    }else {
+      state.filter = filterParam;
+    }
+    setType();
   }
 
   void getFavorite() async {
@@ -39,11 +47,11 @@ class FilterRoutesPageCubit extends Cubit<FilterRoutesPageState> {
       authorGradeFrom: state.filter?.authorGradeFrom,
       authorGradeTo: state.filter?.authorGradeTo,
       userGradeFrom: state.filter?.userGradeFrom,
-      userGardeTo: state.filter?.userGradeTo,
+      userGradeTo: state.filter?.userGradeTo,
       setter:
-          state.filter?.designBy != null && state.filter!.designBy.isNotEmpty
-              ? state.filter?.designBy[0][state.filter?.designBy[0].keys.first]
-              : null,
+      state.filter?.designBy != null && state.filter!.designBy.isNotEmpty
+          ? state.filter?.designBy[0][state.filter?.designBy[0].keys.first]
+          : null,
     );
     if (response.data != null && response.error == null) {
       try {
@@ -57,11 +65,12 @@ class FilterRoutesPageCubit extends Cubit<FilterRoutesPageState> {
     }
   }
 
-
-  void getSearchRoute() async{
+  void getSearchRoute() async {
+    logE(state.filter!.authorGradeTo.toString());
     var response = await userRepository.searchRoute(
+      value: keySearch,
       type: SearchRouteType.Filter,
-      nextPage: 1,
+      nextPage: 0,
       status: state.filter?.status != null && state.filter!.status.isNotEmpty
           ? state.filter?.status[0][state.filter?.status[0].keys.first]
           : null,
@@ -71,16 +80,17 @@ class FilterRoutesPageCubit extends Cubit<FilterRoutesPageState> {
       authorGradeFrom: state.filter?.authorGradeFrom,
       authorGradeTo: state.filter?.authorGradeTo,
       userGradeFrom: state.filter?.userGradeFrom,
-      userGardeTo: state.filter?.userGradeTo,
+      userGradeTo: state.filter?.userGradeTo,
       setter:
       state.filter?.designBy != null && state.filter!.designBy.isNotEmpty
           ? state.filter?.designBy[0][state.filter?.designBy[0].keys.first]
           : null,
+      isFullResponse: true
     );
     if (response.data != null && response.error == null) {
       try {
-        var lResponse = routeModelBySearchFromJson(response.data);
-        emit(state.copyWith(lPlayList: lResponse));
+        // var lResponse = routeModelBySearchFromJson(response.data);
+        emit(state.copyWith(count: response.data['total']['value']));
       } catch (e) {
         emit(state.copyWith(lPlayList: []));
       }
@@ -89,18 +99,19 @@ class FilterRoutesPageCubit extends Cubit<FilterRoutesPageState> {
     }
   }
 
-  void setData(FilterParam? filter) {
+  void setData(FilterParam? filter, List<RoutesModel>? listRoute) {
     if (filter != null) {
-      emit(state.copyWith(
-        filter: filter,
-      ));
-      setType();
+      emit(state.copyWith(filter: filter));
+      // setType();
+    }
+    if (listRoute != null) {
+      emit(state.copyWith(filter: filter, lPlayList: listRoute));
     }
   }
 
   void setStatus(Map<String, dynamic> value, bool isSelect) {
     if (isSelect) {
-      state.filter!.status.add(value);
+      !isLogin ? toast("You need to be logged in to use this function"): state.filter!.status.add(value);
     } else {
       for (int i = 0; i < state.filter!.status.length; i++) {
         if (state.filter!.status[i].keys.first == value.keys.first) {
@@ -109,7 +120,7 @@ class FilterRoutesPageCubit extends Cubit<FilterRoutesPageState> {
         }
       }
     }
-   setType();
+    setType();
     emit(state.copyWith(timeStamp: DateTime.now().microsecondsSinceEpoch));
   }
 
@@ -151,7 +162,7 @@ class FilterRoutesPageCubit extends Cubit<FilterRoutesPageState> {
         }
       }
     }
-   setType();
+    setType();
     emit(state.copyWith(timeStamp: DateTime.now().microsecondsSinceEpoch));
   }
 
@@ -169,6 +180,7 @@ class FilterRoutesPageCubit extends Cubit<FilterRoutesPageState> {
         ),
       ),
     );
+    setType();
     removeFilterCallBack.call(state.filter!);
   }
 

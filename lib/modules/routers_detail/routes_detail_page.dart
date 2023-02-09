@@ -1,12 +1,13 @@
-import 'dart:convert';
-import 'dart:math';
-
 import 'package:base_bloc/base/base_state.dart';
 import 'package:base_bloc/base/hex_color.dart';
 import 'package:base_bloc/components/app_circle_loading.dart';
+import 'package:base_bloc/components/app_network_image.dart';
+import 'package:base_bloc/components/app_not_data_widget.dart';
 import 'package:base_bloc/components/app_scalford.dart';
 import 'package:base_bloc/components/app_text.dart';
+import 'package:base_bloc/config/constant.dart';
 import 'package:base_bloc/data/globals.dart';
+import 'package:base_bloc/data/model/holds_param.dart';
 import 'package:base_bloc/data/model/routes_model.dart';
 import 'package:base_bloc/gen/assets.gen.dart';
 import 'package:base_bloc/modules/routers_detail/routes_detail_cubit.dart';
@@ -14,7 +15,6 @@ import 'package:base_bloc/modules/routers_detail/routes_detail_state.dart';
 import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/theme/colors.dart';
 import 'package:base_bloc/utils/app_utils.dart';
-import 'package:base_bloc/utils/log_utils.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,13 +24,30 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../components/appbar_widget.dart';
 import '../../localization/locale_keys.dart';
 
-enum RoutesAction { INFO, SHARE, COPY, ADD_FAVOURITE, ADD_TO_PLAY_LIST }
+enum RoutesAction {
+  INFO,
+  SHARE,
+  COPY,
+  ADD_FAVOURITE,
+  ADD_TO_PLAY_LIST,
+  EDIT,
+  PUBLISH,
+  REMOVE_FROM_PLAYLIST,
+  REOMVE_FROM_FAV
+}
 
 class RoutesDetailPage extends StatefulWidget {
   final int index;
   final RoutesModel model;
+  final VoidCallback? publishCallback;
+  final bool isSaveDraft; // true when create route and save draft
 
-  const RoutesDetailPage({Key? key, required this.index, required this.model})
+  const RoutesDetailPage(
+      {Key? key,
+      required this.index,
+      required this.model,
+      this.publishCallback,
+      this.isSaveDraft = false})
       : super(key: key);
 
   @override
@@ -42,26 +59,16 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
   var sizeHoldSet = 8.6.h;
   var row = 47;
   var column = 12;
-  final List<String> _lRoutes = [];
-  final List<String> lHoldSetImage = [
-    Assets.svg.holdset1,
-    Assets.svg.holdset2,
-    Assets.svg.holdset3,
-    Assets.svg.holdset4,
-    Assets.svg.holdset5,
-    Assets.svg.holdset6,
-  ];
   var lHeight = [2, 4, 6, 8, 10, 12];
 
   @override
   void initState() {
-    _bloc = RoutesDetailCubit(widget.model);
-    checkHeightOfRoute();
-    createRoutes();
+    getHeightOfRoute();
+    _bloc = RoutesDetailCubit(widget.model, widget.isSaveDraft,row,column);
     super.initState();
   }
 
-  void checkHeightOfRoute() {
+  void getHeightOfRoute() {
     if (widget.model.height != null) {
       row = widget.model.height! * 5;
       switch (widget.model.height) {
@@ -84,19 +91,6 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
     }
   }
 
-  void createRoutes() {
-    var random = Random();
-    for (int i = 0; i < row * column; i++) {
-        _lRoutes.add('');
-    }
-    List<int> lHoldSet = json.decode(widget.model.holds ?? '').cast<int>();
-    for (var element in lHoldSet) {
-      if (element < _lRoutes.length) {
-        _lRoutes[element] = lHoldSetImage[random.nextInt(lHoldSetImage.length)];
-      }
-    }
-  }
-
   @override
   Widget buildWidget(BuildContext context) {
     return AppScaffold(
@@ -111,108 +105,112 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
               BlocBuilder<RoutesDetailCubit, RoutesDetailState>(
                 builder: (c, state) => state.status == RoutesStatus.initial
                     ? const Center(child: AppCircleLoading())
-                    : Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          infoRoutesWidget(context),
-                          Container(
-                              width: sizeHoldSet * column * 1.8,
-                              height: 18.h,
-                              color: HexColor('898989')),
-                          SizedBox(
-                              width: sizeHoldSet * column * 1.66,
-                              child: Image.asset(Assets.png.tesst.path)),
-                          Expanded(
-                              child: Stack(
+                    : state.status == RoutesStatus.failure
+                        ? const Center(child: AppNotDataWidget())
+                        : Column(
+                            mainAxisSize: MainAxisSize.min,
                             children: [
-                              Positioned.fill(
-                                  child: Align(
-                                alignment: Alignment.center,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    wallWidget(context, false),
-                                    Container(
-                                      decoration: BoxDecoration(
-                                          gradient: gradientBackground()),
-                                      alignment: Alignment.bottomCenter,
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Container(
-                                              width:
-                                                  column * sizeHoldSet + 16.w,
-                                              height: 2,
-                                              color: HexColor('A3A3A3')),
-                                          Container(
-                                              width:
-                                                  column * sizeHoldSet + 16.w,
-                                              height: 5,
-                                              color: colorBlack),
-                                          const Spacer(),
-                                          Row(
+                              infoRoutesWidget(context,state),
+                              Container(
+                                  width: sizeHoldSet * column * 1.8,
+                                  height: 18.h,
+                                  color: HexColor('898989')),
+                              SizedBox(
+                                  width: sizeHoldSet * column * 1.66,
+                                  child: Image.asset(Assets.png.tesst.path)),
+                              Expanded(
+                                  child: Stack(
+                                children: [
+                                  Positioned.fill(
+                                      child: Align(
+                                    alignment: Alignment.center,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        wallWidget(context, false),
+                                        Container(
+                                          decoration: BoxDecoration(
+                                              gradient: gradientBackground()),
+                                          alignment: Alignment.bottomCenter,
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
                                             children: [
-                                              heightWidget(true),
                                               Container(
-                                                width: column * sizeHoldSet,
-                                                decoration: BoxDecoration(
-                                                    gradient:
-                                                        gradientBackground()),
-                                                child: Column(
-                                                  children: [
-                                                    infoNameWidget(context),
-                                                    routesWidget(context),
-                                                    infoNameWidget(context),
-                                                  ],
-                                                ),
+                                                  width: column * sizeHoldSet +
+                                                      16.w,
+                                                  height: 2,
+                                                  color: HexColor('A3A3A3')),
+                                              Container(
+                                                  width: column * sizeHoldSet +
+                                                      16.w,
+                                                  height: 5,
+                                                  color: colorBlack),
+                                              const Spacer(),
+                                              Row(
+                                                children: [
+                                                  heightWidget(true),
+                                                  Container(
+                                                    width: column * sizeHoldSet,
+                                                    decoration: BoxDecoration(
+                                                        gradient:
+                                                            gradientBackground()),
+                                                    child: Column(
+                                                      children: [
+                                                        infoNameWidget(context),
+                                                        routesWidget(context,state),
+                                                        infoNameWidget(context),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  heightWidget(false),
+                                                ],
                                               ),
-                                              heightWidget(false),
+                                              SizedBox(
+                                                height: sizeHoldSet * 1.5,
+                                              )
                                             ],
                                           ),
-                                          SizedBox(
-                                            height: sizeHoldSet * 1.5,
-                                          )
-                                        ],
-                                      ),
+                                        ),
+                                        wallWidget(context, true),
+                                      ],
                                     ),
-                                    wallWidget(context, true),
-                                  ],
-                                ),
-                              )),
-                              Positioned(
-                                child: Align(
+                                  )),
+                                  Positioned(
+                                      child: Align(
+                                          alignment: Alignment.bottomLeft,
+                                          child: Padding(
+                                              padding: EdgeInsets.only(
+                                                  left: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      5),
+                                              child: SvgPicture.asset(
+                                                  Assets.svg.man,
+                                                  height: 65.h)))),
+                                  Positioned.fill(
+                                      child: Align(
                                     alignment: Alignment.bottomLeft,
-                                    child: Padding(
-                                        padding: EdgeInsets.only(
-                                            left: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                5),
-                                        child: SvgPicture.asset(
-                                              Assets.svg.man,
-                                              height: 65.h)))),
-                              Positioned.fill(
-                                  child: Align(
-                                alignment: Alignment.bottomLeft,
-                                child: measureHeightWidget(context),
-                              ))
+                                    child: measureHeightWidget(context),
+                                  ))
+                                ],
+                              )),
+                              Container(
+                                height: 4.h,
+                                decoration: BoxDecoration(boxShadow: [
+                                  BoxShadow(
+                                      color:
+                                          HexColor('6B6B6B').withOpacity(0.05),
+                                      spreadRadius: 0,
+                                      blurRadius: 10,
+                                      offset: const Offset(0, 0))
+                                ]),
+                              ),
+                              actionWidget(state)
                             ],
-                          )),
-                          Container(
-                            height: 4.h,
-                            decoration: BoxDecoration(boxShadow: [
-                              BoxShadow(
-                                  color: HexColor('6B6B6B').withOpacity(0.05),
-                                  spreadRadius: 0,
-                                  blurRadius: 10,
-                                  offset: const Offset(0, 0))
-                            ]),
                           ),
-                          actionWidget()
-                        ],
-                      ),
                 bloc: _bloc,
               ),
             ],
@@ -224,11 +222,10 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
           child: Align(
         alignment: Alignment.bottomCenter,
         child: Container(
-          height: 40,
-          decoration: const BoxDecoration(
-              boxShadow: [BoxShadow(color: colorWhite, blurRadius: 100)]),
-        ),
-      ));
+              height: 40,
+              decoration: const BoxDecoration(boxShadow: [
+                BoxShadow(color: colorWhite, blurRadius: 100)
+              ]))));
 
   PreferredSizeWidget appbarWidget(BuildContext context) => appBarWidget(
         context: context,
@@ -243,7 +240,7 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
           SizedBox(width: contentPadding)
         ],
         titleStr:
-            "${widget.model.name!}  ${Utils.convertTimeStampToYYYYMMYY(widget.model.created ?? 0)}",
+            "${widget.model.name!}",
       );
 
   Widget infoNameWidget(BuildContext context) =>
@@ -281,35 +278,62 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
                 child: Container(width: 5.w, color: HexColor('FF5A00'))))
       ]);
 
-  Widget infoRoutesWidget(BuildContext context) => Container(
+  Widget infoRoutesWidget(BuildContext context,RoutesDetailState state) => Container(
         color: colorBlack,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    child: (state.model.published ?? true) ? Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
                 child: itemInfoWidget(
                     context,
                     LocaleKeys.author.tr(),
-                    widget.model.authorGrade.toString(),
-                    (widget.model.hasConner ?? false) ? LocaleKeys.corner.tr() : '',
-                    padding: EdgeInsets.only(left: contentPadding, bottom: 3))),
-            Expanded(
-                child: itemInfoWidget(
+                        Utils.getGrade(state.model.authorGrade ?? 0),
+                        (state.model.hasConner ?? false)
+                            ? LocaleKeys.corner.tr()
+                            : '',
+                        padding:
+                            EdgeInsets.only(left: contentPadding, bottom: 2))),
+                Expanded(
+                    child: itemInfoWidget(
                     context,
                     LocaleKeys.user.tr(),
-                    widget.model.userGrade.toString(),
+                        state.model.userGrade.toString(),
                     '',
-                    padding: const EdgeInsets.only(bottom: 3))),
+                    padding: const EdgeInsets.only(bottom: 2))),
             Expanded(
                 child: itemInfoWidget(
                     context,
                     LocaleKeys.popularity.tr(),
-                    '${widget.model.popurlarity}k',
+                    '${state.model.popurlarity}k',
                     '',
-                    padding: EdgeInsets.only(right: contentPadding, bottom: 3)))
+                    padding: EdgeInsets.only(right: contentPadding, bottom: 2)))
           ],
-        ),
-      );
+            )
+          : Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                SizedBox(width: contentPadding),
+                itemInfoWidget(
+                    context,
+                    LocaleKeys.author.tr(),
+                    Utils.getGrade(state.model.authorGrade ?? 0),
+                    (state.model.hasConner ?? false) ? LocaleKeys.corner.tr() : '',
+                    padding: EdgeInsets.only(left: contentPadding,bottom: 2)),
+                  SizedBox(width: contentPadding * 2),
+                  Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: colorWhite),
+                      padding: const EdgeInsets.only(
+                          left: 10, right: 10, top: 5, bottom: 5),
+                      margin: EdgeInsets.only(
+                          bottom: (state.model.hasConner ?? false) ? 0 : 12),
+                      child: AppText(LocaleKeys.draft.tr(),
+                          style: typoW400.copyWith(
+                              fontSize: 11.sp, color: colorText90)))
+                ]));
 
   Widget itemInfoWidget(
           BuildContext context, String title, String grade, String status,
@@ -337,37 +361,30 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
         ),
       );
 
-  Widget routesWidget(BuildContext context) => SizedBox(
+  Widget routesWidget(BuildContext context,RoutesDetailState state) => SizedBox(
         width: column * sizeHoldSet,
-        child: GridView.builder(
-            shrinkWrap: true,
-            itemCount: _lRoutes.length,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+      child: GridView.builder(
+          reverse: true,
+          shrinkWrap: true,
+              itemCount: state.lHoldSet.length,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: column, childAspectRatio: 1.0),
             itemBuilder: (BuildContext context, int index) {
-              return GestureDetector(
-                onTap: () => _tapped(index),
-                child: Container(
-                  decoration: BoxDecoration(
-                      border:
-                          Border.all(color: HexColor('8A8A8A'), width: 0.5)),
-                  child: Center(
-                      child: _lRoutes[index].isNotEmpty
-                          ? ShaderMask(
-                              child: SvgPicture.asset(
-                                _lRoutes[index],
-                                width: 10,
-                              ),
-                              shaderCallback: (Rect bounds) =>
-                                  Utils.backgroundGradientOrangeButton()
-                                      .createShader(
-                                          const Rect.fromLTRB(0, 0, 10, 10)),
-                            )
-                          : const SizedBox()),
-                ),
-              );
-            }),
-      );
+              return Container(
+                decoration: BoxDecoration(
+                    border: Border.all(color: HexColor('8A8A8A'), width: 0.5)),
+                child: Center(
+                    child: state.lHoldSet[index] is HoldParam
+                        ? SizedBox(
+                            width: 8,
+                            child: RotatedBox(
+                                quarterTurns: state.lHoldSet[index].rotate,
+                                child: AppNetworkImage(
+                                    errorSource:
+                                        '${ConstantKey.BASE_URL}hold/1/image',
+                                    source: state.lHoldSet[index].imageUrl)))
+                        : const SizedBox()));
+          }));
 
   Widget measureHeightWidget(BuildContext context) => Container(
       margin: EdgeInsets.only(bottom: sizeHoldSet * 1.9),
@@ -397,7 +414,7 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
 
   void _tapped(int index) {}
 
-  Widget actionWidget() => Container(
+  Widget actionWidget(RoutesDetailState state) => Container(
         height: 45.h,
         color: colorBlack,
         child: Row(
@@ -410,15 +427,29 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
             Expanded(
                 child: itemActionWidget(
                     LocaleKeys.share.tr(), Assets.svg.share, RoutesAction.SHARE)),
+            (state.model.published ?? true)
+                ? Expanded(
+                    child: itemActionWidget(LocaleKeys.copy.tr(),
+                        Assets.svg.copy, RoutesAction.COPY))
+                : Expanded(
+                    child: itemActionWidget(LocaleKeys.edit.tr(),
+                        Assets.svg.edit, RoutesAction.EDIT)),
+            (state.model.published ?? true)
+                ? Expanded(
+                    child: !(state.model.favouriteIn ?? false)
+                        ? itemActionWidget(LocaleKeys.add_favourite.tr(),
+                            Assets.svg.like, RoutesAction.ADD_FAVOURITE)
+                        : itemActionWidget(LocaleKeys.removeFromFavorite.tr(),
+                            Assets.svg.liked, RoutesAction.REOMVE_FROM_FAV))
+                : Expanded(
+                    child: itemActionWidget(LocaleKeys.publish.tr(),
+                        Assets.svg.fly, RoutesAction.PUBLISH)),
             Expanded(
-                child: itemActionWidget(
-                    LocaleKeys.copy.tr(), Assets.svg.copy, RoutesAction.COPY)),
-            Expanded(
-                child: itemActionWidget(LocaleKeys.add_favourite.tr(),
-                    Assets.svg.like, RoutesAction.ADD_FAVOURITE)),
-            Expanded(
-                child: itemActionWidget(LocaleKeys.addToPlaylist.tr(),
-                    Assets.svg.addToPlayList, RoutesAction.ADD_TO_PLAY_LIST))
+                child: !(state.model.playlistIn ?? false)
+                    ? itemActionWidget(LocaleKeys.addToPlaylist.tr(),
+                        Assets.svg.addToPlayList, RoutesAction.ADD_TO_PLAY_LIST)
+                    : itemActionWidget(LocaleKeys.removeFromPlaylist.tr(),
+                        Assets.svg.removepl, RoutesAction.REMOVE_FROM_PLAYLIST))
           ],
         ),
       );
@@ -446,7 +477,8 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
               ],
             ),
           ),
-          onTap: () => _bloc.handleAction(action, context));
+          onTap: () =>
+              _bloc.handleAction(action, context, widget.publishCallback));
 
   LinearGradient gradientBackground() => LinearGradient(colors: [
         HexColor('747474'),

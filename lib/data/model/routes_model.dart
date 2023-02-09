@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:base_bloc/data/model/user_profile_model.dart';
+
 
 List<RoutesModel> routeModelBySearchFromJson(List<dynamic> str) =>
     List<RoutesModel>.from(
@@ -25,7 +27,7 @@ class RoutesModel {
     this.userId,
     this.published,
     this.userGradeCount,
-    // this.visibility,
+    this.visibility,
     this.height,
     this.id,
     this.authorGrade,
@@ -34,17 +36,22 @@ class RoutesModel {
     this.isSelect = false,
     this.playlistIn,
     this.favouriteIn,
+    this.userProfile,
+    this.authorFirstName,
+    this.authorLastName
   });
 
   // int? modified;
   int? userGrade;
   bool? hasConner;
   String? name;
+  String? authorFirstName;
+  String? authorLastName;
   int? popurlarity;
   int? userId;
   bool? published;
   int? userGradeCount;
-  // int? visibility;
+  int? visibility;
   int? height;
   String? id;
   int? authorGrade;
@@ -53,7 +60,7 @@ class RoutesModel {
   bool isSelect;
   bool? playlistIn;
   bool? favouriteIn;
-
+  UserProfileModel? userProfile;
 
   factory RoutesModel.fromJson(Map<String, dynamic> json) => RoutesModel(
     // modified: json["modified"],
@@ -64,7 +71,7 @@ class RoutesModel {
     userId: json["user_id"],
     published: json["published"],
     userGradeCount: json["user_grade_count"].toInt(),
-    // visibility: json["visibility"],
+    visibility: json["visibility"],
     height: json["height"],
     id: json["id"],
     authorGrade: json["author_grade"].toInt(),
@@ -72,8 +79,12 @@ class RoutesModel {
     holds: json["holds"].toString(),
     isSelect: false,
     playlistIn: json["playlist_in"],
-    favouriteIn: json["favourite_in"]
-  );
+    authorLastName: json["author_last_name"],
+    authorFirstName: json["author_first_name"],
+    favouriteIn: json["favourite_in"],
+    userProfile: json["user_profile"] != null
+          ? UserProfileModel.fromJson(json["user_profile"])
+          : null);
 
   Map<String, dynamic> toJson() => {
     // "modified": modified,
@@ -84,7 +95,7 @@ class RoutesModel {
     "user_id": userId,
     "published": published,
     "user_grade_count": userGradeCount,
-    // "visibility": visibility,
+    "visibility": visibility,
     "height": height,
     "id": id,
     "author_grade": authorGrade,

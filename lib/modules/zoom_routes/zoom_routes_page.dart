@@ -1,8 +1,10 @@
 import 'dart:async';
 
+import 'package:base_bloc/components/app_network_image.dart';
 import 'package:base_bloc/components/app_scalford.dart';
 import 'package:base_bloc/components/measure_name_widget.dart';
 import 'package:base_bloc/components/zoomer.dart';
+import 'package:base_bloc/config/constant.dart';
 import 'package:base_bloc/data/model/routes_model.dart';
 import 'package:base_bloc/modules/zoom_routes/zoom_routes_cubit.dart';
 import 'package:base_bloc/modules/zoom_routes/zoom_routes_state.dart';
@@ -29,28 +31,29 @@ import '../../theme/app_styles.dart';
 import '../../theme/colors.dart';
 import '../../utils/app_utils.dart';
 import '../persons_page/persons_page_state.dart';
-
+import 'dart:io';
 class ZoomRoutesPage extends StatefulWidget {
   final int heightOfRoute;
   final int row;
   final int column;
   final double sizeHoldSet;
-  final List<HoldSetModel> lRoutes;
+  final List<HoldSetModel> lHoldSet;
   final int currentIndex;
   final double heightOffScreen;
   final bool isEdit;
   final RoutesModel? model;
   final InfoRouteModel? infoRouteModel;
-
+  final int? holdSetIndex;
   const ZoomRoutesPage(
       {Key? key,
+      this.holdSetIndex = 0,
       this.infoRouteModel,
       required this.heightOfRoute,
       required this.currentIndex,
       this.isEdit = false,
       this.model,
       required this.row,
-      required this.lRoutes,
+      required this.lHoldSet,
       required this.column,
       required this.sizeHoldSet,
       required this.heightOffScreen})
@@ -74,13 +77,11 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
   Offset? offset;
   StreamSubscription<HoldSetEvent>? _holdSetStream;
   late ScrollController _lBoxController;
-  var dxMeasureHeight =-10.5;
-  var dyMeasureBoxName =-9.0;
+  var dxMeasureHeight =Platform.isAndroid ?-10.5 : -11.0;
+  var dyMeasureBoxName =Platform.isAndroid ?-9.0: -10.0;
 
   @override
   void initState() {
-    logE("TAG SIZE HOLDSET: ${widget.sizeHoldSet}");
-    logE("TAG HEIGHT OF ROUTE: ${widget.heightOfRoute}");
     _bloc = ZoomRoutesCubit();
     _zoomController = ZoomerController(initialScale: 4.0);
     _zoomMeasureNameController = ZoomerController(initialScale: 4.0);
@@ -97,16 +98,17 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
           Offset(_zoomController.offset.dx, dyMeasureBoxName);
     });
     _bloc.setData(
+        holdSetIndex: widget.holdSetIndex ?? 0,
         model: widget.model,
         isEdit: widget.isEdit,
         currentIndex: widget.currentIndex,
         row: row,
         column: column,
         sizeHoldSet: sizeHoldSet,
-        lRoutes: widget.lRoutes);
+        lHoldSet: widget.lHoldSet);
     _holdSetStream = Utils.eventBus
         .on<HoldSetEvent>()
-        .listen((event) => _bloc.setHoldSet(event.holdSet));
+        .listen((event) => _bloc.setHoldSet(event.holdSet,event.holdSetIndex));
     _lBoxController = ScrollController();
     offset = _bloc.getOffset(widget.currentIndex, widget.heightOffScreen,widget.heightOfRoute);
     super.initState();
@@ -116,7 +118,7 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
     _scale = scale;
     _zoomController.setScale = scale;
     _zoomController.setOffset = const Offset(0.0, 0.0);
-    _zoomMeasureNameController.setOffset = const Offset(0, -9);
+    _zoomMeasureNameController.setOffset =  Offset(0,Platform.isAndroid ? -9: -10);
     _measureNameBoxController.setScale = scale;
     _measureHeightController.setScale = scale;
     _zoomMeasureController.setScale = scale;
@@ -187,7 +189,7 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
               controller: _measureNameBoxController,
               lBox: globals.lHoldSetName,
               sizeHoldSet: sizeHoldSet),
-          offset: Offset(offset!.dx, -8));
+          offset: Offset(offset!.dx, dyMeasureBoxName));
   
   Widget measureHeightWidget(BuildContext context,ZoomRoutesState state)=> Container(
       height: MediaQuery.of(context).size.height,
@@ -251,41 +253,45 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
               borderRadius: BorderRadius.circular(50)),
           title: LocaleKeys.cancel.tr(),
           height: 32.h,
-          textStyle: typoSmallTextRegular.copyWith(color: colorText0),
-          onPress: () => RouterUtils.pop(context),
+              textStyle: typoSmallTextRegular.copyWith(color: colorText0),
+              onPress: () => _bloc.goBack(context),
+            ),
+            const Spacer(),
+            InkWell(
+                child: Container(
+                  padding: EdgeInsets.only(
+                      left: globals.contentPadding,
+                      right: globals.contentPadding,
+                      top: 5,
+                      bottom: 5),
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [colorOrange100, colorOrange50]),
+                      borderRadius: BorderRadius.circular(50)),
+                  height: 32.h,
+                  child: AppText(
+                    LocaleKeys.save_daft.tr(),
+                    style: typoSmallTextRegular.copyWith(color: colorText0),
+                  ),
+                ),
+                onTap: () =>
+                    _bloc.saveDaftOnClick(context, widget.infoRouteModel,widget.model))
+          ],
         ),
-        const Spacer(),
-        Container(
-          padding: EdgeInsets.only(
-                  left: globals.contentPadding,
-                  right: globals.contentPadding,
-                  top: 5,
-                  bottom: 5),
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [colorOrange100, colorOrange50]),
-              borderRadius: BorderRadius.circular(50)),
-          height: 32.h,
-          child: AppText(
-            LocaleKeys.save_daft.tr(),
-            style: typoSmallTextRegular.copyWith(color: colorText0),
-          ),
-        )
-      ],
-    ),
   );
 
   Widget routeWidget(BuildContext context) =>
       BlocBuilder<ZoomRoutesCubit, ZoomRoutesState>(
           bloc: _bloc,
           builder: (c, state) => GridView.builder(
+              reverse: true,
               controller: _lBoxController,
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              itemCount: state.lRoutes.length,
+              itemCount: state.lHoldSet.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: state.column, childAspectRatio: 1.0),
               itemBuilder: (BuildContext context, int index) {
@@ -300,17 +306,17 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
                                 : colorGrey60,
                             width: state.currentIndex == index ? 1 : 0.5)),
                     child: Center(
-                        child: state.lRoutes[index].holdSet.isNotEmpty
+                        child: state.lHoldSet[index].fileName != null &&
+                                state.lHoldSet[index].fileName!.isNotEmpty
                             ? RotatedBox(
-                            quarterTurns: state.lRoutes[index].rotate,
-                            child: ShaderMask(
-                                child: SvgPicture.asset(
-                                    state.lRoutes[index].holdSet,
-                                    width: 10),
-                                shaderCallback: (Rect bounds) =>
-                                    Utils.backgroundGradientOrangeButton()
-                                        .createShader(const Rect.fromLTRB(
-                                        0, 0, 10, 10))))
+                                quarterTurns: state.lHoldSet[index].rotate,
+                                child: SizedBox(
+                                    width: 8,
+                                    child: AppNetworkImage(
+                                        errorSource:
+                                            '${ConstantKey.BASE_URL}hold/1/image',
+                                        source: Utils.getUrlHoldSet(
+                                            state.lHoldSet[index].id ?? 0))))
                             : const SizedBox()),
                   ),
                 );
@@ -350,22 +356,35 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
   ], begin: Alignment.topCenter, end: Alignment.bottomCenter);
 
   Widget svgButton(BuildContext context, String icon, VoidCallback onTab,
-      {bool isBackgroundCircle = true}) =>
+      {bool isBackgroundCircle = true, bool isDisable = false}) =>
       Padding(
           padding: const EdgeInsets.only(top: 10, bottom: 10, left: 10),
           child: AspectRatio(
               aspectRatio: 1 / 1,
-              child: InkWell(
-                  child: Container(
-                      padding: EdgeInsets.all(7.w),
+              child: Stack(children: [
+                InkWell(
+                    child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height,
+                        padding: EdgeInsets.all(7.w),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(100),
-                          color: isBackgroundCircle
-                              ? colorWhite
-                              : Colors.transparent),
-                      child: SvgPicture.asset(icon,
-                          color: isBackgroundCircle ? colorBlack : colorWhite)),
-                  onTap: () => onTab.call())));
+                            color: isDisable
+                                ? colorGrey80
+                                : (isBackgroundCircle
+                                    ? colorWhite
+                                    : Colors.transparent)),
+                        child: SvgPicture.asset(icon,
+                            color:
+                                isBackgroundCircle ? colorBlack : colorWhite)),
+                    onTap: () => onTab.call()),
+                isDisable
+                    ? Container(
+                        color: Colors.transparent,
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height)
+                    : const SizedBox()
+              ])));
 
   Widget spaceMenu() => const SizedBox(width: 30);
 
@@ -373,29 +392,30 @@ class _ZoomRoutesPageState extends State<ZoomRoutesPage> {
       context: context,
       onPressed: () => _bloc.goBack(context),
       action: [
-        BlocBuilder<ZoomRoutesCubit, ZoomRoutesState>(
-            builder: (c, state) => state.currentIndex != null &&
-                state.lRoutes[state.currentIndex!].holdSet.isNotEmpty
-                ? svgButton(context, Assets.svg.turnLeft,
-                    () => _bloc.turnLeftOnClick(context))
-                : const SizedBox(),
-            bloc: _bloc),
-        const SizedBox(width: 10),
-        BlocBuilder<ZoomRoutesCubit, ZoomRoutesState>(
-            builder: (c, state) => state.currentIndex != null &&
-                state.lRoutes[state.currentIndex!].holdSet.isNotEmpty
-                ? svgButton(
-                context, Assets.svg.delete, () => _bloc.deleteOnclick())
-                : const SizedBox(),
-            bloc: _bloc),
-        const SizedBox(width: 10),
-        BlocBuilder<ZoomRoutesCubit, ZoomRoutesState>(
-            builder: (c, state) => state.currentIndex != null &&
-                state.lRoutes[state.currentIndex!].holdSet.isNotEmpty
-                ? svgButton(context, Assets.svg.turnRight,
-                    () => _bloc.turnRightOnClick(context))
-                : const SizedBox(),
-            bloc: _bloc),
+            BlocBuilder<ZoomRoutesCubit, ZoomRoutesState>(
+                builder: (c, state) => state.currentIndex != null &&
+                        state.lHoldSet[state.currentIndex!].fileName != null &&
+                        state.lHoldSet[state.currentIndex!].fileName!.isNotEmpty
+                    ? Row(mainAxisSize: MainAxisSize.min,
+                        children: [
+                          svgButton(context, Assets.svg.turnLeft,
+                              () => _bloc.turnLeftOnClick(context),
+                          /*    isDisable: state.lHoldSet[state.currentIndex ?? 0]
+                                      .rotate ==
+                                  -4*/),
+                          const SizedBox(width: 10),
+                          svgButton(context, Assets.svg.delete,
+                              () => _bloc.deleteOnclick()),
+                          const SizedBox(width: 10),
+                          svgButton(context, Assets.svg.turnRight,
+                              () => _bloc.turnRightOnClick(context),
+                            /*  isDisable: state.lHoldSet[state.currentIndex ?? 0]
+                                      .rotate ==
+                                  4*/)
+                        ],
+                      )
+                    : const SizedBox(),
+                bloc: _bloc),
         const SizedBox(width: 10),
         svgButton(context, Assets.svg.threeD, () {},
             isBackgroundCircle: false),

@@ -17,6 +17,7 @@ import 'package:base_bloc/utils/toast_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/model/routes_model.dart';
+import '../../router/router.dart';
 import '../../utils/storage_utils.dart';
 import '../routers_detail/routes_detail_page.dart';
 import '../tab_overview/tab_overview_state.dart';
@@ -33,7 +34,6 @@ enum ItemAction {
   DELETE
 }
 
-
 class PlayListCubit extends Cubit<PlaylistState> {
   var userRepository = UserRepository();
 
@@ -42,19 +42,25 @@ class PlayListCubit extends Cubit<PlaylistState> {
   }
 
   onRefresh() {
-    emit(PlaylistState(status: FeedStatus.refresh));
+    // Utils.fireEvent(RefreshEvent(RefreshType.FILTER));
+    emit(
+      PlaylistState(status: FeedStatus.refresh),
+    );
     getPlayListById();
   }
 
-  void itemOnLongClick(BuildContext context, RoutesModel model, int index) =>
+  void itemDoubleClick(BuildContext context, RoutesModel model, int index) {
+    logE("TAGA  state.lRoutes[index].favouriteIn : ${ state.lRoutes[index].favouriteIn }");
+
+
       Utils.showActionDialog(context, (type) {
-        Navigator.pop(context);
+        Navigator.of(context, rootNavigator: true).pop();
         switch (type) {
           case ItemAction.REMOVE_FROM_PLAYLIST:
-            removeOrDeleteRoutes(context, model, index, true);
+            removeOrAddToPlaylistRoutes(context, model, index, true);
             return;
           case ItemAction.DELETE:
-            removeOrDeleteRoutes(context, model, index, false);
+            removeOrAddToPlaylistRoutes(context, model, index, false);
             return;
           case ItemAction.ADD_TO_FAVOURITE:
             addOrRemoveFavorite(context, model, index, true);
@@ -75,9 +81,19 @@ class PlayListCubit extends Cubit<PlaylistState> {
             editRoute(context, model, index);
             return;
         }
-      }, isPlaylist: true, model: model);
+      }, isPlaylist: true, model: model,checkFav: true);
+  }
+  void searchOnclick(BuildContext context) {
+    RouterUtils.pushRoutes(
+        context: context,
+        route: RoutesRouters.search,
+        argument: BottomNavigationConstant.TAB_ROUTES);
+  }
 
-  void removeOrDeleteRoutes(
+  void showOverlay(bool isOverlay) =>
+      emit(state.copyWith(isOverlay: isOverlay));
+
+  void removeOrAddToPlaylistRoutes(
     BuildContext context,
     RoutesModel model,
     int index,
@@ -87,11 +103,13 @@ class PlayListCubit extends Cubit<PlaylistState> {
     var response = isRemove
         ? await userRepository.removeFromPlaylist(
             globals.playlistId, model.id ?? '')
-        : await userRepository.deleteRoute(model.id ?? '');
+        : await userRepository
+            .addToPlaylist(globals.playlistId, [model.id ?? '']);
     await Dialogs.hideLoadingDialog();
     if (response.error == null) {
       state.lRoutes.removeAt(index);
       emit(state.copyWith(timeStamp: DateTime.now().microsecondsSinceEpoch));
+      Utils.fireEvent(RefreshEvent(RefreshType.FAVORITE));
     } else {
       toast(response.error.toString());
     }
@@ -106,7 +124,10 @@ class PlayListCubit extends Cubit<PlaylistState> {
     await Dialogs.hideLoadingDialog();
     if (response.error == null) {
       toast(response.message);
-      isAdd ? (model.favouriteIn = true) : (model.favouriteIn = false);
+      state.lRoutes[index].favouriteIn = isAdd;
+      logE("TAGA  state.lRoutes[index].favouriteIn : ${ state.lRoutes[index].favouriteIn }");
+      // isAdd ? (model.favouriteIn = true) : (model.favouriteIn = false);
+      logE(model.favouriteIn.toString());
       emit(
         state.copyWith(
           timeStamp: DateTime.now().microsecondsSinceEpoch,
@@ -156,9 +177,15 @@ class PlayListCubit extends Cubit<PlaylistState> {
               index: BottomNavigationConstant.TAB_RECEIPT, model: model),
           context);
 
-  void createRoutesOnClick(BuildContext context) =>
-      RouterUtils.openNewPage(const CreateInfoRoutePage(isPublish: false), context);
+  void createRoutesOnClick(BuildContext context) => RouterUtils.openNewPage(
+      const CreateInfoRoutePage(isPublish: false), context);
+
   /*RouterUtils.openNewPage(const CreateRoutesPage(), context);*/
+
+  void findRoutes(BuildContext context) => RouterUtils.pushRoutes(
+      context: context,
+      route: RoutesRouters.search,
+      argument: BottomNavigationConstant.TAB_ROUTES);
 
   Future<void> checkPlaylistId() async {
     if (globals.isLogin) {
@@ -192,6 +219,8 @@ class PlayListCubit extends Cubit<PlaylistState> {
             isReadEnd: lResponse.isEmpty,
             nextPage: state.nextPage + 1,
             isLoading: false,
+            lRoutesCache:
+                isPaging ? (state.lRoutesCache..addAll(lResponse)) : lResponse,
             lRoutes:
                 isPaging ? (state.lRoutes..addAll(lResponse)) : lResponse));
       } else {
@@ -207,5 +236,63 @@ class PlayListCubit extends Cubit<PlaylistState> {
           isReadEnd: true,
           isLoading: false));
     }
+  }
+
+  void dragItem(
+    int oldIndex,
+    int newIndex,
+  ) {
+    if (newIndex > oldIndex) newIndex - 1;
+    if (state.startIndex > oldIndex) {
+      state.startIndex = oldIndex;
+    }
+    if (state.startIndex > newIndex) {
+      state.startIndex = newIndex;
+    }
+    if (state.endIndex < newIndex) {
+      state.endIndex = newIndex;
+    }
+    if (state.endIndex < oldIndex) {
+      state.endIndex = oldIndex;
+    }
+    final lCache = <RoutesModel>[];
+    lCache.addAll(state.lRoutesCache);
+    var model = state.lRoutes.removeAt(oldIndex);
+    state.lRoutes.insert(newIndex, model);
+    emit(state.copyWith(
+        timeStamp: DateTime.now().microsecondsSinceEpoch,
+        isChooseDragDrop: true,
+        lRoutesCache: lCache,));
+  }
+
+  void closeDragDrop() {
+    emit(state.copyWith(
+        isChooseDragDrop: false, lRoutes: state.lRoutesCache,isDrag: false));
+  }
+
+  void saveDragDrop(BuildContext context) async {
+    Dialogs.showLoadingDialog(context);
+    var lId = <String>[];
+    for (int i = state.startIndex; i <= state.endIndex; i++) {
+      lId.add(state.lRoutes[i].id ?? "");
+    }
+    var response = await userRepository.dragAndDrop(
+        globals.playlistId,
+        state.endIndex == state.lRoutes.length
+            ? (state.lRoutes.last.id ?? '')
+            : state.lRoutes[state.endIndex].id ?? '',
+        lId);
+    Dialogs.hideLoadingDialog();
+    emit(state.copyWith(
+      isChooseDragDrop: false,
+      isDrag: false,
+      startIndex: 1000000,
+      endIndex: 0,
+    ));
+  }
+
+  void setDrag(bool isDrag) {
+    if (isDrag && state.isDrag) return;
+    emit(state.copyWith(isDrag: isDrag,isChooseDragDrop: true));
   }
 }

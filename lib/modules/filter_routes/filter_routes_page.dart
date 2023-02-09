@@ -25,6 +25,7 @@ import '../../data/model/filter_corner_model.dart';
 import '../../data/model/filter_design_model.dart';
 import '../../data/model/filter_status_model.dart';
 import '../../data/model/filter_param.dart';
+import '../../data/model/routes_model.dart';
 import '../../localization/locale_keys.dart';
 import '../../theme/colors.dart';
 import 'filter_routes_page_cubit.dart';
@@ -36,13 +37,17 @@ class FilterRoutesPage extends StatefulWidget {
   final Function(FilterParam) showResultButton;
   final FilterParam? filter;
   final Function(FilterParam) removeFilterCallBack;
+  final List<RoutesModel>? listRoute;
+  final String? keySearch;
 
   FilterRoutesPage({
     Key? key,
     this.type = FilterType.Favorite,
     required this.showResultButton,
     required this.removeFilterCallBack,
+    this.listRoute,
     this.filter,
+    this.keySearch,
   }) : super(key: key);
 
   @override
@@ -75,9 +80,9 @@ class _FilterRoutesPageState extends State<FilterRoutesPage> {
 
   @override
   void initState() {
-    _bloc = FilterRoutesPageCubit(widget.type);
+    _bloc = FilterRoutesPageCubit(widget.type, widget.keySearch, widget.filter);
     checkDataStatus();
-    _bloc.setData(widget.filter);
+    _bloc.setData(widget.filter, widget.listRoute);
     gradeChange
         .debounceTime(const Duration(seconds: 1))
         .listen((value) => _bloc.setType());
@@ -209,9 +214,7 @@ class _FilterRoutesPageState extends State<FilterRoutesPage> {
                           borderRadius: BorderRadius.circular(30),
                           gradient: Utils.backgroundGradientOrangeButton()),
                       child: AppText(
-                        '${LocaleKeys.showResult.tr()}' +
-                            " : " +
-                            state.lPlayList!.length.toString(),
+                        "${LocaleKeys.showResult.tr()} : ${widget.type == FilterType.Favorite ? state.lPlayList!.length.toString() : state.count.toString()}",
                         style: typoW600.copyWith(
                             color: colorText0, fontSize: 13.sp),
                       ),
@@ -281,10 +284,31 @@ class _FilterRoutesPageState extends State<FilterRoutesPage> {
       Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          AppText(
-            '${getGrade(lowerValue.toInt())} - ${getGrade(upperValue.toInt())}',
-            style: typoW400.copyWith(
-                fontSize: 13.sp, color: colorText0.withOpacity(0.87)),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+            Expanded(child:   AppText(
+              textAlign: TextAlign.end,
+              getGrade(lowerValue.toInt()),
+              style: typoW400.copyWith(
+                  fontSize: 13.sp, color: colorText0.withOpacity(0.87)),
+            ),),
+               Padding(
+                 padding:  EdgeInsets.only(left: 5.w,right: 5.w),
+                 child:  const Center(
+                    child: AppText(
+                      "-",
+                      style: TextStyle(color: colorWhite),
+                    )),
+               ),
+              Expanded(
+                child: AppText(
+                  getGrade(upperValue.toInt()),
+                  style: typoW400.copyWith(
+                      fontSize: 13.sp, color: colorText0.withOpacity(0.87)),
+                ),
+              )
+            ],
           ),
           AppSlider(
               rightHandler: AppSliderHandler(
@@ -373,6 +397,7 @@ class _FilterRoutesPageState extends State<FilterRoutesPage> {
         itemCount: nameList.length,
         itemBuilder: (context, index) {
           return ItemFilterWidget(
+            isLoginFilter: false,
             isSelect: nameList[index].isSelect,
             data: {
               nameList[index].value.keys.first:
@@ -398,6 +423,7 @@ class _FilterRoutesPageState extends State<FilterRoutesPage> {
         itemCount: nameList.length,
         itemBuilder: (context, index) {
           return ItemFilterWidget(
+            isLoginFilter: false,
             isSelect: nameList[index].isSelect,
             data: {
               nameList[index].value.keys.first:
@@ -461,6 +487,7 @@ class _FilterRoutesPageState extends State<FilterRoutesPage> {
             callback: (value) {
               _bloc.setStatus(nameList[index].value, value);
             },
+            isLoginFilter: !isLogin ? true : false,
           ),
         ),
       );

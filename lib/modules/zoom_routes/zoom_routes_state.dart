@@ -11,17 +11,19 @@ class ZoomRoutesState extends Equatable {
   final int row;
   final StatusType status;
   final double sizeHoldSet;
-  final List<HoldSetModel> lRoutes;
+  final List<HoldSetModel> lHoldSet;
   final int? currentIndex;
   final int timeStamp;
   final String currentHoldSet;
   final double scale;
   final RoutesModel? model;
   final InfoRouteModel? infoRouteModel;
+  int? holdSetIndex;
 
-  const ZoomRoutesState(
+   ZoomRoutesState(
       {this.status = StatusType.initial,
         this.infoRouteModel,
+        this.holdSetIndex=0,
         this.model,
         this.currentHoldSet = '',
         this.timeStamp = 0,
@@ -31,11 +33,12 @@ class ZoomRoutesState extends Equatable {
         this.scale =4.0,
         this.row = 0,
         this.currentIndex,
-        this.lRoutes = const <HoldSetModel>[]});
+        this.lHoldSet = const <HoldSetModel>[]});
 
   ZoomRoutesState copyOf(
       {StatusType? status,
         RoutesModel? model,
+        int? holdSetIndex,
         int? column,
         bool? isEdit,
         int? currentIndex,
@@ -43,9 +46,10 @@ class ZoomRoutesState extends Equatable {
         int? row,
         double? scale,
         double? sizeHoldSet,
-        List<HoldSetModel>? lRoutes,
+        List<HoldSetModel>? lHoldSet,
           int? timeStamp}) =>
       ZoomRoutesState(
+          holdSetIndex: holdSetIndex ?? this.holdSetIndex,
           model: model ?? this.model,
           isEdit: isEdit ?? this.isEdit,
           currentHoldSet: currentHoldSet ?? this.currentHoldSet,
@@ -54,19 +58,20 @@ class ZoomRoutesState extends Equatable {
           column: column ?? this.column,
           row: row ?? this.row,
           sizeHoldSet: sizeHoldSet ?? this.sizeHoldSet,
-          lRoutes: lRoutes ?? this.lRoutes,
+          lHoldSet: lHoldSet ?? this.lHoldSet,
           timeStamp: timeStamp ?? this.timeStamp,
           scale: scale ?? this.scale);
 
   @override
   List<Object?> get props => [
+        holdSetIndex,
         model,
         isEdit,
         status,
         sizeHoldSet,
         column,
         row,
-        lRoutes,
+        lHoldSet,
         currentIndex,
         timeStamp,
         scale

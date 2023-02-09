@@ -9,17 +9,19 @@ class CreateRoutesState extends Equatable {
   final int row;
   final StatusType status;
   final double sizeHoldSet;
-  final List<HoldSetModel> lRoutes;
+  final List<HoldSetModel> lHoldSet;
   final int? selectIndex;
   final int timeStamp;
   final String currentHoldSet;
   final bool isEdit;
   final RoutesModel? model;
   final bool isShowGuideline;
+  final int? holdSetIndex;
 
   const CreateRoutesState(
       {this.status = StatusType.initial,
       this.model,
+      this.holdSetIndex = 0,
       this.isShowGuideline = true,
       this.isEdit = false,
       this.currentHoldSet = '',
@@ -28,11 +30,12 @@ class CreateRoutesState extends Equatable {
       this.column = 0,
       this.row = 0,
       this.selectIndex,
-      this.lRoutes = const <HoldSetModel>[]});
+      this.lHoldSet = const <HoldSetModel>[]});
 
   CreateRoutesState copyOf(
           {StatusType? status,
           RoutesModel? model,
+          int? holdSetIndex,
           int? column,
           bool? isEdit,
           int? selectIndex,
@@ -40,9 +43,10 @@ class CreateRoutesState extends Equatable {
           int? row,
           bool? isShowGuideline,
           double? sizeHoldSet,
-          List<HoldSetModel>? lRoutes,
+          List<HoldSetModel>? lHoldSet,
           int? timeStamp}) =>
       CreateRoutesState(
+          holdSetIndex: holdSetIndex ?? this.holdSetIndex,
           isShowGuideline: isShowGuideline ?? this.isShowGuideline,
           model: model ?? this.model,
           isEdit: isEdit ?? this.isEdit,
@@ -52,7 +56,7 @@ class CreateRoutesState extends Equatable {
           column: column ?? this.column,
           row: row ?? this.row,
           sizeHoldSet: sizeHoldSet ?? this.sizeHoldSet,
-          lRoutes: lRoutes ?? this.lRoutes,
+          lHoldSet: lHoldSet ?? this.lHoldSet,
           timeStamp: timeStamp ?? this.timeStamp);
 
   @override
@@ -62,7 +66,7 @@ class CreateRoutesState extends Equatable {
         sizeHoldSet,
         column,
         row,
-        lRoutes,
+        lHoldSet,
         selectIndex,
         timeStamp,
         isEdit

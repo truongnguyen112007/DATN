@@ -11,6 +11,8 @@ class StorageKey {
   static const String playlistId = 'playlistId';
   static const String isGuideline = 'isGuideline';
   static const String languageCode = 'languageCode';
+  static const String holdSet = 'holdSet';
+  static const String userProfile = 'userProfile';
 }
 
 class ConstantKey {
@@ -21,6 +23,11 @@ class ConstantKey {
   static const int WEEK_INDEX_OFFSET = 5200;
   static const String TOKEN_EXPIRED = 'token expired';
   static const String CONNECTION_TIMED_OUT = 'Connection timed out';
+  static const BASE_URL = 'http://83.171.249.207/api/v1/';
+  static const IMAGE_URL = 'http://83.171.249.207/api/v1/hold/image/';
+  static const PRIVATE = 0;
+  static const FRIENDS = 1;
+  static const PUBLIC = 2;
 }
 
 class MessageKey {
@@ -47,6 +54,21 @@ class ApiKey {
   static const author_grade = 'author_grade';
   static const published = 'published';
   static const visibility = 'visibility';
+  static const border = 'border';
+  static const account_id = "account_id";
+  static const first_name = "first_name";
+  static const last_name = "last_name";
+  static const gender = "gender";
+  static const role = "role";
+  static const birth_date = "birth_date";
+  static const favorite_route_grade = "favorite_route_grade";
+  static const photo = "photo";
+  static const phone = "phone";
+  static const user = "user";
+  static const route_setter = "route_setter";
+  static const trainer = "trainer";
+  static const refresh_token = 'refresh_token';
+
 }
 
 class BottomNavigationConstant{

@@ -68,11 +68,11 @@ class TabOverViewCubit extends Cubit<TabOverViewState> {
       ];
 
   Future<void> checkLocationPermission() async {
-    LocationPermission permission;
+    /*LocationPermission permission;
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       await Geolocator.requestPermission();
-    }
+    }*/
   }
 
   void onClickCalender (BuildContext context) {

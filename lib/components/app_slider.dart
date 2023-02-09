@@ -14,6 +14,8 @@ import 'package:base_bloc/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 
+import '../utils/app_utils.dart';
+
 class AppSlider extends StatefulWidget {
   final Key? key;
   final Axis axis;
@@ -1992,7 +1994,7 @@ class _AppSliderState extends State<AppSlider> with TickerProviderStateMixin {
 
     List<Widget> children = [
       prefix,
-      Text(numberFormat, style: _tooltipData.textStyle),
+      Text(Utils.getGrade(double.parse(numberFormat).toInt()), style: _tooltipData.textStyle),
       suffix,
     ];
 

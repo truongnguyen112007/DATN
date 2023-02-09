@@ -16,10 +16,10 @@ class FavouriteState extends Equatable {
   final bool isClickRadioButton;
   final bool isShowActionButton;
   final int timeStamp;
-  final int nextPage;
+  int nextPage;
   late SortParam? sort;
   late FilterParam? filter;
-
+  final bool isOverlay;
 
   FavouriteState({
     this.favType = FavType.Default,
@@ -34,6 +34,7 @@ class FavouriteState extends Equatable {
     this.nextPage = 1,
     this.sort,
     this.filter,
+    this.isOverlay = false,
   });
 
   FavouriteState copyWith({
@@ -44,6 +45,7 @@ class FavouriteState extends Equatable {
     bool? isReadEnd,
     bool? isLoading,
     bool? isShowAdd,
+    bool? isOverlay,
     bool? isClickRadioButton,
     bool? isShowActionButton,
     int? nextPage,
@@ -51,6 +53,7 @@ class FavouriteState extends Equatable {
     FilterParam? filter,
   }) =>
       FavouriteState(
+        isOverlay: isOverlay ?? this.isOverlay,
         favType: favType ?? this.favType,
         timeStamp: timeStamp ?? this.timeStamp,
         isLoading: isLoading ?? this.isLoading,
@@ -79,5 +82,6 @@ class FavouriteState extends Equatable {
         nextPage,
         sort,
         filter,
+        isOverlay
       ];
 }

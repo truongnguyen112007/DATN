@@ -154,6 +154,7 @@ class _DesignedPageState extends State<DesignedPage>
               child: Align(
                 alignment: Alignment.bottomRight,
                 child: SpeedDial(
+                  controller: SpeedDialController(),
                   overlayColor: colorBlack,
                   overlayOpacity: 0.8,
                   gradientBoxShape: BoxShape.circle,
@@ -232,11 +233,10 @@ class _DesignedPageState extends State<DesignedPage>
               _bloc.filterItemOnclick(i);
             },
             index: i,
-            onLongPress: (model) =>
+            doubleTapCallBack: (model) =>
                 _bloc.itemOnLongClick(context, i, model: model),
-            detailCallBack: (RoutesModel action) =>
-                _bloc.itemOnclick(context, state.lRoutes[i]),
-          ),
+                  detailCallBack: (RoutesModel action) =>
+                      _bloc.itemOnclick(context, state.lRoutes[i], i)),
           itemCount:
           !state.isReadEnd && state.lRoutes.isNotEmpty && state.isLoading
               ? state.lRoutes.length + 1
