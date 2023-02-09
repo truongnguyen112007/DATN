@@ -237,7 +237,7 @@ class _RoutesDetailPageState extends BasePopState<RoutesDetailPage> {
               ? InkWell(
                   child:
                       Icon(Icons.more_vert, color: colorWhite.withOpacity(0.6)),
-                  onTap: () => _bloc.editRouteOnclick(context, widget.model),
+                  onTap: (){},
                 )
               : const SizedBox(),
           SizedBox(width: contentPadding)

@@ -1,7 +1,6 @@
 import 'package:base_bloc/data/eventbus/new_page_event.dart';
 import 'package:base_bloc/data/model/places_model.dart';
 import 'package:base_bloc/modules/create_reservation/create_reservation_state.dart';
-import 'package:base_bloc/modules/find_place/find_place_page.dart';
 import 'package:base_bloc/router/router.dart';
 import 'package:base_bloc/router/router_utils.dart';
 import 'package:base_bloc/utils/toast_utils.dart';
@@ -19,8 +18,6 @@ class CreateReservationCubit extends Cubit<CreateReservationState> {
 
   void placeOnclick(BuildContext context) async {
     Utils.hideKeyboard(context);
-    var model = await RouterUtils.openNewPage(const FindPlacePage(), context,type: NewPageType.FILL_PLACE);
-    emit(state.copyOf(placesModel: model));
   }
 
   void setPlace(PlacesModel model) => emit(state.copyOf(placesModel: model));

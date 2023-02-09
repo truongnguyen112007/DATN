@@ -18,18 +18,6 @@ class HomeCubit extends Cubit<HomeState> {
   void hideBottomBar(bool isHide) => emit(HideBottomNavigationBarState(isHide));
 
   void checkPlaylistId() async {
-    if (globals.isLogin) {
-      var playlistId = await StorageUtils.getPlaylistId();
-      if (playlistId == null) {
-        var response = await userRepository.getPlaylists();
-        if (response.error == null && response.data != null) {
-          var lPlaylist = playListModelFromJson(response.data);
-          globals.playlistId = lPlaylist[0].id ?? '';
-          StorageUtils.savePlaylistId(globals.playlistId);
-        }
-      } else {
-        globals.playlistId = playlistId;
-      }
-    }
+
   }
 }

@@ -176,98 +176,13 @@ class FavouriteCubit extends Cubit<FavouriteState> {
   }
 
   void getFavourite({bool isPaging = false}) async {
-    if (state.isLoading && state.lPlayList.isNotEmpty || state.isReadEnd)
-      return;
-    emit(state.copyWith(isLoading: true));
-    var response = await userRepository.getFavorite(
-      type: state.favType,
-      userId: globals.userId,
-      status: state.filter?.status != null && state.filter!.status.isNotEmpty
-          ? state.filter?.status[0][state.filter?.status[0].keys.first]
-          : null,
-      nextPage: state.nextPage,
-      orderType: state.sort?.orderType,
-      orderValue: state.sort?.orderValue,
-      authorGradeFrom: state.filter?.authorGradeFrom,
-      authorGradeTo: state.filter?.authorGradeTo,
-      userGradeFrom: state.filter?.userGradeFrom,
-      hasConner: state.filter?.corner != null && state.filter!.corner.isNotEmpty
-          ? state.filter?.corner[0][state.filter?.corner[0].keys.first]
-          : null,
-      setter:
-          state.filter?.designBy != null && state.filter!.designBy.isNotEmpty
-              ? state.filter?.designBy[0][state.filter?.designBy[0].keys.first]
-              : null,
-    );
-    if (response.data != null && response.error == null) {
-      try {
-        var lResponse = routeModelFromJson(response.data);
-        emit(state.copyWith(
-            status: FeedStatus.success,
-            isReadEnd: lResponse.isEmpty,
-            nextPage: state.nextPage + 1,
-            isLoading: false,
-            lPlayList:
-                isPaging ? (state.lPlayList..addAll(lResponse)) : lResponse));
-      } catch (e) {
-        emit(state.copyWith(
-            isReadEnd: true, isLoading: false, status: FeedStatus.failure));
-      }
-    } else {
-      emit(
-        state.copyWith(
-          status: state.lPlayList.isNotEmpty
-              ? FeedStatus.success
-              : FeedStatus.failure,
-          isReadEnd: true,
-          isLoading: false,
-        ),
-      );
-      toast(response.error.toString());
-    }
+
   }
 
   void removeFromFavourite(
       BuildContext context, int index, FilterController controller,
       {RoutesModel? model, bool isMultiSelect = false}) async {
-    Dialogs.showLoadingDialog(context);
-    var routeIds = '';
-    var lIndex = [];
-    if (isMultiSelect) {
-      for (int i = 0; i < state.lPlayList.length; i++) {
-        if (state.lPlayList[i].isSelect) {
-          routeIds += '${state.lPlayList[i].id ?? ''},';
-          lIndex.add(i);
-        }
-      }
-    } else {
-      routeIds = model!.id ?? '';
-    }
-    var response = await userRepository.removeFromFavorite(routeIds);
-    await Dialogs.hideLoadingDialog();
-    if (response.error == null) {
-      if (isMultiSelect) {
-        for (int i = lIndex.length - 1; i >= 0; i--) {
-          state.lPlayList.removeAt(lIndex[i]);
-        }
-        emit(
-          state.copyWith(
-              timeStamp: DateTime.now().microsecondsSinceEpoch,
-              isShowAdd: true,
-              isShowActionButton: false),
-        );
-      } else {
-        state.lPlayList.removeAt(index);
-        emit(state.copyWith(
-            timeStamp: DateTime.now().microsecondsSinceEpoch,
-            isShowAdd: true,
-            isShowActionButton: false));
-        refreshPlaylist();
-      }
-      controller.setSelect = false;
-    } else {
-      toast(response.error.toString());
-    }
+
   }
 
   void addToPlaylist(
@@ -276,38 +191,7 @@ class FavouriteCubit extends Cubit<FavouriteState> {
     RoutesModel? model,
     bool isMultiSelect = false,
   }) async {
-    Dialogs.showLoadingDialog(context);
-    var lRoutes = <String>[];
-    var lIndex = [];
-    if (isMultiSelect) {
-      for (int i = 0; i < state.lPlayList.length; i++) {
-        if (state.lPlayList[i].isSelect) {
-          lRoutes.add(state.lPlayList[i].id ?? '');
-          lIndex.add(i);
-        }
-      }
-    } else {
-      lRoutes.add(model!.id ?? "");
-    }
-    var response =
-        await userRepository.addToPlaylist(globals.playlistId, lRoutes);
-    await Dialogs.hideLoadingDialog();
-    if (response.error == null) {
-      for (int i = 0; i < lIndex.length; i++) {
-        state.lPlayList[lIndex[i]].playlistIn = true;
-        state.lPlayList[lIndex[i]].isSelect = false;
-      }
-      toast(response.message);
-      model?.playlistIn = true;
-      emit(state.copyWith(
-          timeStamp: DateTime.now().microsecondsSinceEpoch,
-          isShowAdd: true,
-          isShowActionButton: false));
-      controller.setSelect = false;
-      refreshPlaylist();
-    } else {
-      toast(response.error.toString());
-    }
+
   }
 
   void refreshPlaylist() {

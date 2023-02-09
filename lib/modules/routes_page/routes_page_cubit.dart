@@ -174,51 +174,7 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
   }
 
   void search(String keySearch, int nextPage, {bool isPaging = false}) async {
-    emit(state.copyWith(status: RouteStatus.search, isLoading: true));
-    try {
-      var response = await userRepository.searchRoute(
-        value: keySearch,
-        nextPage: nextPage,
-        type: state.typeSearchRoute,
-        orderType: state.sort?.orderType,
-        orderValue: state.sort?.orderValue,
-        status: state.filter?.status != null && state.filter!.status.isNotEmpty
-            ? state.filter?.status[0][state.filter?.status[0].keys.first]
-            : null,
-        authorGradeFrom: state.filter?.authorGradeFrom,
-        authorGradeTo: state.filter?.authorGradeTo,
-        userGradeFrom: state.filter?.userGradeFrom,
-        hasConner:
-            state.filter?.corner != null && state.filter!.corner.isNotEmpty
-                ? state.filter?.corner[0][state.filter?.corner[0].keys.first]
-                : null,
-        setter: state.filter?.designBy != null &&
-                state.filter!.designBy.isNotEmpty
-            ? state.filter?.designBy[0][state.filter?.designBy[0].keys.first]
-            : null,
-      );
-      var lResponse = routeModelBySearchFromJson(response.data);
-      if (response.data != null) {
-        emit(state.copyWith(
-            keySearch: keySearch,
-            status: RouteStatus.success,
-            lRoutes: isPaging ? (state.lRoutes..addAll(lResponse)) : lResponse,
-            isLoading: false,
-            nextPage: nextPage++));
-      } else {
-        emit(state.copyWith(
-            isReadEnd: true, isLoading: false, status: RouteStatus.failure));
-        toast(response.error.toString());
-      }
-    } catch (ex) {
-      logE((ex.toString()));
-      emit(state.copyWith(
-          status: state.lRoutes.isNotEmpty
-              ? RouteStatus.success
-              : RouteStatus.failure,
-          isReadEnd: true,
-          isLoading: false));
-    }
+
   }
 
   void addToPlaylist(
@@ -227,38 +183,7 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
     RoutesModel? model,
     bool isMultiSelect = false,
   }) async {
-    Dialogs.showLoadingDialog(context);
-    var lRoutes = <String>[];
-    var lIndex = [];
-    if (isMultiSelect) {
-      for (int i = 0; i < state.lRoutes.length; i++) {
-        if (state.lRoutes[i].isSelect) {
-          lRoutes.add(state.lRoutes[i].id ?? '');
-          lIndex.add(i);
-        }
-      }
-    } else {
-      lRoutes.add(model?.id ?? "");
-    }
-    var response =
-        await userRepository.addToPlaylist(globals.playlistId, lRoutes);
-    await Dialogs.hideLoadingDialog();
-    if (response.error == null) {
-      for (int i = 0; i < lIndex.length; i++) {
-        state.lRoutes[lIndex[i]].playlistIn = true;
-        state.lRoutes[lIndex[i]].isSelect = false;
-      }
-      toast(response.message);
-      model?.playlistIn = true;
-      emit(state.copyWith(
-          timeStamp: DateTime.now().microsecondsSinceEpoch,
-          isShowAdd: true,
-          isShowActionButton: false));
-      Utils.fireEvent(RefreshEvent(RefreshType.PLAYLIST));
-      controller.setSelect = false;
-    } else {
-      toast(response.error.toString());
-    }
+
   }
 
   void removeFromPlaylist(
@@ -268,42 +193,7 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
     RoutesModel? model,
     bool isMultiSelect = false,
   }) async {
-    var lRoutes = "";
-    var lIndex = [];
-    if (isMultiSelect) {
-      for (int i = 0; i < state.lRoutes.length; i++) {
-        if (state.lRoutes[i].isSelect) {
-          lRoutes += (state.lRoutes[i].id ?? '') + ",";
-          lIndex.add(i);
-        }
-      }
-    } else {
-      lRoutes = model?.id ?? "";
-    }
-    Dialogs.showLoadingDialog(context);
-    var response =
-        await userRepository.removeFromPlaylist(globals.playlistId, lRoutes);
-    await Dialogs.hideLoadingDialog();
-    if (response.error == null) {
-      if (isMultiSelect) {
-        toast(response.message);
-        emit(
-          state.copyWith(
-              timeStamp: DateTime.now().microsecondsSinceEpoch,
-              isShowAdd: true,
-              isShowActionButton: false),
-        );
-      } else {
-        emit(state.copyWith(
-            timeStamp: DateTime.now().microsecondsSinceEpoch,
-            isShowAdd: true,
-            isShowActionButton: false));
-      }
-      Utils.fireEvent(RefreshEvent(RefreshType.PLAYLIST));
-      controller.setSelect = false;
-    } else {
-      toast(response.error.toString());
-    }
+
   }
 
   void addToFav(
@@ -312,76 +202,12 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
     RoutesModel? model,
     bool isMultiSelect = false,
   }) async {
-    Dialogs.showLoadingDialog(context);
-    var lRoutes = <String>[];
-    var lIndex = [];
-    if (isMultiSelect) {
-      for (int i = 0; i < state.lRoutes.length; i++) {
-        if (state.lRoutes[i].isSelect) {
-          lRoutes.add(state.lRoutes[i].id ?? '');
-          lIndex.add(i);
-        }
-      }
-    } else {
-      lRoutes.add(model?.id ?? "");
-    }
-    var response = await userRepository.addToFavorite(globals.userId, lRoutes);
-    await Dialogs.hideLoadingDialog();
-    if (response.error == null) {
-      for (int i = 0; i < lIndex.length; i++) {
-        state.lRoutes[lIndex[i]].favouriteIn = true;
-        state.lRoutes[lIndex[i]].isSelect = false;
-      }
-      toast(response.message);
-      model?.favouriteIn = true;
-      emit(state.copyWith(
-          timeStamp: DateTime.now().microsecondsSinceEpoch,
-          isShowAdd: true,
-          isShowActionButton: false));
-      Utils.fireEvent(RefreshEvent(RefreshType.FAVORITE));
-      controller.setSelect = false;
-    } else {
-      toast(response.error.toString());
-    }
+
   }
 
   void removeFromFavourite(
       BuildContext context, int index, FilterController controller,
       {RoutesModel? model, bool isMultiSelect = false}) async {
-    Dialogs.showLoadingDialog(context);
-    var routeIds = '';
-    var lIndex = [];
-    if (isMultiSelect) {
-      for (int i = 0; i < state.lRoutes.length; i++) {
-        if (state.lRoutes[i].isSelect) {
-          routeIds += (state.lRoutes[i].id ?? '') + ",";
-          lIndex.add(i);
-        }
-      }
-    } else {
-      routeIds = model?.id ?? '';
-    }
-    var response = await userRepository.removeFromFavorite(routeIds);
-    await Dialogs.hideLoadingDialog();
-    if (response.error == null) {
-      if (isMultiSelect) {
-        toast(response.message);
-        emit(
-          state.copyWith(
-              timeStamp: DateTime.now().microsecondsSinceEpoch,
-              isShowAdd: true,
-              isShowActionButton: false),
-        );
-      } else {
-        emit(state.copyWith(
-            timeStamp: DateTime.now().microsecondsSinceEpoch,
-            isShowAdd: true,
-            isShowActionButton: false));
-      }
-      Utils.fireEvent(RefreshEvent(RefreshType.FAVORITE));
-      controller.setSelect = false;
-    } else {
-      toast(response.error.toString());
-    }
+
   }
 }

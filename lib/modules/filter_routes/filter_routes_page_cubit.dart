@@ -27,64 +27,12 @@ class FilterRoutesPageCubit extends Cubit<FilterRoutesPageState> {
   }
 
   void getFavorite() async {
-    var response = await userRepository.getFavorite(
-      type: FavType.Filter,
-      nextPage: 1,
-      status: state.filter?.status != null && state.filter!.status.isNotEmpty
-          ? state.filter?.status[0][state.filter?.status[0].keys.first]
-          : null,
-      hasConner: state.filter?.corner != null && state.filter!.corner.isNotEmpty
-          ? state.filter?.corner[0][state.filter?.corner[0].keys.first]
-          : null,
-      authorGradeFrom: state.filter?.authorGradeFrom,
-      authorGradeTo: state.filter?.authorGradeTo,
-      userGradeFrom: state.filter?.userGradeFrom,
-      setter:
-          state.filter?.designBy != null && state.filter!.designBy.isNotEmpty
-              ? state.filter?.designBy[0][state.filter?.designBy[0].keys.first]
-              : null,
-    );
-    if (response.data != null && response.error == null) {
-      try {
-        var lResponse = routeModelFromJson(response.data);
-        emit(state.copyWith(lPlayList: lResponse));
-      } catch (e) {
-        emit(state.copyWith(lPlayList: []));
-      }
-    } else {
-      toast(response.error.toString());
-    }
+
   }
 
 
   void getSearchRoute() async{
-    var response = await userRepository.searchRoute(
-      type: SearchRouteType.Filter,
-      nextPage: 1,
-      status: state.filter?.status != null && state.filter!.status.isNotEmpty
-          ? state.filter?.status[0][state.filter?.status[0].keys.first]
-          : null,
-      hasConner: state.filter?.corner != null && state.filter!.corner.isNotEmpty
-          ? state.filter?.corner[0][state.filter?.corner[0].keys.first]
-          : null,
-      authorGradeFrom: state.filter?.authorGradeFrom,
-      authorGradeTo: state.filter?.authorGradeTo,
-      userGradeFrom: state.filter?.userGradeFrom,
-      setter:
-      state.filter?.designBy != null && state.filter!.designBy.isNotEmpty
-          ? state.filter?.designBy[0][state.filter?.designBy[0].keys.first]
-          : null,
-    );
-    if (response.data != null && response.error == null) {
-      try {
-        var lResponse = routeModelBySearchFromJson(response.data);
-        emit(state.copyWith(lPlayList: lResponse));
-      } catch (e) {
-        emit(state.copyWith(lPlayList: []));
-      }
-    } else {
-      toast(response.error.toString());
-    }
+
   }
 
   void setData(FilterParam? filter) {

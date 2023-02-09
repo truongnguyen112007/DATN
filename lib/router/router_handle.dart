@@ -10,9 +10,7 @@ import 'package:base_bloc/modules/create_reservation/create_reservation_page.dar
 import 'package:base_bloc/modules/create_reservation_success/create_reservation_success_page.dart';
 import 'package:base_bloc/modules/create_routes/create_routes_page.dart';
 import 'package:base_bloc/modules/filter_address/filter_address_page.dart';
-import 'package:base_bloc/modules/find_place/find_place_page.dart';
 import 'package:base_bloc/modules/home/home_page.dart';
-import 'package:base_bloc/modules/place_address/place_address.dart';
 import 'package:base_bloc/modules/register/register.dart';
 import 'package:base_bloc/modules/reservation_detail/reservation_detail_page.dart';
 import 'package:base_bloc/modules/routes_page/routes_page.dart';
@@ -22,7 +20,6 @@ import '../modules/add_products/add_products.dart';
 import '../modules/bill_detail/bill_detail.dart';
 import '../modules/login/login.dart';
 import '../modules/products_detail/products_detail.dart';
-import '../modules/search/search_page.dart';
 import '../modules/routers_detail/routes_detail_page.dart';
 import '../modules/supplier_page/supplier_page.dart';
 import '../modules/tab_goods/tab_goods.dart';
@@ -61,16 +58,13 @@ var routeBillDetail = Handler(
 var routeProductsDetail = Handler(
     handlerFunc: (c, p) => ProductsDetail(
           routePage: (c!.settings!.arguments as List)[0] as int,
-          model: (c.settings!.arguments as List)[1] as GoodsModel,
+          model: (c.settings!.arguments as List)[1] as ProductModel,
         ));
 
 var routeSupplierPage = Handler(
     handlerFunc: (c, p) => SupplierPage(
           routePage: c!.settings!.arguments as int,
         ));
-
-var routeSearchHome = Handler(
-    handlerFunc: (c, p) => SearchPage(index: c!.settings!.arguments as int));
 
 var routeTabGoods = Handler(handlerFunc: (c, p) => const TabGoods());
 
@@ -93,7 +87,6 @@ var routeCreateReservationPage = Handler(
 );
 var routeFilterAddress =
     Handler(handlerFunc: (c, p) => const FilterAddressPage());
-var routeFindPlace = Handler(handlerFunc: (c, p) => const FindPlacePage());
 var routeConfirmCreateReservation = Handler(
     handlerFunc: (c, p) => ConfirmCreateReservationPage(
           addressModel: (c!.settings!.arguments as List)[0] as AddressModel,
@@ -104,10 +97,6 @@ var routeCreateReservationSuccess =
     Handler(handlerFunc: (c, p) => const CreateReservationSuccessPage());
 var routeCreateRoutes =
     Handler(handlerFunc: (c, p) => const CreateRoutesPage());
-var routePlaceDetail = Handler(
-    handlerFunc: (c, p) => PlaceAddress(
-          index: (c!.settings!.arguments as List)[0] as int,
-          model: (c.settings!.arguments as List)[1] as PlacesModel,
-        ));
+
 var routeSearchRoute = Handler(
     handlerFunc: (c, p) => RoutesPage(index: c!.settings!.arguments as int));

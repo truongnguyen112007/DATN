@@ -15,9 +15,9 @@ class StorageKey {
 
 class ConstantKey {
   static const String USER = 'user';
-  static const int aDAY=86400000;
-  static const String DYNAMIC_LINK="https://docsify.page.link";
-  static const String IOS_APP_STORE_ID="1634725173";
+  static const int aDAY = 86400000;
+  static const String DYNAMIC_LINK = "https://docsify.page.link";
+  static const String IOS_APP_STORE_ID = "1634725173";
   static const int WEEK_INDEX_OFFSET = 5200;
   static const String TOKEN_EXPIRED = 'token expired';
   static const String CONNECTION_TIMED_OUT = 'Connection timed out';
@@ -29,27 +29,21 @@ class MessageKey {
 }
 
 class ApiKey {
-  static const email = 'email';
-  static const token = 'token';
-  static const password = 'password';
-  static const device_id = 'device_id';
-  static const device_name = 'device_name';
-  static const device_model = 'device_model';
-  static const name = 'name';
-  static const user_id = 'user_id';
-  static const route_id = 'route_id';
-  static const route_ids = 'route_ids';
-  static const limit_offset = 10;
-  static const playlist_id = 'playlist_id';
-  static const height = 'height';
-  static const holds = 'holds';
-  static const has_conner = 'has_conner';
-  static const author_grade = 'author_grade';
-  static const published = 'published';
-  static const visibility = 'visibility';
+  static const phone = "phone";
+  static const password = "password";
+  static const name = "name";
+  static const sku = "sku";
+  static const upcCode = "upcCode";
+  static const description = "description";
+  static const price = "price";
+  static const inStock = "inStock";
+  static const image = "image";
+  static const unit = "unit";
+  static const status = "status";
+  static const categoryId = "categoryId";
 }
 
-class BottomNavigationConstant{
+class BottomNavigationConstant {
   static const TAB_OVERVIEW = 0;
   static const TAB_RECEIPT = 1;
   static const TAB_CLIMB = 2;
@@ -64,7 +58,7 @@ class SearchConstant {
   static const PERSONS = 3;
 }
 
-class BottomNavigationSearch{
+class BottomNavigationSearch {
   static const TAB_ALL = 0;
   static const TAB_PLACES = 1;
   static const TAB_RECEIPT = 2;
