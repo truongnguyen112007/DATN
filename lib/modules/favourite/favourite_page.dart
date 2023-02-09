@@ -19,6 +19,7 @@ import '../../components/app_text.dart';
 import '../../components/filter_widget.dart';
 import '../../components/item_info_routes.dart';
 import '../../data/eventbus/refresh_event.dart';
+import '../../data/model/filter_param.dart';
 import '../../data/model/routes_model.dart';
 import '../../localization/locale_keys.dart';
 import '../../theme/app_styles.dart';
@@ -26,7 +27,7 @@ import '../../utils/app_utils.dart';
 import '../../utils/log_utils.dart';
 
 class FavouritePage extends StatefulWidget {
-  const FavouritePage({Key? key}) : super(key: key);
+  const FavouritePage({Key? key,}) : super(key: key);
 
   @override
   State<FavouritePage> createState() => _FavouritePageState();

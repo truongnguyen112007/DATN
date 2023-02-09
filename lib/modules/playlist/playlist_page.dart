@@ -131,10 +131,7 @@ class _PlayListPageState extends State<PlayListPage>
                   backgroundColor: Colors.white,
                   foregroundColor: Colors.white,
                   onTap: () {
-                    RouterUtils.pushRoutes(
-                        context: context,
-                        route: RoutesRouters.search,
-                        argument: BottomNavigationConstant.TAB_ROUTES);
+                   _bloc.findRoutes(context);
                   },
                 ),
                 SpeedDialChild(
