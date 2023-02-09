@@ -10,6 +10,7 @@ import 'package:base_bloc/data/repository/user_repository.dart';
 import 'package:base_bloc/modules/create_info_route/create_info_route_page.dart';
 import 'package:base_bloc/modules/create_routes/create_routes_page.dart';
 import 'package:base_bloc/modules/playlist/playlist_state.dart';
+import 'package:base_bloc/modules/tab_home/tab_home_state.dart';
 import 'package:base_bloc/router/router_utils.dart';
 import 'package:base_bloc/utils/app_utils.dart';
 import 'package:base_bloc/utils/log_utils.dart';
@@ -20,7 +21,6 @@ import '../../data/model/routes_model.dart';
 import '../../router/router.dart';
 import '../../utils/storage_utils.dart';
 import '../routers_detail/routes_detail_page.dart';
-import '../tab_overview/tab_overview_state.dart';
 
 enum ItemAction {
   MOVE_TO_TOP,
@@ -174,7 +174,7 @@ class PlayListCubit extends Cubit<PlaylistState> {
   void itemOnclick(BuildContext context, RoutesModel model) =>
       RouterUtils.openNewPage(
           RoutesDetailPage(
-              index: BottomNavigationConstant.TAB_RECEIPT, model: model),
+              index: BottomNavigationConstant.TAB_ROUTES, model: model),
           context);
 
   void createRoutesOnClick(BuildContext context) => RouterUtils.openNewPage(

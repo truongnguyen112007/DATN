@@ -1,8 +1,7 @@
 import 'package:base_bloc/data/model/playlist_model.dart';
 import 'package:base_bloc/data/model/routes_model.dart';
+import 'package:base_bloc/modules/tab_home/tab_home_state.dart';
 import 'package:equatable/equatable.dart';
-
-import '../tab_overview/tab_overview_state.dart';
 
 class PlaylistState extends Equatable {
   final FeedStatus status;

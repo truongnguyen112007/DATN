@@ -27,8 +27,8 @@ class ConfirmCreateReservationCubit
 
   void addressOnclick(BuildContext context) async {
     Utils.hideKeyboard(context);
-    var model = await RouterUtils.pushNotification(
-        context: context, route: NotificationRouters.routesFilterAddress);
+    var model = await RouterUtils.pushReservations(
+        context: context, route: ReservationRouters.routesFilterAddress);
     emit(state.copyOf(addressModel: model));
   }
 
@@ -39,7 +39,7 @@ class ConfirmCreateReservationCubit
           placesModel: placesModel,
           dateTime: time));
 
-  void confirmOnclick(BuildContext context) => RouterUtils.pushNotification(
+  void confirmOnclick(BuildContext context) => RouterUtils.pushReservations(
       context: context,
-      route: NotificationRouters.routesCreateReservationSuccess);
+      route: ReservationRouters.routesCreateReservationSuccess);
 }

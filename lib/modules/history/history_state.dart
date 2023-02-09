@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
+
 import '../../data/model/feed_model.dart';
-import '../tab_overview/tab_overview_state.dart';
+import '../tab_home/tab_home_state.dart';
 
 class HistoryState extends Equatable {
   final List<FeedModel> lFeed;

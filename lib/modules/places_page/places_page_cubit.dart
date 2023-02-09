@@ -1,14 +1,16 @@
 import 'dart:async';
+import 'dart:math';
 import 'package:base_bloc/config/constant.dart';
 import 'package:base_bloc/data/app_database.dart';
 import 'package:base_bloc/modules/places_page/places_page_state.dart';
 import 'package:base_bloc/router/router.dart';
 import 'package:base_bloc/router/router_utils.dart';
+import 'package:base_bloc/utils/log_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/model/places_model.dart';
-import '../tab_overview/tab_overview_state.dart';
-
+import '../place_address/place_address.dart';
+import '../tab_home/tab_home_state.dart';
 
 class PlacesPageCubit extends Cubit<PlacesPageState> {
   int index;
@@ -62,24 +64,24 @@ class PlacesPageCubit extends Cubit<PlacesPageState> {
     await AppDatabase.instance.create(model);
     getLastSearch();
     switch (index) {
-      case BottomNavigationConstant.TAB_OVERVIEW:
-        RouterUtils.pushOverView(
-            context: context, argument: [index,model], route: OverViewRouters.placeDetail);
+      case BottomNavigationConstant.TAB_HOME:
+        RouterUtils.pushHome(
+            context: context, argument: [index,model], route: HomeRouters.placeDetail);
         break;
-      case BottomNavigationConstant.TAB_RECEIPT:
+      case BottomNavigationConstant.TAB_ROUTES:
         RouterUtils.pushRoutes(
             context: context,
-            route: ReceiptRouters.placeDetail,
+            route: RoutesRouters.placeDetail,
             argument: [index,model]);
         break;
       case BottomNavigationConstant.TAB_CLIMB:
         RouterUtils.pushClimb(
-            context: context, route: GoodsRouters.placeDetail, argument: [index,model]);
+            context: context, route: ClimbRouters.placeDetail, argument: [index,model]);
         break;
       case BottomNavigationConstant.TAB_RESERVATIONS:
-        RouterUtils.pushNotification(
+        RouterUtils.pushReservations(
             context: context,
-            route: NotificationRouters.placeDetail,
+            route: ReservationRouters.placeDetail,
             argument: [index,model]);
         break;
       case BottomNavigationConstant.TAB_PROFILE:

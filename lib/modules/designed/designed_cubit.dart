@@ -1,10 +1,13 @@
 import 'dart:async';
+
 import 'package:base_bloc/config/constant.dart';
 import 'package:base_bloc/modules/designed/designed_state.dart';
 import 'package:base_bloc/router/router_utils.dart';
 import 'package:base_bloc/utils/toast_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_tags/flutter_tags.dart';
+
 import '../../components/dialogs.dart';
 import '../../data/eventbus/refresh_event.dart';
 import '../../data/globals.dart';
@@ -16,7 +19,7 @@ import '../create_routes/create_routes_page.dart';
 import '../filter_routes/filter_routes_page.dart';
 import '../playlist/playlist_cubit.dart';
 import '../routers_detail/routes_detail_page.dart';
-import '../tab_overview/tab_overview_state.dart';
+import '../tab_home/tab_home_state.dart';
 
 class DesignedCubit extends Cubit<DesignedState> {
   var userRepository = UserRepository();
@@ -139,7 +142,7 @@ class DesignedCubit extends Cubit<DesignedState> {
   void itemOnclick(BuildContext context, RoutesModel model) =>
       RouterUtils.openNewPage(
           RoutesDetailPage(
-            index: BottomNavigationConstant.TAB_RECEIPT,
+            index: BottomNavigationConstant.TAB_ROUTES,
             model: model,
           ),
           context);

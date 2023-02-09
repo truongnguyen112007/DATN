@@ -12,9 +12,6 @@ class SplashCubit extends Cubit<SplashState> {
     Timer(const Duration(seconds: 1), () => emit(OpenHomeState()));
   }
 
-  void openLogin(BuildContext context) =>
-      RouterUtils.push(context: context, route: Routers.login, isRemove: true);
-
   void openHomePage(BuildContext context) =>
       RouterUtils.push(context: context, route: Routers.home, isRemove: true);
 }

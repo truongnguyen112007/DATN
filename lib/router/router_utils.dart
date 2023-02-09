@@ -20,12 +20,12 @@ class RouterUtils {
     return result;
   }
 
-  static pushOverView<T>(
+  static pushHome<T>(
       {required BuildContext context,
       required String route,
       dynamic argument,
       bool isRemove = false}) async {
-    T result = await Application.overViewRouter.navigateTo(context, route,
+    T result = await Application.homeRouter.navigateTo(context, route,
         transition: TransitionType.inFromRight,
         clearStack: isRemove,
         routeSettings: RouteSettings(arguments: argument));
@@ -56,12 +56,12 @@ class RouterUtils {
     return result;
   }
 
-  static pushNotification<T>(
+  static pushReservations<T>(
       {required BuildContext context,
       required String route,
       dynamic argument,
       bool isRemove = false}) async {
-    T result = await Application.notificationRouter.navigateTo(context, route,
+    T result = await Application.reservationsRouter.navigateTo(context, route,
         transition: TransitionType.inFromRight,
         clearStack: isRemove,
         routeSettings: RouteSettings(arguments: argument));

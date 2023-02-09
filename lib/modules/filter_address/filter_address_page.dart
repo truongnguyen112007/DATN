@@ -9,6 +9,7 @@ import 'package:base_bloc/data/globals.dart';
 import 'package:base_bloc/data/model/address_model.dart';
 import 'package:base_bloc/modules/filter_address/filter_addess_cubit.dart';
 import 'package:base_bloc/modules/filter_address/filter_address_state.dart';
+import 'package:base_bloc/modules/tab_reservation/tab_reservation_state.dart';
 import 'package:base_bloc/router/router_utils.dart';
 import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/theme/colors.dart';
@@ -19,7 +20,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../localization/locale_keys.dart';
-import '../persons_page/persons_page_state.dart';
 
 
 class FilterAddressPage extends StatefulWidget {

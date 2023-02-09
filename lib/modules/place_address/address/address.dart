@@ -119,7 +119,7 @@ class _AddressState extends State<Address> {
                     size: 18,
                   ),
                   AppText(
-                    " ${LocaleKeys.notification.tr()}",
+                    " ${LocaleKeys.reservations.tr()}",
                     style:
                         typoW600.copyWith(color: colorText0, fontSize: 13.sp),
                   )

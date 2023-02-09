@@ -4,14 +4,14 @@ import 'package:flutter/cupertino.dart';
 import '../../router/application.dart';
 import '../../router/router.dart';
 
-class RootGoods extends StatefulWidget {
-  const RootGoods({Key? key}) : super(key: key);
+class RootClimbPage extends StatefulWidget {
+  const RootClimbPage({Key? key}) : super(key: key);
 
   @override
-  State<RootGoods> createState() => _RootGoodsState();
+  State<RootClimbPage> createState() => _RootClimbPageState();
 }
 
-class _RootGoodsState extends State<RootGoods> {
+class _RootClimbPageState extends State<RootClimbPage> {
   final navigatorKey = GlobalKey<NavigatorState>(debugLabel: 'RootClimb');
 
   @override
@@ -22,7 +22,7 @@ class _RootGoodsState extends State<RootGoods> {
 
   void configRouter() {
     final router = FluroRouter();
-    GoodsRouters.configureRouter(router);
+    ClimbRouters.configureRouter(router);
     Application.climbRouter = router;
   }
 

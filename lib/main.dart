@@ -28,6 +28,7 @@ void main() async {
 Future<void> configApp() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
+
   HttpOverrides.global = MyHttpOverrides();
   configOrientation();
   await GetStorage.init();

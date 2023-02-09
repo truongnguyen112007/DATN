@@ -3,14 +3,14 @@ import 'package:base_bloc/router/router.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/cupertino.dart';
 
-class RootNotification extends StatefulWidget {
-  const RootNotification({Key? key}) : super(key: key);
+class RootReservationPage extends StatefulWidget {
+  const RootReservationPage({Key? key}) : super(key: key);
 
   @override
-  State<RootNotification> createState() => _RootNotificationState();
+  State<RootReservationPage> createState() => _RootReservationPageState();
 }
 
-class _RootNotificationState extends State<RootNotification> {
+class _RootReservationPageState extends State<RootReservationPage> {
   final _navigatorKey = GlobalKey<NavigatorState>(debugLabel: 'RootReservation');
 
   @override
@@ -21,8 +21,8 @@ class _RootNotificationState extends State<RootNotification> {
 
   void configRouter() {
     var router = FluroRouter();
-    NotificationRouters.configureRouter(router);
-    Application.notificationRouter = router;
+    ReservationRouters.configureRouter(router);
+    Application.reservationsRouter = router;
   }
 
   @override
@@ -30,7 +30,7 @@ class _RootNotificationState extends State<RootNotification> {
     return WillPopScope(
         child: Navigator(
           key: _navigatorKey,
-          onGenerateRoute: Application.notificationRouter.generator,
+          onGenerateRoute: Application.reservationsRouter.generator,
         ),
         onWillPop: () async => _navigatorKey.currentState!.canPop());
   }

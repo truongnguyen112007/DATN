@@ -1,7 +1,6 @@
 import 'package:base_bloc/data/model/address_model.dart';
+import 'package:base_bloc/modules/tab_reservation/tab_reservation_state.dart';
 import 'package:equatable/equatable.dart';
-
-import '../persons_page/persons_page_state.dart';
 
 class FilterAddressState extends Equatable {
   final List<AddressModel> lAddress;

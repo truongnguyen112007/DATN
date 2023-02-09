@@ -19,6 +19,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import '../../components/gradient_icon.dart';
 import '../../gen/assets.gen.dart';
 import '../../localization/locale_keys.dart';
@@ -34,11 +35,11 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   var tabs = [
-    const RootOverView(),
-    const RootReceipt(),
-    const RootGoods(),
-    const RootNotification(),
-    const RootMore()
+    const RootHomePage(),
+    const RootRoutesPage(),
+    const RootClimbPage(),
+    const RootReservationPage(),
+    const RootProfilePage()
   ];
 
   var _currentIndex = 0;
@@ -86,6 +87,43 @@ class _HomePageState extends State<HomePage> {
         controller: _pageController,
         children: tabs,
       ),
+      floatingActionButton: BlocBuilder(
+          bloc: _bloc,
+          builder: (c, state) => Visibility(
+                visible: state is InitState
+                    ? true
+                    : (state is HideBottomNavigationBarState && state.isHide
+                        ? false
+                        : true),
+                child: Padding(
+                  padding: EdgeInsets.only(top: Platform.isIOS ? 15.h : 20.h),
+                  child: Container(
+                    alignment: Alignment.bottomCenter,
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(100),
+                          topLeft: Radius.circular(100)),
+                      color: colorBlack,
+                    ),
+                    width: MediaQuery.of(context).size.width / 5,
+                    height: 40.h,
+                    child: InkWell(
+                      child: GradientIcon(
+                        icon: Assets.svg.climpOrange,
+                        size: 36,
+                        gradient: LinearGradient(
+                          colors: _currentIndex ==
+                                  BottomNavigationConstant.TAB_CLIMB
+                              ? gradientBottomNavigationBar()
+                              : [Colors.grey, Colors.grey],
+                        ),
+                      ),
+                      onTap: () =>
+                          _jumpToPage(BottomNavigationConstant.TAB_CLIMB),
+                    ),
+                  ),
+                ),
+              )),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BlocBuilder(
           bloc: _bloc,
@@ -119,7 +157,7 @@ class _HomePageState extends State<HomePage> {
           child: Container(
             padding: EdgeInsets.only(top: 17.h),
             height: 50.h,
-            margin:  EdgeInsets.only(bottom: 28.h),
+            margin: EdgeInsets.only(bottom: 28),
             decoration: const BoxDecoration(
               color: colorBlack,
               borderRadius: BorderRadius.only(
@@ -131,7 +169,15 @@ class _HomePageState extends State<HomePage> {
               highlightColor: Colors.transparent,
               onPressed: () => _jumpToPage(BottomNavigationConstant.TAB_CLIMB),
               splashColor: Colors.transparent,
-              child: Container(color: Colors.white,width: 5,height: 5,),
+              child: GradientIcon(
+                gradient: LinearGradient(
+                  colors: _currentIndex == BottomNavigationConstant.TAB_CLIMB
+                      ? [Colors.red, Colors.orange]
+                      : [Colors.grey, Colors.grey],
+                ),
+                size: 40,
+                icon: Assets.svg.climpOrange,
+              ),
             ),
           ),
         ),
@@ -146,35 +192,36 @@ class _HomePageState extends State<HomePage> {
       child: SizedBox(
         child: BottomNavigationBar(
           showSelectedLabels: true,
-          unselectedItemColor: colorWhite,
-          backgroundColor: colorGreen60,
-          iconSize: 20,
+          unselectedItemColor: Colors.grey,
+          backgroundColor: Colors.black,
+          iconSize: 11,
           type: BottomNavigationBarType.fixed,
-          selectedItemColor: Colors.yellowAccent,
+          selectedItemColor: HexColor('FF9300'),
           selectedFontSize: 11.sp,
           unselectedFontSize: 11.sp,
           enableFeedback: false,
           items: [
             itemBottomNavigationBarWidget(
-                index: BottomNavigationConstant.TAB_OVERVIEW,
-                label: LocaleKeys.overview.tr(),
-                icon: Icons.insert_chart),
+                index: BottomNavigationConstant.TAB_HOME,
+                label: LocaleKeys.home.tr(),
+                icon: Assets.svg.home),
             itemBottomNavigationBarWidget(
-                index: BottomNavigationConstant.TAB_RECEIPT,
-                label: LocaleKeys.receipt.tr(),
-                icon: Icons.assignment),
+                index: BottomNavigationConstant.TAB_ROUTES,
+                label: LocaleKeys.routes.tr(),
+                icon: Assets.svg.routes),
             itemBottomNavigationBarWidget(
-                index: BottomNavigationConstant.TAB_CLIMB,
-                label: LocaleKeys.goods.tr(),
-                icon: Icons.local_mall),
+                isTransparent: true,
+                index: BottomNavigationConstant.TAB_ROUTES,
+                label: LocaleKeys.climb.tr(),
+                icon: Assets.svg.climpOrange),
             itemBottomNavigationBarWidget(
                 index: BottomNavigationConstant.TAB_RESERVATIONS,
-                label: LocaleKeys.notification.tr(),
-                icon: Icons.notifications),
+                label: LocaleKeys.reservations.tr(),
+                icon: Assets.svg.calendar),
             itemBottomNavigationBarWidget(
                 index: BottomNavigationConstant.TAB_PROFILE,
-                label: LocaleKeys.more.tr(),
-                icon: Icons.dehaze),
+                label: LocaleKeys.profile.tr(),
+                icon: Assets.svg.person),
           ],
           currentIndex: _currentIndex,
           onTap: (index) {
@@ -188,7 +235,7 @@ class _HomePageState extends State<HomePage> {
   BottomNavigationBarItem itemBottomNavigationBarWidget(
           {required index,
           double? size,
-          required IconData icon,
+          required String icon,
           required String label,
           bool isTransparent = false}) =>
       BottomNavigationBarItem(
@@ -199,8 +246,8 @@ class _HomePageState extends State<HomePage> {
               colors: isTransparent
                   ? [Colors.transparent, Colors.transparent]
                   : _currentIndex == index
-                      ? [Colors.yellowAccent,Colors.yellowAccent]
-                      : [colorWhite, colorWhite],
+                      ? gradientBottomNavigationBar()
+                      : [Colors.grey, Colors.grey],
             ),
             size: size ?? 20,
             icon: icon,

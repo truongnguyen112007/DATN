@@ -1,8 +1,10 @@
 import 'dart:math';
+
 import 'package:base_bloc/base/hex_color.dart';
-import 'package:base_bloc/components/calender_widget.dart';
 import 'package:base_bloc/data/model/background_param.dart';
+import 'package:base_bloc/data/model/general_action_sheet_model.dart';
 import 'package:easy_localization/easy_localization.dart';
+
 import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,7 +12,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../components/app_text.dart';
 import '../components/sort_widget.dart';
 import '../data/globals.dart';
-import '../data/model/calender_param.dart';
 import '../data/model/routes_model.dart';
 import '../data/model/sort_param.dart';
 import '../gen/assets.gen.dart';
@@ -73,13 +74,6 @@ class Utils {
         model: sortModel,
       ),
     );
-  }
-
-  static void showCalenderDialog(BuildContext context,Function(CalenderParam) callBack, CalenderParam? model) {
-    showModalBottomSheet(context: context, isScrollControlled: true,backgroundColor: colorTransparent, builder: (x) => CalenderWidget(
-      callBack: (model) => callBack.call(model),
-      model: model,
-    ),);
   }
 
   static BackgroundParam getBackgroundColor(int value) {
@@ -587,3 +581,68 @@ class Utils {
           ]);
 }
 
+// Custom dialog action sheet for Settings screen
+class UtilsExtension extends Utils {
+  static void showGeneralOptionActionDialog(
+      BuildContext context,
+      List<GeneralActionSheetModel> actionSheetModels,
+      Function(GeneralActionSheetModel) callBack) {
+    showModalBottomSheet(
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        context: context,
+        builder: (x) => Wrap(
+              children: [
+                Container(
+                  decoration: const BoxDecoration(
+                    color: Color(0xFF212121),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20),
+                    ),
+                  ),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: contentPadding,
+                      ),
+                      ...actionSheetModels.map((item) =>
+                          generalItemAction(item.icon, item.value, () {
+                            callBack.call(item);
+                            Navigator.pop(context);
+                          })),
+                      SizedBox(
+                        height: 40.h,
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ));
+  }
+
+  static Widget generalItemAction(
+      Image? icon, String text, VoidCallback callback) {
+    return InkWell(
+      child: Padding(
+        padding: EdgeInsets.all(contentPadding),
+        child: Row(
+          children: [
+            SizedBox(
+              width: 7.h,
+            ),
+            if (icon != null) icon,
+            SizedBox(
+              width: 20.h,
+            ),
+            AppText(
+              text,
+              style: typoNormalTextRegular.copyWith(color: Colors.white70),
+            )
+          ],
+        ),
+      ),
+      onTap: () => callback.call(),
+    );
+  }
+}

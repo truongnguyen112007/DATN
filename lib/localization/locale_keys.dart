@@ -3,11 +3,11 @@
 abstract class LocaleKeys {
   static const title = 'title';
   static const appTitle = 'appTitle';
-  static const overview = 'Tổng quan';
-  static const receipt = 'Hóa đơn';
-  static const goods = 'Hàng hóa';
-  static const notification = 'Thông báo';
-  static const more = 'Nhiều hơn';
+  static const home = 'home';
+  static const routes = 'routes';
+  static const climb = 'climb';
+  static const reservations = 'reservations';
+  static const profile = 'profile';
   static const appName = 'appName';
   static const nextClimb = 'nextClimb';
   static const playlist = 'playlist';

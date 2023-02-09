@@ -27,8 +27,8 @@ class CreateReservationCubit extends Cubit<CreateReservationState> {
 
   void addressOnclick(BuildContext context) async {
     Utils.hideKeyboard(context);
-    var model = await RouterUtils.pushNotification(
-        context: context, route: NotificationRouters.routesFilterAddress);
+    var model = await RouterUtils.pushReservations(
+        context: context, route: ReservationRouters.routesFilterAddress);
     emit(state.copyOf(addressModel: model));
   }
 
@@ -37,9 +37,9 @@ class CreateReservationCubit extends Cubit<CreateReservationState> {
       toast(LocaleKeys.please_input_information.tr());
       return;
     }
-    RouterUtils.pushNotification(
+    RouterUtils.pushReservations(
         context: context,
-        route: NotificationRouters.routesConfirmCreateReservation,
+        route: ReservationRouters.routesConfirmCreateReservation,
         argument: [state.addressModel, state.placesModel, dateTime]);
   }
 }
