@@ -354,30 +354,30 @@ class _TabOverViewState extends State<TabOverView>
     );
   }
 
-  Widget itemProducts (GoodsModel model) {
+  Widget itemProducts (ProductModel model) {
     return Container(
       margin: EdgeInsets.only(left: 15.w),
       child: Column(
         children: [
           Row(
             children: [
-              FittedBox(fit: BoxFit.cover,child: SizedBox(height: 60,width: 60,child: Image.asset(model.image),)),
+              FittedBox(fit: BoxFit.cover,child: SizedBox(height: 60,width: 60,child: Image.asset(model.image??''),)),
               SizedBox(width: 10.w,),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   AppText(model.name,style: googleFont.copyWith(color: colorBlack,fontWeight: FontWeight.w600,fontSize: 16.sp)),
                   SizedBox(height: 3.h,),
-                  AppText(model.codeProducts,style: googleFont.copyWith(color: colorGrey70,fontWeight: FontWeight.w500,fontSize: 13.sp))
+                  AppText(model.id.toString(),style: googleFont.copyWith(color: colorGrey70,fontWeight: FontWeight.w500,fontSize: 13.sp))
                 ],
               ),
               const Spacer(),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  AppText(model.price,style: googleFont.copyWith(color: colorBlack,fontSize: 16.sp,fontWeight: FontWeight.w500),),
+                  AppText(model.price.toString(),style: googleFont.copyWith(color: colorBlack,fontSize: 16.sp,fontWeight: FontWeight.w500),),
                   SizedBox(height: 15.h,),
-                  AppText(model.inventory,style: googleFont.copyWith(color: colorBlue40,fontSize: 15.sp),)
+                  AppText(model.inStock.toString(),style: googleFont.copyWith(color: colorBlue40,fontSize: 15.sp),)
                 ],
               ),
               SizedBox(width: 10.w,)

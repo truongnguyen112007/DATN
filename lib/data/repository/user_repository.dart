@@ -25,4 +25,6 @@ class UserRepository extends BaseService {
       await POST("auth/register",
           {ApiKey.phone: phone, ApiKey.password: pass, ApiKey.name: name},
           isFromData: true);
+
+  Future<ApiResult> getAllProduct() async => await GET('product');
 }

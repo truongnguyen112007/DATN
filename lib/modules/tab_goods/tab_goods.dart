@@ -1,8 +1,11 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:base_bloc/components/app_circle_loading.dart';
+import 'package:base_bloc/components/app_not_data_widget.dart';
 import 'package:base_bloc/components/app_scalford.dart';
 import 'package:base_bloc/modules/tab_goods/tab_goods_cubit.dart';
 import 'package:base_bloc/modules/tab_goods/tab_goods_state.dart';
+import 'package:base_bloc/modules/tab_overview/tab_overview_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -28,8 +31,6 @@ class _TabGoodsState extends State<TabGoods> with TickerProviderStateMixin {
   @override
   void initState() {
     _bloc = TabGoodsCubit();
-    Timer.periodic(const Duration(milliseconds: 3000),
-        Platform.isAndroid ? _bloc.androidGetBlueLack : _bloc.iosGetBlueState);
     super.initState();
   }
 
@@ -41,18 +42,17 @@ class _TabGoodsState extends State<TabGoods> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-        floatingActionButton: BlocBuilder<TabGoodsCubit,TabGoodsState>(
+        floatingActionButton: BlocBuilder<TabGoodsCubit, TabGoodsState>(
           bloc: _bloc,
-          builder: (c,s) =>
-           SpeedDial(
+          builder: (c, s) => SpeedDial(
               icon: Icons.add,
               activeIcon: Icons.close,
               backgroundColor: colorGreen60,
               children: [
                 SpeedDialChild(
-                  onTap: (){
-                    _bloc.onClickAddProducts(context);
-                  },
+                    onTap: () {
+                      _bloc.onClickAddProducts(context);
+                    },
                     child: Icon(Icons.add),
                     label: "Thêm sản phẩm",
                     labelStyle: typoW600.copyWith(color: colorBlack),
@@ -129,23 +129,32 @@ class _TabGoodsState extends State<TabGoods> with TickerProviderStateMixin {
               ],
             ),
             Expanded(
-              child: ListView.separated(
-                shrinkWrap: true,
-                padding: const EdgeInsets.only(top: 10),
-                itemBuilder: (BuildContext context, int index) {
-                  return itemProducts(fakeDataProducts()[index]);
-                },
-                separatorBuilder: (BuildContext context, int index) => SizedBox(
-                  height: 10.h,
-                ),
-                itemCount: fakeDataProducts().length,
-              ),
+              child: BlocBuilder<TabGoodsCubit, TabGoodsState>(
+                  bloc: _bloc,
+                  builder: (c, state) => state.status == FeedStatus.initial
+                      ? Center(
+                          child: AppCircleLoading(),
+                        )
+                      : state.status == FeedStatus.failure
+                          ? Center(child: AppNotDataWidget())
+                          : ListView.separated(
+                              shrinkWrap: true,
+                              padding: const EdgeInsets.only(top: 10),
+                              itemBuilder: (BuildContext context, int index) {
+                                return itemProducts(state.lProduct[index]);
+                              },
+                              separatorBuilder:
+                                  (BuildContext context, int index) => SizedBox(
+                                height: 10.h,
+                              ),
+                              itemCount: state.lProduct.length,
+                            )),
             )
           ],
         ));
   }
 
-  Widget itemProducts(GoodsModel model) {
+  Widget itemProducts(ProductModel model) {
     return BlocBuilder<TabGoodsCubit, TabGoodsState>(
       bloc: _bloc,
       builder: (c, s) => InkWell(
@@ -163,12 +172,13 @@ class _TabGoodsState extends State<TabGoods> with TickerProviderStateMixin {
                       child: SizedBox(
                         height: 60,
                         width: 60,
-                        child: Image.asset(model.image),
+                        child: Image.asset(model.image??''),
                       )),
                   SizedBox(
                     width: 10.w,
                   ),
-                  Column(
+                  Expanded(
+                      child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       AppText(model.name,
@@ -179,19 +189,19 @@ class _TabGoodsState extends State<TabGoods> with TickerProviderStateMixin {
                       SizedBox(
                         height: 3.h,
                       ),
-                      AppText(model.codeProducts,
+                      AppText(model.id.toString(),
                           style: googleFont.copyWith(
                               color: colorGrey70,
                               fontWeight: FontWeight.w500,
                               fontSize: 13.sp))
                     ],
-                  ),
+                  )),
                   const Spacer(),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       AppText(
-                        model.price,
+                        model.price.toString(),
                         style: googleFont.copyWith(
                             color: colorBlack,
                             fontSize: 16.sp,
@@ -201,7 +211,7 @@ class _TabGoodsState extends State<TabGoods> with TickerProviderStateMixin {
                         height: 15.h,
                       ),
                       AppText(
-                        model.inventory,
+                        model.inStock.toString(),
                         style: googleFont.copyWith(
                             color: colorBlue40, fontSize: 15.sp),
                       )

@@ -58,7 +58,7 @@ var routeBillDetail = Handler(
 var routeProductsDetail = Handler(
     handlerFunc: (c, p) => ProductsDetail(
           routePage: (c!.settings!.arguments as List)[0] as int,
-          model: (c.settings!.arguments as List)[1] as GoodsModel,
+          model: (c.settings!.arguments as List)[1] as ProductModel,
         ));
 
 var routeSupplierPage = Handler(
