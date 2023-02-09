@@ -19,6 +19,8 @@ class UserRepository extends BaseService {
       await POST('auth/login', {ApiKey.phone: phone, ApiKey.password: pass},
           isFromData: true);
 
+  Future<ApiResult> logout() async => await POST('auth/logout', null);
+
   Future<ApiResult> register(String phone, String pass, String name) async =>
       await POST("auth/register",
           {ApiKey.phone: phone, ApiKey.password: pass, ApiKey.name: name},

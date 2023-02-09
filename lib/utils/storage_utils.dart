@@ -1,5 +1,6 @@
 import 'package:base_bloc/config/constant.dart';
 import 'package:base_bloc/data/globals.dart' as globals;
+import 'package:base_bloc/utils/log_utils.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get_storage/get_storage.dart';
@@ -10,10 +11,10 @@ class StorageUtils {
     GetStorage().write(StorageKey.userModel, model.toJson());
     globals.isLogin = true;
     globals.accessToken = model.token ?? '';
+    logE("TAG NEW TOKEN: ${globals.accessToken }");
   }
 
   static void logout() {
-    GetStorage().remove(StorageKey.playlistId);
     GetStorage().remove(StorageKey.userModel);
     globals.isLogin = false;
     globals.accessToken = '';

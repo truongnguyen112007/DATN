@@ -221,10 +221,9 @@ class _TabMoreState extends State<TabMore> {
           itemSupport(Icons.error_outline_outlined,"Điều khoản",colorBlack,(){}),
           divider(),
           itemSupport(Icons.logout,"Đăng xuất",colorRed80,(){
-            RouterUtils.openNewPage(Login(), context);
+            _bloc.logoutOnClick(context);
             // RouterUtils.push(context: context, route: route)
             // Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
-            toast("Đăng xuất thành công");
           }),
         ],
       ),

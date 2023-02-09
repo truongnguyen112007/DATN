@@ -149,7 +149,11 @@ class BaseService {
       };
       final response = await Dio()
           .post(baseUrl + url,
-              data: isFromData ? FormData.fromMap(body) : jsonEncode(body),
+              data: body == null
+                  ? null
+                  : isFromData
+                      ? FormData.fromMap(body)
+                      : jsonEncode(body),
               options: Options(
                 headers: headers,
                 sendTimeout: timeOut,
@@ -171,12 +175,12 @@ class BaseService {
             data: result);
       }
     } on DioError catch (exception) {
-      Logger().e('[EXCEPTION] ' + exception.response.toString());
+      Logger().e('[EXCEPTION] ' +exception.error.toString()+" : "+ exception.response.toString());
       print('============================================================');
       try {
         return ApiResult<dynamic>(
-            error: exception.response?.data["data"][0]['message'] ??
-                (exception.response?.data['message'] ??
+            error: exception.response?.data['message'] ??
+                (exception.response?.data["data"][0]['message'] ??
                     LocaleKeys.network_error.tr()),
             statusCode: exception.response?.statusCode);
       } catch (e) {
