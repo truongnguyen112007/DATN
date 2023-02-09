@@ -92,13 +92,11 @@ class CreateInfoRouteCubit extends Cubit<CreateInfoRouteState> {
         ? await userRepository.createRoute(
             height: state.height,
             name: routeName,
-            lHold: lHoldSet!.map((e) => e.index).toList(),
             hasCorner: state.isCorner,
             authorGrade: state.grade)
         : await userRepository.editRoute(
             height: state.height,
             name: routeName,
-            lHold: lHoldSet!.map((e) => e.index).toList(),
             hasCorner: state.isCorner,
             authorGrade: state.grade,
             routeId: state.model?.id ?? '');

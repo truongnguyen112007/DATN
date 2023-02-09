@@ -188,7 +188,6 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
         authorGradeFrom: state.filter?.authorGradeFrom,
         authorGradeTo: state.filter?.authorGradeTo,
         userGradeFrom: state.filter?.userGradeFrom,
-        userGardeTo: state.filter?.userGradeTo,
         hasConner:
             state.filter?.corner != null && state.filter!.corner.isNotEmpty
                 ? state.filter?.corner[0][state.filter?.corner[0].keys.first]

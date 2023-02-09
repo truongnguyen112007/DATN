@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:base_bloc/components/dialogs.dart';
 import 'package:base_bloc/data/model/info_route_model.dart';
 import 'package:base_bloc/data/model/routes_model.dart';
+import 'package:base_bloc/data/repository/user_repository.dart';
 import 'package:base_bloc/modules/create_info_route/create_info_route_page.dart';
 import 'package:base_bloc/modules/zoom_routes/zoom_routes_state.dart';
 import 'package:base_bloc/utils/log_utils.dart';
@@ -9,20 +11,24 @@ import 'package:base_bloc/utils/toast_utils.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:base_bloc/data/globals.dart' as globals;
+import '../../config/constant.dart';
 import '../../data/eventbus/new_page_event.dart';
 import '../../data/model/hold_set_model.dart';
 import '../../localization/locale_keys.dart';
 import '../../router/router_utils.dart';
+import '../../utils/app_utils.dart';
 import '../hold_set/hold_set_page.dart';
 import '../persons_page/persons_page_state.dart';
+import '../routers_detail/routes_detail_page.dart';
+import 'dart:io';
 
 class ZoomRoutesCubit extends Cubit<ZoomRoutesState> {
-  ZoomRoutesCubit() : super(const ZoomRoutesState());
+  var userRepository = UserRepository();
+  ZoomRoutesCubit() : super(ZoomRoutesState());
 
   Future<bool> goBack(BuildContext context) async {
-    RouterUtils.pop(context, result: state.lRoutes);
-    return false;
+    return true;
   }
 
   void setScale(int heightOfRoute) => emit(state.copyOf(
@@ -33,104 +39,40 @@ class ZoomRoutesCubit extends Cubit<ZoomRoutesState> {
               : (state.scale == 3 ? 4 : (heightOfRoute == 12 ? 1.1 : 1.2)))));
 
   void itemOnLongPress(int index, BuildContext context) async {
-    emit(state.copyOf(currentIndex: index));
-    var result = await RouterUtils.openNewPage(const HoldSetPage(), context,
-        type: NewPageType.HOLD_SET);
-    if (result != null) {
-      state.lRoutes[index] =
-          HoldSetModel(holdSet: result, rotate: state.lRoutes[index].rotate);
-      emit(state.copyOf(
-          currentHoldSet: result,
-          lRoutes: state.lRoutes,
-          timeStamp: DateTime.now().microsecondsSinceEpoch));
+
     }
   }
 
-  void setHoldSet(String holdSet) {
-    state.lRoutes[state.currentIndex ?? 0] = HoldSetModel(
-        holdSet: holdSet,
-        rotate: state.lRoutes[state.currentIndex ?? 0].rotate);
-    emit(state.copyOf(
-        currentHoldSet: holdSet,
-        lRoutes: state.lRoutes,
-        timeStamp: DateTime.now().microsecondsSinceEpoch));
+  void setHoldSet(HoldSetModel holdSet, int holdSetIndex) {
+
   }
 
-  void itemOnClick(int index, BuildContext context) {
-    logE("TAG INDEX: $index");
-    emit(state.copyOf(currentIndex: index));
-  }
-
+  void itemOnClick(int index, BuildContext context) =>
+null;
   void turnLeftOnClick(BuildContext context) {
-    var rotate = state.lRoutes[state.currentIndex!].rotate - 1;
-    state.lRoutes[state.currentIndex!] =
-        state.lRoutes[state.currentIndex!].copyOf(rotate: rotate);
-    emit(state.copyOf(
-        timeStamp: DateTime.now().microsecondsSinceEpoch,
-        lRoutes: state.lRoutes));
+
   }
 
   void turnRightOnClick(BuildContext context) {
-    var rotate = state.lRoutes[state.currentIndex!].rotate + 1;
-    state.lRoutes[state.currentIndex!] =
-        state.lRoutes[state.currentIndex!].copyOf(rotate: rotate);
-    emit(state.copyOf(
-        timeStamp: DateTime.now().microsecondsSinceEpoch,
-        lRoutes: state.lRoutes));
   }
 
   void setData(
           {required int row,
           required bool isEdit,
           required int column,
+          int holdSetIndex = 0,
           RoutesModel? model,
           InfoRouteModel? infoRouteModel,
           required double sizeHoldSet,
-          required List<HoldSetModel>? lRoutes,
+          required List<HoldSetModel>? lHoldSet,
           required int currentIndex}) =>
-      Timer(
-          const Duration(seconds: 1),
-          () => emit(state.copyOf(
-              model: model,
-              isEdit: isEdit,
-              currentIndex: currentIndex,
-              status: StatusType.success,
-              column: column,
-              row: row,
-              sizeHoldSet: sizeHoldSet,
-              lRoutes: lRoutes)));
+  null;
 
-  void holdSetOnClick(BuildContext context) =>
-      RouterUtils.openNewPage(const HoldSetPage(), context);
-
+  void holdSetOnClick(BuildContext context){}
   void deleteOnclick() {
-    if (state.currentIndex != null) {
-      state.lRoutes[state.currentIndex!] = HoldSetModel(holdSet: '');
-      emit(state.copyOf(
-          currentHoldSet: '',
-          lRoutes: state.lRoutes,
-          timeStamp: DateTime.now().microsecondsSinceEpoch));
-    }
   }
 
-  void confirmOnclick(BuildContext context,InfoRouteModel? infoRouteModel) {
-    var lHoldSet = <HoldSetModel>[];
-    for (int i = 0; i < state.lRoutes.length; i++) {
-      if (state.lRoutes[i].holdSet.isNotEmpty) {
-        lHoldSet.add(state.lRoutes[i].copyOf(index: i));
-      }
-    }
-    if (lHoldSet.isEmpty) {
-      toast(LocaleKeys.please_input_hold_set.tr());
-    } else {
-      RouterUtils.openNewPage(
-          CreateInfoRoutePage(
-              infoRouteModel: infoRouteModel,
-              lHoldSet: lHoldSet,
-              routeModel: state.model,
-              isEdit: state.isEdit),
-          context);
-    }
+  void confirmOnclick(BuildContext context, InfoRouteModel? infoRouteModel) {
   }
 
   Offset getOffset(int currentIndex, double heightOfScreen, int heightOfRoute) {
@@ -147,7 +89,13 @@ class ZoomRoutesCubit extends Cubit<ZoomRoutesState> {
         currentIndex % 12 == 3 ||
         currentIndex % 12 == 4 ||
         currentIndex % 12 == 5) {
-      dx = heightOfScreen >= 800 ? 21 : 18;
+      dx = Platform.isAndroid
+          ? heightOfScreen >= 800
+              ? 21
+              : 18
+          : heightOfScreen >= 800
+              ? 25
+              : 22;
     } else if (currentIndex == 12 ||
         currentIndex == 11 ||
         currentIndex == 10 ||
@@ -156,48 +104,94 @@ class ZoomRoutesCubit extends Cubit<ZoomRoutesState> {
         currentIndex % 12 == 9 ||
         currentIndex % 12 == 8 ||
         currentIndex % 12 == 7) {
-      dx = heightOfScreen >= 800 ? -21 : -18;
+      dx = Platform.isAndroid
+          ? heightOfScreen >= 800
+              ? -21
+              : -18
+          : heightOfScreen >= 800
+              ? -25
+              : -22;
     }
 
-    switch(heightOfRoute){
-      case 3:{
-        if(currentIndex<160){
-          dy = heightOfScreen >= 800 ? 1 : 1;
-        }else{
-          dy = heightOfScreen >= 800 ? -1 : -1;
-        }
-      break;
-      }
-      case 6:{
-          if (currentIndex <= 84) {
-            dy = heightOfScreen >= 800 ? 83 : 73;
-          } else if (currentIndex > 80 && currentIndex <= 150) {
-            dy = 83;
-          } else if (currentIndex > 150 && currentIndex < 250) {
-            dy = 36;
+    switch (heightOfRoute) {
+      case 3:
+        {
+          if (currentIndex < 160) {
+            dy = Platform.isAndroid
+                ? heightOfScreen >= 800
+                    ? -1
+                    : -1
+                : heightOfScreen >= 800
+                    ? -3
+                    : -3;
           } else {
-            dy = heightOfScreen >= 800 ? -83 : -73;
+            dy = Platform.isAndroid
+                ? heightOfScreen >= 800
+                    ? 1
+                    : 1
+                : heightOfScreen >= 800
+                    ? 3
+                    : 3;
           }
           break;
         }
-      case 9:{
-        if (currentIndex <= 84) {
-          dy = heightOfScreen >= 800 ? 160 : 146;
-        } else if (currentIndex > 84 && currentIndex <= 156) {
-          dy = 89;
-        } else if (currentIndex > 156 && currentIndex < 252) {
-          dy = 36;
-        } else if (currentIndex > 252 && currentIndex < 324) {
-          dy = 11;
-        } else if (currentIndex > 324 && currentIndex < 396) {
-          dy = -54;
-        } else if (currentIndex > 396 && currentIndex < 468) {
-          dy = -127;
-        } else {
-          dy = heightOfScreen >= 800 ? -166 : -146;
+      case 6:
+        {
+          if (currentIndex <= 84) {
+            dy = Platform.isAndroid
+                ? heightOfScreen >= 800
+                    ? -83
+                    : -73
+                : heightOfScreen >= 800
+                    ? -93
+                    : -83;
+            ;
+          } else if (currentIndex > 80 && currentIndex <= 150) {
+            dy = 36;
+          } else if (currentIndex > 150 && currentIndex < 250) {
+            dy = 36;
+          } else {
+            dy = Platform.isAndroid
+                ? heightOfScreen >= 800
+                    ? 83
+                    : 73
+                : heightOfScreen >= 800
+                    ? 93
+                    : 83;
+          }
+          break;
         }
-        break;
-      }
+      case 9:
+        {
+          if (currentIndex <= 84) {
+            dy = Platform.isAndroid
+                ? heightOfScreen >= 800
+                    ? -166
+                    : -146
+                : heightOfScreen >= 800
+                    ? -175
+                    : -155;
+          } else if (currentIndex > 84 && currentIndex <= 156) {
+            dy = -127;
+          } else if (currentIndex > 156 && currentIndex < 252) {
+            dy = -54;
+          } else if (currentIndex > 252 && currentIndex < 324) {
+            dy = 11;
+          } else if (currentIndex > 324 && currentIndex < 396) {
+            dy = 36;
+          } else if (currentIndex > 396 && currentIndex < 468) {
+            dy = 89;
+          } else {
+            dy = Platform.isAndroid
+                ? heightOfScreen >= 800
+                    ? 160
+                    : 146
+                : heightOfScreen >= 800
+                    ? 175
+                    : 155;
+          }
+          break;
+        }
       case 12:
         if (currentIndex % 12 == 0 ||
             currentIndex == 1 ||
@@ -210,7 +204,13 @@ class ZoomRoutesCubit extends Cubit<ZoomRoutesState> {
             currentIndex % 12 == 3 ||
             currentIndex % 12 == 4 ||
             currentIndex % 12 == 5) {
-          dx = heightOfScreen >= 800 ? 26 : 14;
+          dx = Platform.isAndroid
+              ? heightOfScreen >= 800
+                  ? 26
+                  : 14
+              : heightOfScreen >= 800
+                  ? 16
+                  : 24;
         } else if (currentIndex == 12 ||
             currentIndex == 11 ||
             currentIndex == 10 ||
@@ -219,37 +219,67 @@ class ZoomRoutesCubit extends Cubit<ZoomRoutesState> {
             currentIndex % 12 == 9 ||
             currentIndex % 12 == 8 ||
             currentIndex % 12 == 7) {
-          dx = heightOfScreen >= 800 ? -26 : -14;
+          dx = Platform.isAndroid
+              ? heightOfScreen >= 800
+                  ? -26
+                  : -14
+              : heightOfScreen >= 800
+                  ? -16
+                  : -24;
         }
 
-         if (currentIndex <= 80)                             dy = heightOfScreen >= 800 ? 215 : 175;
-         else if (currentIndex > 80 && currentIndex <= 150)  dy = 200;
-         else if (currentIndex > 150 && currentIndex <= 250) dy = 160;
-         else if (currentIndex > 250 && currentIndex <= 350) dy = 70;
-         else if (currentIndex > 350 && currentIndex <= 450) dy = 20;
-         else if (currentIndex > 450 && currentIndex <= 550) dy = -80;
-         else if (currentIndex > 550 && currentIndex <= 650) dy = -160;
-         else                                                dy = heightOfScreen >= 800 ?-215 : -175;
+        if (currentIndex <= 80)
+          dy = Platform.isAndroid
+              ? heightOfScreen >= 800
+                  ? -215
+                  : -175
+              : heightOfScreen >= 800
+                  ? -220
+                  : -180;
+        else if (currentIndex > 80 && currentIndex <= 150)
+          dy = -200;
+        else if (currentIndex > 150 && currentIndex <= 250)
+          dy = -160;
+        else if (currentIndex > 250 && currentIndex <= 350)
+          dy = -80;
+        else if (currentIndex > 350 && currentIndex <= 450)
+          dy = 20;
+        else if (currentIndex > 450 && currentIndex <= 550)
+          dy = 70;
+        else if (currentIndex > 550 && currentIndex <= 650)
+          dy = 160;
+        else
+          dy = Platform.isAndroid
+              ? heightOfScreen >= 800
+                  ? 215
+                  : 175
+              : heightOfScreen >= 800
+                  ? 220
+                  : 180;
         break;
-      default:{
-        if (currentIndex <= 84) {
-          dy = heightOfScreen >= 800 ? 166 : 146;
-        } else if (currentIndex > 84 && currentIndex <= 156) {
-          dy = 89;
-        } else if (currentIndex > 156 && currentIndex < 252) {
-          dy = 36;
-        } else if (currentIndex > 252 && currentIndex < 324) {
-          dy = 11;
-        } else if (currentIndex > 324 && currentIndex < 396) {
-          dy = -54;
-        } else if (currentIndex > 396 && currentIndex < 468) {
-          dy = -127;
-        } else {
-          dy = heightOfScreen >= 800 ? -166 : -146;
+      default:
+        {
+          if (currentIndex <= 84) {
+            dy = heightOfScreen >= 800 ? 166 : 146;
+          } else if (currentIndex > 84 && currentIndex <= 156) {
+            dy = 89;
+          } else if (currentIndex > 156 && currentIndex < 252) {
+            dy = 36;
+          } else if (currentIndex > 252 && currentIndex < 324) {
+            dy = 11;
+          } else if (currentIndex > 324 && currentIndex < 396) {
+            dy = -54;
+          } else if (currentIndex > 396 && currentIndex < 468) {
+            dy = -127;
+          } else {
+            dy = heightOfScreen >= 800 ? -166 : -146;
+          }
         }
-      }
     }
-    logE("TAG OFFSET: DX: $dx DY: $dy CURRENT INDEX: $currentIndex");
     return Offset(dx, dy);
   }
-}
+
+  void saveDaftOnClick(BuildContext context, InfoRouteModel? infoRouteModel,
+      RoutesModel? routesModel) async {
+    }
+

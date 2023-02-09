@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+
 import '../../data/model/feed_model.dart';
 import '../tab_overview/tab_overview_state.dart';
 

@@ -123,7 +123,7 @@ class _SortWidgetState extends State<SortWidget> {
                   decoration: BoxDecoration(
                     border: Border.all(
                         color: currentAction.name == action.name
-                            ? colorOrange90
+                            ? colorOrange50
                             : colorGrey50,
                         width: 1.5),
                     borderRadius: BorderRadius.circular(100),
@@ -132,24 +132,22 @@ class _SortWidgetState extends State<SortWidget> {
                     visible: currentAction.name == action.name ? true : false,
                     child: const Center(
                       child: Icon(
-                        Icons.check,
-                        color: colorOrange90,
+                        Icons.circle,
+                        color: colorOrange50,
                         size: 15,
                       ),
                     ),
                   ),
                 ),
-                Expanded(
-                  child: AppText(
-                    textAlign: TextAlign.center,
-                    text,
-                    style: typoW400.copyWith(
-                        color: currentAction.name == action.name
-                            ? colorOrange90
-                            : colorWhite,
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w400),
-                  ),
+                SizedBox(width: 65.w,),
+                AppText(
+                  text,
+                  style: typoW400.copyWith(
+                      color: currentAction.name == action.name
+                          ? colorOrange50
+                          : colorWhite,
+                      fontSize: 13.2.sp,
+                      fontWeight: FontWeight.w400),
                 ),
               ],
             ),

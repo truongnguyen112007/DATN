@@ -39,7 +39,6 @@ class FilterRoutesPageCubit extends Cubit<FilterRoutesPageState> {
       authorGradeFrom: state.filter?.authorGradeFrom,
       authorGradeTo: state.filter?.authorGradeTo,
       userGradeFrom: state.filter?.userGradeFrom,
-      userGardeTo: state.filter?.userGradeTo,
       setter:
           state.filter?.designBy != null && state.filter!.designBy.isNotEmpty
               ? state.filter?.designBy[0][state.filter?.designBy[0].keys.first]
@@ -71,7 +70,6 @@ class FilterRoutesPageCubit extends Cubit<FilterRoutesPageState> {
       authorGradeFrom: state.filter?.authorGradeFrom,
       authorGradeTo: state.filter?.authorGradeTo,
       userGradeFrom: state.filter?.userGradeFrom,
-      userGardeTo: state.filter?.userGradeTo,
       setter:
       state.filter?.designBy != null && state.filter!.designBy.isNotEmpty
           ? state.filter?.designBy[0][state.filter?.designBy[0].keys.first]
