@@ -32,6 +32,15 @@ class ApiKey {
   static const phone = "phone";
   static const password = "password";
   static const name = "name";
+  static const sku = "sku";
+  static const upcCode = "upcCode";
+  static const description = "description";
+  static const price = "price";
+  static const inStock = "inStock";
+  static const image = "image";
+  static const unit = "unit";
+  static const status = "status";
+  static const categoryId = "categoryId";
 }
 
 class BottomNavigationConstant {

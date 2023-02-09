@@ -27,4 +27,31 @@ class UserRepository extends BaseService {
           isFromData: true);
 
   Future<ApiResult> getAllProduct() async => await GET('product');
+
+  Future<ApiResult> createProduct(
+          String name,
+          String sku,
+          String upcCode,
+          String description,
+          String price,
+          String inStock,
+          String image,
+          String unit,
+          String status,
+          String catId) async =>
+      await POST(
+          'product',
+          {
+            ApiKey.name: name,
+            ApiKey.sku: sku,
+            ApiKey.upcCode: upcCode,
+            ApiKey.description: description,
+            ApiKey.price: price,
+            ApiKey.inStock: inStock,
+            ApiKey.image: image,
+            ApiKey.unit: unit,
+            ApiKey.status: status,
+            ApiKey.categoryId: catId
+          },
+          isFromData: true);
 }
