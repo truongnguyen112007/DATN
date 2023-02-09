@@ -1,10 +1,7 @@
 import 'dart:async';
-
 import 'package:base_bloc/components/app_not_data_widget.dart';
 import 'package:base_bloc/modules/routes_page/routes_page_cubit.dart';
 import 'package:base_bloc/modules/routes_page/routes_page_state.dart';
-import 'package:base_bloc/utils/log_utils.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,18 +9,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../components/app_circle_loading.dart';
 import '../../components/app_text.dart';
 import '../../components/filter_widget.dart';
-import '../../components/gradient_button.dart';
 import '../../components/item_info_routes.dart';
-import '../../data/eventbus/refresh_event.dart';
 import '../../data/eventbus/search_home_event.dart';
 import '../../data/globals.dart';
 import '../../data/model/routes_model.dart';
-import '../../localization/locale_keys.dart';
 import '../../theme/app_styles.dart';
 import '../../theme/colors.dart';
 import '../../utils/app_utils.dart';
 import '../playlist/playlist_cubit.dart';
-import '../tab_home/tab_home_state.dart';
 
 class RoutesPage extends StatefulWidget {
   final int index;

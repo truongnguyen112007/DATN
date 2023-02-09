@@ -54,7 +54,7 @@ class _SearchPageState extends BasePopState<SearchPage>
 
   @override
   void initState() {
-    pageController = PageController(initialPage: BottomNavigationSearch.TAB_ROUTES);
+    pageController = PageController(initialPage: BottomNavigationSearch.TAB_RECEIPT);
     pageController.addListener(() {
       var newPage = pageController.page!.round();
       _bloc.jumToPage(newPage);
@@ -213,7 +213,7 @@ class _SearchPageState extends BasePopState<SearchPage>
     final List<String> search = [
       LocaleKeys.all.tr(),
       LocaleKeys.places.tr(),
-      LocaleKeys.routes.tr(),
+      LocaleKeys.receipt.tr(),
       LocaleKeys.persons.tr()
     ];
 
@@ -233,7 +233,7 @@ class _SearchPageState extends BasePopState<SearchPage>
                 padding: EdgeInsets.only(left: 15.w, right: 15.w),
                 margin: EdgeInsets.only(left: 6.w),
                 alignment: Alignment.center,
-                decoration: (state is InitSearchState && index == BottomNavigationSearch.TAB_ROUTES) ||
+                decoration: (state is InitSearchState && index == BottomNavigationSearch.TAB_RECEIPT) ||
                         (state is ChangeTabState && state.index == index)
                     ? BoxDecoration(
                         borderRadius: BorderRadius.circular(20),

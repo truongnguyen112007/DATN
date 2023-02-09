@@ -62,10 +62,6 @@ PreferredSizeWidget homeAppbar(BuildContext context, {required Function onClickS
       highlightColor: colorTransparent,
       onTap: () => onClickJumpToTop(),
       child: widget
-      // SvgPicture.asset(
-      //   Assets.svg.relimbDark,
-      //   height: 24.w,
-      // ),
     ),
     action: [
       IconButton(

@@ -1,10 +1,8 @@
-import 'package:base_bloc/components/sort_widget.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
 import '../../data/model/filter_param.dart';
 import '../../data/model/routes_model.dart';
 import '../../data/model/sort_param.dart';
-import '../tab_home/tab_home_state.dart';
+import '../tab_overview/tab_overview_state.dart';
 
 enum FavType { Default, Sort, Filter }
 

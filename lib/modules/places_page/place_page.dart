@@ -5,7 +5,6 @@ import 'package:base_bloc/data/globals.dart';
 import 'package:base_bloc/data/model/places_model.dart';
 import 'package:base_bloc/modules/places_page/places_page_cubit.dart';
 import 'package:base_bloc/modules/places_page/places_page_state.dart';
-import 'package:base_bloc/modules/tab_home/tab_home_state.dart';
 import 'package:base_bloc/router/router_utils.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -22,6 +21,7 @@ import '../../localization/locale_keys.dart';
 import '../../theme/app_styles.dart';
 import '../../theme/colors.dart';
 import '../../utils/app_utils.dart';
+import '../tab_overview/tab_overview_state.dart';
 
 class PlacesPage extends StatefulWidget {
   final int index;

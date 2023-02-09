@@ -6,7 +6,8 @@ import 'package:flutter/cupertino.dart';
 class Routers {
   static String root = "/";
   static String home = "/home";
-  static String video = '/video';
+  static String login = "/login";
+  static String otp = "/otp";
 
   static void configureRoutes(FluroRouter router) {
     router.notFoundHandler = Handler(handlerFunc:
@@ -15,11 +16,12 @@ class Routers {
     });
     router.define(root, handler: routeSplash);
     router.define(home, handler: routeHome);
-    // router.define(test, handler: routeTest);
+    router.define(login, handler: routeLogin);
+    router.define(otp, handler: routeOtp);
   }
 }
 
-class HomeRouters {
+class OverViewRouters {
   static String root = '/';
   static String login = '/login';
   static String search = '/search_home';
@@ -32,18 +34,16 @@ class HomeRouters {
     router.notFoundHandler = Handler(handlerFunc: (c, p) {
       logE("ROUTE WAS NOT FOUND !!!");
     });
-    router.define(root, handler: routeTabHome);
+    router.define(root, handler: routeTabOverView);
     router.define(search, handler: routeSearchHome);
     router.define(reservation, handler: routeReservationDetail);
-    router.define(notifications, handler: routeNotifications);
-    router.define(login, handler: routeLogin);
     router.define(placeDetail, handler: routePlaceDetail);
     router.define(routesCreateReservationPage,
         handler: routeCreateReservationPage);
   }
 }
 
-class RoutesRouters {
+class ReceiptRouters {
   static String root = '/';
   static String search = '/search';
   static String login = '/login';
@@ -52,6 +52,7 @@ class RoutesRouters {
   static String routesDetail = '/routesDetail';
   static String createRoutes = '/createRoutes';
   static String routesCreateReservationPage = '/createReservationPage';
+  static String routesBillDetail = "/routeBillDetail";
 
   static configureRouter(FluroRouter router) {
     router.notFoundHandler = Handler(handlerFunc: (c, x) {
@@ -61,37 +62,38 @@ class RoutesRouters {
     router.define(routesDetail, handler: routeRoutesDetail);
     router.define(createRoutes, handler: routeCreateRoutes);
     router.define(search, handler: routeSearchHome);
-    router.define(login, handler: routeLogin);
-    router.define(notifications, handler: routeNotifications);
     router.define(placeDetail, handler: routePlaceDetail);
     router.define(routesCreateReservationPage,
         handler: routeCreateReservationPage);
+    router.define(routesBillDetail, handler: routeBillDetail);
   }
 }
 
-class ClimbRouters {
+class GoodsRouters {
   static String root = '/';
   static String login = '/login';
   static String search = '/search';
   static String notifications = '/notifications';
   static String placeDetail = '/placeDetail';
   static String routesCreateReservationPage = '/createReservationPage';
+  static String routesProductsDetail = "/routesProductsDetail";
+  static String routesAddProducts = 'routesAddProducts';
 
   static configureRouter(FluroRouter router) {
     router.notFoundHandler = Handler(handlerFunc: (c, x) {
       logE("ROUTE WAS NOT FOUND !!!");
     });
-    router.define(root, handler: routeTabClimb);
-    router.define(login, handler: routeLogin);
+    router.define(root, handler: routeTabGoods);
     router.define(search, handler: routeSearchHome);
-    router.define(notifications, handler: routeNotifications);
     router.define(placeDetail, handler: routePlaceDetail);
     router.define(routesCreateReservationPage,
         handler: routeCreateReservationPage);
+    router.define(routesProductsDetail, handler: routeProductsDetail);
+    router.define(routesAddProducts, handler: routeAddProducts);
   }
 }
 
-class ReservationRouters {
+class NotificationRouters {
   static String root = '/';
   static String login = '/login';
   static String search = '/search';
@@ -110,7 +112,7 @@ class ReservationRouters {
     router.notFoundHandler = Handler(handlerFunc: (c, x) {
       logE("ROUTE WAS NOT FOUND !!!");
     });
-    router.define(root, handler: routeTabReservation);
+    router.define(root, handler: routeTabNotification);
     router.define(routesReservationDetail, handler: routeReservationDetail);
     router.define(routesCreateReservationPage,
         handler: routeCreateReservationPage);
@@ -120,9 +122,7 @@ class ReservationRouters {
         handler: routeConfirmCreateReservation);
     router.define(routesCreateReservationSuccess,
         handler: routeCreateReservationSuccess);
-    router.define(login, handler: routeLogin);
     router.define(search, handler: routeSearchHome);
-    router.define(notifications, handler: routeNotifications);
     router.define(placeDetail, handler: routePlaceDetail);
   }
 }
@@ -134,17 +134,17 @@ class ProfileRouters {
   static String notifications = '/notifications';
   static String placeDetail = '/placeDetail';
   static String routesCreateReservationPage = '/createReservationPage';
+  static String routesSupplierPage = 'routesSupplierPage';
 
   static configureProfileRouter(FluroRouter router) {
     router.notFoundHandler = Handler(handlerFunc: (c, x) {
       logE('ROUTE WAS NOT FOUND !!!');
     });
-    router.define(root, handler: routeTabProfile);
-    router.define(login, handler: routeLogin);
+    router.define(root, handler: routeTabMore);
     router.define(search, handler: routeSearchHome);
-    router.define(notifications, handler: routeNotifications);
     router.define(placeDetail, handler: routePlaceDetail);
     router.define(routesCreateReservationPage,
         handler: routeCreateReservationPage);
+    router.define(routesSupplierPage, handler: routeSupplierPage);
   }
 }

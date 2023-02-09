@@ -3,14 +3,14 @@ import 'package:base_bloc/router/router.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/cupertino.dart';
 
-class RootRoutesPage extends StatefulWidget {
-  const RootRoutesPage({Key? key}) : super(key: key);
+class RootReceipt extends StatefulWidget {
+  const RootReceipt({Key? key}) : super(key: key);
 
   @override
-  State<RootRoutesPage> createState() => _RootRoutesPageState();
+  State<RootReceipt> createState() => _RootReceiptState();
 }
 
-class _RootRoutesPageState extends State<RootRoutesPage> {
+class _RootReceiptState extends State<RootReceipt> {
   final _navigatorKey = GlobalKey<NavigatorState>(debugLabel: 'RootRoutes');
 
   @override
@@ -21,7 +21,7 @@ class _RootRoutesPageState extends State<RootRoutesPage> {
 
   void configRouter() {
     var router = FluroRouter();
-    RoutesRouters.configureRouter(router);
+    ReceiptRouters.configureRouter(router);
     Application.routesRouter = router;
   }
 

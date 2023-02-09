@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/model/routes_model.dart';
-import '../tab_home/tab_home_state.dart';
+import '../tab_overview/tab_overview_state.dart';
 import 'all_page_state.dart';
 
 class AllPageCubit extends Cubit<AllPageState> {

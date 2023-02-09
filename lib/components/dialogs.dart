@@ -5,12 +5,6 @@ import 'package:base_bloc/theme/colors.dart';
 import 'package:base_bloc/utils/app_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../modules/home/home_page.dart';
-import '../modules/tab_profile/edit_settings/edit_settings_state.dart';
-import '../router/router_utils.dart';
-import '../utils/storage_utils.dart';
-import '../utils/toast_utils.dart';
 import 'app_text.dart';
 
 class Dialogs {

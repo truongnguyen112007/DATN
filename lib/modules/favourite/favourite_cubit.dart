@@ -1,26 +1,15 @@
-import 'dart:async';
-
 import 'package:base_bloc/components/dialogs.dart';
 import 'package:base_bloc/components/filter_widget.dart';
-import 'package:base_bloc/components/sort_widget.dart';
 import 'package:base_bloc/config/constant.dart';
 import 'package:base_bloc/data/eventbus/refresh_event.dart';
 import 'package:base_bloc/data/globals.dart' as globals;
-import 'package:base_bloc/data/model/filter_param.dart';
-import 'package:base_bloc/data/model/user_model.dart';
-import 'package:base_bloc/gen/assets.gen.dart';
-import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/modules/favourite/favourite_state.dart';
-import 'package:base_bloc/modules/filter_routes/filter_routes_page_state.dart';
 import 'package:base_bloc/router/router_utils.dart';
 import 'package:base_bloc/utils/toast_utils.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_tags/flutter_tags.dart';
-
 import '../../data/model/routes_model.dart';
-import '../../data/model/sort_param.dart';
 import '../../data/repository/user_repository.dart';
 import '../../localization/locale_keys.dart';
 import '../../utils/app_utils.dart';
@@ -29,7 +18,7 @@ import '../create_routes/create_routes_page.dart';
 import '../filter_routes/filter_routes_page.dart';
 import '../playlist/playlist_cubit.dart';
 import '../routers_detail/routes_detail_page.dart';
-import '../tab_home/tab_home_state.dart';
+import '../tab_overview/tab_overview_state.dart';
 
 class FavouriteCubit extends Cubit<FavouriteState> {
   var userRepository = UserRepository();
@@ -155,7 +144,7 @@ class FavouriteCubit extends Cubit<FavouriteState> {
   void itemOnclick(BuildContext context, RoutesModel model) =>
       RouterUtils.openNewPage(
           RoutesDetailPage(
-            index: BottomNavigationConstant.TAB_ROUTES,
+            index: BottomNavigationConstant.TAB_RECEIPT,
             model: model,
           ),
           context);

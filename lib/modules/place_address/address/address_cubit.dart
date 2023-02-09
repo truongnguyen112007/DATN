@@ -14,17 +14,17 @@ class AddressCubit extends Cubit<AddressState> {
 
   void addOnclick(BuildContext context)  {
      switch(index) {
-       case BottomNavigationConstant.TAB_HOME :
-         RouterUtils.pushHome(context: context, route: HomeRouters.routesCreateReservationPage,argument: index);
+       case BottomNavigationConstant.TAB_OVERVIEW :
+         RouterUtils.pushOverView(context: context, route: OverViewRouters.routesCreateReservationPage,argument: index);
          break;
-       case BottomNavigationConstant.TAB_ROUTES :
-         RouterUtils.pushRoutes(context: context, route: RoutesRouters.routesCreateReservationPage,argument: index);
+       case BottomNavigationConstant.TAB_RECEIPT :
+         RouterUtils.pushRoutes(context: context, route: ReceiptRouters.routesCreateReservationPage,argument: index);
          break;
        case BottomNavigationConstant.TAB_CLIMB :
-         RouterUtils.pushClimb(context: context, route: ClimbRouters.routesCreateReservationPage,argument: index);
+         RouterUtils.pushClimb(context: context, route: GoodsRouters.routesCreateReservationPage,argument: index);
          break;
        case BottomNavigationConstant.TAB_RESERVATIONS :
-         RouterUtils.pushReservations(context: context, route: ReservationRouters.routesCreateReservationPage,argument: index);
+         RouterUtils.pushNotification(context: context, route: NotificationRouters.routesCreateReservationPage,argument: index);
          break;
        case BottomNavigationConstant.TAB_PROFILE :
          RouterUtils.pushProfile(context: context, route: ProfileRouters.routesCreateReservationPage,argument: index);

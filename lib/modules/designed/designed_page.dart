@@ -2,7 +2,6 @@ import 'package:base_bloc/components/app_circle_loading.dart';
 import 'package:base_bloc/data/globals.dart';
 import 'package:base_bloc/modules/designed/designed_cubit.dart';
 import 'package:base_bloc/modules/designed/designed_state.dart';
-import 'package:base_bloc/modules/tab_home/tab_home_state.dart';
 import 'package:base_bloc/theme/colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +19,7 @@ import '../../localization/locale_keys.dart';
 import '../../theme/app_styles.dart';
 import '../../utils/app_utils.dart';
 import '../playlist/playlist_cubit.dart';
+import '../tab_overview/tab_overview_state.dart';
 
 class DesignedPage extends StatefulWidget {
   const DesignedPage({Key? key}) : super(key: key);

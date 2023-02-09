@@ -30,5 +30,5 @@ class _HoldSetDetailPageState extends BasePopState<HoldSetDetailPage> {
   }
 
   @override
-  int get tabIndex => BottomNavigationConstant.TAB_ROUTES;
+  int get tabIndex => BottomNavigationConstant.TAB_RECEIPT;
 }

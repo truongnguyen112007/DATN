@@ -247,5 +247,5 @@ class _HoldSetPageState extends BasePopState<HoldSetPage> {
       isHideBottomBar: true);
 
   @override
-  int get tabIndex => BottomNavigationConstant.TAB_ROUTES;
+  int get tabIndex => BottomNavigationConstant.TAB_RECEIPT;
 }

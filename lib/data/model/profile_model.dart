@@ -1,8 +1,3 @@
-import 'package:base_bloc/data/globals.dart';
-
-import '../../gen/assets.gen.dart';
-import '../../modules/tab_profile/edit_settings/edit_settings_cubit.dart';
-
 class ProfileModel {
   String? name;
   String? surname;

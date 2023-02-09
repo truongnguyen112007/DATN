@@ -9,11 +9,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../../components/app_circle_loading.dart';
 import '../../components/item_feed_widget.dart';
 import '../../localization/locale_keys.dart';
-import '../tab_home/tab_home_state.dart';
+import '../tab_overview/tab_overview_state.dart';
 
 class HistoryPage extends StatefulWidget {
   const HistoryPage({Key? key}) : super(key: key);
@@ -108,7 +107,7 @@ class _HistoryPageState extends State<HistoryPage>
                       ? const Center(child: AppCircleLoading())
                       : ItemFeed(
                           model: state.lFeed[index],
-                          index: BottomNavigationConstant.TAB_ROUTES,
+                          index: BottomNavigationConstant.TAB_RECEIPT,
                         ),
               itemCount:
                   !state.readEnd ? state.lFeed.length + 1 : state.lFeed.length,
@@ -125,7 +124,7 @@ class _HistoryPageState extends State<HistoryPage>
 
   PreferredSizeWidget appBar(BuildContext context) => AppBar(
         backgroundColor: Colors.black,
-        title: Text(LocaleKeys.climb.tr()),
+        title: Text(LocaleKeys.goods.tr()),
         actions: [
           IconButton(
             onPressed: () {},

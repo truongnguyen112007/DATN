@@ -138,7 +138,7 @@ class ItemInfoRoutes extends StatelessWidget {
                                   Row(
                                     children: [
                                       AppText(
-                                        '${LocaleKeys.routes.tr()} ${model.height}m ',
+                                        '${LocaleKeys.receipt.tr()} ${model.height}m ',
                                         style: googleFont.copyWith(
                                             color:
                                             colorText0.withOpacity(0.6),

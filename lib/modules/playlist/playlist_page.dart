@@ -6,7 +6,6 @@ import 'package:base_bloc/components/app_text.dart';
 import 'package:base_bloc/data/globals.dart';
 import 'package:base_bloc/modules/playlist/playlist_cubit.dart';
 import 'package:base_bloc/modules/playlist/playlist_state.dart';
-import 'package:base_bloc/modules/tab_home/tab_home_state.dart';
 import 'package:base_bloc/router/router_utils.dart';
 import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/theme/colors.dart';
@@ -23,6 +22,7 @@ import '../../data/eventbus/refresh_event.dart';
 import '../../data/model/routes_model.dart';
 import '../../localization/locale_keys.dart';
 import '../../router/router.dart';
+import '../tab_overview/tab_overview_state.dart';
 
 class PlayListPage extends StatefulWidget {
   const PlayListPage({Key? key}) : super(key: key);
@@ -133,8 +133,8 @@ class _PlayListPageState extends State<PlayListPage>
                   onTap: () {
                     RouterUtils.pushRoutes(
                         context: context,
-                        route: RoutesRouters.search,
-                        argument: BottomNavigationConstant.TAB_ROUTES);
+                        route: ReceiptRouters.search,
+                        argument: BottomNavigationConstant.TAB_RECEIPT);
                   },
                 ),
                 SpeedDialChild(

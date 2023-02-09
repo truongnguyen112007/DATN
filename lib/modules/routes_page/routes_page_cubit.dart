@@ -71,7 +71,7 @@ class RoutesPageCubit extends Cubit<RoutesPageState> {
   void itemOnclick(BuildContext context, RoutesModel model) =>
       RouterUtils.openNewPage(
           RoutesDetailPage(
-            index: BottomNavigationConstant.TAB_ROUTES,
+            index: BottomNavigationConstant.TAB_RECEIPT,
             model: model,
           ),
           context);

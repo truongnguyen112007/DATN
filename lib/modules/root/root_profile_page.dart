@@ -3,14 +3,14 @@ import 'package:base_bloc/router/router.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/cupertino.dart';
 
-class RootProfilePage extends StatefulWidget {
-  const RootProfilePage({Key? key}) : super(key: key);
+class RootMore extends StatefulWidget {
+  const RootMore({Key? key}) : super(key: key);
 
   @override
-  State<RootProfilePage> createState() => _RootProfilePageState();
+  State<RootMore> createState() => _RootMoreState();
 }
 
-class _RootProfilePageState extends State<RootProfilePage> {
+class _RootMoreState extends State<RootMore> {
   final navigatorKey = GlobalKey<NavigatorState>(debugLabel: 'RootProfile');
 
   @override

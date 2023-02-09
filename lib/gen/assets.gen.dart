@@ -15,6 +15,45 @@ class $AssetsPngGen {
   /// File path: assets/png/avatar.png
   AssetGenImage get avatar => const AssetGenImage('assets/png/avatar.png');
 
+  AssetGenImage get icongh => const AssetGenImage('assets/png/icon_gh.png');
+
+  AssetGenImage get www => const AssetGenImage('assets/png/www.png');
+
+  AssetGenImage get pho => const AssetGenImage('assets/png/pho.png');
+
+  AssetGenImage get coca => const AssetGenImage('assets/png/coca.png');
+
+  AssetGenImage get mt => const AssetGenImage('assets/png/mt.png');
+
+  AssetGenImage get bk => const AssetGenImage('assets/png/bk.png');
+
+  AssetGenImage get dnm => const AssetGenImage('assets/png/dnm.png');
+
+  AssetGenImage get ps => const AssetGenImage('assets/png/ps.png');
+
+  AssetGenImage get bb => const AssetGenImage('assets/png/bb.png');
+
+  AssetGenImage get tbc => const AssetGenImage('assets/png/tbc.png');
+
+  AssetGenImage get bctb => const AssetGenImage('assets/png/bctb.png');
+
+  AssetGenImage get scbv => const AssetGenImage('assets/png/scbv.png');
+
+  AssetGenImage get cn => const AssetGenImage('assets/png/cn.png');
+
+  AssetGenImage get tdr => const AssetGenImage('assets/png/tdr.png');
+
+  AssetGenImage get tg => const AssetGenImage('assets/png/tg.png');
+
+  AssetGenImage get trclh => const AssetGenImage('assets/png/trclh.png');
+
+  AssetGenImage get bcdr => const AssetGenImage('assets/png/bcdr.png');
+
+  AssetGenImage get logosplash => const AssetGenImage('assets/png/logosplash.png');
+
+  AssetGenImage get sellonline =>
+      const AssetGenImage('assets/png/sell_online.png');
+
   /// File path: assets/png/holdset1.png
   AssetGenImage get holdset1 => const AssetGenImage('assets/png/holdset1.png');
 
@@ -106,6 +145,24 @@ class $AssetsPngGen {
   /// List of all assets
   List<AssetGenImage> get values => [
         avatar,
+        icongh,
+        sellonline,
+        www,
+        pho,
+        coca,
+        mt,
+        bk,
+        dnm,
+        ps,
+        bb,
+        tbc,
+        bctb,
+        scbv,
+        cn,
+        tdr,
+        tg,
+        trclh,
+        bcdr,
         holdset1,
         holdset10,
         holdset11,
@@ -131,7 +188,7 @@ class $AssetsPngGen {
         mural,
         person,
         tesst,
-        test
+        test,
       ];
 }
 
@@ -228,9 +285,6 @@ class $AssetsSvgGen {
 
   /// File path: assets/svg/holdset6.svg
   String get holdset6 => 'assets/svg/holdset6.svg';
-
-  /// File path: assets/svg/home.svg
-  String get home => 'assets/svg/home.svg';
 
   /// File path: assets/svg/ic_account.svg
   String get icAccount => 'assets/svg/ic_account.svg';
@@ -360,7 +414,6 @@ class $AssetsSvgGen {
         holdset4,
         holdset5,
         holdset6,
-        home,
         icAccount,
         icNotification,
         icPrivacy,

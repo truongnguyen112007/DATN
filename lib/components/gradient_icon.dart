@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class GradientIcon extends StatelessWidget {
-  const GradientIcon({
+  const GradientIcon({super.key,
     required this.icon,
     required this.size,
     required this.gradient,
   });
 
-  final String icon;
+  final IconData icon;
   final double size;
   final Gradient gradient;
 
@@ -19,10 +19,7 @@ class GradientIcon extends StatelessWidget {
       child: SizedBox(
         width: size,
         height: size,
-        child: SvgPicture.asset(
-          icon,
-          color: Colors.white,
-        ),
+        child: Icon(icon)
       ),
       shaderCallback: (Rect bounds) {
         final Rect rect = Rect.fromLTRB(0, 0, size, size);

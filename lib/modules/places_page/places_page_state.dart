@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import '../../data/model/places_model.dart';
-import '../tab_home/tab_home_state.dart';
+import '../tab_overview/tab_overview_state.dart';
 
 class PlacesPageState extends Equatable {
   final FeedStatus status;

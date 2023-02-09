@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:base_bloc/base/base_state.dart';
 import 'package:base_bloc/components/app_button.dart';
 import 'package:base_bloc/components/app_scalford.dart';
@@ -15,16 +14,13 @@ import 'package:base_bloc/data/model/routes_model.dart';
 import 'package:base_bloc/modules/create_routes/create_routes_cubit.dart';
 import 'package:base_bloc/modules/create_routes/create_routes_state.dart';
 import 'package:base_bloc/modules/persons_page/persons_page_state.dart';
-import 'package:base_bloc/modules/tab_climb/tab_climb_cubit.dart';
 import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/theme/colors.dart';
-import 'package:base_bloc/utils/log_utils.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-
 import '../../base/hex_color.dart';
 import '../../components/app_circle_loading.dart';
 import '../../data/globals.dart';
@@ -675,5 +671,5 @@ class _CreateRoutesPageState extends BasePopState<CreateRoutesPage>   with Ticke
   bool get isNewPage => true;
 
   @override
-  int get tabIndex => BottomNavigationConstant.TAB_ROUTES;
+  int get tabIndex => BottomNavigationConstant.TAB_RECEIPT;
 }
