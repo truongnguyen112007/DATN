@@ -1,7 +1,9 @@
+import 'package:base_bloc/data/model/create_import_param.dart';
 import 'package:dio/dio.dart';
 import 'package:base_bloc/config/constant.dart';
 import 'package:base_bloc/data/repository/base_service.dart';
 import '../globals.dart' as globals;
+import '../model/create_export_param.dart';
 import 'api_result.dart';
 
 class UserRepository extends BaseService {
@@ -54,4 +56,15 @@ class UserRepository extends BaseService {
             ApiKey.categoryId: catId
           },
           isFromData: true);
+
+  Future<ApiResult> getProductDetail(int id) async => await GET('product/$id');
+
+  Future<ApiResult> getAllBill() async => await GET('customer');
+
+  Future<ApiResult> createExport(CreateExportParam param) async =>
+      await POST('export', param.toJson());
+
+
+  Future<ApiResult> createImport(CreateImportParam param) async =>
+      await POST('import', param.toJson());
 }

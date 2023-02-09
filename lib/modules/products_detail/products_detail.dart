@@ -8,6 +8,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../components/app_network_image.dart';
+
 class ProductsDetail extends StatefulWidget {
   final int routePage;
   final ProductModel model;
@@ -47,7 +49,7 @@ class _ProductsDetailState extends BasePopState<ProductsDetail> {
                     margin: const EdgeInsets.all(10),
                     height: 100.h,
                     width: 100.h,
-                    child: Image.asset(widget.model.image),
+                    child: AppNetworkImage(source: widget.model.image),
                   )),
               Container(
                 child: Column(
