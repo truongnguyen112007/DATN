@@ -74,39 +74,7 @@ class CreateInfoRouteCubit extends Cubit<CreateInfoRouteState> {
   void publishOnclick(
       bool isPublish, String routeName, BuildContext context) async {
     if(!isValid(routeName)) return;
-    Utils.hideKeyboard(context);
-    if (!isPublish) {
-      // create info before create route
-      RouterUtils.openNewPage(
-          CreateRoutesPage(
-              infoRouteModel: InfoRouteModel(
-                  grade: state.grade,
-                  routeName: routeName,
-                  isCorner: state.isCorner,
-                  height: state.height)),
-          context);
-      return;
-    }
-    Dialogs.showLoadingDialog(context);
-    var response = !state.isEdit
-        ? await userRepository.createRoute(
-            height: state.height,
-            name: routeName,
-            hasCorner: state.isCorner,
-            authorGrade: state.grade)
-        : await userRepository.editRoute(
-            height: state.height,
-            name: routeName,
-            hasCorner: state.isCorner,
-            authorGrade: state.grade,
-            routeId: state.model?.id ?? '');
-    await Dialogs.hideLoadingDialog();
-    if (response.error != null) {
-      toast(response.error.toString());
-    } else {
-      toast(response.message.toString());
-      RouterUtils.openNewPage(const HomePage(), context, isReplace: true);
-    }
+
   }
 
   bool isValid(String routeName) {

@@ -9,7 +9,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../router/router.dart';
 import '../../router/router_utils.dart';
 import '../../utils/app_utils.dart';
-import '../find_place/find_place_page.dart';
 
 class ConfirmCreateReservationCubit
     extends Cubit<ConfirmCreateReservationState> {
@@ -18,9 +17,6 @@ class ConfirmCreateReservationCubit
 
   void placeOnclick(BuildContext context) async {
     Utils.hideKeyboard(context);
-    var model = await RouterUtils.openNewPage(const FindPlacePage(), context,
-        type: NewPageType.FILL_PLACE);
-    emit(state.copyOf(placesModel: model));
   }
 
   void setPlace(PlacesModel model) => emit(state.copyOf(placesModel: model));

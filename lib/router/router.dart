@@ -35,9 +35,7 @@ class OverViewRouters {
       logE("ROUTE WAS NOT FOUND !!!");
     });
     router.define(root, handler: routeTabOverView);
-    router.define(search, handler: routeSearchHome);
     router.define(reservation, handler: routeReservationDetail);
-    router.define(placeDetail, handler: routePlaceDetail);
     router.define(routesCreateReservationPage,
         handler: routeCreateReservationPage);
   }
@@ -61,8 +59,6 @@ class ReceiptRouters {
     router.define(root, handler: routeTabRoutes);
     router.define(routesDetail, handler: routeRoutesDetail);
     router.define(createRoutes, handler: routeCreateRoutes);
-    router.define(search, handler: routeSearchHome);
-    router.define(placeDetail, handler: routePlaceDetail);
     router.define(routesCreateReservationPage,
         handler: routeCreateReservationPage);
     router.define(routesBillDetail, handler: routeBillDetail);
@@ -84,8 +80,6 @@ class GoodsRouters {
       logE("ROUTE WAS NOT FOUND !!!");
     });
     router.define(root, handler: routeTabGoods);
-    router.define(search, handler: routeSearchHome);
-    router.define(placeDetail, handler: routePlaceDetail);
     router.define(routesCreateReservationPage,
         handler: routeCreateReservationPage);
     router.define(routesProductsDetail, handler: routeProductsDetail);
@@ -117,13 +111,10 @@ class NotificationRouters {
     router.define(routesCreateReservationPage,
         handler: routeCreateReservationPage);
     router.define(routesFilterAddress, handler: routeFilterAddress);
-    router.define(routesFindPlace, handler: routeFindPlace);
     router.define(routesConfirmCreateReservation,
         handler: routeConfirmCreateReservation);
     router.define(routesCreateReservationSuccess,
         handler: routeCreateReservationSuccess);
-    router.define(search, handler: routeSearchHome);
-    router.define(placeDetail, handler: routePlaceDetail);
   }
 }
 
@@ -141,8 +132,6 @@ class ProfileRouters {
       logE('ROUTE WAS NOT FOUND !!!');
     });
     router.define(root, handler: routeTabMore);
-    router.define(search, handler: routeSearchHome);
-    router.define(placeDetail, handler: routePlaceDetail);
     router.define(routesCreateReservationPage,
         handler: routeCreateReservationPage);
     router.define(routesSupplierPage, handler: routeSupplierPage);

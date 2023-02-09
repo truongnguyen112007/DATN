@@ -72,36 +72,11 @@ class DesignedCubit extends Cubit<DesignedState> {
 
   void addToFavourite(BuildContext context,
       {RoutesModel? model, bool isMultiSelect = false}) async {
-    Dialogs.showLoadingDialog(context);
-    var lIds = <String>[];
-    if (isMultiSelect) {
-      for (int i = 0; i < state.lRoutes.length; i++) {
-        if (state.lRoutes[i].isSelect) {
-          lIds.add(state.lRoutes[i].id ?? '');
-        }
-      }
-    } else {
-      lIds.add(model!.id ?? "");
-    }
-    var response = await userRepository.addToFavorite(userId, lIds);
-    await Dialogs.hideLoadingDialog();
-    if (response.error == null) {
-      toast(response.message);
-    } else {
-      toast(response.error.toString());
-    }
+
   }
 
   void deleteRoute(BuildContext context, RoutesModel model, int index) async {
-    Dialogs.showLoadingDialog(context);
-    var response = await userRepository.deleteRoute(model.id ?? '');
-    await Dialogs.hideLoadingDialog();
-    if (response.error == null) {
-      state.lRoutes.removeAt(index);
-      emit(state.copyWith(timeStamp: DateTime.now().microsecondsSinceEpoch));
-    } else {
-      toast(response.error.toString());
-    }
+
   }
 
   void handleAction(ItemAction action, RoutesModel model) =>
@@ -160,86 +135,17 @@ class DesignedCubit extends Cubit<DesignedState> {
   }
 
   void getRoute({bool isPaging = false}) async {
-    if (state.isLoading && state.lRoutes.isNotEmpty || state.isReadEnd) return;
-    emit(state.copyWith(isLoading: true));
-    var response = await userRepository.getRoute(nextPage: state.nextPage);
-    if (response.data != null && response.error == null) {
-      try {
-        var lResponse = routeModelFromJson(response.data);
-        emit(state.copyWith(
-            status: FeedStatus.success,
-            isReadEnd: lResponse.isEmpty,
-            nextPage: state.nextPage + 1,
-            isLoading: false,
-            lRoutes:
-                isPaging ? (state.lRoutes..addAll(lResponse)) : lResponse));
-      } catch (e) {
-        emit(state.copyWith(
-            isReadEnd: true, isLoading: false, status: FeedStatus.failure));
-      }
-    } else {
-      emit(state.copyWith(
-          status: state.lRoutes.isNotEmpty
-              ? FeedStatus.success
-              : FeedStatus.failure,
-          isReadEnd: true,
-          isLoading: false));
-      toast(response.error.toString());
-    }
+
   }
 
   void removeFromFavourite(BuildContext context, int index,
       {RoutesModel? model, bool isMultiSelect = false}) async {
-    Dialogs.showLoadingDialog(context);
-    var routeIds = '';
-    var lIndex = [];
-    if (isMultiSelect) {
-      for (int i = 0; i < state.lRoutes.length; i++) {
-        if (state.lRoutes[i].isSelect) {
-          routeIds += '${state.lRoutes[i].id ?? ''},';
-          lIndex.add(i);
-        }
-      }
-    } else {
-      routeIds = model!.id ?? '';
-    }
-    var response = await userRepository.removeFromFavorite(routeIds);
-    await Dialogs.hideLoadingDialog();
-    if (response.error == null) {
-      if (isMultiSelect) {
-        for (int i = lIndex.length - 1; i >= 0; i--) {
-          state.lRoutes.removeAt(lIndex[i]);
-        }
-        emit(state.copyWith(timeStamp: DateTime.now().microsecondsSinceEpoch));
-      } else {
-        state.lRoutes.removeAt(index);
-        emit(state.copyWith(timeStamp: DateTime.now().microsecondsSinceEpoch));
-      }
-    } else {
-      toast(response.error.toString());
-    }
+
   }
 
   void addToPlaylist(BuildContext context,
       {RoutesModel? model, bool isMultiSelect = false}) async {
-    Dialogs.showLoadingDialog(context);
-    var lRoutes = <String>[];
-    if (isMultiSelect) {
-      for (int i = 0; i < state.lRoutes.length; i++) {
-        if (state.lRoutes[i].isSelect) {
-          lRoutes.add(state.lRoutes[i].id ?? '');
-        }
-      }
-    } else {
-      lRoutes.add(model!.id ?? "");
-    }
-    var response = await userRepository.addToPlaylist(playlistId, lRoutes);
-    await Dialogs.hideLoadingDialog();
-    if (response.error == null) {
-      toast(response.message);
-    } else {
-      toast(response.error.toString());
-    }
+
   }
 
   void shareRoutes(BuildContext context, RoutesModel model, int index) async {

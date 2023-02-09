@@ -83,39 +83,13 @@ class PlayListCubit extends Cubit<PlaylistState> {
     int index,
     bool isRemove,
   ) async {
-    Dialogs.showLoadingDialog(context);
-    var response = isRemove
-        ? await userRepository.removeFromPlaylist(
-            globals.playlistId, model.id ?? '')
-        : await userRepository.deleteRoute(model.id ?? '');
-    await Dialogs.hideLoadingDialog();
-    if (response.error == null) {
-      state.lRoutes.removeAt(index);
-      emit(state.copyWith(timeStamp: DateTime.now().microsecondsSinceEpoch));
-    } else {
-      toast(response.error.toString());
-    }
+
   }
 
   void addOrRemoveFavorite(
       BuildContext context, RoutesModel model, int index, bool isAdd) async {
     Dialogs.showLoadingDialog(context);
-    var response = isAdd
-        ? await userRepository.addToFavorite(globals.userId, [model.id ?? ''])
-        : await userRepository.removeFromFavorite(model.id ?? '');
-    await Dialogs.hideLoadingDialog();
-    if (response.error == null) {
-      toast(response.message);
-      isAdd ? (model.favouriteIn = true) : (model.favouriteIn = false);
-      emit(
-        state.copyWith(
-          timeStamp: DateTime.now().microsecondsSinceEpoch,
-        ),
-      );
-      refreshFav();
-    } else {
-      toast(response.error.toString());
-    }
+
   }
 
   void refreshFav() {
@@ -124,16 +98,7 @@ class PlayListCubit extends Cubit<PlaylistState> {
 
   void moveItemToTop(BuildContext context, RoutesModel model, int index) async {
     Dialogs.showLoadingDialog(context);
-    var response =
-        await userRepository.moveToTop(globals.playlistId, model.id ?? '');
-    await Dialogs.hideLoadingDialog();
-    if (response.error == null) {
-      state.lRoutes.removeAt(index);
-      state.lRoutes.insert(0, model);
-      emit(state.copyWith(timeStamp: DateTime.now().microsecondsSinceEpoch));
-    } else {
-      toast(response.data.toString());
-    }
+
   }
 
   void shareRoutes(BuildContext context, RoutesModel model, int index) async {
@@ -161,51 +126,10 @@ class PlayListCubit extends Cubit<PlaylistState> {
   /*RouterUtils.openNewPage(const CreateRoutesPage(), context);*/
 
   Future<void> checkPlaylistId() async {
-    if (globals.isLogin) {
-      var playlistId = await StorageUtils.getPlaylistId();
-      if (playlistId == null) {
-        var response = await userRepository.getPlaylists();
-        if (response.error == null && response.data != null) {
-          var lPlaylist = playListModelFromJson(response.data);
-          globals.playlistId = lPlaylist[0].id ?? '';
-          StorageUtils.savePlaylistId(globals.playlistId);
-        } else {
-          emit(state.copyWith(status: FeedStatus.failure));
-        }
-      } else {
-        globals.playlistId = playlistId;
-      }
-    }
-    getPlayListById();
+
   }
 
   void getPlayListById({bool isPaging = false}) async {
-    if (state.isLoading && state.lRoutes.isNotEmpty || state.isReadEnd) return;
-    emit(state.copyWith(isLoading: true));
-    var response = await userRepository.getPlaylistById(globals.playlistId,
-        nextPage: state.nextPage);
-    try {
-      if (response.data != null && response.error == null) {
-        var lResponse = routeModelFromJson(response.data['routes']);
-        emit(state.copyWith(
-            status: FeedStatus.success,
-            isReadEnd: lResponse.isEmpty,
-            nextPage: state.nextPage + 1,
-            isLoading: false,
-            lRoutes:
-                isPaging ? (state.lRoutes..addAll(lResponse)) : lResponse));
-      } else {
-        emit(state.copyWith(
-            isReadEnd: true, isLoading: false, status: FeedStatus.failure));
-        toast(response.error.toString());
-      }
-    } catch (ex) {
-      emit(state.copyWith(
-          status: state.lRoutes.isNotEmpty
-              ? FeedStatus.success
-              : FeedStatus.failure,
-          isReadEnd: true,
-          isLoading: false));
-    }
+
   }
 }

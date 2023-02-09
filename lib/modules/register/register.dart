@@ -30,7 +30,14 @@ class _RegisterState extends State<Register> {
   @override
   void initState() {
     _bloc = RegisterCubit();
+    test();
     super.initState();
+  }
+  void test(){
+    nameController.text ='loc';
+    phoneController.text ='0966468393';
+    passwordController.text ='12345';
+    confirmPasswordController.text ='12345';
   }
 
   @override
@@ -142,10 +149,8 @@ class _RegisterState extends State<Register> {
                     borderRadius: BorderRadius.circular(20),
                   ),
                   onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Login()));
-                    toast("Đăng ký thành công");
-                  },
+                    _bloc.registerOnClick(context, phoneController.text,
+                        passwordController.text, nameController.text);},
                   widget: Text(
                     "Đăng ký",
                     style: googleFont.copyWith(

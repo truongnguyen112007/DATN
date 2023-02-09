@@ -56,27 +56,11 @@ class RoutesDetailCubit extends Cubit<RoutesDetailState> {
   }
 
   void addToFavorite(BuildContext context, RoutesModel model) async {
-    Dialogs.showLoadingDialog(context);
-    var response =
-        await userRepository.addToFavorite(globals.userId, [model.id ?? '']);
-    await Dialogs.hideLoadingDialog();
-    if (response.error == null) {
-      toast(response.message);
-    } else {
-      toast(response.error.toString());
     }
   }
 
   void addToPlaylist(BuildContext context, RoutesModel model) async {
-    Dialogs.showLoadingDialog(context);
-    var response =
-        await userRepository.addToFavorite(globals.userId, [model.id ?? '']);
-    await Dialogs.hideLoadingDialog();
-    if (response.error == null) {
-      toast(response.message);
-    } else {
-      toast(response.error.toString());
-    }
+
   }
 
   void editRouteOnclick(BuildContext context, RoutesModel model) async {
@@ -90,7 +74,7 @@ class RoutesDetailCubit extends Cubit<RoutesDetailState> {
     }
     RouterUtils.openNewPage(
         CreateInfoRoutePage(
-          lHoldSet: lHoldSet, isEdit: true, routeModel: model),
+            lHoldSet: lHoldSet, isEdit: true, routeModel: model),
         context);
   }
-}
+

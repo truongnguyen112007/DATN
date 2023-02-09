@@ -12,7 +12,7 @@ class BaseService {
   var baseUrl = '';
 
   void initProvider() {
-    baseUrl = 'http://83.171.249.207/api/v1/';
+    baseUrl = 'http://103.226.249.207:34567/';
   }
 
   // ignore: non_constant_identifier_names
@@ -44,16 +44,12 @@ class BaseService {
           response.data != null) {
         var result = response.data;
         return ApiResult<dynamic>(
-            message: response.data['meta']['message'] ?? '',
-            data: result['data']);
+            message: response.data['message'] ?? '', data: result['data']);
       } else {
         Logger().e('Error ${response.statusCode} - ${response.statusMessage}');
         var result = response.data;
         return ApiResult<dynamic>(
-            error: isNewFormat
-                ? ''
-                : result["meta"] ??
-                    (result["meta"]["message"] ?? response.statusMessage),
+            error: result["message"],
             data: result['data'],
             statusCode: response.statusCode);
       }
@@ -62,8 +58,9 @@ class BaseService {
       print('============================================================');
       try {
         return ApiResult<dynamic>(
-            error: exception.response?.data['meta']['message'] ??
-                LocaleKeys.network_error.tr(),
+            error: exception.response?.data["data"][0]['message']['message'] ??
+                (exception.response?.data['message'] ??
+                    LocaleKeys.network_error.tr()),
             statusCode: exception.response?.statusCode);
       } catch (e) {
         return ApiResult<dynamic>(error: LocaleKeys.network_error.tr());
@@ -106,12 +103,12 @@ class BaseService {
         return ApiResult<dynamic>(
             data: result['data'],
             statusCode: response.statusCode,
-            message: response.data['meta']['message'] ?? '');
+            message: response.data['message'] ?? '');
       } else {
         Logger().e('Error ${response.statusCode} - ${response.statusMessage}');
         var result = response.data;
         return ApiResult<dynamic>(
-            error: result["meta"]["message"] ?? response.statusMessage ?? '',
+            error: result["message"] ?? response.statusMessage ?? '',
             data: result);
       }
     } on DioError catch (exception) {
@@ -119,8 +116,9 @@ class BaseService {
       print('============================================================');
       try {
         return ApiResult<dynamic>(
-            error: exception.response?.data['meta']['message'] ??
-                LocaleKeys.network_error.tr(),
+            error: exception.response?.data["data"][0]['message']['message'] ??
+                (exception.response?.data['message'] ??
+                    LocaleKeys.network_error.tr()),
             statusCode: exception.response?.statusCode);
       } catch (e) {
         return ApiResult<dynamic>(error: LocaleKeys.network_error.tr());
@@ -134,14 +132,14 @@ class BaseService {
 
   // ignore: non_constant_identifier_names
   Future<ApiResult> POST(String url, dynamic body,
-      {bool isMultipart = false, bool isNewFormat = false}) async {
+      {bool isFromData = false, bool isNewFormat = false}) async {
     if (await ConnectionUtils.isConnect() == false) {
       return ApiResult(error: LocaleKeys.network_error.tr());
     }
     print('============================================================');
     print('[POST] ' + baseUrl + url);
     print("Bearer " + globals.accessToken);
-    print('[PARAMS] ' + (!isMultipart ? json.encode(body) : body.toString()));
+    // print('[PARAMS] ' + (!isFromData ? json.encode(body) : body.toString()));
     try {
       var headers = {
         'Authorization': 'Bearer ${globals.accessToken}',
@@ -151,7 +149,7 @@ class BaseService {
       };
       final response = await Dio()
           .post(baseUrl + url,
-              data: isMultipart ? body : jsonEncode(body),
+              data: isFromData ? body : jsonEncode(body),
               options: Options(
                 headers: headers,
                 sendTimeout: timeOut,
@@ -161,17 +159,15 @@ class BaseService {
       if (response.data != null) {
         var result = response.data;
         return ApiResult<dynamic>(
-            data: result['data'] ?? result['hits'],
+            data: result['data'],
             statusCode: response.statusCode,
-            message: response.data['meta'] != null
-                ? response.data['meta']['message'] ?? ''
-                : '');
+            message: response.data['message']);
       } else {
         Logger().e(
             'Error ${response.statusCode} - ${response.statusMessage} - ${response.data}');
         var result = response.data;
         return ApiResult<dynamic>(
-            error: result["meta"]["message"] ?? response.statusMessage ?? '',
+            error: result["message"] ?? response.statusMessage ?? '',
             data: result);
       }
     } on DioError catch (exception) {
@@ -179,8 +175,9 @@ class BaseService {
       print('============================================================');
       try {
         return ApiResult<dynamic>(
-            error: exception.response?.data['meta']['message'] ??
-                LocaleKeys.network_error.tr(),
+            error: exception.response?.data["data"][0]['message'] ??
+                (exception.response?.data['message'] ??
+                    LocaleKeys.network_error.tr()),
             statusCode: exception.response?.statusCode);
       } catch (e) {
         return ApiResult<dynamic>(error: LocaleKeys.network_error.tr());
@@ -221,12 +218,12 @@ class BaseService {
         return ApiResult<dynamic>(
             data: result['data'],
             statusCode: response.statusCode,
-            message: response.data["meta"]['message'] ?? '');
+            message: response.data['message'] ?? '');
       } else {
         Logger().e('Error ${response.statusCode} - ${response.statusMessage}');
         var result = response.data;
         return ApiResult<dynamic>(
-            error: result["meta"]["message"] ?? response.statusMessage ?? '',
+            error: result["message"] ?? response.statusMessage ?? '',
             data: result);
       }
     } on DioError catch (exception) {
@@ -234,8 +231,9 @@ class BaseService {
       print('============================================================');
       try {
         return ApiResult<dynamic>(
-            error: exception.response?.data['meta']['message'] ??
-                LocaleKeys.network_error.tr(),
+            error: exception.response?.data["data"][0]['message']['message'] ??
+                (exception.response?.data['message'] ??
+                    LocaleKeys.network_error.tr()),
             statusCode: exception.response?.statusCode);
       } catch (e) {
         return ApiResult<dynamic>(error: LocaleKeys.network_error.tr());
@@ -275,12 +273,12 @@ class BaseService {
         return ApiResult<dynamic>(
             data: result['data'],
             statusCode: response.statusCode,
-            message: response.data["meta"]['message'] ?? '');
+            message: response.data['message'] ?? '');
       } else {
         Logger().e('Error ${response.statusCode} - ${response.statusMessage}');
         var result = response.data;
         return ApiResult<dynamic>(
-            error: result["meta"]["message"] ?? response.statusMessage ?? '',
+            error: result["message"] ?? response.statusMessage ?? '',
             data: result);
       }
     } on DioError catch (exception) {
@@ -288,8 +286,9 @@ class BaseService {
       print('============================================================');
       try {
         return ApiResult<dynamic>(
-            error: exception.response?.data['meta']['message'] ??
-                LocaleKeys.network_error.tr(),
+            error: exception.response?.data["data"][0]['message']['message'] ??
+                (exception.response?.data['message'] ??
+                    LocaleKeys.network_error.tr()),
             statusCode: exception.response?.statusCode);
       } catch (e) {
         return ApiResult<dynamic>(error: LocaleKeys.network_error.tr());
