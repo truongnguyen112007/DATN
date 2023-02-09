@@ -10,7 +10,6 @@ class StorageUtils {
     GetStorage().write(StorageKey.userModel, model.toJson());
     globals.isLogin = true;
     globals.accessToken = model.token ?? '';
-    globals.userId = model.userId ?? 0;
   }
 
   static void logout() {
@@ -28,7 +27,6 @@ class StorageUtils {
       var userModel = UserModel.fromJson(userStr);
       globals.accessToken = userModel.token ?? '';
       globals.isLogin = true;
-      globals.userId = userModel.userId ?? 0;
     } catch (ex) {
       globals.isLogin = false;
       globals.accessToken = '';

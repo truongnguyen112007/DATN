@@ -35,7 +35,13 @@ class _LoginState extends State<Login> {
   @override
   void initState() {
     _bloc = LoginCubit();
+    test();
     super.initState();
+  }
+
+  void test() {
+    phoneController.text = '0327551805';
+    passwordController.text = 'Lehuy1920';
   }
 
   @override
@@ -95,7 +101,7 @@ class _LoginState extends State<Login> {
                     SizedBox(
                       height: 20.h,
                     ),
-                    BlocBuilder<LoginCubit,LoginState>(
+                    BlocBuilder<LoginCubit, LoginState>(
                       bloc: _bloc,
                       builder: (c, s) => textField(
                           labelText: "Mật khẩu",
@@ -120,7 +126,8 @@ class _LoginState extends State<Login> {
                     borderRadius: BorderRadius.circular(20),
                   ),
                   onTap: () {
-                    _bloc.openHomePage(context);
+                    _bloc.loginOnclick(
+                        phoneController.text, passwordController.text, context);
                   },
                   widget: Text(
                     "Đăng nhập",

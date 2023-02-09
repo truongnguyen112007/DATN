@@ -149,7 +149,7 @@ class BaseService {
       };
       final response = await Dio()
           .post(baseUrl + url,
-              data: isFromData ? body : jsonEncode(body),
+              data: isFromData ? FormData.fromMap(body) : jsonEncode(body),
               options: Options(
                 headers: headers,
                 sendTimeout: timeOut,
