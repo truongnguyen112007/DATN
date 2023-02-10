@@ -110,7 +110,9 @@ class _TabMoreState extends State<TabMore> {
                               icon: Icons.assignment_returned, text: "Nhập hàng"),
                           item(() {},
                               icon: Icons.content_paste_go, text: "Kiểm kho"),
-                          item(() {}, icon: Icons.person, text: "Khách hàng"),
+                          item(() {
+                            _bloc.openCustomer(context);
+                          }, icon: Icons.person, text: "Khách hàng"),
                           item(() {},
                               icon: Icons.account_balance_wallet_outlined,
                               text: "Sổ quỹ"),

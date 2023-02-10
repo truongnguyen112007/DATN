@@ -78,11 +78,6 @@ class _TabGoodsState extends State<TabGoods> with TickerProviderStateMixin {
                 width: 10.w,
               ),
               const Icon(
-                Icons.filter_alt_outlined,
-                color: colorWhite,
-              ),
-              SizedBox(width: 10.w),
-              const Icon(
                 Icons.swap_vert,
                 color: colorWhite,
               ),
@@ -131,23 +126,23 @@ class _TabGoodsState extends State<TabGoods> with TickerProviderStateMixin {
             Expanded(
               child: BlocBuilder<TabGoodsCubit, TabGoodsState>(
                   bloc: _bloc,
-                  builder: (c, state) => state.status == FeedStatus.initial
+                  builder: (c, state) => /*state.status == FeedStatus.initial
                       ? Center(
                           child: AppCircleLoading(),
                         )
                       : state.status == FeedStatus.failure
                           ? Center(child: AppNotDataWidget())
-                          : ListView.separated(
+                          :*/ ListView.separated(
                               shrinkWrap: true,
                               padding: const EdgeInsets.only(top: 10),
                               itemBuilder: (BuildContext context, int index) {
-                                return itemProducts(state.lProduct[index]);
+                                return itemProducts(fakeDataProducts()[index]);
                               },
                               separatorBuilder:
                                   (BuildContext context, int index) => SizedBox(
                                 height: 10.h,
                               ),
-                              itemCount: state.lProduct.length,
+                              itemCount: fakeDataProducts().length,
                             )),
             )
           ],
@@ -211,7 +206,7 @@ class _TabGoodsState extends State<TabGoods> with TickerProviderStateMixin {
                         height: 15.h,
                       ),
                       AppText(
-                        model.inStock.toString(),
+                        model.inventory.toString(),
                         style: googleFont.copyWith(
                             color: colorBlue40, fontSize: 15.sp),
                       )

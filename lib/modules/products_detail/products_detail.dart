@@ -8,8 +8,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../components/app_network_image.dart';
-
 class ProductsDetail extends StatefulWidget {
   final int routePage;
   final ProductModel model;
@@ -49,13 +47,15 @@ class _ProductsDetailState extends BasePopState<ProductsDetail> {
                     margin: const EdgeInsets.all(10),
                     height: 100.h,
                     width: 100.h,
-                    child: AppNetworkImage(source: widget.model.image),
+                    child: Image.asset(widget.model.image),
                   )),
               Container(
                 child: Column(
                   children: [
                     Container(
                       padding: EdgeInsets.all(8),
+                      color: colorWhite,
+                      width: MediaQuery.of(context).size.width,
                       child: AppText(
                         widget.model.name,
                         textAlign: TextAlign.center,
@@ -64,26 +64,24 @@ class _ProductsDetailState extends BasePopState<ProductsDetail> {
                             fontSize: 19.sp,
                             fontWeight: FontWeight.w600),
                       ),
-                      color: colorWhite,
-                      width: MediaQuery.of(context).size.width,
                     ),
                     Container(
                       height: 1,
                       color: colorGrey50,
                     ),
-                    item(
-                        text: "Mã hàng",
-                        text2: widget.model.inStock.toString()),
-                    item(text: "Mã vạch", text2: "456468223238"),
-                    item(text: "Loại hàng", text2: "Hàng hóa"),
+                    item(text: "Mã hàng", text2: widget.model.id.toString()),
+                    item(text: "Mã vạch", text2: widget.model.barCode),
+                    item(text: "Loại hàng", text2: widget.model.type),
                     item(text: "Thương hiệu", text2: "xxx"),
-                    item(text: "Định mức tồn", text2: "0->40"),
+                    item(
+                        text: "Định mức tồn",
+                        text2: widget.model.inventoryLevel),
                     item(text: "Giá bán", text2: widget.model.price.toString()),
-                    item(text: "Giá vốn", text2: "2000"),
+                    item(text: "Giá vốn", text2: widget.model.cost),
                     item(
                         text: "Tồn kho",
                         isDivider: true,
-                        text2: widget.model.status.toString()),
+                        text2: widget.model.inventory.toString()),
                     Container(
                       margin: EdgeInsets.only(top: 20.h),
                       height: 50.h,
@@ -106,7 +104,8 @@ class _ProductsDetailState extends BasePopState<ProductsDetail> {
                     )
                   ],
                 ),
-              )
+              ),
+              // textField()
             ],
           ),
         ));
@@ -128,21 +127,62 @@ class _ProductsDetailState extends BasePopState<ProductsDetail> {
                       style: googleFont.copyWith(
                           color: colorGrey70, fontSize: 15.sp),
                     )),
-                Expanded(
-                    flex: 3,
-                    child: AppText(text2 ?? "",
-                        style: googleFont.copyWith(
-                            color: colorBlack, fontSize: 15.sp))),
+                textField()
+                // Expanded(
+                //     flex: 3,
+                //     child: AppText(text2 ?? "",
+                //         style: googleFont.copyWith(
+                //             color: colorBlack, fontSize: 15.sp))),
               ],
             ),
           ),
-          Visibility(
-              visible: !isDivider,
-              child: Container(
-                margin: EdgeInsets.only(left: 140.w, bottom: 5.h),
-                height: 1,
-                color: colorGrey50,
-              ))
+          // Visibility(
+          //     visible: !isDivider,
+          //     child: Container(
+          //       margin: EdgeInsets.only(left: 140.w, bottom: 5.h),
+          //       height: 1,
+          //       color: colorGrey50,
+          //     ))
+        ],
+      ),
+    );
+  }
+
+  Widget textField() {
+    return Expanded(
+      flex: 3,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            height: 35.h,
+            child: TextField(
+
+              // onTap: () => callback?.call(),
+              // readOnly: isReadOnly,
+              onChanged: (text) {},
+              // controller: controller,
+              // keyboardType: inputType!,
+              style: googleFont.copyWith(
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w400,
+                  color: colorBlack),
+              cursorColor: colorBlack,
+              decoration: InputDecoration(
+
+                // errorText: errorText ?? '',
+                errorStyle: typoW400.copyWith(color: Colors.red),
+                border: const UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: colorWhite,
+                    )),
+                focusedBorder: const UnderlineInputBorder(
+                    borderSide: BorderSide(color: colorText65)),
+                enabledBorder: const UnderlineInputBorder(
+                    borderSide: BorderSide(color: colorText65)),
+              ),
+            ),
+          ),
         ],
       ),
     );

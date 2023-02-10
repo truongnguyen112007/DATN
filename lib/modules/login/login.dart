@@ -35,14 +35,14 @@ class _LoginState extends State<Login> {
   @override
   void initState() {
     _bloc = LoginCubit();
-    test();
+    // test();
     super.initState();
   }
 
-  void test() {
-    phoneController.text = '0327551805';
-    passwordController.text = 'Lehuy1920';
-  }
+  // void test() {
+  //   phoneController.text = '0327551805';
+  //   passwordController.text = 'Lehuy1920';
+  // }27
 
   @override
   Widget build(BuildContext context) {
@@ -50,134 +50,144 @@ class _LoginState extends State<Login> {
       fullStatusBar: true,
       resizeToAvoidBottomInset: false,
       backgroundColor: colorWhite,
-      body: Padding(
-        padding: const EdgeInsets.all(20),
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height,
-          child: Column(
-            children: [
-              SizedBox(
-                height: 10.h,
-              ),
-              FittedBox(
-                child: Container(
-                  height: 180,
-                  child: Image.asset(Assets.png.logosplash.path),
+      body: InkWell(
+        splashColor: colorTransparent,
+        highlightColor: colorTransparent,
+        focusColor: colorTransparent,
+        onTap: (){
+          FocusScope.of(context).requestFocus(new FocusNode());
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height,
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 10.h,
                 ),
-              ),
-              AppText(
-                "BoBo Management",
-                style: googleFont.copyWith(
-                    color: colorGreen60,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 16.sp),
-              ),
-              SizedBox(
-                height: 30.h,
-              ),
-              SizedBox(
-                height: 20.h,
-              ),
-              Container(
-                padding: EdgeInsets.only(
-                    right: 10.w, left: 10.w, top: 20.h, bottom: 20.h),
-                decoration: BoxDecoration(boxShadow: const [
-                  BoxShadow(
-                    color: colorGreen60,
-                    spreadRadius: 0.1,
-                    blurRadius: 1.2,
+                FittedBox(
+                  child: Container(
+                    height: 180,
+                    child: Image.asset(Assets.png.logosplash.path),
                   ),
-                ], color: colorWhite, borderRadius: BorderRadius.circular(10)),
-                child: Column(
+                ),
+                AppText(
+                  "BoBo Management",
+                  style: googleFont.copyWith(
+                      color: colorGreen60,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 16.sp),
+                ),
+                SizedBox(
+                  height: 30.h,
+                ),
+                SizedBox(
+                  height: 20.h,
+                ),
+                Container(
+                  padding: EdgeInsets.only(
+                      right: 10.w, left: 10.w, top: 20.h, bottom: 20.h),
+                  decoration: BoxDecoration(boxShadow: const [
+                    BoxShadow(
+                      color: colorGreen60,
+                      spreadRadius: 0.1,
+                      blurRadius: 1.2,
+                    ),
+                  ], color: colorWhite, borderRadius: BorderRadius.circular(10)),
+                  child: Column(
+                    children: [
+                      BlocBuilder<LoginCubit, LoginState>(
+                        bloc: _bloc,
+                        builder: (c, s) => textField(
+                          textInputType: TextInputType.number,
+                            labelText: "Số điện thoại",
+                            obText: false,
+                            errorText: s.errorPhone,
+                            controller: phoneController),
+                      ),
+                      SizedBox(
+                        height: 20.h,
+                      ),
+                      BlocBuilder<LoginCubit, LoginState>(
+                        bloc: _bloc,
+                        builder: (c, s) => textField(
+                            labelText: "Mật khẩu",
+                            errorText: s.errorPassword,
+                            obText: _obscureText,
+                            voidCallback: _toggle,
+                            icon: Icons.remove_red_eye_rounded,
+                            controller: passwordController),
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 20.h,
+                ),
+                BlocBuilder<LoginCubit, LoginState>(
+                  bloc: _bloc,
+                  builder: (c, state) => GradientButton(
+                    height: 50,
+                    borderRadius: BorderRadius.circular(20),
+                    decoration: BoxDecoration(
+                      color: colorGreen60,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    onTap: () {
+                      _bloc.loginOnclick(
+                          phoneController.text, passwordController.text, context);
+                    },
+                    widget: Text(
+                      "Đăng nhập",
+                      style: googleFont.copyWith(
+                          color: colorYellow70, fontWeight: FontWeight.w600),
+                    ),
+                    isCenter: true,
+                  ),
+                ),
+                SizedBox(
+                  height: 15.h,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    BlocBuilder<LoginCubit, LoginState>(
-                      bloc: _bloc,
-                      builder: (c, s) => textField(
-                          labelText: "Số điện thoại",
-                          obText: false,
-                          errorText: s.errorPhone,
-                          controller: phoneController),
-                    ),
-                    SizedBox(
-                      height: 20.h,
+                    AppText(
+                      "Bạn chưa có tài khoản? ",
+                      style: googleFont.copyWith(color: colorBlack),
                     ),
                     BlocBuilder<LoginCubit, LoginState>(
                       bloc: _bloc,
-                      builder: (c, s) => textField(
-                          labelText: "Mật khẩu",
-                          errorText: s.errorPassword,
-                          obText: true,
-                          icon: Icons.remove_red_eye_rounded,
-                          controller: passwordController),
+                      builder: (c, s) => InkWell(
+                        onTap: () {
+                          _bloc.openRegister(context);
+                        },
+                        child: AppText("Đăng ký",
+                            style: googleFont.copyWith(
+                                color: colorBlue40, fontWeight: FontWeight.w600)),
+                      ),
                     )
                   ],
                 ),
-              ),
-              SizedBox(
-                height: 20.h,
-              ),
-              BlocBuilder<LoginCubit, LoginState>(
-                bloc: _bloc,
-                builder: (c, state) => GradientButton(
-                  height: 50,
-                  borderRadius: BorderRadius.circular(20),
-                  decoration: BoxDecoration(
-                    color: colorGreen60,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  onTap: () {
-                    _bloc.loginOnclick(
-                        phoneController.text, passwordController.text, context);
-                  },
-                  widget: Text(
-                    "Đăng nhập",
-                    style: googleFont.copyWith(
-                        color: colorYellow70, fontWeight: FontWeight.w600),
-                  ),
-                  isCenter: true,
-                ),
-              ),
-              SizedBox(
-                height: 15.h,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  AppText(
-                    "Bạn chưa có tài khoản? ",
-                    style: googleFont.copyWith(color: colorBlack),
-                  ),
-                  BlocBuilder<LoginCubit, LoginState>(
-                    bloc: _bloc,
-                    builder: (c, s) => InkWell(
-                      onTap: () {
-                        _bloc.openRegister(context);
-                      },
-                      child: AppText("Đăng ký",
-                          style: googleFont.copyWith(
-                              color: colorBlue40, fontWeight: FontWeight.w600)),
+                const Spacer(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    AppText("Tổng đài hỗ trợ",
+                       style: googleFont.copyWith(
+                            color: colorBlack, fontSize: 16.sp)),
+                    SizedBox(
+                      width: 10.w,
                     ),
-                  )
-                ],
-              ),
-              const Spacer(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  AppText("Tổng đài hỗ trợ",
+                    AppText(
+                      "1900 2007",
                       style: googleFont.copyWith(
-                          color: colorBlack, fontSize: 16.sp)),
-                  SizedBox(
-                    width: 10.w,
-                  ),
-                  AppText(
-                    "1900 2007",
-                    style: googleFont.copyWith(
-                        color: colorBlue40, fontSize: 16.sp),
-                  ),
-                ],
-              )
-            ],
+                          color: colorBlue40, fontSize: 16.sp),
+                    ),
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       ),
@@ -190,8 +200,10 @@ class _LoginState extends State<Login> {
       String errorText = '',
       required TextEditingController controller,
       required bool obText,
-      VoidCallback? voidCallback}) {
+      VoidCallback? voidCallback,
+      TextInputType? textInputType}) {
     return TextFormField(
+      keyboardType: textInputType,
       autofocus: false,
       obscureText: obText,
       style: googleFont.copyWith(color: colorBlack),

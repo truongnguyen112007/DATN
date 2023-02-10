@@ -89,8 +89,8 @@ class _TabOverViewState extends State<TabOverView>
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    billandreturngoods(),
-                    orderandinventory(),
+                    billAndReturnProduct(),
+                    orderAndInventory(),
                     products()
                   ],
                 ),
@@ -101,10 +101,9 @@ class _TabOverViewState extends State<TabOverView>
   }
 
   Widget calender() {
-    return BlocBuilder<TabOverViewCubit,TabOverViewState>(
+    return BlocBuilder<TabOverViewCubit, TabOverViewState>(
       bloc: _bloc,
-      builder: (c,s) =>
-       InkWell(
+      builder: (c, s) => InkWell(
         splashColor: colorTransparent,
         onTap: () {
           _bloc.onClickCalender(context);
@@ -150,7 +149,7 @@ class _TabOverViewState extends State<TabOverView>
     );
   }
 
-  Widget billandreturngoods() {
+  Widget billAndReturnProduct() {
     return Padding(
       padding: EdgeInsets.only(left: 7.w, right: 7.w, top: 8.h),
       child: Container(
@@ -172,23 +171,30 @@ class _TabOverViewState extends State<TabOverView>
           children: [
             Padding(
               padding: EdgeInsets.only(top: 8.h),
-              child: Column(
-                children: [
-                  AppText(
-                    "Hóa đơn",
-                    style: googleFont.copyWith(
-                        color: colorBlack,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 15.sp),
-                  ),
-                  AppText(
-                    "10",
-                    style: googleFont.copyWith(
-                        color: colorBlue60,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 15.sp),
-                  ),
-                ],
+              child: BlocBuilder<TabOverViewCubit, TabOverViewState>(
+                bloc: _bloc,
+                builder: (c, s) => Column(
+                  children: [
+                    AppText(
+                      "Hóa đơn",
+                      style: googleFont.copyWith(
+                          color: colorBlack,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 15.sp),
+                    ),
+                    AppText(
+                      s.calender?.name == "Hôm nay"
+                          ? "4"
+                          : (s.calender?.name == "Hôm qua")
+                              ? "2"
+                              : "10",
+                      style: googleFont.copyWith(
+                          color: colorBlue60,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 15.sp),
+                    ),
+                  ],
+                ),
               ),
             ),
             Container(
@@ -223,7 +229,7 @@ class _TabOverViewState extends State<TabOverView>
     );
   }
 
-  Widget orderandinventory() {
+  Widget orderAndInventory() {
     return Padding(
       padding: EdgeInsets.only(top: 18.h, left: 7.w, right: 7.w),
       child: Container(
@@ -259,11 +265,19 @@ class _TabOverViewState extends State<TabOverView>
                       SizedBox(
                         height: 5.h,
                       ),
-                      AppText("10" + "  phiếu đặt",
-                          style: googleFont.copyWith(
-                              color: colorBlack,
-                              fontWeight: FontWeight.w200,
-                              fontSize: 14.sp)),
+                      BlocBuilder<TabOverViewCubit,TabOverViewState>(
+                        bloc: _bloc,
+                        builder: (c,s) =>
+                         AppText("${(s.calender?.name == "Hôm nay")
+                            ? "4"
+                            : (s.calender?.name == "Hôm qua")
+                            ? "2"
+                            : "10"}  phiếu đặt",
+                            style: googleFont.copyWith(
+                                color: colorBlack,
+                                fontWeight: FontWeight.w200,
+                                fontSize: 14.sp)),
+                      ),
                     ],
                   ),
                   const Spacer(),
@@ -292,7 +306,7 @@ class _TabOverViewState extends State<TabOverView>
                       SizedBox(
                         height: 5.h,
                       ),
-                      AppText("338" + "  sản phẩm",
+                      AppText("11" + "  sản phẩm",
                           style: googleFont.copyWith(
                               color: colorBlack,
                               fontWeight: FontWeight.w200,
@@ -337,7 +351,8 @@ class _TabOverViewState extends State<TabOverView>
                     color: colorYellow70, fontWeight: FontWeight.w700),
               ),
             ),
-            Expanded(child: ListView.separated(
+            Expanded(
+                child: ListView.separated(
               shrinkWrap: true,
               padding: const EdgeInsets.only(top: 10),
               itemBuilder: (BuildContext context, int index) {
@@ -354,37 +369,74 @@ class _TabOverViewState extends State<TabOverView>
     );
   }
 
-  Widget itemProducts (ProductModel model) {
+  Widget itemProducts(ProductModel model) {
     return Container(
       margin: EdgeInsets.only(left: 15.w),
       child: Column(
         children: [
           Row(
             children: [
-              FittedBox(fit: BoxFit.cover,child: SizedBox(height: 60,width: 60,child: Image.asset(model.image??''),)),
-              SizedBox(width: 10.w,),
+              FittedBox(
+                  fit: BoxFit.cover,
+                  child: SizedBox(
+                    height: 60,
+                    width: 60,
+                    child: Image.asset(model.image ?? ''),
+                  )),
+              SizedBox(
+                width: 10.w,
+              ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  AppText(model.name,style: googleFont.copyWith(color: colorBlack,fontWeight: FontWeight.w600,fontSize: 16.sp)),
-                  SizedBox(height: 3.h,),
-                  AppText(model.id.toString(),style: googleFont.copyWith(color: colorGrey70,fontWeight: FontWeight.w500,fontSize: 13.sp))
+                  AppText(model.name,
+                      style: googleFont.copyWith(
+                          color: colorBlack,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16.sp)),
+                  SizedBox(
+                    height: 3.h,
+                  ),
+                  AppText(model.id.toString(),
+                      style: googleFont.copyWith(
+                          color: colorGrey70,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 13.sp))
                 ],
               ),
               const Spacer(),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  AppText(model.price.toString(),style: googleFont.copyWith(color: colorBlack,fontSize: 16.sp,fontWeight: FontWeight.w500),),
-                  SizedBox(height: 15.h,),
-                  AppText(model.inStock.toString(),style: googleFont.copyWith(color: colorBlue40,fontSize: 15.sp),)
+                  AppText(
+                    model.price.toString(),
+                    style: googleFont.copyWith(
+                        color: colorBlack,
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w500),
+                  ),
+                  SizedBox(
+                    height: 15.h,
+                  ),
+                  AppText(
+                    model.inventory.toString(),
+                    style: googleFont.copyWith(
+                        color: colorBlue40, fontSize: 15.sp),
+                  )
                 ],
               ),
-              SizedBox(width: 10.w,)
+              SizedBox(
+                width: 10.w,
+              )
             ],
           ),
-          SizedBox(height: 20.h,),
-          Container(height: 0.5,color: colorGrey50,)
+          SizedBox(
+            height: 20.h,
+          ),
+          Container(
+            height: 0.5,
+            color: colorGrey50,
+          )
         ],
       ),
     );

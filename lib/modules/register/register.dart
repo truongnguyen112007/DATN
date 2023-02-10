@@ -21,24 +21,30 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
+  bool _obscureText1 = true;
   late  RegisterCubit _bloc;
   final nameController = TextEditingController();
   final phoneController = TextEditingController();
   final passwordController = TextEditingController();
-  final confirmPasswordController = TextEditingController();
+
+  void _toggle1() {
+    setState(() {
+      _obscureText1 = !_obscureText1;
+    });
+  }
 
   @override
   void initState() {
     _bloc = RegisterCubit();
-    test();
+    // test();
     super.initState();
   }
-  void test(){
-    nameController.text ='loc';
-    phoneController.text ='0966468393';
-    passwordController.text ='12345';
-    confirmPasswordController.text ='12345';
-  }
+  // void test(){
+  //   nameController.text ='loc';
+  //   phoneController.text ='0966468393';
+  //   passwordController.text ='12345';
+  //   confirmPasswordController.text ='12345';
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +60,7 @@ class _RegisterState extends State<Register> {
                 onTap: () {
                   Navigator.pop(context);
                 },
-                child: Icon(
+                child: const Icon(
                   Icons.arrow_back,
                   color: colorGreen60,
                   size: 25,
@@ -117,21 +123,13 @@ class _RegisterState extends State<Register> {
                       builder: (c, s) => textField(
                           errorText: s.errorPassword,
                           labelText: "Mật khẩu",
-                          obText: true,
+                          obText: _obscureText1,
+                          voidCallback: _toggle1,
                           icon: Icons.remove_red_eye_rounded,
                           controller: passwordController),
                     ),
                     SizedBox(
                       height: 20.h,
-                    ),
-                    BlocBuilder<RegisterCubit, RegisterState>(
-                      bloc: _bloc,
-                      builder: (c, s) => textField(
-                          errorText: s.errorCfPassword,
-                          labelText: "Xác nhận mật khẩu",
-                          obText: true,
-                          icon: Icons.remove_red_eye,
-                          controller: confirmPasswordController),
                     ),
                     SizedBox(
                       height: 20.h,

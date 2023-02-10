@@ -22,59 +22,109 @@ class SupplierPage extends StatefulWidget {
 
 class _SupplierPageState extends BasePopState<SupplierPage> {
   late SupplierCubit _bloc;
+
   @override
   void initState() {
     _bloc = SupplierCubit();
     super.initState();
   }
+
   @override
   Widget buildWidget(BuildContext context) {
     return AppScaffold(
       backgroundColor: colorText5,
-      appbar: AppBar(backgroundColor: colorGreen60,title: AppText("Nhà cung cấp",style: typoW600,),actions: [
-        Icon(Icons.search),
-        Padding(
-          padding:  EdgeInsets.only(left: 15.w,right: 15.w),
-          child: Icon(Icons.edit),
+      appbar: AppBar(
+        backgroundColor: colorGreen60,
+        title: AppText(
+          "Nhà cung cấp",
+          style: typoW600,
         ),
-        Icon(Icons.add),
-        SizedBox(width: 8.w,)
-      ],),
-        body: BlocBuilder<SupplierCubit,SupplierState>(
-          bloc: _bloc,
-          builder: (c,s) =>
-           ListView.separated(
-            shrinkWrap: true,
-            padding: const EdgeInsets.only(top: 10),
-            itemBuilder: (BuildContext context, int index) {
-              return itemSupplier(fakeDataSupplier()[index]);
-            },
-            separatorBuilder: (BuildContext context, int index) => SizedBox(
-              height: 10.h,
-            ),
-            itemCount: fakeDataSupplier().length,
+        actions: [
+          Icon(Icons.search),
+          Padding(
+            padding: EdgeInsets.only(left: 15.w, right: 15.w),
+            child: Icon(Icons.edit),
           ),
-        ),);
+          Icon(Icons.add),
+          SizedBox(
+            width: 8.w,
+          )
+        ],
+      ),
+      body: BlocBuilder<SupplierCubit, SupplierState>(
+        bloc: _bloc,
+        builder: (c, s) => ListView.separated(
+          shrinkWrap: true,
+          padding: const EdgeInsets.only(top: 8),
+          itemBuilder: (BuildContext context, int index) {
+            return itemSupplier(fakeDataSupplier()[index]);
+          },
+          separatorBuilder: (BuildContext context, int index) => SizedBox(
+            height: 5.h,
+          ),
+          itemCount: fakeDataSupplier().length,
+        ),
+      ),
+    );
   }
 
   Widget itemSupplier(SupplierModel model) {
     return InkWell(
-      onTap: (){},
-      child: Column(
-        children: [
-          Row(children: [
-            AppText(model.name),
-            SizedBox(width: 20.w,),
-            AppText(model.phone),
-            Spacer(),
-            Icon(Icons.navigate_next)
-          ],),
-          Row(children: [
-            AppText("Tong tien nhap hang"),
-            SizedBox(width: 30.w,),
-            AppText(model.allMoney ?? "")
-          ],)
-        ],
+      onTap: () {},
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: colorPrimaryOrange40,
+          boxShadow: const [
+            BoxShadow(
+              color: colorGrey30,
+              spreadRadius: 1.3,
+              blurRadius: 0.7,
+            ),
+          ],
+        ),
+        padding: EdgeInsets.all(10),
+        margin: EdgeInsets.all(10),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Expanded(
+                    flex: 2,
+                    child: AppText(
+                      model.name,
+                      style:
+                          typoW700.copyWith(color: colorBlack, fontSize: 18.sp),
+                    )),
+                SizedBox(
+                  width: 20.w,
+                ),
+                Icon(Icons.phone),
+                AppText(
+                  model.phone,
+                  style: typoW600.copyWith(color: colorBlue40, fontSize: 15.sp),
+                ),
+                const Spacer(),
+                const Icon(Icons.navigate_next)
+              ],
+            ),
+            SizedBox(
+              height: 15.h,
+            ),
+            Row(
+              children: [
+                AppText(
+                  "Tổng tiền nhập hàng:",
+                  style: typoW600.copyWith(color: colorBlack, fontSize: 15.sp),
+                ),
+                SizedBox(
+                  width: 40.w,
+                ),
+                AppText(model.allMoney ?? "")
+              ],
+            )
+          ],
+        ),
       ),
     );
   }

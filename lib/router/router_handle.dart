@@ -9,6 +9,7 @@ import 'package:base_bloc/modules/confirm_create_reservation/confirm_create_rese
 import 'package:base_bloc/modules/create_reservation/create_reservation_page.dart';
 import 'package:base_bloc/modules/create_reservation_success/create_reservation_success_page.dart';
 import 'package:base_bloc/modules/create_routes/create_routes_page.dart';
+import 'package:base_bloc/modules/customer_page/customer_page.dart';
 import 'package:base_bloc/modules/filter_address/filter_address_page.dart';
 import 'package:base_bloc/modules/home/home_page.dart';
 import 'package:base_bloc/modules/register/register.dart';
@@ -43,6 +44,8 @@ var routeSplash = Handler(handlerFunc: (c, p) => const SplashPage());
 var routeHome = Handler(handlerFunc: (c, p) => const HomePage());
 
 var routeTabOverView = Handler(handlerFunc: (c, p) => const TabOverView());
+
+var routeCustomer = Handler(handlerFunc: (c, p) => CustomerPage(routePage: c!.settings!.arguments as int));
 
 var routeAddProducts = Handler(
     handlerFunc: (c, p) => AddProducts(

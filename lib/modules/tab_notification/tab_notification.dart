@@ -70,13 +70,10 @@ class _TabNotificationState extends State<TabNotification>
       ),
       body: ListView.separated(
         shrinkWrap: true,
-        padding: const EdgeInsets.only(top: 10),
         itemBuilder: (BuildContext context, int index) {
           return itemNotification(fakeDataNotification()[index]);
         },
-        separatorBuilder: (BuildContext context, int index) => SizedBox(
-          height: 5.h,
-        ),
+        separatorBuilder: (BuildContext context, int index) => SizedBox(height: 5.h,),
         itemCount: fakeDataNotification().length,
       ),
     );

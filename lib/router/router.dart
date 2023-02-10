@@ -126,6 +126,7 @@ class ProfileRouters {
   static String placeDetail = '/placeDetail';
   static String routesCreateReservationPage = '/createReservationPage';
   static String routesSupplierPage = 'routesSupplierPage';
+  static String routesCustomer = "routesCustomer";
 
   static configureProfileRouter(FluroRouter router) {
     router.notFoundHandler = Handler(handlerFunc: (c, x) {
@@ -135,5 +136,6 @@ class ProfileRouters {
     router.define(routesCreateReservationPage,
         handler: routeCreateReservationPage);
     router.define(routesSupplierPage, handler: routeSupplierPage);
+    router.define(routesCustomer, handler: routeCustomer);
   }
 }

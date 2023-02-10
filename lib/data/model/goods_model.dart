@@ -13,48 +13,48 @@ String productModelToJson(List<ProductModel> data) =>
 class ProductModel {
   ProductModel({
     required this.id,
-    required this.shopId,
+    required this.barCode,
     required this.categoryId,
     required this.name,
-    required this.sku,
-    required this.upcCode,
+    required this.type,
+    required this.inventoryLevel,
     required this.description,
     required this.price,
-    required this.inStock,
-    this.image,
-    required this.unit,
+    required this.inventory,
+    required this.image,
+    required this.cost,
     required this.status,
     required this.createdAt,
     required this.updatedAt,
   });
 
-  int id;
-  int shopId;
+  String id;
+  String barCode;
   int categoryId;
   String name;
-  String sku;
-  String upcCode;
+  String type;
+  String inventoryLevel;
   String description;
   int price;
-  int inStock;
-  dynamic image;
-  String unit;
+  int inventory;
+  String image;
+  String cost;
   String status;
   DateTime createdAt;
   DateTime updatedAt;
 
   factory ProductModel.fromJson(Map<String, dynamic> json) => ProductModel(
         id: json["id"],
-        shopId: json["shop_id"],
+        barCode: json["bar_code"],
         categoryId: json["category_id"],
         name: json["name"],
-        sku: json["sku"],
-        upcCode: json["upc_code"],
+        type: json["type"],
+        inventoryLevel: json["inventory_level"],
         description: json["description"],
         price: json["price"],
-        inStock: json["in_stock"],
+    inventory: json["inventory"],
         image: json["image"],
-        unit: json["unit"],
+        cost: json["cost"],
         status: json["status"],
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
@@ -62,16 +62,16 @@ class ProductModel {
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "shop_id": shopId,
+        "bar_code": barCode,
         "category_id": categoryId,
         "name": name,
-        "sku": sku,
-        "upc_code": upcCode,
+        "type": type,
+        "inventory_level": inventoryLevel,
         "description": description,
         "price": price,
-        "in_stock": inStock,
+        "inventory": inventory,
         "image": image,
-        "unit": unit,
+        "cost": cost,
         "status": status,
         "created_at": createdAt.toIso8601String(),
         "updated_at": updatedAt.toIso8601String(),

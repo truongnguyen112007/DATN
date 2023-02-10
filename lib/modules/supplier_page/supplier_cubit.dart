@@ -8,7 +8,7 @@ class SupplierCubit extends Cubit<SupplierState> {
 }
 
 List<SupplierModel> fakeDataSupplier() => [
-  SupplierModel(name: "aaaaaa", phone: "0259354215",allMoney: "1.000.000"),
-  SupplierModel(name: "bbbbbb", phone: "0123454453",allMoney: "8.256.245"),
-  SupplierModel(name: "cccccc", phone: "6546124155",allMoney: "2.165.646"),
+  SupplierModel(name: "Timi Koon", phone: "0956238612",allMoney: "1.000.000"),
+  SupplierModel(name: "Cowin", phone: "0984562871",allMoney: "5.000.000"),
+  SupplierModel(name: "ChocoB", phone: "0333265845",allMoney: "2.000.000"),
 ];

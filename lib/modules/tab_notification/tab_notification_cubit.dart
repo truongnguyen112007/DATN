@@ -96,15 +96,15 @@ class TabNotificationCubit extends Cubit<TabNotificationState> {
 }
 
 List<NotificationModel> fakeDataNotification() => [
-  NotificationModel("Đang có hàng hóa", "vượt định mức tồn tại", "20 tháng 7"),
-  NotificationModel("Đang có hàng hóa", "vượt định mức tồn tại", "20 tháng 7"),
-  NotificationModel("Đang có hàng hóa", "vượt định mức tồn tại", "20 tháng 7"),
-  NotificationModel("Đang có hàng hóa", "vượt định mức tồn tại", "20 tháng 7"),
-  NotificationModel("Đang có hàng hóa", "vượt định mức tồn tại", "20 tháng 7"),
-  NotificationModel("Đang có hàng hóa", "vượt định mức tồn tại", "20 tháng 7"),
-  NotificationModel("Đang có hàng hóa", "vượt định mức tồn tại", "20 tháng 7"),
-  NotificationModel("Đang có hàng hóa", "vượt định mức tồn tại", "20 tháng 7"),
-  NotificationModel("Đang có hàng hóa", "vượt định mức tồn tại", "20 tháng 7"),
-  NotificationModel("Đang có hàng hóa", "vượt định mức tồn tại", "20 tháng 7"),
-  NotificationModel("Đang có hàng hóa", "vượt định mức tồn tại", "20 tháng 7"),
+  NotificationModel("Đang có hàng hóa", "vượt định mức tồn tại", "12/1/2023"),
+  NotificationModel("Đang có hàng hóa", "vượt định mức tồn tại", "20/12/2022"),
+  NotificationModel("Đang có hàng hóa", "vượt định mức tồn tại", "9/12/2022"),
+  NotificationModel("Đang có hàng hóa", "vượt định mức tồn tại", "1/12/2022"),
+  NotificationModel("Đang có hàng hóa", "vượt định mức tồn tại", "20/11/2022"),
+  NotificationModel("Đang có hàng hóa", "vượt định mức tồn tại", "14/11/2022"),
+  NotificationModel("Đang có hàng hóa", "vượt định mức tồn tại", "12/10/2022"),
+  NotificationModel("Đang có hàng hóa", "vượt định mức tồn tại", "10/10/2022"),
+  NotificationModel("Đang có hàng hóa", "vượt định mức tồn tại", "8/9/2022"),
+  NotificationModel("Đang có hàng hóa", "vượt định mức tồn tại", "2/9/2022"),
+  NotificationModel("Đang có hàng hóa", "vượt định mức tồn tại", "20/7/2022"),
 ];

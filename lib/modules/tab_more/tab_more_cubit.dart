@@ -53,4 +53,11 @@ class TabMoreCubit extends Cubit<TabMoreState> {
     StorageUtils.logout();
     RouterUtils.openNewPage(Login(), context, isReplace: true);
   }
+
+  void openCustomer(BuildContext context) {
+    RouterUtils.pushProfile(
+        context: context,
+        route: ProfileRouters.routesCustomer,
+        argument: BottomNavigationConstant.TAB_PROFILE);
+  }
 }
