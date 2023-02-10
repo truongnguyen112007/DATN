@@ -2,6 +2,7 @@ import 'package:base_bloc/modules/tab_overview/tab_overview_cubit.dart';
 import 'package:base_bloc/modules/tab_overview/tab_overview_state.dart';
 import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/theme/colors.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -24,10 +25,15 @@ class _TabOverViewState extends State<TabOverView>
     with AutomaticKeepAliveClientMixin {
   final _scrollController = ScrollController();
   late final TabOverViewCubit _bloc;
+  var totalPrice = 0;
 
   @override
   void initState() {
     _bloc = TabOverViewCubit();
+    fakeDataProducts.forEach((element) {
+      totalPrice += element.price * element.inventory;
+    });
+    setState(() {});
     // _bloc.checkLocationPermission();
     paging();
     super.initState();
@@ -266,14 +272,10 @@ class _TabOverViewState extends State<TabOverView>
                       SizedBox(
                         height: 5.h,
                       ),
-                      BlocBuilder<TabOverViewCubit,TabOverViewState>(
+                      BlocBuilder<TabOverViewCubit, TabOverViewState>(
                         bloc: _bloc,
-                        builder: (c,s) =>
-                         AppText("${(s.calender?.name == "Hôm nay")
-                            ? "4"
-                            : (s.calender?.name == "Hôm qua")
-                            ? "2"
-                            : "10"}  phiếu đặt",
+                        builder: (c, s) => AppText(
+                            "${(s.calender?.name == "Hôm nay") ? "4" : (s.calender?.name == "Hôm qua") ? "2" : "10"}  phiếu đặt",
                             style: googleFont.copyWith(
                                 color: colorBlack,
                                 fontWeight: FontWeight.w200,
@@ -315,7 +317,7 @@ class _TabOverViewState extends State<TabOverView>
                     ],
                   ),
                   const Spacer(),
-                  AppText("3,412,000",
+                  AppText(formatMoney(totalPrice),
                       style: googleFont.copyWith(
                           color: colorRed80,
                           fontWeight: FontWeight.w700,
@@ -369,6 +371,9 @@ class _TabOverViewState extends State<TabOverView>
       ),
     );
   }
+
+  String formatMoney(int money) =>
+      NumberFormat('#,###,###,#,###,###,###', 'vi').format(money);
 
   Widget itemProducts(ProductModel model) {
     return Container(
