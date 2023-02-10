@@ -9,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../components/app_scalford.dart';
 import '../../components/app_text.dart';
+import '../../data/globals.dart';
 import '../../data/model/goods_model.dart';
 import '../tab_goods/tab_goods_cubit.dart';
 
@@ -356,12 +357,12 @@ class _TabOverViewState extends State<TabOverView>
               shrinkWrap: true,
               padding: const EdgeInsets.only(top: 10),
               itemBuilder: (BuildContext context, int index) {
-                return itemProducts(fakeDataProducts()[index]);
+                return itemProducts(fakeDataProducts[index]);
               },
               separatorBuilder: (BuildContext context, int index) => SizedBox(
                 height: 10.h,
               ),
-              itemCount: fakeDataProducts().length,
+              itemCount: fakeDataProducts.length,
             ))
           ],
         ),

@@ -21,6 +21,7 @@ class TabGoodsState extends Equatable {
   TabGoodsState copyOf(
           {bool? isBluetooth,
           bool? isGps,
+          int? timeStamp,
           List<ProductModel>? lProduct,
           FeedStatus? status}) =>
       TabGoodsState(
@@ -28,7 +29,7 @@ class TabGoodsState extends Equatable {
           isBluetooth: isBluetooth ?? this.isBluetooth,
           isGps: isGps ?? this.isGps,
           lProduct: lProduct ?? this.lProduct,
-          timeStamp: timeStamp ?? timeStamp);
+          timeStamp: timeStamp ?? this.timeStamp);
 
   @override
   List<Object?> get props => [isBluetooth, isGps, timeStamp, lProduct, status];

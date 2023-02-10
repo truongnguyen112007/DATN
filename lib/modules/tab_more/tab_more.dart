@@ -1,3 +1,4 @@
+import 'package:base_bloc/data/globals.dart';
 import 'package:base_bloc/modules/tab_more/tab_more_cubit.dart';
 import 'package:base_bloc/modules/tab_more/tab_more_state.dart';
 import 'package:base_bloc/router/router_utils.dart';
@@ -62,7 +63,7 @@ class _TabMoreState extends State<TabMore> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     AppText(
-                      "AAA",
+                     userName,
                       style: googleFont.copyWith(
                           color: colorBlack,
                           fontWeight: FontWeight.w700,
