@@ -11,6 +11,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import '../../components/app_text.dart';
+import '../../data/globals.dart';
 import '../../data/model/goods_model.dart';
 import '../../gen/assets.gen.dart';
 import '../../theme/app_styles.dart';
@@ -126,38 +127,40 @@ class _TabGoodsState extends State<TabGoods> with TickerProviderStateMixin {
             Expanded(
               child: BlocBuilder<TabGoodsCubit, TabGoodsState>(
                   bloc: _bloc,
-                  builder: (c, state) => /*state.status == FeedStatus.initial
+                  builder: (c,
+                          state) => /*state.status == FeedStatus.initial
                       ? Center(
                           child: AppCircleLoading(),
                         )
                       : state.status == FeedStatus.failure
                           ? Center(child: AppNotDataWidget())
-                          :*/ ListView.separated(
-                              shrinkWrap: true,
-                              padding: const EdgeInsets.only(top: 10),
-                              itemBuilder: (BuildContext context, int index) {
-                                return itemProducts(fakeDataProducts()[index]);
-                              },
-                              separatorBuilder:
-                                  (BuildContext context, int index) => SizedBox(
-                                height: 10.h,
-                              ),
-                              itemCount: fakeDataProducts().length,
-                            )),
+                          :*/
+                      ListView.separated(
+                        shrinkWrap: true,
+                        padding: const EdgeInsets.only(top: 10),
+                        itemBuilder: (BuildContext context, int index) {
+                          return itemProducts(fakeDataProducts[index], index);
+                        },
+                        separatorBuilder: (BuildContext context, int index) =>
+                            SizedBox(
+                          height: 10.h,
+                        ),
+                        itemCount: fakeDataProducts.length,
+                      )),
             )
           ],
         ));
   }
 
-  Widget itemProducts(ProductModel model) {
+  Widget itemProducts(ProductModel model, int index) {
     return BlocBuilder<TabGoodsCubit, TabGoodsState>(
       bloc: _bloc,
       builder: (c, s) => InkWell(
         onTap: () {
-          _bloc.openProductDetail(context, model);
+          _bloc.openProductDetail(context, model, index);
         },
         onLongPress: () {
-
+          _bloc.deleteProduct(index, context);
         },
         child: Container(
           margin: EdgeInsets.only(left: 15.w),
@@ -170,7 +173,7 @@ class _TabGoodsState extends State<TabGoods> with TickerProviderStateMixin {
                       child: SizedBox(
                         height: 60,
                         width: 60,
-                        child: Image.asset(model.image??''),
+                        child: Image.asset(model.image ?? ''),
                       )),
                   SizedBox(
                     width: 10.w,

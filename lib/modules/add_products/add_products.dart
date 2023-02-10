@@ -1,12 +1,16 @@
 import 'package:base_bloc/base/base_state.dart';
 import 'package:base_bloc/components/app_scalford.dart';
+import 'package:base_bloc/data/globals.dart';
+import 'package:base_bloc/data/model/goods_model.dart';
 import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/theme/colors.dart';
+import 'package:base_bloc/utils/toast_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../components/app_text.dart';
+import '../../gen/assets.gen.dart';
 
 class AddProducts extends StatefulWidget {
   final int routePage;
@@ -18,8 +22,7 @@ class AddProducts extends StatefulWidget {
 }
 
 class _AddProductsState extends BasePopState<AddProducts> {
-
-   final nameController = TextEditingController();
+  final nameController = TextEditingController();
   final idController = TextEditingController();
   final barCodeController = TextEditingController();
   final inventoryLevelController = TextEditingController();
@@ -28,16 +31,15 @@ class _AddProductsState extends BasePopState<AddProducts> {
   final costController = TextEditingController();
   final inventoryController = TextEditingController();
 
-
   @override
   Widget buildWidget(BuildContext context) {
     return AppScaffold(
-      resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomInset: false,
         backgroundColor: colorText5,
         appbar: AppBar(
           actions: [
             InkWell(
-                onTap: () {},
+                onTap: () => addProduct(),
                 child: const Icon(
                   Icons.save,
                   color: colorWhite,
@@ -55,14 +57,26 @@ class _AddProductsState extends BasePopState<AddProducts> {
         body: Column(
           children: [
             image(),
-            item(text: "Tên sản phẩm",text2: "",nameController),
-            item(text: "Mã hàng",text2: "",idController),
-            item(text: "Mã vạch",text2: "",barCodeController),
-            item(text: "Loại hàng",text2: "",typeController),
-            item(text: "Định mức tồn",text2: "",inventoryLevelController),
-            item(text: "Giá bán",text2: "",priceController),
-            item(text: "Giá vốn",text2: "",costController),
-            item(text: "Tồn kho",text2: "",inventoryController),
+            item(text: "Tên sản phẩm", text2: "", nameController),
+            item(text: "Mã hàng", text2: "", idController),
+            item(text: "Mã vạch", text2: "", barCodeController),
+            item(text: "Loại hàng", text2: "", typeController),
+            item(text: "Định mức tồn", text2: "", inventoryLevelController),
+            item(
+                text: "Giá bán",
+                text2: "",
+                priceController,
+                textInputType: TextInputType.number),
+            item(
+                text: "Giá vốn",
+                text2: "",
+                costController,
+                textInputType: TextInputType.number),
+            item(
+                text: "Tồn kho",
+                text2: "",
+                inventoryController,
+                textInputType: TextInputType.number),
           ],
         ));
   }
@@ -71,12 +85,16 @@ class _AddProductsState extends BasePopState<AddProducts> {
     return Container(
       height: 100.h,
       width: MediaQuery.of(context).size.width,
-      child: Icon(Icons.add_a_photo,size: 40,),
+      child: Icon(
+        Icons.add_a_photo,
+        size: 40,
+      ),
       color: colorGrey5,
     );
   }
 
-  Widget textField(TextEditingController controller) {
+  Widget textField(TextEditingController controller,
+      {TextInputType textInputType = TextInputType.text}) {
     return Expanded(
       flex: 3,
       child: Column(
@@ -85,6 +103,7 @@ class _AddProductsState extends BasePopState<AddProducts> {
           SizedBox(
             height: 35.h,
             child: TextField(
+              keyboardType: textInputType,
               // onTap: () => callback?.call(),
               // readOnly: isReadOnly,
               onChanged: (text) {},
@@ -114,7 +133,8 @@ class _AddProductsState extends BasePopState<AddProducts> {
     );
   }
 
-  Widget item(TextEditingController controller,{String? text, String? text2}) {
+  Widget item(TextEditingController controller,
+      {String? text, String? text2, TextInputType? textInputType}) {
     return Container(
       color: colorWhite,
       child: Column(
@@ -130,7 +150,8 @@ class _AddProductsState extends BasePopState<AddProducts> {
                       style: googleFont.copyWith(
                           color: colorGrey70, fontSize: 15.sp),
                     )),
-                textField(controller)
+                textField(controller,
+                    textInputType: textInputType ?? TextInputType.text)
                 // Expanded(
                 //     flex: 3,
                 //     child: AppText(text2 ?? "",
@@ -149,6 +170,26 @@ class _AddProductsState extends BasePopState<AddProducts> {
         ],
       ),
     );
+  }
+
+  void addProduct() {
+    var productModel = ProductModel(
+        id: idController.text,
+        barCode: barCodeController.text,
+        categoryId: 1029,
+        name: nameController.text,
+        type: typeController.text,
+        inventoryLevel: inventoryLevelController.text,
+        description: 'Test',
+        price: int.parse(priceController.text),
+        inventory: int.parse(inventoryController.text),
+        image: Assets.png.bb.path,
+        cost: costController.text,
+        status: 'new',
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now());
+    fakeDataProducts.add(productModel);
+    toast("Thêm sản phẩm thành công");
   }
 
   @override

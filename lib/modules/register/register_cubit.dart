@@ -31,13 +31,13 @@ class RegisterCubit extends Cubit<RegisterState> {
     Dialogs.showLoadingDialog(context);
     var response = await repository.register(phone, pass, name);
     await Dialogs.hideLoadingDialog();
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => Login()));
-    toast("Đăng ký thành công");
+
     if (response.error != null) {
       toast(response.error.toString());
     } else {
-      toast(response.data.toString());
+      toast("Đăng ký thành công");
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => Login()));
     }
   }
 

@@ -43,6 +43,37 @@ class ProductModel {
   DateTime createdAt;
   DateTime updatedAt;
 
+  ProductModel copyOff(
+          {String? id,
+          String? barCode,
+          int? categoryId,
+          String? name,
+          String? type,
+          String? inventoryLevel,
+          String? description,
+          int? price,
+          int? inventory,
+          String? image,
+          String? cost,
+          String? status,
+          DateTime? createdAt,
+          DateTime? updatedAt}) =>
+      ProductModel(
+          id: id ?? this.id,
+          barCode: barCode ?? this.barCode,
+          categoryId: categoryId ?? this.categoryId,
+          name: name ?? this.name,
+          type: type ?? this.type,
+          inventoryLevel: inventoryLevel ?? this.inventoryLevel,
+          description: description ?? this.description,
+          price: price ?? this.price,
+          inventory: inventory ?? this.inventory,
+          image: image ?? this.image,
+          cost: cost ?? this.cost,
+          status: status ?? this.status,
+          createdAt: createdAt ?? this.createdAt,
+          updatedAt: updatedAt ?? this.updatedAt);
+
   factory ProductModel.fromJson(Map<String, dynamic> json) => ProductModel(
         id: json["id"],
         barCode: json["bar_code"],
@@ -52,7 +83,7 @@ class ProductModel {
         inventoryLevel: json["inventory_level"],
         description: json["description"],
         price: json["price"],
-    inventory: json["inventory"],
+        inventory: json["inventory"],
         image: json["image"],
         cost: json["cost"],
         status: json["status"],

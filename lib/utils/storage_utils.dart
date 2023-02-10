@@ -27,6 +27,7 @@ class StorageUtils {
     try {
       var userModel = UserModel.fromJson(userStr);
       globals.accessToken = userModel.token ?? '';
+      globals.userName = userModel.user.name??'';
       globals.isLogin = true;
     } catch (ex) {
       globals.isLogin = false;

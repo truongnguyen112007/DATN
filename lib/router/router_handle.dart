@@ -45,7 +45,9 @@ var routeHome = Handler(handlerFunc: (c, p) => const HomePage());
 
 var routeTabOverView = Handler(handlerFunc: (c, p) => const TabOverView());
 
-var routeCustomer = Handler(handlerFunc: (c, p) => CustomerPage(routePage: c!.settings!.arguments as int));
+var routeCustomer = Handler(
+    handlerFunc: (c, p) =>
+        CustomerPage(routePage: c!.settings!.arguments as int));
 
 var routeAddProducts = Handler(
     handlerFunc: (c, p) => AddProducts(
@@ -62,6 +64,7 @@ var routeProductsDetail = Handler(
     handlerFunc: (c, p) => ProductsDetail(
           routePage: (c!.settings!.arguments as List)[0] as int,
           model: (c.settings!.arguments as List)[1] as ProductModel,
+          currentIndex: (c.settings!.arguments as List)[2] as int,
         ));
 
 var routeSupplierPage = Handler(
