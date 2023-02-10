@@ -159,6 +159,9 @@ class _TabGoodsState extends State<TabGoods> with TickerProviderStateMixin {
         onTap: () {
           _bloc.openProductDetail(context, model, index);
         },
+        onLongPress: () {
+
+        },
         child: Container(
           margin: EdgeInsets.only(left: 15.w),
           child: Column(
