@@ -1,3 +1,4 @@
+import 'package:base_bloc/components/dialogs.dart';
 import 'package:base_bloc/data/globals.dart';
 import 'package:base_bloc/data/repository/user_repository.dart';
 import 'package:base_bloc/modules/tab_goods/tab_goods_state.dart';
@@ -43,6 +44,14 @@ class TabGoodsCubit extends Cubit<TabGoodsState> {
     emit(state.copyOf(
         lProduct: fakeDataProducts,
         timeStamp: DateTime.now().microsecondsSinceEpoch));
+  }
+
+  void deleteProduct(int index, BuildContext context) {
+    Dialogs.showDeleteProductDialog(context, callback: () {
+      Dialogs.hideLoadingDialog();
+      state.lProduct.removeAt(index);
+      emit(state.copyOf(timeStamp: DateTime.now().microsecondsSinceEpoch));
+    });
   }
 
   void openProductDetail(

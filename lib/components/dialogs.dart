@@ -41,7 +41,7 @@ class Dialogs {
             .pop());
   }
 
-  static Future<void>? showLogOutDiaLog(BuildContext context,{required VoidCallback callback}) {
+  static Future<void>? showDeleteProductDialog(BuildContext context,{required VoidCallback callback}) {
     return showDialog<void>(
         context: context,
         barrierColor: colorBlack.withOpacity(0.85),
@@ -56,7 +56,7 @@ class Dialogs {
                 Column(
                   children: [
                     AppText(
-                      'Are you sure want to log out ?',
+                      'Bạn có muốn xóa sản phẩm không ?',
                       style:
                           typoW600.copyWith(color: colorWhite, fontSize: 18.sp),
                     ),
@@ -75,7 +75,7 @@ class Dialogs {
                             onTap: callback,
                             widget: Center(
                                 child: AppText(
-                              'Yes',
+                              'Có',
                               style: typoW600.copyWith(color: colorBlack,fontSize: 15.sp),
                             )),
                             borderRadius: BorderRadius.circular(18)),
@@ -83,7 +83,7 @@ class Dialogs {
                           width: 20.w,
                         ),
                         AppButton(
-                          title: 'Cancel',
+                          title: 'Không',
                           textStyle: typoW600.copyWith(
                               color: colorBlack, fontSize: 15.sp),
                           onPress: () {

@@ -160,7 +160,7 @@ class _TabGoodsState extends State<TabGoods> with TickerProviderStateMixin {
           _bloc.openProductDetail(context, model, index);
         },
         onLongPress: () {
-
+          _bloc.deleteProduct(index, context);
         },
         child: Container(
           margin: EdgeInsets.only(left: 15.w),
