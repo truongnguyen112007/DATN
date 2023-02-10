@@ -35,11 +35,14 @@ class TabGoodsCubit extends Cubit<TabGoodsState> {
   //   }
   //   }
 
-  void onClickAddProducts(BuildContext context) {
-    RouterUtils.pushClimb(
+  void onClickAddProducts(BuildContext context) async {
+    await RouterUtils.pushClimb(
         context: context,
         route: GoodsRouters.routesAddProducts,
         argument: BottomNavigationConstant.TAB_CLIMB);
+    emit(state.copyOf(
+        lProduct: fakeDataProducts,
+        timeStamp: DateTime.now().microsecondsSinceEpoch));
   }
 
   void openProductDetail(
