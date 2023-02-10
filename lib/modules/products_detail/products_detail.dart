@@ -20,6 +20,21 @@ class ProductsDetail extends StatefulWidget {
 }
 
 class _ProductsDetailState extends BasePopState<ProductsDetail> {
+
+  // final nameController = TextEditingController();
+  final idController = TextEditingController();
+  final barCodeController = TextEditingController();
+  final inventoryLevelController = TextEditingController();
+  final typeController = TextEditingController();
+  final priceController = TextEditingController();
+  final costController = TextEditingController();
+  final inventoryController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget buildWidget(BuildContext context) {
     return AppScaffold(
@@ -69,19 +84,18 @@ class _ProductsDetailState extends BasePopState<ProductsDetail> {
                       height: 1,
                       color: colorGrey50,
                     ),
-                    item(text: "Mã hàng", text2: widget.model.id.toString()),
-                    item(text: "Mã vạch", text2: widget.model.barCode),
-                    item(text: "Loại hàng", text2: widget.model.type),
-                    item(text: "Thương hiệu", text2: "xxx"),
+                    item(text: "Mã hàng", text2: widget.model.id.toString(),idController),
+                    item(text: "Mã vạch", text2: widget.model.barCode,barCodeController),
+                    item(text: "Loại hàng", text2: widget.model.type,typeController),
+                    // item(text: "Thương hiệu", text2: "xxx"),
                     item(
                         text: "Định mức tồn",
-                        text2: widget.model.inventoryLevel),
-                    item(text: "Giá bán", text2: widget.model.price.toString()),
-                    item(text: "Giá vốn", text2: widget.model.cost),
+                        text2: widget.model.inventoryLevel,inventoryLevelController),
+                    item(text: "Giá bán", text2: widget.model.price.toString(),priceController),
+                    item(text: "Giá vốn", text2: widget.model.cost,costController),
                     item(
                         text: "Tồn kho",
-                        isDivider: true,
-                        text2: widget.model.inventory.toString()),
+                        text2: widget.model.inventory.toString(),inventoryController),
                     Container(
                       margin: EdgeInsets.only(top: 20.h),
                       height: 50.h,
@@ -111,7 +125,7 @@ class _ProductsDetailState extends BasePopState<ProductsDetail> {
         ));
   }
 
-  Widget item({String? text, bool isDivider = false, String? text2}) {
+  Widget item(TextEditingController controller,{String? text,String? text2,}) {
     return Container(
       color: colorWhite,
       child: Column(
@@ -127,7 +141,7 @@ class _ProductsDetailState extends BasePopState<ProductsDetail> {
                       style: googleFont.copyWith(
                           color: colorGrey70, fontSize: 15.sp),
                     )),
-                textField()
+                textField(controller)
                 // Expanded(
                 //     flex: 3,
                 //     child: AppText(text2 ?? "",
@@ -148,7 +162,7 @@ class _ProductsDetailState extends BasePopState<ProductsDetail> {
     );
   }
 
-  Widget textField() {
+  Widget textField(TextEditingController controller) {
     return Expanded(
       flex: 3,
       child: Column(
@@ -157,11 +171,10 @@ class _ProductsDetailState extends BasePopState<ProductsDetail> {
           SizedBox(
             height: 35.h,
             child: TextField(
-
               // onTap: () => callback?.call(),
               // readOnly: isReadOnly,
               onChanged: (text) {},
-              // controller: controller,
+              controller: controller,
               // keyboardType: inputType!,
               style: googleFont.copyWith(
                   fontSize: 16.sp,
